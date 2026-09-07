@@ -706,8 +706,7 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
 
   <!-- Footer -->
   <div class="footer">
-    <div>Aplicación Oficial · <strong>Desarrollado por 3Tree Digital Sport IA</strong></div>
-    <div class="footer-address" id="footer-address-text">Sede Oficial: 5709 Kingfish Drive, Lutz, Florida, USA 33558 · Desarrollado por 3Tree Digital Sport IA · Todos los derechos reservados 2026</div>
+    <div id="footer-address-text">Desarrollada por <strong>3Tree Digital Sport IA</strong> Lutz, Florida Usa/Todos los derechos reservados 2026. Aplicacion oficial DIAMAX</div>
   </div>
 </div>
 
@@ -792,7 +791,6 @@ function actualizarManager(m) {
 function actualizarDireccion(d) {
   teamAddress = d.trim();
   try { localStorage.setItem('diamax_team_address', teamAddress); } catch(e) {}
-  setSafeText('footer-address-text', `Sede Oficial: ${teamAddress} · Desarrollado por 3Tree Digital Sport IA`);
   setSafeText('card-location-text', teamAddress);
 }
 
@@ -1772,7 +1770,7 @@ function renderAll() {
     const addrInp = document.getElementById('team-address-input');
     if (addrInp) addrInp.value = teamAddress;
 
-    setSafeText('footer-address-text', `Sede Oficial: ${teamAddress} · Desarrollado por 3Tree Digital Sport IA · Todos los derechos reservados 2026`);
+    setSafeText('footer-address-text', 'Desarrollada por 3Tree Digital Sport IA Lutz, Florida Usa/Todos los derechos reservados 2026. Aplicacion oficial DIAMAX');
     setSafeText('card-location-text', teamAddress);
 
     const sel = document.getElementById('game-select');
