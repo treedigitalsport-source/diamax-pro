@@ -367,6 +367,58 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
 }
 </style>
 
+
+<style>
+.strike-zone-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 180px;
+  margin: 0 auto;
+}
+.sz-cell {
+  background: #1E293B;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.sz-cell:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+}
+.sz-hot {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #EF4444;
+  color: #FCA5A5;
+}
+.sz-cold {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: #3B82F6;
+  color: #93C5FD;
+}
+.sz-neutral {
+  background: rgba(255, 199, 44, 0.2);
+  border-color: #FFC72C;
+  color: #FDE047;
+}
+.spray-dot {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.spray-dot:hover {
+  r: 8;
+  stroke-width: 3;
+}
+</style>
+
 </head>
 <body>
 <div class="container">
@@ -636,29 +688,113 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
     </div>
   </div>
 
-  <!-- TAB 3: CAMPO TÁCTICO 2D -->
+  <!-- TAB 3: CAMPO 2D & SABERMETRÍA VISUAL (FASE 7) -->
   <div id="tab-campo" style="display:none;">
-    <div class="panel">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h3 style="font-size:15px; color:#FFC72C; font-weight:800;"> Disposición Defensiva en el Terreno</h3>
-        <button onclick="switchTab('envivo')" style="background:#10B981; color:#fff; border:none; padding:8px 14px; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;"> Regresar al Anotador</button>
+    <div style="display:grid; grid-template-columns:1.6fr 1fr; gap:16px;">
+      
+      <!-- Panel Campo 2D & Spray Chart -->
+      <div class="panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;">🏟️ Terreno Táctico 2D & Spray Chart</h3>
+            <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Posicionamiento defensivo en vivo y dispersión de batazos del rival.</p>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button onclick="toggleSprayChartMode('ALL')" class="btn-sm-action" id="spray-btn-all" style="background:#00D2FF; color:#0B0F19; border:none; padding:5px 10px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">Todos</button>
+            <button onclick="toggleSprayChartMode('GB')" class="btn-sm-action" id="spray-btn-gb" style="background:#1E293B; color:#94A3B8; border:1px solid #334155; padding:5px 10px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">Rodados</button>
+            <button onclick="toggleSprayChartMode('FB')" class="btn-sm-action" id="spray-btn-fb" style="background:#1E293B; color:#94A3B8; border:1px solid #334155; padding:5px 10px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">Elevados</button>
+            <button onclick="toggleSprayChartMode('HR')" class="btn-sm-action" id="spray-btn-hr" style="background:#1E293B; color:#94A3B8; border:1px solid #334155; padding:5px 10px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">Jonrones</button>
+          </div>
+        </div>
+
+        <div style="position:relative; width:100%; max-width:540px; margin:0 auto; background:#0B0F19; border:2px solid #1E293B; border-radius:12px; overflow:hidden;">
+          <svg viewBox="0 0 500 480" style="width:100%; height:auto; display:block;" id="svg-campo-tactico">
+            <!-- Césped Exterior -->
+            <path d="M 50 240 A 280 280 0 0 1 450 240 L 250 440 Z" fill="#14532D" stroke="#166534" stroke-width="3"/>
+            <!-- Zona de Seguridad Outfield -->
+            <path d="M 50 240 A 280 280 0 0 1 450 240 L 420 250 A 240 240 0 0 0 80 250 Z" fill="#854D0E" opacity="0.3"/>
+            <!-- Cuadro Interior (Arcilla) -->
+            <path d="M 130 320 A 170 170 0 0 1 370 320 L 250 440 Z" fill="#78350F" stroke="#92400E" stroke-width="2"/>
+            <!-- Diamante Césped Interior -->
+            <polygon points="250,430 320,360 250,290 180,360" fill="#166534"/>
+            <!-- Líneas de Cal -->
+            <line x1="250" y1="440" x2="40" y2="230" stroke="#F8FAFC" stroke-width="2.5"/>
+            <line x1="250" y1="440" x2="460" y2="230" stroke="#F8FAFC" stroke-width="2.5"/>
+            <!-- Montículo -->
+            <circle cx="250" cy="365" r="14" fill="#92400E" stroke="#B45309" stroke-width="1.5"/>
+            <rect x="244" y="363" width="12" height="4" fill="#FFFFFF"/>
+            <!-- Bases -->
+            <rect x="245" y="432" width="10" height="10" fill="#FFFFFF" transform="rotate(45 250 437)"/>
+            <rect x="315" y="355" width="10" height="10" fill="#FFFFFF" transform="rotate(45 320 360)"/>
+            <rect x="245" y="285" width="10" height="10" fill="#FFFFFF" transform="rotate(45 250 290)"/>
+            <rect x="175" y="355" width="10" height="10" fill="#FFFFFF" transform="rotate(45 180 360)"/>
+
+            <!-- Capa de Puntos de Spray Chart -->
+            <g id="spray-chart-layer"></g>
+
+            <!-- Capa de Posicionamiento Defensivo -->
+            <g id="field-players-layer"></g>
+          </svg>
+        </div>
+
+        <div style="display:flex; justify-content:space-around; margin-top:10px; font-size:11px; color:#94A3B8; text-align:center;">
+          <div><span style="display:inline-block; width:10px; height:10px; background:#10B981; border-radius:50%; margin-right:4px;"></span> Rodado (GB)</div>
+          <div><span style="display:inline-block; width:10px; height:10px; background:#00D2FF; border-radius:50%; margin-right:4px;"></span> Elevado (FB)</div>
+          <div><span style="display:inline-block; width:10px; height:10px; background:#FFC72C; border-radius:50%; margin-right:4px;"></span> Línea (LD)</div>
+          <div><span style="display:inline-block; width:10px; height:10px; background:#EF4444; border-radius:50%; margin-right:4px;"></span> Jonrón (HR)</div>
+        </div>
       </div>
-      <div class="field-wrapper">
-        <svg width="100%" height="100%" viewBox="0 0 500 400">
-          <path d="M 0 0 L 500 0 L 500 400 L 0 400 Z" fill="#1b5233"/>
-          <path d="M 250 350 L 80 180 A 240 240 0 0 1 420 180 Z" fill="#9c5b31"/>
-          <polygon points="250,330 150,230 250,130 350,230" fill="#236841"/>
-          <line x1="250" y1="350" x2="10" y2="110" stroke="#FFF" stroke-width="2.5" opacity="0.8"/>
-          <line x1="250" y1="350" x2="490" y2="110" stroke="#FFF" stroke-width="2.5" opacity="0.8"/>
-          <circle cx="250" cy="230" r="14" fill="#9c5b31" stroke="#b06c3b" stroke-width="2"/>
-          <rect x="245" y="228" width="10" height="4" fill="#FFF"/>
-          <polygon points="250,350 255,355 255,360 245,360 245,355" fill="#FFF"/>
-          <rect x="345" y="225" width="10" height="10" transform="rotate(45 350 230)" fill="#FFF"/>
-          <rect x="245" y="125" width="10" height="10" transform="rotate(45 250 130)" fill="#FFF"/>
-          <rect x="145" y="225" width="10" height="10" transform="rotate(45 150 230)" fill="#FFF"/>
-        </svg>
-        <div id="field-players-layer"></div>
+
+      <!-- Panel Mapa de Calor de Zona de Strike & Métricas Sabermétricas -->
+      <div class="panel">
+        <div style="margin-bottom:12px;">
+          <h3 style="margin:0; font-size:16px; color:#00D2FF; font-weight:900;">🎯 Mapa de Calor (Zona de Strike)</h3>
+          <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Zonas de impacto y Whiff% para formulación del plan de pitcheo.</p>
+        </div>
+
+        <!-- Selector de Bateador -->
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:10px; font-weight:700; color:#94A3B8; margin-bottom:4px; text-transform:uppercase;">Seleccionar Jugador a Analizar:</label>
+          <select id="heatmap-player-select" onchange="actualizarHeatmapJugador(this.value)" style="width:100%; background:#0B0F19; border:1px solid #334155; border-radius:6px; padding:8px 10px; color:#FFC72C; font-weight:700; font-size:12px; outline:none;">
+          </select>
+        </div>
+
+        <!-- Matriz de Zona de Strike 3x3 -->
+        <div style="background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px;">
+          <div style="text-align:center; font-size:10px; color:#94A3B8; margin-bottom:8px; font-weight:700;">PERSPECTIVA DEL CÁTCHER (ZONAS 1-9)</div>
+          
+          <div class="strike-zone-grid" id="strike-zone-matrix">
+            <!-- Renderizado dinámicamente -->
+          </div>
+
+          <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:10.5px; color:#94A3B8;">
+            <div>🔥 <span style="color:#FCA5A5;">Zona Caliente (AVG > .320)</span></div>
+            <div>❄️ <span style="color:#93C5FD;">Zona Fría (Whiff% > 35%)</span></div>
+          </div>
+        </div>
+
+        <!-- Métricas de Tendencia de Bateo -->
+        <div style="background:#0F172A; border:1px solid #1E293B; border-radius:8px; padding:12px; font-size:11.5px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#94A3B8;">Tendencia Hacia la Banda (Pull%):</span>
+            <strong style="color:#FFC72C;" id="stat-pull-pct">64.2% (Extremo)</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#94A3B8;">Batazos al Centro (Cent%):</span>
+            <strong style="color:#00D2FF;" id="stat-cent-pct">22.8%</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#94A3B8;">Banda Contraria (Oppo%):</span>
+            <strong style="color:#10B981;" id="stat-oppo-pct">13.0%</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:#94A3B8;">Recomendación Defensiva:</span>
+            <strong style="color:#EC4899;" id="stat-shift-rec">SHIFT PROFUNDO 3B/SS</strong>
+          </div>
+        </div>
+
       </div>
+
     </div>
   </div>
 
@@ -893,6 +1029,132 @@ function actualizarDireccion(d) {
 }
 
 
+
+
+
+// 📊 MOTOR DE SPRAY CHARTS 2D & MAPAS DE CALOR POR ZONA (FASE 7)
+let currentSprayFilter = 'ALL';
+
+const SPRAY_MOCK_DATA = [
+  { id: 1, type: 'GB', x: 200, y: 340, text: 'Rolata 6-3' },
+  { id: 2, type: 'GB', x: 170, y: 350, text: 'Hit por 3B' },
+  { id: 3, type: 'LD', x: 290, y: 320, text: 'Línea a 2B' },
+  { id: 4, type: 'FB', x: 120, y: 220, text: 'Fly al LF' },
+  { id: 5, type: 'FB', x: 250, y: 180, text: 'Fly al CF' },
+  { id: 6, type: 'LD', x: 380, y: 230, text: 'Doble al RF' },
+  { id: 7, type: 'HR', x: 100, y: 140, text: 'Jonrón por LF' },
+  { id: 8, type: 'GB', x: 230, y: 360, text: 'Fielder Choice' },
+  { id: 9, type: 'FB', x: 370, y: 200, text: 'Flyout RF' },
+  { id: 10, type: 'HR', x: 260, y: 120, text: 'Jonrón por CF' }
+];
+
+const ZONE_PROFILES = {
+  1: { avg: '.345', whiff: '14%', status: 'sz-hot' },
+  2: { avg: '.290', whiff: '21%', status: 'sz-neutral' },
+  3: { avg: '.180', whiff: '42%', status: 'sz-cold' },
+  4: { avg: '.380', whiff: '11%', status: 'sz-hot' },
+  5: { avg: '.310', whiff: '18%', status: 'sz-hot' },
+  6: { avg: '.210', whiff: '38%', status: 'sz-cold' },
+  7: { avg: '.260', whiff: '28%', status: 'sz-neutral' },
+  8: { avg: '.225', whiff: '34%', status: 'sz-cold' },
+  9: { avg: '.160', whiff: '49%', status: 'sz-cold' }
+};
+
+function renderSprayChart() {
+  const layer = document.getElementById('spray-chart-layer');
+  if (!layer) return;
+
+  const filtered = SPRAY_MOCK_DATA.filter(d => currentSprayFilter === 'ALL' || d.type === currentSprayFilter);
+
+  layer.innerHTML = filtered.map(d => {
+    let color = '#10B981';
+    if (d.type === 'FB') color = '#00D2FF';
+    if (d.type === 'LD') color = '#FFC72C';
+    if (d.type === 'HR') color = '#EF4444';
+
+    return `
+      <circle class="spray-dot" cx="${d.x}" cy="${d.y}" r="6" fill="${color}" stroke="#FFFFFF" stroke-width="1.5">
+        <title>${d.type}: ${d.text}</title>
+      </circle>
+    `;
+  }).join('');
+}
+
+function toggleSprayChartMode(mode) {
+  currentSprayFilter = mode;
+  ['ALL', 'GB', 'FB', 'HR'].forEach(m => {
+    const btn = document.getElementById(`spray-btn-${m.toLowerCase()}`);
+    if (btn) {
+      if (m === mode) {
+        btn.style.background = '#00D2FF';
+        btn.style.color = '#0B0F19';
+        btn.style.borderColor = '#00D2FF';
+      } else {
+        btn.style.background = '#1E293B';
+        btn.style.color = '#94A3B8';
+        btn.style.borderColor = '#334155';
+      }
+    }
+  });
+  renderSprayChart();
+}
+
+function renderStrikeZoneHeatmap(playerId = 1) {
+  const container = document.getElementById('strike-zone-matrix');
+  if (!container) return;
+
+  let html = '';
+  for (let z = 1; z <= 9; z++) {
+    const prof = ZONE_PROFILES[z];
+    html += `
+      <div class="sz-cell ${prof.status}" onclick="detallarZonaStrike(${z})" title="Zona ${z}: AVG ${prof.avg} | Whiff ${prof.whiff}">
+        <div>Z${z}</div>
+        <div style="font-size:9px; font-weight:900;">${prof.avg}</div>
+      </div>
+    `;
+  }
+  container.innerHTML = html;
+}
+
+function detallarZonaStrike(zone) {
+  const prof = ZONE_PROFILES[zone];
+  const toast = document.getElementById('live-action-banner');
+  if (toast) {
+    setSafeHTML('live-action-banner', `🎯 <strong>Zona ${zone}:</strong> Promedio de Bateo ${prof.avg} | Tasa de Abanicado (Whiff%): ${prof.whiff}`);
+  }
+}
+
+function actualizarHeatmapJugador(playerId) {
+  const p = MASTER_ROSTER.find(pl => pl.id == playerId) || MASTER_ROSTER[0];
+  renderStrikeZoneHeatmap(playerId);
+  
+  const pullEl = document.getElementById('stat-pull-pct');
+  const centEl = document.getElementById('stat-cent-pct');
+  const oppoEl = document.getElementById('stat-oppo-pct');
+  const shiftEl = document.getElementById('stat-shift-rec');
+
+  if (p.bats === 'L') {
+    if (pullEl) pullEl.innerText = '68.5% (Pull a RF)';
+    if (centEl) centEl.innerText = '19.5%';
+    if (oppoEl) oppoEl.innerText = '12.0%';
+    if (shiftEl) shiftEl.innerText = 'SHIFT EXTREMO JARDÍN DERECHO';
+  } else {
+    if (pullEl) pullEl.innerText = '61.4% (Pull a LF)';
+    if (centEl) centEl.innerText = '24.1%';
+    if (oppoEl) oppoEl.innerText = '14.5%';
+    if (shiftEl) shiftEl.innerText = 'DEFENSA ESTÁNDAR / LÍNEA 3B';
+  }
+  renderSprayChart();
+}
+
+function poblarSelectoresVisuales() {
+  const sel = document.getElementById('heatmap-player-select');
+  if (sel) {
+    sel.innerHTML = MASTER_ROSTER.map(p => `
+      <option value="${p.id}">#${p.num} ${p.name} (${p.defaultPos || p.pos || 'OF'} - Batea: ${p.bats || 'R'})</option>
+    `).join('');
+  }
+}
 
 
 // 📄 EXPORTADOR DE BOXSCORE & TARJETA OFICIAL PDF (FASE 6)
@@ -2030,6 +2292,9 @@ function updateLineupSlot(i, field, value) {
   saveGamesToStorage();
     simularSincronizacionCloud();
   renderField();
+    poblarSelectoresVisuales();
+    renderSprayChart();
+    renderStrikeZoneHeatmap(1);
   updateLiveBatterDisplay();
 }
 
@@ -2200,7 +2465,12 @@ function switchTab(tabId) {
     if (el) el.style.display = t === tabId ? 'block' : 'none';
   });
 
-  if (tabId === 'campo') renderField();
+  if (tabId === 'campo') {
+    renderField();
+    poblarSelectoresVisuales();
+    renderSprayChart();
+    renderStrikeZoneHeatmap(1);
+  }
 }
 
 function renderAll() {
@@ -2232,6 +2502,9 @@ function renderAll() {
     renderLineupBuilder();
     renderOfficialCard();
     renderField();
+    poblarSelectoresVisuales();
+    renderSprayChart();
+    renderStrikeZoneHeatmap(1);
     renderTables();
     renderSkillsList();
     updateLiveBatterDisplay();
