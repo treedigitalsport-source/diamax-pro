@@ -419,6 +419,62 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
 }
 </style>
 
+
+<style>
+.pitch-tracker-card {
+  background: #0B0F19;
+  border: 1px solid #1E293B;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 14px;
+}
+.pitch-type-btn {
+  background: #131D31;
+  border: 1px solid #334155;
+  color: #F8FAFC;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.pitch-type-btn:hover {
+  border-color: #00D2FF;
+  color: #00D2FF;
+  transform: translateY(-2px);
+}
+.fatigue-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: #1E293B;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.fatigue-bar-fill {
+  height: 100%;
+  width: 35%;
+  background: #10B981;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+.bullpen-reliever-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #070D1A;
+  border: 1px solid #1E293B;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+</style>
+
 </head>
 <body>
 <div class="container">
@@ -506,6 +562,74 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
         <button onclick="switchTab('lineup')" style="background:#FFC72C; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;"> Editar</button>
       </div>
     </div>
+
+    
+    <!-- ⚾ MÓDULO DE BULLPEN & CONTEO DE PITCHEO EN VIVO (FASE 8) -->
+    <div class="pitch-tracker-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:16px;">⚾</span>
+          <strong style="color:#00D2FF; font-size:13px; text-transform:uppercase;">Monitor de Lanzador & Bullpen</strong>
+          <span style="background:#1E293B; color:#FFC72C; font-size:11px; padding:2px 8px; border-radius:10px; font-weight:800;" id="pitcher-active-name">#10 Pedro Chavez (RHP)</span>
+        </div>
+        <div style="font-size:12px; font-weight:900;">
+          <span style="color:#94A3B8;">Lanzamientos:</span> <span style="color:#00D2FF; font-size:15px;" id="pitcher-total-count">28</span>
+          <span style="color:#94A3B8; font-size:11px; margin-left:6px;">(S: <strong style="color:#10B981;" id="pitcher-strikes-count">19</strong> / B: <strong style="color:#EF4444;" id="pitcher-balls-count">9</strong> · <span style="color:#FFC72C;" id="pitcher-strike-pct">67.8%</span>)</span>
+        </div>
+      </div>
+
+      <!-- Barra de Fatiga / Regla de Descanso -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; font-size:10.5px; color:#94A3B8; font-weight:700;">
+          <span>ÍNDICE DE FATIGA (+55 LÍMITE: 75 PITCHES)</span>
+          <span id="pitcher-fatigue-label" style="color:#10B981;">Óptimo (37%)</span>
+        </div>
+        <div class="fatigue-bar-bg">
+          <div class="fatigue-bar-fill" id="pitcher-fatigue-bar" style="width:37%; background:#10B981;"></div>
+        </div>
+      </div>
+
+      <!-- Botones de Registro Rápido de Pitcheo -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(85px, 1fr)); gap:6px; margin-bottom:12px;">
+        <button onclick="registrarPitcheoRapido('4-Seam', true)" class="pitch-type-btn">
+          <span>4-Seam</span>
+          <span style="font-size:9px; color:#10B981;">Strike / 91mph</span>
+        </button>
+        <button onclick="registrarPitcheoRapido('Slider', true)" class="pitch-type-btn">
+          <span>Slider</span>
+          <span style="font-size:9px; color:#10B981;">Quebrado / 82mph</span>
+        </button>
+        <button onclick="registrarPitcheoRapido('Changeup', true)" class="pitch-type-btn">
+          <span>Changeup</span>
+          <span style="font-size:9px; color:#10B981;">Cambio / 80mph</span>
+        </button>
+        <button onclick="registrarPitcheoRapido('Curve', true)" class="pitch-type-btn">
+          <span>Curva</span>
+          <span style="font-size:9px; color:#10B981;">Strike / 76mph</span>
+        </button>
+        <button onclick="registrarPitcheoRapido('Bola', false)" class="pitch-type-btn" style="border-color:#EF4444; color:#FCA5A5;">
+          <span>Bola</span>
+          <span style="font-size:9px; color:#EF4444;">Fuera de Zona</span>
+        </button>
+        <button onclick="registrarPitcheoRapido('Foul', true)" class="pitch-type-btn" style="border-color:#FFC72C; color:#FDE047;">
+          <span>Foul</span>
+          <span style="font-size:9px; color:#FFC72C;">Contacto</span>
+        </button>
+      </div>
+
+      <!-- Estado de Relevistas en Bullpen -->
+      <div style="background:#070D1A; border:1px solid #1E293B; border-radius:8px; padding:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:11px; font-weight:800; color:#FFC72C; text-transform:uppercase;">🔥 Bullpen Activo:</span>
+          <button onclick="cambiarEstadoBullpenModal()" style="background:transparent; border:none; color:#00D2FF; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;">+ Gestionar Relevo</button>
+        </div>
+        <div id="bullpen-relievers-container">
+          <!-- Renderizado dinámicamente -->
+        </div>
+      </div>
+
+    </div>
+
 
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
       <!-- Marcador y Diamante -->
@@ -1030,6 +1154,153 @@ function actualizarDireccion(d) {
 
 
 
+
+
+
+// ⚾ MÓDULO DE BULLPEN MANAGER & PITCH TRACKER (FASE 8)
+let activePitcherStats = {
+  id: 10,
+  name: "Pedro Chavez",
+  throws: "R",
+  num: 10,
+  totalPitches: 28,
+  strikes: 19,
+  balls: 9,
+  maxLimit: 75
+};
+
+let bullpenRoster = [
+  { id: 11, num: 24, name: "Manuel Quintero", throws: "R", status: "Calentando", pitchesToday: 12 },
+  { id: 12, num: 33, name: "Carlos Mendoza", throws: "L", status: "Listo", pitchesToday: 0 },
+  { id: 13, num: 45, name: "Luis Hernandez", throws: "R", status: "Descansando", pitchesToday: 0 }
+];
+
+function registrarPitcheoRapido(tipo, esStrike) {
+  activePitcherStats.totalPitches++;
+  if (esStrike) {
+    activePitcherStats.strikes++;
+  } else {
+    activePitcherStats.balls++;
+  }
+
+  const toast = document.getElementById('live-action-banner');
+  if (toast) {
+    setSafeHTML('live-action-banner', `⚾ <strong>Pitcheo registrado:</strong> ${tipo} (${esStrike ? 'Strike' : 'Bola'}) · Total: ${activePitcherStats.totalPitches} lanzamientos.`);
+  }
+
+  actualizarPitcherUI();
+}
+
+function actualizarPitcherUI() {
+  const tot = document.getElementById('pitcher-total-count');
+  const str = document.getElementById('pitcher-strikes-count');
+  const bal = document.getElementById('pitcher-balls-count');
+  const pct = document.getElementById('pitcher-strike-pct');
+  const fatLabel = document.getElementById('pitcher-fatigue-label');
+  const fatBar = document.getElementById('pitcher-fatigue-bar');
+
+  if (tot) tot.innerText = activePitcherStats.totalPitches;
+  if (str) str.innerText = activePitcherStats.strikes;
+  if (bal) bal.innerText = activePitcherStats.balls;
+  
+  const strikePct = activePitcherStats.totalPitches > 0 
+    ? ((activePitcherStats.strikes / activePitcherStats.totalPitches) * 100).toFixed(1)
+    : '0.0';
+  if (pct) pct.innerText = `${strikePct}%`;
+
+  const fatiguePct = Math.min(100, Math.round((activePitcherStats.totalPitches / activePitcherStats.maxLimit) * 100));
+  if (fatBar) {
+    fatBar.style.width = `${faturePct = fatiguePct}%`;
+    if (fatiguePct < 55) {
+      fatBar.style.background = '#10B981';
+      if (fatLabel) {
+        fatLabel.style.color = '#10B981';
+        fatLabel.innerText = `Óptimo (${fatiguePct}%)`;
+      }
+    } else if (fatiguePct < 80) {
+      fatBar.style.background = '#FFC72C';
+      if (fatLabel) {
+        fatLabel.style.color = '#FFC72C';
+        fatLabel.innerText = `Precaución (${fatiguePct}%)`;
+      }
+    } else {
+      fatBar.style.background = '#EF4444';
+      if (fatLabel) {
+        fatLabel.style.color = '#EF4444';
+        fatLabel.innerText = `⚠️ Límite Cercano (${fatiguePct}%)`;
+      }
+    }
+  }
+
+  renderBullpenList();
+}
+
+function renderBullpenList() {
+  const container = document.getElementById('bullpen-relievers-container');
+  if (!container) return;
+
+  container.innerHTML = bullpenRoster.map(r => {
+    let badgeColor = '#94A3B8';
+    let badgeBg = '#1E293B';
+    if (r.status === 'Calentando') {
+      badgeColor = '#FFC72C';
+      badgeBg = 'rgba(255, 199, 44, 0.2)';
+    } else if (r.status === 'Listo') {
+      badgeColor = '#10B981';
+      badgeBg = 'rgba(16, 185, 129, 0.2)';
+    }
+
+    return `
+      <div class="bullpen-reliever-row">
+        <div>
+          <strong style="color:#FFF;">#${r.num} ${r.name}</strong>
+          <span style="color:#00D2FF; font-size:10.5px; margin-left:4px;">(${r.throws}HP)</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="background:${badgeBg}; color:${badgeColor}; font-size:10px; padding:2px 8px; border-radius:4px; font-weight:800;">${r.status}</span>
+          <button onclick="traerRelevista(${r.id})" style="background:#00D2FF; color:#0B0F19; border:none; padding:3px 8px; border-radius:4px; font-size:10.5px; font-weight:800; cursor:pointer;">Traer a Lanzar</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function traerRelevista(relieverId) {
+  const rel = bullpenRoster.find(r => r.id === relieverId);
+  if (!rel) return;
+
+  if (confirm(`¿Confirmas el cambio de lanzador? Entra #${rel.num} ${rel.name} (${rel.throws}HP) a relevar.`)) {
+    activePitcherStats.id = rel.id;
+    activePitcherStats.name = rel.name;
+    activePitcherStats.num = rel.num;
+    activePitcherStats.throws = rel.throws;
+    activePitcherStats.totalPitches = 0;
+    activePitcherStats.strikes = 0;
+    activePitcherStats.balls = 0;
+
+    const nameEl = document.getElementById('pitcher-active-name');
+    if (nameEl) nameEl.innerText = `#${rel.num} ${rel.name} (${rel.throws}HP)`;
+
+    rel.status = "Lanzando";
+    actualizarPitcherUI();
+    const toast = document.getElementById('live-action-banner');
+    if (toast) setSafeHTML('live-action-banner', `🔄 <strong>Cambio de Pitcher:</strong> Entra al montículo #${rel.num} ${rel.name}.`);
+  }
+}
+
+function cambiarEstadoBullpenModal() {
+  const name = prompt("Nombre del lanzador a calentar:", "Manuel Quintero");
+  if (!name) return;
+  bullpenRoster.push({
+    id: Date.now(),
+    num: Math.floor(Math.random() * 50) + 10,
+    name: name,
+    throws: "R",
+    status: "Calentando",
+    pitchesToday: 0
+  });
+  renderBullpenList();
+}
 
 
 // 📊 MOTOR DE SPRAY CHARTS 2D & MAPAS DE CALOR POR ZONA (FASE 7)
@@ -2295,6 +2566,7 @@ function updateLineupSlot(i, field, value) {
     poblarSelectoresVisuales();
     renderSprayChart();
     renderStrikeZoneHeatmap(1);
+    actualizarPitcherUI();
   updateLiveBatterDisplay();
 }
 
@@ -2470,6 +2742,7 @@ function switchTab(tabId) {
     poblarSelectoresVisuales();
     renderSprayChart();
     renderStrikeZoneHeatmap(1);
+    actualizarPitcherUI();
   }
 }
 
@@ -2505,6 +2778,7 @@ function renderAll() {
     poblarSelectoresVisuales();
     renderSprayChart();
     renderStrikeZoneHeatmap(1);
+    actualizarPitcherUI();
     renderTables();
     renderSkillsList();
     updateLiveBatterDisplay();
