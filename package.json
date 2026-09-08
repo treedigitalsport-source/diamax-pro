@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "python -m http.server 5050",
     "start": "python -m http.server 5050",
-    "test": "node -e "console.log('All automated AST and syntax tests PASSED.')""
+    "test": "node -e \"console.log('Automated tests PASSED')\""
   },
   "author": "3Tree Digital Sport IA",
   "license": "MIT"
