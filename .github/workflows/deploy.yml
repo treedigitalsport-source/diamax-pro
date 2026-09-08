@@ -1,0 +1,36 @@
+name: CI / Production Verification & Vercel Preview
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 🧪 Validate JavaScript Syntax & AST
+        run: |
+          node -e "
+            const fs = require('fs');
+            const html = fs.readFileSync('index.html', 'utf8');
+            const scriptMatches = [...html.matchAll(/<script(?![^>]*src=)([^>]*)>([\\s\\S]*?)<\\/script>/gi)];
+            console.log('Script blocks found:', scriptMatches.length);
+            scriptMatches.forEach((m, i) => {
+              new Function(m[2]);
+              console.log('Block ' + (i+1) + ' PASSED AST validation');
+            });
+          "
+
+      - name: ✅ Report Status
+        run: echo "DIAMAX Pro verification completed with 0 errors."
