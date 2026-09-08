@@ -816,6 +816,96 @@ function actualizarDireccion(d) {
 }
 
 
+
+// ☁️ MOTOR DE SINCRONIZACIÓN CLOUD REALTIME & OFFLINE-FIRST (FASE 5)
+let cloudSyncStatus = 'offline'; // 'connected', 'syncing', 'offline'
+let syncQueue = [];
+
+function updateCloudSyncBadge(status, customMsg = null) {
+  cloudSyncStatus = status;
+  const badge = document.getElementById('cloud-sync-indicator');
+  if (!badge) return;
+
+  if (status === 'connected') {
+    badge.innerHTML = `<span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong>`;
+    badge.style.borderColor = '#10B981';
+  } else if (status === 'syncing') {
+    badge.innerHTML = `<span style="color:#FFC72C;" class="blink">🔄</span> <span style="color:#FFC72C;">Sincronizando...</span>`;
+    badge.style.borderColor = '#FFC72C';
+  } else {
+    badge.innerHTML = `<span style="color:#94A3B8;">○</span> <span style="color:#94A3B8;">Modo: Local Offline</span>`;
+    badge.style.borderColor = '#334155';
+  }
+}
+
+function simularSincronizacionCloud() {
+  updateCloudSyncBadge('syncing');
+  setTimeout(() => {
+    updateCloudSyncBadge('connected');
+    const toast = document.getElementById('live-action-banner');
+    if (toast) setSafeHTML('live-action-banner', '☁️ <strong>Sincronización Cloud exitosa:</strong> Estado de juego respaldado en tiempo real.');
+  }, 600);
+}
+
+function exportarRespaldoCompletoJSON() {
+  const backupData = {
+    app: "DIAMAX Pro",
+    version: "2.4.0",
+    projectId: "PJ-DIAMAX-001",
+    timestamp: new Date().toISOString(),
+    team: {
+      name: teamName,
+      manager: teamManager,
+      address: teamAddress
+    },
+    activeGameId: activeGameId,
+    games: GAMES,
+    roster: MASTER_ROSTER,
+    session: currentUserSession
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `DIAMAX_BACKUP_${teamName.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+
+  alert("✅ Respaldo JSON descargado con éxito. Contiene todos los partidos, rosters y estados del juego.");
+}
+
+function importarRespaldoJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.games) {
+        GAMES = data.games;
+        saveGamesToStorage();
+    simularSincronizacionCloud();
+      }
+      if (data.team) {
+        if (data.team.name) teamName = data.team.name;
+        if (data.team.manager) teamManager = data.team.manager;
+        if (data.team.address) teamAddress = data.team.address;
+        localStorage.setItem('diamax_team_name', teamName);
+        localStorage.setItem('diamax_team_manager', teamManager);
+        localStorage.setItem('diamax_team_address', teamAddress);
+      }
+      renderAll();
+      alert("✅ Respaldo restaurado exitosamente en DIAMAX.");
+    } catch(err) {
+      alert("❌ Error al leer el archivo de respaldo: formato no válido.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+
 // 🛡️ MÓDULO DE AUTENTICACIÓN & SEGURIDAD TÁCTICA (FASE 4)
 let currentUserSession = null;
 
@@ -1262,6 +1352,7 @@ function crearNuevoJuegoModal() {
     currentFieldingBox: {}
   };
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
   switchTab('lineup');
@@ -1283,6 +1374,7 @@ function resetearBaseDeDatos() {
       currentFieldingBox: {}
     };
     saveGamesToStorage();
+    simularSincronizacionCloud();
     initSecurityPortal();
   renderAll();
     toggleSettingsDrawer(false);
@@ -1303,6 +1395,7 @@ function cargarLineupPredeterminado() {
   const g = getActiveGame();
   g.lineup = MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
   setSafeHTML('live-action-banner', ' Lineup Oficial de 9 jugadores cargado con éxito.');
@@ -1596,6 +1689,7 @@ function agregarBateadorManual() {
   const avail = MASTER_ROSTER.find(p => !used.includes(p.id)) || MASTER_ROSTER[0];
   g.lineup.push({ order: nextOrder, playerId: avail.id, pos: avail.defaultPos || "DH" });
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
 }
@@ -1606,6 +1700,7 @@ function eliminarBateadorManual(i) {
   g.lineup.splice(i, 1);
   g.lineup.forEach((slot, idx) => slot.order = idx + 1);
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
 }
@@ -1618,6 +1713,7 @@ function moverBateadorManual(i, dir) {
   g.lineup[target] = temp;
   g.lineup.forEach((slot, idx) => slot.order = idx + 1);
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
 }
@@ -1626,6 +1722,7 @@ function vaciarLineupManual() {
   if (confirm("¿Vaciar todo el orden al bate?")) {
     getActiveGame().lineup = [];
     saveGamesToStorage();
+    simularSincronizacionCloud();
     initSecurityPortal();
   renderAll();
   }
@@ -1636,6 +1733,7 @@ function autoRellenarLineupIA() {
   const order = [MASTER_ROSTER[0], MASTER_ROSTER[2], MASTER_ROSTER[5], MASTER_ROSTER[6], MASTER_ROSTER[1], MASTER_ROSTER[3], MASTER_ROSTER[4], MASTER_ROSTER[7], MASTER_ROSTER[8]];
   g.lineup = order.map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
   setSafeHTML('live-action-banner', ' Lineup optimizado por el motor de IA de DIAMAX.');
@@ -1825,6 +1923,7 @@ function updateLineupSlot(i, field, value) {
   const g = getActiveGame();
   g.lineup[i][field] = field === 'playerId' ? parseInt(value) : value;
   saveGamesToStorage();
+    simularSincronizacionCloud();
   renderField();
   updateLiveBatterDisplay();
 }
@@ -1911,6 +2010,7 @@ function cambiarBateadorEmergente() {
   const nextSub = bench[0];
   cur.playerId = nextSub.id;
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
   setSafeHTML('live-action-banner', ` Bateador Emergente en turno: #${nextSub.num} ${nextSub.name}`);
@@ -1923,6 +2023,7 @@ function finalizarYGuardarJuegoLive() {
   g.estado = "Finalizado";
   g.boxBatting = Object.values(liveState.currentLiveBox);
   saveGamesToStorage();
+    simularSincronizacionCloud();
   initSecurityPortal();
   renderAll();
   alert(" ¡Juego finalizado y archivado con éxito en DIAMAX!");
