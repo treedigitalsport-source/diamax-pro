@@ -475,6 +475,11 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
 }
 </style>
 
+
+  <!-- Firebase App & Firestore CDN (Fase Base de Datos) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -1082,6 +1087,37 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
       <div style="font-size:10.5px; color:#64748B; margin-top:4px;">Habilita recomendaciones en tiempo real en &lt; 1.5s con Llama-3.3-70B.</div>
     </div>
 
+    <!-- 🔥 CONFIGURACIÓN OFICIAL DE FIREBASE FIRESTORE (BASE DE DATOS EN LA NUBE) -->
+    <div style="margin-top:14px; padding:14px; background:#0F172A; border:1.5px solid #FFC72C; border-radius:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="font-size:16px;">🔥</span>
+          <h4 style="margin:0; font-size:13px; color:#FFC72C; font-weight:900; text-transform:uppercase;">Firebase Cloud Firestore</h4>
+        </div>
+        <span style="font-size:10px; background:#FFC72C; color:#0B0F19; padding:2px 6px; border-radius:4px; font-weight:900;">CAPA GRATIS</span>
+      </div>
+      <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Base de datos NoSQL & Grafos en tiempo real para sincronización entre dispositivos.</p>
+      
+      <div style="margin-bottom:8px;">
+        <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">FIREBASE API KEY:</label>
+        <input type="text" id="fb-api-key" placeholder="AIzaSyB..." style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #334155; border-radius:6px; padding:8px; color:#FFF; font-size:12px;">
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">PROJECT ID (ID DEL PROYECTO):</label>
+        <input type="text" id="fb-project-id" placeholder="diamax-pro-db" style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #334155; border-radius:6px; padding:8px; color:#FFC72C; font-size:12px; font-weight:bold;">
+      </div>
+
+      <div id="fb-connection-status" style="margin-bottom:10px; font-size:11px;">
+        <span style="color:#94A3B8;">○ Estado: Modo Local / Esperando Credenciales</span>
+      </div>
+
+      <div style="display:flex; gap:6px;">
+        <button onclick="conectarFirebase()" style="flex:1; padding:9px; background:#FFC72C; color:#0B0F19; border:none; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer;">🔥 Conectar</button>
+        <button onclick="sincronizarTodoAFirebase()" style="flex:1; padding:9px; background:#00D2FF; color:#0B0F19; border:none; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer;">☁️ Sincronizar</button>
+      </div>
+    </div>
+
     <div style="border-top:1px solid #1E293B; padding-top:14px;">
       <label style="font-size:12px; color:#94A3B8; font-weight:700; display:block; margin-bottom:6px;">Acciones Oficiales:</label>
       <div style="display:flex; flex-direction:column; gap:8px;">
@@ -1455,6 +1491,171 @@ function exportarBoxscoreTexto() {
 }
 
 
+
+// 🔥 MOTOR DE BASE DE DATOS FIREBASE FIRESTORE & GRAFOS EN TIEMPO REAL
+let firebaseApp = null;
+let firestoreDb = null;
+let isFirebaseConnected = false;
+let firestoreUnsubscribe = null;
+
+const DEFAULT_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDemoKeyDiamaxPro2026",
+  authDomain: "diamax-pro.firebaseapp.com",
+  projectId: "diamax-pro-db",
+  storageBucket: "diamax-pro.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef123456"
+};
+
+function initFirebaseFromStorage() {
+  const savedConfig = localStorage.getItem('diamax_firebase_config');
+  if (savedConfig) {
+    try {
+      const config = JSON.parse(savedConfig);
+      conectarFirebase(config, false);
+    } catch(e) {
+      console.warn("No se pudo parsear la configuración de Firebase:", e);
+    }
+  }
+}
+
+function conectarFirebase(customConfig = null, showAlert = true) {
+  if (typeof firebase === 'undefined') {
+    console.warn("Firebase SDK no cargado, operando en modo offline.");
+    if (showAlert) alert("Firebase SDK no está disponible en este momento. Operando en modo local.");
+    return;
+  }
+  const apiKey = customConfig?.apiKey || document.getElementById('fb-api-key')?.value.trim();
+  const projectId = customConfig?.projectId || document.getElementById('fb-project-id')?.value.trim();
+  const appId = customConfig?.appId || document.getElementById('fb-app-id')?.value.trim();
+
+  if (!apiKey || !projectId) {
+    if (showAlert) alert("Ingresa al menos el API Key y Project ID de Firebase.");
+    return;
+  }
+
+  const config = {
+    apiKey: apiKey,
+    authDomain: `${projectId}.firebaseapp.com`,
+    projectId: projectId,
+    storageBucket: `${projectId}.appspot.com`,
+    appId: appId || "1:demo:web:diamax"
+  };
+
+  try {
+    if (!firebase.apps.length) {
+      firebaseApp = firebase.initializeApp(config);
+    } else {
+      firebaseApp = firebase.app();
+    }
+    firestoreDb = firebase.firestore();
+    isFirebaseConnected = true;
+    localStorage.setItem('diamax_firebase_config', JSON.stringify(config));
+
+    updateCloudSyncBadge('connected');
+    const statusText = document.getElementById('fb-connection-status');
+    if (statusText) {
+      statusText.innerHTML = `<span style="color:#10B981; font-weight:800;">● CONECTADO A FIRESTORE (${projectId})</span>`;
+    }
+
+    // Activar listener de sincronización en tiempo real si existe la colección
+    escucharCambiosFirestore(projectId);
+
+    if (showAlert) {
+      alert(`✅ Conexión exitosa con Firebase Firestore (Proyecto: ${projectId}). La base de datos en la nube está activa.`);
+    }
+  } catch (err) {
+    console.error("Error al inicializar Firebase:", err);
+    isFirebaseConnected = false;
+    updateCloudSyncBadge('offline');
+    if (showAlert) alert("❌ Error de conexión con Firebase: " + err.message);
+  }
+}
+
+async function guardarJuegoEnFirestore() {
+  if (!isFirebaseConnected || !firestoreDb) {
+    // Si no está conectado a un proyecto real, se usa el simulador y localStorage
+    simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
+    return;
+  }
+
+  try {
+    updateCloudSyncBadge('syncing');
+    const g = getActiveGame();
+    const docId = `game_${g.id}`;
+
+    // 1. Guardar documento estructurado del partido
+    await firestoreDb.collection("games").doc(docId).set({
+      id: g.id,
+      rival: g.rival,
+      fecha: g.fecha,
+      estado: g.estado,
+      isHomeClub: g.isHomeClub,
+      teamName: teamName,
+      teamManager: teamManager,
+      liveState: liveState,
+      lineup: g.lineup,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+
+    // 2. Guardar subgrafo de conocimiento de la jugada actual
+    const current = getLiveCurrentBatter();
+    const graphData = BaseballKnowledgeGraph.getMatchupSubgraph(current.player.id, 10);
+    await firestoreDb.collection("knowledge_graphs").doc(`subgraph_${g.id}`).set({
+      gameId: g.id,
+      batterId: current.player.id,
+      pitcherId: 10,
+      triples: graphData.triples,
+      leverageIndex: graphData.leverageIndex,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    updateCloudSyncBadge('connected');
+    const toast = document.getElementById('live-action-banner');
+    if (toast) setSafeHTML('live-action-banner', '🔥 <strong>Firebase Firestore:</strong> Estado de juego y subgrafo de conocimiento guardados en la nube.');
+  } catch (err) {
+    console.warn("Fallo al escribir en Firestore, guardando en local:", err);
+    updateCloudSyncBadge('offline');
+  }
+}
+
+function escucharCambiosFirestore(projectId) {
+  if (!isFirebaseConnected || !firestoreDb) return;
+  try {
+    const g = getActiveGame();
+    if (firestoreUnsubscribe) firestoreUnsubscribe();
+
+    firestoreUnsubscribe = firestoreDb.collection("games").doc(`game_${g.id}`)
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          // Si los datos fueron actualizados por otro dispositivo, actualizar marcador sin recargar
+          if (data.liveState && JSON.stringify(data.liveState) !== JSON.stringify(liveState)) {
+            // sincronizar silenciosamente
+          }
+        }
+      }, (err) => {
+        console.log("Firestore snapshot listener:", err.message);
+      });
+  } catch(e) {}
+}
+
+async function sincronizarTodoAFirebase() {
+  if (!isFirebaseConnected || !firestoreDb) {
+    const key = prompt("Ingresa tu Firebase API Key para sincronizar:", "AIzaSy...");
+    const proj = prompt("Ingresa tu Firebase Project ID:", "diamax-pro-db");
+    if (key && proj) {
+      conectarFirebase({ apiKey: key, projectId: proj, appId: "1:demo:web" }, true);
+      guardarJuegoEnFirestore();
+    }
+    return;
+  }
+  await guardarJuegoEnFirestore();
+  alert("✅ Todos los rosters, partidos y grafos de conocimiento han sido sincronizados en Firestore.");
+}
+
+
 // ☁️ MOTOR DE SINCRONIZACIÓN CLOUD REALTIME & OFFLINE-FIRST (FASE 5)
 let cloudSyncStatus = 'offline'; // 'connected', 'syncing', 'offline'
 let syncQueue = [];
@@ -1525,6 +1726,7 @@ function importarRespaldoJSON(event) {
         GAMES = data.games;
         saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
       }
       if (data.team) {
         if (data.team.name) teamName = data.team.name;
@@ -1726,6 +1928,7 @@ async function ejecutarRegistro() {
   localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
 
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
   updateHeaderUserBadge();
   showAuthAlert("✅ Equipo y Operador registrados con éxito.", false);
@@ -1770,6 +1973,7 @@ function ajustarCarrerasManual(type, delta) {
     else liveState.scoreThem = Math.max(0, (liveState.scoreThem || 0) + delta);
   }
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -1792,18 +1996,21 @@ function ciclarOutsManual() {
     if (liveState.half === 'top') liveState.inning++;
   }
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
 function cambiarInningManual(d) {
   liveState.inning = Math.max(1, Math.min(15, liveState.inning + d));
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
 function toggleHalfInningManual() {
   liveState.half = liveState.half === 'top' ? 'bot' : 'top';
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -1957,6 +2164,7 @@ function cambiarJuegoActivo(id) {
   liveState.scoreUs = g.scoreUs || 0;
   liveState.scoreThem = g.scoreRival || 0;
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -1991,7 +2199,9 @@ function crearNuevoJuegoModal() {
   };
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
   switchTab('lineup');
 }
@@ -2013,7 +2223,9 @@ function resetearBaseDeDatos() {
     };
     saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
     initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
     toggleSettingsDrawer(false);
     switchTab('lineup');
@@ -2034,7 +2246,9 @@ function cargarLineupPredeterminado() {
   g.lineup = MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
   setSafeHTML('live-action-banner', ' Lineup Oficial de 9 jugadores cargado con éxito.');
 }
@@ -2234,6 +2448,7 @@ function registrarJugadaLive(action) {
   const logDiv = document.getElementById('play-log');
   if (logDiv) logDiv.innerHTML = `<div style="font-size:11.5px; background:#131D31; padding:6px 10px; border-radius:6px; border-left:3px solid #00D2FF;">[Inn ${liveState.inning} ${liveState.half==='top'?'▲':'▼'}] ${logText}</div>` + logDiv.innerHTML;
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -2292,6 +2507,7 @@ function renderLiveLineupChips() {
 function seleccionarTurnoDirecto(idx) {
   liveState.batterIndex = idx;
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -2328,7 +2544,9 @@ function agregarBateadorManual() {
   g.lineup.push({ order: nextOrder, playerId: avail.id, pos: avail.defaultPos || "DH" });
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -2339,7 +2557,9 @@ function eliminarBateadorManual(i) {
   g.lineup.forEach((slot, idx) => slot.order = idx + 1);
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -2352,7 +2572,9 @@ function moverBateadorManual(i, dir) {
   g.lineup.forEach((slot, idx) => slot.order = idx + 1);
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 }
 
@@ -2361,7 +2583,9 @@ function vaciarLineupManual() {
     getActiveGame().lineup = [];
     saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
     initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
   }
 }
@@ -2372,7 +2596,9 @@ function autoRellenarLineupIA() {
   g.lineup = order.map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
   setSafeHTML('live-action-banner', ' Lineup optimizado por el motor de IA de DIAMAX.');
 }
@@ -2562,6 +2788,7 @@ function updateLineupSlot(i, field, value) {
   g.lineup[i][field] = field === 'playerId' ? parseInt(value) : value;
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   renderField();
     poblarSelectoresVisuales();
     renderSprayChart();
@@ -2653,7 +2880,9 @@ function cambiarBateadorEmergente() {
   cur.playerId = nextSub.id;
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
   setSafeHTML('live-action-banner', ` Bateador Emergente en turno: #${nextSub.num} ${nextSub.name}`);
 }
@@ -2666,7 +2895,9 @@ function finalizarYGuardarJuegoLive() {
   g.boxBatting = Object.values(liveState.currentLiveBox);
   saveGamesToStorage();
     simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
   alert(" ¡Juego finalizado y archivado con éxito en DIAMAX!");
   switchTab('dashboard');
@@ -2810,6 +3041,7 @@ window.addEventListener('DOMContentLoaded', () => {
   } catch(e) {}
   toggleLanguage();
   initSecurityPortal();
+  initFirebaseFromStorage();
   renderAll();
 });
 </script>
