@@ -330,6 +330,43 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
 }
 </style>
 
+
+<style>
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .header, .game-bar, .nav-tabs, .footer, .drawer-overlay, #auth-modal-overlay, .btn-print-hide {
+    display: none !important;
+  }
+  #tab-tarjeta-oficial {
+    display: block !important;
+    width: 100% !important;
+  }
+  .panel {
+    background: #FFFFFF !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .lineup-card-replica {
+    background: #FFFDF0 !important;
+    border: 2px solid #000000 !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .lineup-table th, .lineup-table td {
+    border-color: #000000 !important;
+    color: #000000 !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="container">
@@ -625,47 +662,87 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
     </div>
   </div>
 
+  
   <!-- TAB 4: TARJETA OFICIAL -->
   <div id="tab-tarjeta-oficial" style="display:none;">
     <div class="panel">
-      <div class="lineup-card-replica">
+      
+      <!-- Toolbar de Exportación -->
+      <div class="btn-print-hide" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;">📋 Tarjeta Oficial de Béisbol & Boxscore</h3>
+          <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">Documento oficial reglamentario para árbitros, mánagers y anotador oficial.</p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button onclick="window.print()" style="background:#00D2FF; color:#0B0F19; border:none; padding:10px 16px; border-radius:6px; font-weight:900; cursor:pointer; font-size:13px; display:flex; align-items:center; gap:6px;">
+            🖨️ Imprimir / Guardar como PDF
+          </button>
+          <button onclick="exportarBoxscoreTexto()" style="background:#10B981; color:#0B0F19; border:none; padding:10px 16px; border-radius:6px; font-weight:900; cursor:pointer; font-size:13px;">
+            📄 Copiar Boxscore
+          </button>
+        </div>
+      </div>
+
+      <div class="lineup-card-replica" id="printable-official-card">
         <div class="lineup-card-header">
           <div style="display:flex; align-items:center; gap:12px;">
-            <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="card-logo-img" style="width:48px; height:48px; border-radius:50%; border:2px solid #5A1E1E; object-fit:cover;">
+            <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="card-logo-img" style="width:52px; height:52px; border-radius:50%; border:2px solid #5A1E1E; object-fit:cover;">
             <div>
-              <h2 style="font-size:18px; font-weight:900; color:#5A1E1E; letter-spacing:1px;" id="card-team-title">GUERREROS DE VENEZUELA +55</h2>
-              <div style="font-size:10.5px; font-weight:800; color:#333;">★ OFFICIAL LINEUP CARD ★</div>
+              <h2 style="font-size:20px; font-weight:900; color:#5A1E1E; letter-spacing:1px; margin:0;" id="card-team-title">GUERREROS DE VENEZUELA +55</h2>
+              <div style="font-size:11px; font-weight:900; color:#1E293B; letter-spacing:0.5px;">★ TARJETA DE ALINEACIÓN OFICIAL · REGLAS 1-9 ★</div>
             </div>
           </div>
-          <div style="font-size:11px; text-align:right;">
-            <div><strong>OPPONENT:</strong> <span id="card-rival-name">CARDENALES</span></div>
-            <div><strong>DATE:</strong> <span id="card-date">2026-09-06</span></div>
+          <div style="font-size:11.5px; text-align:right;">
+            <div><strong>RIVAL:</strong> <span id="card-rival-name" style="color:#5A1E1E; font-weight:bold;">CARDENALES</span></div>
+            <div><strong>FECHA:</strong> <span id="card-date">2026-09-08</span></div>
+            <div><strong>CONDICIÓN:</strong> <span id="card-condition-text">HOME CLUB</span></div>
           </div>
         </div>
-        <div style="background:#EADBBE; border:1px solid #C4B296; padding:6px 10px; border-radius:4px; font-size:11px; margin-bottom:10px; display:flex; justify-content:space-between;">
-          <div><strong>LOCATION:</strong> <span id="card-location-text">5709 Kingfish Drive, Lutz, FL 33558</span></div>
-          <div><strong>LEAGUE:</strong> Senior Master +55</div>
+        
+        <div style="background:#EADBBE; border:1px solid #C4B296; padding:8px 12px; border-radius:4px; font-size:11px; margin-bottom:12px; display:flex; justify-content:space-between;">
+          <div><strong>SEDE / UBICACIÓN:</strong> <span id="card-location-text">5709 Kingfish Drive, Lutz, Florida, USA 33558</span></div>
+          <div><strong>CATEGORÍA:</strong> Senior Master +55</div>
+          <div><strong>ESTADO:</strong> <span style="font-weight:bold; color:#15803D;">VALIDADA PARA JUEGO</span></div>
         </div>
-        <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:12px;">
+
+        <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:14px;">
           <div>
             <table class="lineup-table">
-              <thead><tr><th style="width:24px;">#</th><th>TITULARES</th><th style="width:50px;">POS.</th></tr></thead>
+              <thead><tr><th style="width:28px;">ORD</th><th>JUGADORES TITULARES</th><th style="width:55px;">POS.</th><th style="width:40px;">B/L</th></tr></thead>
               <tbody id="card-starters-body"></tbody>
             </table>
           </div>
           <div>
             <table class="lineup-table">
-              <thead><tr><th style="width:24px;">#</th><th>RESERVAS</th></tr></thead>
+              <thead><tr><th style="width:28px;">#</th><th>RESERVAS & LANZADORES</th><th style="width:45px;">POS</th></tr></thead>
               <tbody id="card-substitutes-body"></tbody>
             </table>
-            <div style="background:#5A1E1E; color:#fff; padding:6px 8px; font-size:11px; font-weight:800; border-radius:4px;">
-              <span>STARTING PITCHER:</span> <span id="card-starting-pitcher" style="color:#FFC72C;">Pedro Chavez</span>
+            <div style="background:#5A1E1E; color:#fff; padding:8px 10px; font-size:11px; font-weight:800; border-radius:4px; margin-top:8px;">
+              <span>LANZADOR ABRIDOR (P):</span> <span id="card-starting-pitcher" style="color:#FFC72C;">Pedro Chavez (#23 - RHP)</span>
             </div>
           </div>
         </div>
+
+        <!-- Sección de Firmas Reglamentarias -->
+        <div style="margin-top:20px; padding-top:14px; border-top:1.5px dashed #8C7355; display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; text-align:center; font-size:10.5px;">
+          <div>
+            <div style="height:35px; border-bottom:1px solid #5A1E1E; margin-bottom:4px;"></div>
+            <strong style="color:#5A1E1E;">FIRMA MÁNAGER LOCAL</strong>
+          </div>
+          <div>
+            <div style="height:35px; border-bottom:1px solid #5A1E1E; margin-bottom:4px;"></div>
+            <strong style="color:#5A1E1E;">FIRMA MÁNAGER VISITANTE</strong>
+          </div>
+          <div>
+            <div style="height:35px; border-bottom:1px solid #5A1E1E; margin-bottom:4px;"></div>
+            <strong style="color:#5A1E1E;">ÁRBITRO PRINCIPAL (HP)</strong>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
+
 
   <!-- TAB 5: DASHBOARD -->
   <div id="tab-dashboard" style="display:none;">
@@ -815,6 +892,34 @@ function actualizarDireccion(d) {
   setSafeText('card-location-text', teamAddress);
 }
 
+
+
+
+// 📄 EXPORTADOR DE BOXSCORE & TARJETA OFICIAL PDF (FASE 6)
+function exportarBoxscoreTexto() {
+  const g = getActiveGame();
+  let txt = `=========================================\n`;
+  txt += `DIAMAX PRO · BOXSCORE & TARJETA OFICIAL\n`;
+  txt += `=========================================\n`;
+  txt += `PARTIDO: ${teamName} vs ${g.rival}\n`;
+  txt += `FECHA: ${g.fecha} | SEDE: ${teamAddress}\n`;
+  txt += `MARCADOR FINAL: ${teamName} ${liveState.scoreUs} - ${g.rival} ${liveState.scoreThem}\n`;
+  txt += `-----------------------------------------\n`;
+  txt += `ORD | JUGADOR                | POS | H-AB | RBI\n`;
+  txt += `-----------------------------------------\n`;
+  g.lineup.forEach((slot, idx) => {
+    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { name: 'Desconocido', num: slot.order };
+    txt += `${String(slot.order).padEnd(3)} | #${String(p.num).padEnd(2)} ${p.name.padEnd(20)} | ${slot.pos.padEnd(3)} | 1-3  | 1\n`;
+  });
+  txt += `=========================================\n`;
+  txt += `Desarrollada por 3Tree Digital Sport IA\n`;
+
+  navigator.clipboard.writeText(txt).then(() => {
+    alert("✅ Boxscore oficial copiado al portapapeles en formato texto reglamentario.");
+  }).catch(() => {
+    alert(txt);
+  });
+}
 
 
 // ☁️ MOTOR DE SINCRONIZACIÓN CLOUD REALTIME & OFFLINE-FIRST (FASE 5)
