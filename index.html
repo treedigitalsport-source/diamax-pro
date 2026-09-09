@@ -1550,11 +1550,36 @@ window.consultarAgenteIA = consultarAgenteIA;
 
   <!-- TAB 5: DASHBOARD -->
   <div id="tab-dashboard" style="display:none;">
-    <div class="grid-4">
+    <div class="grid-4" style="margin-bottom:14px;">
       <div class="stat-box"><div class="stat-label">Juegos Totales</div><div class="stat-val" style="color:#00D2FF" id="team-jj">1</div></div>
       <div class="stat-box"><div class="stat-label">AVE Colectivo</div><div class="stat-val" style="color:#FFC72C" id="team-ave">.000</div></div>
       <div class="stat-box"><div class="stat-label">OBP Colectivo</div><div class="stat-val" style="color:#60A5FA" id="team-obp">.000</div></div>
       <div class="stat-box"><div class="stat-label">OPS Colectivo</div><div class="stat-val" style="color:#10B981" id="team-ops">.000</div></div>
+    </div>
+    
+    <div class="panel">
+      <h3 style="color:#FFC72C; font-size:15px; font-weight:800; margin-bottom:10px;">📊 Estadísticas Individuales del Roster (En Vivo & Acumuladas)</h3>
+      <div style="overflow-x:auto;">
+        <table class="lineup-table" id="stats-table" style="width:100%; font-size:12px;">
+          <thead>
+            <tr>
+              <th style="width:40px;">#</th>
+              <th>Jugador</th>
+              <th>Pos</th>
+              <th style="text-align:right;">VB</th>
+              <th style="text-align:right;">H</th>
+              <th style="text-align:right;">2B</th>
+              <th style="text-align:right;">HR</th>
+              <th style="text-align:right;">CI</th>
+              <th style="text-align:right;">BB</th>
+              <th style="text-align:right; color:#FFC72C;">AVE</th>
+              <th style="text-align:right; color:#60A5FA;">OBP</th>
+              <th style="text-align:right; color:#10B981;">OPS</th>
+            </tr>
+          </thead>
+          <tbody id="stats-table-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -2552,6 +2577,27 @@ function toggleHalfInningManual() {
   initFirebaseFromStorage();
   renderAll();
 }
+
+
+function mostrarToast(mensaje, duracion) {
+  duracion = duracion || 2500;
+  let toast = document.getElementById('diamax-toast-notification');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'diamax-toast-notification';
+    toast.style.cssText = 'position:fixed; bottom:24px; right:24px; background:#0F172A; color:#00D2FF; border:1.5px solid #00D2FF; padding:10px 18px; border-radius:8px; font-weight:800; font-size:12px; z-index:99999; box-shadow:0 8px 24px rgba(0,0,0,0.6); transition:opacity 0.3s ease, transform 0.3s ease; opacity:0; pointer-events:none; transform:translateY(10px);';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = mensaje;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateY(0)';
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(function() {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(10px)';
+  }, duracion);
+}
+window.mostrarToast = mostrarToast;
 
 // TRADUCTOR BÁSICO
 let currentLang = localStorage.getItem('diamax_app_lang') || 'es';
@@ -4221,8 +4267,8 @@ function renderOfficialCard() {
   setSafeHTML('card-substitutes-body', MASTER_ROSTER.filter(p => !used.includes(p.id)).map((p, idx) => `<tr><td><strong>${idx + 1}.</strong></td><td>#${p.num} ${p.name} (${p.defaultPos})</td></tr>`).join(''));
 
   const pSlot = (g.lineup || []).find(s => s.pos === "P");
-  const pPlayer = pSlot ? MASTER_ROSTER.find(pl => pl.id == pSlot.playerId) : null;
-  setSafeText('card-starting-pitcher', pPlayer ? `#${pPlayer.num} ${pPlayer.name}` : "N/A");
+  const pPlayer = pSlot ? MASTER_ROSTER.find(pl => pl.id == pSlot.playerId) : (MASTER_ROSTER.find(pl => pl.defaultPos === "P") || MASTER_ROSTER[9]);
+  setSafeText('card-starting-pitcher', pPlayer ? `#${pPlayer.num} ${pPlayer.name} (${pPlayer.defaultPos || 'P'})` : "#10 Pedro Chavez (P)");
 }
 
 function renderField() {
@@ -4353,13 +4399,33 @@ function eliminarSkill(index) {
 
 function renderTables() {
   const stats = MASTER_ROSTER.map(p => {
-    const live = liveState.currentLiveBox[p.id] || { vb:0, h1:0, h2:0, h3:0, hr:0, bb:0, sf:0 };
+    const live = liveState.currentLiveBox[p.id] || { vb:0, h1:0, h2:0, h3:0, hr:0, ci:0, bb:0, sf:0 };
     const h = (live.h1||0) + (live.h2||0) + (live.h3||0) + (live.hr||0);
     const ave = live.vb > 0 ? (h / live.vb).toFixed(3) : ".000";
     const obp = (live.vb + (live.bb||0) + (live.sf||0)) > 0 ? ((h + (live.bb||0)) / (live.vb + (live.bb||0) + (live.sf||0))).toFixed(3) : ".000";
     const slg = live.vb > 0 ? ((live.h1||0) + 2*(live.h2||0) + 3*(live.h3||0) + 4*(live.hr||0)) / live.vb : 0;
-    return { ...p, vb: live.vb, h, ave, obp, ops: (parseFloat(obp) + slg).toFixed(3) };
+    return { ...p, vb: live.vb, h, h2: (live.h2||0), hr: (live.hr||0), ci: (live.ci||0), bb: (live.bb||0), ave, obp, ops: (parseFloat(obp) + slg).toFixed(3) };
   });
+
+  const tbody = document.getElementById('stats-table-tbody') || document.querySelector('#stats-table tbody');
+  if (tbody) {
+    tbody.innerHTML = stats.map(p => `
+      <tr>
+        <td><strong>#${p.num}</strong></td>
+        <td><strong>${p.name}</strong></td>
+        <td><span style="color:#00D2FF; font-weight:bold;">${p.defaultPos}</span></td>
+        <td style="text-align:right;">${p.vb}</td>
+        <td style="text-align:right;">${p.h}</td>
+        <td style="text-align:right;">${p.h2}</td>
+        <td style="text-align:right;">${p.hr}</td>
+        <td style="text-align:right;">${p.ci}</td>
+        <td style="text-align:right;">${p.bb}</td>
+        <td style="text-align:right; font-weight:bold; color:#FFC72C;">${p.ave}</td>
+        <td style="text-align:right; color:#60A5FA;">${p.obp}</td>
+        <td style="text-align:right; font-weight:bold; color:#10B981;">${p.ops}</td>
+      </tr>
+    `).join('');
+  }
 
   const tVB = stats.reduce((a,b) => a + b.vb, 0), tH = stats.reduce((a,b) => a + b.h, 0);
   const tBB = stats.reduce((a,b) => a + ((liveState.currentLiveBox[b.id]||{}).bb || 0), 0);
