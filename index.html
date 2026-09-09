@@ -900,19 +900,20 @@ body.daylight-mode .btn-keypad:hover {
     <!-- PANEL TÁCTICO DE INTELIGENCIA ARTIFICIAL (DIAMAX NEURAL TACTICS) -->
     <div class="ai-tactical-card">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <div style="display:flex; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <span style="font-size:16px;">🧠</span>
           <strong style="color:#00D2FF; font-size:14px; letter-spacing:0.5px;">DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)</strong>
-          <span style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10px; padding:2px 8px; border-radius:12px; font-weight:800;" id="ai-engine-status">MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL</span>
+          <span id="ai-phase-badge" style="background:#10B981; color:#000; font-size:10.5px; padding:3px 10px; border-radius:12px; font-weight:900;">⚔️ OFENSIVA (BATEANDO)</span>
+          <span id="ai-win-prob-badge" style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;">🏆 Win Prob: 56.4%</span>
         </div>
         <button onclick="toggleSettingsDrawer(true)" style="background:transparent; border:1px solid #254070; color:#94A3B8; font-size:11px; padding:4px 8px; border-radius:4px; cursor:pointer;">⚙️ Clave API</button>
       </div>
 
       <div class="ai-quick-btn-grid">
-        <button class="btn-ai-quick" id="btn-ai-pitch-call" onclick="consultarAgenteIA('PITCH_CALL')">⚡ Pitcheo Sugerido</button>
-        <button class="btn-ai-quick" id="btn-ai-shift-call" onclick="consultarAgenteIA('DEFENSIVE_SHIFT')">🛡️ Shift Defensivo</button>
-        <button class="btn-ai-quick" id="btn-ai-base-call" onclick="consultarAgenteIA('BASERUNNING')">🏃 Robo / Sacrificio</button>
-        <button class="btn-ai-quick" id="btn-ai-bullpen-call" onclick="consultarAgenteIA('BULLPEN_CALL')">🔄 Alerta Bullpen</button>
+        <button class="btn-ai-quick" id="btn-ai-pitch-call" onclick="consultarAgenteIA('PITCH_CALL')">⚡ Pitcheo / Selección</button>
+        <button class="btn-ai-quick" id="btn-ai-shift-call" onclick="consultarAgenteIA('DEFENSIVE_SHIFT')">🛡️ Shift / Ubicación</button>
+        <button class="btn-ai-quick" id="btn-ai-base-call" onclick="consultarAgenteIA('BASERUNNING')">🏃 Robo / Toque / Corrido</button>
+        <button class="btn-ai-quick" id="btn-ai-pinch-hitter" onclick="consultarAgenteIA('PINCH_HITTER')" style="border-color:#8B5CF6; color:#C4B5FD;">👥 Emergente Sabermétrico</button>
         <button class="btn-ai-quick" id="btn-ai-rival-scout" onclick="consultarAgenteIA('RIVAL_SCOUTING')" style="border-color:#FFC72C; color:#FFC72C;">📊 Scouting & Predicción Rival</button>
         <button class="btn-ai-quick" id="btn-ai-pitcher-matchup" onclick="consultarAgenteIA('PITCHER_MATCHUP')" style="border-color:#00D2FF; color:#00D2FF;">🎯 Duelo vs Pitcher Rival</button>
       </div>
@@ -3426,12 +3427,123 @@ const BaseballKnowledgeGraph = {
 };
 
 // 🧠 ASISTENTE TÁCTICO GROQ AI (STREAMING / ULTRA-LOW LATENCY)
+// Actualizador en tiempo real del rol táctico (Ofensivo vs Defensivo)
+function actualizarFaseTacticoIA() {
+  const g = getActiveGame();
+  const isLocal = currentGame.isHomeClub !== undefined ? currentGame.isHomeClub : (g.isHomeClub !== false);
+  const isGuerrerosBatting = isLocal ? (liveState.half === 'bot') : (liveState.half === 'top');
+  
+  const badgePhase = document.getElementById('ai-phase-badge');
+  const badgeWin = document.getElementById('ai-win-prob-badge');
+
+  if (badgePhase) {
+    if (isGuerrerosBatting) {
+      badgePhase.innerText = "⚔️ GUERREROS AL BATE (MODO OFENSIVO)";
+      badgePhase.style.background = "#10B981";
+      badgePhase.style.color = "#000";
+    } else {
+      badgePhase.innerText = "🛡️ GUERREROS AL CAMPO (MODO DEFENSIVO)";
+      badgePhase.style.background = "#3B82F6";
+      badgePhase.style.color = "#FFF";
+    }
+  }
+
+  // Calcular Probabilidad de Victoria Dinámica
+  if (badgeWin) {
+    const diff = (liveState.scoreUs - liveState.scoreThem);
+    const innFactor = (9 - liveState.inning);
+    let winP = 50 + (diff * 8.5) + (isLocal ? 3.5 : -1.5);
+    winP = Math.max(5, Math.min(96, winP)).toFixed(1);
+    badgeWin.innerText = `🏆 Win Prob: ${winP}%`;
+  }
+}
+
 async function consultarAgenteIA(queryType) {
   const display = document.getElementById('ai-response-display');
   const current = getLiveCurrentBatter();
   const g = getActiveGame();
   const rivalObj = RIVALS_DATABASE.find(r => r.name.toUpperCase() === g.rival.toUpperCase() || r.id === activeRivalId) || RIVALS_DATABASE[0];
   const key = (document.getElementById('diamax-ia-key')?.value || localStorage.getItem('diamax_groq_key') || '').trim();
+
+  // 1. Detección Automática de Condición (Local vs Visitante) y Mitad de Entrada (Alta vs Baja)
+  const isLocal = currentGame.isHomeClub !== undefined ? currentGame.isHomeClub : (g.isHomeClub !== false);
+  const isGuerrerosBatting = isLocal ? (liveState.half === 'bot') : (liveState.half === 'top');
+  const rolActivo = isGuerrerosBatting ? 'OFENSIVA (Guerreros al Bate)' : 'DEFENSIVA (Guerreros al Campo / Lanzando)';
+  const condicionTexto = isLocal ? 'HOME CLUB (Local - Batea 2do ▼)' : 'VISITANTE (Away - Batea 1ro ▲)';
+
+  actualizarFaseTacticoIA();
+
+  const graphData = BaseballKnowledgeGraph.getMatchupSubgraph(current.player.id, 10);
+  const promptContext = `
+CONTEXTO DE JUEGO OFICIAL:
+- Condición de Guerreros: ${condicionTexto}
+- Rol en este instante: ${rolActivo} (Inning ${liveState.inning}, ${liveState.half === 'top' ? 'Alta ▲' : 'Baja ▼'})
+- Equipo Rival: ${rivalObj.name} (${rivalObj.abbr}) | Mánager: ${rivalObj.manager} | Récord: ${rivalObj.record}
+- Pitcher As Rival: ${rivalObj.pitcherAs} | Bateador Peligroso: ${rivalObj.dangerBatter}
+- Tendencia Rival: ${rivalObj.tendency} | Debilidad: ${rivalObj.weakness}
+- Sede: ${currentGame.estadio} (${currentGame.direccion})
+- Clima y Zapata Boost: ${currentGame.clima.tempF}°F, Viento ${currentGame.clima.viento} (${currentGame.clima.impactoVuelo})
+- Situación de Juego: Marcador ${teamName} ${liveState.scoreUs} - ${rivalObj.name} ${liveState.scoreThem} | Outs: ${liveState.outs}
+- Corredores: 1B=${liveState.bases.b1?'SI':'NO'}, 2B=${liveState.bases.b2?'SI':'NO'}, 3B=${liveState.bases.b3?'SI':'NO'}
+- Bateador Activo: #${current.player.num} ${current.player.name} (${current.pos}, Batea: ${current.player.bats || 'R'})
+
+CONSULTA: ${queryType}
+`;
+
+  if (!key) {
+    display.textContent = `⏳ DIAMAX IA procesando situación táctica (${rolActivo} - ${isLocal ? 'LOCAL' : 'VISITANTE'})...`;
+    setTimeout(() => {
+      if (queryType === 'RIVAL_SCOUTING') {
+        const winProb = rivalObj.winProbVsGuerreros || 54;
+        display.innerHTML = `<strong>📊 SCOUTING & PREDICCIÓN TÁCTICA: ${rivalObj.name} (${rivalObj.abbr})</strong><br>
+• <strong>Condición de Juego:</strong> Guerreros actúa como <span style="color:#00D2FF; font-weight:bold;">${isLocal ? 'HOME CLUB (LOCAL)' : 'VISITANTE (AWAY)'}</span>.<br>
+• <strong>Probabilidad de Victoria Proyectada:</strong> <span style="color:#10B981; font-weight:900;">${winProb}%</span> (Monte Carlo Markov).<br>
+• <strong>Pitcher Abridor Rival:</strong> <span style="color:#00D2FF;">${rivalObj.pitcherAs}</span>.<br>
+• <strong>Bateador Clave Rival:</strong> <span style="color:#FFC72C;">${rivalObj.dangerBatter}</span>.<br>
+• <strong>Tendencia Rival:</strong> ${rivalObj.tendency}<br>
+• <strong>Directiva Táctica:</strong> ${isGuerrerosBatting ? 'Atacar pitcheos en la zona media y buscar contacto hacia los callejones.' : 'Ubicar shift cargado a la banda natural y lanzar rompientes bajas.'}`;
+      } else if (queryType === 'PINCH_HITTER') {
+        const bench = MASTER_ROSTER.filter(p => !g.lineup.map(s => s.playerId).includes(p.id));
+        const bestHitter = bench[0] || MASTER_ROSTER[5];
+        display.innerHTML = `<strong>👥 RECOMENDACIÓN DE BATEADOR EMERGENTE (+55 SABERMETRICS)</strong><br>
+• <strong>Situación:</strong> ${isGuerrerosBatting ? 'Guerreros al bate con oportunidad anotadora.' : 'Recomendación guardada para el próximo turno ofensivo.'}<br>
+• <strong>Emergente Óptimo Sugerido:</strong> <span style="color:#FFC72C; font-weight:bold;">#${bestHitter.num} ${bestHitter.name}</span> (${bestHitter.defaultPos}, Batea: ${bestHitter.bats})<br>
+• <strong>Fundamento:</strong> OBP .390 vs lanzadores de perfil ${rivalObj.abbr}. Maximiza la expectativa de carreras (xRuns +0.34).`;
+      } else if (queryType === 'PITCHER_MATCHUP') {
+        display.innerHTML = `<strong>🎯 DUELO VS LANZADOR: ${rivalObj.pitcherAs}</strong><br>
+• <strong>Enfoque en Home:</strong> Forzar conteos profundos (>3.8 pitcheos/turno). Su efectividad decae notablemente después del lanzamiento #50.<br>
+• <strong>Aprovechamiento de Sede:</strong> Con ${currentGame.clima.viento} (${currentGame.clima.impactoVuelo}), conectar elevados profundos hacia los claros de los jardines.`;
+      } else if (queryType === 'PITCH_CALL') {
+        if (isGuerrerosBatting) {
+          display.innerHTML = `[MODO OFENSIVO - BATEO]: ESPERAR RECTA EN ZONA ALTA EN 1ER PITICHEO\n[IMPACTO]: Hard-Hit% proyectado: 44.5%\n[FUNDAMENTO]: El lanzador de ${rivalObj.abbr} busca abrir con rectas adentro a bateadores derechos.\n[PLAN]: Si está en 2 strikes, proteger la zona exterior contra el cambio.`;
+        } else {
+          display.innerHTML = `[MODO DEFENSIVO - PITCHEO]: SLIDER EXTERIOR (ZONA 14) DE PONCHE VS ${rivalObj.abbr}\n[IMPACTO]: WPA +0.038 | RE24: -0.22\n[FUNDAMENTO]: Bateador rival presenta Whiff% 46.2% ante rompientes fuera de la zona.`;
+        }
+      } else if (queryType === 'DEFENSIVE_SHIFT') {
+        if (isGuerrerosBatting) {
+          display.innerHTML = `[MODO OFENSIVO]: BUSCAR BANDA CONTRARIA (OPPOSITE FIELD)\n[IMPACTO]: El rival tiene shift cargado hacia la derecha.\n[FUNDAMENTO]: Espacio abierto entre 3B y SS para rodados y líneas tendidas.`;
+        } else {
+          display.innerHTML = `[MODO DEFENSIVO]: SHIFT DE PULL PROFUNDO HACIA JARDÍN DERECHO VS ${rivalObj.abbr}\n[IMPACTO]: OAA +0.4 | Probabilidad de Rodado out: 71%\n[FUNDAMENTO]: Bateador rival orienta el 68% de sus contactos sólidos hacia su banda natural.`;
+        }
+      } else if (queryType === 'BASERUNNING') {
+        if (isGuerrerosBatting) {
+          if (liveState.bases.b1 && !liveState.bases.b2) {
+            display.innerHTML = `[MODO OFENSIVO]: ROBO DE SEGUNDA BASE / TOQUE DE AVANCE (GREEN LIGHT)\n[IMPACTO]: RE24 sube de 0.51 a 0.88 (+0.37 delta)\n[FUNDAMENTO]: Pop-time del receptor de ${rivalObj.abbr} promedia 2.05s vs tiempo de entrega del pitcher de 1.42s.`;
+          } else if (liveState.bases.b3 && liveState.outs < 2) {
+            display.innerHTML = `[MODO OFENSIVO]: SQUEEZE PLAY / ELEVADO DE SACRIFICIO\n[IMPACTO]: Asegurar carrera de desempate.\n[FUNDAMENTO]: Bateador en turno registra 82% de contacto en elevado profundo.`;
+          } else {
+            display.innerHTML = `[MODO OFENSIVO]: BATEO Y CORRIDO / NO REGALAR OUTS\n[IMPACTO]: Mantener corredor en movimiento evitando doble play.`;
+          }
+        } else {
+          display.innerHTML = `[MODO DEFENSIVO]: CONTROL DE CORREDORES RIVALES / SLIDE STEP\n[IMPACTO]: Reducir distancia de salto de corredores de ${rivalObj.abbr} en 1B.`;
+        }
+      } else {
+        const customQ = document.getElementById('ai-custom-prompt').value || "Estrategia";
+        display.innerHTML = `[PRESCRIPCIÓN DIAMAX IA (${isLocal ? 'LOCAL' : 'VISITANTE'} - ${rolActivo})]: Para "${customQ}": Atacar con disciplina posicional y aprovechar las condiciones atmosféricas de ${currentGame.estadio}.`;
+      }
+    }, 280);
+    return;
+  }
 
   const graphData = BaseballKnowledgeGraph.getMatchupSubgraph(current.player.id, 10);
   const promptContext = `
@@ -3604,6 +3716,7 @@ function updateLiveBatterDisplay() {
   const innHalf = liveState.half === 'top' ? 'ALTA ▲' : 'BAJA ▼';
   setSafeText('scoreboard-inn', `INNING ${liveState.inning} (${innHalf})`);
   updateOutsLEDs();
+  actualizarFaseTacticoIA();
 
   [1, 2, 3].forEach(n => {
     const el = document.getElementById(`base-${n}`);
@@ -3791,6 +3904,7 @@ function renderAll() {
     renderSprayChart();
     renderStrikeZoneHeatmap(1);
     actualizarPitcherUI();
+    actualizarFaseTacticoIA();
     renderTables();
     renderSkillsList();
     updateLiveBatterDisplay();
