@@ -10,7 +10,7 @@
 
 ## 📋 1. INTRODUCCIÓN Y OBJETIVOS OPERATIVOS
 
-**DIAMAX Pro** es la suite tecnológica oficial de anotación en vivo, análisis sabermétrico y prescripción táctica con Inteligencia Artificial (Groq LPU / Llama-3.3-70B) diseñada específicamente para la categoría **Senior Master (+55)** y la alta competencia.
+**DIAMAX Pro** es la suite tecnológica oficial de anotación en vivo, análisis sabermétrico y prescripción táctica con Inteligencia Artificial (DIAMAX Tactical AI Engine™) diseñada específicamente para la categoría **Senior Master (+55)** y la alta competencia.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -107,7 +107,7 @@ Para preservar la salud de los brazos en la categoría Senior Master +55, DIAMAX
 
 ## 🧠 6. DIAMAX TACTICAL AI (PRESCRIPCIÓN SABERMÉTRICA EN TIEMPO REAL)
 
-El motor de IA con tecnología Groq LPU responde en **menos de 1.5 segundos**:
+El motor de IA con tecnología DIAMAX Tactical Engine™ responde en **menos de 1.5 segundos**:
 
 * **Botones de Consulta Rápida en Dugout:**
   * `¿Tocar la bola o Batear libre?`

@@ -104,7 +104,7 @@ body { background:#070D1A; color:#EAEEF5; padding:12px; min-height:100vh; }
   text-align:center; margin-bottom:14px; box-shadow:0 0 14px rgba(0,210,255,0.15);
 }
 
-/* Panel Táctico de IA (Groq Streaming) */
+/* Panel Táctico de IA DIAMAX Pro */
 .ai-tactical-card {
   background:linear-gradient(135deg, #0F1D38 0%, #0A1426 100%);
   border:2px solid #00D2FF; border-radius:12px; padding:16px; margin-bottom:14px;
@@ -768,7 +768,7 @@ body.daylight-mode .btn-keypad:hover {
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
 
-      <button onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Groq API">⚙️ Configuración</button>
+      <button onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA">⚙️ Configuración</button>
     </div>
   </div>
 
@@ -788,7 +788,7 @@ body.daylight-mode .btn-keypad:hover {
     <button class="active" onclick="switchTab('envivo')" id="nav-live"> 1. Anotador Dugout</button>
     <button onclick="switchTab('lineup')" id="nav-lineup"> 2. Lineup Builder</button>
     <button onclick="switchTab('campo')" id="nav-field"> 3. Campo 2D</button>
-        <button onclick="switchTab('manual')" id="btn-tab-manual">📖 Manual de Uso</button>
+        <button onclick="switchTab('manual')" id="nav-manual" class="nav-manual-btn">📖 Manual de Uso</button>
     <button onclick="switchTab('tarjeta-oficial')" id="nav-card"> 4. Tarjeta Oficial</button>
     <button onclick="switchTab('dashboard')" id="nav-dash"> 5. Dashboard</button>
     <button onclick="switchTab('skills')" id="nav-skills"> 6. Agente & Skills</button>
@@ -817,27 +817,27 @@ body.daylight-mode .btn-keypad:hover {
       Anotador listo. Registra el turno al bate con los controles de alto impacto.
     </div>
 
-    <!-- PANEL TÁCTICO DE INTELIGENCIA ARTIFICIAL (GROQ LPU / SABERMETRICS) -->
+    <!-- PANEL TÁCTICO DE INTELIGENCIA ARTIFICIAL (DIAMAX NEURAL TACTICS) -->
     <div class="ai-tactical-card">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-size:16px;">🧠</span>
-          <strong style="color:#00D2FF; font-size:14px; letter-spacing:0.5px;">DIAMAX TACTICAL AI (Groq LPU Engine)</strong>
-          <span style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10px; padding:2px 8px; border-radius:12px; font-weight:800;" id="ai-engine-status">MODELO: LLAMA-3.3-70B · LATENCIA &lt; 1.5s</span>
+          <strong style="color:#00D2FF; font-size:14px; letter-spacing:0.5px;">DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)</strong>
+          <span style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10px; padding:2px 8px; border-radius:12px; font-weight:800;" id="ai-engine-status">MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL</span>
         </div>
         <button onclick="toggleSettingsDrawer(true)" style="background:transparent; border:1px solid #254070; color:#94A3B8; font-size:11px; padding:4px 8px; border-radius:4px; cursor:pointer;">⚙️ Clave API</button>
       </div>
 
       <div class="ai-quick-btn-grid">
-        <button class="btn-ai-quick" onclick="consultarAgenteGroq('PITCH_CALL')">⚡ Pitcheo Sugerido</button>
-        <button class="btn-ai-quick" onclick="consultarAgenteGroq('DEFENSIVE_SHIFT')">🛡️ Shift Defensivo</button>
-        <button class="btn-ai-quick" onclick="consultarAgenteGroq('BASERUNNING')">🏃 Robo / Sacrificio</button>
-        <button class="btn-ai-quick" onclick="consultarAgenteGroq('BULLPEN_CALL')">🔄 Alerta Bullpen</button>
+        <button class="btn-ai-quick" onclick="consultarAgenteIA('PITCH_CALL')">⚡ Pitcheo Sugerido</button>
+        <button class="btn-ai-quick" onclick="consultarAgenteIA('DEFENSIVE_SHIFT')">🛡️ Shift Defensivo</button>
+        <button class="btn-ai-quick" onclick="consultarAgenteIA('BASERUNNING')">🏃 Robo / Sacrificio</button>
+        <button class="btn-ai-quick" onclick="consultarAgenteIA('BULLPEN_CALL')">🔄 Alerta Bullpen</button>
       </div>
 
       <div style="display:flex; gap:8px; margin-bottom:8px;">
-        <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico (ej: ¿Cómo atacamos el conteo 3-2?)..." style="flex:1; background:#060C18; border:1px solid #1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-size:12px;" onkeydown="if(event.key==='Enter') consultarAgenteGroq('CUSTOM')">
-        <button onclick="consultarAgenteGroq('CUSTOM')" style="background:#00D2FF; color:#000; border:none; padding:8px 14px; border-radius:6px; font-weight:900; font-size:12px; cursor:pointer;">Consultar</button>
+        <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico (ej: ¿Cómo atacamos el conteo 3-2?)..." style="flex:1; background:#060C18; border:1px solid #1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-size:12px;" onkeydown="if(event.key==='Enter') consultarAgenteIA('CUSTOM')">
+        <button onclick="consultarAgenteIA('CUSTOM')" style="background:#00D2FF; color:#000; border:none; padding:8px 14px; border-radius:6px; font-weight:900; font-size:12px; cursor:pointer;">Consultar</button>
       </div>
 
       <div class="ai-response-box" id="ai-response-display">
@@ -1327,7 +1327,7 @@ body.daylight-mode .btn-keypad:hover {
       <!-- SECCIÓN 4: ASISTENTE TÁCTICO IA & SABERMETRÍA -->
       <div style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:16px;">
         <h3 style="color:#FFC72C; font-size:15px; font-weight:900; margin-bottom:10px;">
-          🧠 INTELIGENCIA ARTIFICIAL SABERMÉTRICA (GROQ LPU)
+          🧠 INTELIGENCIA ARTIFICIAL SABERMÉTRICA (DIAMAX ENGINE)
         </h3>
         <p style="font-size:12.5px; color:#EAEEF5; line-height:1.6;">
           DIAMAX Pro procesa en <strong>menos de 1.5 segundos</strong> recomendaciones sobre:
@@ -1508,7 +1508,7 @@ body.daylight-mode .btn-keypad:hover {
     </div>
 
     <div>
-      <label style="font-size:12px; color:#94A3B8; font-weight:700; display:block; margin-bottom:6px;">Clave de API Groq (Ultra-Low Latency):</label>
+      <label style="font-size:12px; color:#94A3B8; font-weight:700; display:block; margin-bottom:6px;">Clave de Acceso Motor IA (3Tree Security):</label>
       <input type="password" id="groq-api-key" placeholder="gsk_..." style="width:100%; padding:10px; background:#070D1A; border:1px solid #1E293B; color:#00D2FF; border-radius:6px; font-size:12px;" onchange="saveGroqKey()">
       <div style="font-size:10.5px; color:#64748B; margin-top:4px;">Habilita recomendaciones en tiempo real en &lt; 1.5s con Llama-3.3-70B.</div>
     </div>
@@ -3133,7 +3133,7 @@ const BaseballKnowledgeGraph = {
 };
 
 // 🧠 ASISTENTE TÁCTICO GROQ AI (STREAMING / ULTRA-LOW LATENCY)
-async function consultarAgenteGroq(queryType) {
+async function consultarAgenteIA(queryType) {
   const display = document.getElementById('ai-response-display');
   const current = getLiveCurrentBatter();
   const g = getActiveGame();
@@ -3389,16 +3389,17 @@ function switchTab(tabId) {
   const map = {
     'envivo':'live',
     'lineup':'lineup',
+    'manual':'manual',
     'tarjeta-oficial':'card',
     'campo':'field',
     'perfil':'profile',
     'dashboard':'dash',
     'skills':'skills'
   };
-  const btn = document.getElementById(`nav-${map[tabId]}`);
+  const btn = document.getElementById(`nav-${map[tabId]}`) || document.getElementById('btn-tab-manual');
   if (btn) btn.classList.add('active');
 
-  ['envivo', 'lineup', 'tarjeta-oficial', 'campo', 'perfil', 'dashboard', 'skills'].forEach(t => {
+  ['envivo', 'lineup', 'manual', 'tarjeta-oficial', 'campo', 'perfil', 'dashboard', 'skills'].forEach(t => {
     const el = document.getElementById(`tab-${t}`);
     if (el) el.style.display = t === tabId ? 'block' : 'none';
   });
