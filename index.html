@@ -825,8 +825,30 @@ body.daylight-mode .btn-keypad:hover {
 
 
   <!-- Firebase App & Firestore CDN (Fase Base de Datos) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
+// Global Window bindings
+window.switchTab = switchTab;
+window.RIVALS_DATABASE = RIVALS_DATABASE;
+window.poblarSelectoresRivales = poblarSelectoresRivales;
+window.seleccionarRivalDeLista = seleccionarRivalDeLista;
+window.toggleFormularioNuevoRival = toggleFormularioNuevoRival;
+window.guardarNuevoRivalEnDB = guardarNuevoRivalEnDB;
+window.actualizarFaseTacticoIA = actualizarFaseTacticoIA;
+window.consultarAgenteIA = consultarAgenteIA;
+
+</script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js">
+// Global Window bindings
+window.switchTab = switchTab;
+window.RIVALS_DATABASE = RIVALS_DATABASE;
+window.poblarSelectoresRivales = poblarSelectoresRivales;
+window.seleccionarRivalDeLista = seleccionarRivalDeLista;
+window.toggleFormularioNuevoRival = toggleFormularioNuevoRival;
+window.guardarNuevoRivalEnDB = guardarNuevoRivalEnDB;
+window.actualizarFaseTacticoIA = actualizarFaseTacticoIA;
+window.consultarAgenteIA = consultarAgenteIA;
+
+</script>
 
 </head>
 <body>
@@ -3484,7 +3506,7 @@ CONTEXTO DE JUEGO OFICIAL:
 - Sede: ${currentGame.estadio} (${currentGame.direccion})
 - Clima y Zapata Boost: ${currentGame.clima.tempF}°F, Viento ${currentGame.clima.viento} (${currentGame.clima.impactoVuelo})
 - Situación de Juego: Marcador ${teamName} ${liveState.scoreUs} - ${rivalObj.name} ${liveState.scoreThem} | Outs: ${liveState.outs}
-- Corredores: 1B=${liveState.bases.b1?'SI':'NO'}, 2B=${liveState.bases.b2?'SI':'NO'}, 3B=${liveState.bases.b3?'SI':'NO'}
+- Corredores: 1B=${liveState.bases.b1 ? 'SI' : 'NO'}, 2B=${liveState.bases.b2 ? 'SI' : 'NO'}, 3B=${liveState.bases.b3 ? 'SI' : 'NO'}
 - Bateador Activo: #${current.player.num} ${current.player.name} (${current.pos}, Batea: ${current.player.bats || 'R'})
 
 CONSULTA: ${queryType}
@@ -3515,89 +3537,52 @@ CONSULTA: ${queryType}
 • <strong>Aprovechamiento de Sede:</strong> Con ${currentGame.clima.viento} (${currentGame.clima.impactoVuelo}), conectar elevados profundos hacia los claros de los jardines.`;
       } else if (queryType === 'PITCH_CALL') {
         if (isGuerrerosBatting) {
-          display.innerHTML = `[MODO OFENSIVO - BATEO]: ESPERAR RECTA EN ZONA ALTA EN 1ER PITICHEO\n[IMPACTO]: Hard-Hit% proyectado: 44.5%\n[FUNDAMENTO]: El lanzador de ${rivalObj.abbr} busca abrir con rectas adentro a bateadores derechos.\n[PLAN]: Si está en 2 strikes, proteger la zona exterior contra el cambio.`;
+          display.innerHTML = `[MODO OFENSIVO - BATEO]: ESPERAR RECTA EN ZONA ALTA EN 1ER PITICHEO
+[IMPACTO]: Hard-Hit% proyectado: 44.5%
+[FUNDAMENTO]: El lanzador de ${rivalObj.abbr} busca abrir con rectas adentro a bateadores derechos.
+[PLAN]: Si está en 2 strikes, proteger la zona exterior contra el cambio.`;
         } else {
-          display.innerHTML = `[MODO DEFENSIVO - PITCHEO]: SLIDER EXTERIOR (ZONA 14) DE PONCHE VS ${rivalObj.abbr}\n[IMPACTO]: WPA +0.038 | RE24: -0.22\n[FUNDAMENTO]: Bateador rival presenta Whiff% 46.2% ante rompientes fuera de la zona.`;
+          display.innerHTML = `[MODO DEFENSIVO - PITCHEO]: SLIDER EXTERIOR (ZONA 14) DE PONCHE VS ${rivalObj.abbr}
+[IMPACTO]: WPA +0.038 | RE24: -0.22
+[FUNDAMENTO]: Bateador rival presenta Whiff% 46.2% ante rompientes fuera de la zona.`;
         }
       } else if (queryType === 'DEFENSIVE_SHIFT') {
         if (isGuerrerosBatting) {
-          display.innerHTML = `[MODO OFENSIVO]: BUSCAR BANDA CONTRARIA (OPPOSITE FIELD)\n[IMPACTO]: El rival tiene shift cargado hacia la derecha.\n[FUNDAMENTO]: Espacio abierto entre 3B y SS para rodados y líneas tendidas.`;
+          display.innerHTML = `[MODO OFENSIVO]: BUSCAR BANDA CONTRARIA (OPPOSITE FIELD)
+[IMPACTO]: El rival tiene shift cargado hacia la derecha.
+[FUNDAMENTO]: Espacio abierto entre 3B y SS para rodados y líneas tendidas.`;
         } else {
-          display.innerHTML = `[MODO DEFENSIVO]: SHIFT DE PULL PROFUNDO HACIA JARDÍN DERECHO VS ${rivalObj.abbr}\n[IMPACTO]: OAA +0.4 | Probabilidad de Rodado out: 71%\n[FUNDAMENTO]: Bateador rival orienta el 68% de sus contactos sólidos hacia su banda natural.`;
+          display.innerHTML = `[MODO DEFENSIVO]: SHIFT DE PULL PROFUNDO HACIA JARDÍN DERECHO VS ${rivalObj.abbr}
+[IMPACTO]: OAA +0.4 | Probabilidad de Rodado out: 71%
+[FUNDAMENTO]: Bateador rival orienta el 68% de sus contactos sólidos hacia su banda natural.`;
         }
       } else if (queryType === 'BASERUNNING') {
         if (isGuerrerosBatting) {
           if (liveState.bases.b1 && !liveState.bases.b2) {
-            display.innerHTML = `[MODO OFENSIVO]: ROBO DE SEGUNDA BASE / TOQUE DE AVANCE (GREEN LIGHT)\n[IMPACTO]: RE24 sube de 0.51 a 0.88 (+0.37 delta)\n[FUNDAMENTO]: Pop-time del receptor de ${rivalObj.abbr} promedia 2.05s vs tiempo de entrega del pitcher de 1.42s.`;
+            display.innerHTML = `[MODO OFENSIVO]: ROBO DE SEGUNDA BASE / TOQUE DE AVANCE (GREEN LIGHT)
+[IMPACTO]: RE24 sube de 0.51 a 0.88 (+0.37 delta)
+[FUNDAMENTO]: Pop-time del receptor de ${rivalObj.abbr} promedia 2.05s vs tiempo de entrega del pitcher de 1.42s.`;
           } else if (liveState.bases.b3 && liveState.outs < 2) {
-            display.innerHTML = `[MODO OFENSIVO]: SQUEEZE PLAY / ELEVADO DE SACRIFICIO\n[IMPACTO]: Asegurar carrera de desempate.\n[FUNDAMENTO]: Bateador en turno registra 82% de contacto en elevado profundo.`;
+            display.innerHTML = `[MODO OFENSIVO]: SQUEEZE PLAY / ELEVADO DE SACRIFICIO
+[IMPACTO]: Asegurar carrera de desempate.
+[FUNDAMENTO]: Bateador en turno registra 82% de contacto en elevado profundo.`;
           } else {
-            display.innerHTML = `[MODO OFENSIVO]: BATEO Y CORRIDO / NO REGALAR OUTS\n[IMPACTO]: Mantener corredor en movimiento evitando doble play.`;
+            display.innerHTML = `[MODO OFENSIVO]: BATEO Y CORRIDO / NO REGALAR OUTS
+[IMPACTO]: Mantener corredor en movimiento evitando doble play.`;
           }
         } else {
-          display.innerHTML = `[MODO DEFENSIVO]: CONTROL DE CORREDORES RIVALES / SLIDE STEP\n[IMPACTO]: Reducir distancia de salto de corredores de ${rivalObj.abbr} en 1B.`;
+          display.innerHTML = `[MODO DEFENSIVO]: CONTROL DE CORREDORES RIVALES / SLIDE STEP
+[IMPACTO]: Reducir distancia de salto de corredores de ${rivalObj.abbr} en 1B.`;
         }
+      } else if (queryType === 'BULLPEN_CALL') {
+        display.innerHTML = `[DECISIÓN]: MANTENER AL LANZADOR ABRIDOR (COUNT < 75 PITCHES +55)
+[IMPACTO]: FIP proyectado se mantiene en 3.18 vs lineup de ${rivalObj.abbr}
+[FUNDAMENTO]: Aún no se alcanza la penalidad de tercera vuelta al orden (Times Through Order Penalty).`;
       } else {
         const customQ = document.getElementById('ai-custom-prompt').value || "Estrategia";
         display.innerHTML = `[PRESCRIPCIÓN DIAMAX IA (${isLocal ? 'LOCAL' : 'VISITANTE'} - ${rolActivo})]: Para "${customQ}": Atacar con disciplina posicional y aprovechar las condiciones atmosféricas de ${currentGame.estadio}.`;
       }
     }, 280);
-    return;
-  }
-
-  const graphData = BaseballKnowledgeGraph.getMatchupSubgraph(current.player.id, 10);
-  const promptContext = `
-CONTEXTO DE JUEGO OFICIAL:
-- Equipo Propio: ${teamName} (Condición: ${currentGame.condicion})
-- Equipo Rival: ${rivalObj.name} (${rivalObj.abbr}) | Mánager: ${rivalObj.manager} | Récord: ${rivalObj.record}
-- Pitcher As Rival: ${rivalObj.pitcherAs}
-- Bateador Peligroso Rival: ${rivalObj.dangerBatter}
-- Tendencia y Debilidad Rival: ${rivalObj.tendency} | ${rivalObj.weakness}
-- Sede: ${currentGame.estadio} (${currentGame.direccion})
-- Clima y Zapata Aerodinámica: ${currentGame.clima.tempF}°F, Viento ${currentGame.clima.viento}, Impulso: ${currentGame.clima.impactoVuelo}
-- Inning: ${liveState.inning} (${liveState.half === 'top' ? 'Alta' : 'Baja'}) | Outs: ${liveState.outs}
-- Marcador: ${teamName} ${liveState.scoreUs} vs ${rivalObj.name} ${liveState.scoreThem}
-- Corredores en base: 1B=${liveState.bases.b1 ? 'OCUPADA' : 'LIBRE'}, 2B=${liveState.bases.b2 ? 'OCUPADA' : 'LIBRE'}, 3B=${liveState.bases.b3 ? 'OCUPADA' : 'LIBRE'}
-- Bateador al bate: #${current.player.num} ${current.player.name} (${current.pos}, Batea: ${current.player.bats || 'R'})
-
-CONSULTA REQUERIDA: ${queryType}
-`;
-
-  if (!key) {
-    // Motor Heurístico Sabermétrico Local Determinista con Lectura de Datos del Rival
-    display.textContent = `⏳ Analizando datos de ${rivalObj.name} con el motor sabermétrico local DIAMAX...`;
-    setTimeout(() => {
-      if (queryType === 'RIVAL_SCOUTING') {
-        const winProb = rivalObj.winProbVsGuerreros || 54;
-        display.innerHTML = `<strong>📊 SCOUTING REPORT & PREDICCIÓN IA: ${rivalObj.name} (${rivalObj.abbr})</strong><br>
-• <strong>Probabilidad de Victoria Guerreros:</strong> <span style="color:#10B981; font-weight:900;">${winProb}%</span> (Simulación Monte Carlo Markov 10,000 iteraciones)<br>
-• <strong>Pitcher Abridor Rival:</strong> <span style="color:#00D2FF;">${rivalObj.pitcherAs}</span><br>
-• <strong>Bateador Clave a Neutralizar:</strong> <span style="color:#FFC72C;">${rivalObj.dangerBatter}</span><br>
-• <strong>Tendencia Táctica:</strong> ${rivalObj.tendency}<br>
-• <strong>Punto Débil a Explotar:</strong> ${rivalObj.weakness}<br>
-• <strong>Prescripción Táctica:</strong> En ${currentGame.estadio} con ${currentGame.clima.viento}, forzar rodados por el cuadro y atacar a su 4to bate con pitcheos quebrados exteriores.`;
-      } else if (queryType === 'PITCHER_MATCHUP') {
-        display.innerHTML = `<strong>🎯 DUELO VS LANZADOR: ${rivalObj.pitcherAs}</strong><br>
-• <strong>Estrategia de Enfoque en Home:</strong> Forzar conteos profundos (>3.8 pitcheos/turno). Su efectividad decae un 34% a partir del pitcheo #55.<br>
-• <strong>Zona de Ataque para ${current.player.name}:</strong> Atacar el primer pitcheo si es recta en la zona media-alta; dejar pasar rompientes en la tierra.<br>
-• <strong>Impacto del Viento (${currentGame.clima.viento}):</strong> Aprovechar el impulso aerodinámico (+${currentGame.clima.impactoVuelo}) para conectar líneas dirigidas a los callejones.`;
-      } else if (queryType === 'PITCH_CALL') {
-        display.innerHTML = `[DECISIÓN]: SLIDER EXTERIOR (ZONA 14) - PITCH DE PONCHE CONTRA ${rivalObj.abbr}\n[IMPACTO]: WPA +0.038 | RE24: -0.22\n[FUNDAMENTO]: Bateador presenta Whiff% 46.2% vs lanzamientos quebrados fuera de zona.\n[CONTINGENCIA]: Si desiste del swing, 4-Seam alta fuera de zona (Waste pitch arriba-afuera).`;
-      } else if (queryType === 'DEFENSIVE_SHIFT') {
-        display.innerHTML = `[DECISIÓN]: SHIFT DE PULL PROFUNDO HACIA JARDÍN DERECHO VS ${rivalObj.abbr}\n[IMPACTO]: OAA +0.4 | Probabilidad de Rodado out: 71%\n[FUNDAMENTO]: Bateador rival batea con ángulo de salida horizontal orientado 68% hacia su banda natural.\n[CONTINGENCIA]: Cubrir la línea de 3B con el antesalista en posición semi-abierta.`;
-      } else if (queryType === 'BASERUNNING') {
-        if (liveState.bases.b1 && !liveState.bases.b2) {
-          display.innerHTML = `[DECISIÓN]: ROBO DE SEGUNDA BASE EN PRIMER PITICHEO (GREEN LIGHT)\n[IMPACTO]: RE24 sube de 0.51 a 0.88 (+0.37 delta)\n[FUNDAMENTO]: Pop-time del receptor de ${rivalObj.abbr} promedia 2.05s vs tiempo de entrega del pitcher de 1.42s.`;
-        } else {
-          display.innerHTML = `[DECISIÓN]: BATEO LIBRE / NO FORZAR ROBO VS ${rivalObj.abbr}\n[IMPACTO]: Conservar expectativa de carreras sin regalar outs.\n[FUNDAMENTO]: Conteo y configuración de bases desfavorables para intento de avance forzado.`;
-        }
-      } else if (queryType === 'BULLPEN_CALL') {
-        display.innerHTML = `[DECISIÓN]: MANTENER AL LANZADOR ABRIDOR (COUNT < 75 PITCHES +55)\n[IMPACTO]: FIP proyectado se mantiene en 3.18 vs lineup de ${rivalObj.abbr}\n[FUNDAMENTO]: Aún no se alcanza la penalidad de tercera vuelta al orden (Times Through Order Penalty).`;
-      } else {
-        const customQ = document.getElementById('ai-custom-prompt').value || "Estrategia contra rival";
-        display.innerHTML = `[RESPUESTA TÁCTICA VS ${rivalObj.abbr}]: Para "${customQ}": Atacar zona periférica alta con rectas de 4 costuras para inducir elevados dominados aprovechando el viento de la sede.`;
-      }
-    }, 300);
     return;
   }
 
@@ -3905,6 +3890,7 @@ function renderAll() {
     renderStrikeZoneHeatmap(1);
     actualizarPitcherUI();
     actualizarFaseTacticoIA();
+    if (typeof poblarSelectoresRivales === "function") poblarSelectoresRivales();
     renderTables();
     renderSkillsList();
     updateLiveBatterDisplay();
@@ -4391,6 +4377,17 @@ setTimeout(() => {
   actualizarGameHeaderUI();
   sincronizarTarjetaOficialHeader();
 }, 600);
+
+
+// Global Window bindings
+window.switchTab = switchTab;
+window.RIVALS_DATABASE = RIVALS_DATABASE;
+window.poblarSelectoresRivales = poblarSelectoresRivales;
+window.seleccionarRivalDeLista = seleccionarRivalDeLista;
+window.toggleFormularioNuevoRival = toggleFormularioNuevoRival;
+window.guardarNuevoRivalEnDB = guardarNuevoRivalEnDB;
+window.actualizarFaseTacticoIA = actualizarFaseTacticoIA;
+window.consultarAgenteIA = consultarAgenteIA;
 
 </script>
 
