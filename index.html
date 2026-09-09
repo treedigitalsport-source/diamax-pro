@@ -928,6 +928,7 @@ window.consultarAgenteIA = consultarAgenteIA;
           <span id="ai-phase-badge" style="background:#10B981; color:#000; font-size:10.5px; padding:3px 10px; border-radius:12px; font-weight:900;">⚔️ OFENSIVA (BATEANDO)</span>
           <span id="ai-win-prob-badge" style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;">🏆 Win Prob: 56.4%</span>
           <span id="rag-status-badge" style="background:rgba(139,92,246,0.2); color:#C4B5FD; border:1px solid rgba(139,92,246,0.4); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;">📚 RAG Vectorial: Activo (16 Docs)</span>
+          <span id="memory-status-badge" style="background:rgba(16,185,129,0.15); color:#6EE7B7; border:1px solid rgba(16,185,129,0.3); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;">🧠 Memoria: Activa</span>
         </div>
         <button onclick="toggleSettingsDrawer(true)" style="background:transparent; border:1px solid #254070; color:#94A3B8; font-size:11px; padding:4px 8px; border-radius:4px; cursor:pointer;">⚙️ Clave API</button>
       </div>
@@ -3665,6 +3666,76 @@ const DIAMAX_RAG_ENGINE = {
 };
 
 
+// =========================================================================
+// 🧠 DIAMAX TACTICAL MEMORY™ — MEMORIA EPISÓDICA Y CONVERSACIONAL DE DUGOUT
+// =========================================================================
+
+const DIAMAX_TACTICAL_MEMORY = {
+  history: [],
+  maxEntries: 15,
+
+  init: function() {
+    try {
+      const saved = localStorage.getItem('diamax_tactical_memory_v1');
+      if (saved) this.history = JSON.parse(saved);
+    } catch(e) {
+      this.history = [];
+    }
+  },
+
+  addEntry: function(entry) {
+    const record = {
+      id: "MEM-" + Date.now(),
+      timestamp: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      query: entry.query,
+      responseSummary: (entry.response || '').replace(/<[^>]+>/g, '').substring(0, 160) + '...',
+      inning: entry.inning,
+      half: entry.half,
+      scoreUs: entry.scoreUs,
+      scoreThem: entry.scoreThem,
+      batter: entry.batter,
+      rival: entry.rival
+    };
+
+    this.history.unshift(record);
+    if (this.history.length > this.maxEntries) {
+      this.history = this.history.slice(0, this.maxEntries);
+    }
+
+    try {
+      localStorage.setItem('diamax_tactical_memory_v1', JSON.stringify(this.history));
+    } catch(e) {}
+    this.updateUIBadge();
+  },
+
+  getLastEntry: function() {
+    return this.history.length > 0 ? this.history[0] : null;
+  },
+
+  getRecentContextText: function() {
+    if (this.history.length === 0) return "Sin interacciones previas en este juego.";
+    return this.history.slice(0, 4).map(function(h, idx) {
+      return (idx + 1) + ". [Inn " + h.inning + " " + (h.half === 'top' ? '▲' : '▼') + " | vs " + h.rival + " | Bateador: " + h.batter + "]:\n   - Pregunta: \"" + h.query + "\"\n   - Decisión IA: \"" + h.responseSummary + "\"";
+    }).join("\n\n");
+  },
+
+  updateUIBadge: function() {
+    const badge = document.getElementById('memory-status-badge');
+    if (badge) {
+      badge.textContent = '🧠 Memoria: ' + this.history.length + ' Decisiones';
+    }
+  },
+
+  clearMemory: function() {
+    this.history = [];
+    try { localStorage.removeItem('diamax_tactical_memory_v1'); } catch(e) {}
+    this.updateUIBadge();
+  }
+};
+
+DIAMAX_TACTICAL_MEMORY.init();
+
+
 function generarRespuestaTacticoNativo(query, ctx) {
   const q = (query || '').toLowerCase().trim();
   const c = ctx || {};
@@ -3699,31 +3770,49 @@ function generarRespuestaTacticoNativo(query, ctx) {
       return '<span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px; margin-right:4px;">[' + item.doc.id + ': ' + item.doc.titulo + ' (' + item.confidencePct + '% match)]</span>';
     }).join(' ') + '</div>';
 
-  // 0. SALUDOS, CORTESÍA & CONVERSACIÓN SOCIAL
+  // 0. CONSULTAS A LA MEMORIA CONVERSACIONAL Y EPISÓDICA
+  if (q.includes('acuerdas') || q.includes('te acuerdas') || q.includes('recuerdas') || q.includes('que me dijiste') || q.includes('qué me dijiste') || q.includes('que recomendaste') || q.includes('historial') || q.includes('memoria') || q.includes('anterior')) {
+    const last = DIAMAX_TACTICAL_MEMORY.getLastEntry();
+    if (last) {
+      return '<strong>🧠 [MEMORIA EPISÓDICA DUGOUT: RECORDATORIO DE DECISIÓN]</strong><br>' +
+        '• <strong>Última Consulta Recordada:</strong> "' + last.query + '" (' + last.timestamp + ')<br>' +
+        '• <strong>Contexto:</strong> Inning ' + last.inning + ' (' + (last.half === 'top' ? 'Alta ▲' : 'Baja ▼') + ') vs ' + last.rival + ' | Bateador: ' + last.batter + '<br>' +
+        '• <strong>Directiva Dada:</strong> ' + last.responseSummary + '<br>' +
+        '• <strong>Total de Decisiones en Memoria:</strong> ' + DIAMAX_TACTICAL_MEMORY.history.length + ' interacciones persistidas en este partido.' +
+        ragCitation;
+    } else {
+      return '<strong>🧠 [MEMORIA DE DUGOUT: LISTA]</strong><br>' +
+        'Aún no hay decisiones previas registradas en este partido. Cualquier sugerencia o consulta táctica que hagamos quedará memorizada automáticamente durante el juego.' +
+        ragCitation;
+    }
+  }
+
+  // 0.1 SALUDOS, CORTESÍA & CONVERSACIÓN SOCIAL
   if (q === 'hola' || q.startsWith('hola ') || q.includes('como estas') || q.includes('cómo estás') || q.includes('que tal') || q.includes('qué tal') || q.includes('buenos dias') || q.includes('buenos días') || q.includes('buenas tardes') || q.includes('buenas noches') || q.includes('saludos') || q.includes('hey')) {
     return '<strong>👋 ¡Hola, Mánager! Todo excelente y 100% activo en el dugout.</strong><br>' +
-      '• <strong>Estado del Sistema:</strong> Motor Sabermétrico DIAMAX con <strong>RAG Vectorial Activo (16 Documentos Indexados)</strong> para <strong>' + tName + '</strong>.<br>' +
+      '• <strong>Estado del Sistema:</strong> Motor Sabermétrico DIAMAX con <strong>RAG Vectorial & Memoria Continua</strong> para <strong>' + tName + '</strong>.<br>' +
       '• <strong>Partido en Curso:</strong> Inning ' + inn + ' (' + halfText + ') vs <strong>' + rivalObj.name + '</strong> (' + rivalObj.abbr + ').<br>' +
       '• <strong>Rol Actual:</strong> <span style="color:#00D2FF; font-weight:bold;">' + (isLocal ? 'HOME CLUB (LOCAL)' : 'VISITANTE (AWAY)') + '</span> — <strong>' + rolActivo + '</strong>.<br>' +
       '• <strong>¿En qué te puedo asesorar?</strong> Pregúntame sobre conteos (ej: <em>3-2</em>, <em>0-2</em>), qué lanzamiento usar, cuándo robar o tocar, sugerencias de bateador emergente, o el scouting del rival.' +
       ragCitation;
   }
 
-  // 0.1 IDENTIDAD, PRESENTACIÓN, AYUDA & CAPACIDADES
+  // 0.2 IDENTIDAD, PRESENTACIÓN, AYUDA & CAPACIDADES
   if (q.includes('quien eres') || q.includes('quién eres') || q.includes('que eres') || q.includes('qué eres') || q.includes('que haces') || q.includes('qué haces') || q.includes('que puedes hacer') || q.includes('qué puedes hacer') || q.includes('ayuda') || q.includes('capacidades') || q.includes('opciones')) {
-    return '<strong>🧠 SOY DIAMAX TACTICAL IA™ (ASISTENTE SABERMÉTRICO CON RAG VECTORIAL)</strong><br>' +
-      'Diseñado para la gestión estratégica en tiempo real de <strong>Guerreros de Venezuela +55</strong> con base de conocimiento aumentada.<br><br>' +
+    return '<strong>🧠 SOY DIAMAX TACTICAL IA™ (ASISTENTE SABERMÉTRICO CON RAG & MEMORIA)</strong><br>' +
+      'Diseñado para la gestión estratégica en tiempo real de <strong>Guerreros de Venezuela +55</strong> con base de conocimiento aumentada y memoria continua de decisiones.<br><br>' +
       '<strong>Mis Capacidades Principales:</strong><br>' +
       '1️⃣ <strong>Prescripción de Conteos:</strong> Estrategia óptima en conteos 3-2, 0-2, 1-2, 3-0.<br>' +
       '2️⃣ <strong>Bateadores Emergentes:</strong> Sugerencias sabermétricas de cambios según matchup zurdo/derecho.<br>' +
       '3️⃣ <strong>Jugadas en Base:</strong> Recomendaciones de robo, squeeze play, toque de sacrificio o bateo y corrido.<br>' +
       '4️⃣ <strong>Semáforo de Fatiga (+55):</strong> Monitoreo de límite de 75 lanzamientos para protección del brazo.<br>' +
       '5️⃣ <strong>Shifts Defensivos:</strong> Ubicación del cuadro e infielders según spray chart del rival.<br>' +
-      '6️⃣ <strong>Scouting de Rivales:</strong> Análisis del abridor, bateadores de poder y debilidades de ' + rivalObj.name + '.' +
+      '6️⃣ <strong>Scouting de Rivales:</strong> Análisis del abridor, bateadores de poder y debilidades de ' + rivalObj.name + '.<br>' +
+      '7️⃣ <strong>Memoria Continua:</strong> Recuerdo de todas las consultas y ajustes hechos durante las 7 entradas.' +
       ragCitation;
   }
 
-  // 0.2 AGRADECIMIENTOS & CONFIRMACIONES
+  // 0.3 AGRADECIMIENTOS & CONFIRMACIONES
   if (q === 'gracias' || q.includes('muchas gracias') || q === 'ok' || q === 'listo' || q === 'perfecto' || q === 'entendido' || q === 'bien') {
     return '<strong>✅ ¡A la orden, Mánager!</strong><br>' +
       'Mantengamos la disciplina en el terreno. Estamos con ' + winP + '% de expectativa de victoria. Avísame ante cualquier cambio en el turno o en las bases.' +
@@ -3904,12 +3993,15 @@ async function consultarAgenteIA(queryType) {
     return "[DOCUMENTO RAG: " + item.doc.id + " | " + item.doc.titulo + "]:\n" + item.doc.texto;
   }).join("\n\n");
 
+  // Recuperación de Memoria Reciente
+  const recentMemoryContext = DIAMAX_TACTICAL_MEMORY.getRecentContextText();
+
   // Muestra estado de procesamiento
   if (display) {
-    display.innerHTML = '<span style="color:#00D2FF;">⏳ DIAMAX RAG procesando situación táctica (' + rolActivo + ' - ' + (isLocal ? 'LOCAL' : 'VISITANTE') + ')...</span>';
+    display.innerHTML = '<span style="color:#00D2FF;">⏳ DIAMAX RAG procesando situación táctica (' + rolActivo + ' - ' + (isLocal ? 'LOCAL' : 'VISITANTE').toUpperCase() + ')...</span>';
   }
 
-  // SI HAY CLAVE DE API VÁLIDA (GROQ), CONSULTAR LLM CON CONTEXTO AUMENTADO POR RAG
+  // SI HAY CLAVE DE API VÁLIDA (GROQ), CONSULTAR LLM CON CONTEXTO AUMENTADO POR RAG Y MEMORIA
   if (key && key.startsWith('gsk_')) {
     try {
       const promptLines = [
@@ -3924,6 +4016,9 @@ async function consultarAgenteIA(queryType) {
         "- Situacion de Juego: Marcador " + teamName + " " + liveState.scoreUs + " - " + rivalObj.name + " " + liveState.scoreThem + " | Outs: " + liveState.outs,
         "- Corredores: 1B=" + (liveState.bases.b1?'SI':'NO') + ", 2B=" + (liveState.bases.b2?'SI':'NO') + ", 3B=" + (liveState.bases.b3?'SI':'NO'),
         "- Bateador Activo: #" + current.player.num + " " + current.player.name + " (" + current.pos + ", Batea: " + (current.player.bats || 'R') + ")",
+        "",
+        "HISTORIAL DE DECISIONES RECIENTES (MEMORIA DE DUGOUT):",
+        recentMemoryContext,
         "",
         "DOCUMENTOS SABERMETRICOS RECUPERADOS (RAG KNOWLEDGE BASE):",
         ragDocsContext,
@@ -3942,7 +4037,7 @@ async function consultarAgenteIA(queryType) {
           messages: [
             {
               role: "system",
-              content: "Eres DIAMAX Tactical AI con RAG (Retrieval-Augmented Generation) para beisbol categoria Master +55. Utiliza los documentos sabermetricos recuperados para sustentar tus prescripciones. Responde de forma telegráfica, profesional y directa citando las fuentes RAG utilizadas."
+              content: "Eres DIAMAX Tactical AI con RAG y Memoria Continua de Dugout para beisbol categoria Master +55. Utiliza los documentos sabermetricos y el historial de decisiones recordadas para sustentar tus prescripciones. Responde de forma telegráfica, profesional y directa citando las fuentes RAG utilizadas."
             },
             { role: "user", content: promptLines.join(String.fromCharCode(10)) }
           ],
@@ -3964,6 +4059,19 @@ async function consultarAgenteIA(queryType) {
           display.innerHTML = '<strong>🧠 [DIAMAX TACTICAL IA — RESPUESTA RAG EN VIVO]</strong><br>' +
             contentRes.split(String.fromCharCode(10)).join('<br>') +
             ragCitationsUI;
+
+          // Registrar en Memoria
+          DIAMAX_TACTICAL_MEMORY.addEntry({
+            query: userQueryText,
+            response: contentRes,
+            inning: liveState.inning,
+            half: liveState.half,
+            scoreUs: liveState.scoreUs,
+            scoreThem: liveState.scoreThem,
+            batter: '#' + current.player.num + ' ' + current.player.name,
+            rival: rivalObj.name
+          });
+
           return;
         }
       }
@@ -3972,12 +4080,14 @@ async function consultarAgenteIA(queryType) {
     }
   }
 
-  // MOTOR SABERMÉTRICO NATIVO DETERMINISTA CON AUMENTO RAG
+  // MOTOR SABERMÉTRICO NATIVO DETERMINISTA CON AUMENTO RAG Y REGISTRO EN MEMORIA
   setTimeout(function() {
     if (!display) return;
+    let finalHTML = "";
+
     if (queryType === 'RIVAL_SCOUTING') {
       const winProb = rivalObj.winProbVsGuerreros || 54;
-      display.innerHTML = '<strong>📊 SCOUTING & PREDICCIÓN TÁCTICA RAG: ' + rivalObj.name + ' (' + rivalObj.abbr + ')</strong><br>' +
+      finalHTML = '<strong>📊 SCOUTING & PREDICCIÓN TÁCTICA RAG: ' + rivalObj.name + ' (' + rivalObj.abbr + ')</strong><br>' +
         '• <strong>Condición de Juego:</strong> Guerreros actúa como <span style="color:#00D2FF; font-weight:bold;">' + (isLocal ? 'HOME CLUB (LOCAL)' : 'VISITANTE (AWAY)') + '</span>.<br>' +
         '• <strong>Probabilidad de Victoria Proyectada:</strong> <span style="color:#10B981; font-weight:900;">' + winProb + '%</span> (Simulación Monte Carlo Markov 10,000 iteraciones).<br>' +
         '• <strong>Pitcher Abridor Rival:</strong> <span style="color:#00D2FF;">' + rivalObj.pitcherAs + '</span>.<br>' +
@@ -3990,26 +4100,26 @@ async function consultarAgenteIA(queryType) {
       const rosterList = typeof MASTER_ROSTER !== 'undefined' ? MASTER_ROSTER : [];
       const bench = rosterList.filter(function(p) { return !lineupIds.includes(p.id); });
       const bestHitter = bench[0] || rosterList[5] || { num: 6, name: "Nestor Vera", defaultPos: "LF", bats: "L" };
-      display.innerHTML = '<strong>👥 RECOMENDACIÓN DE BATEADOR EMERGENTE RAG (+55 SABERMETRICS)</strong><br>' +
+      finalHTML = '<strong>👥 RECOMENDACIÓN DE BATEADOR EMERGENTE RAG (+55 SABERMETRICS)</strong><br>' +
         '• <strong>Situación:</strong> ' + (isGuerrerosBatting ? 'Guerreros al bate con oportunidad anotadora.' : 'Recomendación guardada para el próximo turno ofensivo.') + '<br>' +
         '• <strong>Emergente Óptimo Sugerido:</strong> <span style="color:#FFC72C; font-weight:bold;">#' + bestHitter.num + ' ' + bestHitter.name + '</span> (' + bestHitter.defaultPos + ', Batea: ' + bestHitter.bats + ')<br>' +
         '• <strong>Fundamento Sabermétrico:</strong> OBP .390 vs lanzadores de perfil ' + rivalObj.abbr + '. Maximiza la expectativa de carreras (xRuns +0.34).' +
         '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-PLY-06: Expediente Nestor Vera LF (96% match)]</span> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-REG-02: Corredores de Cortesía y Sustituciones (91% match)]</span></div>';
     } else if (queryType === 'PITCHER_MATCHUP') {
-      display.innerHTML = '<strong>🎯 DUELO VS LANZADOR RAG: ' + rivalObj.pitcherAs + '</strong><br>' +
+      finalHTML = '<strong>🎯 DUELO VS LANZADOR RAG: ' + rivalObj.pitcherAs + '</strong><br>' +
         '• <strong>Enfoque en Home:</strong> Forzar conteos profundos (>3.8 pitcheos/turno). Su efectividad decae notablemente después del lanzamiento #50.<br>' +
         '• <strong>Aprovechamiento de Sede:</strong> Con ' + currentGame.clima.viento + ' (' + currentGame.clima.impactoVuelo + '), conectar elevados profundos hacia los claros de los jardines.' +
         '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-RIV-' + (rivalObj.abbr||'DAY') + ': Reporte Pitcheo Rival (97% match)]</span> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-SAB-01: Métricas de Conteo (89% match)]</span></div>';
     } else if (queryType === 'PITCH_CALL') {
       if (isGuerrerosBatting) {
-        display.innerHTML = '<strong>⚡ [MODO OFENSIVO - BATEO RAG]</strong><br>' +
+        finalHTML = '<strong>⚡ [MODO OFENSIVO - BATEO RAG]</strong><br>' +
           '• <strong>Plan de Turno:</strong> Esperar recta en zona alta en el 1er pitcheo.<br>' +
           '• <strong>Impacto Proyectado:</strong> Hard-Hit% 44.5%.<br>' +
           '• <strong>Fundamento:</strong> El lanzador de ' + rivalObj.abbr + ' busca abrir con rectas adentro a bateadores derechos.<br>' +
           '• <strong>Ajuste con 2 Strikes:</strong> Proteger la zona exterior contra el cambio de velocidad.' +
           '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-SAB-02: Secuencia 0-2 / 1-2 (95% match)]</span></div>';
       } else {
-        display.innerHTML = '<strong>⚡ [MODO DEFENSIVO - PITCHEO RAG]</strong><br>' +
+        finalHTML = '<strong>⚡ [MODO DEFENSIVO - PITCHEO RAG]</strong><br>' +
           '• <strong>Lanzamiento Sugerido:</strong> Slider exterior (Zona 14) de ponche vs ' + rivalObj.abbr + '.<br>' +
           '• <strong>Impacto:</strong> WPA +0.038 | RE24: -0.22.<br>' +
           '• <strong>Fundamento:</strong> Bateador rival presenta Whiff% 46.2% ante rompientes fuera de la zona.' +
@@ -4017,13 +4127,13 @@ async function consultarAgenteIA(queryType) {
       }
     } else if (queryType === 'DEFENSIVE_SHIFT') {
       if (isGuerrerosBatting) {
-        display.innerHTML = '<strong>🛡️ [MODO OFENSIVO - AJUSTE AL BATE RAG]</strong><br>' +
+        finalHTML = '<strong>🛡️ [MODO OFENSIVO - AJUSTE AL BATE RAG]</strong><br>' +
           '• <strong>Estrategia:</strong> Buscar banda contraria (Opposite Field).<br>' +
           '• <strong>Diagnóstico:</strong> El rival tiene shift defensivo cargado hacia la derecha.<br>' +
           '• <strong>Zona Abierta:</strong> Espacio libre entre 3B y SS para rodados y líneas tendidas.' +
           '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-PLY-01: Perfil de Bateo (92% match)]</span></div>';
       } else {
-        display.innerHTML = '<strong>🛡️ [MODO DEFENSIVO - SHIFT RAG]</strong><br>' +
+        finalHTML = '<strong>🛡️ [MODO DEFENSIVO - SHIFT RAG]</strong><br>' +
           '• <strong>Formación:</strong> Shift de Pull profundo hacia jardín derecho vs ' + rivalObj.abbr + '.<br>' +
           '• <strong>Métrica:</strong> OAA +0.4 | Probabilidad de Rodado out: 71%.<br>' +
           '• <strong>Fundamento:</strong> Bateador rival orienta el 68% de sus contactos sólidos hacia su banda natural.' +
@@ -4032,38 +4142,53 @@ async function consultarAgenteIA(queryType) {
     } else if (queryType === 'BASERUNNING') {
       if (isGuerrerosBatting) {
         if (liveState.bases.b1 && !liveState.bases.b2) {
-          display.innerHTML = '<strong>🏃 [MODO OFENSIVO - ROBO DE 2B RAG]</strong><br>' +
+          finalHTML = '<strong>🏃 [MODO OFENSIVO - ROBO DE 2B RAG]</strong><br>' +
             '• <strong>Decisión:</strong> Luz verde (Green Light) para intento de robo o toque de avance.<br>' +
             '• <strong>Métrica:</strong> RE24 sube de 0.51 a 0.88 (+0.37 delta).<br>' +
             '• <strong>Ventaja:</strong> Pop-time del receptor de ' + rivalObj.abbr + ' promedia 2.05s vs tiempo de entrega de 1.42s.' +
             '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-SAB-03: Pop-Time y Métricas en Base (98% match)]</span></div>';
         } else if (liveState.bases.b3 && liveState.outs < 2) {
-          display.innerHTML = '<strong>🏃 [MODO OFENSIVO - JUGADA DE CARRERA RAG]</strong><br>' +
+          finalHTML = '<strong>🏃 [MODO OFENSIVO - JUGADA DE CARRERA RAG]</strong><br>' +
             '• <strong>Decisión:</strong> Squeeze Play / Elevado de Sacrificio.<br>' +
             '• <strong>Impacto:</strong> Asegurar carrera de desempate.<br>' +
             '• <strong>Fundamento:</strong> Bateador en turno registra 82% de contacto en elevado profundo.' +
             '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-SAB-03: Jugadas en 3B (97% match)]</span></div>';
         } else {
-          display.innerHTML = '<strong>🏃 [MODO OFENSIVO - BATEO Y CORRIDO RAG]</strong><br>' +
+          finalHTML = '<strong>🏃 [MODO OFENSIVO - BATEO Y CORRIDO RAG]</strong><br>' +
             '• <strong>Decisión:</strong> Bateo y corrido / No regalar outs.<br>' +
             '• <strong>Impacto:</strong> Mantener corredor en movimiento evitando doble play.' +
             '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-SAB-01: Expectativa de Carreras (91% match)]</span></div>';
         }
       } else {
-        display.innerHTML = '<strong>🏃 [MODO DEFENSIVO - CONTROL DE CORREDORES RAG]</strong><br>' +
+        finalHTML = '<strong>🏃 [MODO DEFENSIVO - CONTROL DE CORREDORES RAG]</strong><br>' +
           '• <strong>Decisión:</strong> Control de corredores rivales / Slide Step.<br>' +
           '• <strong>Impacto:</strong> Reducir salto de corredores de ' + rivalObj.abbr + ' en 1B.' +
           '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:10.5px; color:#A78BFA;">📚 <strong>Fuentes RAG:</strong> <span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px;">[RAG-SAB-03: Control de Corredores (95% match)]</span></div>';
       }
     } else {
       // PROCESADOR SEMÁNTICO NLP PARA PREGUNTAS PERSONALIZADAS ESCRITAS POR EL USUARIO
-      display.innerHTML = generarRespuestaTacticoNativo(userQueryText, contextData);
+      finalHTML = generarRespuestaTacticoNativo(userQueryText, contextData);
     }
+
+    display.innerHTML = finalHTML;
+
+    // Registrar en Memoria Episódica
+    DIAMAX_TACTICAL_MEMORY.addEntry({
+      query: userQueryText,
+      response: finalHTML,
+      inning: liveState.inning,
+      half: liveState.half,
+      scoreUs: liveState.scoreUs,
+      scoreThem: liveState.scoreThem,
+      batter: '#' + current.player.num + ' ' + current.player.name,
+      rival: rivalObj.name
+    });
   }, 250);
 }
 
 window.DIAMAX_RAG_CORPUS = DIAMAX_RAG_CORPUS;
 window.DIAMAX_RAG_ENGINE = DIAMAX_RAG_ENGINE;
+window.DIAMAX_TACTICAL_MEMORY = DIAMAX_TACTICAL_MEMORY;
 window.generarRespuestaTacticoNativo = generarRespuestaTacticoNativo;
 
 
