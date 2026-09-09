@@ -3396,20 +3396,44 @@ function switchTab(tabId) {
     'dashboard':'dash',
     'skills':'skills'
   };
-  const btn = document.getElementById(`nav-${map[tabId]}`) || document.getElementById('btn-tab-manual');
+  const btn = document.getElementById(`nav-${map[tabId]}`) || document.getElementById('nav-manual') || document.getElementById('btn-tab-manual');
   if (btn) btn.classList.add('active');
 
-  ['envivo', 'lineup', 'manual', 'tarjeta-oficial', 'campo', 'perfil', 'dashboard', 'skills'].forEach(t => {
+  const allTabs = ['envivo', 'lineup', 'manual', 'tarjeta-oficial', 'campo', 'perfil', 'dashboard', 'skills'];
+  allTabs.forEach(t => {
     const el = document.getElementById(`tab-${t}`);
-    if (el) el.style.display = t === tabId ? 'block' : 'none';
+    if (el) {
+      if (t === tabId) {
+        el.style.display = 'block';
+        el.classList.add('active');
+      } else {
+        el.style.display = 'none';
+        el.classList.remove('active');
+      }
+    }
   });
 
-  if (tabId === 'campo') {
-    renderField();
-    poblarSelectoresVisuales();
-    renderSprayChart();
-    renderStrikeZoneHeatmap(1);
-    actualizarPitcherUI();
+  // Renderizados dinámicos y sincronización inmediata por pestaña
+  if (tabId === 'tarjeta-oficial') {
+    if (typeof renderOfficialCard === 'function') renderOfficialCard();
+    if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
+  } else if (tabId === 'dashboard') {
+    if (typeof renderTables === 'function') renderTables();
+  } else if (tabId === 'skills') {
+    if (typeof renderSkillsList === 'function') renderSkillsList();
+  } else if (tabId === 'perfil') {
+    if (typeof renderAll === 'function') renderAll();
+  } else if (tabId === 'lineup') {
+    if (typeof renderLineupBuilder === 'function') renderLineupBuilder();
+  } else if (tabId === 'campo') {
+    if (typeof renderField === 'function') renderField();
+    if (typeof poblarSelectoresVisuales === 'function') poblarSelectoresVisuales();
+    if (typeof renderSprayChart === 'function') renderSprayChart();
+    if (typeof renderStrikeZoneHeatmap === 'function') renderStrikeZoneHeatmap(1);
+    if (typeof actualizarPitcherUI === 'function') actualizarPitcherUI();
+  } else if (tabId === 'envivo') {
+    if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
+    if (typeof actualizarPitcherUI === 'function') actualizarPitcherUI();
   }
 }
 
