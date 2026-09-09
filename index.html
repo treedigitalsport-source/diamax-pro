@@ -788,6 +788,7 @@ body.daylight-mode .btn-keypad:hover {
     <button class="active" onclick="switchTab('envivo')" id="nav-live"> 1. Anotador Dugout</button>
     <button onclick="switchTab('lineup')" id="nav-lineup"> 2. Lineup Builder</button>
     <button onclick="switchTab('campo')" id="nav-field"> 3. Campo 2D</button>
+        <button onclick="switchTab('manual')" id="btn-tab-manual">📖 Manual de Uso</button>
     <button onclick="switchTab('tarjeta-oficial')" id="nav-card"> 4. Tarjeta Oficial</button>
     <button onclick="switchTab('dashboard')" id="nav-dash"> 5. Dashboard</button>
     <button onclick="switchTab('skills')" id="nav-skills"> 6. Agente & Skills</button>
@@ -1216,6 +1217,130 @@ body.daylight-mode .btn-keypad:hover {
 
   
   <!-- TAB 4: TARJETA OFICIAL -->
+  
+  <!-- PESTAÑA: MANUAL DE USO Y GUÍA RÁPIDA DE DUGOUT -->
+  <div id="tab-manual" class="tab-pane">
+    <div class="panel" style="border: 2px solid #FFC72C;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:2px solid #1E293B; padding-bottom:14px; margin-bottom:16px;">
+        <div>
+          <h2 style="color:#FFC72C; font-size:20px; font-weight:900; text-transform:uppercase; margin:0;">
+            📖 Manual de Uso y Operación Oficial — DIAMAX Pro
+          </h2>
+          <p style="color:#94A3B8; font-size:12px; margin-top:4px;">
+            Guía oficial para Gerencia, Cuerpo Técnico y Anotadores de <strong>Guerreros de Venezuela +55</strong>
+          </p>
+        </div>
+        <div>
+          <button class="btn-settings" onclick="window.print()" style="background:#00D2FF; color:#000; font-weight:900; border:none; padding:8px 16px;">
+            🖨️ Imprimir Guía de Dugout
+          </button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 1: GUÍA RÁPIDA DE BOLSILLO (CARD DESTACADA) -->
+      <div style="background:#060C18; border:1.5px solid #00D2FF; border-radius:10px; padding:16px; margin-bottom:20px;">
+        <h3 style="color:#00D2FF; font-size:15px; font-weight:900; margin-bottom:10px;">
+          ⚡ GUÍA RÁPIDA DE DUGOUT (CHECKLIST DÍA DEL JUEGO)
+        </h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; font-size:12px;">
+          <div style="background:#0F172A; padding:12px; border-radius:8px; border-left:4px solid #10B981;">
+            <strong style="color:#10B981; font-size:13px;">1️⃣ PRE-JUEGO (30 min antes)</strong>
+            <ul style="margin:8px 0 0 16px; color:#EAEEF5; line-height:1.6;">
+              <li>Presiona <code>🏟️ Cargar Nuevo Juego</code>.</li>
+              <li>Registra Sede, Rival y actualiza el Clima GPS.</li>
+              <li>Ajusta el Lineup del 1 al 9 y define el Pitcher Abridor.</li>
+              <li>Imprime la Tarjeta Oficial para los Umpires.</li>
+            </ul>
+          </div>
+          <div style="background:#0F172A; padding:12px; border-radius:8px; border-left:4px solid #FFC72C;">
+            <strong style="color:#FFC72C; font-size:13px;">2️⃣ EN JUEGO (Dugout Keypad)</strong>
+            <ul style="margin:8px 0 0 16px; color:#EAEEF5; line-height:1.6;">
+              <li>Conteo de lanzamientos: <code>[+1 Strike]</code> / <code>[+1 Bola]</code>.</li>
+              <li>Hits: <code>[1B] [2B] [3B] [HR]</code>.</li>
+              <li>Outs: <code>[F1-F9]</code> (Elevados) y <code>[6-3, 4-3, DP]</code> (Rolatas).</li>
+              <li>Consulta a la IA DIAMAX en situaciones de robo/toque.</li>
+            </ul>
+          </div>
+          <div style="background:#0F172A; padding:12px; border-radius:8px; border-left:4px solid #EF4444;">
+            <strong style="color:#EF4444; font-size:13px;">3️⃣ POST-JUEGO (Cierre)</strong>
+            <ul style="margin:8px 0 0 16px; color:#EAEEF5; line-height:1.6;">
+              <li>Presiona <code>🏁 Finalizar Partido</code> tras el último out.</li>
+              <li>Verifica la Hora de Fin y Duración calculada.</li>
+              <li>Sincroniza y certifica el Boxscore final.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: SEMÁFORO DE PITCHEO +55 -->
+      <div style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:16px; margin-bottom:20px;">
+        <h3 style="color:#FFC72C; font-size:15px; font-weight:900; margin-bottom:12px;">
+          🩺 SEMÁFORO DE PITCHEO Y CONTROL DE FATIGA (CATEGORÍA +55)
+        </h3>
+        <p style="font-size:12.5px; color:#94A3B8; margin-bottom:12px;">
+          Para proteger la salud de los brazos de nuestros lanzadores, la app monitorea la carga con límite estricto de <strong>75 lanzamientos</strong>:
+        </p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+          <div style="background:rgba(16,185,129,0.15); border:1px solid #10B981; border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:20px;">🟢</div>
+            <strong style="color:#10B981; font-size:14px;">0 - 45 LANZAMIENTOS</strong>
+            <p style="font-size:11.5px; color:#EAEEF5; margin-top:4px;">Zona Verde: Rendimiento Óptimo y Plena Potencia.</p>
+          </div>
+          <div style="background:rgba(255,199,44,0.15); border:1px solid #FFC72C; border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:20px;">🟡</div>
+            <strong style="color:#FFC72C; font-size:14px;">46 - 60 LANZAMIENTOS</strong>
+            <p style="font-size:11.5px; color:#EAEEF5; margin-top:4px;">Zona de Precaución: Monitorear velocidad y control.</p>
+          </div>
+          <div style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:20px;">🔴</div>
+            <strong style="color:#EF4444; font-size:14px;">61 - 75 LANZAMIENTOS</strong>
+            <p style="font-size:11.5px; color:#EAEEF5; margin-top:4px;">Alerta Máxima: ¡Activar y calentar Bullpen de inmediato!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: MATRIZ DE ROLES Y BOTONERA -->
+      <div style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:16px; margin-bottom:20px;">
+        <h3 style="color:#00D2FF; font-size:15px; font-weight:900; margin-bottom:12px;">
+          🔐 ROLES Y BOTONERA OFICIAL DE JUGADAS (DUGOUT KEYPAD)
+        </h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:12px;">
+          <div>
+            <h4 style="color:#FFC72C; font-size:13px; margin-bottom:8px;">👑 Roles de Seguridad</h4>
+            <ul style="color:#EAEEF5; line-height:1.6; margin-left:16px;">
+              <li><strong>Mánager:</strong> Decisiones tácticas, IA y firma de Lineup Card.</li>
+              <li><strong>Anotador:</strong> Operación del Dugout Keypad y conteo en vivo.</li>
+              <li><strong>Scout:</strong> Análisis de Spray Charts y Zona de Strike.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="color:#00D2FF; font-size:13px; margin-bottom:8px;">⌨️ Atajos de Registro</h4>
+            <ul style="color:#EAEEF5; line-height:1.6; margin-left:16px;">
+              <li><strong>Hits:</strong> <code>1B</code> Sencillo, <code>2B</code> Doble, <code>3B</code> Triple, <code>HR</code> Jonrón.</li>
+              <li><strong>Outs:</strong> <code>F1 a F9</code> Elevados | <code>6-3, 4-3, DP</code> Rolatas.</li>
+              <li><strong>Especiales:</strong> <code>K</code> Ponche tirándole | <code>Kc</code> Cantado | <code>BB</code> Boleto | <code>SB</code> Robo.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 4: ASISTENTE TÁCTICO IA & SABERMETRÍA -->
+      <div style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:16px;">
+        <h3 style="color:#FFC72C; font-size:15px; font-weight:900; margin-bottom:10px;">
+          🧠 INTELIGENCIA ARTIFICIAL SABERMÉTRICA (GROQ LPU)
+        </h3>
+        <p style="font-size:12.5px; color:#EAEEF5; line-height:1.6;">
+          DIAMAX Pro procesa en <strong>menos de 1.5 segundos</strong> recomendaciones sobre:
+        </p>
+        <ul style="color:#94A3B8; font-size:12px; line-height:1.7; margin-left:18px;">
+          <li>Formación defensiva especial (Shift) contra bateadores zurdos y derechos de poder.</li>
+          <li>Probabilidad de éxito en robo de base o toque de sacrificio según el inning y out.</li>
+          <li>Momento probabilístico óptimo para llamar al relevista del bullpen según fatiga acumulada.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <div id="tab-tarjeta-oficial" style="display:none;">
 
     <!-- ENCABEZADO OFICIAL DE JUEGO Y SEDE (SINCRONIZADO) -->
