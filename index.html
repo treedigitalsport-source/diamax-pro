@@ -3508,6 +3508,35 @@ function generarRespuestaTacticoNativo(query, ctx) {
   const halfText = ls.half === 'top' ? 'Alta ▲' : 'Baja ▼';
   const scoreDiff = (ls.scoreUs || 0) - (ls.scoreThem || 0);
   const scoreStatus = scoreDiff > 0 ? ('Arriba por ' + scoreDiff) : (scoreDiff < 0 ? ('Abajo por ' + Math.abs(scoreDiff)) : 'Empate');
+  const winP = Math.min(96, Math.max(5, Math.round(50 + (scoreDiff * 8.5) + (isLocal ? 3.5 : -1.5))));
+
+  // 0. SALUDOS, CORTESÍA & CONVERSACIÓN SOCIAL
+  if (q === 'hola' || q.startsWith('hola ') || q.includes('como estas') || q.includes('cómo estás') || q.includes('que tal') || q.includes('qué tal') || q.includes('buenos dias') || q.includes('buenos días') || q.includes('buenas tardes') || q.includes('buenas noches') || q.includes('saludos') || q.includes('hey')) {
+    return '<strong>👋 ¡Hola, Mánager! Todo excelente y 100% activo en el dugout.</strong><br>' +
+      '• <strong>Estado del Sistema:</strong> Motor Sabermétrico DIAMAX en tiempo real para <strong>' + tName + '</strong>.<br>' +
+      '• <strong>Partido en Curso:</strong> Inning ' + inn + ' (' + halfText + ') vs <strong>' + rivalObj.name + '</strong> (' + rivalObj.abbr + ').<br>' +
+      '• <strong>Rol Actual:</strong> <span style="color:#00D2FF; font-weight:bold;">' + (isLocal ? 'HOME CLUB (LOCAL)' : 'VISITANTE (AWAY)') + '</span> — <strong>' + rolActivo + '</strong>.<br>' +
+      '• <strong>¿En qué te puedo asesorar?</strong> Pregúntame sobre conteos (ej: <em>3-2</em>, <em>0-2</em>), qué lanzamiento usar, cuándo robar o tocar, sugerencias de bateador emergente, o el scouting del rival.';
+  }
+
+  // 0.1 IDENTIDAD, PRESENTACIÓN, AYUDA & CAPACIDADES
+  if (q.includes('quien eres') || q.includes('quién eres') || q.includes('que eres') || q.includes('qué eres') || q.includes('que haces') || q.includes('qué haces') || q.includes('que puedes hacer') || q.includes('qué puedes hacer') || q.includes('ayuda') || q.includes('capacidades') || q.includes('opciones')) {
+    return '<strong>🧠 SOY DIAMAX TACTICAL IA™ (ASISTENTE SABERMÉTRICO DE DUGOUT)</strong><br>' +
+      'Diseñado exclusivamente para la gestión estratégica en tiempo real de <strong>Guerreros de Venezuela +55</strong>.<br><br>' +
+      '<strong>Mis Capacidades Principales:</strong><br>' +
+      '1️⃣ <strong>Prescripción de Conteos:</strong> Estrategia óptima en conteos 3-2, 0-2, 1-2, 3-0.<br>' +
+      '2️⃣ <strong>Bateadores Emergentes:</strong> Sugerencias sabermétricas de cambios según matchup zurdo/derecho.<br>' +
+      '3️⃣ <strong>Jugadas en Base:</strong> Recomendaciones de robo, squeeze play, toque de sacrificio o bateo y corrido.<br>' +
+      '4️⃣ <strong>Semáforo de Fatiga (+55):</strong> Monitoreo de límite de 75 lanzamientos para protección del brazo.<br>' +
+      '5️⃣ <strong>Shifts Defensivos:</strong> Ubicación del cuadro e infielders según spray chart del rival.<br>' +
+      '6️⃣ <strong>Scouting de Rivales:</strong> Análisis del abridor, bateadores de poder y debilidades de ' + rivalObj.name + '.';
+  }
+
+  // 0.2 AGRADECIMIENTOS & CONFIRMACIONES
+  if (q === 'gracias' || q.includes('muchas gracias') || q === 'ok' || q === 'listo' || q === 'perfecto' || q === 'entendido' || q === 'bien') {
+    return '<strong>✅ ¡A la orden, Mánager!</strong><br>' +
+      'Mantengamos la disciplina en el terreno. Estamos con ' + winP + '% de expectativa de victoria. Avísame ante cualquier cambio en el turno o en las bases.';
+  }
 
   // 1. CONTEOS ESPECÍFICOS (3-2, 0-2, 3-0, 1-2, etc.)
   if (q.includes('3-2') || q.includes('conteo lleno') || q.includes('cuenta completa') || q.includes('full count')) {
@@ -3618,7 +3647,6 @@ function generarRespuestaTacticoNativo(query, ctx) {
   }
 
   // 8. CONSULTA GENERAL / ESTRATÉGICA DETERMINISTA
-  const winP = Math.min(96, Math.max(5, Math.round(50 + (scoreDiff * 8.5) + (isLocal ? 3.5 : -1.5))));
   return '<strong>🧠 [PRESCRIPCIÓN TÁCTICA DIAMAX: "' + query + '"]</strong><br>' +
     '• <strong>Situación de Juego:</strong> Inning ' + inn + ' (' + halfText + ') | ' + tName + ' ' + scoreStatus + ' (' + (ls.scoreUs || 0) + '-' + (ls.scoreThem || 0) + ') vs ' + rivalObj.name + ' | ' + outs + ' Out(s).<br>' +
     '• <strong>Condición & Rol:</strong> <span style="color:#00D2FF; font-weight:bold;">' + (isLocal ? 'LOCAL (Home Club)' : 'VISITANTE (Away)') + '</span> — <strong>' + rolActivo + '</strong>.<br>' +
@@ -3672,18 +3700,21 @@ async function consultarAgenteIA(queryType) {
   // SI HAY CLAVE DE API VÁLIDA (GROQ), CONSULTAR LLM
   if (key && key.startsWith('gsk_')) {
     try {
-      const promptContext = "CONTEXTO DE JUEGO OFICIAL:\n" +
-        "- Condicion de Guerreros: " + condicionTexto + "\n" +
-        "- Rol en este instante: " + rolActivo + " (Inning " + liveState.inning + ", " + (liveState.half === 'top' ? 'Alta' : 'Baja') + ")\n" +
-        "- Equipo Rival: " + rivalObj.name + " (" + rivalObj.abbr + ") | Manager: " + rivalObj.manager + " | Record: " + rivalObj.record + "\n" +
-        "- Pitcher As Rival: " + rivalObj.pitcherAs + " | Bateador Peligroso: " + rivalObj.dangerBatter + "\n" +
-        "- Tendencia Rival: " + rivalObj.tendency + " | Debilidad: " + rivalObj.weakness + "\n" +
-        "- Sede: " + currentGame.estadio + " (" + currentGame.direccion + ")\n" +
-        "- Clima: " + currentGame.clima.tempF + "F, Viento " + currentGame.clima.viento + "\n" +
-        "- Situacion de Juego: Marcador " + teamName + " " + liveState.scoreUs + " - " + rivalObj.name + " " + liveState.scoreThem + " | Outs: " + liveState.outs + "\n" +
-        "- Corredores: 1B=" + (liveState.bases.b1?'SI':'NO') + ", 2B=" + (liveState.bases.b2?'SI':'NO') + ", 3B=" + (liveState.bases.b3?'SI':'NO') + "\n" +
-        "- Bateador Activo: #" + current.player.num + " " + current.player.name + " (" + current.pos + ", Batea: " + (current.player.bats || 'R') + ")\n\n" +
-        "CONSULTA: " + userQueryText;
+      const promptLines = [
+        "CONTEXTO DE JUEGO OFICIAL:",
+        "- Condicion de Guerreros: " + condicionTexto,
+        "- Rol en este instante: " + rolActivo + " (Inning " + liveState.inning + ", " + (liveState.half === 'top' ? 'Alta' : 'Baja') + ")",
+        "- Equipo Rival: " + rivalObj.name + " (" + rivalObj.abbr + ") | Manager: " + rivalObj.manager + " | Record: " + rivalObj.record,
+        "- Pitcher As Rival: " + rivalObj.pitcherAs + " | Bateador Peligroso: " + rivalObj.dangerBatter,
+        "- Tendencia Rival: " + rivalObj.tendency + " | Debilidad: " + rivalObj.weakness,
+        "- Sede: " + currentGame.estadio + " (" + currentGame.direccion + ")",
+        "- Clima: " + currentGame.clima.tempF + "F, Viento " + currentGame.clima.viento,
+        "- Situacion de Juego: Marcador " + teamName + " " + liveState.scoreUs + " - " + rivalObj.name + " " + liveState.scoreThem + " | Outs: " + liveState.outs,
+        "- Corredores: 1B=" + (liveState.bases.b1?'SI':'NO') + ", 2B=" + (liveState.bases.b2?'SI':'NO') + ", 3B=" + (liveState.bases.b3?'SI':'NO'),
+        "- Bateador Activo: #" + current.player.num + " " + current.player.name + " (" + current.pos + ", Batea: " + (current.player.bats || 'R') + ")",
+        "",
+        "CONSULTA: " + userQueryText
+      ];
 
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
@@ -3696,9 +3727,9 @@ async function consultarAgenteIA(queryType) {
           messages: [
             {
               role: "system",
-              content: "Eres DIAMAX Tactical AI, el asistente sabermetrico determinista de dugout para beisbol +55. Responde en formato directo con: [DIRECCION TACTICA]: ... [SITUACION]: ... [METRICA SABERMETRICA]: ... [PLAN DE CONTINGENCIA]: ... Se conciso, profesional y preciso."
+              content: "Eres DIAMAX Tactical AI, el asistente sabermetrico determinista de dugout para beisbol +55. Si el usuario saluda o pregunta quien eres, responde cordialmente presentandote como el asistente de dugout de Guerreros de Venezuela +55. Si consulta sobre tactica, responde con formato sabermetrico conciso: [DIRECCION TACTICA]: ... [SITUACION]: ... [METRICA]: ... [CONTINGENCIA]: ... Cero rodeos."
             },
-            { role: "user", content: promptContext }
+            { role: "user", content: promptLines.join(String.fromCharCode(10)) }
           ],
           temperature: 0.15,
           max_tokens: 300
