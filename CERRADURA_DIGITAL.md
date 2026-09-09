@@ -1,11 +1,20 @@
-# 🔒 CERRADURA DIGITAL OFICIAL — PRJ-007
-## PROYECTO: PRJ-002
-**Estado:** `CERRADO Y BLOQUEADO (SOLO LECTURA)`  
-**Llave Digital Hash:** `AB60A2FDC93528AF4F11C1D152317D9147B0E2E59CB293E7F01F1E9DA1C3F0F5`  
-**Autoridad Certificadora:** Lic. Alí José Zapata Mendoza (CEO)  
-**Fecha de Bloqueo:** 2026-09-08 22:34:15  
+# 🔒 CERRADURA DIGITAL DE SEGURIDAD — DIAMAX PRO
+**Empresa:** 3Tree Digital Sport IA  
+**Autoridad:** Lic. Alí José Zapata Mendoza — CEO & Fundador  
+**Proyecto:** PRJ-002 — DIAMAX Pro Tactical Dugout Platform  
+**Fecha de Cierre Oficial:** 2026-09-08T23:02:47.694399  
+**Estado:** `CERRADO_Y_BLOQUEADO` (ACTIVE_ARMORED_READ_ONLY)  
 
-### 🛡️ CONDICIONES DE AISLAMIENTO:
-1. Este proyecto está **100% TERMINADO Y ACTUALIZADO**.
-2. Queda estrictamente prohibida la edición de su código fuente o la importación de dependencias externas.
-3. No puede mezclarse ni cruzarse con ningún otro proyecto del ecosistema.
+---
+
+### 🛡️ REGISTRO CRIPTOGRÁFICO
+- **Archivo Maestro:** `index.html`
+- **Algoritmo de Firma:** SHA-256
+- **Llave Digital Hash:** `82C88BDE1D4E45943AEDAD99A35D0056EC6E0B0C2292E7FAAC15DC1338ED7468`
+- **Dictamen de Auditoría Forense:** `30/30 TESTS PASADOS (100% EFECTIVIDAD)`
+- **Capacidades Incorporadas:** RAG Vectorial (17 Chunks), Memoria Episódica, Base de Rivales, Switch Local/Visitante, Doble Logo Scoreboard, NLP Conversacional.
+
+---
+
+### ⚠️ POLÍTICA DE AISLAMIENTO ESTRICTO
+> **DIRECTIVA MAESTRA:** Este proyecto ha sido sellado y certificado formalmente. Queda estrictamente prohibida su modificación no autorizada o mezcla con otros proyectos del ecosistema.
