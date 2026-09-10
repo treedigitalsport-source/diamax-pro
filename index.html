@@ -922,30 +922,8 @@ body.daylight-mode .btn-keypad:hover {
 
 
   <!-- Firebase App & Firestore CDN (Fase Base de Datos) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
-// Global Window bindings
-window.switchTab = switchTab;
-window.RIVALS_DATABASE = RIVALS_DATABASE;
-window.poblarSelectoresRivales = poblarSelectoresRivales;
-window.seleccionarRivalDeLista = seleccionarRivalDeLista;
-window.toggleFormularioNuevoRival = toggleFormularioNuevoRival;
-window.guardarNuevoRivalEnDB = guardarNuevoRivalEnDB;
-window.actualizarFaseTacticoIA = actualizarFaseTacticoIA;
-window.consultarAgenteIA = consultarAgenteIA;
-
-</script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js">
-// Global Window bindings
-window.switchTab = switchTab;
-window.RIVALS_DATABASE = RIVALS_DATABASE;
-window.poblarSelectoresRivales = poblarSelectoresRivales;
-window.seleccionarRivalDeLista = seleccionarRivalDeLista;
-window.toggleFormularioNuevoRival = toggleFormularioNuevoRival;
-window.guardarNuevoRivalEnDB = guardarNuevoRivalEnDB;
-window.actualizarFaseTacticoIA = actualizarFaseTacticoIA;
-window.consultarAgenteIA = consultarAgenteIA;
-
-</script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 </head>
 <body>
@@ -3068,6 +3046,8 @@ try {
 if (!Array.isArray(GAMES) || GAMES.length === 0) GAMES = [createInitialCleanGame()];
 let activeGameId = GAMES[0].id;
 
+let GAME_ACTIVE = null;
+try { const saved = localStorage.getItem('diamax_game_active_v1'); if (saved) GAME_ACTIVE = JSON.parse(saved); } catch(e){}
 let liveState = {
   inning: 1,
   half: 'top',
@@ -3647,8 +3627,9 @@ const BaseballKnowledgeGraph = {
 // 🧠 ASISTENTE TÁCTICO GROQ AI (STREAMING / ULTRA-LOW LATENCY)
 // Actualizador en tiempo real del rol táctico (Ofensivo vs Defensivo)
 function actualizarFaseTacticoIA() {
-  const g = getActiveGame();
-  const isLocal = currentGame.isHomeClub !== undefined ? currentGame.isHomeClub : (g.isHomeClub !== false);
+  const g = typeof getActiveGame === 'function' ? getActiveGame() : { isHomeClub: true };
+  const currentGame = g;
+  const isLocal = currentGame && currentGame.isHomeClub !== undefined ? currentGame.isHomeClub : (g.isHomeClub !== false);
   const isGuerrerosBatting = isLocal ? (liveState.half === 'bot') : (liveState.half === 'top');
   
   const badgePhase = document.getElementById('ai-phase-badge');
@@ -4150,6 +4131,7 @@ async function consultarAgenteIA(queryType) {
   const display = document.getElementById('ai-response-display');
   const current = typeof getLiveCurrentBatter === 'function' ? getLiveCurrentBatter() : { player: { num: 1, name: "Bateador", bats: "R" }, pos: "DH" };
   const g = typeof getActiveGame === 'function' ? getActiveGame() : { rival: "DAYTONA BEACH", estadio: "Lutz Park", direccion: "Lutz, FL", clima: { tempF: 86, viento: "7 mph CF", impactoVuelo: "+4.5 pies" } };
+  const currentGame = g;
   const rivalsList = typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : [];
   const rivalObj = rivalsList.find(function(r) { return r.name.toUpperCase() === (g.rival||'').toUpperCase() || r.id === activeRivalId; }) || rivalsList[0] || { name: "DAYTONA BEACH", abbr: "DAY", manager: "Roberto Clemente Jr.", record: "14-4", pitcherAs: "Carlos Morales", dangerBatter: "#24 Roberto Díaz", tendency: "Agresivos", weakness: "Zona baja" };
   const key = ((document.getElementById('diamax-ia-key') && document.getElementById('diamax-ia-key').value) || localStorage.getItem('diamax_groq_key') || '').trim();
@@ -4592,7 +4574,7 @@ function updateLiveBatterDisplay() {
   // If GVE is Away: In TOP, GVE bats & Rival pitches; in BOT, Rival bats & GVE pitches
   const gveIsBatting = (isHomeClub && !isTop) || (!isHomeClub && isTop);
   
-  const rivalRecord = RIVALS_DATABASE.find(r => r.id === (GAME_ACTIVE ? GAME_ACTIVE.rivalId : activeRivalId)) || RIVALS_DATABASE[0];
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => r.id === (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE ? GAME_ACTIVE.rivalId : activeRivalId)) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : null);
   
   let currentBatterName = '';
   let currentBatterNum = '';
@@ -4651,7 +4633,7 @@ function renderLiveLineupChips() {
   const isTop = liveState.half === 'TOP';
   const isHomeClub = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE && GAME_ACTIVE.isHomeClub !== undefined) ? GAME_ACTIVE.isHomeClub : true;
   const gveIsBatting = (isHomeClub && !isTop) || (!isHomeClub && isTop);
-  const rivalRecord = RIVALS_DATABASE.find(r => r.id === (GAME_ACTIVE ? GAME_ACTIVE.rivalId : activeRivalId)) || RIVALS_DATABASE[0];
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => r.id === (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE ? GAME_ACTIVE.rivalId : activeRivalId)) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : null);
 
   const lineupToRender = gveIsBatting ? getGuerrerosLineup() : ((rivalRecord && rivalRecord.lineup) ? rivalRecord.lineup.slice(0, 9) : []);
 
