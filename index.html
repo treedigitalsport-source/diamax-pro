@@ -5147,7 +5147,7 @@ function guardarNuevoRivalEnDB() {
 }
 
 function renderRivalLineupEditor(rival) {
-  const container = document.getElementById('rival-lineup-tbody');
+  const container = document.getElementById('tbody-rival-lineup-editor') || document.getElementById('rival-lineup-tbody');
   if (!container) return;
   container.innerHTML = '';
 
@@ -5289,7 +5289,9 @@ function abrirModalNuevoJuego() {
   if (modal) {
     poblarSelectoresRivales();
     seleccionarRivalDeLista();
+    if (typeof poblarSelectoresGVEModal === 'function') poblarSelectoresGVEModal();
     toggleFormularioNuevoRival(false);
+    if (typeof validarPreJuegoCompleto === 'function') validarPreJuegoCompleto();
     modal.classList.add('active');
     modal.style.display = 'flex';
   }
@@ -5629,6 +5631,456 @@ window.autoRellenarLineupIA = autoRellenarLineupIA;
 window.vaciarLineupManual = vaciarLineupManual;
 window.ejecutarSimulacionMonteCarloLineup = ejecutarSimulacionMonteCarloLineup;
 
+
+
+
+// =========================================================================
+// 🏟️ MOTOR DE CONFIGURACIÓN PRE-JUEGO (FLUXO OFICIAL ORLANDO SÁNCHEZ 2026)
+// =========================================================================
+
+function poblarSelectoresGVEModal() {
+  const selPitcher = document.getElementById('select-gve-starter-pitcher');
+  const selKeyBatter = document.getElementById('select-gve-key-batter');
+  const tbodyGVE = document.getElementById('tbody-gve-lineup-editor');
+
+  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [
+    { id:1, num:1, name:"Johan Olivo", defaultPos:"CF", bats:"L" },
+    { id:2, num:2, name:"Pablo Morales", defaultPos:"1B", bats:"R" },
+    { id:3, num:3, name:"Raul Lozada", defaultPos:"SS", bats:"R" },
+    { id:4, num:4, name:"Jorge Mitchell", defaultPos:"2B", bats:"R" },
+    { id:5, num:5, name:"Oswaldo Grillo", defaultPos:"3B", bats:"R" },
+    { id:6, num:6, name:"Nestor Vera", defaultPos:"LF", bats:"L" },
+    { id:7, num:7, name:"Pedro Moreno", defaultPos:"RF", bats:"L" },
+    { id:8, num:8, name:"Juan Perez", defaultPos:"C", bats:"R" },
+    { id:9, num:9, name:"Martin Rojas", defaultPos:"DH", bats:"R" },
+    { id:10, num:23, name:"Pedro Chavez", defaultPos:"P", bats:"R" }
+  ];
+
+  if (selPitcher) {
+    selPitcher.innerHTML = roster.filter(p => p.defaultPos === 'P' || p.num === 23 || p.name.includes('Chavez') || p.name.includes('Quintero')).map(p =>
+      `<option value="${p.id}" ${p.name.includes('Chavez') || p.num === 23 ? 'selected' : ''}>#${p.num} ${p.name} (P)</option>`
+    ).join('') + `<option value="custom">+ Personalizar Lanzador...</option>`;
+  }
+
+  if (selKeyBatter) {
+    selKeyBatter.innerHTML = roster.map((p, idx) =>
+      `<option value="${p.id}" ${idx === 0 || p.name.includes('Olivo') ? 'selected' : ''}>#${p.num} ${p.name} (${p.defaultPos} - Batea: ${p.bats})</option>`
+    ).join('');
+  }
+
+  if (tbodyGVE) {
+    const posOptions = ['CF', '1B', 'SS', '2B', '3B', 'LF', 'RF', 'C', 'DH', 'P'];
+    const currentLineup = getGuerrerosLineup();
+    tbodyGVE.innerHTML = Array.from({ length: 9 }).map((_, idx) => {
+      const p = currentLineup[idx] || roster[idx] || { name: `Jugador ${idx+1}`, number: idx+1, pos: posOptions[idx]||'OF', bats: 'R' };
+      return `
+        <tr>
+          <td style="text-align:center; font-weight:900; color:#FFC72C;">${idx + 1}</td>
+          <td>
+            <select id="gve-lineup-player-${idx}" class="form-control" onchange="actualizarFilaGVELineup(${idx})" style="font-size:11.5px; padding:4px 6px;">
+              ${roster.map(pl => `<option value="${pl.id}" ${pl.name === p.name || pl.num === p.number ? 'selected' : ''}>#${pl.num} ${pl.name}</option>`).join('')}
+            </select>
+          </td>
+          <td>
+            <input type="text" id="gve-lineup-num-${idx}" class="form-control" value="${p.number}" style="text-align:center; font-size:11.5px; padding:4px;" oninput="validarPreJuegoCompleto()">
+          </td>
+          <td>
+            <select id="gve-lineup-pos-${idx}" class="form-control" onchange="validarPreJuegoCompleto()" style="font-size:11.5px; padding:4px;">
+              ${posOptions.map(pos => `<option value="${pos}" ${pos === p.pos ? 'selected' : ''}>${pos}</option>`).join('')}
+            </select>
+          </td>
+          <td>
+            <select id="gve-lineup-bats-${idx}" class="form-control" onchange="validarPreJuegoCompleto()" style="font-size:11.5px; padding:4px;">
+              <option value="R" ${p.bats === 'R' ? 'selected' : ''}>R</option>
+              <option value="L" ${p.bats === 'L' ? 'selected' : ''}>L</option>
+              <option value="S" ${p.bats === 'S' ? 'selected' : ''}>S</option>
+            </select>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+}
+
+function seleccionarPitcherAbridorGVE() {
+  const sel = document.getElementById('select-gve-starter-pitcher');
+  if (!sel) return;
+  const val = sel.value;
+  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
+  const p = roster.find(pl => String(pl.id) === String(val));
+  if (p) {
+    const elNum = document.getElementById('input-gve-starter-num');
+    if (elNum) elNum.value = p.num;
+  }
+  validarPreJuegoCompleto();
+}
+
+function actualizarFilaGVELineup(idx) {
+  const sel = document.getElementById(`gve-lineup-player-${idx}`);
+  if (!sel) return;
+  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
+  const p = roster.find(pl => String(pl.id) === String(sel.value));
+  if (p) {
+    const elNum = document.getElementById(`gve-lineup-num-${idx}`);
+    const elPos = document.getElementById(`gve-lineup-pos-${idx}`);
+    const elBats = document.getElementById(`gve-lineup-bats-${idx}`);
+    if (elNum) elNum.value = p.num;
+    if (elPos) elPos.value = p.defaultPos || 'OF';
+    if (elBats) elBats.value = p.bats || 'R';
+  }
+  validarPreJuegoCompleto();
+}
+
+function autoRellenarLineupGVEModal() {
+  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
+  const defaults = [
+    { num: 1, pos: 'CF', bats: 'L' },
+    { num: 2, pos: '1B', bats: 'R' },
+    { num: 3, pos: 'SS', bats: 'R' },
+    { num: 4, pos: '2B', bats: 'R' },
+    { num: 5, pos: '3B', bats: 'R' },
+    { num: 6, pos: 'LF', bats: 'L' },
+    { num: 7, pos: 'RF', bats: 'L' },
+    { num: 8, pos: 'C', bats: 'R' },
+    { num: 9, pos: 'DH', bats: 'R' }
+  ];
+
+  for (let i = 0; i < 9; i++) {
+    const sel = document.getElementById(`gve-lineup-player-${i}`);
+    const elNum = document.getElementById(`gve-lineup-num-${i}`);
+    const elPos = document.getElementById(`gve-lineup-pos-${i}`);
+    const elBats = document.getElementById(`gve-lineup-bats-${i}`);
+
+    if (roster[i] && sel) sel.value = roster[i].id;
+    if (elNum) elNum.value = defaults[i].num;
+    if (elPos) elPos.value = defaults[i].pos;
+    if (elBats) elBats.value = defaults[i].bats;
+  }
+  validarPreJuegoCompleto();
+}
+
+function validarPreJuegoCompleto() {
+  const alertBox = document.getElementById('alert-error-lineup');
+  const alertMsg = document.getElementById('alert-error-msg');
+
+  // 1. Validar Lanzador Abridor Rival
+  const rivalStarter = document.getElementById('input-rival-starter-name')?.value.trim();
+  if (!rivalStarter) {
+    if (alertBox && alertMsg) {
+      alertMsg.innerText = 'Falta el nombre del Lanzador Abridor del Rival.';
+      alertBox.style.display = 'block';
+    }
+    return false;
+  }
+
+  // 2. Validar 9 Bateadores del Rival
+  for (let i = 0; i < 9; i++) {
+    const name = document.getElementById(`rival-lineup-name-${i}`)?.value.trim();
+    if (!name) {
+      if (alertBox && alertMsg) {
+        alertMsg.innerText = `Falta el nombre del Bateador #${i + 1} del Rival.`;
+        alertBox.style.display = 'block';
+      }
+      return false;
+    }
+  }
+
+  // 3. Validar Lanzador Abridor de Guerreros
+  const gveStarterNum = document.getElementById('input-gve-starter-num')?.value.trim();
+  if (!gveStarterNum) {
+    if (alertBox && alertMsg) {
+      alertMsg.innerText = 'Falta el número del Lanzador Abridor de Guerreros.';
+      alertBox.style.display = 'block';
+    }
+    return false;
+  }
+
+  // 4. Validar 9 Bateadores de Guerreros y Posiciones de Campo (Sin duplicados en 1B,2B,3B,SS,LF,CF,RF,C,P)
+  const usedPositions = [];
+  for (let i = 0; i < 9; i++) {
+    const num = document.getElementById(`gve-lineup-num-${i}`)?.value.trim();
+    const pos = document.getElementById(`gve-lineup-pos-${i}`)?.value;
+    if (!num) {
+      if (alertBox && alertMsg) {
+        alertMsg.innerText = `Falta el número del Jugador #${i + 1} de Guerreros.`;
+        alertBox.style.display = 'block';
+      }
+      return false;
+    }
+    if (pos && pos !== 'DH' && pos !== 'BD') {
+      if (usedPositions.includes(pos)) {
+        if (alertBox && alertMsg) {
+          alertMsg.innerText = `Posición defensiva repetida en Guerreros: "${pos}". Asigne posiciones únicas en el campo (1-9).`;
+          alertBox.style.display = 'block';
+        }
+        return false;
+      }
+      usedPositions.push(pos);
+    }
+  }
+
+  if (alertBox) alertBox.style.display = 'none';
+  return true;
+}
+
+function autofixCompletoPreJuego() {
+  autocompletarLineupRival();
+  autoRellenarLineupGVEModal();
+  const rStarter = document.getElementById('input-rival-starter-name');
+  if (rStarter && !rStarter.value.trim()) rStarter.value = 'Carlos Morales';
+  const gveStarterNum = document.getElementById('input-gve-starter-num');
+  if (gveStarterNum && !gveStarterNum.value.trim()) gveStarterNum.value = '23';
+  validarPreJuegoCompleto();
+}
+
+function mostrarVistaPreviaTarjetaOficial() {
+  if (!validarPreJuegoCompleto()) return;
+
+  const modal = document.getElementById('modal-preview-tarjeta-oficial');
+  const container = document.getElementById('preview-tarjeta-oficial-content');
+  if (!modal || !container) return;
+
+  const rivalRecord = RIVALS_DATABASE.find(r => r.id === activeRivalId) || RIVALS_DATABASE[0];
+  const isHomeClub = document.querySelector('input[name="game-condicion"]:checked')?.value === 'HOME';
+  const fecha = document.getElementById('input-game-fecha')?.value || '2026-09-08';
+  const estadio = document.getElementById('input-game-estadio')?.value || 'Lutz Baseball Park';
+
+  const gveStarterName = document.getElementById('select-gve-starter-pitcher')?.selectedOptions[0]?.text.split('(')[0] || 'Pedro Chavez';
+  const gveStarterNum = document.getElementById('input-gve-starter-num')?.value || '23';
+  const gveStarterArm = document.getElementById('select-gve-starter-arm')?.value || 'RHP';
+
+  const rivalStarterName = document.getElementById('input-rival-starter-name')?.value || 'Tom Reynolds';
+  const rivalStarterNum = document.getElementById('input-rival-starter-num')?.value || '21';
+  const rivalStarterArm = document.getElementById('select-rival-starter-arm')?.value || 'RHP';
+
+  let gveRows = '';
+  for (let i = 0; i < 9; i++) {
+    const sel = document.getElementById(`gve-lineup-player-${i}`);
+    const name = sel ? sel.selectedOptions[0]?.text.replace(/^#\d+\s+/, '') : `Bateador ${i+1}`;
+    const num = document.getElementById(`gve-lineup-num-${i}`)?.value || (i + 1);
+    const pos = document.getElementById(`gve-lineup-pos-${i}`)?.value || 'OF';
+    const bats = document.getElementById(`gve-lineup-bats-${i}`)?.value || 'R';
+    gveRows += `<tr><td style="font-weight:bold; text-align:center;">${i+1}</td><td>#${num} ${name}</td><td style="text-align:center; font-weight:bold; color:#FFC72C;">${pos}</td><td style="text-align:center;">${bats}</td></tr>`;
+  }
+
+  let rivalRows = '';
+  for (let i = 0; i < 9; i++) {
+    const name = document.getElementById(`rival-lineup-name-${i}`)?.value || `Bateador ${i+1}`;
+    const num = document.getElementById(`rival-lineup-num-${i}`)?.value || (i + 1);
+    const pos = document.getElementById(`rival-lineup-pos-${i}`)?.value || 'OF';
+    const bats = document.getElementById(`rival-lineup-bats-${i}`)?.value || 'R';
+    rivalRows += `<tr><td style="font-weight:bold; text-align:center;">${i+1}</td><td>#${num} ${name}</td><td style="text-align:center; font-weight:bold; color:#00D2FF;">${pos}</td><td style="text-align:center;">${bats}</td></tr>`;
+  }
+
+  container.innerHTML = `
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <!-- Tarjeta Guerreros -->
+      <div style="background:#0F172A; border:1px solid #10B981; border-radius:8px; padding:12px;">
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #334155; padding-bottom:6px; margin-bottom:8px;">
+          <strong style="color:#10B981; font-size:13px;">🇻🇪 GUERREROS DE VENEZUELA (+55)</strong>
+          <span style="font-size:10px; background:#10B981; color:#000; padding:2px 6px; border-radius:4px; font-weight:900;">${isHomeClub ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)'}</span>
+        </div>
+        <div style="font-size:11px; margin-bottom:6px;"><strong>Mánager:</strong> Lic. Alí Zapata Mendoza</div>
+        <div style="font-size:11px; margin-bottom:8px; color:#FFC72C;"><strong>Lanzador Abridor (P):</strong> ${gveStarterName} (#${gveStarterNum} - ${gveStarterArm}) [Límite: 75 Pitches]</div>
+        <table class="lineup-table-editor" style="font-size:11px; width:100%;">
+          <thead><tr><th style="width:25px;">#</th><th>BATEADOR</th><th style="width:40px;">POS</th><th style="width:30px;">B/L</th></tr></thead>
+          <tbody>${gveRows}</tbody>
+        </table>
+      </div>
+
+      <!-- Tarjeta Rival -->
+      <div style="background:#0F172A; border:1px solid #00D2FF; border-radius:8px; padding:12px;">
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #334155; padding-bottom:6px; margin-bottom:8px;">
+          <strong style="color:#00D2FF; font-size:13px;">⚔️ ${rivalRecord.name} (${rivalRecord.abbr})</strong>
+          <span style="font-size:10px; background:#00D2FF; color:#000; padding:2px 6px; border-radius:4px; font-weight:900;">${!isHomeClub ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)'}</span>
+        </div>
+        <div style="font-size:11px; margin-bottom:6px;"><strong>Mánager:</strong> ${rivalRecord.manager || 'Mánager Rival'}</div>
+        <div style="font-size:11px; margin-bottom:8px; color:#00D2FF;"><strong>Lanzador Abridor (P):</strong> ${rivalStarterName} (#${rivalStarterNum} - ${rivalStarterArm})</div>
+        <table class="lineup-table-editor" style="font-size:11px; width:100%;">
+          <thead><tr><th style="width:25px;">#</th><th>BATEADOR</th><th style="width:40px;">POS</th><th style="width:30px;">B/L</th></tr></thead>
+          <tbody>${rivalRows}</tbody>
+        </table>
+      </div>
+    </div>
+    <div style="margin-top:12px; font-size:11px; color:#94A3B8; text-align:center;">
+      🏟️ Sede: ${estadio} · 📅 Fecha: ${fecha} · ⚖️ Certificado oficial para Delegados y Árbitros.
+    </div>
+  `;
+
+  modal.style.display = 'flex';
+}
+
+function cerrarVistaPreviaTarjetaOficial() {
+  const modal = document.getElementById('modal-preview-tarjeta-oficial');
+  if (modal) modal.style.display = 'none';
+}
+
+function guardarYCertificarJuegoOficial() {
+  if (!validarPreJuegoCompleto()) return;
+
+  cerrarVistaPreviaTarjetaOficial();
+
+  const fecha = document.getElementById('input-game-fecha')?.value || '2026-09-08';
+  const horaInicio = document.getElementById('input-game-hora-inicio')?.value || '09:30';
+  const estadio = document.getElementById('input-game-estadio')?.value || 'Lutz Baseball Park - Campo #1';
+  const direccion = document.getElementById('input-game-direccion')?.value || '5709 Kingfish Drive, Lutz, FL 33558';
+
+  const rivalId = activeRivalId;
+  const rivalRecord = RIVALS_DATABASE.find(r => r.id === rivalId) || RIVALS_DATABASE[0];
+  const rivalName = rivalRecord.name;
+  const rivalAbbr = rivalRecord.abbr || 'RIV';
+
+  const rivalStarterName = document.getElementById('input-rival-starter-name')?.value.trim() || 'Carlos Morales';
+  const rivalStarterNum = document.getElementById('input-rival-starter-num')?.value.trim() || '18';
+  const rivalStarterArm = document.getElementById('select-rival-starter-arm')?.value || 'RHP';
+
+  const isHomeClub = document.querySelector('input[name="game-condicion"]:checked')?.value === 'HOME';
+
+  // 1. Guardar Lineup Rival
+  const customRivalLineup = [];
+  for (let i = 0; i < 9; i++) {
+    const name = document.getElementById(`rival-lineup-name-${i}`)?.value.trim() || `Bateador ${i+1}`;
+    const num = document.getElementById(`rival-lineup-num-${i}`)?.value.trim() || `${i+1}`;
+    const pos = document.getElementById(`rival-lineup-pos-${i}`)?.value || 'OF';
+    const bats = document.getElementById(`rival-lineup-bats-${i}`)?.value || 'R';
+    customRivalLineup.push({ order: i + 1, name, number: num, pos, bats, throws: 'R' });
+  }
+
+  rivalRecord.pitcherAs = rivalStarterName;
+  rivalRecord.pitcherNum = rivalStarterNum;
+  rivalRecord.pitcherArm = rivalStarterArm;
+  rivalRecord.lineup = customRivalLineup;
+  saveRivalsToStorage();
+
+  // 2. Guardar Lineup Guerreros
+  const customGVELineup = [];
+  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
+  for (let i = 0; i < 9; i++) {
+    const sel = document.getElementById(`gve-lineup-player-${i}`);
+    const name = sel ? sel.selectedOptions[0]?.text.replace(/^#\d+\s+/, '') : (roster[i]?.name || `Jugador ${i+1}`);
+    const num = document.getElementById(`gve-lineup-num-${i}`)?.value.trim() || `${i+1}`;
+    const pos = document.getElementById(`gve-lineup-pos-${i}`)?.value || 'OF';
+    const bats = document.getElementById(`gve-lineup-bats-${i}`)?.value || 'R';
+    const pId = sel ? parseInt(sel.value, 10) : (i + 1);
+
+    customGVELineup.push({
+      order: i + 1,
+      playerId: pId,
+      name: name,
+      number: num,
+      pos: pos,
+      bats: bats,
+      throws: 'R'
+    });
+  }
+
+  // 3. Crear Objeto Oficial GAME_ACTIVE
+  const gameId = `GAME-${Date.now()}`;
+  GAME_ACTIVE = {
+    id: gameId,
+    fecha: fecha,
+    horaInicio: horaInicio,
+    estadio: estadio,
+    direccion: direccion,
+    rival: rivalName,
+    rivalId: rivalId,
+    rivalAbbr: rivalAbbr,
+    isHomeClub: isHomeClub,
+    condicion: isHomeClub ? 'HOME' : 'AWAY',
+    halfInningRule: isHomeClub ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1',
+    lineup: customGVELineup,
+    clima: { tempF: 86, humedad: 68, viento: '7 mph -> CF', impactoVuelo: '+4.5 pies' }
+  };
+  localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE));
+
+  // 4. Crear Registro en Base de Datos Relacional `game_lineups`
+  const gameLineupRecord = {
+    id: `LINEUP-${gameId}`,
+    gameId: gameId,
+    fecha: fecha,
+    estadio: estadio,
+    condicion: isHomeClub ? 'HOME_CLUB' : 'VISITANTE',
+    isHomeClub: isHomeClub,
+    homeTeam: isHomeClub ? {
+      name: 'GUERREROS DE VENEZUELA +55',
+      abbr: 'GVE',
+      manager: 'Lic. Alí Zapata Mendoza',
+      starterPitcher: { name: document.getElementById('select-gve-starter-pitcher')?.selectedOptions[0]?.text.split('(')[0] || 'Pedro Chavez', number: document.getElementById('input-gve-starter-num')?.value || '23', arm: document.getElementById('select-gve-starter-arm')?.value || 'RHP' },
+      lineup: customGVELineup
+    } : {
+      name: rivalName,
+      abbr: rivalAbbr,
+      manager: rivalRecord.manager,
+      starterPitcher: { name: rivalStarterName, number: rivalStarterNum, arm: rivalStarterArm },
+      lineup: customRivalLineup
+    },
+    awayTeam: !isHomeClub ? {
+      name: 'GUERREROS DE VENEZUELA +55',
+      abbr: 'GVE',
+      manager: 'Lic. Alí Zapata Mendoza',
+      starterPitcher: { name: document.getElementById('select-gve-starter-pitcher')?.selectedOptions[0]?.text.split('(')[0] || 'Pedro Chavez', number: document.getElementById('input-gve-starter-num')?.value || '23', arm: document.getElementById('select-gve-starter-arm')?.value || 'RHP' },
+      lineup: customGVELineup
+    } : {
+      name: rivalName,
+      abbr: rivalAbbr,
+      manager: rivalRecord.manager,
+      starterPitcher: { name: rivalStarterName, number: rivalStarterNum, arm: rivalStarterArm },
+      lineup: customRivalLineup
+    }
+  };
+
+  try {
+    let allLineups = [];
+    const saved = localStorage.getItem('diamax_game_lineups_v1');
+    if (saved) allLineups = JSON.parse(saved);
+    allLineups.unshift(gameLineupRecord);
+    localStorage.setItem('diamax_game_lineups_v1', JSON.stringify(allLineups));
+  } catch(e) {}
+
+  // 5. Reiniciar Estado Live del Juego en Inning 1
+  liveState = {
+    inning: 1,
+    half: 'top', // Siempre inicia en la Alta (▲) del 1er Inning
+    outs: 0,
+    balls: 0,
+    strikes: 0,
+    scoreUs: 0,
+    scoreThem: 0,
+    bases: { b1: false, b2: false, b3: false },
+    currentBatterIndex: 0,
+    pitchesTotal: 0,
+    currentLiveBox: {},
+    currentPitchingBox: { outsPitcher: 0, k: 0, bb: 0, h: 0, cl: 0, wp: 0 },
+    currentFieldingBox: {}
+  };
+
+  // 6. Sincronizar UI Completa
+  cerrarModalNuevoJuego();
+  actualizarGameHeaderUI();
+  if (typeof actualizarFaseTacticoIA === 'function') actualizarFaseTacticoIA();
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+  if (typeof renderOfficialCard === 'function') renderOfficialCard();
+  if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
+  if (typeof renderLineupBuilder === 'function') renderLineupBuilder();
+  if (typeof renderField === 'function') renderField();
+  if (typeof renderAll === 'function') renderAll();
+
+  // 7. Transición Directa a Pestaña Live Dugout
+  switchTab('envivo');
+
+  // 8. Notificación Toast de Éxito
+  const toastMsg = isHomeClub
+    ? `🏆 Partido Certificado vs ${rivalName}. Guerreros HOME CLUB: Defiende en la Alta (▲) · Batea en la Baja (▼).`
+    : `🏆 Partido Certificado vs ${rivalName}. Guerreros VISITANTE: Abre el 1er Turno al Bate (▲).`;
+
+  if (typeof mostrarToast === 'function') {
+    mostrarToast(toastMsg);
+  } else {
+    alert(toastMsg);
+  }
+}
+
+
 </script>
 
 <!-- 🛡️ PORTAL DE AUTENTICACIÓN & SEGURIDAD MILITAR (FASE 4) -->
@@ -5733,32 +6185,25 @@ window.ejecutarSimulacionMonteCarloLineup = ejecutarSimulacionMonteCarloLineup;
 
 
 <!-- MODAL DE CARGAR NUEVO JUEGO Y DATOS DE SEDE -->
+<!-- MODAL: CONFIGURAR NUEVO JUEGO (FLUXO OFICIAL ORLANDO SÁNCHEZ 2026) -->
 <div class="modal-overlay" id="modal-nuevo-juego">
-  <div class="modal-card" style="max-width:960px; max-height:92vh; overflow-y:auto;">
-    <div class="modal-header">
-      <h2 id="modal-new-game-title">🏟️ Cargar Nuevo Juego & Sede Oficial</h2>
+  <div class="modal-card" style="max-width:980px; max-height:92vh; overflow-y:auto; border:1px solid #00D2FF; box-shadow:0 0 50px rgba(0,210,255,0.15);">
+    <div class="modal-header" style="border-bottom:1px solid #1E293B; padding-bottom:12px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="background:#00D2FF; color:#000; font-weight:900; font-size:12px; padding:4px 8px; border-radius:6px;">PRO MATCHUP</span>
+        <h2 id="modal-new-game-title" style="margin:0; font-size:18px; color:#FFF;">🏟️ Configuración Táctica Pre-Juego (Reglas Oficiales 1-9)</h2>
+      </div>
       <button class="btn-modal-close" onclick="cerrarModalNuevoJuego()">&times;</button>
     </div>
-    
-    <div class="form-grid-2">
-      <div class="form-group">
-        <label>📅 Fecha del Partido</label>
-        <input type="date" id="input-game-fecha" class="form-control" value="2026-09-08">
-      </div>
-      <div class="form-group">
-        <label>⏰ Hora de Inicio</label>
-        <input type="time" id="input-game-hora-inicio" class="form-control" value="09:30">
-      </div>
-    </div>
 
-    <!-- PASO 1 & 2: SELECCIÓN / REGISTRO DEL RIVAL Y CONDICIÓN -->
-    <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px;">
+    <!-- WIZARD STEP 1: RIVAL / EQUIPO CONTRARIO -->
+    <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:16px; margin-top:14px; margin-bottom:14px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <label style="font-weight:900; color:#FFC72C; font-size:13px; margin:0;">
-          ⚔️ 1. Selección de Equipo Rival
+        <label style="font-weight:900; color:#FFC72C; font-size:13px; margin:0; display:flex; align-items:center; gap:6px;">
+          ⚔️ 1. Cargar Equipo Contrario / Rival
         </label>
         <button type="button" id="btn-toggle-nuevo-rival" class="btn-settings" onclick="toggleFormularioNuevoRival()" style="background:#00D2FF; color:#000; border:none; padding:5px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">
-          ➕ Añadir Nuevo Rival
+          ➕ Registrar Nuevo Rival en BD
         </button>
       </div>
 
@@ -5774,7 +6219,7 @@ window.ejecutarSimulacionMonteCarloLineup = ejecutarSimulacionMonteCarloLineup;
         <div style="font-size:12px; font-weight:800; color:#00D2FF; margin-bottom:8px;">➕ Registro Rápido de Nuevo Rival en Base de Datos</div>
         <div class="rival-form-grid" style="margin-top:0;">
           <div class="form-group">
-            <label style="font-size:11px;">Nombre del Equipo Rival</label>
+            <label style="font-size:11px;">Nombre del Club Rival</label>
             <input type="text" id="input-new-rival-name" class="form-control" placeholder="Ej: SARASOTA RED SOX">
           </div>
           <div class="form-group">
@@ -5804,58 +6249,167 @@ window.ejecutarSimulacionMonteCarloLineup = ejecutarSimulacionMonteCarloLineup;
         </div>
       </div>
 
-      <!-- Paso 2: Condición de Home Club / Visitante -->
+      <!-- Lanzador Abridor Rival & Lineup Rival -->
+      <div style="margin-top:12px; background:#0F172A; border:1px solid #334155; border-radius:8px; padding:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:12px; font-weight:800; color:#00D2FF;">⚾ Lanzador Abridor y 9 Bateadores del Rival:</span>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn-settings" onclick="autocompletarLineupRival()" style="font-size:10.5px; padding:3px 8px;">
+              ⚡ Defaults Rival
+            </button>
+            <button type="button" class="btn-settings" onclick="limpiarLineupRivalEditor()" style="font-size:10.5px; padding:3px 8px;">
+              🗑️ Limpiar
+            </button>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:8px; margin-bottom:10px;">
+          <div>
+            <label style="font-size:10px; color:#94A3B8;">Nombre Lanzador Abridor</label>
+            <input type="text" id="input-rival-starter-name" class="form-control" placeholder="Nombre Lanzador" value="Tom Reynolds" oninput="validarPreJuegoCompleto()">
+          </div>
+          <div>
+            <label style="font-size:10px; color:#94A3B8;">Número #</label>
+            <input type="text" id="input-rival-starter-num" class="form-control" placeholder="#21" value="21" oninput="validarPreJuegoCompleto()">
+          </div>
+          <div>
+            <label style="font-size:10px; color:#94A3B8;">Brazo</label>
+            <select id="select-rival-starter-arm" class="form-control" onchange="validarPreJuegoCompleto()">
+              <option value="RHP" selected>Diestro (RHP)</option>
+              <option value="LHP">Zurdo (LHP)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tabla 9 Bateadores Rival -->
+        <div style="overflow-x:auto; border:1px solid #1E293B; border-radius:6px;">
+          <table class="lineup-table-editor">
+            <thead>
+              <tr>
+                <th style="width:30px; text-align:center;">ORD</th>
+                <th>NOMBRE DEL BATEADOR RIVAL</th>
+                <th style="width:70px; text-align:center;"># NÚM</th>
+                <th style="width:110px;">POSICIÓN</th>
+                <th style="width:80px;">BATEA</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-rival-lineup-editor">
+              <!-- Generado dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIZARD STEP 2: SEDE, FECHA, SENSOR GPS & CONDICIÓN DE LOCALÍA -->
+    <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:16px; margin-bottom:14px;">
+      <label style="font-weight:900; color:#FFC72C; font-size:13px; display:block; margin-bottom:10px;">
+        🏟️ 2. Registrar Sede, Fecha, Sensor de Clima GPS y Localía
+      </label>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label style="font-size:11px;">📅 Fecha del Partido</label>
+          <input type="date" id="input-game-fecha" class="form-control" value="2026-09-08">
+        </div>
+        <div class="form-group">
+          <label style="font-size:11px;">⏰ Hora de Inicio</label>
+          <input type="time" id="input-game-hora-inicio" class="form-control" value="09:30">
+        </div>
+      </div>
+
+      <div class="form-grid-2" style="margin-top:6px;">
+        <div class="form-group">
+          <label style="font-size:11px;">🏟️ Estadio / Sede Oficial</label>
+          <input type="text" id="input-game-estadio" class="form-control" value="Lutz Baseball Park - Campo #1">
+        </div>
+        <div class="form-group">
+          <label style="font-size:11px;">📍 Dirección / Ubicación</label>
+          <input type="text" id="input-game-direccion" class="form-control" value="5709 Kingfish Drive, Lutz, FL 33558">
+        </div>
+      </div>
+
+      <!-- Sensor de Clima GPS -->
+      <div class="weather-preview-box" style="margin-top:10px;">
+        <div class="weather-preview-header">
+          <span style="font-size:11px; font-weight:800; color:#00D2FF;">🌤️ Telemetría Climática GPS en Vivo (Estadio):</span>
+          <button type="button" class="btn-sync-weather" onclick="sincronizarClimaEnVivo()">🔄 Actualizar GPS</button>
+        </div>
+        <div class="weather-metrics-grid">
+          <div class="weather-metric-item">
+            <div class="weather-metric-label">TEMPERATURA</div>
+            <div class="weather-metric-val" id="weather-val-temp">86°F (30°C)</div>
+          </div>
+          <div class="weather-metric-item">
+            <div class="weather-metric-label">HUMEDAD</div>
+            <div class="weather-metric-val" id="weather-val-hum">68%</div>
+          </div>
+          <div class="weather-metric-item">
+            <div class="weather-metric-label">VIENTO</div>
+            <div class="weather-metric-val" id="weather-val-wind">7 mph -> CF</div>
+          </div>
+          <div class="weather-metric-item">
+            <div class="weather-metric-label">PRESIÓN BAROM.</div>
+            <div class="weather-metric-val" id="weather-val-press">29.95 inHg</div>
+          </div>
+        </div>
+        <div class="zapata-aero-boost" id="weather-val-zapata">
+          🚀 <strong>Impacto Aerodinámico Zapata:</strong> +4.5 pies extra de distancia en elevados al Center Field (Densidad del aire favorable).
+        </div>
+      </div>
+
+      <!-- Condición de Localía & Regla Reglamentaria -->
       <div style="margin-top:12px; padding-top:10px; border-top:1px solid #1E293B;">
-        <label style="font-weight:900; color:#FFC72C; font-size:12px; display:block; margin-bottom:6px;">
-          🏟️ 2. Definir Condición de Localía & Regla de 1er Turno al Bate
+        <label style="font-weight:900; color:#FFF; font-size:11.5px; display:block; margin-bottom:6px;">
+          ⚖️ Definición de Localía & Regla Reglamentaria de Primer Turno al Bate:
         </label>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:12px;">
-            <input type="radio" name="game-condicion" value="HOME" checked style="accent-color:#00D2FF;">
+          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:10px 14px; border-radius:8px; cursor:pointer; font-size:12px;">
+            <input type="radio" name="game-condicion" value="HOME" checked style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto()">
             <div>
-              <strong>🏠 Guerreros HOME CLUB</strong>
-              <div style="font-size:10.5px; color:#94A3B8;">Defiende en Alta (▲) · Batea en Baja (▼)</div>
+              <strong style="color:#00D2FF;">🏠 Guerreros HOME CLUB</strong>
+              <div style="font-size:10.5px; color:#94A3B8;">Defiende en la Alta (▲) · Batea en la Baja (▼)</div>
             </div>
           </label>
-          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:12px;">
-            <input type="radio" name="game-condicion" value="AWAY" style="accent-color:#00D2FF;">
+          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:10px 14px; border-radius:8px; cursor:pointer; font-size:12px;">
+            <input type="radio" name="game-condicion" value="AWAY" style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto()">
             <div>
-              <strong>✈️ Guerreros VISITANTE</strong>
-              <div style="font-size:10.5px; color:#94A3B8;">Batea en Alta (▲) · Abre 1er Turno</div>
+              <strong style="color:#FFC72C;">✈️ Guerreros VISITANTE</strong>
+              <div style="font-size:10.5px; color:#94A3B8;">Batea en la Alta (▲) · Abre el Juego en Inning 1</div>
             </div>
           </label>
         </div>
       </div>
     </div>
 
-    <!-- PASO 3: CARGA DEL LINEUP RIVAL Y ABRIDOR -->
-    <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <label style="font-weight:900; color:#00D2FF; font-size:13px; margin:0;">
-          📋 3. Alineación Titular del Rival & Lanzador Abridor
-        </label>
-        <div style="display:flex; gap:6px;">
-          <button type="button" class="btn-settings" onclick="autocompletarLineupRival()" style="font-size:11px; padding:4px 8px;">
-            ⚡ Autocompletar con Defaults
-          </button>
-          <button type="button" class="btn-settings" onclick="limpiarLineupRivalEditor()" style="font-size:11px; padding:4px 8px;">
-            🗑️ Limpiar
-          </button>
-        </div>
-      </div>
+    <!-- WIZARD STEP 3 & 4: PITCHER ABRIDOR (+55), BATEADOR CLAVE Y LINEUP DE GUERREROS -->
+    <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:16px; margin-bottom:14px;">
+      <label style="font-weight:900; color:#FFC72C; font-size:13px; display:block; margin-bottom:10px;">
+        🇻🇪 3, 4 y 5. Configuración Táctica de Guerreros de Venezuela (+55)
+      </label>
 
-      <!-- Lanzador Abridor Rival -->
-      <div style="background:#0F172A; border:1px solid #334155; border-radius:6px; padding:10px; margin-bottom:10px;">
-        <div style="font-size:11px; font-weight:800; color:#F8FAFC; margin-bottom:6px;">⚾ Lanzador Abridor del Rival (P):</div>
+      <!-- 3. Pitcher Abridor de Guerreros -->
+      <div style="background:#0F172A; border:1px solid #334155; border-radius:8px; padding:12px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+          <span style="font-size:12px; font-weight:800; color:#FFF;">3. ⚾ Pitcher Abridor de Guerreros:</span>
+          <span style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; font-size:10px; font-weight:900; padding:2px 8px; border-radius:4px;">
+            🚦 Semáforo de Fatiga (+55: Límite 75 Pitches)
+          </span>
+        </div>
         <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:8px;">
           <div>
-            <input type="text" id="input-rival-starter-name" class="form-control" placeholder="Nombre del Lanzador" value="Tom Reynolds" oninput="validarIntegridadLineupRival()">
+            <label style="font-size:10px; color:#94A3B8;">Seleccionar del Roster o Personalizar</label>
+            <select id="select-gve-starter-pitcher" class="form-control" onchange="seleccionarPitcherAbridorGVE()">
+              <!-- Poblado dinámicamente -->
+            </select>
           </div>
           <div>
-            <input type="text" id="input-rival-starter-num" class="form-control" placeholder="Número #" value="21" oninput="validarIntegridadLineupRival()">
+            <label style="font-size:10px; color:#94A3B8;">Número #</label>
+            <input type="text" id="input-gve-starter-num" class="form-control" value="23" oninput="validarPreJuegoCompleto()">
           </div>
           <div>
-            <select id="select-rival-starter-arm" class="form-control" onchange="validarIntegridadLineupRival()">
+            <label style="font-size:10px; color:#94A3B8;">Brazo Lanzador</label>
+            <select id="select-gve-starter-arm" class="form-control" onchange="validarPreJuegoCompleto()">
               <option value="RHP" selected>Diestro (RHP)</option>
               <option value="LHP">Zurdo (LHP)</option>
             </select>
@@ -5863,95 +6417,101 @@ window.ejecutarSimulacionMonteCarloLineup = ejecutarSimulacionMonteCarloLineup;
         </div>
       </div>
 
-      <!-- Tabla de 9 Bateadores del Rival -->
-      <div style="overflow-x:auto; border:1px solid #1E293B; border-radius:6px;">
-        <table class="lineup-table-editor">
-          <thead>
-            <tr>
-              <th style="width:30px; text-align:center;">ORD</th>
-              <th>NOMBRE DEL BATEADOR RIVAL</th>
-              <th style="width:70px; text-align:center;">NÚMERO</th>
-              <th style="width:160px;">POSICIÓN DEFENSIVA</th>
-              <th style="width:130px;">BATEO (B/L)</th>
-            </tr>
-          </thead>
-          <tbody id="rival-lineup-tbody">
-            <!-- Inyectado dinámicamente -->
-          </tbody>
-        </table>
+      <!-- 4. Bateador Clave (Eje Ofensivo) -->
+      <div style="background:#0F172A; border:1px solid #334155; border-radius:8px; padding:12px; margin-bottom:12px;">
+        <span style="font-size:12px; font-weight:800; color:#00D2FF; display:block; margin-bottom:6px;">4. 🎯 Bateador Clave (Eje Ofensivo Táctico):</span>
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:8px;">
+          <div>
+            <select id="select-gve-key-batter" class="form-control" onchange="validarPreJuegoCompleto()">
+              <!-- Poblado dinámicamente -->
+            </select>
+          </div>
+          <div style="font-size:11px; color:#94A3B8; display:flex; align-items:center; background:#0B132B; padding:6px 10px; border-radius:6px; border:1px solid #1E293B;">
+            ⭐ Referente sabermétrico en clutch
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Construir y Agregar Lineup Guerreros (1 al 9) -->
+      <div style="background:#0F172A; border:1px solid #334155; border-radius:8px; padding:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:12px; font-weight:800; color:#FFF;">5. 📋 Lineup Titular de Guerreros (1 al 9 - Sin Posiciones Duplicadas):</span>
+          <button type="button" class="btn-settings" onclick="autoRellenarLineupGVEModal()" style="font-size:10.5px; padding:3px 8px;">
+            ⚡ Defaults Guerreros
+          </button>
+        </div>
+
+        <div style="overflow-x:auto; border:1px solid #1E293B; border-radius:6px;">
+          <table class="lineup-table-editor">
+            <thead>
+              <tr>
+                <th style="width:30px; text-align:center;">ORD</th>
+                <th>JUGADOR TITULAR (ROSTER GVE)</th>
+                <th style="width:70px; text-align:center;"># NÚM</th>
+                <th style="width:110px;">POSICIÓN</th>
+                <th style="width:80px;">BATEA</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-gve-lineup-editor">
+              <!-- Generado dinámicamente -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <!-- PASO 4: ESTADO DE VALIDACIÓN DE INTEGRIDAD -->
-    <div id="alert-error-lineup" class="alert-error-lineup" style="display:none;">
+    <!-- VALIDACIÓN DE INTEGRIDAD PRE-JUEGO (ALERTAS REACTIVAS) -->
+    <div id="alert-error-lineup" class="alert-error-lineup" style="display:none; margin-bottom:14px;">
       <div style="display:flex; align-items:center; gap:8px;">
         <span style="font-size:18px;">⚠️</span>
         <div>
-          <strong>Error de Integridad en Alineación del Rival:</strong>
-          <div style="font-size:11px;" id="alert-error-msg">Debe ingresar exactamente 9 bateadores titulares y 1 lanzador abridor.</div>
+          <strong style="color:#EF4444; font-size:12px;">Error de Validación Pre-Juego:</strong>
+          <div style="font-size:11px;" id="alert-error-msg">Debe ingresar exactamente 9 bateadores titulares y 1 lanzador abridor sin posiciones defensivas repetidas.</div>
         </div>
       </div>
-      <button type="button" class="btn-settings" onclick="autocompletarLineupRival()" style="background:#EF4444; color:#fff; font-weight:bold; font-size:11px; white-space:nowrap;">
-        🛠️ FixData: Corregir Automáticamente
+      <button type="button" class="btn-settings" onclick="autofixCompletoPreJuego()" style="background:#EF4444; color:#FFF; font-size:11px; padding:4px 10px; margin-top:6px; border:none; border-radius:4px; cursor:pointer;">
+        🛠️ FixData / Autocompletar con Defaults
       </button>
     </div>
 
-    <div style="display:flex; align-items:center; justify-content:space-between; background:#0B132B; border:1px solid #1E293B; border-radius:8px; padding:8px 12px; margin-bottom:14px;">
-      <span style="font-size:11.5px; color:#94A3B8;">4. Estado de Integridad:</span>
-      <span class="badge-lineup-status valid" id="badge-lineup-integrity">🟢 9 Bateadores + 1 Abridor + ID Válido</span>
-    </div>
+    <!-- BOTONES DE ACCIÓN: VISTA PREVIA TARJETA OFICIAL & CERTIFICAR -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:18px; padding-top:14px; border-top:1px solid #1E293B;">
+      <button type="button" class="btn-settings" onclick="cerrarModalNuevoJuego()" style="font-size:12px;">Cancelar</button>
+      
+      <div style="display:flex; gap:10px;">
+        <button type="button" onclick="mostrarVistaPreviaTarjetaOficial()" style="background:#3B82F6; color:#FFF; border:none; padding:10px 16px; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          📋 Vista Previa Tarjeta Oficial (Umpires)
+        </button>
 
-    <!-- Campo oculto para compatibilidad -->
-    <input type="hidden" id="input-game-rival" value="DAYTONA BEACH">
-
-    <div class="form-grid-2">
-      <div class="form-group">
-        <label>🏟️ Estadio / Sede Oficial</label>
-        <input type="text" id="input-game-estadio" class="form-control" placeholder="Ej: Lutz Baseball Park - Campo #1" value="Lutz Baseball Park - Campo #1">
-      </div>
-      <div class="form-group">
-        <label>📍 Dirección de la Sede</label>
-        <input type="text" id="input-game-direccion" class="form-control" placeholder="Ej: 5709 Kingfish Drive, Lutz, FL 33558" value="5709 Kingfish Drive, Lutz, FL 33558">
+        <button type="button" class="btn-new-game" onclick="guardarYCertificarJuegoOficial()" style="background:#10B981; color:#000; font-size:12.5px; font-weight:900; padding:10px 20px; border-radius:8px; display:flex; align-items:center; gap:6px; box-shadow:0 0 25px rgba(16,185,129,0.3);">
+          💾 Guardar, Certificar e Iniciar Dugout (Inning 1 ▲▼) ⚾
+        </button>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- WIDGET DE CLIMA EN TIEMPO REAL -->
-    <div class="weather-preview-box">
-      <div class="weather-preview-header">
-        <h4>🌤️ Clima en Tiempo Real (Sensor de Sede)</h4>
-        <button type="button" class="btn-sync-weather" onclick="sincronizarClimaEnVivo()">🔄 Actualizar Clima GPS</button>
-      </div>
-      <div class="weather-metrics-grid">
-        <div class="weather-metric-item">
-          <div class="weather-metric-label">TEMPERATURA</div>
-          <div class="weather-metric-val" id="weather-val-temp">86°F (30°C)</div>
-        </div>
-        <div class="weather-metric-item">
-          <div class="weather-metric-label">HUMEDAD</div>
-          <div class="weather-metric-val" id="weather-val-hum">68%</div>
-        </div>
-        <div class="weather-metric-item">
-          <div class="weather-metric-label">VIENTO</div>
-          <div class="weather-metric-val" id="weather-val-wind">7 mph -> CF</div>
-        </div>
-        <div class="weather-metric-item">
-          <div class="weather-metric-label">PRESIÓN BAROM.</div>
-          <div class="weather-metric-val" id="weather-val-press">29.95 inHg</div>
-        </div>
-      </div>
-      <div class="zapata-aero-boost" id="weather-val-zapata">
-        ⚡ Impacto Aerodinámico Zapata: <strong>+4.2 pies de alcance en elevados</strong> (Densidad ρ = 1.178 kg/m³).
-      </div>
+<!-- MODAL SECUNDARIO: VISTA PREVIA TARJETA OFICIAL (UMPIRES) -->
+<div class="modal-overlay" id="modal-preview-tarjeta-oficial" style="display:none; z-index:9999;">
+  <div class="modal-card" style="max-width:920px; max-height:92vh; overflow-y:auto; border:1px solid #FFC72C;">
+    <div class="modal-header" style="border-bottom:1px solid #1E293B; padding-bottom:10px;">
+      <h2 style="color:#FFC72C; font-size:16px; margin:0;">📋 Vista Previa: Tarjeta Oficial de Béisbol (Alineación Dual)</h2>
+      <button class="btn-modal-close" onclick="cerrarVistaPreviaTarjetaOficial()">&times;</button>
     </div>
 
-    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
-      <button type="button" class="btn-settings" onclick="cerrarModalNuevoJuego()">Cancelar</button>
-      <button type="button" class="btn-new-game" style="background:#00D2FF; color:#000; font-size:13px; font-weight:900;" onclick="guardarNuevoJuego()">
-        ⚡ Validar e Iniciar Partido / Activar Dugout Keypad ⚾
+    <div id="preview-tarjeta-oficial-content" style="margin-top:14px;">
+      <!-- Tarjeta renderizada dinámicamente -->
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px; padding-top:12px; border-top:1px solid #1E293B;">
+      <button type="button" class="btn-settings" onclick="cerrarVistaPreviaTarjetaOficial()">✏️ Modificar Alineación</button>
+      <button type="button" onclick="guardarYCertificarJuegoOficial()" style="background:#10B981; color:#000; font-weight:900; padding:8px 18px; border-radius:6px; font-size:12px; border:none; cursor:pointer;">
+        ✅ Confirmar y Certificar Partido
       </button>
     </div>
   </div>
 </div>
+
 
 <div class="modal-overlay" id="modal-finalizar-juego">
   <div class="modal-card" style="border-color:#EF4444;">
