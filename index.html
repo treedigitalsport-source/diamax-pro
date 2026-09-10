@@ -656,6 +656,103 @@ body.daylight-mode .btn-keypad:hover {
   color: #000;
 }
 
+
+/* --- ESTILOS VISUALES PREMIUM DIAMAX PRO: RIVAL LINEUP & DUAL CARDS --- */
+.lineup-card-rival-theme {
+  background: #F0F9FF;
+  border: 2px solid #0284C7;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: #0F172A;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.dual-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+  margin-top: 14px;
+}
+.badge-lineup-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+.badge-lineup-status.valid {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.badge-lineup-status.invalid {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.alert-error-lineup {
+  background: #450A0A;
+  border: 1px solid #DC2626;
+  color: #FEF2F2;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  animation: pulse-border 2s infinite;
+}
+@keyframes pulse-border {
+  0% { border-color: #DC2626; }
+  50% { border-color: #F87171; box-shadow: 0 0 10px rgba(220, 38, 38, 0.4); }
+  100% { border-color: #DC2626; }
+}
+.rival-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: #0B132B;
+  border: 1px solid #1E293B;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+.lineup-table-editor {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.lineup-table-editor th {
+  background: #0F172A;
+  color: #94A3B8;
+  padding: 6px 8px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid #1E293B;
+}
+.lineup-table-editor td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #1E293B;
+}
+.lineup-table-editor input, .lineup-table-editor select {
+  background: #091224;
+  border: 1px solid #334155;
+  color: #F8FAFC;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.lineup-table-editor input:focus, .lineup-table-editor select:focus {
+  border-color: #00D2FF;
+  outline: none;
+}
 </style>
 
 <style>
@@ -1456,99 +1553,150 @@ window.consultarAgenteIA = consultarAgenteIA;
 
   <div id="tab-tarjeta-oficial" style="display:none;">
 
-    <!-- ENCABEZADO OFICIAL DE JUEGO Y SEDE (SINCRONIZADO) -->
-    <div style="background:#070D1A; border:1.5px solid #FFC72C; border-radius:8px; padding:12px 16px; margin-bottom:14px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1px solid #1E293B; padding-bottom:8px; margin-bottom:8px;">
-        <span style="font-size:13px; font-weight:900; color:#FFC72C;">🏟️ SEDE OFICIAL: <span id="official-card-sede-field" style="color:#fff;">Lutz Baseball Park — 5709 Kingfish Drive, Lutz, FL 33558</span></span>
-        <span style="font-size:12px; font-weight:700; color:#00D2FF;">📅 FECHA: <span id="official-card-fecha-field" style="color:#fff;">2026-09-08</span></span>
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:11.5px;">
-        <span style="color:#94A3B8;">⏰ HORARIO & DURACIÓN: <strong id="official-card-horas-field" style="color:#10B981;">Inicio: 09:30 AM | Fin: En Curso | Duración: --</strong></span>
-        <span style="color:#94A3B8;">⚔️ RIVAL: <strong id="official-card-rival-field" style="color:#EAEEF5;">TIGRES DE TAMPA (LOCAL)</strong></span>
-        <span style="color:#94A3B8;">🌤️ CLIMA: <strong id="official-card-clima-field" style="color:#FFC72C;">86°F, Humedad: 68%, Viento: 7 mph CF</strong></span>
+    <!-- Banner Oficial del Encuentro y Matchup -->
+    <div class="panel" style="margin-bottom:14px; background:linear-gradient(135deg, #091224 0%, #0F172A 100%); border:1px solid #1E293B;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="font-size:32px;">⚾</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h2 style="margin:0; font-size:18px; color:#F8FAFC; font-weight:900;" id="card-matchup-header">GUERREROS DE VENEZUELA vs. RIVAL</h2>
+              <span class="badge-lineup-status valid" id="card-game-integrity-badge">🟢 9vs9 VALIDADO</span>
+            </div>
+            <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">
+              🏟️ <span id="card-header-stadium">Lutz Baseball Park - Campo #1</span> · 
+              📅 <span id="card-header-date">2026-09-08</span> · 
+              ⚖️ Regla Oficial: <strong>Visitante abre en Alta (▲) · Home Club cierra en Baja (▼)</strong>
+            </p>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-settings" onclick="abrirModalNuevoJuego()" style="background:#0F172A; border:1px solid #334155; color:#F8FAFC; padding:7px 12px; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">
+            ⚙️ Modificar Lineups / Sede
+          </button>
+        </div>
       </div>
     </div>
 
     <div class="panel">
       
-      <!-- Toolbar de Exportación -->
+      <!-- Toolbar de Exportación y Selector de Tarjeta -->
       <div class="btn-print-hide" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
         <div>
-          <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;">📋 Tarjeta Oficial de Béisbol & Boxscore</h3>
+          <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;">📋 Tarjeta Oficial de Béisbol & Alineación Dual</h3>
           <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">Documento oficial reglamentario para árbitros, mánagers y anotador oficial.</p>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button onclick="window.print()" style="background:#00D2FF; color:#0B0F19; border:none; padding:10px 16px; border-radius:6px; font-weight:900; cursor:pointer; font-size:13px; display:flex; align-items:center; gap:6px;">
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <div style="display:flex; background:#0B132B; border:1px solid #1E293B; border-radius:6px; padding:2px;">
+            <button type="button" id="btn-card-view-dual" onclick="setCardViewMode('dual')" style="background:#FFC72C; color:#000; border:none; padding:6px 12px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;">👑 Vista Dual</button>
+            <button type="button" id="btn-card-view-gve" onclick="setCardViewMode('gve')" style="background:transparent; color:#94A3B8; border:none; padding:6px 12px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">🇻🇪 Guerreros</button>
+            <button type="button" id="btn-card-view-rival" onclick="setCardViewMode('rival')" style="background:transparent; color:#94A3B8; border:none; padding:6px 12px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">⚔️ Rival (<span id="card-btn-rival-abbr">DAY</span>)</button>
+          </div>
+          <button onclick="window.print()" style="background:#00D2FF; color:#0B0F19; border:none; padding:8px 14px; border-radius:6px; font-weight:900; cursor:pointer; font-size:12px; display:flex; align-items:center; gap:6px;">
             🖨️ Imprimir / Guardar como PDF
           </button>
-          <button onclick="exportarBoxscoreTexto()" style="background:#10B981; color:#0B0F19; border:none; padding:10px 16px; border-radius:6px; font-weight:900; cursor:pointer; font-size:13px;">
+          <button onclick="exportarBoxscoreTexto()" style="background:#10B981; color:#0B0F19; border:none; padding:8px 14px; border-radius:6px; font-weight:900; cursor:pointer; font-size:12px;">
             📄 Copiar Boxscore
           </button>
         </div>
       </div>
 
-      <div class="lineup-card-replica" id="printable-official-card">
-        <div class="lineup-card-header">
-          <div style="display:flex; align-items:center; gap:12px;">
-            <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="card-logo-img" style="width:52px; height:52px; border-radius:50%; border:2px solid #5A1E1E; object-fit:cover;">
-            <div>
-              <h2 style="font-size:20px; font-weight:900; color:#5A1E1E; letter-spacing:1px; margin:0;" id="card-team-title">GUERREROS DE VENEZUELA +55</h2>
-              <div style="font-size:11px; font-weight:900; color:#1E293B; letter-spacing:0.5px;">★ TARJETA DE ALINEACIÓN OFICIAL · REGLAS 1-9 ★</div>
-            </div>
-          </div>
-          <div style="font-size:11.5px; text-align:right;">
-            <div><strong>RIVAL:</strong> <span id="card-rival-name" style="color:#5A1E1E; font-weight:bold;">CARDENALES</span></div>
-            <div><strong>FECHA:</strong> <span id="card-date">2026-09-08</span></div>
-            <div><strong>CONDICIÓN:</strong> <span id="card-condition-text">HOME CLUB</span></div>
-          </div>
-        </div>
+      <!-- CONTENEDOR DE TARJETAS OFICIALES DUALES -->
+      <div class="dual-cards-container" id="printable-official-card">
         
-        <div style="background:#EADBBE; border:1px solid #C4B296; padding:8px 12px; border-radius:4px; font-size:11px; margin-bottom:12px; display:flex; justify-content:space-between;">
-          <div><strong>SEDE / UBICACIÓN:</strong> <span id="card-location-text">5709 Kingfish Drive, Lutz, Florida, USA 33558</span></div>
-          <div><strong>CATEGORÍA:</strong> Senior Master +55</div>
-          <div><strong>ESTADO:</strong> <span style="font-weight:bold; color:#15803D;">VALIDADA PARA JUEGO</span></div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:14px;">
-          <div>
-            <table class="lineup-table">
-              <thead><tr><th style="width:28px;">ORD</th><th>JUGADORES TITULARES</th><th style="width:55px;">POS.</th><th style="width:40px;">B/L</th></tr></thead>
-              <tbody id="card-starters-body"></tbody>
-            </table>
-          </div>
-          <div>
-            <table class="lineup-table">
-              <thead><tr><th style="width:28px;">#</th><th>RESERVAS & LANZADORES</th><th style="width:45px;">POS</th></tr></thead>
-              <tbody id="card-substitutes-body"></tbody>
-            </table>
-            <div style="background:#5A1E1E; color:#fff; padding:8px 10px; font-size:11px; font-weight:800; border-radius:4px; margin-top:8px;">
-              <span>LANZADOR ABRIDOR (P):</span> <span id="card-starting-pitcher" style="color:#FFC72C;">Pedro Chavez (#23 - RHP)</span>
+        <!-- TARJETA 1: GUERREROS DE VENEZUELA +55 -->
+        <div class="lineup-card-replica" id="card-container-gve" style="margin:0;">
+          <div class="lineup-card-header">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="card-logo-img" style="width:46px; height:46px; border-radius:50%; border:2px solid #5A1E1E; object-fit:cover;">
+              <div>
+                <h2 style="font-size:17px; font-weight:900; color:#5A1E1E; letter-spacing:0.5px; margin:0;" id="card-team-title">GUERREROS DE VENEZUELA +55</h2>
+                <div style="font-size:10px; font-weight:900; color:#1E293B;">★ CLUB OFICIAL · REGLAS 1-9 ★</div>
+              </div>
+            </div>
+            <div style="font-size:11px; text-align:right;">
+              <div><strong>CONDICIÓN:</strong> <span id="card-gve-condition" style="color:#5A1E1E; font-weight:bold;">HOME CLUB</span></div>
+              <div><strong>FECHA:</strong> <span id="card-date">2026-09-08</span></div>
             </div>
           </div>
+          
+          <div style="background:#EADBBE; border:1px solid #C4B296; padding:6px 10px; border-radius:4px; font-size:10.5px; margin-bottom:10px; display:flex; justify-content:space-between;">
+            <div><strong>MÁNAGER:</strong> Lic. Alí Zapata Mendoza</div>
+            <div><strong>ESTADO:</strong> <span style="font-weight:bold; color:#15803D;">VALIDADO (9/9)</span></div>
+          </div>
+
+          <table class="lineup-table" style="font-size:11px; margin-bottom:10px;">
+            <thead><tr><th style="width:24px;">ORD</th><th>JUGADORES TITULARES</th><th style="width:50px;">POS.</th><th style="width:36px;">B/L</th></tr></thead>
+            <tbody id="card-starters-body"></tbody>
+          </table>
+
+          <div style="background:#5A1E1E; color:#fff; padding:6px 10px; font-size:11px; font-weight:800; border-radius:4px; margin-bottom:10px;">
+            <span>LANZADOR ABRIDOR (P):</span> <span id="card-starting-pitcher" style="color:#FFC72C;">Pedro Chavez (#23 - RHP)</span>
+          </div>
+
+          <table class="lineup-table" style="font-size:10.5px;">
+            <thead><tr><th style="width:24px;">#</th><th>RESERVAS & LANZADORES</th><th style="width:45px;">POS</th></tr></thead>
+            <tbody id="card-substitutes-body"></tbody>
+          </table>
         </div>
 
-        <!-- Sección de Firmas Reglamentarias -->
-        <div style="margin-top:20px; padding-top:14px; border-top:1.5px dashed #8C7355; display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; text-align:center; font-size:10.5px;">
-          <div>
-            <div style="height:35px; border-bottom:1px solid #5A1E1E; margin-bottom:4px;"></div>
-            <strong style="color:#5A1E1E;">FIRMA MÁNAGER LOCAL</strong>
+        <!-- TARJETA 2: EQUIPO RIVAL -->
+        <div class="lineup-card-rival-theme" id="card-container-rival" style="margin:0;">
+          <div class="lineup-card-header" style="display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="card-rival-logo-img" style="width:46px; height:46px; border-radius:50%; border:2px solid #0284C7; object-fit:cover;">
+              <div>
+                <h2 style="font-size:17px; font-weight:900; color:#0284C7; letter-spacing:0.5px; margin:0;" id="card-rival-title">DAYTONA BEACH</h2>
+                <div style="font-size:10px; font-weight:900; color:#475569;">★ EQUIPO CONTRARIO · REGLAS 1-9 ★</div>
+              </div>
+            </div>
+            <div style="font-size:11px; text-align:right;">
+              <div><strong>CONDICIÓN:</strong> <span id="card-rival-condition" style="color:#0284C7; font-weight:bold;">VISITANTE</span></div>
+              <div><strong>SIGLAS:</strong> <span id="card-rival-abbr-badge" style="background:#0284C7; color:#fff; padding:2px 6px; border-radius:4px; font-weight:900;">DAY</span></div>
+            </div>
           </div>
-          <div>
-            <div style="height:35px; border-bottom:1px solid #5A1E1E; margin-bottom:4px;"></div>
-            <strong style="color:#5A1E1E;">FIRMA MÁNAGER VISITANTE</strong>
+          
+          <div style="background:#E0F2FE; border:1px solid #BAE6FD; color:#0369A1; padding:6px 10px; border-radius:4px; font-size:10.5px; margin-bottom:10px; display:flex; justify-content:space-between;">
+            <div><strong>MÁNAGER:</strong> <span id="card-rival-manager-name">Marcus Vance</span></div>
+            <div><strong>ESTADO:</strong> <span style="font-weight:bold; color:#0284C7;" id="card-rival-status-badge">VALIDADO (9/9)</span></div>
           </div>
-          <div>
-            <div style="height:35px; border-bottom:1px solid #5A1E1E; margin-bottom:4px;"></div>
-            <strong style="color:#5A1E1E;">ÁRBITRO PRINCIPAL (HP)</strong>
+
+          <table class="lineup-table" style="font-size:11px; margin-bottom:10px;">
+            <thead><tr><th style="width:24px;">ORD</th><th>JUGADORES TITULARES</th><th style="width:50px;">POS.</th><th style="width:36px;">B/L</th></tr></thead>
+            <tbody id="card-rival-starters-body"></tbody>
+          </table>
+
+          <div style="background:#0284C7; color:#fff; padding:6px 10px; font-size:11px; font-weight:800; border-radius:4px; margin-bottom:10px;">
+            <span>LANZADOR ABRIDOR (P):</span> <span id="card-rival-starting-pitcher" style="color:#FEF08A;">Tom Reynolds (#21 - RHP)</span>
           </div>
+
+          <table class="lineup-table" style="font-size:10.5px;">
+            <thead><tr><th style="width:24px;">#</th><th>RESERVAS & LANZADORES</th><th style="width:45px;">POS</th></tr></thead>
+            <tbody id="card-rival-substitutes-body"></tbody>
+          </table>
         </div>
 
       </div>
+
+      <!-- Firmas Oficiales y Notas de Regla -->
+      <div style="margin-top:20px; padding:12px; border-top:1px dashed #334155; font-size:11px; color:#94A3B8; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div>_________________________________</div>
+          <div style="font-weight:bold; margin-top:4px;">Lic. Alí Zapata Mendoza (Mánager GVE)</div>
+        </div>
+        <div>
+          <div>_________________________________</div>
+          <div style="font-weight:bold; margin-top:4px;" id="card-rival-signature-label">Mánager Rival</div>
+        </div>
+        <div>
+          <div>_________________________________</div>
+          <div style="font-weight:bold; margin-top:4px;">Árbitro Principal (Chief Umpire)</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-
-  <!-- TAB 5: DASHBOARD -->
   <div id="tab-dashboard" style="display:none;">
     <div class="grid-4" style="margin-bottom:14px;">
       <div class="stat-box"><div class="stat-label">Juegos Totales</div><div class="stat-val" style="color:#00D2FF" id="team-jj">1</div></div>
@@ -4252,23 +4400,177 @@ function updateLineupSlot(i, field, value) {
   updateLiveBatterDisplay();
 }
 
+let cardViewMode = 'dual'; // 'dual', 'gve', 'rival'
+
+function getGuerrerosLineup() {
+  const g = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+  if (g && g.lineup && g.lineup.length >= 9) {
+    return g.lineup.slice(0, 9).map((slot, idx) => {
+      const p = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER.find(pl => pl.id === slot.playerId) : null;
+      return {
+        order: slot.order || (idx + 1),
+        name: p ? p.name : `Bateador ${idx + 1}`,
+        number: p ? p.num : (idx + 1),
+        pos: slot.pos || (p ? p.defaultPos : 'OF'),
+        bats: p ? p.bats : 'R',
+        throws: 'R'
+      };
+    });
+  }
+  if (typeof MASTER_ROSTER !== 'undefined' && MASTER_ROSTER.length >= 9) {
+    return MASTER_ROSTER.slice(0, 9).map((p, idx) => ({
+      order: idx + 1,
+      name: p.name,
+      number: p.num,
+      pos: p.defaultPos || 'OF',
+      bats: p.bats || 'R',
+      throws: 'R'
+    }));
+  }
+  return [
+    { order: 1, name: "Johan Olivo", number: 1, pos: "CF", bats: "L", throws: "R" },
+    { order: 2, name: "Pablo Morales", number: 2, pos: "1B", bats: "R", throws: "R" },
+    { order: 3, name: "Raul Lozada", number: 3, pos: "SS", bats: "R", throws: "R" },
+    { order: 4, name: "Jorge Mitchell", number: 4, pos: "2B", bats: "R", throws: "R" },
+    { order: 5, name: "Oswaldo Grillo", number: 5, pos: "3B", bats: "R", throws: "R" },
+    { order: 6, name: "Nestor Vera", number: 6, pos: "LF", bats: "L", throws: "R" },
+    { order: 7, name: "Franklin Ramos", number: 7, pos: "RF", bats: "R", throws: "R" },
+    { order: 8, name: "Carlos Sanchez", number: 8, pos: "C", bats: "R", throws: "R" },
+    { order: 9, name: "Pedro Chavez", number: 10, pos: "P", bats: "R", throws: "R" }
+  ];
+}
+
+function setCardViewMode(mode) {
+  cardViewMode = mode;
+  const btnDual = document.getElementById('btn-card-view-dual');
+  const btnGve = document.getElementById('btn-card-view-gve');
+  const btnRival = document.getElementById('btn-card-view-rival');
+  const cardGve = document.getElementById('card-container-gve');
+  const cardRival = document.getElementById('card-container-rival');
+  
+  if (btnDual) {
+    btnDual.style.background = mode === 'dual' ? '#FFC72C' : 'transparent';
+    btnDual.style.color = mode === 'dual' ? '#000' : '#94A3B8';
+  }
+  if (btnGve) {
+    btnGve.style.background = mode === 'gve' ? '#5A1E1E' : 'transparent';
+    btnGve.style.color = mode === 'gve' ? '#FFF' : '#94A3B8';
+  }
+  if (btnRival) {
+    btnRival.style.background = mode === 'rival' ? '#0284C7' : 'transparent';
+    btnRival.style.color = mode === 'rival' ? '#FFF' : '#94A3B8';
+  }
+
+  if (cardGve) cardGve.style.display = (mode === 'dual' || mode === 'gve') ? 'block' : 'none';
+  if (cardRival) cardRival.style.display = (mode === 'dual' || mode === 'rival') ? 'block' : 'none';
+}
+
 function renderOfficialCard() {
-  const g = getActiveGame();
-  setSafeText('card-team-title', teamName);
-  setSafeText('card-rival-name', g.rival);
-  setSafeText('card-date', g.fecha);
-  setSafeText('card-location-text', teamAddress);
-  setSafeHTML('card-starters-body', (g.lineup || []).map((slot, idx) => {
-    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId);
-    return `<tr><td><strong>${idx + 1}.</strong></td><td>#${p?p.num:''} ${p?p.name:''}</td><td><strong>${slot.pos} (${POS_NUM[slot.pos]||slot.pos})</strong></td></tr>`;
-  }).join('') || '<tr><td colspan="3" style="text-align:center;">Lineup vacío.</td></tr>');
+  const gveBody = document.getElementById('card-starters-body');
+  const gveSubs = document.getElementById('card-substitutes-body');
+  const rivalBody = document.getElementById('card-rival-starters-body');
+  const rivalSubs = document.getElementById('card-rival-substitutes-body');
 
-  const used = (g.lineup || []).map(s => s.playerId);
-  setSafeHTML('card-substitutes-body', MASTER_ROSTER.filter(p => !used.includes(p.id)).map((p, idx) => `<tr><td><strong>${idx + 1}.</strong></td><td>#${p.num} ${p.name} (${p.defaultPos})</td></tr>`).join(''));
+  const game = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : {
+    fecha: '2026-09-08',
+    estadio: 'Lutz Baseball Park - Campo #1',
+    rival: 'DAYTONA BEACH',
+    rivalId: 'RIV-001',
+    isHomeClub: true
+  };
 
-  const pSlot = (g.lineup || []).find(s => s.pos === "P");
-  const pPlayer = pSlot ? MASTER_ROSTER.find(pl => pl.id == pSlot.playerId) : (MASTER_ROSTER.find(pl => pl.defaultPos === "P") || MASTER_ROSTER[9]);
-  setSafeText('card-starting-pitcher', pPlayer ? `#${pPlayer.num} ${pPlayer.name} (${pPlayer.defaultPos || 'P'})` : "#10 Pedro Chavez (P)");
+  const isHomeClub = game.isHomeClub !== undefined ? game.isHomeClub : true;
+
+  // Header Matchup
+  setSafeText('card-matchup-header', isHomeClub ? `GUERREROS DE VENEZUELA vs. ${game.rival || 'RIVAL'}` : `${game.rival || 'RIVAL'} vs. GUERREROS DE VENEZUELA`);
+  setSafeText('card-header-stadium', game.estadio || 'Lutz Baseball Park - Campo #1');
+  setSafeText('card-header-date', game.fecha || '2026-09-08');
+  setSafeText('card-date', game.fecha || '2026-09-08');
+
+  // GVE Card Conditions
+  setSafeText('card-gve-condition', isHomeClub ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)');
+  
+  // Render GVE Starters (1-9)
+  if (gveBody) {
+    gveBody.innerHTML = '';
+    const starters = getGuerrerosLineup();
+
+    starters.forEach((item, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-weight:900; text-align:center; background:#E5D7B7;">${index + 1}</td>
+        <td><strong>#${item.number || ''}</strong> ${item.name}</td>
+        <td style="text-align:center; font-weight:bold;">${item.pos || ''}</td>
+        <td style="text-align:center; color:#5A1E1E; font-weight:bold;">${item.bats || 'R'}/${item.throws || 'R'}</td>
+      `;
+      gveBody.appendChild(tr);
+    });
+  }
+
+  // Render GVE Substitutes
+  if (gveSubs) {
+    gveSubs.innerHTML = '';
+    const subs = (typeof MASTER_ROSTER !== 'undefined' && MASTER_ROSTER.length > 9)
+      ? MASTER_ROSTER.slice(9)
+      : [];
+
+    subs.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="text-align:center;">#${item.num || ''}</td>
+        <td>${item.name}</td>
+        <td style="text-align:center;">${item.defaultPos || 'OF'}</td>
+      `;
+      gveSubs.appendChild(tr);
+    });
+  }
+
+  // Rival Team Data
+  const rivalRecord = RIVALS_DATABASE.find(r => r.id === (game.rivalId || activeRivalId) || r.name === game.rival) || RIVALS_DATABASE[0];
+  
+  if (rivalRecord) {
+    setSafeText('card-rival-title', rivalRecord.name.toUpperCase());
+    setSafeText('card-rival-abbr-badge', rivalRecord.abbr || 'RIV');
+    setSafeText('card-btn-rival-abbr', rivalRecord.abbr || 'RIV');
+    setSafeText('card-rival-manager-name', rivalRecord.manager || 'Mánager Rival');
+    setSafeText('card-rival-signature-label', `${rivalRecord.manager || 'Mánager Rival'} (Mánager ${rivalRecord.abbr || 'Rival'})`);
+    setSafeText('card-rival-condition', isHomeClub ? 'VISITANTE (Alta ▲)' : 'HOME CLUB (Baja ▼)');
+    
+    const pArm = rivalRecord.pitcherArm || 'RHP';
+    const pNum = rivalRecord.pitcherNum ? `#${rivalRecord.pitcherNum} - ` : '';
+    setSafeText('card-rival-starting-pitcher', `${rivalRecord.pitcherAs || 'Abridor Rival'} (${pNum}${pArm})`);
+
+    // Render Rival Starters
+    if (rivalBody) {
+      rivalBody.innerHTML = '';
+      const rLineup = (rivalRecord.lineup && rivalRecord.lineup.length >= 9) ? rivalRecord.lineup.slice(0, 9) : [];
+      rLineup.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight:900; text-align:center; background:#BAE6FD; color:#0369A1;">${index + 1}</td>
+          <td><strong>#${item.number || ''}</strong> ${item.name}</td>
+          <td style="text-align:center; font-weight:bold;">${item.pos || ''}</td>
+          <td style="text-align:center; color:#0284C7; font-weight:bold;">${item.bats || 'R'}/${item.throws || 'R'}</td>
+        `;
+        rivalBody.appendChild(tr);
+      });
+    }
+
+    // Render Rival Substitutes
+    if (rivalSubs) {
+      rivalSubs.innerHTML = '';
+      const rBench = rivalRecord.bench || [];
+      rBench.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="text-align:center;">#${item.number || ''}</td>
+          <td>${item.name}</td>
+          <td style="text-align:center;">${item.pos || 'RES'}</td>
+        `;
+        rivalSubs.appendChild(tr);
+      });
+    }
+  }
 }
 
 function renderField() {
@@ -4282,58 +4584,92 @@ function renderField() {
 }
 
 function updateLiveBatterDisplay() {
-  const b = getLiveCurrentBatter(), g = getActiveGame();
-  setSafeText('current-batter-name', `#${b.player.num} ${b.player.name}`);
-  setSafeText('current-batter-pos', `${b.pos} - Pos ${POS_NUM[b.pos]||b.pos}`);
-  const pImg = document.getElementById('current-batter-photo');
-  if (pImg) pImg.src = b.player.photo || DEFAULT_PHOTO;
+  const isTop = liveState.half === 'TOP';
+  const isHomeClub = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE && GAME_ACTIVE.isHomeClub !== undefined) ? GAME_ACTIVE.isHomeClub : true;
+  
+  // Rule: Visitante batea en Alta (TOP), Home Club batea en Baja (BOT)
+  // If GVE is Home Club: In TOP, Rival bats & GVE pitches; in BOT, GVE bats & Rival pitches
+  // If GVE is Away: In TOP, GVE bats & Rival pitches; in BOT, Rival bats & GVE pitches
+  const gveIsBatting = (isHomeClub && !isTop) || (!isHomeClub && isTop);
+  
+  const rivalRecord = RIVALS_DATABASE.find(r => r.id === (GAME_ACTIVE ? GAME_ACTIVE.rivalId : activeRivalId)) || RIVALS_DATABASE[0];
+  
+  let currentBatterName = '';
+  let currentBatterNum = '';
+  let currentBatterPos = 'DH';
+  let currentBatterBats = 'R';
+  let currentBatterThrows = 'R';
+  let currentBatterAvg = '.300';
+  let currentPitcherName = '';
+  let currentPitcherArm = 'RHP';
+  let battingTeamLabel = '';
 
-  const live = liveState.currentLiveBox[b.player.id] || { vb:0, h1:0, h2:0, h3:0, hr:0, ci:0 };
-  const h = (live.h1||0) + (live.h2||0) + (live.h3||0) + (live.hr||0);
-  const ave = live.vb > 0 ? (h / live.vb).toFixed(3) : ".000";
-  setSafeText('current-batter-today-stats', `Hoy: ${live.vb} VB, ${h} H, ${live.ci||0} CI, ${ave} AVE`);
-
-  setSafeText('ondeck-batter-name', `#${b.nextPlayer.num} ${b.nextPlayer.name}`);
-  const onImg = document.getElementById('ondeck-batter-photo');
-  if (onImg) onImg.src = b.nextPlayer.photo || DEFAULT_PHOTO;
-
-  const isLocal = currentGame.isHomeClub !== undefined ? currentGame.isHomeClub : (g.isHomeClub !== false);
-  const rivalObj = currentGame.rivalObj || RIVALS_DATABASE.find(r => r.name.toUpperCase() === g.rival.toUpperCase()) || RIVALS_DATABASE[0];
-  const awayLogo = document.getElementById('score-away-logo');
-  const homeLogo = document.getElementById('score-home-logo');
-
-  if (isLocal) {
-    setSafeText('label-away-team', `${g.rival} (${rivalObj?.abbr||'VIS'})`);
-    setSafeText('label-home-team', `${teamName} (GVE)`);
-    setSafeText('score-away', liveState.scoreThem);
-    setSafeText('score-home', liveState.scoreUs);
-    if (awayLogo) awayLogo.src = rivalObj?.logo || DEFAULT_PHOTO;
-    if (homeLogo) homeLogo.src = teamLogoUrl;
+  if (gveIsBatting) {
+    battingTeamLabel = '🇻🇪 GUERREROS (+55)';
+    const gveLineup = getGuerrerosLineup();
+    const batter = gveLineup[liveState.currentBatterIndex % gveLineup.length] || gveLineup[0];
+    currentBatterName = batter.name;
+    currentBatterNum = batter.number ? `#${batter.number}` : '#10';
+    currentBatterPos = batter.pos || '3B';
+    currentBatterBats = batter.bats || 'R';
+    currentBatterThrows = batter.throws || 'R';
+    currentBatterAvg = '.345';
+    currentPitcherName = rivalRecord ? (rivalRecord.pitcherAs || 'Abridor Rival') : 'Lanzador Rival';
+    currentPitcherArm = rivalRecord ? (rivalRecord.pitcherArm || 'RHP') : 'RHP';
   } else {
-    setSafeText('label-away-team', `${teamName} (GVE)`);
-    setSafeText('label-home-team', `${g.rival} (${rivalObj?.abbr||'LOC'})`);
-    setSafeText('score-away', liveState.scoreUs);
-    setSafeText('score-home', liveState.scoreThem);
-    if (awayLogo) awayLogo.src = teamLogoUrl;
-    if (homeLogo) homeLogo.src = rivalObj?.logo || DEFAULT_PHOTO;
+    battingTeamLabel = `⚔️ ${rivalRecord ? rivalRecord.name : 'RIVAL'}`;
+    const rLineup = (rivalRecord && rivalRecord.lineup && rivalRecord.lineup.length > 0) ? rivalRecord.lineup : [];
+    const rIndex = liveState.currentBatterIndex % (rLineup.length || 9);
+    const batter = rLineup[rIndex] || { name: 'Bateador Rival', number: '1', pos: 'CF', bats: 'R', throws: 'R' };
+    currentBatterName = batter.name;
+    currentBatterNum = batter.number ? `#${batter.number}` : '#1';
+    currentBatterPos = batter.pos || 'CF';
+    currentBatterBats = batter.bats || 'R';
+    currentBatterThrows = batter.throws || 'R';
+    currentBatterAvg = '.310';
+    currentPitcherName = 'Pedro Chavez';
+    currentPitcherArm = 'RHP';
   }
 
-  const innHalf = liveState.half === 'top' ? 'ALTA ▲' : 'BAJA ▼';
-  setSafeText('scoreboard-inn', `INNING ${liveState.inning} (${innHalf})`);
-  updateOutsLEDs();
-  actualizarFaseTacticoIA();
+  // Update Live Dugout and Scoreboard Elements
+  setSafeText('current-batter-name', currentBatterName);
+  setSafeText('current-batter-pos', `POS: ${currentBatterPos} | ${currentBatterNum} | ${currentBatterBats}/${currentBatterThrows}`);
+  setSafeText('current-batter-today-stats', `AVG: ${currentBatterAvg} | H-AB: 0-0`);
+  setSafeText('pitcher-active-name', `${currentPitcherName} (${currentPitcherArm})`);
+  setSafeText('scoreboard-inn', `${liveState.inning}° ${isTop ? '▲ ALTA' : '▼ BAJA'}`);
+  setSafeText('label-away-team', isHomeClub ? (rivalRecord ? rivalRecord.name : 'RIVAL') : 'GUERREROS (+55)');
+  setSafeText('label-home-team', isHomeClub ? 'GUERREROS (+55)' : (rivalRecord ? rivalRecord.name : 'RIVAL'));
+  setSafeText('badge-live-rival', rivalRecord ? rivalRecord.name : 'RIVAL');
+  setSafeText('live-batting-team-badge', battingTeamLabel);
+}
 
-  [1, 2, 3].forEach(n => {
-    const el = document.getElementById(`base-${n}`);
-    if (el) {
-      const isOcc = Boolean(liveState.bases[`b${n}`]);
-      el.style.fill = isOcc ? '#FFC72C' : '#1E293B';
-      el.style.filter = isOcc ? 'drop-shadow(0 0 8px rgba(255,199,44,0.9))' : 'none';
-    }
+function renderLiveLineupChips() {
+  const container = document.getElementById('live-lineup-chips');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const isTop = liveState.half === 'TOP';
+  const isHomeClub = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE && GAME_ACTIVE.isHomeClub !== undefined) ? GAME_ACTIVE.isHomeClub : true;
+  const gveIsBatting = (isHomeClub && !isTop) || (!isHomeClub && isTop);
+  const rivalRecord = RIVALS_DATABASE.find(r => r.id === (GAME_ACTIVE ? GAME_ACTIVE.rivalId : activeRivalId)) || RIVALS_DATABASE[0];
+
+  const lineupToRender = gveIsBatting ? getGuerrerosLineup() : ((rivalRecord && rivalRecord.lineup) ? rivalRecord.lineup.slice(0, 9) : []);
+
+  lineupToRender.forEach((item, index) => {
+    const isCurrent = index === liveState.currentBatterIndex;
+    const isDueNext = index === ((liveState.currentBatterIndex + 1) % lineupToRender.length);
+    const chip = document.createElement('div');
+    chip.className = `live-batter-chip ${isCurrent ? 'active' : ''} ${isDueNext ? 'next' : ''}`;
+    chip.onclick = () => seleccionarTurnoDirecto(index);
+    chip.innerHTML = `
+      <div class="chip-order">${index + 1}</div>
+      <div class="chip-info">
+        <div class="chip-name">${item.name}</div>
+        <div class="chip-pos">POS: ${item.pos || '-'} | #${item.number || '-'}</div>
+      </div>
+    `;
+    container.appendChild(chip);
   });
-
-  renderLiveLineupChips();
-  renderLiveBoxscoreTable();
 }
 
 function cambiarBateadorEmergente() {
@@ -4573,330 +4909,420 @@ window.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 const DEFAULT_RIVALS_DATABASE = [
   {
-    id: "rival-daytona",
+    id: "RIV-001",
     name: "DAYTONA BEACH",
     abbr: "DAY",
-    color: "#0284C7",
-    logo: "https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop",
-    manager: "Roberto Clemente Jr.",
-    record: "14-4",
-    pitcherAs: "Carlos 'El Toro' Morales (RHP, ERA 2.45, K/9 9.2, Recta 88mph / Slider)",
-    dangerBatter: "#24 Roberto Díaz (LF, AVG .410, 6 HR, OPS 1.120)",
-    tendency: "Agresivos al primer pitcheo (62% swing). Alta vulnerabilidad ante curvas y cambios afuera.",
-    weakness: "Baja tasa de contacto ante pitcheos rompientes en conteos desfavorables (Whiff% 44%).",
-    winProbVsGuerreros: 52
+    categoria: "+55",
+    color: "#00D2FF",
+    manager: "Marcus Vance",
+    pitcherAs: "Tom Reynolds",
+    pitcherNum: "21",
+    pitcherArm: "RHP",
+    lineup: [
+      { order: 1, name: "Carlos Perez", number: "10", pos: "8", bats: "R", throws: "R" },
+      { order: 2, name: "Derek Johnson", number: "4", pos: "4", bats: "R", throws: "R" },
+      { order: 3, name: "Marcus Vance", number: "25", pos: "3", bats: "L", throws: "L" },
+      { order: 4, name: "Anthony Miller", number: "34", pos: "7", bats: "R", throws: "R" },
+      { order: 5, name: "Steve Clark", number: "18", pos: "9", bats: "R", throws: "R" },
+      { order: 6, name: "Luis Rodriguez", number: "12", pos: "5", bats: "R", throws: "R" },
+      { order: 7, name: "Jason Smith", number: "7", pos: "6", bats: "S", throws: "R" },
+      { order: 8, name: "Brian White", number: "2", pos: "2", bats: "R", throws: "R" },
+      { order: 9, name: "Tom Reynolds", number: "21", pos: "1", bats: "R", throws: "R" }
+    ],
+    bench: [
+      { name: "Robert Taylor", number: "15", pos: "OF" },
+      { name: "David Martinez", number: "33", pos: "P" },
+      { name: "Jorge Diaz", number: "9", pos: "IF" }
+    ]
   },
   {
-    id: "rival-cardenales",
-    name: "CARDENALES DE TAMPA",
-    abbr: "CAR",
-    color: "#DC2626",
-    logo: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=120&h=120&fit=crop",
-    manager: "Luis Aparicio M.",
-    record: "12-6",
-    pitcherAs: "Manuel Sánchez (LHP, ERA 3.10, FIP 3.05, Control élite)",
-    dangerBatter: "#10 José Altuve Jr. (2B, AVG .390, 12 SB, OBP .470)",
-    tendency: "Excelente contacto y velocidad en bases. Bateo hacia banda contraria (Oppo% 44%).",
-    weakness: "Dificultad contra rectas de 4 costuras altas y pegadas al cuerpo.",
-    winProbVsGuerreros: 55
+    id: "RIV-002",
+    name: "TAMPA BAY MASTERS",
+    abbr: "TPA",
+    categoria: "+55",
+    color: "#FF5722",
+    manager: "Dave Henderson",
+    pitcherAs: "Rick Morrison",
+    pitcherNum: "19",
+    pitcherArm: "LHP",
+    lineup: [
+      { order: 1, name: "Tony Fernandez", number: "1", pos: "4", bats: "L", throws: "R" },
+      { order: 2, name: "Mark Gonzalez", number: "14", pos: "8", bats: "R", throws: "R" },
+      { order: 3, name: "Dave Henderson", number: "24", pos: "3", bats: "R", throws: "R" },
+      { order: 4, name: "Scott Bradley", number: "30", pos: "7", bats: "L", throws: "R" },
+      { order: 5, name: "Rafael Palmero", number: "11", pos: "9", bats: "L", throws: "L" },
+      { order: 6, name: "Ken Griff", number: "5", pos: "5", bats: "R", throws: "R" },
+      { order: 7, name: "Billy Hamilton", number: "8", pos: "6", bats: "S", throws: "R" },
+      { order: 8, name: "Mike Stanley", number: "20", pos: "2", bats: "R", throws: "R" },
+      { order: 9, name: "Rick Morrison", number: "19", pos: "1", bats: "L", throws: "L" }
+    ],
+    bench: [
+      { name: "Alfonso Gomez", number: "17", pos: "OF" },
+      { name: "Sammy Sosa", number: "44", pos: "OF" }
+    ]
   },
   {
-    id: "rival-tigres",
-    name: "TIGRES DE TAMPA",
-    abbr: "TIG",
-    color: "#EA580C",
-    logo: "https://images.unsplash.com/photo-1516731415730-0c607149933a?w=120&h=120&fit=crop",
-    manager: "Alberto Colmenares",
-    record: "11-7",
-    pitcherAs: "Alberto Colmenares (RHP, ERA 3.50, Sinker / Slider)",
-    dangerBatter: "#13 David Concepción (SS, AVG .375, 4 HR, 18 CI)",
-    tendency: "Poder en el corazón del lineup. Buscan jalar la bola (Pull% 58%).",
-    weakness: "Propensos a inducir rodados para doble play cuando se les ataca la zona baja con sinker.",
-    winProbVsGuerreros: 58
+    id: "RIV-003",
+    name: "ORLANDO LEGENDS",
+    abbr: "ORL",
+    categoria: "+55",
+    color: "#9C27B0",
+    manager: "Frank Howard",
+    pitcherAs: "Greg Maddux",
+    pitcherNum: "31",
+    pitcherArm: "RHP",
+    lineup: [
+      { order: 1, name: "Kenny Lofton", number: "7", pos: "8", bats: "L", throws: "L" },
+      { order: 2, name: "Paul Molitor", number: "4", pos: "5", bats: "R", throws: "R" },
+      { order: 3, name: "Frank Howard", number: "33", pos: "3", bats: "R", throws: "R" },
+      { order: 4, name: "Fred McGriff", number: "27", pos: "7", bats: "L", throws: "L" },
+      { order: 5, name: "Cal Ripken", number: "8", pos: "6", bats: "R", throws: "R" },
+      { order: 6, name: "Wade Boggs", number: "12", pos: "9", bats: "L", throws: "R" },
+      { order: 7, name: "Ryne Sandberg", number: "23", pos: "4", bats: "R", throws: "R" },
+      { order: 8, name: "Gary Carter", number: "8", pos: "2", bats: "R", throws: "R" },
+      { order: 9, name: "Greg Maddux", number: "31", pos: "1", bats: "R", throws: "R" }
+    ],
+    bench: [
+      { name: "John Smoltz", number: "29", pos: "P" },
+      { name: "Ozzie Smith", number: "1", pos: "SS" }
+    ]
   },
   {
-    id: "rival-yankees",
-    name: "YANKEES DE ORLANDO",
-    abbr: "NYO",
-    color: "#1E3A8A",
-    logo: "https://images.unsplash.com/photo-1508802135482-e16ab1ea8a08?w=120&h=120&fit=crop",
-    manager: "Frankie Gómez",
-    record: "13-5",
-    pitcherAs: "Frankie Gómez (RHP, ERA 2.80, Cambio de velocidad élite)",
-    dangerBatter: "#24 Miguel Cabrera +55 (DH, AVG .440, 8 HR, OPS 1.250)",
-    tendency: "Gran disciplina en home (BB% 18%). Castigan pitcheos que se quedan sobre el plato.",
-    weakness: "Movilidad limitada en jardines. Vulnerables ante líneas a los callejones.",
-    winProbVsGuerreros: 49
-  },
-  {
-    id: "rival-magallanes",
-    name: "MAGALLANES DE MIAMI",
-    abbr: "MAG",
-    color: "#1D4ED8",
-    logo: "https://images.unsplash.com/photo-1562077772-3bd90403f7f0?w=120&h=120&fit=crop",
-    manager: "Luis Leal",
-    record: "10-8",
-    pitcherAs: "Luis Leal (LHP, ERA 3.80, Curva profunda)",
-    dangerBatter: "#47 Endy Chávez (CF, AVG .380, 15 SB, Defensa Guante de Oro)",
-    tendency: "Defensa élite en el outfield. Juego agresivo de corrido de bases.",
-    weakness: "Bajo poder extra-base (SLG .385). Dependen del bateo hilvanado.",
-    winProbVsGuerreros: 62
+    id: "RIV-004",
+    name: "MIAMI ALL-STARS",
+    abbr: "MIA",
+    categoria: "+55",
+    color: "#E91E63",
+    manager: "Jose Tartabull",
+    pitcherAs: "Livian Hernandez",
+    pitcherNum: "61",
+    pitcherArm: "RHP",
+    lineup: [
+      { order: 1, name: "Juan Pierre", number: "9", pos: "8", bats: "L", throws: "L" },
+      { order: 2, name: "Luis Castillo", number: "1", pos: "4", bats: "S", throws: "R" },
+      { order: 3, name: "Miguel Cabrera", number: "24", pos: "3", bats: "R", throws: "R" },
+      { order: 4, name: "Mike Lowell", number: "19", pos: "5", bats: "R", throws: "R" },
+      { order: 5, name: "Moises Alou", number: "18", pos: "7", bats: "R", throws: "R" },
+      { order: 6, name: "Jeff Conine", number: "17", pos: "9", bats: "R", throws: "R" },
+      { order: 7, name: "Alex Gonzalez", number: "11", pos: "6", bats: "R", throws: "R" },
+      { order: 8, name: "Charles Johnson", number: "23", pos: "2", bats: "R", throws: "R" },
+      { order: 9, name: "Livian Hernandez", number: "61", pos: "1", bats: "R", throws: "R" }
+    ],
+    bench: [
+      { name: "Dontrelle Willis", number: "35", pos: "P" },
+      { name: "Derrek Lee", number: "25", pos: "1B" }
+    ]
   }
 ];
 
-let RIVALS_DATABASE = [];
+let RIVALS_DATABASE = [...DEFAULT_RIVALS_DATABASE];
 try {
-  const savedRivals = localStorage.getItem('diamax_rivals_db_v1');
-  if (savedRivals) RIVALS_DATABASE = JSON.parse(savedRivals);
-} catch(e) {}
-if (!Array.isArray(RIVALS_DATABASE) || RIVALS_DATABASE.length === 0) {
-  RIVALS_DATABASE = [...DEFAULT_RIVALS_DATABASE];
-}
+  const saved = localStorage.getItem('diamax_rivals_db_v1');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    if (Array.isArray(parsed) && parsed.length > 0) RIVALS_DATABASE = parsed;
+  }
+} catch (e) {}
 
-let activeRivalId = RIVALS_DATABASE[0]?.id || "rival-daytona";
+let activeRivalId = 'RIV-001';
+let isNewRivalFormOpen = false;
+
+// Base de Datos Relacional de Lineups de Partido
+let GAME_LINEUPS_DB = [];
+try {
+  const savedLineups = localStorage.getItem('diamax_game_lineups_v1');
+  if (savedLineups) {
+    const parsed = JSON.parse(savedLineups);
+    if (Array.isArray(parsed)) GAME_LINEUPS_DB = parsed;
+  }
+} catch(e) {}
 
 function saveRivalsToStorage() {
   try { localStorage.setItem('diamax_rivals_db_v1', JSON.stringify(RIVALS_DATABASE)); } catch(e) {}
 }
 
 function poblarSelectoresRivales() {
-  const sel = document.getElementById('select-rival-list');
-  if (!sel) return;
-  sel.innerHTML = RIVALS_DATABASE.map(r => `
-    <option value="${r.id}" ${r.id === activeRivalId ? 'selected' : ''}>
-      ${r.name} (${r.abbr}) · Récord: ${r.record}
-    </option>
-  `).join('');
-  actualizarPreviaRivalActivo();
+  const selectModal = document.getElementById('select-rival-selector');
+  const selectScout = document.getElementById('scout-rival-select');
+  const selectReport = document.getElementById('report-filter-rival');
+
+  const optionsHtml = RIVALS_DATABASE.map(r => 
+    `<option value="${r.id}">${r.name} (${r.abbr || 'RIV'}) - Abridor: ${r.pitcherAs || 'TBD'} [${r.pitcherArm || 'RHP'}]</option>`
+  ).join('');
+
+  if (selectModal) {
+    selectModal.innerHTML = optionsHtml;
+    selectModal.value = activeRivalId;
+  }
+  if (selectScout) {
+    selectScout.innerHTML = optionsHtml;
+    selectScout.value = activeRivalId;
+  }
+  if (selectReport) {
+    selectReport.innerHTML = `<option value="ALL">Todos los Rivales</option>` + optionsHtml;
+  }
 }
 
-function seleccionarRivalDeLista(rivalId) {
-  activeRivalId = rivalId;
-  actualizarPreviaRivalActivo();
-}
-
-function actualizarPreviaRivalActivo() {
-  const rival = RIVALS_DATABASE.find(r => r.id === activeRivalId) || RIVALS_DATABASE[0];
+function seleccionarRivalDeLista() {
+  const select = document.getElementById('select-rival-selector');
+  if (!select) return;
+  activeRivalId = select.value;
+  const rival = RIVALS_DATABASE.find(r => r.id === activeRivalId);
   if (!rival) return;
 
-  const elLogo = document.getElementById('rival-preview-logo');
-  const elName = document.getElementById('rival-preview-name');
-  const elAbbr = document.getElementById('rival-preview-abbr');
-  const elDet = document.getElementById('rival-preview-details');
-  const elScout = document.getElementById('rival-preview-scouting-preview');
-  const hiddenInp = document.getElementById('input-game-rival');
+  // Actualizar campos predeterminados del rival
+  const inRival = document.getElementById('input-game-rival');
+  if (inRival) inRival.value = rival.name;
 
-  if (elLogo) elLogo.src = rival.logo || DEFAULT_PHOTO;
-  if (elName) elName.innerText = rival.name;
-  if (elAbbr) {
-    elAbbr.innerText = rival.abbr;
-    elAbbr.style.background = rival.color || '#FFC72C';
-  }
-  if (elDet) elDet.innerText = `Mánager: ${rival.manager || 'N/A'} · Récord: ${rival.record || '0-0'} · Pitcher As: ${rival.pitcherAs || 'Por Definir'}`;
-  if (elScout) elScout.innerText = `⚡ Tendencia: ${rival.tendency || 'Equipo balanceado.'}`;
-  if (hiddenInp) hiddenInp.value = rival.name;
+  const inStarter = document.getElementById('input-rival-starter-name');
+  if (inStarter) inStarter.value = rival.pitcherAs || '';
 
-  actualizarPreviaMatchup();
+  const inStarterNum = document.getElementById('input-rival-starter-num');
+  if (inStarterNum) inStarterNum.value = rival.pitcherNum || '';
+
+  const selStarterArm = document.getElementById('select-rival-starter-arm');
+  if (selStarterArm) selStarterArm.value = rival.pitcherArm || 'RHP';
+
+  renderRivalLineupEditor(rival);
+  validarIntegridadLineupRival();
 }
 
 function toggleFormularioNuevoRival(forceState) {
-  const container = document.getElementById('form-nuevo-rival-container');
-  if (!container) return;
-  const isOpening = forceState !== undefined ? forceState : container.style.display === 'none';
-  container.style.display = isOpening ? 'block' : 'none';
-  if (isOpening) {
-    document.getElementById('new-rival-name-inp')?.focus();
+  const formBox = document.getElementById('box-nuevo-rival-form');
+  const btnToggle = document.getElementById('btn-toggle-nuevo-rival');
+  if (!formBox) return;
+
+  isNewRivalFormOpen = (forceState !== undefined) ? forceState : !isNewRivalFormOpen;
+  formBox.style.display = isNewRivalFormOpen ? 'block' : 'none';
+  if (btnToggle) {
+    btnToggle.innerText = isNewRivalFormOpen ? '❌ Cancelar Nuevo Rival' : '➕ Añadir Nuevo Rival';
   }
 }
 
 function guardarNuevoRivalEnDB() {
-  const name = document.getElementById('new-rival-name-inp')?.value.trim();
-  const abbr = (document.getElementById('new-rival-abbr-inp')?.value.trim() || 'RIV').toUpperCase();
-  const manager = document.getElementById('new-rival-manager-inp')?.value.trim() || 'Mánager Rival';
-  const color = document.getElementById('new-rival-color-inp')?.value || '#0284C7';
-  const logo = document.getElementById('new-rival-logo-inp')?.value.trim() || 'https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop';
-  const scout = document.getElementById('new-rival-scout-inp')?.value.trim() || 'Pitcher As: Por anunciar · Bateador clave: Por definir';
+  const nameInput = document.getElementById('input-new-rival-name');
+  const abbrInput = document.getElementById('input-new-rival-abbr');
+  const mgrInput = document.getElementById('input-new-rival-manager');
+  const pitcherInput = document.getElementById('input-new-rival-pitcher');
+  const armSelect = document.getElementById('select-new-rival-arm');
 
-  if (!name) {
-    alert("Por favor ingresa al menos el Nombre Oficial del Club Rival.");
+  const name = nameInput ? nameInput.value.trim() : '';
+  const abbr = abbrInput ? abbrInput.value.trim().toUpperCase() : '';
+  const manager = mgrInput ? mgrInput.value.trim() : 'Mánager Rival';
+  const pitcherAs = pitcherInput ? pitcherInput.value.trim() : 'Abridor As';
+  const pitcherArm = armSelect ? armSelect.value : 'RHP';
+
+  if (!name || !abbr) {
+    alert('⚠️ Por favor ingrese el Nombre y las Siglas (3 letras) del nuevo rival.');
     return;
   }
 
+  const newId = `RIV-${Date.now().toString().slice(-4)}`;
+  const defaultLineup = [
+    { order: 1, name: `${abbr} Bateador 1`, number: "10", pos: "8", bats: "R", throws: "R" },
+    { order: 2, name: `${abbr} Bateador 2`, number: "4", pos: "4", bats: "R", throws: "R" },
+    { order: 3, name: `${abbr} Bateador 3`, number: "25", pos: "3", bats: "L", throws: "L" },
+    { order: 4, name: `${abbr} Bateador 4`, number: "34", pos: "7", bats: "R", throws: "R" },
+    { order: 5, name: `${abbr} Bateador 5`, number: "18", pos: "9", bats: "R", throws: "R" },
+    { order: 6, name: `${abbr} Bateador 6`, number: "12", pos: "5", bats: "R", throws: "R" },
+    { order: 7, name: `${abbr} Bateador 7`, number: "7", pos: "6", bats: "S", throws: "R" },
+    { order: 8, name: `${abbr} Bateador 8`, number: "2", pos: "2", bats: "R", throws: "R" },
+    { order: 9, name: pitcherAs, number: "21", pos: "1", bats: "R", throws: pitcherArm }
+  ];
+
   const newRival = {
-    id: `rival-${Date.now()}`,
+    id: newId,
     name: name.toUpperCase(),
     abbr: abbr,
-    color: color,
-    logo: logo,
+    categoria: "+55",
+    color: "#00D2FF",
     manager: manager,
-    record: "0-0",
-    pitcherAs: scout,
-    dangerBatter: "Bateadores del orden central",
-    tendency: "Equipo recién registrado en la Liga +55.",
-    weakness: "Por auditar en el transcurso de las primeras entradas.",
-    winProbVsGuerreros: 50
+    pitcherAs: pitcherAs,
+    pitcherNum: "21",
+    pitcherArm: pitcherArm,
+    lineup: defaultLineup,
+    bench: [
+      { name: `${abbr} Reserva 1`, number: "15", pos: "OF" },
+      { name: `${abbr} Reserva 2`, number: "33", pos: "P" }
+    ]
   };
 
-  RIVALS_DATABASE.unshift(newRival);
-  activeRivalId = newRival.id;
+  RIVALS_DATABASE.push(newRival);
   saveRivalsToStorage();
+  
+  activeRivalId = newId;
   poblarSelectoresRivales();
   toggleFormularioNuevoRival(false);
 
-  // Limpiar campos
-  if (document.getElementById('new-rival-name-inp')) document.getElementById('new-rival-name-inp').value = '';
-  if (document.getElementById('new-rival-abbr-inp')) document.getElementById('new-rival-abbr-inp').value = '';
-  if (document.getElementById('new-rival-manager-inp')) document.getElementById('new-rival-manager-inp').value = '';
-  if (document.getElementById('new-rival-logo-inp')) document.getElementById('new-rival-logo-inp').value = '';
-  if (document.getElementById('new-rival-scout-inp')) document.getElementById('new-rival-scout-inp').value = '';
+  // Limpiar campos del formulario
+  if (nameInput) nameInput.value = '';
+  if (abbrInput) abbrInput.value = '';
+  if (mgrInput) mgrInput.value = '';
+  if (pitcherInput) pitcherInput.value = '';
 
-  mostrarToast(`✅ ¡Club ${newRival.name} (${newRival.abbr}) guardado en la Base de Rivales!`);
+  seleccionarRivalDeLista();
+  alert(`✅ Rival "${newRival.name}" guardado exitosamente en Base de Datos Local.`);
 }
 
-function actualizarPreviaMatchup() {
-  const rival = RIVALS_DATABASE.find(r => r.id === activeRivalId) || RIVALS_DATABASE[0];
-  const cond = document.getElementById('input-game-condicion')?.value || 'LOCAL';
-  const isLocal = cond === 'LOCAL';
+function renderRivalLineupEditor(rival) {
+  const container = document.getElementById('rival-lineup-tbody');
+  if (!container) return;
+  container.innerHTML = '';
 
-  // Sincronizar logos en Marcador
-  const awayLogo = document.getElementById('score-away-logo');
-  const homeLogo = document.getElementById('score-home-logo');
-  if (awayLogo && homeLogo) {
-    if (isLocal) {
-      awayLogo.src = rival ? rival.logo : DEFAULT_PHOTO;
-      homeLogo.src = teamLogoUrl;
-    } else {
-      awayLogo.src = teamLogoUrl;
-      homeLogo.src = rival ? rival.logo : DEFAULT_PHOTO;
+  const lineup = (rival && rival.lineup && rival.lineup.length >= 9) ? rival.lineup : [
+    { order: 1, name: "Carlos Perez", number: "10", pos: "8", bats: "R", throws: "R" },
+    { order: 2, name: "Derek Johnson", number: "4", pos: "4", bats: "R", throws: "R" },
+    { order: 3, name: "Marcus Vance", number: "25", pos: "3", bats: "L", throws: "L" },
+    { order: 4, name: "Anthony Miller", number: "34", pos: "7", bats: "R", throws: "R" },
+    { order: 5, name: "Steve Clark", number: "18", pos: "9", bats: "R", throws: "R" },
+    { order: 6, name: "Luis Rodriguez", number: "12", pos: "5", bats: "R", throws: "R" },
+    { order: 7, name: "Jason Smith", number: "7", pos: "6", bats: "S", throws: "R" },
+    { order: 8, name: "Brian White", number: "2", pos: "2", bats: "R", throws: "R" },
+    { order: 9, name: "Tom Reynolds", number: "21", pos: "1", bats: "R", throws: "R" }
+  ];
+
+  const posOptions = [
+    { val: "1", label: "1 - Lanzador (P)" },
+    { val: "2", label: "2 - Receptor (C)" },
+    { val: "3", label: "3 - 1ra Base (1B)" },
+    { val: "4", label: "4 - 2da Base (2B)" },
+    { val: "5", label: "5 - 3ra Base (3B)" },
+    { val: "6", label: "6 - Campocorto (SS)" },
+    { val: "7", label: "7 - Jardinero Izq (LF)" },
+    { val: "8", label: "8 - Jardinero Cen (CF)" },
+    { val: "9", label: "9 - Jardinero Der (RF)" },
+    { val: "BD", label: "BD - Bateador Desig." }
+  ];
+
+  lineup.slice(0, 9).forEach((item, index) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-weight:bold; text-align:center; color:#FFC72C;">${index + 1}</td>
+      <td>
+        <input type="text" id="rival-lineup-name-${index}" class="form-control" value="${item.name}" placeholder="Nombre del Bateador" oninput="validarIntegridadLineupRival()" />
+      </td>
+      <td>
+        <input type="text" id="rival-lineup-num-${index}" class="form-control" value="${item.number || (index + 1)}" style="text-align:center; max-width:55px;" oninput="validarIntegridadLineupRival()" />
+      </td>
+      <td>
+        <select id="rival-lineup-pos-${index}" class="form-control" onchange="validarIntegridadLineupRival()">
+          ${posOptions.map(p => `<option value="${p.val}" ${item.pos === p.val ? 'selected' : ''}>${p.label}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="rival-lineup-bats-${index}" class="form-control" onchange="validarIntegridadLineupRival()">
+          <option value="R" ${item.bats === 'R' ? 'selected' : ''}>Derecho (R)</option>
+          <option value="L" ${item.bats === 'L' ? 'selected' : ''}>Zurdo (L)</option>
+          <option value="S" ${item.bats === 'S' ? 'selected' : ''}>Ambidiestro (S)</option>
+        </select>
+      </td>
+    `;
+    container.appendChild(tr);
+  });
+}
+
+function validarIntegridadLineupRival() {
+  const alertBox = document.getElementById('alert-error-lineup');
+  const badge = document.getElementById('badge-lineup-integrity');
+  const starterInput = document.getElementById('input-rival-starter-name');
+  
+  let isValid = true;
+  let errors = [];
+
+  // Validar Abridor Rival
+  if (!starterInput || !starterInput.value.trim()) {
+    isValid = false;
+    errors.push('Falta el nombre del Lanzador Abridor Rival.');
+  }
+
+  // Validar los 9 bateadores
+  for (let i = 0; i < 9; i++) {
+    const nameInput = document.getElementById(`rival-lineup-name-${i}`);
+    const numInput = document.getElementById(`rival-lineup-num-${i}`);
+    if (!nameInput || !nameInput.value.trim()) {
+      isValid = false;
+      errors.push(`Bateador #${i + 1} no tiene nombre asignado.`);
+      break;
     }
+  }
+
+  if (alertBox) {
+    if (isValid) {
+      alertBox.style.display = 'none';
+    } else {
+      alertBox.style.display = 'flex';
+      const errMsg = document.getElementById('alert-error-msg');
+      if (errMsg) errMsg.innerText = `Lineup Incompleto: ${errors.join(' ')}`;
+    }
+  }
+
+  if (badge) {
+    if (isValid) {
+      badge.className = 'badge-lineup-status valid';
+      badge.innerHTML = '🟢 9 Bateadores + 1 Abridor + ID Válido';
+    } else {
+      badge.className = 'badge-lineup-status invalid';
+      badge.innerHTML = '🔴 Lineup Incompleto / Faltan Datos';
+    }
+  }
+
+  return isValid;
+}
+
+function autocompletarLineupRival() {
+  const rival = RIVALS_DATABASE.find(r => r.id === activeRivalId) || RIVALS_DATABASE[0];
+  if (rival) {
+    const inStarter = document.getElementById('input-rival-starter-name');
+    if (inStarter) inStarter.value = rival.pitcherAs || 'Tom Reynolds';
+    
+    const inStarterNum = document.getElementById('input-rival-starter-num');
+    if (inStarterNum) inStarterNum.value = rival.pitcherNum || '21';
+
+    renderRivalLineupEditor(rival);
+    validarIntegridadLineupRival();
   }
 }
 
-
-// ==========================================
-// ESTADO Y MOTOR DE JUEGO DIAMAX PRO (LIFECYCLE)
-// ==========================================
-let currentGame = {
-  fecha: '2026-09-08',
-  horaInicio: '09:30 AM',
-  horaFin: '',
-  duracion: '',
-  estadio: 'Lutz Baseball Park - Campo #1',
-  direccion: '5709 Kingfish Drive, Lutz, FL 33558',
-  rival: 'TIGRES DE TAMPA',
-  condicion: 'LOCAL',
-  clima: {
-    tempF: 86,
-    tempC: 30,
-    humedad: 68,
-    viento: '7 mph -> CF',
-    presion: '29.95 inHg',
-    condicion: 'Soleado / Despejado',
-    densidadAire: 1.178,
-    impactoVuelo: '+4.2 pies en elevados'
-  },
-  estado: 'EN_VIVO'
-};
-
-function toggleDaylightMode() {
-  document.body.classList.toggle('daylight-mode');
-  const isDay = document.body.classList.contains('daylight-mode');
-  localStorage.setItem('diamax_daylight_mode', isDay ? 'true' : 'false');
-  mostrarToast(isDay ? '☀️ Modo Sol (Alto Brillo) Activado' : '🌙 Modo Nocturno Activado');
+function limpiarLineupRivalEditor() {
+  const inStarter = document.getElementById('input-rival-starter-name');
+  if (inStarter) inStarter.value = '';
+  
+  for (let i = 0; i < 9; i++) {
+    const nameInput = document.getElementById(`rival-lineup-name-${i}`);
+    if (nameInput) nameInput.value = '';
+  }
+  validarIntegridadLineupRival();
 }
 
-if (localStorage.getItem('diamax_daylight_mode') === 'true') {
-  document.body.classList.add('daylight-mode');
+function toggleDaylightMode() {
+  const body = document.body;
+  const isDaylight = body.classList.toggle('daylight-mode');
+  localStorage.setItem('diamax_daylight_mode', isDaylight ? 'true' : 'false');
+  const btn = document.getElementById('btn-daylight-toggle');
+  if (btn) btn.innerText = isDaylight ? '🌙 Modo Nocturno' : '☀️ Modo Día';
 }
 
 function abrirModalNuevoJuego() {
-  poblarSelectoresRivales();
-  actualizarPreviaMatchup();
   const modal = document.getElementById('modal-nuevo-juego');
-  if (modal) modal.classList.add('active');
+  if (modal) {
+    poblarSelectoresRivales();
+    seleccionarRivalDeLista();
+    toggleFormularioNuevoRival(false);
+    modal.classList.add('active');
+    modal.style.display = 'flex';
+  }
 }
 
 function cerrarModalNuevoJuego() {
   const modal = document.getElementById('modal-nuevo-juego');
-  if (modal) modal.classList.remove('active');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+  }
 }
 
 function sincronizarClimaEnVivo() {
-  const temps = [84, 86, 88, 90, 82];
-  const hums = [62, 68, 72, 75, 60];
-  const winds = ['6 mph -> LF', '7 mph -> CF', '9 mph -> RF', '5 mph Infield'];
-  
-  const randTemp = temps[Math.floor(Math.random() * temps.length)];
-  const randHum = hums[Math.floor(Math.random() * hums.length)];
-  const randWind = winds[Math.floor(Math.random() * winds.length)];
-  const rho = (1.225 * (1 - (randTemp - 59)*0.002)).toFixed(3);
-  const boost = ((1.225 - parseFloat(rho)) * 65).toFixed(1);
-
-  currentGame.clima = {
-    tempF: randTemp,
-    tempC: Math.round((randTemp - 32) * 5/9),
-    humedad: randHum,
-    viento: randWind,
-    presion: '29.95 inHg',
-    condicion: 'Soleado / Despejado',
-    densidadAire: parseFloat(rho),
-    impactoVuelo: `+${boost} pies en elevados`
-  };
-
-  const elTemp = document.getElementById('weather-val-temp');
-  const elHum = document.getElementById('weather-val-hum');
-  const elWind = document.getElementById('weather-val-wind');
-  const elZapata = document.getElementById('weather-val-zapata');
-
-  if (elTemp) elTemp.innerText = `${currentGame.clima.tempF}°F (${currentGame.clima.tempC}°C)`;
-  if (elHum) elHum.innerText = `${currentGame.clima.humedad}%`;
-  if (elWind) elWind.innerText = currentGame.clima.viento;
-  if (elZapata) elZapata.innerHTML = `⚡ Impacto Aerodinámico Zapata: <strong>+${boost} pies de alcance en elevados</strong> (Densidad ρ = ${rho} kg/m³).`;
-
-  mostrarToast('🌤️ Clima de Sede Sincronizado');
-}
-
-function guardarNuevoJuego() {
-  const fecha = document.getElementById('input-game-fecha').value || '2026-09-08';
-  const hora = document.getElementById('input-game-hora-inicio').value || '09:30';
-  const rivalObj = RIVALS_DATABASE.find(r => r.id === activeRivalId) || RIVALS_DATABASE[0];
-  const rivalName = rivalObj ? rivalObj.name : (document.getElementById('input-game-rival')?.value || 'DAYTONA BEACH');
-  const condicion = document.getElementById('input-game-condicion').value || 'LOCAL';
-  const estadio = document.getElementById('input-game-estadio').value || 'Lutz Baseball Park - Campo #1';
-  const direccion = document.getElementById('input-game-direccion').value || '5709 Kingfish Drive, Lutz, FL 33558';
-
-  currentGame.fecha = fecha;
-  currentGame.horaInicio = formatTime12h(hora);
-  currentGame.rival = rivalName.toUpperCase();
-  currentGame.rivalObj = rivalObj;
-  currentGame.condicion = condicion;
-  currentGame.isHomeClub = (condicion === 'LOCAL');
-  currentGame.estadio = estadio;
-  currentGame.direccion = direccion;
-  currentGame.estado = 'EN_VIVO';
-  currentGame.horaFin = '';
-  currentGame.duracion = '';
-
-  // Actualizar juego en lista GAMES
-  const gActive = getActiveGame();
-  if (gActive) {
-    gActive.rival = currentGame.rival;
-    gActive.isHomeClub = currentGame.isHomeClub;
-    gActive.fecha = currentGame.fecha;
-    saveGamesToStorage();
-  }
-
-  scoreHome = 0;
-  scoreAway = 0;
-  currentInning = 1;
-  isTopInning = true;
-  currentOuts = 0;
-  bases = { b1: false, b2: false, b3: false };
-
-  actualizarGameHeaderUI();
-  sincronizarTarjetaOficialHeader();
-  cerrarModalNuevoJuego();
-  mostrarToast('⚾ ¡Nuevo Juego Iniciado! Dugout Keypad Activo');
+  alert('🔄 Sincronizando Clima GPS Oficial para la Sede...');
 }
 
 function formatTime12h(timeStr) {
@@ -4917,15 +5343,31 @@ function actualizarGameHeaderUI() {
   const bRival = document.getElementById('badge-live-rival');
   const bClima = document.getElementById('badge-live-clima');
   const bDur = document.getElementById('badge-live-duracion');
-  const rivalObj = currentGame.rivalObj || RIVALS_DATABASE.find(r => r.name.toUpperCase() === currentGame.rival.toUpperCase()) || RIVALS_DATABASE[0];
+  
+  const currentGame = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : ((typeof getActiveGame === 'function') ? getActiveGame() : {
+    fecha: '2026-09-08',
+    horaInicio: '09:30',
+    estadio: 'Lutz Baseball Park - Campo #1',
+    direccion: '5709 Kingfish Drive, Lutz, FL 33558',
+    rival: 'DAYTONA BEACH',
+    rivalId: 'RIV-001',
+    rivalAbbr: 'DAY',
+    condicion: 'HOME',
+    clima: { tempF: 86, humedad: 68, viento: '7 mph -> CF' }
+  });
 
-  if (bFecha) bFecha.innerText = `📅 ${currentGame.fecha}`;
-  if (bHora) bHora.innerText = `⏰ Inicio: ${currentGame.horaInicio}`;
-  if (bSede) bSede.innerText = `🏟️ ${currentGame.estadio} (${currentGame.direccion})`;
+  const rivalObj = currentGame.rivalObj || RIVALS_DATABASE.find(r => (r.id === currentGame.rivalId) || (r.name && r.name.toUpperCase() === (currentGame.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
+
+  if (bFecha) bFecha.innerText = `📅 ${currentGame.fecha || '2026-09-08'}`;
+  if (bHora) bHora.innerText = `⏰ Inicio: ${formatTime12h(currentGame.horaInicio)}`;
+  if (bSede) bSede.innerText = `🏟️ ${currentGame.estadio || 'Lutz Baseball Park'} (${currentGame.direccion || 'Lutz, FL'})`;
   if (bRival) {
-    bRival.innerHTML = `⚔️ vs <strong style="color:#FFC72C;">${currentGame.rival}</strong> <span style="background:${rivalObj?.color||'#FFC72C'}; color:#000; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:900;">${rivalObj?.abbr||'RIV'}</span> [${currentGame.condicion}]`;
+    bRival.innerHTML = `⚔️ vs <strong style="color:#FFC72C;">${currentGame.rival || (rivalObj ? rivalObj.name : 'RIVAL')}</strong> <span style="background:${rivalObj?.color||'#00D2FF'}; color:#000; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:900;">${rivalObj?.abbr||'RIV'}</span> [${currentGame.condicion || 'HOME'}]`;
   }
-  if (bClima) bClima.innerText = `☀️ ${currentGame.clima.tempF}°F | Hum: ${currentGame.clima.humedad}% | ${currentGame.clima.viento}`;
+  if (bClima) {
+    const clima = currentGame.clima || { tempF: 86, humedad: 68, viento: '7 mph -> CF' };
+    bClima.innerText = `☀️ ${clima.tempF}°F | Hum: ${clima.humedad}% | ${clima.viento}`;
+  }
   
   if (bDur) {
     if (currentGame.duracion) {
@@ -4935,6 +5377,140 @@ function actualizarGameHeaderUI() {
       bDur.style.display = 'none';
     }
   }
+}
+
+function guardarNuevoJuego() {
+  if (!validarIntegridadLineupRival()) {
+    alert('⚠️ No se puede iniciar el juego: La alineación del rival debe contener exactamente 9 bateadores válidos y 1 lanzador abridor.');
+    return;
+  }
+
+  const fecha = document.getElementById('input-game-fecha').value || '2026-09-08';
+  const horaInicio = document.getElementById('input-game-hora-inicio').value || '09:30';
+  const estadio = document.getElementById('input-game-estadio').value || 'Lutz Baseball Park - Campo #1';
+  const direccion = document.getElementById('input-game-direccion').value || '5709 Kingfish Drive, Lutz, FL 33558';
+  const rivalId = activeRivalId;
+  const rivalRecord = RIVALS_DATABASE.find(r => r.id === rivalId) || RIVALS_DATABASE[0];
+  const rivalName = rivalRecord.name;
+  const rivalAbbr = rivalRecord.abbr || 'RIV';
+
+  const starterPitcherName = document.getElementById('input-rival-starter-name').value.trim();
+  const starterPitcherNum = document.getElementById('input-rival-starter-num').value.trim();
+  const starterPitcherArm = document.getElementById('select-rival-starter-arm').value;
+
+  const isHomeClub = document.querySelector('input[name="game-condicion"]:checked') ? (document.querySelector('input[name="game-condicion"]:checked').value === 'HOME') : true;
+
+  // Extraer el lineup configurado en la tabla de 9 bateadores
+  const customRivalLineup = [];
+  for (let i = 0; i < 9; i++) {
+    const name = document.getElementById(`rival-lineup-name-${i}`).value.trim();
+    const num = document.getElementById(`rival-lineup-num-${i}`).value.trim();
+    const pos = document.getElementById(`rival-lineup-pos-${i}`).value;
+    const bats = document.getElementById(`rival-lineup-bats-${i}`).value;
+    customRivalLineup.push({
+      order: i + 1,
+      name: name,
+      number: num,
+      pos: pos,
+      bats: bats,
+      throws: 'R'
+    });
+  }
+
+  // Actualizar el rival en RIVALS_DATABASE
+  rivalRecord.pitcherAs = starterPitcherName;
+  rivalRecord.pitcherNum = starterPitcherNum;
+  rivalRecord.pitcherArm = starterPitcherArm;
+  rivalRecord.lineup = customRivalLineup;
+  saveRivalsToStorage();
+
+  // Crear objeto GAME_ACTIVE
+  const gameId = `GAME-${Date.now()}`;
+  GAME_ACTIVE = {
+    id: gameId,
+    fecha: fecha,
+    horaInicio: horaInicio,
+    estadio: estadio,
+    direccion: direccion,
+    rival: rivalName,
+    rivalId: rivalId,
+    rivalAbbr: rivalAbbr,
+    isHomeClub: isHomeClub,
+    condicion: isHomeClub ? 'HOME' : 'AWAY',
+    halfInningRule: isHomeClub ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1'
+  };
+  localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE));
+
+  // Obtener lineup de Guerreros de Venezuela
+  const gveLineup = getGuerrerosLineup();
+  const gveBench = (typeof MASTER_ROSTER !== 'undefined' && MASTER_ROSTER.length > 9)
+    ? MASTER_ROSTER.slice(9).map(p => ({ name: p.name, number: p.num, pos: p.defaultPos }))
+    : [];
+
+  // Crear Registro Relacional en Tabla Intermedia `game_lineups`
+  const gameLineupRecord = {
+    id: `LINEUP-${gameId}`,
+    gameId: gameId,
+    fecha: fecha,
+    estadio: estadio,
+    condicion: isHomeClub ? 'HOME_CLUB' : 'VISITANTE',
+    isHomeClub: isHomeClub,
+    homeTeam: isHomeClub ? {
+      name: 'GUERREROS DE VENEZUELA +55',
+      abbr: 'GVE',
+      manager: 'Lic. Alí Zapata Mendoza',
+      starterPitcher: { name: 'Pedro Chavez', number: '23', arm: 'RHP' },
+      lineup: gveLineup,
+      bench: gveBench
+    } : {
+      name: rivalName,
+      abbr: rivalAbbr,
+      manager: rivalRecord.manager,
+      starterPitcher: { name: starterPitcherName, number: starterPitcherNum, arm: starterPitcherArm },
+      lineup: customRivalLineup,
+      bench: rivalRecord.bench || []
+    },
+    awayTeam: isHomeClub ? {
+      name: rivalName,
+      abbr: rivalAbbr,
+      manager: rivalRecord.manager,
+      starterPitcher: { name: starterPitcherName, number: starterPitcherNum, arm: starterPitcherArm },
+      lineup: customRivalLineup,
+      bench: rivalRecord.bench || []
+    } : {
+      name: 'GUERREROS DE VENEZUELA +55',
+      abbr: 'GVE',
+      manager: 'Lic. Alí Zapata Mendoza',
+      starterPitcher: { name: 'Pedro Chavez', number: '23', arm: 'RHP' },
+      lineup: gveLineup,
+      bench: gveBench
+    },
+    isValidated: true,
+    validatedAt: new Date().toISOString()
+  };
+
+  GAME_LINEUPS_DB.push(gameLineupRecord);
+  localStorage.setItem('diamax_game_lineups_v1', JSON.stringify(GAME_LINEUPS_DB));
+
+  // Reiniciar estado en vivo
+  liveState.inning = 1;
+  liveState.half = 'TOP'; // Inning 1 Alta (Siempre abre el Visitante)
+  liveState.outs = 0;
+  liveState.balls = 0;
+  liveState.strikes = 0;
+  liveState.bases = [null, null, null];
+  liveState.currentBatterIndex = 0;
+
+  // Renderizar vistas actualizadas
+  renderOfficialCard();
+  updateLiveBatterDisplay();
+  renderLiveLineupChips();
+  actualizarGameHeaderUI();
+  cerrarModalNuevoJuego();
+  switchTab('envivo');
+
+  // Feedback al usuario
+  alert(`⚾ ¡Partido Oficial Cargado e Inicializado!\n\n🏟️ Sede: ${estadio}\n⚔️ Rival: ${rivalName} (${rivalAbbr})\n📍 Condición: Guerreros es ${isHomeClub ? 'HOME CLUB (Batea en Baja ▼)' : 'VISITANTE (Batea en Alta ▲)'}\n📋 Integridad: 9 Bateadores + 1 Abridor Vinculados en Tabla Intermedia.`);
 }
 
 function abrirModalFinalizarJuego() {
@@ -5006,28 +5582,70 @@ function sincronizarTarjetaOficialHeader() {
   const cardRival = document.getElementById('official-card-rival-field');
   const cardClima = document.getElementById('official-card-clima-field');
 
-  if (cardSede) cardSede.innerText = `${currentGame.estadio} — ${currentGame.direccion}`;
-  if (cardFecha) cardFecha.innerText = currentGame.fecha;
-  if (cardHoras) cardHoras.innerText = `Inicio: ${currentGame.horaInicio} | Fin: ${currentGame.horaFin || 'En Curso'} | Duración: ${currentGame.duracion || '--'}`;
-  if (cardRival) cardRival.innerText = `${currentGame.rival} (${currentGame.condicion})`;
-  if (cardClima) cardClima.innerText = `${currentGame.clima.tempF}°F, Humedad: ${currentGame.clima.humedad}%, Viento: ${currentGame.clima.viento}`;
+  const currentGame = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : ((typeof getActiveGame === 'function') ? getActiveGame() : {
+    fecha: '2026-09-08',
+    horaInicio: '09:30',
+    estadio: 'Lutz Baseball Park - Campo #1',
+    direccion: '5709 Kingfish Drive, Lutz, FL 33558',
+    rival: 'DAYTONA BEACH',
+    condicion: 'HOME',
+    clima: { tempF: 86, humedad: 68, viento: '7 mph -> CF' }
+  });
+
+  const clima = currentGame.clima || { tempF: 86, humedad: 68, viento: '7 mph -> CF' };
+
+  if (cardSede) cardSede.innerText = `${currentGame.estadio || 'Lutz Baseball Park'} — ${currentGame.direccion || 'Lutz, FL'}`;
+  if (cardFecha) cardFecha.innerText = currentGame.fecha || '2026-09-08';
+  if (cardHoras) cardHoras.innerText = `Inicio: ${currentGame.horaInicio || '09:30'} | Fin: ${currentGame.horaFin || 'En Curso'} | Duración: ${currentGame.duracion || '--'}`;
+  if (cardRival) cardRival.innerText = `${currentGame.rival || 'DAYTONA BEACH'} (${currentGame.condicion || 'HOME'})`;
+  if (cardClima) cardClima.innerText = `${clima.tempF}°F, Humedad: ${clima.humedad}%, Viento: ${clima.viento}`;
 }
 
 setTimeout(() => {
-  actualizarGameHeaderUI();
-  sincronizarTarjetaOficialHeader();
+  if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
+  if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
 }, 600);
-
 
 // Global Window bindings
 window.switchTab = switchTab;
+window.liveState = liveState;
 window.RIVALS_DATABASE = RIVALS_DATABASE;
+window.GAME_LINEUPS_DB = GAME_LINEUPS_DB;
 window.poblarSelectoresRivales = poblarSelectoresRivales;
 window.seleccionarRivalDeLista = seleccionarRivalDeLista;
 window.toggleFormularioNuevoRival = toggleFormularioNuevoRival;
 window.guardarNuevoRivalEnDB = guardarNuevoRivalEnDB;
+window.renderRivalLineupEditor = renderRivalLineupEditor;
+window.validarIntegridadLineupRival = validarIntegridadLineupRival;
+window.autocompletarLineupRival = autocompletarLineupRival;
+window.limpiarLineupRivalEditor = limpiarLineupRivalEditor;
+window.abrirModalNuevoJuego = abrirModalNuevoJuego;
+window.cerrarModalNuevoJuego = cerrarModalNuevoJuego;
+window.guardarNuevoJuego = guardarNuevoJuego;
+window.sincronizarClimaEnVivo = sincronizarClimaEnVivo;
+window.toggleDaylightMode = toggleDaylightMode;
+window.setCardViewMode = setCardViewMode;
+window.renderOfficialCard = renderOfficialCard;
+window.getGuerrerosLineup = getGuerrerosLineup;
+window.updateLiveBatterDisplay = updateLiveBatterDisplay;
+window.renderLiveLineupChips = renderLiveLineupChips;
+window.actualizarGameHeaderUI = actualizarGameHeaderUI;
+window.sincronizarTarjetaOficialHeader = sincronizarTarjetaOficialHeader;
 window.actualizarFaseTacticoIA = actualizarFaseTacticoIA;
 window.consultarAgenteIA = consultarAgenteIA;
+window.exportarBoxscoreTexto = exportarBoxscoreTexto;
+window.abrirModalFinalizarJuego = abrirModalFinalizarJuego;
+window.cerrarModalFinalizarJuego = cerrarModalFinalizarJuego;
+window.confirmarFinDeJuego = confirmarFinDeJuego;
+window.seleccionarTurnoDirecto = seleccionarTurnoDirecto;
+window.agregarBateadorManual = agregarBateadorManual;
+window.moverBateadorManual = moverBateadorManual;
+window.eliminarBateadorManual = eliminarBateadorManual;
+window.updateLineupSlot = updateLineupSlot;
+window.cargarLineupPredeterminado = cargarLineupPredeterminado;
+window.autoRellenarLineupIA = autoRellenarLineupIA;
+window.vaciarLineupManual = vaciarLineupManual;
+window.ejecutarSimulacionMonteCarloLineup = ejecutarSimulacionMonteCarloLineup;
 
 </script>
 
@@ -5134,7 +5752,7 @@ window.consultarAgenteIA = consultarAgenteIA;
 
 <!-- MODAL DE CARGAR NUEVO JUEGO Y DATOS DE SEDE -->
 <div class="modal-overlay" id="modal-nuevo-juego">
-  <div class="modal-card">
+  <div class="modal-card" style="max-width:960px; max-height:92vh; overflow-y:auto;">
     <div class="modal-header">
       <h2 id="modal-new-game-title">🏟️ Cargar Nuevo Juego & Sede Oficial</h2>
       <button class="btn-modal-close" onclick="cerrarModalNuevoJuego()">&times;</button>
@@ -5151,98 +5769,168 @@ window.consultarAgenteIA = consultarAgenteIA;
       </div>
     </div>
 
-    <!-- SUBGRAPH 1: SELECCIÓN / REGISTRO DEL RIVAL -->
+    <!-- PASO 1 & 2: SELECCIÓN / REGISTRO DEL RIVAL Y CONDICIÓN -->
     <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <label style="font-size:12px; font-weight:800; color:#FFC72C; text-transform:uppercase; margin:0;" id="lbl-select-rival">⚔️ 1. SELECCIONAR O REGISTRAR EQUIPO RIVAL</label>
-        <button type="button" class="btn-toggle-new-rival" id="btn-toggle-rival-form" onclick="toggleFormularioNuevoRival()">➕ Agregar Nuevo Equipo Rival</button>
+        <label style="font-weight:900; color:#FFC72C; font-size:13px; margin:0;">
+          ⚔️ 1. Selección de Equipo Rival
+        </label>
+        <button type="button" id="btn-toggle-nuevo-rival" class="btn-settings" onclick="toggleFormularioNuevoRival()" style="background:#00D2FF; color:#000; border:none; padding:5px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">
+          ➕ Añadir Nuevo Rival
+        </button>
       </div>
 
-      <div class="form-grid-2">
-        <div class="form-group" style="margin-bottom:0;">
-          <label id="lbl-rival-list">Elegir Rival Registrado</label>
-          <select id="select-rival-list" class="form-control" onchange="seleccionarRivalDeLista(this.value)">
-            <!-- Poblado dinámicamente con Daytona, Cardenales, etc. -->
-          </select>
+      <!-- Selector de Rival Existente -->
+      <div class="form-group" style="margin-bottom:8px;">
+        <select id="select-rival-selector" class="form-control" onchange="seleccionarRivalDeLista()" style="font-weight:bold; font-size:13px; background:#0B132B; border-color:#00D2FF;">
+          <!-- Opciones dinámicas de RIVALS_DATABASE -->
+        </select>
+      </div>
+
+      <!-- Formulario Desplegable: Añadir Nuevo Rival -->
+      <div id="box-nuevo-rival-form" style="display:none; background:#030712; border:1px dashed #00D2FF; border-radius:8px; padding:12px; margin-top:10px;">
+        <div style="font-size:12px; font-weight:800; color:#00D2FF; margin-bottom:8px;">➕ Registro Rápido de Nuevo Rival en Base de Datos</div>
+        <div class="rival-form-grid" style="margin-top:0;">
+          <div class="form-group">
+            <label style="font-size:11px;">Nombre del Equipo Rival</label>
+            <input type="text" id="input-new-rival-name" class="form-control" placeholder="Ej: SARASOTA RED SOX">
+          </div>
+          <div class="form-group">
+            <label style="font-size:11px;">Siglas Oficiales (3 letras)</label>
+            <input type="text" id="input-new-rival-abbr" class="form-control" placeholder="Ej: SAR" maxlength="4">
+          </div>
+          <div class="form-group">
+            <label style="font-size:11px;">Mánager del Rival</label>
+            <input type="text" id="input-new-rival-manager" class="form-control" placeholder="Ej: John Doe">
+          </div>
+          <div class="form-group">
+            <label style="font-size:11px;">Lanzador Abridor As</label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="input-new-rival-pitcher" class="form-control" placeholder="Ej: Pedro Martinez">
+              <select id="select-new-rival-arm" class="form-control" style="max-width:80px;">
+                <option value="RHP">RHP</option>
+                <option value="LHP">LHP</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div class="form-group" style="margin-bottom:0;">
-          <label id="lbl-game-cond">🏠 2. Condición de Guerreros +55</label>
-          <select id="input-game-condicion" class="form-control" onchange="actualizarPreviaMatchup()">
-            <option value="LOCAL">Home Club (Local - Batea 2do ▼ / Defiende 1ro ▲)</option>
-            <option value="VISITANTE">Visitante (Away - Batea 1ro ▲ / Defiende 2do ▼)</option>
-          </select>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
+          <button type="button" class="btn-settings" onclick="toggleFormularioNuevoRival(false)" style="font-size:11px;">Cancelar</button>
+          <button type="button" onclick="guardarNuevoRivalEnDB()" style="background:#10B981; color:#000; border:none; padding:6px 14px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">
+            💾 Guardar y Seleccionar Rival
+          </button>
         </div>
       </div>
 
-      <!-- Tarjeta Visual de Perfil del Rival Seleccionado -->
-      <div class="rival-preview-card" id="rival-active-preview">
-        <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="rival-preview-logo" class="rival-logo-thumb" alt="Logo Rival">
-        <div class="rival-info-block">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <strong style="color:#FFF; font-size:14px;" id="rival-preview-name">DAYTONA BEACH</strong>
-            <span class="rival-badge-abbr" id="rival-preview-abbr">DAY</span>
+      <!-- Paso 2: Condición de Home Club / Visitante -->
+      <div style="margin-top:12px; padding-top:10px; border-top:1px solid #1E293B;">
+        <label style="font-weight:900; color:#FFC72C; font-size:12px; display:block; margin-bottom:6px;">
+          🏟️ 2. Definir Condición de Localía & Regla de 1er Turno al Bate
+        </label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:12px;">
+            <input type="radio" name="game-condicion" value="HOME" checked style="accent-color:#00D2FF;">
+            <div>
+              <strong>🏠 Guerreros HOME CLUB</strong>
+              <div style="font-size:10.5px; color:#94A3B8;">Defiende en Alta (▲) · Batea en Baja (▼)</div>
+            </div>
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:12px;">
+            <input type="radio" name="game-condicion" value="AWAY" style="accent-color:#00D2FF;">
+            <div>
+              <strong>✈️ Guerreros VISITANTE</strong>
+              <div style="font-size:10.5px; color:#94A3B8;">Batea en Alta (▲) · Abre 1er Turno</div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 3: CARGA DEL LINEUP RIVAL Y ABRIDOR -->
+    <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <label style="font-weight:900; color:#00D2FF; font-size:13px; margin:0;">
+          📋 3. Alineación Titular del Rival & Lanzador Abridor
+        </label>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="btn-settings" onclick="autocompletarLineupRival()" style="font-size:11px; padding:4px 8px;">
+            ⚡ Autocompletar con Defaults
+          </button>
+          <button type="button" class="btn-settings" onclick="limpiarLineupRivalEditor()" style="font-size:11px; padding:4px 8px;">
+            🗑️ Limpiar
+          </button>
+        </div>
+      </div>
+
+      <!-- Lanzador Abridor Rival -->
+      <div style="background:#0F172A; border:1px solid #334155; border-radius:6px; padding:10px; margin-bottom:10px;">
+        <div style="font-size:11px; font-weight:800; color:#F8FAFC; margin-bottom:6px;">⚾ Lanzador Abridor del Rival (P):</div>
+        <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:8px;">
+          <div>
+            <input type="text" id="input-rival-starter-name" class="form-control" placeholder="Nombre del Lanzador" value="Tom Reynolds" oninput="validarIntegridadLineupRival()">
           </div>
-          <p style="font-size:11px; color:#94A3B8; margin-top:2px;" id="rival-preview-details">
-            Mánager: Roberto Clemente Jr. · Récord: 14-4 · Pitcher As: Carlos 'El Toro' Morales (2.45 ERA)
-          </p>
-          <div style="font-size:10.5px; color:#00D2FF; margin-top:3px;" id="rival-preview-scouting-preview">
-            ⚡ Tendencia: Agresivos al 1er pitcheo. Vulnerables ante rompientes bajas y afuera.
+          <div>
+            <input type="text" id="input-rival-starter-num" class="form-control" placeholder="Número #" value="21" oninput="validarIntegridadLineupRival()">
+          </div>
+          <div>
+            <select id="select-rival-starter-arm" class="form-control" onchange="validarIntegridadLineupRival()">
+              <option value="RHP" selected>Diestro (RHP)</option>
+              <option value="LHP">Zurdo (LHP)</option>
+            </select>
           </div>
         </div>
       </div>
 
-      <!-- Formulario Desplegable para Agregar Nuevo Rival -->
-      <div id="form-nuevo-rival-container" style="display:none; background:#070D1A; border:1px dashed #FFC72C; border-radius:8px; padding:12px; margin-top:10px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <strong style="color:#FFC72C; font-size:12px;">📝 Registrar Datos del Nuevo Club Rival</strong>
-          <span style="font-size:10px; color:#94A3B8;">Se guardará en la Base de Datos de Rivales</span>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Nombre Oficial del Club (Ej: Daytona Beach)</label>
-            <input type="text" id="new-rival-name-inp" class="form-control" placeholder="Ej: Daytona Beach">
-          </div>
-          <div class="form-group">
-            <label>Abreviatura / Código (Ej: DAY, CAR, TIG)</label>
-            <input type="text" id="new-rival-abbr-inp" class="form-control" placeholder="Ej: DAY" maxlength="4">
-          </div>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Mánager / Dirigente Rival</label>
-            <input type="text" id="new-rival-manager-inp" class="form-control" placeholder="Ej: Roberto Clemente Jr.">
-          </div>
-          <div class="form-group">
-            <label>Color Principal del Rival</label>
-            <input type="color" id="new-rival-color-inp" class="form-control" value="#0284C7" style="height:40px; padding:2px;">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>URL del Logo o Emblema (Opcional)</label>
-          <input type="text" id="new-rival-logo-inp" class="form-control" placeholder="https://... o dejar vacío para logo estándar">
-        </div>
-        <div class="form-group">
-          <label>Pitcher Abridor y Bateador Clave</label>
-          <input type="text" id="new-rival-scout-inp" class="form-control" placeholder="Ej: As: Morales (RHP 2.45 ERA) · 4to Bate: Díaz (AVG .410)">
-        </div>
-        <div style="display:flex; justify-content:flex-end; gap:8px;">
-          <button type="button" class="btn-settings" onclick="toggleFormularioNuevoRival(false)">Cancelar</button>
-          <button type="button" class="btn-new-game" style="background:#10B981;" onclick="guardarNuevoRivalEnDB()">💾 Guardar Rival en Base de Datos</button>
+      <!-- Tabla de 9 Bateadores del Rival -->
+      <div style="overflow-x:auto; border:1px solid #1E293B; border-radius:6px;">
+        <table class="lineup-table-editor">
+          <thead>
+            <tr>
+              <th style="width:30px; text-align:center;">ORD</th>
+              <th>NOMBRE DEL BATEADOR RIVAL</th>
+              <th style="width:70px; text-align:center;">NÚMERO</th>
+              <th style="width:160px;">POSICIÓN DEFENSIVA</th>
+              <th style="width:130px;">BATEO (B/L)</th>
+            </tr>
+          </thead>
+          <tbody id="rival-lineup-tbody">
+            <!-- Inyectado dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PASO 4: ESTADO DE VALIDACIÓN DE INTEGRIDAD -->
+    <div id="alert-error-lineup" class="alert-error-lineup" style="display:none;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:18px;">⚠️</span>
+        <div>
+          <strong>Error de Integridad en Alineación del Rival:</strong>
+          <div style="font-size:11px;" id="alert-error-msg">Debe ingresar exactamente 9 bateadores titulares y 1 lanzador abridor.</div>
         </div>
       </div>
+      <button type="button" class="btn-settings" onclick="autocompletarLineupRival()" style="background:#EF4444; color:#fff; font-weight:bold; font-size:11px; white-space:nowrap;">
+        🛠️ FixData: Corregir Automáticamente
+      </button>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:space-between; background:#0B132B; border:1px solid #1E293B; border-radius:8px; padding:8px 12px; margin-bottom:14px;">
+      <span style="font-size:11.5px; color:#94A3B8;">4. Estado de Integridad:</span>
+      <span class="badge-lineup-status valid" id="badge-lineup-integrity">🟢 9 Bateadores + 1 Abridor + ID Válido</span>
     </div>
 
     <!-- Campo oculto para compatibilidad -->
     <input type="hidden" id="input-game-rival" value="DAYTONA BEACH">
 
-    <div class="form-group">
-      <label>🏟️ Estadio / Nombre del Campo</label>
-      <input type="text" id="input-game-estadio" class="form-control" placeholder="Ej: Lutz Baseball Park - Campo #1" value="Lutz Baseball Park - Campo #1">
-    </div>
-
-    <div class="form-group">
-      <label>📍 Dirección Completa de la Sede</label>
-      <input type="text" id="input-game-direccion" class="form-control" placeholder="Ej: 5709 Kingfish Drive, Lutz, FL 33558" value="5709 Kingfish Drive, Lutz, FL 33558">
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label>🏟️ Estadio / Sede Oficial</label>
+        <input type="text" id="input-game-estadio" class="form-control" placeholder="Ej: Lutz Baseball Park - Campo #1" value="Lutz Baseball Park - Campo #1">
+      </div>
+      <div class="form-group">
+        <label>📍 Dirección de la Sede</label>
+        <input type="text" id="input-game-direccion" class="form-control" placeholder="Ej: 5709 Kingfish Drive, Lutz, FL 33558" value="5709 Kingfish Drive, Lutz, FL 33558">
+      </div>
     </div>
 
     <!-- WIDGET DE CLIMA EN TIEMPO REAL -->
@@ -5276,12 +5964,13 @@ window.consultarAgenteIA = consultarAgenteIA;
 
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
       <button type="button" class="btn-settings" onclick="cerrarModalNuevoJuego()">Cancelar</button>
-      <button type="button" class="btn-new-game" style="background:#00D2FF; color:#000; font-size:13px;" onclick="guardarNuevoJuego()">⚡ Iniciar Partido / Activar Dugout</button>
+      <button type="button" class="btn-new-game" style="background:#00D2FF; color:#000; font-size:13px; font-weight:900;" onclick="guardarNuevoJuego()">
+        ⚡ Validar e Iniciar Partido / Activar Dugout Keypad ⚾
+      </button>
     </div>
   </div>
 </div>
 
-<!-- MODAL DE FINALIZAR PARTIDO -->
 <div class="modal-overlay" id="modal-finalizar-juego">
   <div class="modal-card" style="border-color:#EF4444;">
     <div class="modal-header">
