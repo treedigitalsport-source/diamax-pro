@@ -3699,31 +3699,58 @@ function crearNuevoJuegoModal() {
   switchTab('lineup');
 }
 
-function resetearBaseDeDatos() {
-  if (confirm(" ¿Confirmas restablecer la base de datos de DIAMAX a cero?")) {
+function resetearBaseDeDatos(skipConfirm = false) {
+  if (skipConfirm || confirm("¿Confirmas restablecer y refrescar la base de datos de DIAMAX a cero para el partido oficial?")) {
     try {
       localStorage.removeItem('diamax_baseball_games_v1');
       localStorage.removeItem('gv_baseball_sync_v4');
+      localStorage.removeItem('diamax_game_active_v1');
     } catch(e) {}
+    
     GAMES = [createInitialCleanGame()];
     activeGameId = GAMES[0].id;
+    
     liveState = {
-      inning: 1, half: 'top', outs: 0, scoreUs: 0, scoreThem: 0,
-      bases: { b1:false, b2:false, b3:false }, batterIndex: 0,
+      inning: 1,
+      half: 'top',
+      outs: 0,
+      scoreUs: 0,
+      scoreThem: 0,
+      bases: { b1:false, b2:false, b3:false },
+      batterIndex: 0,
+      gveBatterIndex: 0,
+      rivalBatterIndex: 0,
       currentLiveBox: {},
+      currentRivalBox: {},
       currentPitchingBox: { outsPitcher: 0, k: 0, bb: 0, h: 0, cl: 0, wp: 0 },
       currentFieldingBox: {}
     };
+
+    activePitcherStats.totalPitches = 0;
+    activePitcherStats.strikes = 0;
+    activePitcherStats.balls = 0;
+
+    const logDiv = document.getElementById('play-log');
+    if (logDiv) logDiv.innerHTML = '';
+
+    if (typeof DIAMAX_TACTICAL_MEMORY !== 'undefined' && DIAMAX_TACTICAL_MEMORY.history) {
+      DIAMAX_TACTICAL_MEMORY.history = [];
+    }
+
     saveGamesToStorage();
     simularSincronizacionCloud();
     guardarJuegoEnFirestore();
     initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
+    initFirebaseFromStorage();
+    renderAll();
     toggleSettingsDrawer(false);
-    switchTab('lineup');
+    switchTab('envivo');
+    mostrarToast("✅ Base de datos refrescada y calibrada con éxito para el partido oficial.", 3500);
   }
 }
+window.resetearBaseDeDatos = resetearBaseDeDatos;
+window.refrescarBaseDeDatos = resetearBaseDeDatos;
+
 
 function addDefenseStat(posStr, statType) {
   const g = getActiveGame();
