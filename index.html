@@ -1679,6 +1679,11 @@ body.daylight-mode .btn-keypad:hover {
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
       <!-- Marcador y Diamante -->
       <div class="panel">
+        <!-- DIAGRAMA VISUAL DE FLUJO TÁCTICO ALTA/BAJA (HOME CLUB VS VISITANTE) -->
+        <div id="tactical-flow-diagram" class="tactical-flow-diagram-container">
+          <!-- Renderizado dinámicamente -->
+        </div>
+
         <div class="scoreboard">
           <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-bottom:6px;">
             <button onclick="cambiarInningManual(-1)" class="btn-score-adjust">◀</button>
@@ -1738,7 +1743,7 @@ body.daylight-mode .btn-keypad:hover {
           <div style="display:flex; align-items:center; gap:12px;">
             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" id="current-batter-photo" class="batter-img" alt="Bateador">
             <div>
-              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">Al Bate:</div>
+              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;" id="current-batter-team-badge">Al Bate:</div>
               <strong id="current-batter-name" style="color:#FFC72C; font-size:15px;">Bateador</strong> (<span id="current-batter-pos">CF - Pos 8</span>)
               <div style="font-size:11.5px; color:#10B981; font-weight:bold; margin-top:2px;" id="current-batter-today-stats">Hoy: 0 VB, 0 H, .000 AVE</div>
             </div>
@@ -3741,22 +3746,100 @@ function cargarLineupPredeterminado() {
   setSafeHTML('live-action-banner', ' Lineup Oficial de 9 jugadores cargado con éxito.');
 }
 
-function getLiveCurrentBatter() {
-  const def = MASTER_ROSTER[0], defNext = MASTER_ROSTER[1] || MASTER_ROSTER[0];
+
+function isGuerrerosBattingNow() {
   const g = getActiveGame();
-  if (!g || !Array.isArray(g.lineup) || g.lineup.length === 0) {
-    g.lineup = MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
-  }
-  const idx = Math.abs(Number(liveState.batterIndex) || 0);
-  const slot = g.lineup[idx % g.lineup.length] || g.lineup[0];
-  const nextSlot = g.lineup[(idx + 1) % g.lineup.length] || g.lineup[0];
-  return {
-    player: MASTER_ROSTER.find(pl => pl.id == slot.playerId) || def,
-    pos: slot.pos || "DH",
-    order: slot.order || 1,
-    nextPlayer: MASTER_ROSTER.find(pl => pl.id == nextSlot.playerId) || defNext
-  };
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? g.isHomeClub : true;
+  const halfLower = (liveState.half || 'top').toLowerCase();
+  const isTop = halfLower === 'top';
+  // REGLAMENTO OFICIAL DE BÉISBOL:
+  // - Visitante SIEMPRE batea en la ALTA (TOP ▲)
+  // - Home Club SIEMPRE batea en la BAJA (BOT ▼)
+  return isHomeClub ? !isTop : isTop;
 }
+
+function getLiveCurrentBatter() {
+  const g = getActiveGame();
+  const gveBatting = isGuerrerosBattingNow();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : { name: "CARDENALES", abbr: "CAR", pitcherAs: "Carlos Morales", pitcherArm: "RHP" });
+
+  if (gveBatting) {
+    // 🇻🇪 GUERREROS (+55) AL BATE
+    const lineup = (g && Array.isArray(g.lineup) && g.lineup.length > 0)
+      ? g.lineup
+      : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+    
+    const idx = Math.abs(Number(liveState.batterIndex !== undefined ? liveState.batterIndex : (liveState.gveBatterIndex || 0)));
+    liveState.batterIndex = idx;
+    liveState.gveBatterIndex = idx;
+    
+    const slot = lineup[idx % lineup.length] || lineup[0];
+    const nextSlot = lineup[(idx + 1) % lineup.length] || lineup[0];
+    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || MASTER_ROSTER[0];
+    const nextP = MASTER_ROSTER.find(pl => pl.id == nextSlot.playerId) || MASTER_ROSTER[1] || MASTER_ROSTER[0];
+
+    return {
+      team: teamName || 'GUERREROS (+55)',
+      isGVE: true,
+      player: p,
+      pos: slot.pos || p.defaultPos || "CF",
+      order: slot.order || (idx % lineup.length + 1),
+      nextPlayer: nextP,
+      pitcherName: rivalRecord ? (rivalRecord.pitcherAs || "Abridor Rival") : "Lanzador Rival",
+      pitcherArm: rivalRecord ? (rivalRecord.pitcherArm || "RHP") : "RHP"
+    };
+  } else {
+    // ⚔️ EQUIPO RIVAL AL BATE (GUERREROS AL CAMPO LANZANDO)
+    const rLineup = (rivalRecord && Array.isArray(rivalRecord.lineup) && rivalRecord.lineup.length > 0)
+      ? rivalRecord.lineup
+      : [
+          { order: 1, name: "Carlos Perez", number: "10", pos: "CF", bats: "R", throws: "R" },
+          { order: 2, name: "Derek Johnson", number: "4", pos: "2B", bats: "R", throws: "R" },
+          { order: 3, name: "Marcus Vance", number: "25", pos: "1B", bats: "L", throws: "L" },
+          { order: 4, name: "Anthony Miller", number: "34", pos: "LF", bats: "R", throws: "R" },
+          { order: 5, name: "Steve Clark", number: "18", pos: "RF", bats: "R", throws: "R" },
+          { order: 6, name: "Luis Rodriguez", number: "12", pos: "3B", bats: "R", throws: "R" },
+          { order: 7, name: "Jason Smith", number: "7", pos: "SS", bats: "S", throws: "R" },
+          { order: 8, name: "Brian White", number: "2", pos: "C", bats: "R", throws: "R" },
+          { order: 9, name: "Tom Reynolds", number: "21", pos: "P", bats: "R", throws: "R" }
+        ];
+
+    const idx = Math.abs(Number(liveState.rivalBatterIndex !== undefined ? liveState.rivalBatterIndex : 0));
+    liveState.rivalBatterIndex = idx;
+    
+    const slot = rLineup[idx % rLineup.length] || rLineup[0];
+    const nextSlot = rLineup[(idx + 1) % rLineup.length] || rLineup[0];
+
+    const p = {
+      id: `rival-${slot.number || slot.order}`,
+      num: slot.number || slot.order,
+      name: slot.name || `Bateador ${slot.order}`,
+      defaultPos: slot.pos || "OF",
+      bats: slot.bats || "R",
+      throws: slot.throws || "R",
+      photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop"
+    };
+
+    const nextP = {
+      id: `rival-${nextSlot.number || nextSlot.order}`,
+      num: nextSlot.number || nextSlot.order,
+      name: nextSlot.name || `Bateador ${nextSlot.order}`,
+      photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"
+    };
+
+    return {
+      team: rivalRecord.name || (g.rival || "RIVAL"),
+      isGVE: false,
+      player: p,
+      pos: slot.pos || "CF",
+      order: slot.order || (idx % rLineup.length + 1),
+      nextPlayer: nextP,
+      pitcherName: "Pedro Chavez",
+      pitcherArm: "RHP"
+    };
+  }
+}
+
 
 const GROUNDOUT_MAP = {
   "6-3": { a: "SS", po: "1B" },
@@ -3772,8 +3855,14 @@ const DP_GROUND_MAP = {
 
 function registrarJugadaLive(action) {
   const current = getLiveCurrentBatter(), pId = current.player.id, pName = current.player.name;
-  if (!liveState.currentLiveBox[pId]) liveState.currentLiveBox[pId] = { playerId: pId, vb: 0, ca: 0, h1: 0, h2: 0, h3: 0, hr: 0, ci: 0, bb: 0, k: 0, sf: 0, sb: 0, cs: 0 };
-  const bBox = liveState.currentLiveBox[pId];
+  const isGVE = current.isGVE;
+
+  if (!liveState.currentLiveBox) liveState.currentLiveBox = {};
+  if (!liveState.currentRivalBox) liveState.currentRivalBox = {};
+
+  const targetBox = isGVE ? liveState.currentLiveBox : liveState.currentRivalBox;
+  if (!targetBox[pId]) targetBox[pId] = { playerId: pId, name: pName, vb: 0, ca: 0, h1: 0, h2: 0, h3: 0, hr: 0, ci: 0, bb: 0, k: 0, sf: 0, sb: 0, cs: 0 };
+  const bBox = targetBox[pId];
   let logText = "";
 
   if (action === "1B" || action === "2B" || action === "3B" || action === "HR") {
@@ -3782,7 +3871,7 @@ function registrarJugadaLive(action) {
     if (action === "1B") {
       bBox.h1++;
       let r = liveState.bases.b3 ? 1 : 0;
-      if (r) liveState.scoreUs++;
+      if (r) { if (isGVE) if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r; else liveState.scoreThem += r; }
       liveState.bases.b3 = liveState.bases.b2;
       liveState.bases.b2 = liveState.bases.b1;
       liveState.bases.b1 = true;
@@ -3791,7 +3880,7 @@ function registrarJugadaLive(action) {
     } else if (action === "2B") {
       bBox.h2++;
       let r = (liveState.bases.b3?1:0) + (liveState.bases.b2?1:0);
-      liveState.scoreUs += r;
+      if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r;
       liveState.bases.b3 = liveState.bases.b1;
       liveState.bases.b2 = true;
       liveState.bases.b1 = false;
@@ -3800,7 +3889,7 @@ function registrarJugadaLive(action) {
     } else if (action === "3B") {
       bBox.h3++;
       let r = (liveState.bases.b3?1:0) + (liveState.bases.b2?1:0) + (liveState.bases.b1?1:0);
-      liveState.scoreUs += r;
+      if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r;
       liveState.bases = { b1:false, b2:false, b3:true };
       bBox.ci += r;
       logText = ` ¡Triplete (3B) de ${pName}! (+${r} Carreras)`;
@@ -3808,7 +3897,7 @@ function registrarJugadaLive(action) {
       bBox.hr++;
       bBox.ca++;
       let r = 1 + (liveState.bases.b3?1:0) + (liveState.bases.b2?1:0) + (liveState.bases.b1?1:0);
-      liveState.scoreUs += r;
+      if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r;
       liveState.bases = { b1:false, b2:false, b3:false };
       logText = ` ¡JONRÓN DE ${pName}! (+${r} Carreras)`;
     }
@@ -3929,8 +4018,13 @@ function registrarJugadaLive(action) {
   }
 
   if (action !== "SB" && action !== "CS" && action !== "WP") {
-    liveState.batterIndex = (Number(liveState.batterIndex) || 0) + 1;
-    liveState.currentBatterIndex = liveState.batterIndex;
+    if (isGVE) {
+      liveState.batterIndex = (Number(liveState.batterIndex) || 0) + 1;
+      liveState.gveBatterIndex = liveState.batterIndex;
+      liveState.currentBatterIndex = liveState.batterIndex;
+    } else {
+      liveState.rivalBatterIndex = (Number(liveState.rivalBatterIndex) || 0) + 1;
+    }
   }
 
   setSafeHTML('live-action-banner', ` Última Jugada: <strong>${logText}</strong>`);
@@ -3989,29 +4083,66 @@ function renderLiveBoxscoreTable() {
 }
 
 function renderLiveLineupChips() {
-  const g = getActiveGame();
   const container = document.getElementById('live-lineup-chips');
   if (!container) return;
-  if (!g.lineup || g.lineup.length === 0) {
-    container.innerHTML = `<span style="font-size:11px; color:#94A3B8;">Sin lineup cargado</span>`;
-    return;
+  const g = getActiveGame();
+  const gveBatting = isGuerrerosBattingNow();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : { name: "CARDENALES", abbr: "CAR" });
+
+  if (gveBatting) {
+    const lineup = (g && Array.isArray(g.lineup) && g.lineup.length > 0)
+      ? g.lineup
+      : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+    
+    const activeOrder = (Math.abs(Number(liveState.batterIndex || 0)) % lineup.length) + 1;
+
+    container.innerHTML = lineup.map(slot => {
+      const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { num: slot.order, name: `Bateador ${slot.order}` };
+      const isCurrent = slot.order === activeOrder;
+      const firstName = p.name ? p.name.split(' ')[0] : `P${slot.order}`;
+      return `
+        <div class="lineup-chip ${isCurrent ? 'active' : ''}" onclick="seleccionarTurnoDirecto(${slot.order - 1}, true)" title="Guerreros: #${p.num} ${p.name} (${slot.pos})">
+          ${slot.order}º #${p.num} ${firstName} (${slot.pos})
+        </div>
+      `;
+    }).join('');
+  } else {
+    const rLineup = (rivalRecord && Array.isArray(rivalRecord.lineup) && rivalRecord.lineup.length > 0)
+      ? rivalRecord.lineup
+      : [
+          { order: 1, name: "Carlos Perez", number: "10", pos: "CF" },
+          { order: 2, name: "Derek Johnson", number: "4", pos: "2B" },
+          { order: 3, name: "Marcus Vance", number: "25", pos: "1B" },
+          { order: 4, name: "Anthony Miller", number: "34", pos: "LF" },
+          { order: 5, name: "Steve Clark", number: "18", pos: "RF" },
+          { order: 6, name: "Luis Rodriguez", number: "12", pos: "3B" },
+          { order: 7, name: "Jason Smith", number: "7", pos: "SS" },
+          { order: 8, name: "Brian White", number: "2", pos: "C" },
+          { order: 9, name: "Tom Reynolds", number: "21", pos: "P" }
+        ];
+
+    const activeOrder = (Math.abs(Number(liveState.rivalBatterIndex || 0)) % rLineup.length) + 1;
+
+    container.innerHTML = rLineup.map(slot => {
+      const isCurrent = slot.order === activeOrder;
+      const firstName = slot.name ? slot.name.split(' ')[0] : `R${slot.order}`;
+      return `
+        <div class="lineup-chip ${isCurrent ? 'active' : ''}" style="${isCurrent ? 'background:#EF4444; color:#fff; border-color:#EF4444;' : 'border-color:#475569;'}" onclick="seleccionarTurnoDirecto(${slot.order - 1}, false)" title="${rivalRecord.name}: #${slot.number || slot.order} ${slot.name} (${slot.pos})">
+          ${slot.order}º #${slot.number || slot.order} ${firstName} (${slot.pos})
+        </div>
+      `;
+    }).join('');
   }
-  const activeOrder = (liveState.batterIndex % g.lineup.length) + 1;
-  container.innerHTML = g.lineup.map(slot => {
-    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId);
-    const isCurrent = slot.order === activeOrder;
-    return `
-      <div class="lineup-chip ${isCurrent ? 'active' : ''}" onclick="seleccionarTurnoDirecto(${slot.order - 1})" title="${p ? p.name : ''} (${slot.pos})">
-        ${slot.order}º #${p ? p.num : ''} ${p ? p.name.split(' ')[0] : ''} (${slot.pos})
-      </div>
-    `;
-  }).join('');
 }
 
-function seleccionarTurnoDirecto(idx) {
-  liveState.batterIndex = idx;
-  initSecurityPortal();
-  initFirebaseFromStorage();
+function seleccionarTurnoDirecto(idx, isGVE = true) {
+  if (isGVE) {
+    liveState.batterIndex = idx;
+    liveState.gveBatterIndex = idx;
+    liveState.currentBatterIndex = idx;
+  } else {
+    liveState.rivalBatterIndex = idx;
+  }
   renderAll();
 }
 
@@ -5269,14 +5400,12 @@ function updateLiveBatterDisplay() {
   const g = getActiveGame();
   const isHomeClub = (g && g.isHomeClub !== undefined) ? g.isHomeClub : true;
   
-  // Rule: Visitante batea en Alta (TOP), Home Club batea en Baja (BOT)
-  const gveIsBatting = (isHomeClub && !isTop) || (!isHomeClub && isTop);
-  
   const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : { name: "CARDENALES", abbr: "CAR", pitcherAs: "Carlos Morales", pitcherArm: "RHP" });
-  
-  const bIdx = Math.abs(Number(liveState.batterIndex !== undefined ? liveState.batterIndex : liveState.currentBatterIndex) || 0);
-  liveState.batterIndex = bIdx;
-  liveState.currentBatterIndex = bIdx;
+
+  const awayName = isHomeClub ? (g.rival || (rivalRecord ? rivalRecord.name : 'RIVAL')) : teamName;
+  const homeName = isHomeClub ? teamName : (g.rival || (rivalRecord ? rivalRecord.name : 'RIVAL'));
+  const awayScore = isHomeClub ? (liveState.scoreThem || 0) : (liveState.scoreUs || 0);
+  const homeScore = isHomeClub ? (liveState.scoreUs || 0) : (liveState.scoreThem || 0);
 
   const current = getLiveCurrentBatter();
   const pName = current.player ? current.player.name : "Johan Olivo";
@@ -5285,21 +5414,49 @@ function updateLiveBatterDisplay() {
   const pBats = current.player ? (current.player.bats || "R") : "R";
   const pPhoto = (current.player && current.player.photo) ? current.player.photo : DEFAULT_PHOTO;
 
-  const nextCurrent = current.nextPlayer || MASTER_ROSTER[1] || MASTER_ROSTER[0];
+  const nextCurrent = current.nextPlayer || (current.isGVE ? MASTER_ROSTER[1] : { name: "Siguiente Bateador", photo: DEFAULT_PHOTO });
   const nextName = nextCurrent ? nextCurrent.name : "Pablo Morales";
   const nextPhoto = (nextCurrent && nextCurrent.photo) ? nextCurrent.photo : DEFAULT_PHOTO;
 
-  const pBox = (current.player && liveState.currentLiveBox[current.player.id]) 
-    ? liveState.currentLiveBox[current.player.id] 
+  const targetBox = current.isGVE ? (liveState.currentLiveBox || {}) : (liveState.currentRivalBox || {});
+  const pBox = (current.player && targetBox[current.player.id]) 
+    ? targetBox[current.player.id] 
     : { vb:0, h1:0, h2:0, h3:0, hr:0 };
   const hToday = (pBox.h1 || 0) + (pBox.h2 || 0) + (pBox.h3 || 0) + (pBox.hr || 0);
   const vbToday = pBox.vb || 0;
   const aveToday = vbToday > 0 ? (hToday / vbToday).toFixed(3) : ".000";
 
-  // Actualizar Foto y Nombres del Bateador Activo
+  // Renderizar Diagrama de Flujo Táctico
+  const flowContainer = document.getElementById('tactical-flow-diagram');
+  if (flowContainer) {
+    flowContainer.innerHTML = `
+      <div class="flow-badge-item ${isTop ? 'active-flow' : 'inactive-flow'}">
+        <span class="flow-inn-label">1️⃣ ENTRADA ALTA ▲</span>
+        <span class="flow-action-label">⚔️ [VISITANTE AL BATE]</span>
+        <strong class="flow-team-name">${awayName}</strong>
+        <span class="flow-sub-label">${isHomeClub ? '🛡️ Guerreros Defiende/Lanza' : '🔥 Guerreros Ataca/Batea'}</span>
+      </div>
+      <div class="flow-divider-arrow">➔</div>
+      <div class="flow-badge-item ${!isTop ? 'active-flow' : 'inactive-flow'}">
+        <span class="flow-inn-label">2️⃣ ENTRADA BAJA ▼</span>
+        <span class="flow-action-label">👑 [HOME CLUB AL BATE]</span>
+        <strong class="flow-team-name">${homeName}</strong>
+        <span class="flow-sub-label">${isHomeClub ? '🔥 Guerreros Ataca/Batea' : '🛡️ Guerreros Defiende/Lanza'}</span>
+      </div>
+    `;
+  }
+
+  const bTeamBadge = document.getElementById('current-batter-team-badge');
+  if (bTeamBadge) {
+    bTeamBadge.innerHTML = current.isGVE 
+      ? `👑 Al Bate (OFENSIVA): <strong style="color:#00D2FF;">${current.team}</strong>`
+      : `⚔️ Al Bate (RIVAL): <strong style="color:#EF4444;">${current.team}</strong>`;
+  }
+
   setSafeText('current-batter-name', pName);
   setSafeText('current-batter-pos', `${pPos} - Pos #${current.order || 1}`);
   setSafeText('current-batter-today-stats', `Hoy: ${vbToday} VB, ${hToday} H, ${aveToday} AVE (${pBats})`);
+  setSafeText('pitcher-active-name', `${current.pitcherName || 'Pedro Chavez'} (${current.pitcherArm || 'RHP'})`);
   
   const bPhotoEl = document.getElementById('current-batter-photo');
   if (bPhotoEl) bPhotoEl.src = pPhoto;
@@ -5307,12 +5464,6 @@ function updateLiveBatterDisplay() {
   setSafeText('ondeck-batter-name', nextName);
   const onDeckPhotoEl = document.getElementById('ondeck-batter-photo');
   if (onDeckPhotoEl) onDeckPhotoEl.src = nextPhoto;
-
-  // Actualizar Marcador Stadium
-  const awayScore = isHomeClub ? (liveState.scoreThem || 0) : (liveState.scoreUs || 0);
-  const homeScore = isHomeClub ? (liveState.scoreUs || 0) : (liveState.scoreThem || 0);
-  const awayName = isHomeClub ? (g.rival || (rivalRecord ? rivalRecord.name : 'RIVAL')) : teamName;
-  const homeName = isHomeClub ? teamName : (g.rival || (rivalRecord ? rivalRecord.name : 'RIVAL'));
 
   setSafeText('score-away', awayScore);
   setSafeText('score-home', homeScore);
