@@ -6145,17 +6145,19 @@ function renderRivalLineupEditor(rival) {
   if (!container) return;
   container.innerHTML = '';
 
-  const lineup = (rival && rival.lineup && rival.lineup.length >= 9) ? rival.lineup : [
-    { order: 1, name: "Carlos Perez", number: "10", pos: "8", bats: "R", throws: "R" },
-    { order: 2, name: "Derek Johnson", number: "4", pos: "4", bats: "R", throws: "R" },
-    { order: 3, name: "Marcus Vance", number: "25", pos: "3", bats: "L", throws: "L" },
-    { order: 4, name: "Anthony Miller", number: "34", pos: "7", bats: "R", throws: "R" },
-    { order: 5, name: "Steve Clark", number: "18", pos: "9", bats: "R", throws: "R" },
-    { order: 6, name: "Luis Rodriguez", number: "12", pos: "5", bats: "R", throws: "R" },
-    { order: 7, name: "Jason Smith", number: "7", pos: "6", bats: "S", throws: "R" },
-    { order: 8, name: "Brian White", number: "2", pos: "2", bats: "R", throws: "R" },
-    { order: 9, name: "Tom Reynolds", number: "21", pos: "1", bats: "R", throws: "R" }
-  ];
+  const lineup = (rival && rival.lineup && Array.isArray(rival.lineup) && rival.lineup.length >= 9) 
+    ? rival.lineup 
+    : [
+        { order: 1, name: "Carlos Perez", number: "10", pos: "8", bats: "R", throws: "R" },
+        { order: 2, name: "Derek Johnson", number: "4", pos: "4", bats: "R", throws: "R" },
+        { order: 3, name: "Marcus Vance", number: "25", pos: "3", bats: "L", throws: "L" },
+        { order: 4, name: "Anthony Miller", number: "34", pos: "7", bats: "R", throws: "R" },
+        { order: 5, name: "Steve Clark", number: "18", pos: "9", bats: "R", throws: "R" },
+        { order: 6, name: "Luis Rodriguez", number: "12", pos: "5", bats: "R", throws: "R" },
+        { order: 7, name: "Jason Smith", number: "7", pos: "6", bats: "S", throws: "R" },
+        { order: 8, name: "Brian White", number: "2", pos: "2", bats: "R", throws: "R" },
+        { order: 9, name: "Tom Reynolds", number: "21", pos: "1", bats: "R", throws: "R" }
+      ];
 
   const posOptions = [
     { val: "1", label: "1 - Lanzador (P)" },
@@ -6167,15 +6169,17 @@ function renderRivalLineupEditor(rival) {
     { val: "7", label: "7 - Jardinero Izq (LF)" },
     { val: "8", label: "8 - Jardinero Cen (CF)" },
     { val: "9", label: "9 - Jardinero Der (RF)" },
-    { val: "BD", label: "BD - Bateador Desig." }
+    { val: "BD", label: "BD - Bateador Desig." },
+    { val: "EH", label: "EH - Bateador Extra" }
   ];
 
-  lineup.slice(0, 9).forEach((item, index) => {
+  lineup.forEach((item, index) => {
     const tr = document.createElement('tr');
+    tr.id = `rival-lineup-row-${index}`;
     tr.innerHTML = `
-      <td style="font-weight:bold; text-align:center; color:#FFC72C;">${index + 1}</td>
+      <td style="font-weight:bold; text-align:center; color:${index < 9 ? '#FFC72C' : '#10B981'};">${index + 1}</td>
       <td>
-        <input type="text" id="rival-lineup-name-${index}" class="form-control" value="${item.name}" placeholder="Nombre del Bateador" oninput="validarIntegridadLineupRival()" />
+        <input type="text" id="rival-lineup-name-${index}" class="form-control" value="${item.name || ''}" placeholder="Nombre del Bateador" oninput="validarIntegridadLineupRival()" />
       </td>
       <td>
         <input type="text" id="rival-lineup-num-${index}" class="form-control" value="${item.number || (index + 1)}" style="text-align:center; max-width:55px;" oninput="validarIntegridadLineupRival()" />
@@ -6192,9 +6196,154 @@ function renderRivalLineupEditor(rival) {
           <option value="S" ${item.bats === 'S' ? 'selected' : ''}>Ambidiestro (S)</option>
         </select>
       </td>
+      <td style="text-align:center;">
+        <div style="display:flex; gap:4px; justify-content:center;">
+          <button type="button" onclick="hacerCambioIndividualRival(${index})" title="Hacer Cambio / Sustitución" style="background:#8B5CF6; color:#FFF; border:none; padding:3px 6px; border-radius:4px; font-size:10px; cursor:pointer; font-weight:bold;">
+            🔄
+          </button>
+          ${index >= 9 ? `<button type="button" onclick="eliminarJugadorExtraRival(${index})" title="Eliminar Jugador Extra" style="background:#EF4444; color:#FFF; border:none; padding:3px 6px; border-radius:4px; font-size:10px; cursor:pointer; font-weight:bold;">❌</button>` : ''}
+        </div>
+      </td>
     `;
     container.appendChild(tr);
   });
+
+  const totalBadge = document.getElementById('badge-rival-total-lineup');
+  if (totalBadge) totalBadge.innerText = `${lineup.length} Bateadores (${lineup.length >= 9 ? 'Válido' : 'Incompleto'})`;
+}
+
+function cambiarPestanaRivalLineup(tab) {
+  const rivalRecord = RIVALS_DATABASE.find(r => r.id === activeRivalId) || RIVALS_DATABASE[0];
+  if (tab === 'titulares') {
+    if (rivalRecord) renderRivalLineupEditor(rivalRecord);
+  }
+}
+
+function agregarBateadorExtraRival() {
+  const container = document.getElementById('tbody-rival-lineup-editor') || document.getElementById('rival-lineup-tbody');
+  if (!container) return;
+  const currentCount = container.querySelectorAll('tr').length;
+  const nextOrder = currentCount + 1;
+
+  const defaultName = prompt(`➕ Ingrese el nombre del nuevo jugador extra (Bateador #${nextOrder}):`, `Jugador Extra ${nextOrder}`);
+  if (!defaultName || !defaultName.trim()) return;
+
+  const defaultNum = prompt(`Ingrese el número de camisa (#) para ${defaultName.trim()}:`, `${nextOrder}`);
+
+  const posOptions = [
+    { val: "EH", label: "EH - Bateador Extra" },
+    { val: "BD", label: "BD - Bateador Desig." },
+    { val: "1", label: "1 - Lanzador (P)" },
+    { val: "2", label: "2 - Receptor (C)" },
+    { val: "3", label: "3 - 1ra Base (1B)" },
+    { val: "4", label: "4 - 2da Base (2B)" },
+    { val: "5", label: "5 - 3ra Base (3B)" },
+    { val: "6", label: "6 - Campocorto (SS)" },
+    { val: "7", label: "7 - Jardinero Izq (LF)" },
+    { val: "8", label: "8 - Jardinero Cen (CF)" },
+    { val: "9", label: "9 - Jardinero Der (RF)" }
+  ];
+
+  const tr = document.createElement('tr');
+  const index = currentCount;
+  tr.id = `rival-lineup-row-${index}`;
+  tr.innerHTML = `
+    <td style="font-weight:bold; text-align:center; color:#10B981;">${nextOrder}</td>
+    <td>
+      <input type="text" id="rival-lineup-name-${index}" class="form-control" value="${defaultName.trim()}" placeholder="Nombre del Bateador" oninput="validarIntegridadLineupRival()" />
+    </td>
+    <td>
+      <input type="text" id="rival-lineup-num-${index}" class="form-control" value="${defaultNum ? defaultNum.trim() : nextOrder}" style="text-align:center; max-width:55px;" oninput="validarIntegridadLineupRival()" />
+    </td>
+    <td>
+      <select id="rival-lineup-pos-${index}" class="form-control" onchange="validarIntegridadLineupRival()">
+        ${posOptions.map(p => `<option value="${p.val}">${p.label}</option>`).join('')}
+      </select>
+    </td>
+    <td>
+      <select id="rival-lineup-bats-${index}" class="form-control" onchange="validarIntegridadLineupRival()">
+        <option value="R" selected>Derecho (R)</option>
+        <option value="L">Zurdo (L)</option>
+        <option value="S">Ambidiestro (S)</option>
+      </select>
+    </td>
+    <td style="text-align:center;">
+      <div style="display:flex; gap:4px; justify-content:center;">
+        <button type="button" onclick="hacerCambioIndividualRival(${index})" title="Hacer Cambio / Sustitución" style="background:#8B5CF6; color:#FFF; border:none; padding:3px 6px; border-radius:4px; font-size:10px; cursor:pointer; font-weight:bold;">
+          🔄
+        </button>
+        <button type="button" onclick="eliminarJugadorExtraRival(${index})" title="Eliminar Jugador Extra" style="background:#EF4444; color:#FFF; border:none; padding:3px 6px; border-radius:4px; font-size:10px; cursor:pointer; font-weight:bold;">
+          ❌
+        </button>
+      </div>
+    </td>
+  `;
+  container.appendChild(tr);
+
+  const totalBadge = document.getElementById('badge-rival-total-lineup');
+  if (totalBadge) totalBadge.innerText = `${nextOrder} Bateadores (Válido)`;
+  validarIntegridadLineupRival();
+}
+
+function eliminarJugadorExtraRival(index) {
+  const row = document.getElementById(`rival-lineup-row-${index}`);
+  if (row) {
+    row.remove();
+    // Reindexar filas restantes
+    const container = document.getElementById('tbody-rival-lineup-editor') || document.getElementById('rival-lineup-tbody');
+    const rows = container.querySelectorAll('tr');
+    rows.forEach((r, idx) => {
+      r.id = `rival-lineup-row-${idx}`;
+      const firstTd = r.querySelector('td');
+      if (firstTd) {
+        firstTd.innerText = idx + 1;
+        firstTd.style.color = idx < 9 ? '#FFC72C' : '#10B981';
+      }
+      const nInp = r.querySelector('input[id^="rival-lineup-name-"]');
+      if (nInp) nInp.id = `rival-lineup-name-${idx}`;
+      const numInp = r.querySelector('input[id^="rival-lineup-num-"]');
+      if (numInp) numInp.id = `rival-lineup-num-${idx}`;
+      const pSel = r.querySelector('select[id^="rival-lineup-pos-"]');
+      if (pSel) pSel.id = `rival-lineup-pos-${idx}`;
+      const bSel = r.querySelector('select[id^="rival-lineup-bats-"]');
+      if (bSel) bSel.id = `rival-lineup-bats-${idx}`;
+    });
+
+    const totalBadge = document.getElementById('badge-rival-total-lineup');
+    if (totalBadge) totalBadge.innerText = `${rows.length} Bateadores (${rows.length >= 9 ? 'Válido' : 'Incompleto'})`;
+    validarIntegridadLineupRival();
+  }
+}
+
+function hacerCambioIndividualRival(index) {
+  const nameInp = document.getElementById(`rival-lineup-name-${index}`);
+  const numInp = document.getElementById(`rival-lineup-num-${index}`);
+  const currentName = nameInp ? nameInp.value : `Bateador #${index + 1}`;
+
+  const nuevoNombre = prompt(`🔄 [SUSTITUCIÓN RIVAL] Ingresa el nombre del nuevo jugador para el Turno #${index + 1} (sustituye a "${currentName}"):`, "");
+  if (!nuevoNombre || !nuevoNombre.trim()) return;
+
+  const nuevoNumero = prompt(`Ingresa el número de camisa (#) para ${nuevoNombre.trim()}:`, numInp ? numInp.value : `${index + 1}`);
+
+  if (nameInp) nameInp.value = nuevoNombre.trim();
+  if (numInp && nuevoNumero) numInp.value = nuevoNumero.trim();
+
+  validarIntegridadLineupRival();
+  alert(`✅ Sustitución completada: Turno #${index + 1} ahora es #${numInp ? numInp.value : ''} ${nuevoNombre.trim()}`);
+}
+
+function abrirModalSustitucionRivalRapida() {
+  const container = document.getElementById('tbody-rival-lineup-editor') || document.getElementById('rival-lineup-tbody');
+  const rows = container ? container.querySelectorAll('tr') : [];
+  if (rows.length === 0) return alert("Primero selecciona o carga un rival.");
+
+  const slotStr = prompt(`🔄 Ingresa el número de orden al bate (1 al ${rows.length}) del jugador que deseas sustituir:`, "1");
+  if (!slotStr) return;
+  const slot = parseInt(slotStr, 10);
+  if (isNaN(slot) || slot < 1 || slot > rows.length) {
+    return alert(`Número de orden inválido. Debe estar entre 1 y ${rows.length}.`);
+  }
+  hacerCambioIndividualRival(slot - 1);
 }
 
 function validarIntegridadLineupRival() {
@@ -6211,10 +6360,18 @@ function validarIntegridadLineupRival() {
     errors.push('Falta el nombre del Lanzador Abridor Rival.');
   }
 
-  // Validar los 9 bateadores
-  for (let i = 0; i < 9; i++) {
+  const container = document.getElementById('tbody-rival-lineup-editor') || document.getElementById('rival-lineup-tbody');
+  const rows = container ? container.querySelectorAll('tr') : [];
+  const totalCount = rows.length || 0;
+
+  if (totalCount < 9) {
+    isValid = false;
+    errors.push(`La alineación debe contener al menos 9 bateadores (actualmente: ${totalCount}).`);
+  }
+
+  // Validar cada bateador
+  for (let i = 0; i < totalCount; i++) {
     const nameInput = document.getElementById(`rival-lineup-name-${i}`);
-    const numInput = document.getElementById(`rival-lineup-num-${i}`);
     if (!nameInput || !nameInput.value.trim()) {
       isValid = false;
       errors.push(`Bateador #${i + 1} no tiene nombre asignado.`);
@@ -6225,21 +6382,16 @@ function validarIntegridadLineupRival() {
   if (alertBox) {
     if (isValid) {
       alertBox.style.display = 'none';
+      alertBox.innerHTML = '';
     } else {
-      alertBox.style.display = 'flex';
-      const errMsg = document.getElementById('alert-error-msg');
-      if (errMsg) errMsg.innerText = `Lineup Incompleto: ${errors.join(' ')}`;
+      alertBox.style.display = 'block';
+      alertBox.innerHTML = `⚠️ <strong>Atención:</strong> ${errors.join(' ')}`;
     }
   }
 
   if (badge) {
-    if (isValid) {
-      badge.className = 'badge-lineup-status valid';
-      badge.innerHTML = '🟢 9 Bateadores + 1 Abridor + ID Válido';
-    } else {
-      badge.className = 'badge-lineup-status invalid';
-      badge.innerHTML = '🔴 Lineup Incompleto / Faltan Datos';
-    }
+    badge.innerText = isValid ? '✅ Lineup Rival Válido' : '⚠️ Lineup Incompleto';
+    badge.style.color = isValid ? '#10B981' : '#EF4444';
   }
 
   return isValid;
@@ -6378,13 +6530,19 @@ function guardarNuevoJuego() {
 
   const isHomeClub = document.querySelector('input[name="game-condicion"]:checked') ? (document.querySelector('input[name="game-condicion"]:checked').value === 'HOME') : true;
 
-  // Extraer el lineup configurado en la tabla de 9 bateadores
+  // Extraer el lineup configurado en la tabla (9 titulares + extras)
   const customRivalLineup = [];
-  for (let i = 0; i < 9; i++) {
-    const name = document.getElementById(`rival-lineup-name-${i}`).value.trim();
-    const num = document.getElementById(`rival-lineup-num-${i}`).value.trim();
-    const pos = document.getElementById(`rival-lineup-pos-${i}`).value;
-    const bats = document.getElementById(`rival-lineup-bats-${i}`).value;
+  const rivalTableBody = document.getElementById('tbody-rival-lineup-editor') || document.getElementById('rival-lineup-tbody');
+  const rivalRows = rivalTableBody ? rivalTableBody.querySelectorAll('tr') : [];
+  const totalBatters = Math.max(9, rivalRows.length);
+
+  for (let i = 0; i < totalBatters; i++) {
+    const nameInp = document.getElementById(`rival-lineup-name-${i}`);
+    if (!nameInp) continue;
+    const name = nameInp.value.trim() || `Bateador ${i + 1}`;
+    const num = document.getElementById(`rival-lineup-num-${i}`)?.value.trim() || `${i + 1}`;
+    const pos = document.getElementById(`rival-lineup-pos-${i}`)?.value || 'OF';
+    const bats = document.getElementById(`rival-lineup-bats-${i}`)?.value || 'R';
     customRivalLineup.push({
       order: i + 1,
       name: name,
@@ -6603,6 +6761,14 @@ window.limpiarLineupRivalEditor = limpiarLineupRivalEditor;
 window.abrirModalNuevoJuego = abrirModalNuevoJuego;
 window.cerrarModalNuevoJuego = cerrarModalNuevoJuego;
 window.guardarNuevoJuego = guardarNuevoJuego;
+window.renderRivalLineupEditor = renderRivalLineupEditor;
+window.cambiarPestanaRivalLineup = cambiarPestanaRivalLineup;
+window.agregarBateadorExtraRival = agregarBateadorExtraRival;
+window.eliminarJugadorExtraRival = eliminarJugadorExtraRival;
+window.hacerCambioIndividualRival = hacerCambioIndividualRival;
+window.abrirModalSustitucionRivalRapida = abrirModalSustitucionRivalRapida;
+window.validarIntegridadLineupRival = validarIntegridadLineupRival;
+
 window.sincronizarClimaEnVivo = sincronizarClimaEnVivo;
 window.toggleDaylightMode = toggleDaylightMode;
 window.setCardViewMode = setCardViewMode;
@@ -7278,7 +7444,25 @@ function guardarYCertificarJuegoOficial() {
           </div>
         </div>
 
-        <!-- Tabla 9 Bateadores Rival -->
+        <!-- Pestañas & Controles de Gestión del Lineup Rival -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid #1E293B;">
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button type="button" id="tab-rival-titulares" class="btn-settings" onclick="cambiarPestanaRivalLineup('titulares')" style="background:#00D2FF; color:#000; font-weight:900; font-size:11px; padding:5px 12px; border-radius:6px; border:none; cursor:pointer;">
+              📋 Alineación Oficial
+            </button>
+            <button type="button" id="tab-rival-agregar" class="btn-settings" onclick="agregarBateadorExtraRival()" style="background:#10B981; color:#000; font-weight:900; font-size:11px; padding:5px 12px; border-radius:6px; border:none; cursor:pointer;">
+              ➕ Agregar Jugador / Extra
+            </button>
+            <button type="button" id="tab-rival-sustitucion" class="btn-settings" onclick="abrirModalSustitucionRivalRapida()" style="background:#8B5CF6; color:#FFF; font-weight:900; font-size:11px; padding:5px 12px; border-radius:6px; border:none; cursor:pointer;">
+              🔄 Hacer Cambio / Sustitución
+            </button>
+          </div>
+          <span id="badge-rival-total-lineup" style="font-size:11px; color:#FFC72C; font-weight:bold; background:#1E293B; padding:3px 8px; border-radius:4px;">
+            9 Bateadores
+          </span>
+        </div>
+
+        <!-- Tabla de Bateadores Rival -->
         <div style="overflow-x:auto; border:1px solid #1E293B; border-radius:6px;">
           <table class="lineup-table-editor">
             <thead>
@@ -7288,6 +7472,7 @@ function guardarYCertificarJuegoOficial() {
                 <th style="width:70px; text-align:center;"># NÚM</th>
                 <th style="width:110px;">POSICIÓN</th>
                 <th style="width:80px;">BATEA</th>
+                <th style="width:85px; text-align:center;">ACCIÓN</th>
               </tr>
             </thead>
             <tbody id="tbody-rival-lineup-editor">
