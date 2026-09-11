@@ -1,80 +1,90 @@
-# ⚾ MANUAL DE USO Y OPERACIÓN OFICIAL: DIAMAX PRO
-## PLATAFORMA SABERMÉTRICA Y MOTOR DUGOUT EN TIEMPO REAL
+# ⚾ MANUAL OFICIAL DE USO Y OPERACIÓN MAESTRA: DIAMAX PRO
+## SUITE INTEGRAL SABERMÉTRICA, ANOTACIÓN DUGOUT EN VIVO & ASISTENCIA TÁCTICA IA
 **Equipo Oficial:** Guerreros de Venezuela +55  
-**Plataforma Web:** [https://diamax-pro.vercel.app/](https://diamax-pro.vercel.app/)  
+**Plataforma Web en Producción:** [https://diamax-pro.vercel.app/](https://diamax-pro.vercel.app/)  
 **Desarrollo Tecnológico:** 3Tree Digital Sport IA (Lutz, Florida, EE. UU.)  
 **Dirección General:** Lic. Alí José Zapata Mendoza — CEO & Fundador  
-**Versión:** 2.4 Enterprise / Senior Master Edition (2026)  
+**Versión:** 2.5 Master Championship Edition (2026)  
 
 ---
 
-## 📋 1. INTRODUCCIÓN Y OBJETIVOS OPERATIVOS
-
-**DIAMAX Pro** es la suite tecnológica oficial de anotación en vivo, análisis sabermétrico y prescripción táctica con Inteligencia Artificial (DIAMAX Tactical AI Engine™) diseñada específicamente para la categoría **Senior Master (+55)** y la alta competencia.
-
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                               DIAMAX PRO — OBJETIVOS CLAVE                             │
-├────────────────────────────┬─────────────────────────────┬─────────────────────────────┤
-│ 1. ANOTACIÓN JUGADA A      │ 2. CONTROL DE FATIGA +55    │ 3. ASISTENTE TÁCTICO IA     │
-│    JUGADA (PITCH-BY-PITCH) │    Límite 75 lanzamientos   │    Prescripciones en <1.5s  │
-├────────────────────────────┼─────────────────────────────┼─────────────────────────────┤
-│ 4. DATOS DE SEDE Y CLIMA   │ 5. TARJETA OFICIAL LINEUP   │ 6. SABERMETRÍA EN VIVO      │
-│    Viento y Aerodinámica   │    Formato Umpire y PDF     │    OBP, SLG, OPS y wOBA     │
-└────────────────────────────┴─────────────────────────────┴─────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              DIAMAX PRO — ARQUITECTURA GENERAL DEL SISTEMA                             │
+├──────────────────────────────┬──────────────────────────────┬──────────────────────────────────────────┤
+│ 1. 🏟️ ANOTADOR DUGOUT (LIVE) │ 2. 📋 LINEUP BUILDER 9vs9    │ 3. 🎯 CAMPO 2D & HEATMAP 3x3             │
+│    Anotación pitch-by-pitch  │    Validación anti-duplicado │    Spray chart y radar de pitcheo        │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────────────────┤
+│ 4. 🖨️ TARJETA OFICIAL DUAL   │ 5. 📋 INFORME TÉCNICO DÍA    │ 6. 📊 DASHBOARD & GRÁFICOS SVG           │
+│    Formato Umpire 16 personas│    Scouting comparativo      │    Barras, curvas 1-9 y sabermetría      │
+├──────────────────────────────┼──────────────────────────────┼──────────────────────────────────────────┤
+│ 7. 🩺 SEMÁFORO DE FATIGA +55 │ 8. 🧠 DIAMAX TACTICAL AI™    │ 9. 🛡️ SEGURIDAD PIN & FIREBASE           │
+│    Límite 75 lanzamientos    │    Decisiones en < 1.5s      │    Cifrado SHA-256 y nube NoSQL          │
+└──────────────────────────────┴──────────────────────────────┴──────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔐 2. CONTROL DE ACCESO Y MATRIZ DE ROLES (DIAMAX SECURITY)
+## 📋 1. ROSTER OFICIAL CALIBRADO: 16 PERSONAS (GUERREROS DE VENEZUELA +55)
 
-Al ingresar a la plataforma en [https://diamax-pro.vercel.app/](https://diamax-pro.vercel.app/), cada usuario debe autenticarse según su responsabilidad mediante el teclado numérico PIN de 4 dígitos:
+El equipo oficial cuenta con exactamente **16 integrantes oficiales** registrados en el sistema, distribuidos entre 9 titulares y 7 reservas/lanzadores:
 
-| Rol | Icono | Permisos y Atribuciones Operativas |
-| :--- | :---: | :--- |
-| **Mánager / Head Coach** | 👑 | Acceso total a decisiones tácticas, consultas en vivo con la IA DIAMAX, optimización de alineación con algoritmo Monte Carlo, sustituciones y firma digital de la Tarjeta Oficial (Lineup Card). |
-| **Anotador Oficial** | ✍️ | Control absoluto del Dugout Keypad: registro lanzamiento a lanzamiento, conteo de bolas/strikes, outs, corredores en base, extrabases, jugadas defensivas y cierre de partido. |
-| **Scout / Analista** | 📊 | Visualización de Spray Charts 2D, Mapas de Calor de Zona de Strike (Whiff%), análisis de tendencias de bateo (Pull/Oppo%) y reportes exportables. |
+### ⚔️ Alineación Titular (1 al 9):
+| # | Jugador | Posición Defensiva | Batea / Lanza | Perfil Sabermétrico |
+| :-: | :--- | :---: | :---: | :--- |
+| **1** | **Johan Olivo** | CF (Jardín Central) | L / R | Bateador zurdo de contacto y velocidad (.380 OBP) |
+| **2** | **Pablo Morales** | 1B (Primera Base) | R / R | Bateador de poder y cobertura en el cuadro (.510 SLG) |
+| **3** | **Raul Lozada** | SS (Campocorto) | R / R | Ancla defensiva y ejecutor de doble play (.360 OBP) |
+| **4** | **Jorge Mitchell** | 2B (Segunda Base) | R / R | Constructor de jugadas intermedias y bateo colocado |
+| **5** | **Oswaldo Grillo** | 3B (Tercera Base) | R / R | Esquina caliente de reflejos rápidos (.420 SLG) |
+| **6** | **Nestor Vera** | LF (Jardín Izquierdo) | L / R | Bateador zurdo de poder hacia las bandas (.520 SLG) |
+| **7** | **Pedro Moreno** | RF (Jardín Derecho) | L / R | Brazo potente en los jardines y clutch (.480 SLG) |
+| **8** | **Juan Perez** | C (Receptor) | R / R | Director de pitcheo, bloqueo y control de corredores |
+| **9** | **Martin Rojas** | DH (Bateador Designado) | R / R | Eje ofensivo enfocado en carreras impulsadas |
 
----
-
-## ⚙️ 3. CONFIGURACIÓN PRE-JUEGO (ANTES DEL 1ER INNING)
-
-```
-[1. Cargar Nuevo Juego] ──> [2. Sede y Clima GPS] ──> [3. Orden al Bate (1-9)] ──> [4. Imprimir Lineup Card]
-```
-
-### Paso 1: Carga de Nuevo Juego y Datos de Sede
-1. En el encabezado principal, presiona el botón verde **`🏟️ Cargar Nuevo Juego`**.
-2. Completa los datos oficiales del encuentro:
-   * **📅 Fecha del Partido:** (Ej: `2026-09-08`).
-   * **⏰ Hora de Inicio:** (Ej: `09:30 AM`).
-   * **⚔️ Equipo Rival:** (Ej: `Tigres de Tampa` / `Cardenales`).
-   * **🏠 Condición:** Selecciona `Home Club (Local)` o `Visitante (Away)`.
-   * **🏟️ Estadio / Sede:** (Ej: `Lutz Baseball Park - Campo #1`).
-   * **📍 Dirección Completa:** (Ej: `5709 Kingfish Drive, Lutz, FL 33558`).
-3. **Sensor de Clima en Tiempo Real:** Presiona **`🔄 Actualizar Clima GPS`** para capturar la temperatura (°F/°C), humedad (%), velocidad y dirección del viento, y el cálculo del **Impacto Aerodinámico Zapata** en el vuelo de la pelota.
-4. Presiona **`⚡ Iniciar Partido / Activar Dugout`**.
-
-### Paso 2: Generación y Validación del Lineup
-1. Ve a la pestaña **`📋 Alineación / Lineup`**.
-2. Ordena los 9 bateadores titulares utilizando los botones **`🔼 Subir`** y **`🔽 Bajar`**.
-3. Asigna las posiciones defensivas oficiales: `1 (P)`, `2 (C)`, `3 (1B)`, `4 (2B)`, `5 (3B)`, `6 (SS)`, `7 (LF)`, `8 (CF)`, `9 (RF)`, `BD (Bateador Designado)`.
-4. Revisa la lista de reservas (10 al 14) y designa al **Lanzador Abridor**.
-5. Ve a la pestaña **`📋 Tarjeta Oficial`** y presiona **`🖨️ Imprimir / Guardar PDF`** para entregar la copia reglamentaria al Árbitro Principal (Umpire).
+### ⚾ Lanzador Abridor & Cuerpo de Reservas (7 Integrantes):
+| # | Integrante | Rol Oficial | Batea / Lanza | Especialidad Técnica |
+| :-: | :--- | :---: | :---: | :--- |
+| **23** | **Pedro Chavez** | Lanzador Abridor (P) | R / RHP | As de rotación (3.20 ERA, control de 75 pitcheos) |
+| **11** | **Lic. Alí Zapata** | Mánager / Jardinero (OF/MGR) | R / R | Conductor estratégico y bateador emergente |
+| **12** | **Carlos Santana** | Jardinero / Bateador Extra (OF) | S / R | Bateador ambidiestro de poder situacional |
+| **34** | **Félix Hernández** | Lanzador Relevista (P) | R / RHP | Relevo largo y control de zona (2.85 ERA) |
+| **42** | **Mariano Rivera** | Lanzador Cerrador (P) | R / RHP | Especialista de salvamentos y rescate en 9º inning |
+| **27** | **José Altuve** | Infielder / Segunda Base (2B) | R / R | Bateador de alto promedio y chispa en base |
+| **24** | **Miguel Cabrera** | Primera Base / Bateador (1B/DH) | R / R | Productor de extrabases y líder ofensivo |
 
 ---
 
-## ⚾ 4. OPERACIÓN EN VIVO (DURANTE EL JUEGO - DUGOUT KEYPAD)
+## 🏟️ 2. PROTOCOLO PRE-JUEGO: WIZARD DE 5 PASOS (ORLANDO SÁNCHEZ 2026)
 
-Durante el encuentro, el Anotador Oficial utiliza la interfaz reactiva de alto contraste:
+Antes de cada encuentro, el Mánager o Anotador debe abrir el modal de configuración presionando **`🏟️ Cargar Nuevo Juego`**:
 
-### A. Marcador y Situación de Juego
-* **Conteo de Outs:** Toca los círculos de `OUT (0, 1, 2)` para incrementarlos. Al marcar el 3er out, el sistema cambia de media entrada y limpia las almohadillas automáticamente.
-* **Corredores en Base:** Toca directamente las bases `1B`, `2B` y `3B` en el diamante SVG interactivo para posicionar o remover corredores.
-* **Bateador de Turno:** La tarjeta de bateo muestra foto, dorsal, nombre, turnos de la jornada (`VB, H, 2B, 3B, HR, CI, AVE`) y bateador prevenido.
+```
+[1. Rival & Logo] ──> [2. Sede, Clima GPS & Localía] ──> [3. Abridor GVE] ──> [4. Lineup 1-9] ──> [5. Tarjeta Oficial]
+```
 
-### B. Botonera Táctica de Jugadas (Dugout Keypad)
+1. **Paso 1: Selección y Registro del Rival:**
+   * Selecciona el rival de la base de datos oficial (`DAYTONA BEACH`, `SARASOTA RED SOX`, `TIBURONES`, etc.) o presiona `➕ Registrar Nuevo Rival`.
+   * Sube el logo oficial del rival con el botón de cámara `📷` (soporta PNG/JPG).
+   * Gestiona el orden al bate del rival, agrega bateadores extras o realiza sustituciones directas.
+2. **Paso 2: Sede, Horario, Clima GPS y Localía:**
+   * Registra la fecha, hora de inicio y nombre/dirección del estadio.
+   * Presiona `🔄 Actualizar GPS` para sincronizar la telemetría climática (Temperatura, Humedad, Viento, Presión y el **Impacto Aerodinámico Zapata** en elevados al Center Field).
+   * **Regla Oficial de Localía:**
+     * **🏠 HOME CLUB:** Guerreros defiende en la Alta (▲) y batea en la Baja (▼).
+     * **✈️ VISITANTE:** Guerreros batea en la Alta (▲) y abre el 1er inning al bate.
+3. **Paso 3 & 4: Lanzador Abridor (+55) y Bateador Clave de Guerreros:**
+   * Selecciona al abridor `#23 Pedro Chavez` y al referente ofensivo clutch.
+   * Organiza a los 9 bateadores titulares verificando que **no existan posiciones defensivas duplicadas** en el campo (1 al 9).
+4. **Paso 5: Vista Previa y Certificación:**
+   * Presiona `📋 Vista Previa Tarjeta Oficial` para validar la integridad 9vs9.
+   * Presiona `💾 Guardar, Certificar e Iniciar Dugout` para comenzar el Inning 1.
+
+---
+
+## ⌨️ 3. OPERACIÓN EN VIVO (DUGOUT KEYPAD & ANOTACIÓN PITCH-BY-PITCH)
+
+Durante el encuentro, el sistema registra cada evento en tiempo real:
 
 ```
 ┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
@@ -82,115 +92,117 @@ Durante el encuentro, el Anotador Oficial utiliza la interfaz reactiva de alto c
 ├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
 │ [1B] Sencillo   │ [F1] a [F9]     │ [6-3] SS a 1B   │ [K] Ponche Tir. │
 │ [2B] Doble      │ (Elevados según │ [4-3] 2B a 1B   │ [Kc] P. Cantado │
-│ [3B] Triple     │ posición del    │ [5-3] 3B a 1B   │ [BB] Base x Bola│
-│ [HR] Cuadrangular│ fildeador 1-9) │ [DP 6-4-3]      │ [SB] Robo Base  │
+│ [3B] Triple     │ posición del    │ [5-3] 3B a 1B   │ [BB] Boleto     │
+│ [HR] Jonrón     │ fildeador 1-9)  │ [DP 6-4-3]      │ [SB] Robo Base  │
 │                 │                 │ [DP 4-6-3]      │ [SF] Fly Sacrif.│
+│                 │                 │                 │ [WP] Wild Pitch │
+│                 │                 │                 │ [HBP] Golpeado  │
+│                 │                 │                 │ [E] Error Fild. │
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
 ```
 
+* **Conteo LED de Bolas, Strikes y Outs:** Actualización instantánea con cambio automático de media entrada al completar el 3er out.
+* **Diamante SVG Interactivo:** Toca las bases `1B`, `2B` o `3B` para avanzar o colocar corredores en posición anotadora.
+* **Tarjeta del Bateador:** Muestra foto, dorsal, nombre, turnos de hoy (`VB, H, 2B, HR, CI, AVE`) y bateador prevenido en el círculo de espera (*On Deck*).
+
 ---
 
-## 🩺 5. MONITOR DE LANZADORES Y CONTROL DE FATIGA (+55)
+## 🩺 4. PROTOCOLO DE SALUD: SEMÁFORO DE FATIGA (+55)
 
-Para preservar la salud de los brazos en la categoría Senior Master +55, DIAMAX Pro integra un semáforo de pitcheos con límite de **75 lanzamientos**:
+Para proteger la integridad de los lanzadores veteranos en la categoría Senior Master:
 
 ```
- 🟢 0 - 45 Pitches  ──> ZONA VERDE (Rendimiento Óptimo / Plena Potencia)
- 🟡 46 - 60 Pitches ──> ZONA AMARILLA (Atención / Monitorear Velocidad y Control)
- 🔴 61 - 75 Pitches ──> ZONA ROJA (Alerta Máxima de Fatiga / ¡Activar Bullpen!)
+ 🟢 0 - 45 LANZAMIENTOS ──> ZONA VERDE (Rendimiento Óptimo / Plena Potencia)
+ 🟡 46 - 60 LANZAMIENTOS ──> ZONA AMARILLA (Precaución / Monitorear Velocidad y Control)
+ 🔴 61 - 75 LANZAMIENTOS ──> ZONA ROJA (Alerta Máxima / ¡Activar y Calentar Bullpen!)
 ```
 
-* **Botones de Pitcheo Rápido:** `[+1 Strike]` y `[+1 Bola]` para llevar el conteo exacto lanzamiento a lanzamiento.
-* **Módulo de Bullpen:** Permite registrar los relevistas calentando y ejecutar la sustitución formal en el diamante con un solo clic.
+* Al alcanzar los **75 pitcheos**, el sistema emite una alerta roja y sugiere el ingreso del relevista correspondiente.
 
 ---
 
-## 🧠 6. DIAMAX TACTICAL AI (PRESCRIPCIÓN SABERMÉTRICA EN TIEMPO REAL)
+## 🖨️ 5. TARJETA OFICIAL DUAL (LINEUP CARD 9vs9 PARA UMPIRES)
 
-El motor de IA con tecnología DIAMAX Tactical Engine™ responde en **menos de 1.5 segundos**:
+Accesible directamente en: [**https://diamax-pro.vercel.app/#tarjeta-oficial**](https://diamax-pro.vercel.app/#tarjeta-oficial)
 
-* **Botones de Consulta Rápida en Dugout:**
-  * `¿Tocar la bola o Batear libre?`
-  * `¿Robo de base o Bateo y corrido?`
-  * `¿Formación Defensiva Especial (Shift)?`
-  * `¿Momento de cambio de Pitcher?`
-  * `¿Base por bolas intencional?`
-* **Caja de Preguntas Personalizadas:** Permite al mánager escribir cualquier situación específica del juego para recibir una recomendación probabilística instantánea.
-
----
-
-## 📊 7. SPRAY CHARTS Y MAPAS DE CALOR 2D
-
-1. **Spray Chart 2D Interactivo:** Muestra la dispersión de batazos por colores:
-   * 🟢 Rodado (Ground Ball - GB)
-   * 🔵 Elevado (Fly Ball - FB)
-   * 🟡 Línea (Line Drive - LD)
-   * 🔴 Jonrón (Home Run - HR)
-2. **Mapa de Calor de Zona de Strike (9 Cuadrantes):**
-   * 🔥 **Zona Caliente (AVG > .320):** Sectores donde el rival conecta con mayor poder.
-   * ❄️ **Zona Fría (Whiff% > 35%):** Sectores ideales para colocar lanzamientos en dos strikes.
-3. **Tendencias de Bateo:** Muestra el porcentaje hacia la banda (`Pull%`), centro (`Cent%`) y banda contraria (`Oppo%`) para ajustar la defensa.
+* **Formato Reglamentario Homologado:** Muestra lado a lado las tarjetas de ambos equipos con números dorsales, nombres, posiciones y brazo bateador/lanzador.
+* **Roster Completo de 16 Personas:** 9 titulares en la tabla superior y 7 reservas/cuerpo técnico en la tabla inferior.
+* **Selector de Vistas:** Permite alternar entre *Vista Dual*, *Solo Guerreros* o *Solo Rival*.
+* **Motor de Impresión PDF `@media print`:** Diseño de alta definición en blanco y negro, sin consumo excesivo de tinta y con líneas de firma para:
+  1. *Lic. Alí Zapata Mendoza (Mánager GVE)*
+  2. *Mánager del Equipo Contrario*
+  3. *Árbitro Principal (Chief Umpire)*
 
 ---
 
-## 🏁 8. CIERRE DE PARTIDO Y REPORTE POST-JUEGO
+## 📋 6. INFORME TÉCNICO OFICIAL DEL PARTIDO & EVALUACIÓN COMPARATIVA (DEL DÍA)
 
-```
-[1. Presionar 'Finalizar Partido'] ──> [2. Captura Hora Fin] ──> [3. Cálculo Duración] ──> [4. Certificar y Archivar]
-```
+Accesible directamente en: [**https://diamax-pro.vercel.app/#informe-tecnico**](https://diamax-pro.vercel.app/#informe-tecnico)
 
-1. Al caer el último out del juego, presiona el botón rojo **`🏁 Finalizar Partido`**.
-2. El sistema abrirá el modal de cierre, capturando automáticamente:
-   * **Hora Exacta de Finalización** (Ej: `11:45 AM`).
-   * **Duración Total del Partido** ($T_{fin} - T_{ini}$, Ej: `2h 15m`).
-   * **Resumen de Marcador y Resultado Final**.
-3. Presiona **`✅ Confirmar y Sincronizar Tarjeta Oficial`**.
-4. La Tarjeta Oficial y el Boxscore quedarán sellados y listos para su exportación final o envío a la directiva de la liga.
+Documento ejecutivo para gerencia, delegados de liga y cuerpo técnico que incluye:
+1. **Ficha Técnica & Condiciones del Juego:** Estadio, dirección GPS, horario, duración oficial y telemetría climática Zapata.
+2. **Pizarra Inning a Inning (Boxscore 1 al 9):** Tabla completa con carreras por entrada y totales de **C, H, E y LOB (Dejados en Base)**.
+3. **Rendimiento Técnico Comparativo de Ambos Equipos:**
+   * **Ofensiva:** VB, C, H, 2B, 3B, HR, CI, BB, Promedio (.AVE), OBP, OPS Colectivo y Bateo Oportuno con Corredores en Posición Anotadora (**RISP**).
+   * **Pitcheo:** IP, H, CL, BB, K, Pitches Totales, % de Strikes, Efectividad (ERA) y control del límite +55.
+   * **Defensa:** Errores, Doble Plays concretados y Porcentaje de Fildeo (% FLD).
+4. **Evaluación Táctica & Scouting:**
+   * 🌟 **MVP del Juego:** Elección automática del jugador más valioso con medalla dorada.
+   * ⚡ **Punto de Inflexión (Turning Point):** Análisis del momento clave del juego.
+   * 🧠 **Recomendaciones Tácticas:** Dictamen técnico para el próximo partido.
+5. **Acciones Inmediatas:**
+   * `🖨️ Imprimir Informe / PDF`
+   * `📋 Copiar Informe (WhatsApp/Texto)`
+   * `📧 Enviar por Correo a la Liga`
+
+---
+
+## 📊 7. DASHBOARD DE ANALÍTICA & SUITE DE GRÁFICOS SVG
+
+Accesible directamente en: [**https://diamax-pro.vercel.app/#dashboard**](https://diamax-pro.vercel.app/#dashboard)
+
+* **Gráfico de Barras Sabermétrico:** Permite alternar entre métricas clave (`Hits`, `CI`, `TB/SLG`, `HR`, `AVE`, `OPS`) con resaltado dorado para el líder ofensivo y tooltips interactivos.
+* **Gráfico Lineal de Progresión Inning por Inning (1 a 9):** Curva comparativa de carreras acumuladas entre Guerreros y el Rival con área gradiente.
+* **Control de Pitcheo y Disciplina:** Monitoreo visual de % de Strikes vs % de Bolas y barras de repertorio de lanzamientos.
+* **Tabla Sabermétrica Completa del Roster:** Estadísticas individuales acumuladas en vivo.
 
 ---
 
-## ☀️ 9. MODO SOL / NOCHE (DAYLIGHT ERGONOMICS)
+## 🎯 8. CAMPO 2D, RADAR & SPRAY CHART
 
-* En la esquina superior derecha, presiona **`☀️ Sol / Noche`** para alternar instantáneamente al **Modo Alto Brillo**, diseñado con fondo blanco puro y tipografía de contraste absoluto para evitar reflejos solares en el dugout.
+Accesible directamente en: [**https://diamax-pro.vercel.app/#campo**](https://diamax-pro.vercel.app/#campo)
+
+* **Posicionamiento Defensivo 2D:** Visualización gráfica de los 9 defensores en el diamante.
+* **Spray Chart de Batazos:** Registro de conexiones hacia la banda contraria (Oppo), centro (CF) o tirando a su banda (Pull).
+* **Mapa de Calor de Zona de Strike 3x3:** Identificación de zonas calientes (*Hot Zones*) y frías (*Cold Zones*) para cada bateador.
+
+---
+
+## 🧠 9. ASISTENTE TÁCTICO IA (DIAMAX TACTICAL AI™)
+
+Motor de Inteligencia Artificial que procesa en **menos de 1.5 segundos**:
+* Ajustes de formación defensiva (*Shifts*) contra bateadores de poder.
+* Probabilidad matemática de éxito en robo de base o toque de sacrificio según inning, conteo y outs.
+* Momento probabilístico ideal para activar el relevo del bullpen.
 
 ---
 
-## 💡 GUÍA RÁPIDA DE BOLSILLO PARA EL DUGOUT (CHECKLIST)
+## 🛡️ 10. SEGURIDAD, ROLES & RESPALDO EN LA NUBE
 
-```
-========================================================================================
-                  GUÍA RÁPIDA DE DUGOUT: DIAMAX PRO ⚾
-                  Guerreros de Venezuela +55 · Temporada 2026
-========================================================================================
-
- 1️⃣ PRE-JUEGO (30 minutos antes)
- --------------------------------------------------------------------------------------
- [ ] 1. Iniciar sesión con PIN de Mánager o Anotador.
- [ ] 2. Presionar '🏟️ Cargar Nuevo Juego', registrar Sede, Rival y sincronizar Clima.
- [ ] 3. Ajustar Lineup del 1 al 9 y asignar Pitcher Abridor.
- [ ] 4. Ir a '📋 Tarjeta Oficial' e imprimir/guardar PDF para los Umpires.
-
- 2️⃣ EN JUEGO (Dugout Keypad)
- --------------------------------------------------------------------------------------
- [ ] 1. Marcar lanzamientos: [+1 Strike] / [+1 Bola].
- [ ] 2. Registrar turnos al bate con los botones correspondientes:
-        • Hits: [1B] [2B] [3B] [HR]
-        • Elevados: [F1] a [F9]
-        • Rolatas: [6-3] [4-3] [5-3] [DP 6-4-3]
-        • Situacionales: [K] [Kc] [BB] [SB] [SF]
- [ ] 3. Monitorear Semáforo de Pitcheo: 🟢 0-45 | 🟡 46-60 | 🔴 61-75 (Bullpen).
- [ ] 4. Consultar DIAMAX IA (<1.5s) en situaciones críticas de toque/robo/relevo.
-
- 3️⃣ POST-JUEGO (Cierre)
- --------------------------------------------------------------------------------------
- [ ] 1. Presionar '🏁 Finalizar Partido' tras el último out.
- [ ] 2. Verificar Hora de Fin y Duración Total calculada.
- [ ] 3. Certificar y exportar el Boxscore oficial.
-
-========================================================================================
-               3Tree Digital Sport IA · Desarrollado para Ganar
-========================================================================================
-```
+* **Portal de Autenticación SHA-256:** Acceso seguro con teclado PIN táctil de 4 dígitos.
+* **Matriz de Roles:** Mánager (Acceso Total + IA), Anotador (Control de Dugout) y Scout (Analítica).
+* **Firebase Cloud Firestore:** Sincronización en tiempo real entre múltiples dispositivos en el dugout.
 
 ---
-*Manual Oficial de Operación Certificado por 3Tree Digital Sport IA para los Guerreros de Venezuela +55.* ⚾🇻🇪🇺🇸
+
+## 🔗 11. ENLACES DIRECTOS EN PRODUCCIÓN
+
+* 📋 **Informe Técnico Oficial:** [https://diamax-pro.vercel.app/#informe-tecnico](https://diamax-pro.vercel.app/#informe-tecnico)
+* 🖨️ **Tarjeta Oficial de Alineación (16 Personas):** [https://diamax-pro.vercel.app/#tarjeta-oficial](https://diamax-pro.vercel.app/#tarjeta-oficial)
+* 📊 **Dashboard & Gráficos Visuales:** [https://diamax-pro.vercel.app/#dashboard](https://diamax-pro.vercel.app/#dashboard)
+* 🎯 **Campo 2D & Spray Chart:** [https://diamax-pro.vercel.app/#campo](https://diamax-pro.vercel.app/#campo)
+* 📋 **Lineup Builder:** [https://diamax-pro.vercel.app/#lineup](https://diamax-pro.vercel.app/#lineup)
+* 📖 **Manual de Uso Integrado:** [https://diamax-pro.vercel.app/#manual](https://diamax-pro.vercel.app/#manual)
+
+---
+*Manual Oficial de Operación Certificado por 3Tree Digital Sport IA para los Guerreros de Venezuela +55.* 🇻🇪⚾
