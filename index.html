@@ -1872,7 +1872,7 @@ body.daylight-mode .btn-keypad:hover {
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
           <div>
             <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;">🏟️ Terreno Táctico 2D & Spray Chart</h3>
-            <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Posicionamiento defensivo en vivo y dispersión de batazos del rival.</p>
+            <p style="margin:2px 0 0 0; font-size:11px; color:#00D2FF; font-weight:700;">📍 Toca cualquier parte del terreno para registrar un batazo táctico en vivo.</p>
           </div>
           <div style="display:flex; gap:6px;">
             <button onclick="toggleSprayChartMode('ALL')" class="btn-sm-action" id="spray-btn-all" style="background:#00D2FF; color:#0B0F19; border:none; padding:5px 10px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">Todos</button>
@@ -1883,7 +1883,7 @@ body.daylight-mode .btn-keypad:hover {
         </div>
 
         <div style="position:relative; width:100%; max-width:540px; margin:0 auto; background:#0B0F19; border:2px solid #1E293B; border-radius:12px; overflow:hidden;">
-          <svg viewBox="0 0 500 480" style="width:100%; height:auto; display:block;" id="svg-campo-tactico">
+          <svg viewBox="0 0 500 480" style="width:100%; height:auto; display:block; cursor:crosshair;" id="svg-campo-tactico" onclick="marcarUbicacionBatazoCampo(event)">
             <!-- Césped Exterior -->
             <path d="M 50 240 A 280 280 0 0 1 450 240 L 250 440 Z" fill="#14532D" stroke="#166534" stroke-width="3"/>
             <!-- Zona de Seguridad Outfield -->
@@ -2506,7 +2506,7 @@ function actualizarPitcherUI() {
 
   const fatiguePct = Math.min(100, Math.round((activePitcherStats.totalPitches / activePitcherStats.maxLimit) * 100));
   if (fatBar) {
-    fatBar.style.width = `${faturePct = fatiguePct}%`;
+    fatBar.style.width = `${fatiguePct}%`;
     if (fatiguePct < 55) {
       fatBar.style.background = '#10B981';
       if (fatLabel) {
@@ -5125,13 +5125,98 @@ function renderOfficialCard() {
   }
 }
 
+
+// 🏟️ COORDENADAS EXACTAS PARA RENDERIZADO SVG EN TERRENO 2D (500x480)
+const POS_SVG_COORDS = {
+  "C":  { x: 250, y: 432, label: "C" },
+  "P":  { x: 250, y: 365, label: "P" },
+  "1B": { x: 335, y: 350, label: "1B" },
+  "2B": { x: 295, y: 275, label: "2B" },
+  "3B": { x: 165, y: 350, label: "3B" },
+  "SS": { x: 205, y: 275, label: "SS" },
+  "LF": { x: 120, y: 195, label: "LF" },
+  "CF": { x: 250, y: 130, label: "CF" },
+  "RF": { x: 380, y: 195, label: "RF" },
+  "DH": { x: 70,  y: 430, label: "DH" }
+};
+
+function marcarUbicacionBatazoCampo(e) {
+  const svg = document.getElementById('svg-campo-tactico');
+  if (!svg) return;
+  
+  let x = 250, y = 250;
+  try {
+    const rect = svg.getBoundingClientRect();
+    const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+    
+    if (rect.width > 0 && rect.height > 0 && clientX !== undefined) {
+      x = Math.max(30, Math.min(470, Math.round(((clientX - rect.left) / rect.width) * 500)));
+      y = Math.max(20, Math.min(460, Math.round(((clientY - rect.top) / rect.height) * 480)));
+    } else if (svg.createSVGPoint && clientX !== undefined) {
+      const pt = svg.createSVGPoint();
+      pt.x = clientX;
+      pt.y = clientY;
+      const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+      x = Math.max(30, Math.min(470, Math.round(svgP.x)));
+      y = Math.max(20, Math.min(460, Math.round(svgP.y)));
+    }
+  } catch(err) {
+    if (typeof e.x === 'number') x = e.x;
+    if (typeof e.y === 'number') y = e.y;
+  }
+
+  let type = 'GB';
+  let desc = 'Rodado';
+  if (y < 160) {
+    type = 'HR';
+    desc = 'Jonrón / Profundo';
+  } else if (y < 265) {
+    type = (x > 170 && x < 330) ? 'FB' : 'LD';
+    desc = type === 'FB' ? 'Elevado (Fly)' : 'Línea (Line Drive)';
+  } else {
+    type = 'GB';
+    desc = 'Rodado Infield';
+  }
+
+  const current = (typeof getLiveCurrentBatter === 'function') ? getLiveCurrentBatter() : { player: { name: 'Bateador' } };
+  const pName = (current && current.player) ? current.player.name : 'Bateador';
+
+  SPRAY_MOCK_DATA.push({
+    id: Date.now(),
+    type: type,
+    x: x,
+    y: y,
+    text: `${desc} de ${pName} (X:${x}, Y:${y})`
+  });
+
+  renderSprayChart();
+  mostrarToast(`📍 Terreno: ${desc} registrado en (${x}, ${y})`, 3000);
+}
+window.marcarUbicacionBatazoCampo = marcarUbicacionBatazoCampo;
+
 function renderField() {
   const g = getActiveGame(), layer = document.getElementById('field-players-layer');
   if (!layer) return;
-  layer.innerHTML = (g.lineup || []).map(slot => {
-    const coords = POS_COORDS[slot.pos], p = MASTER_ROSTER.find(pl => pl.id == slot.playerId);
-    if (!coords || !p) return '';
-    return `<div class="player-pin" style="top:${coords.top}; left:${coords.left};" onclick="switchTab('lineup')"><img src="${p.photo||DEFAULT_PHOTO}" class="pin-avatar"><div class="pin-info"><span style="color:#10B981">${slot.order}º</span> #${p.num} ${p.name.split(' ')[1]||p.name} <strong style="color:#FFC72C">(${POS_NUM[slot.pos]||slot.pos})</strong></div></div>`;
+  
+  const lineup = (g && Array.isArray(g.lineup) && g.lineup.length > 0) 
+    ? g.lineup 
+    : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+
+  layer.innerHTML = lineup.map(slot => {
+    const coords = POS_SVG_COORDS[slot.pos] || POS_SVG_COORDS["DH"];
+    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { num: slot.order, name: `Jugador ${slot.order}` };
+    if (!coords) return '';
+    const lastName = p.name ? (p.name.split(' ')[1] || p.name) : `P${slot.order}`;
+
+    return `
+      <g class="svg-fielder-node" transform="translate(${coords.x}, ${coords.y})" onclick="switchTab('lineup')" style="cursor:pointer;" title="#${p.num} ${p.name} (${slot.pos})">
+        <circle r="16" fill="#0B132B" stroke="#00D2FF" stroke-width="2.5" filter="drop-shadow(0 0 6px rgba(0,210,255,0.7))"/>
+        <text y="4" text-anchor="middle" fill="#FFC72C" font-size="11" font-weight="900" font-family="monospace">#${p.num}</text>
+        <rect x="-30" y="18" width="60" height="15" rx="4" fill="#070D1A" stroke="#334155" stroke-width="1"/>
+        <text y="29" text-anchor="middle" fill="#FFFFFF" font-size="8.5" font-weight="700">${lastName} (${slot.pos})</text>
+      </g>
+    `;
   }).join('');
 }
 
@@ -5331,7 +5416,20 @@ function renderTables() {
   setSafeText('team-jj', GAMES.filter(g => g.estado === "Finalizado").length);
 }
 
-function switchTab(tabId) {
+function switchTab(rawTabId) {
+  const aliases = {
+    'tarjeta': 'tarjeta-oficial',
+    'card': 'tarjeta-oficial',
+    'live': 'envivo',
+    'field': 'campo',
+    'dash': 'dashboard',
+    'profile': 'perfil',
+    'rivales': 'dashboard',
+    'reglamento': 'manual',
+    'radar': 'campo'
+  };
+  const tabId = aliases[rawTabId] || rawTabId;
+
   document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
   const map = {
     'envivo':'live',
@@ -5343,7 +5441,7 @@ function switchTab(tabId) {
     'dashboard':'dash',
     'skills':'skills'
   };
-  const btn = document.getElementById(`nav-${map[tabId]}`) || document.getElementById('nav-manual') || document.getElementById('btn-tab-manual');
+  const btn = document.getElementById(`nav-${map[tabId]}`) || document.getElementById(`nav-${tabId}`);
   if (btn) btn.classList.add('active');
 
   const allTabs = ['envivo', 'lineup', 'manual', 'tarjeta-oficial', 'campo', 'perfil', 'dashboard', 'skills'];
