@@ -6406,11 +6406,14 @@ function guardarNuevoJuego() {
 
   // Reiniciar estado en vivo
   liveState.inning = 1;
-  liveState.half = 'TOP'; // Inning 1 Alta (Siempre abre el Visitante)
+  liveState.half = 'top'; // Inning 1 Alta (Siempre abre el Visitante)
   liveState.outs = 0;
   liveState.balls = 0;
   liveState.strikes = 0;
-  liveState.bases = [null, null, null];
+  liveState.bases = { b1:false, b2:false, b3:false };
+  liveState.batterIndex = 0;
+  liveState.gveBatterIndex = 0;
+  liveState.rivalBatterIndex = 0;
   liveState.currentBatterIndex = 0;
 
   // Renderizar vistas actualizadas
