@@ -1520,14 +1520,16 @@ body.daylight-mode .btn-keypad:hover {
   </div>
 
   <!-- Ribbon de Juego -->
-  <div class="game-ribbon">
-    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-      <span style="font-size:12px; color:#94A3B8; font-weight:700;">PARTIDO SELECCIONADO:</span>
-      <select id="game-select" onchange="cambiarJuegoActivo(this.value)"></select>
-      <span id="game-condition-badge" style="background:#00D2FF; color:#000; font-size:10px; padding:4px 8px; border-radius:4px; font-weight:900;">HOME CLUB (LOCAL)</span>
-      <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 8px; border-radius:4px; font-weight:800;">EN JUEGO</span>
+  <div class="game-ribbon" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:linear-gradient(135deg, #091224, #0B132B); border:1px solid #1E293B; border-radius:10px; padding:10px 16px; margin-bottom:12px;">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; min-width:300px;">
+      <span style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; display:flex; align-items:center; gap:5px;">
+        🏟️ PARTIDO SELECCIONADO:
+      </span>
+      <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="form-control" style="font-weight:bold; font-size:12.5px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF; min-width:280px; max-width:520px;"></select>
+      <span id="game-condition-badge" style="background:#00D2FF; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">HOME CLUB (LOCAL)</span>
+      <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
     </div>
-    <button onclick="crearNuevoJuegoModal()" class="btn-new-game">+ Configurar Nuevo Juego</button>
+    <button onclick="abrirModalNuevoJuego()" class="btn-new-game" style="background:linear-gradient(135deg, #00D2FF, #0077FF); color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; box-shadow:0 0 15px rgba(0,210,255,0.3);">+ Configurar Partido & Rival</button>
   </div>
 
   <!-- Navegación de Pestañas -->
@@ -3601,8 +3603,13 @@ function createInitialCleanGame() {
   const starters = MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
   return {
     id: `game-${Date.now()}`,
-    fecha: new Date().toISOString().split('T')[0],
-    rival: "CARDENALES",
+    fecha: '2026-09-08',
+    horaInicio: '09:30',
+    estadio: 'Lutz Baseball Park - Campo #1',
+    direccion: '5709 Kingfish Drive, Lutz, FL 33558',
+    rival: "DAYTONA BEACH",
+    rivalId: "RIV-001",
+    rivalAbbr: "DAY",
     isHomeClub: true,
     scoreUs: 0,
     scoreRival: 0,
@@ -3651,52 +3658,103 @@ function getActiveGame() {
   return GAMES.find(g => g && g.id === activeGameId) || GAMES[0];
 }
 
+function poblarSelectorPartidos() {
+  const sel = document.getElementById('game-select');
+  if (!sel) return;
+  if (!Array.isArray(GAMES) || GAMES.length === 0) {
+    GAMES = [createInitialCleanGame()];
+  }
+  
+  sel.innerHTML = GAMES.map(g => {
+    const condLabel = g.isHomeClub ? '🏠 LOCAL' : '✈️ VISIT.';
+    const rivalName = g.rival || 'RIVAL';
+    const rivalAbbr = g.rivalAbbr ? ` (${g.rivalAbbr})` : '';
+    const fecha = g.fecha || '2026-09-08';
+    const hora = g.horaInicio ? ` · ⏰ ${typeof formatTime12h === 'function' ? formatTime12h(g.horaInicio) : g.horaInicio}` : '';
+    const estado = g.estado === 'Finalizado' ? ' [FINAL]' : '';
+    return `<option value="${g.id}" ${g.id === activeGameId ? 'selected' : ''}>${condLabel} vs ${rivalName}${rivalAbbr} · 📅 ${fecha}${hora}${estado}</option>`;
+  }).join('');
+
+  const activeG = getActiveGame();
+  const condBadge = document.getElementById('game-condition-badge');
+  if (condBadge) {
+    condBadge.innerText = activeG.isHomeClub ? "HOME CLUB (LOCAL)" : "VISITANTE";
+    condBadge.style.background = activeG.isHomeClub ? "#00D2FF" : "#FFC72C";
+  }
+  const statusBadge = document.getElementById('game-status-badge');
+  if (statusBadge) {
+    statusBadge.innerText = activeG.estado === "Finalizado" ? "FINALIZADO" : "EN JUEGO";
+    statusBadge.style.background = activeG.estado === "Finalizado" ? "#10B981" : "#FFC72C";
+  }
+}
+
 function cambiarJuegoActivo(id) {
   activeGameId = id;
   const g = getActiveGame();
   liveState.scoreUs = g.scoreUs || 0;
   liveState.scoreThem = g.scoreRival || 0;
+
+  // Sincronizar activeRivalId con el rival del juego seleccionado
+  let rival = null;
+  if (typeof RIVALS_DATABASE !== 'undefined' && Array.isArray(RIVALS_DATABASE)) {
+    if (g.rivalId) {
+      rival = RIVALS_DATABASE.find(r => r.id === g.rivalId);
+    }
+    if (!rival && g.rival) {
+      rival = RIVALS_DATABASE.find(r => r.name.toUpperCase() === g.rival.toUpperCase() || (r.abbr && r.abbr === g.rivalAbbr));
+    }
+    if (!rival && RIVALS_DATABASE.length > 0) {
+      rival = RIVALS_DATABASE[0];
+    }
+  }
+
+  if (rival) {
+    activeRivalId = rival.id;
+    g.rival = rival.name;
+    g.rivalId = rival.id;
+    g.rivalAbbr = rival.abbr;
+    saveGamesToStorage();
+  }
+
+  GAME_ACTIVE = {
+    ...g,
+    id: g.id,
+    fecha: g.fecha || '2026-09-08',
+    horaInicio: g.horaInicio || '09:30',
+    estadio: g.estadio || 'Lutz Baseball Park - Campo #1',
+    direccion: g.direccion || '5709 Kingfish Drive, Lutz, FL 33558',
+    rival: rival ? rival.name : (g.rival || 'RIVAL'),
+    rivalId: activeRivalId,
+    rivalAbbr: rival ? rival.abbr : (g.rivalAbbr || 'RIV'),
+    isHomeClub: g.isHomeClub !== undefined ? g.isHomeClub : true,
+    condicion: (g.isHomeClub !== undefined ? g.isHomeClub : true) ? 'HOME' : 'AWAY',
+    halfInningRule: (g.isHomeClub !== undefined ? g.isHomeClub : true) ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1'
+  };
+  try { localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE)); } catch(e){}
+
+  if (typeof poblarSelectoresRivales === 'function') poblarSelectoresRivales();
+  const selRivalModal = document.getElementById('select-rival-selector');
+  if (selRivalModal) selRivalModal.value = activeRivalId;
+
+  if (rival) {
+    const inStarter = document.getElementById('input-rival-starter-name');
+    if (inStarter) inStarter.value = rival.pitcherAs || '';
+    const inStarterNum = document.getElementById('input-rival-starter-num');
+    if (inStarterNum) inStarterNum.value = rival.pitcherNum || '';
+    const selStarterArm = document.getElementById('select-rival-starter-arm');
+    if (selStarterArm) selStarterArm.value = rival.pitcherArm || 'RHP';
+    if (typeof renderRivalLineupEditor === 'function') renderRivalLineupEditor(rival);
+  }
+
+  if (typeof sincronizarLogoRivalUI === 'function') sincronizarLogoRivalUI();
+  if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
   initSecurityPortal();
   initFirebaseFromStorage();
   renderAll();
 }
 
 function crearNuevoJuegoModal() {
-  const rival = prompt("Nombre del Rival:", "MAGALLANES");
-  if (!rival) return;
-  const cond = confirm(`¿${teamName} es HOME CLUB (LOCAL)?\n\n[Aceptar] = LOCAL\n[Cancelar] = VISITANTE`);
-  const fecha = prompt("Fecha (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
-  if (!fecha) return;
-
-  const starters = MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
-  const nuevo = {
-    id: `game-${Date.now()}`,
-    fecha,
-    rival: rival.toUpperCase(),
-    isHomeClub: cond,
-    scoreUs: 0,
-    scoreRival: 0,
-    estado: "En Juego",
-    lineup: starters,
-    boxBatting: [],
-    pitching: []
-  };
-  GAMES.push(nuevo);
-  activeGameId = nuevo.id;
-  liveState = {
-    inning: 1, half: 'top', outs: 0, scoreUs: 0, scoreThem: 0,
-    bases: { b1:false, b2:false, b3:false }, batterIndex: 0,
-    currentLiveBox: {},
-    currentPitchingBox: { outsPitcher: 0, k: 0, bb: 0, h: 0, cl: 0, wp: 0 },
-    currentFieldingBox: {}
-  };
-  saveGamesToStorage();
-    simularSincronizacionCloud();
-    guardarJuegoEnFirestore();
-  initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
-  switchTab('lineup');
+  abrirModalNuevoJuego();
 }
 
 function resetearBaseDeDatos(skipConfirm = false) {
@@ -5815,12 +5873,8 @@ function renderAll() {
     setSafeText('footer-address-text', 'Desarrollada por 3Tree Digital Sport IA Lutz, Florida Usa/Todos los derechos reservados 2026. Aplicacion oficial DIAMAX');
     setSafeText('card-location-text', teamAddress);
 
-    const sel = document.getElementById('game-select');
-    if (sel) sel.innerHTML = GAMES.map(g => `<option value="${g.id}" ${g.id === activeGameId ? 'selected' : ''}>vs ${g.rival} (${g.fecha})</option>`).join('');
-
-    const g = getActiveGame();
-    setSafeText('game-status-badge', g.estado === "Finalizado" ? "FINALIZADO" : "EN JUEGO");
-    setSafeText('game-condition-badge', g.isHomeClub ? "HOME CLUB (LOCAL)" : "VISITANTE");
+    if (typeof poblarSelectorPartidos === "function") poblarSelectorPartidos();
+    if (typeof poblarSelectoresRivales === "function") poblarSelectoresRivales();
 
     renderLineupBuilder();
     renderOfficialCard();
@@ -5831,7 +5885,6 @@ function renderAll() {
     renderStrikeZoneHeatmap(1);
     actualizarPitcherUI();
     actualizarFaseTacticoIA();
-    if (typeof poblarSelectoresRivales === "function") poblarSelectoresRivales();
     renderTables();
     renderSkillsList();
     renderLiveBoxscoreTable();
@@ -6025,7 +6078,7 @@ function poblarSelectoresRivales() {
   const selectReport = document.getElementById('report-filter-rival');
 
   const optionsHtml = RIVALS_DATABASE.map(r => 
-    `<option value="${r.id}">${r.name} (${r.abbr || 'RIV'}) - Abridor: ${r.pitcherAs || 'TBD'} [${r.pitcherArm || 'RHP'}]</option>`
+    `<option value="${r.id}">⚔️ ${r.name} (${r.abbr || 'RIV'}) · Abridor: ${r.pitcherAs || 'TBD'} #${r.pitcherNum || '00'} [${r.pitcherArm || 'RHP'}]</option>`
   ).join('');
 
   if (selectModal) {
@@ -6042,17 +6095,28 @@ function poblarSelectoresRivales() {
 }
 
 function seleccionarRivalDeLista() {
-  setTimeout(sincronizarLogoRivalUI, 20);
   const select = document.getElementById('select-rival-selector');
   if (!select) return;
   activeRivalId = select.value;
   const rival = RIVALS_DATABASE.find(r => r.id === activeRivalId);
   if (!rival) return;
 
-  // Actualizar campos predeterminados del rival
-  const inRival = document.getElementById('input-game-rival');
-  if (inRival) inRival.value = rival.name;
+  // 1. Sincronizar el juego activo en memoria y almacenamiento
+  const g = getActiveGame();
+  if (g) {
+    g.rival = rival.name;
+    g.rivalId = rival.id;
+    g.rivalAbbr = rival.abbr || 'RIV';
+    saveGamesToStorage();
+  }
+  if (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) {
+    GAME_ACTIVE.rival = rival.name;
+    GAME_ACTIVE.rivalId = rival.id;
+    GAME_ACTIVE.rivalAbbr = rival.abbr || 'RIV';
+    try { localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE)); } catch(e){}
+  }
 
+  // 2. Actualizar campos del lanzador abridor rival
   const inStarter = document.getElementById('input-rival-starter-name');
   if (inStarter) inStarter.value = rival.pitcherAs || '';
 
@@ -6062,8 +6126,12 @@ function seleccionarRivalDeLista() {
   const selStarterArm = document.getElementById('select-rival-starter-arm');
   if (selStarterArm) selStarterArm.value = rival.pitcherArm || 'RHP';
 
+  // 3. Sincronizar UI, logos, alineaciones y cabeceras
+  sincronizarLogoRivalUI();
   renderRivalLineupEditor(rival);
   validarIntegridadLineupRival();
+  actualizarGameHeaderUI();
+  if (typeof poblarSelectorPartidos === 'function') poblarSelectorPartidos();
 }
 
 function toggleFormularioNuevoRival(forceState) {
@@ -6498,7 +6566,34 @@ function toggleDaylightMode() {
 function abrirModalNuevoJuego() {
   const modal = document.getElementById('modal-nuevo-juego');
   if (modal) {
+    const g = getActiveGame();
+    if (g && g.rivalId) {
+      activeRivalId = g.rivalId;
+    } else if (g && g.rival) {
+      const match = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => r.name.toUpperCase() === g.rival.toUpperCase() || (r.abbr && r.abbr === g.rivalAbbr));
+      if (match) activeRivalId = match.id;
+    }
+
     poblarSelectoresRivales();
+    const selRival = document.getElementById('select-rival-selector');
+    if (selRival) selRival.value = activeRivalId;
+
+    if (g) {
+      const inFecha = document.getElementById('input-game-fecha');
+      if (inFecha && g.fecha) inFecha.value = g.fecha;
+      const inHora = document.getElementById('input-game-hora-inicio');
+      if (inHora && g.horaInicio) inHora.value = g.horaInicio;
+      const inEstadio = document.getElementById('input-game-estadio');
+      if (inEstadio && g.estadio) inEstadio.value = g.estadio;
+      const inDir = document.getElementById('input-game-direccion');
+      if (inDir && g.direccion) inDir.value = g.direccion;
+
+      const radios = document.querySelectorAll('input[name="game-condicion"]');
+      radios.forEach(r => {
+        r.checked = (g.isHomeClub && r.value === 'HOME') || (!g.isHomeClub && r.value === 'AWAY');
+      });
+    }
+
     seleccionarRivalDeLista();
     if (typeof poblarSelectoresGVEModal === 'function') poblarSelectoresGVEModal();
     toggleFormularioNuevoRival(false);
@@ -6641,6 +6736,38 @@ function guardarNuevoJuego() {
     halfInningRule: isHomeClub ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1'
   };
   localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE));
+
+  // Sincronizar en Base de Datos de Juegos (GAMES)
+  if (!Array.isArray(GAMES)) GAMES = [];
+  const existingIndex = GAMES.findIndex(gm => gm && (gm.id === activeGameId || (gm.estado === "En Juego" && gm.fecha === fecha)));
+  const gameData = {
+    id: (existingIndex !== -1 && GAMES[existingIndex].id) ? GAMES[existingIndex].id : gameId,
+    fecha: fecha,
+    horaInicio: horaInicio,
+    estadio: estadio,
+    direccion: direccion,
+    rival: rivalName,
+    rivalId: rivalId,
+    rivalAbbr: rivalAbbr,
+    isHomeClub: isHomeClub,
+    condicion: isHomeClub ? 'HOME' : 'AWAY',
+    scoreUs: 0,
+    scoreRival: 0,
+    estado: "En Juego",
+    lineup: (typeof getGuerrerosLineup === 'function') ? getGuerrerosLineup() : [],
+    boxBatting: [],
+    pitching: []
+  };
+
+  if (existingIndex !== -1) {
+    GAMES[existingIndex] = { ...GAMES[existingIndex], ...gameData };
+    activeGameId = GAMES[existingIndex].id;
+  } else {
+    GAMES.unshift(gameData);
+    activeGameId = gameData.id;
+  }
+  saveGamesToStorage();
+  if (typeof poblarSelectorPartidos === 'function') poblarSelectorPartidos();
 
   // Obtener lineup de Guerreros de Venezuela
   const gveLineup = getGuerrerosLineup();
@@ -7228,6 +7355,37 @@ function guardarYCertificarJuegoOficial() {
   };
   localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE));
 
+  // 3.1 Sincronizar en Base de Datos de Juegos (GAMES)
+  if (!Array.isArray(GAMES)) GAMES = [];
+  const existingIndex = GAMES.findIndex(gm => gm && (gm.id === activeGameId || (gm.estado === "En Juego" && gm.fecha === fecha)));
+  const gameData = {
+    id: (existingIndex !== -1 && GAMES[existingIndex].id) ? GAMES[existingIndex].id : gameId,
+    fecha: fecha,
+    horaInicio: horaInicio,
+    estadio: estadio,
+    direccion: direccion,
+    rival: rivalName,
+    rivalId: rivalId,
+    rivalAbbr: rivalAbbr,
+    isHomeClub: isHomeClub,
+    condicion: isHomeClub ? 'HOME' : 'AWAY',
+    scoreUs: 0,
+    scoreRival: 0,
+    estado: "En Juego",
+    lineup: customGVELineup,
+    boxBatting: [],
+    pitching: []
+  };
+
+  if (existingIndex !== -1) {
+    GAMES[existingIndex] = { ...GAMES[existingIndex], ...gameData };
+    activeGameId = GAMES[existingIndex].id;
+  } else {
+    GAMES.unshift(gameData);
+    activeGameId = gameData.id;
+  }
+  saveGamesToStorage();
+
   // 4. Crear Registro en Base de Datos Relacional `game_lineups`
   const gameLineupRecord = {
     id: `LINEUP-${gameId}`,
@@ -7453,12 +7611,14 @@ function guardarYCertificarJuegoOficial() {
           <input type="file" id="input-rival-logo-file" accept="image/*" style="display:none;" onchange="cargarLogoRivalArchivo(event)">
         </div>
         <div style="flex:1;">
-          <label style="font-size:11px; color:#94A3B8; font-weight:700; margin-bottom:4px; display:block;">Equipo Rival Seleccionado & Logo:</label>
+          <label style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+            ⚔️ EQUIPO RIVAL SELECCIONADO & LOGO:
+          </label>
           <div style="display:flex; gap:6px;">
-            <select id="select-rival-selector" class="form-control" onchange="seleccionarRivalDeLista()" style="font-weight:bold; font-size:13px; background:#070D1A; border-color:#00D2FF;">
+            <select id="select-rival-selector" class="form-control" onchange="seleccionarRivalDeLista()" style="font-weight:bold; font-size:12.5px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF;">
               <!-- Opciones dinámicas de RIVALS_DATABASE -->
             </select>
-            <button type="button" onclick="document.getElementById('input-rival-logo-file').click()" class="btn-settings" style="background:rgba(0,210,255,0.15); color:#00D2FF; border:1px solid #00D2FF; font-size:11px; white-space:nowrap; padding:4px 10px; border-radius:6px; cursor:pointer; font-weight:bold;">
+            <button type="button" onclick="document.getElementById('input-rival-logo-file').click()" class="btn-settings" style="background:rgba(0,210,255,0.15); color:#00D2FF; border:1px solid #00D2FF; font-size:11px; white-space:nowrap; padding:4px 12px; border-radius:6px; cursor:pointer; font-weight:bold;">
               🖼️ Subir Logo
             </button>
           </div>
