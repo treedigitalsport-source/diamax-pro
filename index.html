@@ -5759,6 +5759,7 @@ function switchTab(rawTabId) {
   // Renderizados dinámicos y sincronización inmediata por pestaña
   if (tabId === 'tarjeta-oficial') {
     if (typeof renderOfficialCard === 'function') renderOfficialCard();
+    if (typeof sincronizarLogoRivalUI === 'function') sincronizarLogoRivalUI();
     if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
   } else if (tabId === 'dashboard') {
     if (typeof renderTables === 'function') renderTables();
@@ -5823,6 +5824,7 @@ function renderAll() {
 
     renderLineupBuilder();
     renderOfficialCard();
+    if (typeof sincronizarLogoRivalUI === 'function') sincronizarLogoRivalUI();
     renderField();
     poblarSelectoresVisuales();
     renderSprayChart();
@@ -6040,6 +6042,7 @@ function poblarSelectoresRivales() {
 }
 
 function seleccionarRivalDeLista() {
+  setTimeout(sincronizarLogoRivalUI, 20);
   const select = document.getElementById('select-rival-selector');
   if (!select) return;
   activeRivalId = select.value;
@@ -6138,6 +6141,68 @@ function guardarNuevoRivalEnDB() {
 
   seleccionarRivalDeLista();
   alert(`✅ Rival "${newRival.name}" guardado exitosamente en Base de Datos Local.`);
+}
+
+
+function cargarLogoRivalArchivo(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64Url = e.target.result;
+    const rivalRecord = RIVALS_DATABASE.find(r => r.id === activeRivalId) || RIVALS_DATABASE[0];
+    if (rivalRecord) {
+      rivalRecord.logoUrl = base64Url;
+      try {
+        localStorage.setItem('diamax_rivals_db_custom', JSON.stringify(RIVALS_DATABASE));
+      } catch(err) {}
+
+      // Actualizar vista previa en el modal
+      const previewModal = document.getElementById('rival-logo-preview-modal');
+      if (previewModal) previewModal.src = base64Url;
+
+      // Actualizar tarjeta oficial
+      const cardRivalLogo = document.getElementById('card-rival-logo-img');
+      if (cardRivalLogo) cardRivalLogo.src = base64Url;
+
+      // Actualizar marcador
+      const g = getActiveGame();
+      const scoreAwayLogo = document.getElementById('score-away-logo');
+      const scoreHomeLogo = document.getElementById('score-home-logo');
+      if (g.isHomeClub) {
+        if (scoreAwayLogo) scoreAwayLogo.src = base64Url;
+      } else {
+        if (scoreHomeLogo) scoreHomeLogo.src = base64Url;
+      }
+
+      alert(`✅ ¡Logo de ${rivalRecord.name} subido y actualizado con éxito!`);
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function sincronizarLogoRivalUI() {
+  const g = getActiveGame();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : null);
+  const logoSrc = (rivalRecord && rivalRecord.logoUrl) ? rivalRecord.logoUrl : "https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop";
+
+  const previewModal = document.getElementById('rival-logo-preview-modal');
+  if (previewModal) previewModal.src = logoSrc;
+
+  const cardRivalLogo = document.getElementById('card-rival-logo-img');
+  if (cardRivalLogo) cardRivalLogo.src = logoSrc;
+
+  const isHome = g.isHomeClub !== false;
+  const awayLogo = document.getElementById('score-away-logo');
+  const homeLogo = document.getElementById('score-home-logo');
+  if (isHome) {
+    if (awayLogo) awayLogo.src = logoSrc;
+    if (homeLogo) homeLogo.src = teamLogoUrl || "https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop";
+  } else {
+    if (homeLogo) homeLogo.src = logoSrc;
+    if (awayLogo) awayLogo.src = teamLogoUrl || "https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop";
+  }
 }
 
 function renderRivalLineupEditor(rival) {
@@ -6642,6 +6707,7 @@ function guardarNuevoJuego() {
 
   // Renderizar vistas actualizadas
   renderOfficialCard();
+    if (typeof sincronizarLogoRivalUI === 'function') sincronizarLogoRivalUI();
   updateLiveBatterDisplay();
   renderLiveLineupChips();
   actualizarGameHeaderUI();
@@ -6755,6 +6821,9 @@ window.seleccionarRivalDeLista = seleccionarRivalDeLista;
 window.toggleFormularioNuevoRival = toggleFormularioNuevoRival;
 window.guardarNuevoRivalEnDB = guardarNuevoRivalEnDB;
 window.renderRivalLineupEditor = renderRivalLineupEditor;
+window.cargarLogoRivalArchivo = cargarLogoRivalArchivo;
+window.sincronizarLogoRivalUI = sincronizarLogoRivalUI;
+
 window.validarIntegridadLineupRival = validarIntegridadLineupRival;
 window.autocompletarLineupRival = autocompletarLineupRival;
 window.limpiarLineupRivalEditor = limpiarLineupRivalEditor;
@@ -6762,6 +6831,9 @@ window.abrirModalNuevoJuego = abrirModalNuevoJuego;
 window.cerrarModalNuevoJuego = cerrarModalNuevoJuego;
 window.guardarNuevoJuego = guardarNuevoJuego;
 window.renderRivalLineupEditor = renderRivalLineupEditor;
+window.cargarLogoRivalArchivo = cargarLogoRivalArchivo;
+window.sincronizarLogoRivalUI = sincronizarLogoRivalUI;
+
 window.cambiarPestanaRivalLineup = cambiarPestanaRivalLineup;
 window.agregarBateadorExtraRival = agregarBateadorExtraRival;
 window.eliminarJugadorExtraRival = eliminarJugadorExtraRival;
@@ -7223,6 +7295,7 @@ function guardarYCertificarJuegoOficial() {
   if (typeof actualizarFaseTacticoIA === 'function') actualizarFaseTacticoIA();
   if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
   if (typeof renderOfficialCard === 'function') renderOfficialCard();
+    if (typeof sincronizarLogoRivalUI === 'function') sincronizarLogoRivalUI();
   if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
   if (typeof renderLineupBuilder === 'function') renderLineupBuilder();
   if (typeof renderField === 'function') renderField();
@@ -7370,11 +7443,26 @@ function guardarYCertificarJuegoOficial() {
         </button>
       </div>
 
-      <!-- Selector de Rival Existente -->
-      <div class="form-group" style="margin-bottom:8px;">
-        <select id="select-rival-selector" class="form-control" onchange="seleccionarRivalDeLista()" style="font-weight:bold; font-size:13px; background:#0B132B; border-color:#00D2FF;">
-          <!-- Opciones dinámicas de RIVALS_DATABASE -->
-        </select>
+      <!-- Selector de Rival Existente & Uploader de Logo del Rival -->
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; background:#0B132B; border:1px solid #1E293B; border-radius:8px; padding:10px;">
+        <div style="position:relative; flex-shrink:0;">
+          <img id="rival-logo-preview-modal" src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" style="width:52px; height:52px; border-radius:50%; border:2px solid #00D2FF; object-fit:cover; background:#070D1A;" alt="Logo Rival">
+          <button type="button" onclick="document.getElementById('input-rival-logo-file').click()" title="Subir Logo del Rival (PNG/JPG)" style="position:absolute; bottom:-4px; right:-4px; background:#00D2FF; color:#000; border:none; border-radius:50%; width:22px; height:22px; font-size:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:bold; box-shadow:0 0 6px rgba(0,210,255,0.8);">
+            📷
+          </button>
+          <input type="file" id="input-rival-logo-file" accept="image/*" style="display:none;" onchange="cargarLogoRivalArchivo(event)">
+        </div>
+        <div style="flex:1;">
+          <label style="font-size:11px; color:#94A3B8; font-weight:700; margin-bottom:4px; display:block;">Equipo Rival Seleccionado & Logo:</label>
+          <div style="display:flex; gap:6px;">
+            <select id="select-rival-selector" class="form-control" onchange="seleccionarRivalDeLista()" style="font-weight:bold; font-size:13px; background:#070D1A; border-color:#00D2FF;">
+              <!-- Opciones dinámicas de RIVALS_DATABASE -->
+            </select>
+            <button type="button" onclick="document.getElementById('input-rival-logo-file').click()" class="btn-settings" style="background:rgba(0,210,255,0.15); color:#00D2FF; border:1px solid #00D2FF; font-size:11px; white-space:nowrap; padding:4px 10px; border-radius:6px; cursor:pointer; font-weight:bold;">
+              🖼️ Subir Logo
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Formulario Desplegable: Añadir Nuevo Rival -->
