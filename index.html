@@ -2605,19 +2605,147 @@ body.daylight-mode .btn-keypad:hover {
     </div>
   </div>
 
-  <!-- TAB 6: AGENTE & SKILLS -->
+    <!-- TAB 6: AGENTE SABERMÉTRICO AUTÓNOMO & SKILLS -->
   <div id="tab-skills" style="display:none;">
-    <div class="panel">
-      <h3 style="color:#00D2FF; font-size:16px; margin-bottom:12px; font-weight:800;"> Expediente del Agente Sabermétrico (SKILL.md)</h3>
-      <div id="skills-list-container"></div>
-      <div style="background:#131D31; border:1px dashed #00D2FF; border-radius:8px; padding:14px; margin-top:14px;">
-        <h4 style="color:#FFC72C; font-size:13px; margin-bottom:8px; font-weight:800;"> Agregar Nueva Habilidad:</h4>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <input type="text" id="new-skill-title" placeholder="Título (ej: Análisis de Tendencia)" style="flex:1; min-width:180px; padding:9px 12px; background:#070D1A; color:#fff; border:1px solid #1E293B; border-radius:6px; font-size:12px;">
-          <input type="text" id="new-skill-desc" placeholder="Descripción..." style="flex:2; min-width:240px; padding:9px 12px; background:#070D1A; color:#fff; border:1px solid #1E293B; border-radius:6px; font-size:12px;">
-          <button onclick="agregarNuevaSkill()" style="background:#00D2FF; color:#000; border:none; padding:9px 18px; border-radius:6px; font-weight:900; cursor:pointer;">Guardar</button>
+    <div class="panel" style="border: 2px solid #00D2FF; background:linear-gradient(145deg, #091224 0%, #0F172A 100%);">
+      
+      <!-- Cabecera del Agente -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:2px solid #1E293B; padding-bottom:14px; margin-bottom:18px; gap:12px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="font-size:38px; background:#070D1A; padding:8px 14px; border-radius:12px; border:1.5px solid #00D2FF; box-shadow:0 0 20px rgba(0,210,255,0.25);">🤖</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span style="background:#00D2FF; color:#000; font-size:11px; font-weight:900; padding:3px 8px; border-radius:4px; text-transform:uppercase;">AGENTE AUTÓNOMO</span>
+              <span style="background:#10B981; color:#000; font-size:11px; font-weight:900; padding:3px 8px; border-radius:4px;" id="agent-live-status-badge">🟢 ONLINE & CONECTADO</span>
+              <span style="color:#FFC72C; font-size:12px; font-weight:bold;">DIAMAX TACTICAL AGENT v2.5</span>
+            </div>
+            <h2 style="color:#FFF; font-size:20px; font-weight:900; margin:4px 0 0 0; letter-spacing:0.5px;">
+              Consola del Agente Sabermétrico de Alto Rendimiento
+            </h2>
+            <p style="color:#94A3B8; font-size:12px; margin:2px 0 0 0;">
+              Interlocutor autónomo de inteligencia deportiva, scouting predictivo y soporte estratégico en tiempo real para <strong>Lic. Alí Zapata Mendoza</strong> y el cuerpo técnico.
+            </p>
+          </div>
+        </div>
+
+        <!-- Selector de Modo Operativo del Agente -->
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <select id="agent-active-mode" onchange="cambiarModoAgente(this.value)" style="background:#070D1A; color:#00D2FF; border:1.5px solid #00D2FF; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;">
+            <option value="DUGOUT">🏟️ Modo 1: Dugout In-Game (&lt;1.5s)</option>
+            <option value="LINEUP">🎲 Modo 2: Optimizador Lineup (Markov)</option>
+            <option value="SCOUTING">🕵️ Modo 3: Scouting Pre-Juego (Rival)</option>
+            <option value="ANALYST">📊 Modo 4: Analista Sabermétrico (RAG)</option>
+          </select>
+          <button onclick="limpiarChatAgente()" class="btn-settings" style="background:#1E293B; color:#94A3B8; border:1px solid #334155; padding:8px 12px; border-radius:8px; font-size:11.5px; cursor:pointer;">
+            🗑️ Limpiar
+          </button>
         </div>
       </div>
+
+      <!-- Grid Principal: Consola de Diálogo (Izquierda) + Skills & Memoria (Derecha) -->
+      <div style="display:grid; grid-template-columns: 1.8fr 1fr; gap:16px;">
+        
+        <!-- COLUMNA 1: TERMINAL & CHAT CON EL AGENTE -->
+        <div style="display:flex; flex-direction:column; background:#070D1A; border:1px solid #1E293B; border-radius:12px; padding:16px; min-height:480px;">
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1E293B; padding-bottom:8px;">
+            <div style="font-size:12.5px; color:#FFC72C; font-weight:900; display:flex; align-items:center; gap:6px;">
+              <span>💬</span> Diálogo Directo con el Agente
+            </div>
+            <div style="font-size:11px; color:#A78BFA; background:rgba(167,139,250,0.15); padding:2px 8px; border-radius:4px;">
+              🧠 RAG Activo (16 Documentos)
+            </div>
+          </div>
+
+          <!-- Historial de Conversación (Scrollable) -->
+          <div id="agent-chat-messages" style="flex:1; max-height:360px; overflow-y:auto; padding-right:6px; display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">
+            
+            <!-- Mensaje Inicial del Agente -->
+            <div style="background:#0F172A; border-left:4px solid #00D2FF; border-radius:8px; padding:12px 14px; font-size:12.5px; color:#EAEEF5; line-height:1.6;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <strong style="color:#00D2FF; font-size:12px;">🤖 DIAMAX AGENT:</strong>
+                <span style="font-size:10.5px; color:#64748B;">En Vivo</span>
+              </div>
+              <div>
+                ¡Saludos, Lic. Alí Zapata! Estoy listo y conectado al partido. Puedo responder cualquier pregunta estratégica sobre:
+                <ul style="margin:6px 0 0 16px; padding:0; color:#CBD5E1; font-size:12px; line-height:1.6;">
+                  <li><strong>Alineación & Bateo:</strong> Ajustes de orden al bate, emergentes (+55) y duelos vs lanzador rival.</li>
+                  <li><strong>Pitcheo & Fatiga:</strong> Dosificación de Pedro Chávez (límite 75) y momento óptimo para llamar al bullpen.</li>
+                  <li><strong>Defensa & Scouting:</strong> Posicionamiento táctico (Shifts), spray charts y debilidades del rival.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sugerencias de Preguntas Frecuentes (Pills) -->
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+            <button type="button" onclick="enviarPreguntaRapidaAgente('¿Cuál es la estrategia óptima para este inning?')" style="background:#0F172A; border:1px solid #00D2FF; color:#00D2FF; font-size:11px; padding:4px 10px; border-radius:14px; cursor:pointer; font-weight:bold;">
+              🎯 Estrategia del Inning
+            </button>
+            <button type="button" onclick="enviarPreguntaRapidaAgente('¿Cómo neutralizamos al bateador más peligroso del rival?')" style="background:#0F172A; border:1px solid #FFC72C; color:#FFC72C; font-size:11px; padding:4px 10px; border-radius:14px; cursor:pointer; font-weight:bold;">
+              ⚔️ Frenar al 4to Bate Rival
+            </button>
+            <button type="button" onclick="enviarPreguntaRapidaAgente('¿Cómo influye el viento y el clima en este estadio hoy?')" style="background:#0F172A; border:1px solid #10B981; color:#10B981; font-size:11px; padding:4px 10px; border-radius:14px; cursor:pointer; font-weight:bold;">
+              🌤️ Viento & Aerodinámica Zapata
+            </button>
+            <button type="button" onclick="enviarPreguntaRapidaAgente('¿Quién es el mejor bateador emergente disponible en la banca?')" style="background:#0F172A; border:1px solid #A78BFA; color:#A78BFA; font-size:11px; padding:4px 10px; border-radius:14px; cursor:pointer; font-weight:bold;">
+              👥 Bateador Emergente (+55)
+            </button>
+          </div>
+
+          <!-- Input Bar de Consulta al Agente -->
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="agent-user-input" placeholder="Escribe tu pregunta táctica al Agente (ej: ¿Debemos tocar la bola con hombre en 1B?)..." style="flex:1; background:#0B132B; border:1.5px solid #334155; color:#FFF; padding:11px 14px; border-radius:8px; font-size:13px; outline:none;" onkeydown="if(event.key==='Enter') ejecutarConsultaAgenteConsola()">
+            <button type="button" id="btn-agent-send" onclick="ejecutarConsultaAgenteConsola()" style="background:#00D2FF; color:#000; border:none; padding:11px 20px; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 0 15px rgba(0,210,255,0.3);">
+              ⚡ Preguntar
+            </button>
+          </div>
+
+        </div>
+
+        <!-- COLUMNA 2: EXPEDIENTE DE SKILLS & MEMORIA DEL AGENTE -->
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          
+          <!-- Expediente SKILL.md Activo -->
+          <div style="background:#070D1A; border:1px solid #1E293B; border-radius:10px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <h4 style="color:#00D2FF; font-size:13px; font-weight:900; margin:0; text-transform:uppercase;">
+                📜 Habilidades del Agente (SKILL.md)
+              </h4>
+              <span style="font-size:10px; background:#00D2FF; color:#000; padding:2px 6px; border-radius:3px; font-weight:900;">PJ-DIAMAX-001</span>
+            </div>
+            
+            <div id="skills-list-container" style="max-height:220px; overflow-y:auto;">
+              <!-- Renderizado dinámicamente -->
+            </div>
+
+            <!-- Formulario de Agregar Nueva Skill -->
+            <div style="background:#0F172A; border:1px dashed #334155; border-radius:6px; padding:10px; margin-top:10px;">
+              <div style="font-size:11px; color:#FFC72C; font-weight:bold; margin-bottom:6px;">➕ Entrenar Nueva Habilidad Táctica:</div>
+              <input type="text" id="new-skill-title" placeholder="Título (ej: Duelos con 2 Outs)" style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #1E293B; color:#fff; padding:6px 8px; border-radius:4px; font-size:11px; margin-bottom:6px;">
+              <input type="text" id="new-skill-desc" placeholder="Regla o directiva táctica..." style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #1E293B; color:#fff; padding:6px 8px; border-radius:4px; font-size:11px; margin-bottom:6px;">
+              <button onclick="agregarNuevaSkill()" style="width:100%; background:#10B981; color:#000; border:none; padding:6px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;">Guardar en Expediente</button>
+            </div>
+          </div>
+
+          <!-- Memoria Continua de Dugout -->
+          <div style="background:#070D1A; border:1px solid #1E293B; border-radius:10px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h4 style="color:#A78BFA; font-size:13px; font-weight:900; margin:0; text-transform:uppercase;">
+                🧠 Memoria de Decisiones
+              </h4>
+              <button onclick="limpiarMemoriaAgente()" style="background:transparent; border:none; color:#EF4444; font-size:10.5px; cursor:pointer; text-decoration:underline;">Reset</button>
+            </div>
+            <div id="agent-memory-display" style="font-size:11px; color:#94A3B8; max-height:120px; overflow-y:auto; line-height:1.5;">
+              No hay decisiones registradas en este encuentro aún.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   </div>
 
@@ -6637,6 +6765,192 @@ DIAMAX PRO Baseball Engine v2.0
   window.open(`mailto:delegado.liga.master55@gmail.com?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`, '_blank');
 }
 
+
+// ==============================================================
+// 🤖 FUNCIONES DE LA CONSOLA DEL AGENTE SABERMÉTRICO AUTÓNOMO
+// ==============================================================
+
+let agentActiveMode = 'DUGOUT';
+
+function cambiarModoAgente(mode) {
+  agentActiveMode = mode;
+  const badge = document.getElementById('agent-live-status-badge');
+  if (badge) {
+    badge.innerText = '🟢 ONLINE · MODO ' + mode;
+  }
+}
+
+function limpiarChatAgente() {
+  const container = document.getElementById('agent-chat-messages');
+  if (container) {
+    container.innerHTML = '<div style="background:#0F172A; border-left:4px solid #00D2FF; border-radius:8px; padding:12px 14px; font-size:12.5px; color:#EAEEF5; line-height:1.6;">' +
+      '<strong style="color:#00D2FF; font-size:12px;">🤖 DIAMAX AGENT:</strong>' +
+      '<p style="margin:4px 0 0 0;">Historial reiniciado. Estoy listo para tus preguntas tácticas en tiempo real.</p>' +
+      '</div>';
+  }
+}
+
+function enviarPreguntaRapidaAgente(pregunta) {
+  const input = document.getElementById('agent-user-input');
+  if (input) {
+    input.value = pregunta;
+    ejecutarConsultaAgenteConsola();
+  }
+}
+
+async function ejecutarConsultaAgenteConsola() {
+  const input = document.getElementById('agent-user-input');
+  const chatContainer = document.getElementById('agent-chat-messages');
+  if (!input || !chatContainer) return;
+
+  const userQuery = input.value.trim();
+  if (!userQuery) return;
+
+  // 1. Agregar Burbuja del Usuario (Mánager)
+  const userBubble = document.createElement('div');
+  userBubble.style.cssText = 'background:#1E293B; border-right:4px solid #FFC72C; border-radius:8px; padding:10px 14px; font-size:12.5px; color:#FFF; margin-left:30px; align-self:flex-end; box-shadow:0 2px 6px rgba(0,0,0,0.3);';
+  userBubble.innerHTML = '<div style="display:flex; justify-content:space-between; margin-bottom:3px;">' +
+    '<strong style="color:#FFC72C; font-size:11.5px;">👑 Lic. Alí Zapata (Mánager):</strong>' +
+    '<span style="font-size:10px; color:#94A3B8;">' + new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}) + '</span>' +
+    '</div>' +
+    '<div>' + userQuery + '</div>';
+  chatContainer.appendChild(userBubble);
+  input.value = '';
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  // 2. Burbuja de Carga del Agente
+  const loadingBubble = document.createElement('div');
+  loadingBubble.style.cssText = 'background:#0F172A; border-left:4px solid #00D2FF; border-radius:8px; padding:10px 14px; font-size:12px; color:#00D2FF; margin-right:30px;';
+  loadingBubble.innerHTML = '🤖 <em>DIAMAX Agent analizando situación con RAG sabermétrico y memoria de dugout...</em>';
+  chatContainer.appendChild(loadingBubble);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  // 3. Procesar Consulta mediante el Motor Híbrido (Groq LLM o RAG Determinístico)
+  const current = typeof getLiveCurrentBatter === 'function' ? getLiveCurrentBatter() : { player: { num: 1, name: "Bateador", bats: "R" }, pos: "DH" };
+  const g = typeof getActiveGame === 'function' ? getActiveGame() : { rival: "DAYTONA BEACH" };
+  const rivalsList = typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : [];
+  const rivalObj = rivalsList.find(function(r) { return r.name.toUpperCase() === (g.rival||"").toUpperCase() || r.id === activeRivalId; }) || rivalsList[0] || { name: "DAYTONA BEACH", abbr: "DAY", pitcherAs: "Carlos Morales", dangerBatter: "4to Bate" };
+  const isLocal = g.isHomeClub !== undefined ? g.isHomeClub : true;
+  const isGuerrerosBatting = isLocal ? (liveState.half === "bot") : (liveState.half === "top");
+
+  const contextData = {
+    isLocal: isLocal,
+    isGuerrerosBatting: isGuerrerosBatting,
+    rolActivo: isGuerrerosBatting ? "OFENSIVA (Guerreros al Bate)" : "DEFENSIVA (Guerreros al Campo)",
+    current: current,
+    rivalObj: rivalObj,
+    liveState: liveState,
+    currentGame: g,
+    teamName: teamName
+  };
+
+  const key = ((document.getElementById('diamax-ia-key') && document.getElementById('diamax-ia-key').value) || localStorage.getItem('diamax_groq_key') || '').trim();
+  let agentResponseText = "";
+
+  if (key && key.startsWith('gsk_')) {
+    try {
+      const topChunks = DIAMAX_RAG_ENGINE.retrieve(userQuery, 3);
+      const ragDocsContext = topChunks.map(function(item) {
+        return "[RAG: " + item.doc.id + " - " + item.doc.titulo + "]: " + item.doc.texto;
+      }).join("\n\n");
+      const recentMem = DIAMAX_TACTICAL_MEMORY.getRecentContextText();
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(function() { controller.abort(); }, 2800);
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        signal: controller.signal,
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: "Eres DIAMAX Tactical Agent v2.5, el Agente Sabermétrico Oficial de Guerreros de Venezuela (+55). Mánager: Lic. Alí Zapata Mendoza. Modo activo: " + agentActiveMode + ". Responde con alta precisión táctica, citando métricas sabermétricas (WPA, RE24, OBP, fatiga 75 pitcheos) y fundamentos RAG."
+            },
+            {
+              role: "user",
+              content: "SITUACION EN VIVO:\n" +
+                "- Inning " + liveState.inning + " (" + (liveState.half==="top"?"Alta":"Baja") + "), Marcador: GVE " + liveState.scoreUs + " - " + rivalObj.name + " " + liveState.scoreThem + ", Outs: " + liveState.outs + "\n" +
+                "- Corredores: 1B=" + (liveState.bases.b1?"SI":"NO") + ", 2B=" + (liveState.bases.b2?"SI":"NO") + ", 3B=" + (liveState.bases.b3?"SI":"NO") + "\n" +
+                "- Bateador: #" + current.player.num + " " + current.player.name + " (" + current.player.bats + ")\n" +
+                "- Rival: " + rivalObj.name + " (Pitcher As: " + rivalObj.pitcherAs + ")\n\n" +
+                "MEMORIA:\n" + recentMem + "\n\n" +
+                "RAG:\n" + ragDocsContext + "\n\n" +
+                "PREGUNTA DEL MANAGER: " + userQuery
+            }
+          ],
+          temperature: 0.2,
+          max_tokens: 380
+        })
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          agentResponseText = data.choices[0].message.content;
+        }
+      }
+    } catch(e) {
+      console.warn("Groq agent fallback:", e);
+    }
+  }
+
+  // Fallback Sabermétrico determinista si no hubo respuesta de Groq
+  if (!agentResponseText) {
+    agentResponseText = generarRespuestaTacticoNativo(userQuery, contextData);
+  }
+
+  // Quitar loading bubble
+  if (loadingBubble.parentNode) loadingBubble.parentNode.removeChild(loadingBubble);
+
+  // 4. Renderizar Respuesta Oficial del Agente
+  const agentBubble = document.createElement('div');
+  agentBubble.style.cssText = 'background:#0F172A; border-left:4px solid #10B981; border-radius:8px; padding:12px 14px; font-size:12.5px; color:#EAEEF5; margin-right:20px; line-height:1.6; box-shadow:0 2px 8px rgba(0,0,0,0.4);';
+  agentBubble.innerHTML = '<div style="display:flex; justify-content:space-between; margin-bottom:4px;">' +
+    '<strong style="color:#10B981; font-size:12px;">🤖 DIAMAX AGENT [' + agentActiveMode + ']:</strong>' +
+    '<span style="font-size:10px; color:#94A3B8;">' + new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}) + '</span>' +
+    '</div>' +
+    '<div>' + agentResponseText.split(String.fromCharCode(10)).join('<br>') + '</div>';
+  chatContainer.appendChild(agentBubble);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  // 5. Registrar en memoria y actualizar UI de memoria
+  DIAMAX_TACTICAL_MEMORY.addEntry({
+    query: userQuery,
+    response: agentResponseText,
+    inning: liveState.inning,
+    half: liveState.half,
+    scoreUs: liveState.scoreUs,
+    scoreThem: liveState.scoreThem,
+    batter: "#" + current.player.num + " " + current.player.name,
+    rival: rivalObj.name
+  });
+  actualizarUIMemoriaAgente();
+}
+
+function actualizarUIMemoriaAgente() {
+  const display = document.getElementById('agent-memory-display');
+  if (!display) return;
+  const entries = DIAMAX_TACTICAL_MEMORY.entries || [];
+  if (entries.length === 0) {
+    display.innerHTML = '<em>No hay decisiones registradas en este encuentro aún.</em>';
+    return;
+  }
+  display.innerHTML = entries.slice(-4).reverse().map(function(e) {
+    const qText = e.query.length > 35 ? (e.query.substring(0,35) + '...') : e.query;
+    return '<div style="border-bottom:1px solid #1E293B; padding-bottom:4px; margin-bottom:4px;">' +
+      '<strong style="color:#FFC72C;">Q:</strong> "' + qText + '" <span style="color:#64748B;">(Inn ' + e.inning + ')</span>' +
+      '</div>';
+  }).join('');
+}
+
+function limpiarMemoriaAgente() {
+  DIAMAX_TACTICAL_MEMORY.entries = [];
+  actualizarUIMemoriaAgente();
+}
+
 function switchTab(rawTabId) {
   const aliases = {
     'tarjeta': 'tarjeta-oficial',
@@ -6698,6 +7012,7 @@ function switchTab(rawTabId) {
       }, 100);
     }
   } else if (tabId === 'skills') {
+    if (typeof actualizarUIMemoriaAgente === 'function') actualizarUIMemoriaAgente();
     if (typeof renderSkillsList === 'function') renderSkillsList();
   } else if (tabId === 'perfil') {
     if (typeof renderAll === 'function') renderAll();
@@ -6795,7 +7110,7 @@ function enviarReporteEmail(tipo) {
     return { name: p.name, num: p.num, pos: p.defaultPos, vb: live.vb, ca: live.ca||0, h, hr: live.hr||0, ci: live.ci||0, ave };
   }).filter(p => p.vb > 0 || p.h > 0 || p.ci > 0 || p.ca > 0);
 
-  let rosterSummary = stats.map(p => `  • #${p.num} ${p.name} (${p.pos}): ${p.vb} VB, ${p.ca} C, ${p.h} H, ${p.hr} HR, ${p.ci} CI | AVE: ${p.ave}`).join('\n');
+  let rosterSummary = stats.map(p => `  • #${p.num} ${p.name} (${p.pos}): ${p.vb} VB, ${p.ca} C, ${p.h} H, ${p.hr} HR, ${p.ci} CI | AVE: ${p.ave}`).join(String.fromCharCode(10));
   if (!rosterSummary) rosterSummary = "  • Sin turnos oficiales registrados aún.";
 
   let subj = `⚾ REPORTE OFICIAL DIAMAX PRO: ${teamName} vs ${g.rival} (${fecha}) [${status}]`;
