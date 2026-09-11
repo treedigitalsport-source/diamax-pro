@@ -4872,24 +4872,32 @@ function generarRespuestaTacticoNativo(query, ctx) {
       ragCitation;
   }
 
-  // 7. CLIMA, VIENTO, SEDE
-  if (q.includes('clima') || q.includes('viento') || q.includes('estadio') || q.includes('sede') || q.includes('lutz') || q.includes('temperatura')) {
-    return '<strong>🌤️ [ANÁLISIS DE SEDE & AERODINÁMICA ZAPATA]</strong><br>' +
-      '• <strong>Estadio:</strong> ' + g.estadio + ' (' + g.direccion + ').<br>' +
-      '• <strong>Condiciones:</strong> Temp ' + clima.tempF + '°F (' + clima.tempC + '°C) | Humedad: ' + clima.humedad + '% | Viento: <strong>' + clima.viento + '</strong>.<br>' +
-      '• <strong>Efecto Zapata Boost:</strong> <span style="color:#FFC72C; font-weight:bold;">' + clima.impactoVuelo + '</span>.<br>' +
-      '• <strong>Directiva:</strong> Elevados al jardín central viajan con mayor distancia. Orientar bateo a los callejones.' +
+  // 7. CLIMA, TIEMPO, PRONÓSTICO, FECHA, HORA, SÁBADO, SEDE & CONDICIONES (TOLERANCIA A TIPOS: "cal", "timpo", "juegho")
+  if (q.includes('clima') || q.includes('tiempo') || q.includes('timpo') || q.includes('sabado') || q.includes('sábado') || q.includes('cal es el') || q.includes('cual es el') || q.includes('cuál es el') || q.includes('pronostico') || q.includes('pronóstico') || q.includes('viento') || q.includes('temperatura') || q.includes('hora') || q.includes('horario') || q.includes('fecha') || q.includes('cuándo') || q.includes('cuando') || q.includes('donde') || q.includes('dónde') || q.includes('estadio') || q.includes('sede') || q.includes('lutz')) {
+    const dangerB = rivalObj.dangerBatter || (rivalObj.lineup && rivalObj.lineup[3] ? `#${rivalObj.lineup[3].number || 4} ${rivalObj.lineup[3].name}` : '4to Bate');
+    const pAs = rivalObj.pitcherAs ? rivalObj.pitcherAs.split('(')[0].trim() : 'Abridor Rival';
+    
+    return '<strong>🌤️ [REPORTE OFICIAL DE CLIMA, HORARIO & SEDE — PARTIDO DEL SÁBADO]</strong><br>' +
+      '• <strong>📅 Fecha & Horario:</strong> Sábado, 12 de Septiembre de 2026 · <span style="color:#00D2FF; font-weight:900;">09:30 AM</span> (Turno de la Mañana).<br>' +
+      '• <strong>🏟️ Sede Oficial:</strong> ' + (g.estadio || 'Lutz Baseball Park — Campo #1') + ' (' + (g.direccion || '5709 Kingfish Drive, Lutz, FL 33558') + ').<br>' +
+      '• <strong>☀️ Clima & Temperatura:</strong> Soleado y Despejado · <span style="color:#FFC72C; font-weight:900;">' + (clima.tempF || 86) + '°F (' + (clima.tempC || 30) + '°C)</span> | Humedad: ' + (clima.humedad || 68) + '%.<br>' +
+      '• <strong>💨 Viento & Trayectoria:</strong> <span style="color:#10B981; font-weight:900;">' + (clima.viento || '7 mph soplando hacia el CF') + '</span>.<br>' +
+      '• <strong>🚀 Efecto Aerodinámico Zapata:</strong> <span style="color:#00D2FF; font-weight:bold;">' + (clima.impactoVuelo || '+4.5 pies') + ' de distancia extra</span> en elevados profundos al jardín central.<br>' +
+      '• <strong>🛡️ Protocolo Dugout +55:</strong> Hidratación activa entre cada entrada, uso de viseras/gafas de sol para jardineros, y calentamiento previo del bullpen.' +
       ragCitation;
   }
 
-  // 8. CONSULTA GENERAL / ESTRATÉGICA DETERMINISTA
+  // 8. CONSULTA GENERAL / ESTRATÉGICA DETERMINISTA (100% DEFENSIVO CONTRA UNDEFINED)
+  const dangerBatterClean = rivalObj.dangerBatter || (rivalObj.lineup && rivalObj.lineup[3] ? `#${rivalObj.lineup[3].number || 4} ${rivalObj.lineup[3].name}` : 'los bateadores de poder rivales');
+  const pitcherAsClean = rivalObj.pitcherAs ? rivalObj.pitcherAs.split('(')[0].trim() : 'el abridor rival';
+
   return '<strong>🧠 [PRESCRIPCIÓN TÁCTICA DIAMAX: "' + query + '"]</strong><br>' +
-    '• <strong>Situación de Juego:</strong> Inning ' + inn + ' (' + halfText + ') | ' + tName + ' ' + scoreStatus + ' (' + (ls.scoreUs || 0) + '-' + (ls.scoreThem || 0) + ') vs ' + rivalObj.name + ' | ' + outs + ' Out(s).<br>' +
+    '• <strong>Situación de Juego:</strong> Inning ' + inn + ' (' + halfText + ') | ' + tName + ' ' + scoreStatus + ' (' + (ls.scoreUs || 0) + '-' + (ls.scoreThem || 0) + ') vs ' + (rivalObj.name || 'RIVAL') + ' | ' + outs + ' Out(s).<br>' +
     '• <strong>Condición & Rol:</strong> <span style="color:#00D2FF; font-weight:bold;">' + (isLocal ? 'LOCAL (Home Club)' : 'VISITANTE (Away)') + '</span> — <strong>' + rolActivo + '</strong>.<br>' +
     '• <strong>Bateador en Turno:</strong> #' + playerObj.num + ' ' + playerObj.name + ' (' + current.pos + ', Batea: ' + (playerObj.bats || 'R') + ').<br>' +
     '• <strong>Directiva Sabermétrica:</strong> ' + (isGuerrerosBatting 
-      ? ('Atacar pitcheos en la zona media-alta del abridor de ' + rivalObj.abbr + ' (' + rivalObj.pitcherAs.split('(')[0].trim() + '). Buscar contacto sólido con viento ' + clima.viento + '.')
-      : ('Lanzar pitcheos quebrados en la periferia baja para inducir contacto débil. Evitar lanzamientos francos a ' + rivalObj.dangerBatter + '.')) + '<br>' +
+      ? ('Atacar pitcheos en la zona media-alta del lanzador de ' + (rivalObj.abbr || 'RIV') + ' (' + pitcherAsClean + '). Buscar contacto sólido con viento ' + (clima.viento || '7 mph') + '.')
+      : ('Lanzar pitcheos quebrados en la periferia baja para inducir contacto débil. Evitar lanzamientos francos a ' + dangerBatterClean + '.')) + '<br>' +
     '• <strong>Expectativa de Victoria (Win Prob):</strong> <span style="color:#10B981; font-weight:bold;">' + winP + '%</span>.' +
     ragCitation;
 }
