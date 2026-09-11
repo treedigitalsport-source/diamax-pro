@@ -1514,7 +1514,7 @@ body.daylight-mode .btn-keypad:hover {
       <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn"> ESPAÑOL</button>
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
-
+      <button onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900;" title="Refrescar y limpiar base de datos a cero para el partido">🔄 Refrescar BD</button>
       <button onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA">⚙️ Configuración</button>
     </div>
   </div>
@@ -5792,6 +5792,16 @@ function enviarReporteEmail(tipo) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  try {
+    const dbVer = localStorage.getItem('diamax_db_calibrated_v55_sat_v2');
+    if (!dbVer) {
+      localStorage.setItem('diamax_db_calibrated_v55_sat_v2', '2026.09.11.2');
+      if (typeof resetearBaseDeDatos === 'function') {
+        resetearBaseDeDatos(true);
+      }
+    }
+  } catch(e) {}
+
   try {
     const savedKey = localStorage.getItem('diamax_groq_key') || localStorage.getItem('gv_groq_key');
     if (savedKey && document.getElementById('diamax-ia-key')) document.getElementById('diamax-ia-key').value = savedKey;
