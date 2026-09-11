@@ -6412,9 +6412,55 @@ function saveIAKey() {
 }
 
 function enviarReporteEmail(tipo) {
-  const g = getActiveGame(), fecha = new Date().toLocaleDateString('es-ES');
-  let subj = `OFFICIAL: Lineup Card ${teamName} vs ${g.rival} (${fecha})`;
-  let body = `${teamName}\nLocation: ${teamAddress}\nScore: ${liveState.scoreUs} - ${liveState.scoreThem} vs ${g.rival}\nInning: ${liveState.inning}\nDIAMAX Sports Platform\n`;
+  const g = getActiveGame();
+  const fecha = g.fecha || new Date().toLocaleDateString('es-ES');
+  const hora = g.horaInicio ? ` (Inicio: ${formatTime12h(g.horaInicio)})` : '';
+  const isHome = g.isHomeClub !== false;
+  const status = g.estado === "Finalizado" ? "FINALIZADO" : "EN VIVO / EN JUEGO";
+  
+  const stats = MASTER_ROSTER.map(p => {
+    const live = liveState.currentLiveBox[p.id] || { vb:0, ca:0, h1:0, h2:0, h3:0, hr:0, ci:0, bb:0 };
+    const h = (live.h1||0) + (live.h2||0) + (live.h3||0) + (live.hr||0);
+    const ave = live.vb > 0 ? (h / live.vb).toFixed(3) : ".000";
+    return { name: p.name, num: p.num, pos: p.defaultPos, vb: live.vb, ca: live.ca||0, h, hr: live.hr||0, ci: live.ci||0, ave };
+  }).filter(p => p.vb > 0 || p.h > 0 || p.ci > 0 || p.ca > 0);
+
+  let rosterSummary = stats.map(p => `  • #${p.num} ${p.name} (${p.pos}): ${p.vb} VB, ${p.ca} C, ${p.h} H, ${p.hr} HR, ${p.ci} CI | AVE: ${p.ave}`).join('\n');
+  if (!rosterSummary) rosterSummary = "  • Sin turnos oficiales registrados aún.";
+
+  let subj = `⚾ REPORTE OFICIAL DIAMAX PRO: ${teamName} vs ${g.rival} (${fecha}) [${status}]`;
+  let body = `======================================================
+🏆 DIAMAX PRO ENGINE - REPORTE OFICIAL DE PARTIDO
+======================================================
+📅 Fecha: ${fecha}${hora}
+🏟️ Sede / Estadio: ${g.estadio || 'Lutz Baseball Park'} (${g.direccion || 'Lutz, FL'})
+⚔️ Encuentro: ${teamName} (${isHome ? 'HOME CLUB' : 'VISITANTE'}) vs ${g.rival} (${!isHome ? 'HOME CLUB' : 'VISITANTE'})
+📊 Estado: ${status} (Inning ${liveState.inning} ${liveState.half === 'top' ? 'Alta ▲' : 'Baja ▼'})
+
+------------------------------------------------------
+MARCADOR DEL ENCUENTRO:
+------------------------------------------------------
+  • ${teamName}: ${liveState.scoreUs} Carreras
+  • ${g.rival}: ${liveState.scoreThem} Carreras
+
+------------------------------------------------------
+RESUMEN INDIVIDUAL DESTACADO (GUERREROS +55):
+------------------------------------------------------
+${rosterSummary}
+
+------------------------------------------------------
+⚾ MONITOREO DE LANZAMIENTOS & BULLPEN:
+------------------------------------------------------
+  • Lanzador Activo: #${activePitcherStats.number || '23'} ${activePitcherStats.name || 'Pedro Chavez'} (${activePitcherStats.arm || 'RHP'})
+  • Total Pitches: ${activePitcherStats.totalPitches || 0} (Strikes: ${activePitcherStats.strikes || 0} / Bolas: ${activePitcherStats.balls || 0})
+  • Límite +55: 75 Pitches reglamentarios
+
+------------------------------------------------------
+DIAMAX Sports Platform · 3Tree Digital Sport IA
+Lutz, Florida, USA · Aplicación Oficial Certificada
+Enlace de Auditoría en Vivo: https://diamax-pro.vercel.app/#dashboard
+======================================================`;
+
   window.open(`mailto:delegado.liga.master55@gmail.com?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`, '_blank');
 }
 
@@ -6437,6 +6483,14 @@ window.addEventListener('DOMContentLoaded', () => {
   initSecurityPortal();
   initFirebaseFromStorage();
   renderAll();
+
+  // Hash routing automático para enlaces directos
+  if (window.location.hash) {
+    const rawHash = window.location.hash.replace('#', '');
+    setTimeout(() => {
+      switchTab(rawHash);
+    }, 60);
+  }
 });
 
 
