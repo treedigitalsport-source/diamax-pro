@@ -3886,62 +3886,89 @@ function registrarJugadaLive(action) {
 
   if (!liveState.currentLiveBox) liveState.currentLiveBox = {};
   if (!liveState.currentRivalBox) liveState.currentRivalBox = {};
+  if (!liveState.currentPitchingBox) liveState.currentPitchingBox = { outsPitcher: 0, h: 0, r: 0, er: 0, bb: 0, k: 0, hr: 0, wp: 0 };
+  if (!liveState.bases) liveState.bases = { b1: false, b2: false, b3: false };
 
   const targetBox = isGVE ? liveState.currentLiveBox : liveState.currentRivalBox;
   if (!targetBox[pId]) targetBox[pId] = { playerId: pId, name: pName, vb: 0, ca: 0, h1: 0, h2: 0, h3: 0, hr: 0, ci: 0, bb: 0, k: 0, sf: 0, sb: 0, cs: 0 };
   const bBox = targetBox[pId];
   let logText = "";
 
+  // 1. BATAZOS DE HIT & JONRÓN (1B, 2B, 3B, HR)
   if (action === "1B" || action === "2B" || action === "3B" || action === "HR") {
     bBox.vb++;
-    liveState.currentPitchingBox.h++;
+    liveState.currentPitchingBox.h = (liveState.currentPitchingBox.h || 0) + 1;
+
     if (action === "1B") {
-      bBox.h1++;
+      bBox.h1 = (bBox.h1 || 0) + 1;
       let r = liveState.bases.b3 ? 1 : 0;
-      if (r) { if (isGVE) if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r; else liveState.scoreThem += r; }
-      liveState.bases.b3 = liveState.bases.b2;
-      liveState.bases.b2 = liveState.bases.b1;
+      if (r > 0) {
+        if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
+        else liveState.scoreThem = (liveState.scoreThem || 0) + r;
+      }
+      liveState.bases.b3 = !!liveState.bases.b2;
+      liveState.bases.b2 = !!liveState.bases.b1;
       liveState.bases.b1 = true;
-      bBox.ci += r;
-      logText = ` Sencillo (1B) de ${pName}. ${r ? '¡Anota carrera!' : 'Corredor en 1B.'}`;
+      bBox.ci = (bBox.ci || 0) + r;
+      logText = `⚡ Sencillo (1B) de ${pName}. ${r > 0 ? '¡Anota carrera! (+1 CI)' : 'Corredor en 1B.'}`;
+
     } else if (action === "2B") {
-      bBox.h2++;
-      let r = (liveState.bases.b3?1:0) + (liveState.bases.b2?1:0);
-      if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r;
-      liveState.bases.b3 = liveState.bases.b1;
+      bBox.h2 = (bBox.h2 || 0) + 1;
+      let r = (liveState.bases.b3 ? 1 : 0) + (liveState.bases.b2 ? 1 : 0);
+      if (r > 0) {
+        if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
+        else liveState.scoreThem = (liveState.scoreThem || 0) + r;
+      }
+      liveState.bases.b3 = !!liveState.bases.b1;
       liveState.bases.b2 = true;
       liveState.bases.b1 = false;
-      bBox.ci += r;
-      logText = ` ¡Doblete (2B) de ${pName}! ${r>0 ? `(+${r} Carrera)` : 'Corredor en 2B.'}`;
+      bBox.ci = (bBox.ci || 0) + r;
+      logText = `🔥 ¡Doblete (2B) de ${pName}! ${r > 0 ? `(+${r} Carrera${r > 1 ? 's' : ''} / +${r} CI)` : 'Corredor en 2B.'}`;
+
     } else if (action === "3B") {
-      bBox.h3++;
-      let r = (liveState.bases.b3?1:0) + (liveState.bases.b2?1:0) + (liveState.bases.b1?1:0);
-      if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r;
-      liveState.bases = { b1:false, b2:false, b3:true };
-      bBox.ci += r;
-      logText = ` ¡Triplete (3B) de ${pName}! (+${r} Carreras)`;
-    } else {
-      bBox.hr++;
-      bBox.ca++;
-      let r = 1 + (liveState.bases.b3?1:0) + (liveState.bases.b2?1:0) + (liveState.bases.b1?1:0);
-      if (isGVE) liveState.scoreUs += r; else liveState.scoreThem += r;
-      liveState.bases = { b1:false, b2:false, b3:false };
-      logText = ` ¡JONRÓN DE ${pName}! (+${r} Carreras)`;
+      bBox.h3 = (bBox.h3 || 0) + 1;
+      let r = (liveState.bases.b3 ? 1 : 0) + (liveState.bases.b2 ? 1 : 0) + (liveState.bases.b1 ? 1 : 0);
+      if (r > 0) {
+        if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
+        else liveState.scoreThem = (liveState.scoreThem || 0) + r;
+      }
+      liveState.bases = { b1: false, b2: false, b3: true };
+      bBox.ci = (bBox.ci || 0) + r;
+      logText = `🚀 ¡Triplete (3B) de ${pName}! ${r > 0 ? `(+${r} Carrera${r > 1 ? 's' : ''} / +${r} CI)` : 'Corredor en 3B.'}`;
+
+    } else if (action === "HR") {
+      bBox.hr = (bBox.hr || 0) + 1;
+      bBox.ca = (bBox.ca || 0) + 1;
+      let r = 1 + (liveState.bases.b3 ? 1 : 0) + (liveState.bases.b2 ? 1 : 0) + (liveState.bases.b1 ? 1 : 0);
+      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
+      else liveState.scoreThem = (liveState.scoreThem || 0) + r;
+      bBox.ci = (bBox.ci || 0) + r;
+      liveState.currentPitchingBox.hr = (liveState.currentPitchingBox.hr || 0) + 1;
+      liveState.bases = { b1: false, b2: false, b3: false };
+      logText = r === 4 
+        ? `👑 ¡GRAND SLAM DE ${pName}! (+4 Carreras / +4 CI)` 
+        : `🏆 ¡JONRÓN DE ${pName}! (+${r} Carrera${r > 1 ? 's' : ''} / +${r} CI)`;
     }
+
+  // 2. ELEVADOS AL INFIELD (FLY 1 AL 6)
   } else if (action.startsWith("Fly ") && parseInt(action.split(" ")[1]) <= 6) {
     const num = parseInt(action.split(" ")[1]), pMap = { 1:"P", 2:"C", 3:"1B", 4:"2B", 5:"3B", 6:"SS" };
     bBox.vb++;
     liveState.outs++;
     liveState.currentPitchingBox.outsPitcher++;
     addDefenseStat(pMap[num], "po");
-    logText = ` [${action}]: Elevado al Infield atrapado por ${pMap[num]}. Out ${liveState.outs}`;
+    logText = `⚾ [${action}]: Elevado al Infield atrapado por ${pMap[num]}. Out ${liveState.outs}`;
+
+  // 3. ELEVADOS AL OUTFIELD (FLY 7, 8, 9)
   } else if (action === "Fly 7" || action === "Fly 8" || action === "Fly 9") {
     const ofMap = { "Fly 7":"LF", "Fly 8":"CF", "Fly 9":"RF" };
     bBox.vb++;
     liveState.outs++;
     liveState.currentPitchingBox.outsPitcher++;
     addDefenseStat(ofMap[action], "po");
-    logText = ` [${action}]: Elevado al Outfield capturado por ${ofMap[action]}. Out ${liveState.outs}`;
+    logText = `⚾ [${action}]: Elevado al Outfield capturado por ${ofMap[action]}. Out ${liveState.outs}`;
+
+  // 4. DOBLE PLAYS POR EL AIRE / CORREDORES
   } else if (action.includes("/") && action.includes("DP")) {
     const parts = action.split(" ")[0].split("/");
     const ofMap = { "7":"LF", "8":"CF", "9":"RF" }, infMap = { "1":"P", "2":"C", "3":"1B", "4":"2B", "5":"3B", "6":"SS" };
@@ -3954,7 +3981,9 @@ function registrarJugadaLive(action) {
     if (parts[1] === "2" || parts[1] === "5") liveState.bases.b3 = false;
     else if (parts[1] === "4" || parts[1] === "6") liveState.bases.b2 = false;
     else if (parts[1] === "3") liveState.bases.b1 = false;
-    logText = ` Doble Play [${action}] (2 Outs)`;
+    logText = `🛡️ Doble Play [${action}] (2 Outs)`;
+
+  // 5. ROLATAS DE OUT (6-3, 4-3, 5-3, 1-3)
   } else if (GROUNDOUT_MAP[action]) {
     bBox.vb++;
     liveState.outs++;
@@ -3962,7 +3991,9 @@ function registrarJugadaLive(action) {
     const m = GROUNDOUT_MAP[action];
     if (m.a) addDefenseStat(m.a, "a");
     addDefenseStat(m.po, "po");
-    logText = ` Rolata [${action}]: Out en 1B. Out ${liveState.outs}`;
+    logText = `⚾ Rolata [${action}]: Out en 1B. Out ${liveState.outs}`;
+
+  // 6. DOBLE PLAYS POR EL SUELO (6-4-3 DP, 4-6-3 DP)
   } else if (DP_GROUND_MAP[action]) {
     bBox.vb++;
     liveState.outs += 2;
@@ -3972,26 +4003,31 @@ function registrarJugadaLive(action) {
       if (step.a) addDefenseStat(step.a, "a");
       if (step.po) addDefenseStat(step.po, "po");
     });
-    logText = ` Doble Play por el Suelo [${action}] (2 Outs)`;
+    logText = `🛡️ Doble Play por el Suelo [${action}] (2 Outs)`;
+
+  // 7. FLY DE SACRIFICIO (SF)
   } else if (action === "SF") {
     if (liveState.bases.b3 && liveState.outs < 2) {
-      liveState.scoreUs++;
-      bBox.ci++;
-      bBox.sf++;
+      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + 1;
+      else liveState.scoreThem = (liveState.scoreThem || 0) + 1;
+      bBox.ci = (bBox.ci || 0) + 1;
+      bBox.sf = (bBox.sf || 0) + 1;
       liveState.bases.b3 = false;
       liveState.outs++;
       liveState.currentPitchingBox.outsPitcher++;
       addDefenseStat("CF", "po");
-      logText = ` [Fly de Sacrificio]: Anota carrera de 3B (+1 CI)`;
+      logText = `🎯 [Fly de Sacrificio]: Anota carrera desde 3B (+1 CI). Out ${liveState.outs}`;
     } else {
       bBox.vb++;
       liveState.outs++;
       liveState.currentPitchingBox.outsPitcher++;
       addDefenseStat("CF", "po");
-      logText = `Elevado al outfield (Out ${liveState.outs})`;
+      logText = `⚾ Elevado al outfield (Out ${liveState.outs})`;
     }
+
+  // 8. ROBO DE BASE (SB)
   } else if (action === "SB") {
-    bBox.sb++;
+    bBox.sb = (bBox.sb || 0) + 1;
     if (liveState.bases.b2 && !liveState.bases.b3) {
       liveState.bases.b3 = true;
       liveState.bases.b2 = false;
@@ -3999,51 +4035,70 @@ function registrarJugadaLive(action) {
       liveState.bases.b2 = true;
       liveState.bases.b1 = false;
     }
-    logText = ` [Base Robada]: Corredor avanza a la siguiente base`;
+    logText = `🏃 [Base Robada]: Corredor avanza a la siguiente base con éxito`;
+
+  // 9. OUT ROBANDO BASE (CS)
   } else if (action === "CS") {
-    bBox.cs++;
+    bBox.cs = (bBox.cs || 0) + 1;
     liveState.outs++;
     liveState.currentPitchingBox.outsPitcher++;
     addDefenseStat("C", "a");
     addDefenseStat("2B", "po");
     if (liveState.bases.b2) liveState.bases.b2 = false;
     else if (liveState.bases.b1) liveState.bases.b1 = false;
-    logText = ` [Caught Stealing]: Out robando base (Out ${liveState.outs})`;
+    logText = `🚫 [Caught Stealing]: Out robando base (Out ${liveState.outs})`;
+
+  // 10. WILD PITCH (WP)
   } else if (action === "WP") {
-    liveState.currentPitchingBox.wp++;
-    if (liveState.bases.b3) { liveState.scoreUs++; liveState.bases.b3 = false; }
+    liveState.currentPitchingBox.wp = (liveState.currentPitchingBox.wp || 0) + 1;
+    let scored = false;
+    if (liveState.bases.b3) {
+      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + 1;
+      else liveState.scoreThem = (liveState.scoreThem || 0) + 1;
+      liveState.bases.b3 = false;
+      scored = true;
+    }
     if (liveState.bases.b2) { liveState.bases.b3 = true; liveState.bases.b2 = false; }
     if (liveState.bases.b1) { liveState.bases.b2 = true; liveState.bases.b1 = false; }
-    logText = ` [Wild Pitch]: Lanzamiento desviado, avanzan corredores`;
+    logText = `⚡ [Wild Pitch]: Lanzamiento desviado, avanzan corredores${scored ? ' (¡Anota carrera!)' : ''}`;
+
+  // 11. PONCHE (K)
   } else if (action === "K") {
     bBox.vb++;
-    bBox.k++;
+    bBox.k = (bBox.k || 0) + 1;
     liveState.outs++;
     liveState.currentPitchingBox.outsPitcher++;
-    liveState.currentPitchingBox.k++;
+    liveState.currentPitchingBox.k = (liveState.currentPitchingBox.k || 0) + 1;
     addDefenseStat("C", "po");
-    logText = ` Ponche (K) para ${pName} (Out ${liveState.outs})`;
+    logText = `💨 Ponche (K) para ${pName} (Out ${liveState.outs})`;
+
+  // 12. BOLETO (BB)
   } else if (action === "BB") {
-    bBox.bb++;
-    liveState.currentPitchingBox.bb++;
+    bBox.bb = (bBox.bb || 0) + 1;
+    liveState.currentPitchingBox.bb = (liveState.currentPitchingBox.bb || 0) + 1;
+    let scored = false;
     if (liveState.bases.b1 && liveState.bases.b2 && liveState.bases.b3) {
-      liveState.scoreUs++;
-      bBox.ci++;
+      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + 1;
+      else liveState.scoreThem = (liveState.scoreThem || 0) + 1;
+      bBox.ci = (bBox.ci || 0) + 1;
+      scored = true;
     }
     liveState.bases.b3 = liveState.bases.b2;
     liveState.bases.b2 = liveState.bases.b1;
     liveState.bases.b1 = true;
-    logText = `Boleto (BB) para ${pName}`;
+    logText = `🎟️ Boleto (BB) para ${pName}${scored ? ' (¡Carrera forzada caballito +1 CI!)' : ''}`;
   }
 
+  // GESTIÓN DE FIN DE ENTRADA (3 OUTS)
   if (liveState.outs >= 3) {
     logText += " ➔ Fin del Inning.";
     liveState.outs = 0;
-    liveState.bases = { b1:false, b2:false, b3:false };
+    liveState.bases = { b1: false, b2: false, b3: false };
     liveState.half = liveState.half === 'top' ? 'bot' : 'top';
-    if (liveState.half === 'top') liveState.inning++;
+    if (liveState.half === 'top') liveState.inning = (liveState.inning || 1) + 1;
   }
 
+  // ROTACIÓN PRECISA DEL LINEUP
   if (action !== "SB" && action !== "CS" && action !== "WP") {
     if (isGVE) {
       liveState.batterIndex = (Number(liveState.batterIndex) || 0) + 1;
@@ -4054,9 +4109,12 @@ function registrarJugadaLive(action) {
     }
   }
 
-  setSafeHTML('live-action-banner', ` Última Jugada: <strong>${logText}</strong>`);
+  setSafeHTML('live-action-banner', `Última Jugada: <strong>${logText}</strong>`);
   const logDiv = document.getElementById('play-log');
-  if (logDiv) logDiv.innerHTML = `<div style="font-size:11.5px; background:#131D31; padding:6px 10px; border-radius:6px; border-left:3px solid #00D2FF;">[Inn ${liveState.inning} ${liveState.half==='top'?'▲':'▼'}] ${logText}</div>` + logDiv.innerHTML;
+  if (logDiv) {
+    logDiv.innerHTML = `<div style="font-size:11.5px; background:#131D31; padding:6px 10px; border-radius:6px; border-left:3px solid #00D2FF; margin-bottom:4px;">[Inn ${liveState.inning || 1} ${liveState.half === 'top' ? '▲' : '▼'}] ${logText}</div>` + logDiv.innerHTML;
+  }
+
   initSecurityPortal();
   initFirebaseFromStorage();
   renderAll();
