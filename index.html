@@ -8162,29 +8162,30 @@ function confirmarFinDeJuego() {
 }
 
 function sincronizarTarjetaOficialHeader() {
-  const cardSede = document.getElementById('official-card-sede-field');
-  const cardFecha = document.getElementById('official-card-fecha-field');
-  const cardHoras = document.getElementById('official-card-horas-field');
-  const cardRival = document.getElementById('official-card-rival-field');
-  const cardClima = document.getElementById('official-card-clima-field');
-
   const currentGame = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : ((typeof getActiveGame === 'function') ? getActiveGame() : {
     fecha: '2026-09-08',
     horaInicio: '09:30',
     estadio: 'Lutz Baseball Park - Campo #1',
     direccion: '5709 Kingfish Drive, Lutz, FL 33558',
     rival: 'DAYTONA BEACH',
+    isHomeClub: true,
     condicion: 'HOME',
     clima: { tempF: 86, humedad: 68, viento: '7 mph -> CF' }
   });
 
-  const clima = currentGame.clima || { tempF: 86, humedad: 68, viento: '7 mph -> CF' };
+  const isHome = currentGame.isHomeClub !== false && currentGame.condicion !== 'AWAY';
+  const estadio = currentGame.estadio || 'Lutz Baseball Park - Campo #1';
+  const fecha = currentGame.fecha || '2026-09-08';
+  const rivalName = currentGame.rival || 'RIVAL';
 
-  if (cardSede) cardSede.innerText = `${currentGame.estadio || 'Lutz Baseball Park'} — ${currentGame.direccion || 'Lutz, FL'}`;
-  if (cardFecha) cardFecha.innerText = currentGame.fecha || '2026-09-08';
-  if (cardHoras) cardHoras.innerText = `Inicio: ${currentGame.horaInicio || '09:30'} | Fin: ${currentGame.horaFin || 'En Curso'} | Duración: ${currentGame.duracion || '--'}`;
-  if (cardRival) cardRival.innerText = `${currentGame.rival || 'DAYTONA BEACH'} (${currentGame.condicion || 'HOME'})`;
-  if (cardClima) cardClima.innerText = `${clima.tempF}°F, Humedad: ${clima.humedad}%, Viento: ${clima.viento}`;
+  setSafeText('card-matchup-header', isHome ? `GUERREROS DE VENEZUELA vs. ${rivalName}` : `${rivalName} vs. GUERREROS DE VENEZUELA`);
+  setSafeText('card-header-stadium', estadio);
+  setSafeText('card-header-date', fecha);
+  setSafeText('card-date', fecha);
+  setSafeText('card-gve-condition', isHome ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)');
+
+  if (typeof renderOfficialCard === 'function') renderOfficialCard();
+  if (typeof renderInformeTecnico === 'function') renderInformeTecnico();
 }
 
 setTimeout(() => {
