@@ -1468,15 +1468,15 @@ body.daylight-mode .btn-keypad:hover {
       <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn"> ESPAÑOL</button>
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
-      <button onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900;" title="Refrescar y limpiar base de datos a cero para el partido">🔄 Refrescar BD</button>
-      <button onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA">⚙️ Configuración</button>
+      <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900;" title="Refrescar y limpiar base de datos a cero para el partido">🔄 Refrescar BD</button>
+      <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA">⚙️ Configuración</button>
     </div>
   </div>
 
   <!-- Ribbon de Juego -->
   <div class="game-ribbon" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:linear-gradient(135deg, #091224, #0B132B); border:1px solid #1E293B; border-radius:10px; padding:10px 16px; margin-bottom:12px;">
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; min-width:300px;">
-      <span style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; display:flex; align-items:center; gap:5px;">
+      <span id="lbl-game-selected-ribbon" style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; display:flex; align-items:center; gap:5px;">
         🏟️ PARTIDO SELECCIONADO:
       </span>
       <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="form-control" style="font-weight:bold; font-size:12.5px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF; min-width:280px; max-width:520px;"></select>
@@ -1484,7 +1484,7 @@ body.daylight-mode .btn-keypad:hover {
       <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
       <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
     </div>
-    <button onclick="abrirModalNuevoJuego()" class="btn-new-game" style="background:linear-gradient(135deg, #00D2FF, #0077FF); color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; box-shadow:0 0 15px rgba(0,210,255,0.3);">+ Configurar Partido & Rival</button>
+    <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game" style="background:linear-gradient(135deg, #00D2FF, #0077FF); color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; box-shadow:0 0 15px rgba(0,210,255,0.3);">+ Configurar Partido & Rival</button>
   </div>
 
   <!-- Navegación de Pestañas -->
@@ -1526,7 +1526,8 @@ body.daylight-mode .btn-keypad:hover {
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <span style="font-size:16px;">🧠</span>
-          <strong style="color:#00D2FF; font-size:14px; letter-spacing:0.5px;">DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)</strong>
+          <strong id="ai-engine-title" style="color:#00D2FF; font-size:14px; letter-spacing:0.5px;">DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)</strong>
+          <span id="ai-engine-status" style="display:none;">MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL</span>
           <span id="ai-phase-badge" style="background:#10B981; color:#000; font-size:10.5px; padding:3px 10px; border-radius:12px; font-weight:900;">⚔️ OFENSIVA (BATEANDO)</span>
           <span id="ai-win-prob-badge" style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;">🏆 Win Prob: 56.4%</span>
           <span id="rag-status-badge" style="background:rgba(139,92,246,0.2); color:#C4B5FD; border:1px solid rgba(139,92,246,0.4); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;">📚 RAG Vectorial: Activo (16 Docs)</span>
@@ -1571,19 +1572,22 @@ body.daylight-mode .btn-keypad:hover {
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-size:16px;">⚾</span>
-          <strong style="color:#00D2FF; font-size:13px; text-transform:uppercase;">Monitor de Lanzador & Bullpen</strong>
+          <strong id="lbl-active-pitcher" style="color:#00D2FF; font-size:13px; text-transform:uppercase;">Monitor de Lanzador & Bullpen</strong>
           <span style="background:#1E293B; color:#FFC72C; font-size:11px; padding:2px 8px; border-radius:10px; font-weight:800;" id="pitcher-active-name">#10 Pedro Chavez (RHP)</span>
         </div>
         <div style="font-size:12px; font-weight:900;">
           <span style="color:#94A3B8;">Lanzamientos:</span> <span style="color:#00D2FF; font-size:15px;" id="pitcher-total-count">28</span>
-          <span style="color:#94A3B8; font-size:11px; margin-left:6px;">(S: <strong style="color:#10B981;" id="pitcher-strikes-count">19</strong> / B: <strong style="color:#EF4444;" id="pitcher-balls-count">9</strong> · <span style="color:#FFC72C;" id="pitcher-strike-pct">67.8%</span>)</span>
+          <span style="color:#94A3B8; font-size:11px; margin-left:6px;">(S: <strong style="color:#10B981;" id="pitcher-strikes-count">19</strong> / B: <strong style="color:#EF4444;" id="pitcher-balls-count">9</strong> · <span id="lbl-strikes-pct" style="color:#94A3B8;">Strikes:</span> <span style="color:#FFC72C;" id="pitcher-strike-pct">67.8%</span>)</span>
+          <button id="btn-strike-quick" onclick="registrarPitcheoRapido('4-Seam', true)" style="display:none;">+1 Strike</button>
+          <button id="btn-ball-quick" onclick="registrarPitcheoRapido('Bola', false)" style="display:none;">+1 Bola</button>
+          <button id="btn-reset-count" onclick="reiniciarConteoPitcher()" style="display:none;">Reiniciar Conteo</button>
         </div>
       </div>
 
       <!-- Barra de Fatiga / Regla de Descanso -->
       <div style="margin-bottom:12px;">
         <div style="display:flex; justify-content:space-between; font-size:10.5px; color:#94A3B8; font-weight:700;">
-          <span>ÍNDICE DE FATIGA (+55 LÍMITE: 75 PITCHES)</span>
+          <span id="lbl-fatigue">ÍNDICE DE FATIGA (+55 LÍMITE: 75 PITCHES)</span>
           <span id="pitcher-fatigue-label" style="color:#10B981;">Óptimo (37%)</span>
         </div>
         <div class="fatigue-bar-bg">
@@ -1622,7 +1626,7 @@ body.daylight-mode .btn-keypad:hover {
       <!-- Estado de Relevistas en Bullpen -->
       <div style="background:#070D1A; border:1px solid #1E293B; border-radius:8px; padding:10px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-          <span style="font-size:11px; font-weight:800; color:#FFC72C; text-transform:uppercase;">🔥 Bullpen Activo:</span>
+          <span id="lbl-bullpen" style="font-size:11px; font-weight:800; color:#FFC72C; text-transform:uppercase;">🔥 Bullpen Activo:</span>
           <button onclick="cambiarEstadoBullpenModal()" style="background:transparent; border:none; color:#00D2FF; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;">+ Gestionar Relevo</button>
         </div>
         <div id="bullpen-relievers-container">
@@ -1949,16 +1953,16 @@ body.daylight-mode .btn-keypad:hover {
         <div style="display:flex; align-items:center; gap:12px;">
           <div style="font-size:36px; background:#070D1A; padding:6px 12px; border-radius:10px; border:1px solid #FFC72C;">📖</div>
           <div>
-            <h2 style="color:#FFC72C; font-size:20px; font-weight:900; text-transform:uppercase; margin:0;">
+            <h2 id="manual-main-title" style="color:#FFC72C; font-size:20px; font-weight:900; text-transform:uppercase; margin:0;">
               Manual Oficial de Operación & Protocolos DIAMAX PRO
             </h2>
-            <p style="color:#94A3B8; font-size:12px; margin:3px 0 0 0;">
+            <p id="manual-main-subtitle" style="color:#94A3B8; font-size:12px; margin:3px 0 0 0;">
               Guía técnica para Gerencia, Mánager, Umpires y Anotadores de <strong>Guerreros de Venezuela (+55)</strong>
             </p>
           </div>
         </div>
         <div style="display:flex; gap:8px;">
-          <button class="btn-settings" onclick="window.print()" style="background:#00D2FF; color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          <button id="btn-print-manual" class="btn-settings" onclick="window.print()" style="background:#00D2FF; color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
             🖨️ Imprimir Manual Completo
           </button>
         </div>
@@ -2004,7 +2008,7 @@ body.daylight-mode .btn-keypad:hover {
 
       <!-- SECCIÓN 2: PROTOCOLO PRE-JUEGO (5 PASOS) -->
       <div style="background:#070D1A; border:1px solid #00D2FF; border-radius:10px; padding:16px; margin-bottom:18px;">
-        <h3 style="color:#00D2FF; font-size:14px; font-weight:900; margin:0 0 12px 0; display:flex; align-items:center; gap:6px;">
+        <h3 id="manual-quick-title" style="color:#00D2FF; font-size:14px; font-weight:900; margin:0 0 12px 0; display:flex; align-items:center; gap:6px;">
           <span>🏟️</span> 2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:11.5px;">
@@ -2033,7 +2037,7 @@ body.daylight-mode .btn-keypad:hover {
 
       <!-- SECCIÓN 3: OPERACIÓN EN VIVO (DUGOUT KEYPAD) -->
       <div style="background:#070D1A; border:1px solid #334155; border-radius:10px; padding:16px; margin-bottom:18px;">
-        <h3 style="color:#FFC72C; font-size:14px; font-weight:900; margin:0 0 12px 0; display:flex; align-items:center; gap:6px;">
+        <h3 id="manual-roles-title" style="color:#FFC72C; font-size:14px; font-weight:900; margin:0 0 12px 0; display:flex; align-items:center; gap:6px;">
           <span>⌨️</span> 3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; font-size:11.5px;">
@@ -2054,7 +2058,7 @@ body.daylight-mode .btn-keypad:hover {
 
       <!-- SECCIÓN 4: PROTOCOLO MÉDICO +55 & SEMÁFORO DE FATIGA -->
       <div style="background:#070D1A; border:1px solid #EF4444; border-radius:10px; padding:16px; margin-bottom:18px;">
-        <h3 style="color:#EF4444; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
+        <h3 id="manual-fatigue-title" style="color:#EF4444; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
           <span>🩺</span> 4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; font-size:11.5px;">
@@ -2074,8 +2078,8 @@ body.daylight-mode .btn-keypad:hover {
       </div>
 
       <!-- SECCIÓN 5: REPORTES, TARJETA OFICIAL E INFORME TÉCNICO -->
-      <div style="background:#070D1A; border:1px solid #A78BFA; border-radius:10px; padding:16px;">
-        <h3 style="color:#A78BFA; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
+      <div style="background:#070D1A; border:1px solid #A78BFA; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <h3 id="manual-sec5-title" style="color:#A78BFA; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
           <span>📊</span> 5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; font-size:11.5px;">
@@ -2088,6 +2092,16 @@ body.daylight-mode .btn-keypad:hover {
             <p style="margin:4px 0 0 0; color:#94A3B8;">Acceso directo: <code>#informe-tecnico</code>. Ficha técnica, boxscore 1-9, comparativa ofensiva/pitcheo/fildeo, MVP, Turning Point y dictamen técnico.</p>
           </div>
         </div>
+      </div>
+
+      <!-- SECCIÓN 6: INTELIGENCIA ARTIFICIAL SABERMÉTRICA -->
+      <div style="background:#070D1A; border:1px solid #00D2FF; border-radius:10px; padding:16px;">
+        <h3 id="manual-ai-title" style="color:#00D2FF; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
+          <span>🧠</span> 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)
+        </h3>
+        <p style="margin:0; font-size:12px; color:#94A3B8;">
+          Motor predictivo neuronal con RAG y memoria episódica. Monitorea conteo de lanzamientos, fatiga de lanzadores, probabilidad de victoria en tiempo real y sugerencias de jugada para el mánager.
+        </p>
       </div>
 
     </div>
@@ -3753,7 +3767,9 @@ function mostrarToast(mensaje, duracion) {
 window.mostrarToast = mostrarToast;
 
 // TRADUCTOR BÁSICO
-let currentLang = localStorage.getItem('diamax_app_lang') || 'es';
+var currentLang = localStorage.getItem('diamax_app_lang') || 'es';
+window.currentLang = currentLang;
+
 const TRANSLATIONS = {
   es: {
     // Navegación
@@ -3771,10 +3787,18 @@ const TRANSLATIONS = {
     "lang-btn": " ESPAÑOL",
     "btn-daylight": "☀️ Sol / Noche",
     "btn-new-game": "🏟️ Cargar Nuevo Juego",
+    "btn-config-game-header": "➕ Configurar Partido & Rival",
+    "btn-refresh-db": "🔄 Refrescar BD",
     "btn-settings": "⚙️ Configuración",
+    "lbl-game-selected-ribbon": "🏟️ PARTIDO SELECCIONADO:",
     "btn-finish-game": "🏁 Finalizar Partido",
     "btn-print-manual": "🖨️ Imprimir Guía de Dugout",
     "btn-print-card": "🖨️ Imprimir Tarjeta Oficial (PDF)",
+    "cond-home": "🔄 HOME CLUB (LOCAL)",
+    "cond-away": "🔄 VISITANTE",
+    "game-status-in-play": "EN JUEGO",
+    "btn-load-official-lineup": "📋 Cargar Lineup Oficial (+55)",
+    "btn-voice-lineup": "🎙️ Dictar por Voz",
     
     // IA Táctica
     "ai-title": "DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)",
@@ -3782,8 +3806,12 @@ const TRANSLATIONS = {
     "btn-ai-pitch": "⚡ Pitcheo Sugerido",
     "btn-ai-shift": "🛡️ Shift Defensivo",
     "btn-ai-base": "🏃 Robo / Sacrificio",
+    "btn-ai-pinch": "👥 Emergente Sabermétrico",
+    "btn-ai-rival-scout": "📊 Scouting & Predicción Rival",
+    "btn-ai-pitcher-matchup": "🎯 Duelo vs Pitcher Rival",
     "btn-ai-bullpen": "🔄 Alerta Bullpen",
     "btn-ai-query": "Consultar",
+    "ai-custom-prompt-ph": "Preguntar al asistente táctico (ej: ¿Cómo atacamos el conteo 3-2?)...",
     
     // Keypad y Anotación
     "btn-strike-quick": "+1 Strike",
@@ -3794,42 +3822,58 @@ const TRANSLATIONS = {
     "lbl-fatigue": "Fatiga:",
     "lbl-strikes-pct": "Strikes:",
     
-    // Modal Nuevo Juego
-    "modal-new-title": "🏟️ Cargar Nuevo Juego & Sede Oficial",
+    // Modal Nuevo Juego (Pre-Game Wizard)
+    "modal-new-title": "🏟️ Configuración Táctica Pre-Juego (Reglas Oficiales 1-9)",
+    "lbl-game-rival": "⚔️ 1. Cargar Equipo Contrario / Rival",
+    "btn-toggle-nuevo-rival": "➕ Registrar Nuevo Rival en BD",
+    "lbl-rival-selected-header": "⚔️ EQUIPO RIVAL SELECCIONADO & LOGO:",
+    "btn-upload-rival-logo": "🖼️ Subir Logo",
     "lbl-game-date": "📅 Fecha del Partido",
     "lbl-game-time": "⏰ Hora de Inicio",
-    "lbl-game-rival": "⚔️ Equipo Rival",
-    "lbl-game-cond": "🏠 Condición del Equipo",
-    "lbl-game-stadium": "🏟️ Estadio / Nombre del Campo",
-    "lbl-game-address": "📍 Dirección Completa de la Sede",
-    "lbl-weather-title": "🌤️ Clima en Tiempo Real (Sensor de Sede)",
-    "btn-sync-gps": "🔄 Actualizar Clima GPS",
-    "btn-start-game": "⚡ Iniciar Partido / Activar Dugout",
+    "lbl-game-stadium": "🏟️ Estadio / Sede Oficial",
+    "lbl-game-address": "📍 Dirección / Ubicación",
+    "lbl-weather-title": "🌤️ Telemetría Climática GPS en Vivo (Estadio):",
+    "btn-sync-gps": "🔄 Actualizar GPS",
+    "lbl-game-cond": "⚖️ Definición de Localía & Regla Reglamentaria de Primer Turno al Bate:",
+    "btn-preview-official-card": "📋 Vista Previa Tarjeta Oficial (Umpires)",
+    "btn-start-game": "💾 Guardar, Certificar e Iniciar Dugout (Inning 1 ▲▼) ⚾",
     "opt-local": "Home Club (Local)",
     "opt-away": "Visitante (Away)",
     
     // Modal Finalizar Juego
     "modal-finish-title": "🏁 Finalizar y Certificar Partido",
+    "modal-finish-desc": "El juego será cerrado formalmente, registrando la hora exacta de terminación y calculando la duración oficial del encuentro.",
     "lbl-start-recorded": "⏰ Hora de Inicio Registrada",
     "lbl-finish-exact": "🏁 Hora Exacta de Finalización",
     "lbl-duration-calc": "⏱️ Duración Calculada del Encuentro",
     "lbl-score-summary": "🏆 Resumen de Marcador Final",
-    "btn-confirm-finish": "✅ Confirmar y Sincronizar Tarjeta Oficial",
     "btn-cancel": "Cancelar",
     "btn-return-game": "Volver al Juego",
+    "btn-confirm-finish": "✅ Confirmar y Sincronizar Tarjeta Oficial",
+    
+    // Modal Agente de Voz
+    "voice-modal-title": "DIAMAX VOICE LINEUP AGENT",
+    "voice-modal-sub": "Dictado Táctico por Voz para el Mánager (Web Speech + TTS)",
+    "voice-modal-lbl-commands": "Jugadores y Comandos Reconocidos:",
+    "voice-btn-mic-start": "🎙️ Iniciar Dictado",
+    "voice-btn-mic-stop": "⏹️ Detener Escucha",
+    "voice-btn-apply": "✅ Aplicar al Lineup",
+    "voice-status-waiting": "⚪ En espera de dictado",
+    "voice-status-listening": "🔴 Grabando y Analizando Voz...",
+    "voice-initial-transcript": 'Presiona "Iniciar Dictado" y habla. Puedes decir: "Cargar lineup oficial del sábado" o dictar jugadores como "1 Johan Olivo Center Field, 2 Pablo Morales Primera Base...".',
+    "voice-waiting-preview": "Esperando comandos de voz...",
     
     // Manual
-    "manual-title": "📖 Manual de Uso y Operación Oficial — DIAMAX Pro",
-    "manual-subtitle": "Guía oficial para Gerencia, Cuerpo Técnico y Anotadores de Guerreros de Venezuela +55",
-    "manual-quick-header": "⚡ GUÍA RÁPIDA DE DUGOUT (CHECKLIST DÍA DEL JUEGO)",
-    "manual-fatigue-header": "🩺 SEMÁFORO DE PITCHEO Y CONTROL DE FATIGA (CATEGORÍA +55)",
-    "manual-roles-header": "🔐 ROLES Y BOTONERA OFICIAL DE JUGADAS (DUGOUT KEYPAD)",
-    "manual-ai-header": "🧠 INTELIGENCIA ARTIFICIAL SABERMÉTRICA (DIAMAX ENGINE)",
+    "manual-title": "Manual Oficial de Operación & Protocolos DIAMAX PRO",
+    "manual-subtitle": "Guía técnica para Gerencia, Mánager, Umpires y Anotadores de Guerreros de Venezuela (+55)",
+    "manual-quick-header": "🏟️ 2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)",
+    "manual-fatigue-header": "🩺 4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)",
+    "manual-roles-header": "⌨️ 3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)",
+    "manual-sec5-title": "📊 5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día",
+    "manual-ai-header": "🧠 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)",
     "lbl-select-rival": "⚔️ 1. SELECCIONAR O REGISTRAR EQUIPO RIVAL",
     "lbl-rival-list": "Elegir Rival Registrado",
-    "btn-toggle-rival": "➕ Agregar Nuevo Equipo Rival",
-    "btn-ai-rival-scout": "📊 Scouting & Predicción Rival",
-    "btn-ai-pitcher-matchup": "🎯 Duelo vs Pitcher Rival"
+    "btn-toggle-rival": "➕ Agregar Nuevo Equipo Rival"
   },
   en: {
     // Navigation
@@ -3847,10 +3891,18 @@ const TRANSLATIONS = {
     "lang-btn": " ENGLISH",
     "btn-daylight": "☀️ Sun / Night",
     "btn-new-game": "🏟️ Load New Game",
+    "btn-config-game-header": "➕ Configure Game & Opponent",
+    "btn-refresh-db": "🔄 Refresh DB",
     "btn-settings": "⚙️ Settings",
+    "lbl-game-selected-ribbon": "🏟️ SELECTED GAME:",
     "btn-finish-game": "🏁 Finish Game",
     "btn-print-manual": "🖨️ Print Dugout Guide",
     "btn-print-card": "🖨️ Print Official Lineup Card (PDF)",
+    "cond-home": "🔄 HOME TEAM (LOCAL)",
+    "cond-away": "🔄 AWAY (VISITOR)",
+    "game-status-in-play": "IN PLAY",
+    "btn-load-official-lineup": "📋 Load Official Lineup (+55)",
+    "btn-voice-lineup": "🎙️ Voice Dictation",
     
     // Tactical AI
     "ai-title": "DIAMAX TACTICAL AI (3Tree Sabermetric Engine)",
@@ -3858,8 +3910,12 @@ const TRANSLATIONS = {
     "btn-ai-pitch": "⚡ Suggested Pitch",
     "btn-ai-shift": "🛡️ Defensive Shift",
     "btn-ai-base": "🏃 Steal / Sacrifice",
+    "btn-ai-pinch": "👥 Sabermetric Pinch-Hitter",
+    "btn-ai-rival-scout": "📊 Opponent Scouting & Prediction",
+    "btn-ai-pitcher-matchup": "🎯 Matchup vs Opponent Pitcher",
     "btn-ai-bullpen": "🔄 Bullpen Alert",
     "btn-ai-query": "Consult",
+    "ai-custom-prompt-ph": "Ask tactical assistant (e.g. How to attack 3-2 count?)...",
     
     // Keypad & Scoring
     "btn-strike-quick": "+1 Strike",
@@ -3870,55 +3926,82 @@ const TRANSLATIONS = {
     "lbl-fatigue": "Fatigue:",
     "lbl-strikes-pct": "Strikes:",
     
-    // Modal New Game
-    "modal-new-title": "🏟️ Load New Game & Official Venue",
+    // Modal New Game (Pre-Game Wizard)
+    "modal-new-title": "🏟️ Pre-Game Tactical Setup (Official Rules 1-9)",
+    "lbl-game-rival": "⚔️ 1. Load Opponent Team / Rival",
+    "btn-toggle-nuevo-rival": "➕ Register New Opponent in DB",
+    "lbl-rival-selected-header": "⚔️ SELECTED OPPONENT & LOGO:",
+    "btn-upload-rival-logo": "🖼️ Upload Logo",
     "lbl-game-date": "📅 Game Date",
     "lbl-game-time": "⏰ Start Time",
-    "lbl-game-rival": "⚔️ Opponent Team",
-    "lbl-game-cond": "🏠 Team Status",
-    "lbl-game-stadium": "🏟️ Stadium / Field Name",
-    "lbl-game-address": "📍 Full Venue Address",
-    "lbl-weather-title": "🌤️ Real-Time Weather (Venue Sensor)",
-    "btn-sync-gps": "🔄 Update GPS Weather",
-    "btn-start-game": "⚡ Start Game / Activate Dugout",
+    "lbl-game-stadium": "🏟️ Stadium / Official Venue",
+    "lbl-game-address": "📍 Address / Location",
+    "lbl-weather-title": "🌤️ Live GPS Weather Telemetry (Stadium):",
+    "btn-sync-gps": "🔄 Update GPS",
+    "lbl-game-cond": "⚖️ Home/Away Definition & Official First At-Bat Rule:",
+    "btn-preview-official-card": "📋 Preview Official Card (Umpires)",
+    "btn-start-game": "💾 Save, Certify & Start Dugout (Inning 1 ▲▼) ⚾",
     "opt-local": "Home Club (Local)",
     "opt-away": "Away (Visitor)",
     
     // Modal Finish Game
     "modal-finish-title": "🏁 Finish & Certify Game",
+    "modal-finish-desc": "The game will be formally closed, recording exact finish time and calculating official duration.",
     "lbl-start-recorded": "⏰ Recorded Start Time",
     "lbl-finish-exact": "🏁 Exact Finish Time",
     "lbl-duration-calc": "⏱️ Calculated Game Duration",
     "lbl-score-summary": "🏆 Final Score Summary",
-    "btn-confirm-finish": "✅ Confirm & Sync Official Card",
     "btn-cancel": "Cancel",
     "btn-return-game": "Return to Game",
+    "btn-confirm-finish": "✅ Confirm & Sync Official Card",
+    
+    // Modal Voice Agent
+    "voice-modal-title": "DIAMAX VOICE LINEUP AGENT",
+    "voice-modal-sub": "Tactical Voice Dictation for Manager (Web Speech + TTS)",
+    "voice-modal-lbl-commands": "Recognized Players & Commands:",
+    "voice-btn-mic-start": "🎙️ Start Dictation",
+    "voice-btn-mic-stop": "⏹️ Stop Listening",
+    "voice-btn-apply": "✅ Apply to Lineup",
+    "voice-status-waiting": "⚪ Waiting for dictation",
+    "voice-status-listening": "🔴 Recording & Analyzing Voice...",
+    "voice-initial-transcript": 'Press "Start Dictation" and speak. You can say: "Load Saturday official lineup" or dictate players like "1 Johan Olivo Center Field, 2 Pablo Morales First Base...".',
+    "voice-waiting-preview": "Waiting for voice commands...",
     
     // Manual
-    "manual-title": "📖 Official User & Operation Manual — DIAMAX Pro",
-    "manual-subtitle": "Official Guide for Management, Coaching Staff and Scorers of Guerreros de Venezuela +55",
-    "manual-quick-header": "⚡ DUGOUT QUICK GUIDE (GAME DAY CHECKLIST)",
-    "manual-fatigue-header": "🩺 PITCH COUNT & FATIGUE MONITOR (SENIOR +55 CATEGORY)",
-    "manual-roles-header": "🔐 ROLES & OFFICIAL DUGOUT KEYPAD SHORTCUTS",
-    "manual-ai-header": "🧠 SABERMETRIC ARTIFICIAL INTELLIGENCE (DIAMAX ENGINE)",
+    "manual-title": "Official DIAMAX PRO Operation & Protocol Manual",
+    "manual-subtitle": "Technical Guide for Management, Coaching Staff and Scorers of Guerreros de Venezuela +55",
+    "manual-quick-header": "🏟️ 2. Pre-Game Protocol: 5-Step Wizard (Orlando Sánchez 2026)",
+    "manual-fatigue-header": "🩺 4. Sports Medical Protocol: Fatigue Monitor (+55: 75 Pitch Limit)",
+    "manual-roles-header": "⌨️ 3. Live Operation (Dugout Keypad & Pitch-by-Pitch Scoring)",
+    "manual-sec5-title": "📊 5. Official Reports, Dual Card & Daily Technical Report",
+    "manual-ai-header": "🧠 6. Sabermetric Artificial Intelligence (DIAMAX Engine)",
     "lbl-select-rival": "⚔️ 1. SELECT OR REGISTER OPPONENT TEAM",
     "lbl-rival-list": "Choose Registered Opponent",
-    "btn-toggle-rival": "➕ Add New Opponent Club",
-    "btn-ai-rival-scout": "📊 Opponent Scouting & Prediction",
-    "btn-ai-pitcher-matchup": "🎯 Matchup vs Opponent Pitcher"
+    "btn-toggle-rival": "➕ Add New Opponent Club"
   }
 };
 
-function toggleLanguage() {
-  currentLang = currentLang === 'es' ? 'en' : 'es';
+function applyLanguage(lang) {
+  currentLang = lang || currentLang || 'es';
+  window.currentLang = currentLang;
   try { localStorage.setItem('diamax_app_lang', currentLang); } catch(e) {}
+  document.documentElement.lang = currentLang;
   
-  const dict = TRANSLATIONS[currentLang];
+  const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.es;
   
-  // Actualizar elementos por ID
   const updateText = (id, key) => {
     const el = document.getElementById(id);
-    if (el && dict[key]) el.textContent = dict[key];
+    if (el && dict[key] !== undefined) el.textContent = dict[key];
+  };
+
+  const updateHTML = (id, key) => {
+    const el = document.getElementById(id);
+    if (el && dict[key] !== undefined) el.innerHTML = dict[key];
+  };
+
+  const updatePlaceholder = (id, key) => {
+    const el = document.getElementById(id);
+    if (el && dict[key] !== undefined) el.placeholder = dict[key];
   };
 
   // Navegación
@@ -3931,20 +4014,56 @@ function toggleLanguage() {
   updateText('nav-skills', 'nav-skills');
   updateText('nav-profile', 'nav-profile');
   
-  // Header y botones de acción
+  // Header y Badges
   updateText('lang-btn', 'lang-btn');
   updateText('badge-live-text', 'badge-live');
   updateText('btn-daylight', 'btn-daylight');
-  
+  updateText('btn-config-game-header', 'btn-config-game-header');
+  updateText('btn-refresh-db', 'btn-refresh-db');
+  updateText('btn-settings', 'btn-settings');
+  updateText('lbl-game-selected-ribbon', 'lbl-game-selected-ribbon');
+  updateText('btn-print-manual', 'btn-print-manual');
+
+  // Estado en juego
+  const badgeStatus = document.getElementById('game-status-badge');
+  if (badgeStatus) badgeStatus.innerText = dict['game-status-in-play'];
+
+  // Conmutador de Condición Home / Away
+  const g = typeof getActiveGame === 'function' ? getActiveGame() : null;
+  const condBtn = document.getElementById('game-condition-badge');
+  if (condBtn) {
+    const isHome = g ? g.isHomeClub : true;
+    condBtn.innerText = isHome ? dict['cond-home'] : dict['cond-away'];
+  }
+
+  // Sincronizar UI del Sync Engine
+  if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') {
+    DIAMAX_SYNC_ENGINE.updateStatusUI();
+  }
+
+  // Sincronizar idioma del Agente de Voz
+  if (typeof DIAMAX_VOICE_LINEUP_AGENT !== 'undefined' && DIAMAX_VOICE_LINEUP_AGENT.recognition) {
+    DIAMAX_VOICE_LINEUP_AGENT.recognition.lang = currentLang === 'en' ? 'en-US' : 'es-ES';
+  }
+
   // Botones New Game y Finish Game
   document.querySelectorAll('.btn-new-game').forEach(b => {
-    if (b.innerText.includes('Cargar') || b.innerText.includes('Load')) {
+    if (b.id !== 'btn-config-game-header' && b.id !== 'btn-new-game-submit') {
       b.textContent = dict['btn-new-game'];
     }
   });
   document.querySelectorAll('.btn-finish-game').forEach(b => {
-    if (b.innerText.includes('Finalizar') || b.innerText.includes('Finish')) {
+    if (b.id !== 'btn-confirm-finish-game') {
       b.textContent = dict['btn-finish-game'];
+    }
+  });
+
+  // Botones de Lineup y Voz
+  document.querySelectorAll('button').forEach(b => {
+    if (b.innerText.includes('Lineup Oficial') || b.innerText.includes('Official Lineup')) {
+      b.innerText = dict['btn-load-official-lineup'];
+    } else if (b.innerText.includes('Dictar por Voz') || b.innerText.includes('Voice Dictation')) {
+      b.innerText = dict['btn-voice-lineup'];
     }
   });
   
@@ -3954,26 +4073,63 @@ function toggleLanguage() {
   updateText('btn-ai-pitch-call', 'btn-ai-pitch');
   updateText('btn-ai-shift-call', 'btn-ai-shift');
   updateText('btn-ai-base-call', 'btn-ai-base');
-  updateText('btn-ai-bullpen-call', 'btn-ai-bullpen');
+  updateText('btn-ai-pinch-hitter', 'btn-ai-pinch');
+  updateText('btn-ai-rival-scout', 'btn-ai-rival-scout');
+  updateText('btn-ai-pitcher-matchup', 'btn-ai-pitcher-matchup');
   updateText('btn-ai-custom-query', 'btn-ai-query');
+  updatePlaceholder('ai-custom-prompt', 'ai-custom-prompt-ph');
   
-  // Modales
+  // Keypad
+  updateText('btn-strike-quick', 'btn-strike-quick');
+  updateText('btn-ball-quick', 'btn-ball-quick');
+  updateText('btn-reset-count', 'btn-reset-count');
+  updateText('lbl-active-pitcher', 'lbl-active-pitcher');
+  updateText('lbl-bullpen', 'lbl-bullpen');
+  updateText('lbl-fatigue', 'lbl-fatigue');
+  updateText('lbl-strikes-pct', 'lbl-strikes-pct');
+  
+  // Modal Pre-Juego
   updateText('modal-new-game-title', 'modal-new-title');
+  updateText('lbl-new-game-rival', 'lbl-game-rival');
+  updateText('btn-toggle-nuevo-rival', 'btn-toggle-nuevo-rival');
+  updateText('lbl-rival-selected-header', 'lbl-rival-selected-header');
   updateText('lbl-new-game-date', 'lbl-game-date');
   updateText('lbl-new-game-time', 'lbl-game-time');
-  updateText('lbl-new-game-rival', 'lbl-game-rival');
   updateText('lbl-new-game-cond', 'lbl-game-cond');
   updateText('lbl-new-game-stadium', 'lbl-game-stadium');
   updateText('lbl-new-game-address', 'lbl-game-address');
-  updateText('btn-new-game-submit', 'btn-start-game');
+  updateText('lbl-weather-gps-title', 'lbl-weather-title');
   updateText('btn-gps-weather-sync', 'btn-sync-gps');
+  updateText('btn-preview-official-card', 'btn-preview-official-card');
+  updateText('btn-new-game-submit', 'btn-start-game');
   
+  // Modal Finalizar Juego
   updateText('modal-finish-game-title', 'modal-finish-title');
+  updateText('modal-finish-game-desc', 'modal-finish-desc');
   updateText('lbl-finish-start-recorded', 'lbl-start-recorded');
   updateText('lbl-finish-exact-time', 'lbl-finish-exact');
   updateText('lbl-finish-duration-calc', 'lbl-duration-calc');
   updateText('lbl-finish-score-summary', 'lbl-score-summary');
+  updateText('btn-cancel-finish-game', 'btn-cancel');
   updateText('btn-confirm-finish-game', 'btn-confirm-finish');
+  
+  // Modal Voz Lineup
+  updateText('voice-modal-title', 'voice-modal-title');
+  updateText('voice-modal-sub', 'voice-modal-sub');
+  updateText('voice-modal-lbl-commands', 'voice-modal-lbl-commands');
+  updateText('btn-voice-apply', 'voice-btn-apply');
+  const btnVoiceMic = document.getElementById('btn-voice-toggle-mic');
+  if (btnVoiceMic && typeof DIAMAX_VOICE_LINEUP_AGENT !== 'undefined') {
+    btnVoiceMic.innerText = DIAMAX_VOICE_LINEUP_AGENT.isListening ? dict['voice-btn-mic-stop'] : dict['voice-btn-mic-start'];
+  }
+  const badgeVoice = document.getElementById('voice-status-badge');
+  if (badgeVoice && typeof DIAMAX_VOICE_LINEUP_AGENT !== 'undefined' && !DIAMAX_VOICE_LINEUP_AGENT.isListening) {
+    badgeVoice.innerHTML = '<span style="color:#94A3B8;">' + dict['voice-status-waiting'] + '</span>';
+  }
+  const elLiveVoice = document.getElementById('voice-live-transcript');
+  if (elLiveVoice && typeof DIAMAX_VOICE_LINEUP_AGENT !== 'undefined' && !DIAMAX_VOICE_LINEUP_AGENT.isListening && !DIAMAX_VOICE_LINEUP_AGENT.transcriptAccumulator) {
+    elLiveVoice.innerHTML = dict['voice-initial-transcript'];
+  }
   
   // Manual de uso
   updateText('manual-main-title', 'manual-title');
@@ -3981,10 +4137,27 @@ function toggleLanguage() {
   updateText('manual-quick-title', 'manual-quick-header');
   updateText('manual-fatigue-title', 'manual-fatigue-header');
   updateText('manual-roles-title', 'manual-roles-header');
+  updateText('manual-sec5-title', 'manual-sec5-title');
   updateText('manual-ai-title', 'manual-ai-header');
+}
 
+function toggleLanguage() {
+  const nextLang = currentLang === 'es' ? 'en' : 'es';
+  applyLanguage(nextLang);
   mostrarToast(currentLang === 'es' ? '🇪🇸 Idioma: Español Activo' : '🇺🇸 Language: English Active');
 }
+
+window.currentLang = currentLang;
+window.applyLanguage = applyLanguage;
+window.toggleLanguage = toggleLanguage;
+window.TRANSLATIONS = TRANSLATIONS;
+
+// Auto-aplicar idioma guardado al cargar la página
+window.addEventListener('DOMContentLoaded', function() {
+  if (typeof applyLanguage === 'function') {
+    applyLanguage(currentLang);
+  }
+});
 
 const POS_NUM = { "P":"1", "C":"2", "1B":"3", "2B":"4", "3B":"5", "SS":"6", "LF":"7", "CF":"8", "RF":"9", "DH":"BD", "EH":"BE" };
 
@@ -8878,7 +9051,7 @@ const DIAMAX_VOICE_LINEUP_AGENT = {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) return false;
     const rec = new SpeechRecognition();
-    rec.lang = 'es-ES';
+    rec.lang = (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'en-US' : 'es-ES';
     rec.continuous = true;
     rec.interimResults = true;
 
@@ -8922,13 +9095,22 @@ const DIAMAX_VOICE_LINEUP_AGENT = {
   startListening: function() {
     if (!this.recognition) {
       if (!this.init()) {
-        alert('Tu navegador no soporta la API de voz Web Speech. Prueba con Google Chrome, Edge o Safari.');
+        const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
+        alert(isEn ? 'Your browser does not support Web Speech API. Please try Google Chrome, Edge, or Safari.' : 'Tu navegador no soporta la API de voz Web Speech. Prueba con Google Chrome, Edge o Safari.');
         return;
       }
     }
+    const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
+    if (this.recognition) {
+      this.recognition.lang = isEn ? 'en-US' : 'es-ES';
+    }
     this.transcriptAccumulator = '';
     const elLive = document.getElementById('voice-live-transcript');
-    if (elLive) elLive.innerText = '🎙️ Escuchando al Mánager... Di los números o nombres (Ej: "1 Johan Olivo CF, 2 Pablo Morales 1B, o di Oficial para cargar todo")';
+    if (elLive) {
+      elLive.innerText = isEn ?
+        '🎙️ Listening to Manager... Say numbers or names (Ex: "1 Johan Olivo CF, 2 Pablo Morales 1B, or say Official to load all")' :
+        '🎙️ Escuchando al Mánager... Di los números o nombres (Ej: "1 Johan Olivo CF, 2 Pablo Morales 1B, o di Oficial para cargar todo")';
+    }
     try {
       this.recognition.start();
     } catch(e) {
@@ -8945,19 +9127,25 @@ const DIAMAX_VOICE_LINEUP_AGENT = {
   },
 
   updateUIState: function(listening) {
+    const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
     const btn = document.getElementById('btn-voice-toggle-mic');
     const badge = document.getElementById('voice-status-badge');
     if (btn) {
-      btn.innerHTML = listening ? '⏹️ Detener Escucha' : '🎙️ Iniciar Dictado';
+      btn.innerHTML = listening ?
+        (isEn ? '⏹️ Stop Listening' : '⏹️ Detener Escucha') :
+        (isEn ? '🎙️ Start Dictation' : '🎙️ Iniciar Dictado');
       btn.style.background = listening ? '#EF4444' : '#10B981';
     }
     if (badge) {
-      badge.innerHTML = listening ? '<span style="color:#EF4444; font-weight:bold;">🔴 Grabando y Analizando Voz...</span>' : '<span style="color:#94A3B8;">⚪ En espera de dictado</span>';
+      badge.innerHTML = listening ?
+        `<span style="color:#EF4444; font-weight:bold;">🔴 ${isEn ? 'Recording & Analyzing Voice...' : 'Grabando y Analizando Voz...'}</span>` :
+        `<span style="color:#94A3B8;">⚪ ${isEn ? 'Waiting for dictation' : 'En espera de dictado'}</span>`;
     }
   },
 
   parseSpokenText: function(text) {
     if (!text) return;
+    const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
     const cleanText = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const previewContainer = document.getElementById('voice-parsed-preview');
     if (!previewContainer) return;
@@ -8971,8 +9159,11 @@ const DIAMAX_VOICE_LINEUP_AGENT = {
       }
     });
 
-    if (cleanText.includes('oficial') || cleanText.includes('sabado') || cleanText.includes('todos')) {
-      previewContainer.innerHTML = '<div style="background:rgba(16,185,129,0.2); border:1px solid #10B981; padding:10px; border-radius:8px; color:#A7F3D0; font-size:12px;"><strong>⭐ Comando Detectado:</strong> Cargar Lineup Oficial Completo del Sábado (+55 Guerreros de Venezuela).</div>';
+    if (cleanText.includes('oficial') || cleanText.includes('sabado') || cleanText.includes('todos') ||
+        cleanText.includes('official') || cleanText.includes('saturday') || cleanText.includes('lineup') || cleanText.includes('all')) {
+      const tag = isEn ? '⭐ Command Detected:' : '⭐ Comando Detectado:';
+      const desc = isEn ? 'Load Complete Saturday Official Lineup (+55 Guerreros de Venezuela).' : 'Cargar Lineup Oficial Completo del Sábado (+55 Guerreros de Venezuela).';
+      previewContainer.innerHTML = '<div style="background:rgba(16,185,129,0.2); border:1px solid #10B981; padding:10px; border-radius:8px; color:#A7F3D0; font-size:12px;"><strong>' + tag + '</strong> ' + desc + '</div>';
       return;
     }
 
@@ -8992,8 +9183,10 @@ const DIAMAX_VOICE_LINEUP_AGENT = {
     if ('speechSynthesis' in window) {
       try {
         window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance("Alineación oficial de Guerreros de Venezuela cargada con éxito.");
-        utter.lang = 'es-ES';
+        const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
+        const msg = isEn ? "Guerreros de Venezuela official lineup loaded successfully." : "Alineación oficial de Guerreros de Venezuela cargada con éxito.";
+        const utter = new SpeechSynthesisUtterance(msg);
+        utter.lang = isEn ? 'en-US' : 'es-ES';
         utter.rate = 1.05;
         window.speechSynthesis.speak(utter);
       } catch(e) {}
@@ -9119,8 +9312,8 @@ window.addEventListener('load', function() {
       <div style="display:flex; align-items:center; gap:10px;">
         <span style="font-size:24px;">🎙️</span>
         <div>
-          <h3 style="margin:0; font-size:16px; font-weight:900; color:#F472B6;">DIAMAX VOICE LINEUP AGENT</h3>
-          <p style="margin:0; font-size:11px; color:#94A3B8;">Dictado Táctico por Voz para el Mánager (Web Speech + TTS)</p>
+          <h3 id="voice-modal-title" style="margin:0; font-size:16px; font-weight:900; color:#F472B6;">DIAMAX VOICE LINEUP AGENT</h3>
+          <p id="voice-modal-sub" style="margin:0; font-size:11px; color:#94A3B8;">Dictado Táctico por Voz para el Mánager (Web Speech + TTS)</p>
         </div>
       </div>
       <button onclick="cerrarModalVozLineup()" style="background:none; border:none; color:#94A3B8; font-size:24px; cursor:pointer;">&times;</button>
@@ -9139,7 +9332,7 @@ window.addEventListener('load', function() {
       </div>
 
       <div style="margin-bottom:16px;">
-        <label style="font-size:11px; font-weight:800; color:#94A3B8; text-transform:uppercase; display:block; margin-bottom:6px;">Jugadores y Comandos Reconocidos:</label>
+        <label id="voice-modal-lbl-commands" style="font-size:11px; font-weight:800; color:#94A3B8; text-transform:uppercase; display:block; margin-bottom:6px;">Jugadores y Comandos Reconocidos:</label>
         <div id="voice-parsed-preview" style="min-height:30px; background:#070D1A; border:1px dashed #334155; padding:10px; border-radius:8px;">
           <span style="color:#64748B; font-size:12px;">Esperando comandos de voz...</span>
         </div>
@@ -9147,7 +9340,7 @@ window.addEventListener('load', function() {
 
       <div style="display:flex; gap:10px;">
         <button id="btn-voice-toggle-mic" onclick="DIAMAX_VOICE_LINEUP_AGENT.isListening ? DIAMAX_VOICE_LINEUP_AGENT.stopListening() : DIAMAX_VOICE_LINEUP_AGENT.startListening()" style="flex:1; padding:12px; background:#10B981; color:#000; border:none; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer;">🎙️ Iniciar Dictado</button>
-        <button onclick="DIAMAX_VOICE_LINEUP_AGENT.aplicarDictadoAlLineup()" style="flex:1.2; padding:12px; background:#EC4899; color:#FFF; border:none; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer; box-shadow:0 0 15px rgba(236,72,153,0.4);">✅ Aplicar al Lineup</button>
+        <button id="btn-voice-apply" onclick="DIAMAX_VOICE_LINEUP_AGENT.aplicarDictadoAlLineup()" style="flex:1.2; padding:12px; background:#EC4899; color:#FFF; border:none; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer; box-shadow:0 0 15px rgba(236,72,153,0.4);">✅ Aplicar al Lineup</button>
       </div>
     </div>
   </div>
@@ -9269,7 +9462,7 @@ window.addEventListener('load', function() {
     <!-- WIZARD STEP 1: RIVAL / EQUIPO CONTRARIO -->
     <div style="background:#091224; border:1px solid #1E293B; border-radius:10px; padding:16px; margin-top:14px; margin-bottom:14px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <label style="font-weight:900; color:#FFC72C; font-size:13px; margin:0; display:flex; align-items:center; gap:6px;">
+        <label id="lbl-new-game-rival" style="font-weight:900; color:#FFC72C; font-size:13px; margin:0; display:flex; align-items:center; gap:6px;">
           ⚔️ 1. Cargar Equipo Contrario / Rival
         </label>
         <button type="button" id="btn-toggle-nuevo-rival" class="btn-settings" onclick="toggleFormularioNuevoRival()" style="background:#00D2FF; color:#000; border:none; padding:5px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">
@@ -9287,7 +9480,7 @@ window.addEventListener('load', function() {
           <input type="file" id="input-rival-logo-file" accept="image/*" style="display:none;" onchange="cargarLogoRivalArchivo(event)">
         </div>
         <div style="flex:1;">
-          <label style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+          <label id="lbl-rival-selected-header" style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
             ⚔️ EQUIPO RIVAL SELECCIONADO & LOGO:
           </label>
           <div style="display:flex; gap:6px;">
@@ -9415,22 +9608,22 @@ window.addEventListener('load', function() {
 
       <div class="form-grid-2">
         <div class="form-group">
-          <label style="font-size:11px;">📅 Fecha del Partido</label>
+          <label id="lbl-new-game-date" style="font-size:11px;">📅 Fecha del Partido</label>
           <input type="date" id="input-game-fecha" class="form-control" value="2026-09-08">
         </div>
         <div class="form-group">
-          <label style="font-size:11px;">⏰ Hora de Inicio</label>
+          <label id="lbl-new-game-time" style="font-size:11px;">⏰ Hora de Inicio</label>
           <input type="time" id="input-game-hora-inicio" class="form-control" value="09:30">
         </div>
       </div>
 
       <div class="form-grid-2" style="margin-top:6px;">
         <div class="form-group">
-          <label style="font-size:11px;">🏟️ Estadio / Sede Oficial</label>
+          <label id="lbl-new-game-stadium" style="font-size:11px;">🏟️ Estadio / Sede Oficial</label>
           <input type="text" id="input-game-estadio" class="form-control" value="Lutz Baseball Park - Campo #1">
         </div>
         <div class="form-group">
-          <label style="font-size:11px;">📍 Dirección / Ubicación</label>
+          <label id="lbl-new-game-address" style="font-size:11px;">📍 Dirección / Ubicación</label>
           <input type="text" id="input-game-direccion" class="form-control" value="5709 Kingfish Drive, Lutz, FL 33558">
         </div>
       </div>
@@ -9438,8 +9631,8 @@ window.addEventListener('load', function() {
       <!-- Sensor de Clima GPS -->
       <div class="weather-preview-box" style="margin-top:10px;">
         <div class="weather-preview-header">
-          <span style="font-size:11px; font-weight:800; color:#00D2FF;">🌤️ Telemetría Climática GPS en Vivo (Estadio):</span>
-          <button type="button" class="btn-sync-weather" onclick="sincronizarClimaEnVivo()">🔄 Actualizar GPS</button>
+          <span id="lbl-weather-gps-title" style="font-size:11px; font-weight:800; color:#00D2FF;">🌤️ Telemetría Climática GPS en Vivo (Estadio):</span>
+          <button type="button" id="btn-gps-weather-sync" class="btn-sync-weather" onclick="sincronizarClimaEnVivo()">🔄 Actualizar GPS</button>
         </div>
         <div class="weather-metrics-grid">
           <div class="weather-metric-item">
@@ -9466,7 +9659,7 @@ window.addEventListener('load', function() {
 
       <!-- Condición de Localía & Regla Reglamentaria -->
       <div style="margin-top:12px; padding-top:10px; border-top:1px solid #1E293B;">
-        <label style="font-weight:900; color:#FFF; font-size:11.5px; display:block; margin-bottom:6px;">
+        <label id="lbl-new-game-cond" style="font-weight:900; color:#FFF; font-size:11.5px; display:block; margin-bottom:6px;">
           ⚖️ Definición de Localía & Regla Reglamentaria de Primer Turno al Bate:
         </label>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
@@ -9585,11 +9778,11 @@ window.addEventListener('load', function() {
       <button type="button" class="btn-settings" onclick="cerrarModalNuevoJuego()" style="font-size:12px;">Cancelar</button>
       
       <div style="display:flex; gap:10px;">
-        <button type="button" onclick="mostrarVistaPreviaTarjetaOficial()" style="background:#3B82F6; color:#FFF; border:none; padding:10px 16px; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+        <button type="button" id="btn-preview-official-card" onclick="mostrarVistaPreviaTarjetaOficial()" style="background:#3B82F6; color:#FFF; border:none; padding:10px 16px; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:6px;">
           📋 Vista Previa Tarjeta Oficial (Umpires)
         </button>
 
-        <button type="button" class="btn-new-game" onclick="guardarYCertificarJuegoOficial()" style="background:#10B981; color:#000; font-size:12.5px; font-weight:900; padding:10px 20px; border-radius:8px; display:flex; align-items:center; gap:6px; box-shadow:0 0 25px rgba(16,185,129,0.3);">
+        <button type="button" id="btn-new-game-submit" class="btn-new-game" onclick="guardarYCertificarJuegoOficial()" style="background:#10B981; color:#000; font-size:12.5px; font-weight:900; padding:10px 20px; border-radius:8px; display:flex; align-items:center; gap:6px; box-shadow:0 0 25px rgba(16,185,129,0.3);">
           💾 Guardar, Certificar e Iniciar Dugout (Inning 1 ▲▼) ⚾
         </button>
       </div>
@@ -9626,36 +9819,36 @@ window.addEventListener('load', function() {
       <button class="btn-modal-close" onclick="cerrarModalFinalizarJuego()">&times;</button>
     </div>
 
-    <p style="font-size:13px; color:#94A3B8; margin-bottom:14px;">
+    <p id="modal-finish-game-desc" style="font-size:13px; color:#94A3B8; margin-bottom:14px;">
       El juego será cerrado formalmente, registrando la hora exacta de terminación y calculando la duración oficial del encuentro.
     </p>
 
     <div class="form-grid-2">
       <div class="form-group">
-        <label>⏰ Hora de Inicio Registrada</label>
+        <label id="lbl-finish-start-recorded">⏰ Hora de Inicio Registrada</label>
         <input type="text" id="finish-game-hora-ini" class="form-control" readonly value="09:30 AM">
       </div>
       <div class="form-group">
-        <label>🏁 Hora Exacta de Finalización</label>
+        <label id="lbl-finish-exact-time">🏁 Hora Exacta de Finalización</label>
         <input type="time" id="finish-game-hora-fin" class="form-control" value="11:45">
       </div>
     </div>
 
     <div class="form-group">
-      <label>⏱️ Duración Calculada del Encuentro</label>
+      <label id="lbl-finish-duration-calc">⏱️ Duración Calculada del Encuentro</label>
       <input type="text" id="finish-game-duracion" class="form-control" style="color:#00D2FF; font-weight:bold;" readonly value="2h 15m">
     </div>
 
     <div class="form-group">
-      <label>🏆 Resumen de Marcador Final</label>
+      <label id="lbl-finish-score-summary">🏆 Resumen de Marcador Final</label>
       <div id="finish-game-score-summary" style="background:#070D1A; padding:12px; border-radius:6px; font-weight:bold; color:#FFC72C; text-align:center; font-size:16px;">
         GUERREROS DE VENEZUELA vs TIGRES DE TAMPA
       </div>
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
-      <button type="button" class="btn-settings" onclick="cerrarModalFinalizarJuego()">Volver al Juego</button>
-      <button type="button" class="btn-finish-game" onclick="confirmarFinDeJuego()">✅ Confirmar y Sincronizar Tarjeta Oficial</button>
+      <button type="button" id="btn-cancel-finish-game" class="btn-settings" onclick="cerrarModalFinalizarJuego()">Volver al Juego</button>
+      <button type="button" id="btn-confirm-finish-game" class="btn-finish-game" onclick="confirmarFinDeJuego()">✅ Confirmar y Sincronizar Tarjeta Oficial</button>
     </div>
   </div>
 </div>
