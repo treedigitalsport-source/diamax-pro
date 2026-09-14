@@ -1473,14 +1473,38 @@ body.daylight-mode .btn-keypad:hover {
     </div>
   </div>
 
-  <!-- Ribbon de Juego -->
+  <!-- Ribbon de Juego (Controles Individuales HOME CLUB / VISITANTE) -->
   <div class="game-ribbon" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:linear-gradient(135deg, #091224, #0B132B); border:1px solid #1E293B; border-radius:10px; padding:10px 16px; margin-bottom:12px;">
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; min-width:300px;">
       <span id="lbl-game-selected-ribbon" style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; display:flex; align-items:center; gap:5px;">
         🏟️ PARTIDO SELECCIONADO:
       </span>
-      <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="form-control" style="font-weight:bold; font-size:12.5px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF; min-width:280px; max-width:520px;"></select>
-      <button id="game-condition-badge" onclick="toggleCondicionLocalVisitante()" title="⚡ Clic para alternar entre HOME CLUB y VISITANTE al instante" style="background:#00D2FF; color:#000; font-size:11px; padding:5px 12px; border-radius:6px; font-weight:900; cursor:pointer; border:1px solid rgba(255,255,255,0.3); display:inline-flex; align-items:center; gap:5px; box-shadow:0 0 12px rgba(0,210,255,0.4); transition:all 0.2s;">🔄 HOME CLUB (LOCAL)</button>
+      <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="form-control" style="font-weight:bold; font-size:12px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF; min-width:280px; max-width:480px;"></select>
+      
+      <!-- Controles Individuales de Condición (Home Club vs Visitante) -->
+      <div style="display:inline-flex; align-items:center; background:#070D1A; border:1.5px solid #334155; border-radius:8px; padding:2px; gap:2px;">
+        <button id="btn-ribbon-home" type="button" onclick="setCondicionJuego(true)" title="Fijar Guerreros como HOME CLUB (Local - Batea 2do ▼)" style="background:#00D2FF; color:#000; font-size:11px; padding:5px 10px; border-radius:6px; font-weight:900; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:4px; box-shadow:0 0 10px rgba(0,210,255,0.4); transition:all 0.2s;">
+          🏠 HOME CLUB
+        </button>
+        <button id="btn-ribbon-away" type="button" onclick="setCondicionJuego(false)" title="Fijar Guerreros como VISITANTE (Away - Batea 1ro ▲)" style="background:transparent; color:#94A3B8; font-size:11px; padding:5px 10px; border-radius:6px; font-weight:700; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:4px; transition:all 0.2s;">
+          ✈️ VISITANTE
+        </button>
+      </div>
+
+      <!-- Insignia Visual de Matchup con Equipos Individuales -->
+      <div id="ribbon-matchup-badge" style="display:inline-flex; align-items:center; gap:6px; background:#070D1A; border:1px solid #334155; padding:4px 10px; border-radius:8px; font-size:11px;">
+        <span style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#00D2FF; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
+          🏠 <span id="ribbon-home-role-label">HOME:</span> <strong id="ribbon-home-team-name">GUERREROS</strong>
+        </span>
+        <span style="color:#64748B; font-weight:900;">VS</span>
+        <span style="background:rgba(255,199,44,0.18); border:1px solid #FFC72C; color:#FFC72C; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
+          ✈️ <span id="ribbon-away-role-label">VISIT:</span> <strong id="ribbon-away-team-name">DAYTONA BEACH</strong>
+        </span>
+      </div>
+
+      <!-- Badge de compatibilidad previa oculta -->
+      <button id="game-condition-badge" onclick="toggleCondicionLocalVisitante()" style="display:none;">🔄 HOME CLUB</button>
+
       <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
       <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
     </div>
@@ -3878,7 +3902,11 @@ const TRANSLATIONS = {
     "lbl-summary-home-role": "HOME CLUB (Local):",
     "lbl-summary-away-role": "VISITANTE (Away):",
     "cond-opt-gve-home-sub": "Guerreros defiende en la Alta (▲) · Cierra bateando en la Baja (▼)",
-    "cond-opt-gve-away-sub": "Guerreros abre el juego al bate en la Alta (▲) · Defiende en la Baja (▼)"
+    "cond-opt-gve-away-sub": "Guerreros abre el juego al bate en la Alta (▲) · Defiende en la Baja (▼)",
+    "btn-ribbon-home": "🏠 HOME CLUB",
+    "btn-ribbon-away": "✈️ VISITANTE",
+    "ribbon-home-role-label": "HOME:",
+    "ribbon-away-role-label": "VISIT:"
   },
   en: {
     // Navigation
@@ -3987,7 +4015,11 @@ const TRANSLATIONS = {
     "lbl-summary-home-role": "HOME TEAM (Local):",
     "lbl-summary-away-role": "VISITOR (Away):",
     "cond-opt-gve-home-sub": "Guerreros defends in Top (▲) · Bats in Bottom (▼)",
-    "cond-opt-gve-away-sub": "Guerreros opens batting in Top (▲) · Defends in Bottom (▼)"
+    "cond-opt-gve-away-sub": "Guerreros opens batting in Top (▲) · Defends in Bottom (▼)",
+    "btn-ribbon-home": "🏠 HOME CLUB",
+    "btn-ribbon-away": "✈️ VISITOR",
+    "ribbon-home-role-label": "HOME:",
+    "ribbon-away-role-label": "VISIT:"
   }
 };
 
@@ -4111,6 +4143,10 @@ function applyLanguage(lang) {
   updateText('lbl-summary-away-role', 'lbl-summary-away-role');
   updateText('cond-opt-gve-home-sub', 'cond-opt-gve-home-sub');
   updateText('cond-opt-gve-away-sub', 'cond-opt-gve-away-sub');
+  updateText('btn-ribbon-home', 'btn-ribbon-home');
+  updateText('btn-ribbon-away', 'btn-ribbon-away');
+  updateText('ribbon-home-role-label', 'ribbon-home-role-label');
+  updateText('ribbon-away-role-label', 'ribbon-away-role-label');
   if (typeof actualizarUIDefinicionLocalidad === 'function') actualizarUIDefinicionLocalidad();
   updateText('lbl-new-game-stadium', 'lbl-game-stadium');
   updateText('lbl-new-game-address', 'lbl-game-address');
@@ -4315,20 +4351,70 @@ function poblarSelectorPartidos() {
   }
   
   sel.innerHTML = GAMES.map(g => {
-    const condLabel = g.isHomeClub ? '🏠 LOCAL' : '✈️ VISIT.';
+    const isHome = g.isHomeClub !== false && g.condicion !== 'AWAY';
     const rivalName = g.rival || 'RIVAL';
     const rivalAbbr = g.rivalAbbr ? ` (${g.rivalAbbr})` : '';
     const fecha = g.fecha || '2026-09-08';
     const hora = g.horaInicio ? ` · ⏰ ${typeof formatTime12h === 'function' ? formatTime12h(g.horaInicio) : g.horaInicio}` : '';
     const estado = g.estado === 'Finalizado' ? ' [FINAL]' : '';
-    return `<option value="${g.id}" ${g.id === activeGameId ? 'selected' : ''}>${condLabel} vs ${rivalName}${rivalAbbr} · 📅 ${fecha}${hora}${estado}</option>`;
+
+    const matchupStr = isHome 
+      ? `🏠 [HOME] GUERREROS vs ✈️ [VISIT] ${rivalName}${rivalAbbr}` 
+      : `🏠 [HOME] ${rivalName}${rivalAbbr} vs ✈️ [VISIT] GUERREROS`;
+
+    return `<option value="${g.id}" ${g.id === activeGameId ? 'selected' : ''}>${matchupStr} · 📅 ${fecha}${hora}${estado}</option>`;
   }).join('');
 
   const activeG = getActiveGame();
+  const isHome = activeG.isHomeClub !== false && activeG.condicion !== 'AWAY';
+
+  // Sincronizar botones individuales en el ribbon
+  const btnRibbonHome = document.getElementById('btn-ribbon-home');
+  const btnRibbonAway = document.getElementById('btn-ribbon-away');
+  if (btnRibbonHome && btnRibbonAway) {
+    if (isHome) {
+      btnRibbonHome.style.background = '#00D2FF';
+      btnRibbonHome.style.color = '#000';
+      btnRibbonHome.style.fontWeight = '900';
+      btnRibbonHome.style.boxShadow = '0 0 10px rgba(0,210,255,0.4)';
+
+      btnRibbonAway.style.background = 'transparent';
+      btnRibbonAway.style.color = '#94A3B8';
+      btnRibbonAway.style.fontWeight = '700';
+      btnRibbonAway.style.boxShadow = 'none';
+    } else {
+      btnRibbonHome.style.background = 'transparent';
+      btnRibbonHome.style.color = '#94A3B8';
+      btnRibbonHome.style.fontWeight = '700';
+      btnRibbonHome.style.boxShadow = 'none';
+
+      btnRibbonAway.style.background = '#FFC72C';
+      btnRibbonAway.style.color = '#000';
+      btnRibbonAway.style.fontWeight = '900';
+      btnRibbonAway.style.boxShadow = '0 0 10px rgba(255,199,44,0.4)';
+    }
+  }
+
+  // Sincronizar insignia visual del ribbon
+  const ribbonHomeTeam = document.getElementById('ribbon-home-team-name');
+  const ribbonAwayTeam = document.getElementById('ribbon-away-team-name');
+  if (ribbonHomeTeam && ribbonAwayTeam) {
+    const rivalName = activeG.rival || 'RIVAL';
+    const rivalAbbr = activeG.rivalAbbr || '';
+    const rDisplayName = (rivalAbbr ? rivalAbbr : rivalName).toUpperCase();
+    if (isHome) {
+      ribbonHomeTeam.innerText = 'GUERREROS';
+      ribbonAwayTeam.innerText = rDisplayName;
+    } else {
+      ribbonHomeTeam.innerText = rDisplayName;
+      ribbonAwayTeam.innerText = 'GUERREROS';
+    }
+  }
+
   const condBadge = document.getElementById('game-condition-badge');
   if (condBadge) {
-    condBadge.innerText = activeG.isHomeClub ? "HOME CLUB (LOCAL)" : "VISITANTE";
-    condBadge.style.background = activeG.isHomeClub ? "#00D2FF" : "#FFC72C";
+    condBadge.innerText = isHome ? "HOME CLUB (LOCAL)" : "VISITANTE";
+    condBadge.style.background = isHome ? "#00D2FF" : "#FFC72C";
   }
   const statusBadge = document.getElementById('game-status-badge');
   if (statusBadge) {
@@ -8118,7 +8204,14 @@ function actualizarGameHeaderUI() {
   if (bHora) bHora.innerText = `⏰ Inicio: ${formatTime12h(currentGame.horaInicio)}`;
   if (bSede) bSede.innerText = `🏟️ ${currentGame.estadio || 'Lutz Baseball Park'} (${currentGame.direccion || 'Lutz, FL'})`;
   if (bRival) {
-    bRival.innerHTML = `⚔️ vs <strong style="color:#FFC72C;">${currentGame.rival || (rivalObj ? rivalObj.name : 'RIVAL')}</strong> <span style="background:${rivalObj?.color||'#00D2FF'}; color:#000; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:900;">${rivalObj?.abbr||'RIV'}</span> [${currentGame.condicion || 'HOME'}]`;
+    const isHome = currentGame.isHomeClub !== false && currentGame.condicion !== 'AWAY';
+    const rName = currentGame.rival || (rivalObj ? rivalObj.name : 'RIVAL');
+    const rAbbr = rivalObj?.abbr || currentGame.rivalAbbr || 'RIV';
+    const rColor = rivalObj?.color || '#00D2FF';
+
+    bRival.innerHTML = isHome
+      ? `🏠 <strong>HOME:</strong> <span style="color:#00D2FF; font-weight:900;">GUERREROS</span> vs ✈️ <strong>VISIT:</strong> <span style="color:#FFC72C; font-weight:900;">${rName}</span> <span style="background:${rColor}; color:#000; padding:1px 5px; border-radius:3px; font-size:9.5px; font-weight:900;">${rAbbr}</span>`
+      : `🏠 <strong>HOME:</strong> <span style="color:#00D2FF; font-weight:900;">${rName}</span> <span style="background:${rColor}; color:#000; padding:1px 5px; border-radius:3px; font-size:9.5px; font-weight:900;">${rAbbr}</span> vs ✈️ <strong>VISIT:</strong> <span style="color:#FFC72C; font-weight:900;">GUERREROS</span>`;
   }
   if (bClima) {
     const clima = currentGame.clima || { tempF: 86, humedad: 68, viento: '7 mph -> CF' };
@@ -9000,6 +9093,47 @@ function actualizarUIDefinicionLocalidad(forcedIsHome) {
       cardAway.style.borderColor = '#FFC72C';
       cardAway.style.borderWidth = '1.5px';
       cardAway.style.background = '#1E1B0E';
+    }
+  }
+
+  // Actualizar botones individuales en el ribbon
+  const btnRibbonHome = document.getElementById('btn-ribbon-home');
+  const btnRibbonAway = document.getElementById('btn-ribbon-away');
+  if (btnRibbonHome && btnRibbonAway) {
+    if (isHome) {
+      btnRibbonHome.style.background = '#00D2FF';
+      btnRibbonHome.style.color = '#000';
+      btnRibbonHome.style.fontWeight = '900';
+      btnRibbonHome.style.boxShadow = '0 0 10px rgba(0,210,255,0.4)';
+
+      btnRibbonAway.style.background = 'transparent';
+      btnRibbonAway.style.color = '#94A3B8';
+      btnRibbonAway.style.fontWeight = '700';
+      btnRibbonAway.style.boxShadow = 'none';
+    } else {
+      btnRibbonHome.style.background = 'transparent';
+      btnRibbonHome.style.color = '#94A3B8';
+      btnRibbonHome.style.fontWeight = '700';
+      btnRibbonHome.style.boxShadow = 'none';
+
+      btnRibbonAway.style.background = '#FFC72C';
+      btnRibbonAway.style.color = '#000';
+      btnRibbonAway.style.fontWeight = '900';
+      btnRibbonAway.style.boxShadow = '0 0 10px rgba(255,199,44,0.4)';
+    }
+  }
+
+  // Actualizar nombres en la insignia de matchup del ribbon
+  const ribbonHomeTeam = document.getElementById('ribbon-home-team-name');
+  const ribbonAwayTeam = document.getElementById('ribbon-away-team-name');
+  if (ribbonHomeTeam && ribbonAwayTeam) {
+    const rDisplayName = (rivalAbbr ? rivalAbbr : rivalName).toUpperCase();
+    if (isHome) {
+      ribbonHomeTeam.innerText = 'GUERREROS';
+      ribbonAwayTeam.innerText = rDisplayName;
+    } else {
+      ribbonHomeTeam.innerText = rDisplayName;
+      ribbonAwayTeam.innerText = 'GUERREROS';
     }
   }
 
