@@ -3790,6 +3790,45 @@ function checkPassStrength(val) {
   }
 }
 
+
+function seleccionarRol3D(role) {
+  const hiddenInput = document.getElementById('reg-user-role');
+  if (hiddenInput) hiddenInput.value = role;
+
+  const roles = ['MANAGER', 'COACH', 'ADMIN_LIGA', 'JUGADOR'];
+  roles.forEach(r => {
+    const card = document.getElementById('role-card-' + r);
+    if (!card) return;
+    if (r === role) {
+      if (r === 'MANAGER') {
+        card.style.background = 'linear-gradient(135deg, rgba(242,101,34,0.22), rgba(15,23,42,0.9))';
+        card.style.borderColor = '#F26522';
+        card.style.boxShadow = '0 6px 20px rgba(242,101,34,0.35)';
+      } else if (r === 'COACH') {
+        card.style.background = 'linear-gradient(135deg, rgba(0,210,255,0.22), rgba(15,23,42,0.9))';
+        card.style.borderColor = '#00D2FF';
+        card.style.boxShadow = '0 6px 20px rgba(0,210,255,0.35)';
+      } else if (r === 'ADMIN_LIGA') {
+        card.style.background = 'linear-gradient(135deg, rgba(168,85,247,0.22), rgba(15,23,42,0.9))';
+        card.style.borderColor = '#A855F7';
+        card.style.boxShadow = '0 6px 20px rgba(168,85,247,0.35)';
+      } else {
+        card.style.background = 'linear-gradient(135deg, rgba(16,185,129,0.22), rgba(15,23,42,0.9))';
+        card.style.borderColor = '#10B981';
+        card.style.boxShadow = '0 6px 20px rgba(16,185,129,0.35)';
+      }
+      card.style.transform = 'translateY(-3px)';
+    } else {
+      card.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.03), rgba(15,23,42,0.6))';
+      card.style.borderColor = 'rgba(255,255,255,0.1)';
+      card.style.boxShadow = 'none';
+      card.style.transform = 'translateY(0)';
+    }
+  });
+
+  actualizarExplicacionRol(role);
+}
+
 function actualizarExplicacionRol(role) {
   const txt = document.getElementById('txt-info-rol');
   const badge = document.getElementById('badge-info-rol');
@@ -3823,6 +3862,7 @@ async function ejecutarRegistroOficial() {
   const category = document.getElementById('reg-category')?.value;
   const role = document.getElementById('reg-user-role')?.value;
   const location = document.getElementById('reg-location')?.value.trim();
+  const modality = document.getElementById('reg-sport-modality')?.value || 'BEISBOL_9';
 
   // 1. Validación de campos obligatorios
   if (!fullName || !email || !pass || !phone || !teamNameInput || !category || !role || !location) {
@@ -3891,6 +3931,7 @@ async function ejecutarRegistroOficial() {
     role,
     teamName: teamNameInput,
     category,
+    modality,
     location,
     permissions: userPermissions,
     isTeamOwner,
@@ -11463,15 +11504,30 @@ window.addEventListener('load', function() {
       <!-- ======================================================== -->
       <div id="auth-panel-register" style="display:block;">
         
-        <!-- Header de la Hoja -->
-        <div style="background:rgba(0,210,255,0.06); border:1px solid rgba(0,210,255,0.25); border-radius:12px; padding:12px 16px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-          <div>
-            <span style="color:#00D2FF; font-weight:900; font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">📋 Hoja de Inscripción & Creador de Franquicia</span>
-            <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Completa tus datos para crear tu equipo o incorporarte al roster oficial.</p>
+        
+        <!-- Cinematic Hero Video: Baseball Bat Striking Ball (1080p Ultra-HD) -->
+        <div style="position:relative; width:100%; border-radius:14px; overflow:hidden; margin-bottom:18px; border:1px solid rgba(0,210,255,0.3); background:#020617; box-shadow:0 8px 24px rgba(0,0,0,0.6);">
+          <div style="position:relative; width:100%; height:130px; overflow:hidden;">
+            <video autoplay muted loop playsinline preload="auto" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.72) contrast(1.15);">
+              <source src="./Baseball_bat_striking_ball_1080p_20260913144643.mp4" type="video/mp4">
+            </video>
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.2) 0%, rgba(2,6,23,0.85) 100%);"></div>
+            
+            <div style="position:absolute; bottom:12px; left:16px; right:16px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="background:rgba(242,101,34,0.9); color:#FFF; font-size:9.5px; font-weight:900; padding:2px 8px; border-radius:4px; letter-spacing:0.8px; text-transform:uppercase;">ULTRA-HD 1080p</span>
+                  <span style="color:#00D2FF; font-weight:900; font-size:12.5px; text-transform:uppercase; letter-spacing:0.6px; text-shadow:0 2px 8px rgba(0,0,0,0.9);">DIAMAX SPORTS ECOSYSTEM</span>
+                </div>
+                <h4 style="margin:3px 0 0 0; font-size:15px; font-weight:900; color:#FFFFFF; text-shadow:0 2px 10px rgba(0,0,0,0.9);">
+                  Inscripción Oficial de Equipos & Ligas
+                </h4>
+              </div>
+              <span style="background:rgba(16,185,129,0.25); border:1px solid #10B981; color:#A7F3D0; font-size:11px; font-weight:900; padding:4px 10px; border-radius:20px; backdrop-filter:blur(6px); display:flex; align-items:center; gap:5px;">
+                <span>🎁</span> <span>30 Días Gratis · Sin Tarjeta</span>
+              </span>
+            </div>
           </div>
-          <span style="background:rgba(242,101,34,0.2); border:1px solid #F26522; color:#FFF; font-size:10.5px; font-weight:900; padding:4px 10px; border-radius:20px;">
-            🎁 Incluye 30 Días Gratis
-          </span>
         </div>
 
         <form id="form-registro-oficial" onsubmit="event.preventDefault(); ejecutarRegistroOficial();">
@@ -11517,51 +11573,141 @@ window.addEventListener('load', function() {
 
             </div>
 
-            <!-- SECCIÓN 2: EQUIPO Y LIGA -->
+            
+            <!-- SECCIÓN 2: EQUIPO Y LIGA (SISTEMA UNIVERSAL CUALQUIER LIGA Y EDAD) -->
             <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
-                <span style="font-size:16px;">⚾</span>
-                <h3 style="margin:0; font-size:13px; font-weight:900; color:#F26522; text-transform:uppercase; letter-spacing:0.5px;">2. Sección Equipo y Liga</h3>
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08); flex-wrap:wrap; gap:6px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="font-size:16px;">⚾</span>
+                  <h3 style="margin:0; font-size:13px; font-weight:900; color:#F26522; text-transform:uppercase; letter-spacing:0.5px;">2. Sección Equipo y Liga (Universal)</h3>
+                </div>
+                <span style="font-size:10px; color:#94A3B8; background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:4px;">Cualquier Categoría & Deporte</span>
+              </div>
+
+              <!-- Selector de Rol 3D (Manager / Coach / Admin Liga / Jugador) -->
+              <div style="margin-bottom:16px;">
+                <label style="display:flex; align-items:center; justify-content:space-between; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:6px; text-transform:uppercase;">
+                  <span>Rol del Usuario <span style="color:#EF4444;">*</span></span>
+                  <span style="color:#00D2FF; font-size:9.5px;">Selecciona tu función en la franquicia</span>
+                </label>
+                
+                <!-- 3D Liquid Glass Cards Grid -->
+                <input type="hidden" id="reg-user-role" value="MANAGER" required>
+                <div id="role-3d-selector-grid" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;">
+                  
+                  <!-- Rol 1: Manager -->
+                  <div id="role-card-MANAGER" onclick="seleccionarRol3D('MANAGER')" style="cursor:pointer; background:linear-gradient(135deg, rgba(242,101,34,0.18), rgba(15,23,42,0.85)); border:2px solid #F26522; border-radius:10px; padding:10px; transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow:0 4px 15px rgba(242,101,34,0.25); transform:translateY(-2px);">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                      <span style="font-size:18px;">👑</span>
+                      <div>
+                        <div style="font-size:11.5px; font-weight:900; color:#FFF; line-height:1.2;">Manager</div>
+                        <div style="font-size:9.5px; color:#FF9F68; font-weight:700;">Dueño de Franquicia</div>
+                      </div>
+                    </div>
+                    <p style="margin:0; font-size:9.5px; color:#94A3B8; line-height:1.2;">Control total de roster, lineup, fichajes y partidos.</p>
+                  </div>
+
+                  <!-- Rol 2: Coach -->
+                  <div id="role-card-COACH" onclick="seleccionarRol3D('COACH')" style="cursor:pointer; background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(15,23,42,0.6)); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px; transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                      <span style="font-size:18px;">🧢</span>
+                      <div>
+                        <div style="font-size:11.5px; font-weight:900; color:#E2E8F0; line-height:1.2;">Coach</div>
+                        <div style="font-size:9.5px; color:#94A3B8; font-weight:700;">Asistente Técnico</div>
+                      </div>
+                    </div>
+                    <p style="margin:0; font-size:9.5px; color:#64748B; line-height:1.2;">Manejo de alineación, dugout y jugadas en vivo.</p>
+                  </div>
+
+                  <!-- Rol 3: Admin de Liga -->
+                  <div id="role-card-ADMIN_LIGA" onclick="seleccionarRol3D('ADMIN_LIGA')" style="cursor:pointer; background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(15,23,42,0.6)); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px; transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                      <span style="font-size:18px;">🏛️</span>
+                      <div>
+                        <div style="font-size:11.5px; font-weight:900; color:#E2E8F0; line-height:1.2;">Admin Liga</div>
+                        <div style="font-size:9.5px; color:#94A3B8; font-weight:700;">Comisionado</div>
+                      </div>
+                    </div>
+                    <p style="margin:0; font-size:9.5px; color:#64748B; line-height:1.2;">Crea torneos, calendarios y aprueba franquicias.</p>
+                  </div>
+
+                  <!-- Rol 4: Jugador -->
+                  <div id="role-card-JUGADOR" onclick="seleccionarRol3D('JUGADOR')" style="cursor:pointer; background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(15,23,42,0.6)); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px; transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                      <span style="font-size:18px;">⚾</span>
+                      <div>
+                        <div style="font-size:11.5px; font-weight:900; color:#E2E8F0; line-height:1.2;">Jugador</div>
+                        <div style="font-size:9.5px; color:#94A3B8; font-weight:700;">Atleta Oficial</div>
+                      </div>
+                    </div>
+                    <p style="margin:0; font-size:9.5px; color:#64748B; line-height:1.2;">Perfil de atleta y stats. Aprobación previa por Manager.</p>
+                  </div>
+
+                </div>
               </div>
 
               <!-- Nombre del Equipo -->
               <div style="margin-bottom:12px;">
-                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Nombre del Equipo <span style="color:#EF4444;">*</span></label>
-                <input type="text" id="reg-team-name" placeholder="ej. Guerreros de Venezuela" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Nombre del Equipo / Franquicia <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="reg-team-name" placeholder="ej. Guerreros de Venezuela / Leones BBC" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
               </div>
 
-              <!-- Categoría -->
+              <!-- Deporte y Modalidad -->
               <div style="margin-bottom:12px;">
-                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Categoría de la Liga <span style="color:#EF4444;">*</span></label>
-                <select id="reg-category" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
-                  <option value="+55">🏆 +55 (Super Máster Leyendas)</option>
-                  <option value="+50">🥇 +50 (Máster Oro)</option>
-                  <option value="+40">🥈 +40 (Máster Plata)</option>
-                  <option value="Senior">⭐ Senior (+35)</option>
-                  <option value="Libre">⚾ Libre / Doble A (Abierta)</option>
-                  <option value="Juvenil">⚡ Juvenil (15 - 18 años)</option>
-                  <option value="Infantil">🌱 Infantil / Formación</option>
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Deporte & Modalidad <span style="color:#EF4444;">*</span></label>
+                <select id="reg-sport-modality" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:13px; font-weight:700; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+                  <option value="BEISBOL_9">⚾ Béisbol Tradicional (9 Innings)</option>
+                  <option value="BEISBOL_7">⚾ Béisbol Menor / Reducido (7 Innings)</option>
+                  <option value="SOFTBOL_RAPIDA">🥎 Softbol Bola Rápida (Fastpitch)</option>
+                  <option value="SOFTBOL_MODIFICADO">🥎 Softbol Modificado / Bola Chata</option>
+                  <option value="SOFTBOL_SLOWPITCH">🥎 Softbol Bola Lenta (Slowpitch)</option>
                 </select>
               </div>
 
-              <!-- Rol del Usuario -->
+              <!-- Categoría y División de Edad Universal -->
               <div style="margin-bottom:12px;">
-                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Rol del Usuario <span style="color:#EF4444;">*</span></label>
-                <select id="reg-user-role" onchange="actualizarExplicacionRol(this.value)" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:13px; font-weight:800; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
-                  <option value="MANAGER">👑 Manager (Creador y Administrador de Franquicia)</option>
-                  <option value="COACH">🧢 Coach (Asistente Técnico & Lineup)</option>
-                  <option value="ADMIN_LIGA">🏛️ Administrador de Liga / Comisionado</option>
-                  <option value="JUGADOR">⚾ Jugador (Atleta / Miembro de Roster)</option>
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Categoría & División de Edad <span style="color:#EF4444;">*</span></label>
+                <select id="reg-category" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
+                  <optgroup label="🏆 VETERANOS & MÁSTER (CUALQUIER EDAD)">
+                    <option value="+55" selected>🏆 +55 (Súper Máster / Leyendas)</option>
+                    <option value="+65">👑 +65 (Súper Leyendas / Master Platino)</option>
+                    <option value="+60">🎖️ +60 (Gran Máster)</option>
+                    <option value="+50">🥇 +50 (Máster Oro)</option>
+                    <option value="+40">🥈 +40 (Máster Plata)</option>
+                  </optgroup>
+                  <optgroup label="⭐ ADULTOS & ABIERTA">
+                    <option value="Senior">⭐ Senior (+35)</option>
+                    <option value="Senior30">⭐ Senior (+30)</option>
+                    <option value="Libre">⚾ Libre / Categoría A / Doble A (Abierta)</option>
+                    <option value="Universitario">🎓 Universitario / Recreacional</option>
+                  </optgroup>
+                  <optgroup label="⚡ JUVENIL & DESARROLLO">
+                    <option value="Juvenil_AAA">⚡ Juvenil AAA (17 - 18 años)</option>
+                    <option value="Juvenil_AA">⚡ Juvenil AA (15 - 16 años)</option>
+                    <option value="Prospectos">🎯 Prospectos / Showcase</option>
+                  </optgroup>
+                  <optgroup label="🌱 FORMACIÓN & MENOR">
+                    <option value="Infantil">🌱 Infantil (11 - 12 años)</option>
+                    <option value="PreInfantil">🌱 Pre-Infantil (9 - 10 años)</option>
+                    <option value="Preparatorio">🌱 Preparatorio (7 - 8 años)</option>
+                    <option value="Semillero">🌱 Semillero / Tee-Ball (4 - 6 años)</option>
+                  </optgroup>
+                  <optgroup label="🌸 FEMENINO">
+                    <option value="Femenino_Libre">🌸 Softbol Femenino Libre</option>
+                    <option value="Femenino_Master">🌸 Softbol Femenino Máster</option>
+                    <option value="Beisbol_Femenino">🌸 Béisbol Femenino</option>
+                  </optgroup>
                 </select>
               </div>
 
               <!-- Ubicación / Ciudad / País -->
               <div style="margin-bottom:6px;">
                 <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Ubicación / Ciudad / País <span style="color:#EF4444;">*</span></label>
-                <input type="text" id="reg-location" placeholder="ej. Valencia / Carabobo / Venezuela" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
+                <input type="text" id="reg-location" placeholder="ej. Valencia, Carabobo, Venezuela / Miami, FL, USA" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
               </div>
 
             </div>
+
           </div>
 
           <!-- REGLAS DE NEGOCIO Y ASIGNACIÓN DE PERMISOS (INFORMACIÓN EN VIVO) -->
