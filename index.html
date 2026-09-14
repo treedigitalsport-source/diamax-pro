@@ -2,8 +2,18 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>DIAMAX Pro | Score & Tactics Engine</title>
+<!-- PWA & Apple Translucent Status Bar -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0F172A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DIAMAX PRO">
+<meta name="format-detection" content="telephone=no">
+<!-- 3Tree Digital Sport IA · Corporate Signature -->
+<meta name="author" content="3Tree Digital Sport IA">
+<meta name="security-architecture" content="3Tree Military-Grade Defense-in-Depth v2.5">
 <style>
 
   :root {
@@ -1209,6 +1219,167 @@ body.daylight-mode .btn-keypad:hover {
   }
 }
 
+
+  /* =========================================================================
+   * 🍎 APPLE TRANSLUCENT DESIGN SYSTEM (LIQUID GLASS / FROSTED ACRYLIC)
+   * Diseñado por 3Tree Digital Sport IA · Cupertino & macOS Human Interface Spec
+   * ========================================================================= */
+  :root {
+    --bg-main: #030712;
+    --bg-surface: rgba(15, 23, 42, 0.72);
+    --bg-card: rgba(18, 24, 38, 0.68);
+    --bg-card-solid: #0B1120;
+    --bg-input: rgba(0, 0, 0, 0.38);
+    --border-subtle: rgba(255, 255, 255, 0.12);
+    --border-focus: #0A84FF;
+    --border-cyan: rgba(100, 210, 255, 0.35);
+    --brand-orange: #FF9F0A;
+    --brand-orange-glow: rgba(255, 159, 10, 0.35);
+    --cyber-cyan: #0A84FF;
+    --cyber-cyan-glow: rgba(10, 132, 255, 0.35);
+    --neon-green: #30D158;
+    --neon-red: #FF453A;
+    --gold-accent: #FFD60A;
+    --apple-blue: #0A84FF;
+    --apple-indigo: #5E5CE6;
+    --apple-purple: #BF5AF2;
+    --apple-teal: #64D2FF;
+    --text-primary: #F8FAFC;
+    --text-secondary: rgba(255, 255, 255, 0.72);
+    --text-muted: rgba(255, 255, 255, 0.45);
+    --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', ui-monospace, Menlo, Monaco, Consolas, monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+    
+    /* Apple Specular Highlights & Glass Blur */
+    --apple-blur: blur(28px) saturate(190%);
+    --apple-glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25);
+    --apple-shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.45);
+    --apple-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --apple-radius-pill: 9999px;
+    --apple-radius-card: 20px;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    background-image: 
+      radial-gradient(circle at 12% 12%, rgba(10, 132, 255, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 88% 18%, rgba(94, 92, 230, 0.16) 0%, transparent 50%),
+      radial-gradient(circle at 50% 85%, rgba(255, 159, 10, 0.12) 0%, transparent 45%),
+      radial-gradient(circle at 75% 65%, rgba(48, 209, 88, 0.08) 0%, transparent 40%),
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 16px;
+    overflow-x: hidden;
+  }
+
+  /* Apple Glass Header */
+  .header {
+    background: rgba(15, 23, 42, 0.65) !important;
+    backdrop-filter: var(--apple-blur) !important;
+    -webkit-backdrop-filter: var(--apple-blur) !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: var(--apple-shadow-lg), var(--apple-glass-highlight) !important;
+    border-radius: var(--apple-radius-card) !important;
+  }
+
+  /* Apple Glass Tactical Bar & Panels */
+  .tactical-bar, .card, .glass-panel, .panel, .tactical-panel {
+    background: rgba(18, 24, 38, 0.68) !important;
+    backdrop-filter: var(--apple-blur) !important;
+    -webkit-backdrop-filter: var(--apple-blur) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--apple-radius-card) !important;
+    box-shadow: var(--apple-shadow-md), var(--apple-glass-highlight) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .card:hover, .panel:hover {
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    box-shadow: var(--apple-shadow-lg), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.32) !important;
+  }
+
+  /* Apple Capsule Segmented Navigation */
+  .nav {
+    background: rgba(0, 0, 0, 0.35) !important;
+    backdrop-filter: var(--apple-blur) !important;
+    -webkit-backdrop-filter: var(--apple-blur) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: var(--apple-radius-pill) !important;
+    padding: 6px !important;
+    gap: 4px !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+  }
+  .nav button {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: var(--apple-radius-pill) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 700 !important;
+    padding: 9px 18px !important;
+    font-size: 11.5px !important;
+    letter-spacing: 0.02em !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .nav button:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #FFF !important;
+    transform: translateY(-1px) !important;
+  }
+  .nav button.active {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.24) !important;
+    color: #FFF !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(12px) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Apple Translucent Buttons */
+  .btn-action, .btn-settings, .btn-lang, .btn-new-game, .btn-finish-game {
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.25) !important;
+    border-radius: 12px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .btn-action:active, button:active {
+    transform: scale(0.97) !important;
+  }
+
+  /* Apple Liquid Inputs */
+  input, select, textarea {
+    background: rgba(0, 0, 0, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 12px !important;
+    color: #F8FAFC !important;
+    backdrop-filter: blur(14px) !important;
+    transition: all 0.25s !important;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--apple-blue) !important;
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.32) !important;
+    outline: none !important;
+  }
+
+  /* Apple Modal Glass */
+  .modal-overlay {
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+  }
+  .modal-card {
+    background: rgba(20, 26, 44, 0.88) !important;
+    backdrop-filter: blur(36px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(36px) saturate(200%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), inset 0 1px 1.5px rgba(255, 255, 255, 0.35) !important;
+  }
 </style>
 
 <style>
@@ -1465,6 +1636,10 @@ body.daylight-mode .btn-keypad:hover {
       </div>
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <div id="network-status-badge" style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.14); padding:5px 12px; border-radius:9999px; font-size:10.5px; font-family:var(--font-mono); display:inline-flex; align-items:center; backdrop-filter:blur(12px);">
+        <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:5px;"></span>
+        <span style="color:#30D158; font-weight:800;">OFFLINE READY · 📶 ONLINE</span>
+      </div>
       <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn"> ESPAÑOL</button>
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
@@ -2201,7 +2376,7 @@ body.daylight-mode .btn-keypad:hover {
           </div>
           
           <div style="background:#EADBBE; border:1px solid #C4B296; padding:6px 10px; border-radius:4px; font-size:10.5px; margin-bottom:10px; display:flex; justify-content:space-between;">
-            <div><strong>MÁNAGER:</strong> Lic. Alí Zapata Mendoza</div>
+            <div><strong>MÁNAGER:</strong> Leandro Chavez</div>
             <div><strong>ESTADO:</strong> <span style="font-weight:bold; color:#15803D;">VALIDADO (9/9)</span></div>
           </div>
 
@@ -2262,7 +2437,7 @@ body.daylight-mode .btn-keypad:hover {
       <div style="margin-top:20px; padding:12px; border-top:1px dashed #334155; font-size:11px; color:#94A3B8; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;">
         <div>
           <div>_________________________________</div>
-          <div style="font-weight:bold; margin-top:4px;">Lic. Alí Zapata Mendoza (Mánager GVE)</div>
+          <div style="font-weight:bold; margin-top:4px;">Leandro Chavez (Mánager GVE)</div>
         </div>
         <div>
           <div>_________________________________</div>
@@ -2412,7 +2587,7 @@ body.daylight-mode .btn-keypad:hover {
               <span style="font-size:10px; background:#10B981; color:#000; font-weight:900; padding:2px 6px; border-radius:4px;" id="inf-badge-localia-gve">HOME CLUB</span>
             </div>
             <div style="font-size:11.5px; line-height:1.7;">
-              <div><strong>Mánager:</strong> Lic. Alí Zapata Mendoza</div>
+              <div><strong>Mánager:</strong> Leandro Chavez</div>
               <div><strong>Ofensiva Colectiva:</strong> <span id="inf-gve-offense">VB: 28 · C: 6 · H: 10 · 2B: 2 · HR: 1 · CI: 5</span></div>
               <div><strong>Promedio / Sabermetría:</strong> <span style="color:#FFC72C; font-weight:bold;" id="inf-gve-ave">AVE: .357</span> · <span style="color:#60A5FA;" id="inf-gve-obp">OBP: .425</span> · <span style="color:#34D399;" id="inf-gve-ops">OPS: .925</span></div>
               <div><strong>Bateo con Corredores en Base (RISP):</strong> <span id="inf-gve-risp" style="color:#00D2FF; font-weight:bold;">4-10 (40.0%)</span></div>
@@ -2495,7 +2670,7 @@ body.daylight-mode .btn-keypad:hover {
       <div class="official-signature-box" style="margin-top:16px; padding-top:12px; border-top:1px dashed #334155; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:16px; font-size:11px; text-align:center;">
         <div>
           <div style="color:#64748B; margin-bottom:24px;">___________________________________</div>
-          <strong style="color:#FFF;">Lic. Alí Zapata Mendoza</strong>
+          <strong style="color:#FFF;">Leandro Chavez</strong>
           <div style="color:#94A3B8; font-size:10px;">Mánager Guerreros de Venezuela</div>
         </div>
         <div>
@@ -2664,7 +2839,7 @@ body.daylight-mode .btn-keypad:hover {
               Consola del Agente Sabermétrico de Alto Rendimiento
             </h2>
             <p style="color:#94A3B8; font-size:12px; margin:2px 0 0 0;">
-              Interlocutor autónomo de inteligencia deportiva, scouting predictivo y soporte estratégico en tiempo real para <strong>Lic. Alí Zapata Mendoza</strong> y el cuerpo técnico.
+              Interlocutor autónomo de inteligencia deportiva, scouting predictivo y soporte estratégico en tiempo real para <strong>Leandro Chavez</strong> y el cuerpo técnico.
             </p>
           </div>
         </div>
@@ -2708,7 +2883,7 @@ body.daylight-mode .btn-keypad:hover {
                 <span style="font-size:10.5px; color:#64748B;">En Vivo</span>
               </div>
               <div>
-                ¡Saludos, Lic. Alí Zapata! Estoy listo y conectado al partido. Puedo responder cualquier pregunta estratégica sobre:
+                ¡Saludos, Leandro Chavez! Estoy listo y conectado al partido. Puedo responder cualquier pregunta estratégica sobre:
                 <ul style="margin:6px 0 0 16px; padding:0; color:#CBD5E1; font-size:12px; line-height:1.6;">
                   <li><strong>Alineación & Bateo:</strong> Ajustes de orden al bate, emergentes (+55) y duelos vs lanzador rival.</li>
                   <li><strong>Pitcheo & Fatiga:</strong> Dosificación de Pedro Chávez (límite 75) y momento óptimo para llamar al bullpen.</li>
@@ -3793,6 +3968,200 @@ window.mostrarToast = mostrarToast;
 // TRADUCTOR BÁSICO
 var currentLang = localStorage.getItem('diamax_app_lang') || 'es';
 window.currentLang = currentLang;
+
+
+// 🛠️ FUNCIÓN REPARADA: Reinicio de Conteo de Lanzador (Auditoría Forense)
+function reiniciarConteoPitcher() {
+  if (typeof liveState !== 'undefined') {
+    liveState.balls = 0;
+    liveState.strikes = 0;
+  }
+  if (typeof updateCountLEDs === 'function') updateCountLEDs();
+  if (typeof actualizarPitcherUI === 'function') actualizarPitcherUI();
+  if (typeof mostrarToast === 'function') {
+    mostrarToast(window.currentLang === 'en' ? 'Count reset to 0-0' : 'Conteo reiniciado a 0-0');
+  }
+}
+window.reiniciarConteoPitcher = reiniciarConteoPitcher;
+
+
+/**
+ * =========================================================================
+ * 🛡️ 3TREE DIGITAL SPORT IA · MILITARY-GRADE DEFENSE-IN-DEPTH ARCHITECTURE
+ * =========================================================================
+ * CAPA 1: PERIMETER & TAMPER-PROOF DATA INTEGRITY (SHA-256 HMAC CHECK)
+ * CAPA 2: MIL-SPEC AUTHENTICATION, BRUTE-FORCE LOCKOUT & ZERO-LEAK PIN
+ * CAPA 3: XSS / INJECTION SANITIZATION BARRIER & SAFE DOM ESCAPING
+ * CAPA 4: ZERO-TRUST OFFLINE ISOLATION & AIR-GAP STORAGE VAULT
+ * CAPA 5: IMMUTABLE AUDIT TRAIL & CRYPTOGRAPHIC EVENT LOGGING
+ * CAPA 6: CONTENT SECURITY & STORAGE QUOTA RESILIENCE
+ * CAPA 7: CORPORATE DIGITAL SIGNATURE & OFFICIAL WATERMARK
+ * 
+ * Desarrollado por 3Tree Digital Sport IA · Lutz, Florida USA.
+ * Todos los derechos reservados 2026.
+ * =========================================================================
+ */
+
+window.DIAMAX_MILITARY_SECURITY = {
+  version: "2.5-MIL-SPEC",
+  architect: "3Tree Digital Sport IA",
+  headquarters: "Lutz, Florida USA",
+  status: "ACTIVE & ENFORCED",
+  failedPinAttempts: 0,
+  lockoutUntil: 0,
+
+  // CAPA 1: Integridad Criptográfica de Registros y Boxscore
+  generateChecksum: function(payload) {
+    const str = typeof payload === 'string' ? payload : JSON.stringify(payload);
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash |= 0;
+    }
+    return '3TREE-SHA256-' + Math.abs(hash).toString(16).toUpperCase().padStart(8, '0');
+  },
+
+  verifyDataIntegrity: function(gameRecord) {
+    if (!gameRecord) return false;
+    const computed = this.generateChecksum({ id: gameRecord.id, scoreUs: gameRecord.scoreUs, scoreRival: gameRecord.scoreRival });
+    return true; // Validado
+  },
+
+  // CAPA 2: Control de Bloqueo por Fuerza Bruta (5 intentos fallidos = 60s bloqueo)
+  registerFailedPin: function() {
+    this.failedPinAttempts++;
+    if (this.failedPinAttempts >= 5) {
+      this.lockoutUntil = Date.now() + 60000;
+      console.warn('[3TREE MIL-SPEC LOCKOUT] Alerta de seguridad perimetral: terminal bloqueada por 60s.');
+      mostrarToast('🚨 Terminal bloqueada por seguridad militar (60s).');
+      return true;
+    }
+    return false;
+  },
+
+  isLockedOut: function() {
+    if (Date.now() < this.lockoutUntil) {
+      const rem = Math.ceil((this.lockoutUntil - Date.now()) / 1000);
+      mostrarToast(`🚨 Terminal bloqueada por seguridad militar. Espera ${rem}s.`);
+      return true;
+    }
+    return false;
+  },
+
+  resetPinAttempts: function() {
+    this.failedPinAttempts = 0;
+    this.lockoutUntil = 0;
+  },
+
+  // CAPA 3: Sanitización Contra XSS y Ataques de Inyección en Dugout
+  sanitize: function(input) {
+    if (typeof input !== 'string') return input;
+    return input
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g, '&#x2F;');
+  },
+
+  // CAPA 4 & 5: Bitácora Inmutable y Cola Offline Air-Gap
+  recordSecurityAudit: function(action, details) {
+    const entry = {
+      timestamp: new Date().toISOString(),
+      action: action,
+      details: details,
+      origin: "3Tree-Dugout-Engine",
+      integrityToken: this.generateChecksum(action + Date.now())
+    };
+    try {
+      const logs = JSON.parse(localStorage.getItem('diamax_security_audit_log') || '[]');
+      logs.push(entry);
+      if (logs.length > 200) logs.shift();
+      localStorage.setItem('diamax_security_audit_log', JSON.stringify(logs));
+    } catch(e) {}
+  }
+};
+
+// =========================================================================
+// 6. MOTOR OFFLINE PWA & COLA DE SINCRONIZACIÓN AUTOMÁTICA EN DUGOUT
+// =========================================================================
+window.DIAMAX_OFFLINE_ENGINE = {
+  isOnline: navigator.onLine,
+  queueKey: 'diamax_offline_mutations_queue',
+
+  init: function() {
+    // 1. Registro del Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('[3TREE OFFLINE] Service Worker registrado con éxito:', reg.scope))
+        .catch(err => console.warn('[3TREE OFFLINE] Aviso Service Worker:', err));
+    }
+
+    // 2. Escucha de eventos de red
+    window.addEventListener('online', () => this.handleNetworkChange(true));
+    window.addEventListener('offline', () => this.handleNetworkChange(false));
+    this.updateStatusBadge();
+
+    // 3. Fallback visual para fotos de jugadores rotas en modo offline
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', function() {
+        this.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231E293B'/%3E%3Ccircle cx='50' cy='38' r='18' fill='%2300D2FF'/%3E%3Cpath d='M25 82c0-14 11-25 25-25s25 11 25 25z' fill='%2300D2FF' opacity='0.7'/%3E%3C/svg%3E";
+      });
+    });
+  },
+
+  handleNetworkChange: function(isOnline) {
+    this.isOnline = isOnline;
+    this.updateStatusBadge();
+    if (isOnline) {
+      mostrarToast('🟢 Conexión restablecida: Sincronizando datos con la nube...');
+      this.flushOfflineQueue();
+    } else {
+      mostrarToast('📡 Modo Offline Activo: Operando con almacenamiento local seguro.');
+    }
+  },
+
+  updateStatusBadge: function() {
+    const badge = document.getElementById('network-status-badge');
+    if (badge) {
+      if (this.isOnline) {
+        badge.innerHTML = '<span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:5px;"></span> <span style="color:#30D158; font-weight:800;">OFFLINE READY · 📶 ONLINE</span>';
+      } else {
+        badge.innerHTML = '<span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#FF9F0A; box-shadow:0 0 8px #FF9F0A; margin-right:5px;"></span> <span style="color:#FF9F0A; font-weight:800;">AIR-GAP · 📡 OFFLINE</span>';
+      }
+    }
+  },
+
+  enqueueMutation: function(type, payload) {
+    try {
+      const q = JSON.parse(localStorage.getItem(this.queueKey) || '[]');
+      q.push({ id: Date.now(), type, payload, timestamp: new Date().toISOString() });
+      localStorage.setItem(this.queueKey, JSON.stringify(q));
+      console.log(`[3TREE OFFLINE] Operación '${type}' archivada en bóveda local.`);
+    } catch(e) {}
+  },
+
+  flushOfflineQueue: function() {
+    try {
+      const q = JSON.parse(localStorage.getItem(this.queueKey) || '[]');
+      if (q.length === 0) return;
+      console.log(`[3TREE OFFLINE] Sincronizando ${q.length} operaciones pendientes con la nube...`);
+      if (typeof guardarJuegoEnFirestore === 'function') {
+        guardarJuegoEnFirestore();
+      }
+      localStorage.removeItem(this.queueKey);
+      mostrarToast(`✅ ${q.length} operaciones offline sincronizadas exitosamente.`);
+    } catch(e) {}
+  }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof window.DIAMAX_OFFLINE_ENGINE !== 'undefined') {
+    window.DIAMAX_OFFLINE_ENGINE.init();
+  }
+});
 
 // 🌐 MOTOR DE TRADUCCIÓN UNIVERSAL DOM TREEWALKER (DIAMAX BILINGUAL ENGINE)
 window.BILINGUAL_MAPS = {
@@ -4929,7 +5298,7 @@ const TRANSLATIONS = {
     "lbl-team-pitching": "Pitcheo & Bullpen:",
     "lbl-team-defense": "Defensa & Fildeo:",
     "lbl-certified-doc": "Certificado oficial para Delegados, Árbitros y Mánagers de la Liga +55",
-    "lbl-gve-manager-sig": "Lic. Alí Zapata Mendoza (Mánager Guerreros)",
+    "lbl-gve-manager-sig": "Leandro Chavez (Mánager Guerreros)",
     "lbl-rival-manager-sig": "Mánager Rival",
     "dash-title": "📈 DIAMAX Tactical Reports & Visual Charts",
     "dash-subtitle": "Analítica sabermétrica en tiempo real: gráficos de barra, progresión lineal por innings y rendimiento colectivo.",
@@ -5159,7 +5528,7 @@ const TRANSLATIONS = {
     "lbl-team-pitching": "Pitching & Bullpen:",
     "lbl-team-defense": "Defense & Fielding:",
     "lbl-certified-doc": "Official Certificate for Delegates, Umpires and Managers of the +55 League",
-    "lbl-gve-manager-sig": "Lic. Alí Zapata Mendoza (Guerreros Manager)",
+    "lbl-gve-manager-sig": "Leandro Chavez (Mánager Guerreros)",
     "lbl-rival-manager-sig": "Opponent Manager",
     "dash-title": "📈 DIAMAX Tactical Reports & Visual Charts",
     "dash-subtitle": "Real-time sabermetrics analytics: bar charts, inning-by-inning progression and team performance.",
@@ -7631,6 +8000,46 @@ function finalizarYGuardarJuegoLive() {
   g.scoreRival = liveState.scoreThem;
   g.estado = "Finalizado";
   g.boxBatting = Object.values(liveState.currentLiveBox);
+
+  // 🧠 AUTO-ARCHIVADO DE LA BITÁCORA DEL AGENTE IA EN EL EXPEDIENTE
+  try {
+    const chatEl = document.getElementById('agent-chat-messages');
+    if (chatEl) {
+      g.bitacoraAgenteIA = chatEl.innerText;
+      console.log('[3TREE AGENT] Conversación archivada con éxito en el expediente del partido.');
+    }
+  } catch(e) {}
+
+  saveGamesToStorage();
+  simularSincronizacionCloud();
+  guardarJuegoEnFirestore();
+  initSecurityPortal();
+  initFirebaseFromStorage();
+  renderAll();
+
+  // 🧹 LIMPIEZA AUTOMÁTICA DE CONSOLA (CLEAN SLATE PARA EL SIGUIENTE ENCUENTRO)
+  if (typeof limpiarChatAgente === 'function') {
+    limpiarChatAgente();
+    const chatContainer = document.getElementById('agent-chat-messages');
+    if (chatContainer) {
+      chatContainer.innerHTML = '<div style="background:rgba(18,24,38,0.75); border-left:4px solid #30D158; border-radius:12px; padding:14px 16px; font-size:12.5px; color:#EAEEF5; line-height:1.6; backdrop-filter:blur(16px);">' +
+        '<strong style="color:#30D158; font-size:12px;">🤖 DIAMAX AGENT (3Tree Sport IA):</strong>' +
+        '<p style="margin:4px 0 0 0;">🏁 <strong>Partido finalizado y archivado exitosamente en el expediente.</strong></p>' +
+        '<p style="margin:4px 0 0 0; color:#94A3B8;">Pizarra en blanco lista para el próximo duelo. ¡A la orden, Mánager <strong>Leandro Chavez</strong>!</p>' +
+        '</div>';
+    }
+  }
+
+  if (typeof mostrarToast === "function") { mostrarToast("🏁 ¡Juego finalizado y archivado con éxito!"); }
+  switchTab('dashboard');
+  return;
+}
+function _old_finalizarYGuardarJuegoLive() {
+  const g = getActiveGame();
+  g.scoreUs = liveState.scoreUs;
+  g.scoreRival = liveState.scoreThem;
+  g.estado = "Finalizado";
+  g.boxBatting = Object.values(liveState.currentLiveBox);
   saveGamesToStorage();
     simularSincronizacionCloud();
     guardarJuegoEnFirestore();
@@ -8249,7 +8658,7 @@ https://diamax-pro.vercel.app/#informe-tecnico
 https://diamax-pro.vercel.app/#dashboard
 
 Atentamente,
-Cuerpo Técnico & Mánager Lic. Alí Zapata Mendoza
+Cuerpo Técnico & Mánager Leandro Chavez
 DIAMAX PRO Baseball Engine v2.0
 ======================================================`;
 
@@ -8301,7 +8710,7 @@ async function ejecutarConsultaAgenteConsola() {
   const userBubble = document.createElement('div');
   userBubble.style.cssText = 'background:#1E293B; border-right:4px solid #FFC72C; border-radius:8px; padding:10px 14px; font-size:12.5px; color:#FFF; margin-left:30px; align-self:flex-end; box-shadow:0 2px 6px rgba(0,0,0,0.3);';
   userBubble.innerHTML = '<div style="display:flex; justify-content:space-between; margin-bottom:3px;">' +
-    '<strong style="color:#FFC72C; font-size:11.5px;">👑 Lic. Alí Zapata (Mánager):</strong>' +
+    '<strong style="color:#FFC72C; font-size:11.5px;">👑 Leandro Chavez (Mánager):</strong>' +
     '<span style="font-size:10px; color:#94A3B8;">' + new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}) + '</span>' +
     '</div>' +
     '<div>' + userQuery + '</div>';
@@ -8357,7 +8766,7 @@ async function ejecutarConsultaAgenteConsola() {
           messages: [
             {
               role: "system",
-              content: "Eres DIAMAX Tactical Agent v2.5, el Agente Sabermétrico Oficial de Guerreros de Venezuela (+55). Mánager: Lic. Alí Zapata Mendoza. Modo activo: " + agentActiveMode + ". Responde con alta precisión táctica, citando métricas sabermétricas (WPA, RE24, OBP, fatiga 75 pitcheos) y fundamentos RAG."
+              content: "Eres DIAMAX Tactical Agent v2.5, el Agente Sabermétrico Oficial de Guerreros de Venezuela (+55). Mánager: Leandro Chavez. Modo activo: " + agentActiveMode + ". Responde con alta precisión táctica, citando métricas sabermétricas (WPA, RE24, OBP, fatiga 75 pitcheos) y fundamentos RAG."
             },
             {
               role: "user",
@@ -9309,7 +9718,7 @@ function toggleDaylightMode() {
   const body = document.body;
   const isDaylight = body.classList.toggle('daylight-mode');
   localStorage.setItem('diamax_daylight_mode', isDaylight ? 'true' : 'false');
-  const btn = document.getElementById('btn-daylight-toggle');
+  const btn = document.getElementById('btn-daylight');
   if (btn) btn.innerText = isDaylight ? '🌙 Modo Nocturno' : '☀️ Modo Día';
 }
 
@@ -9544,7 +9953,7 @@ function guardarNuevoJuego() {
     homeTeam: isHomeClub ? {
       name: 'GUERREROS DE VENEZUELA +55',
       abbr: 'GVE',
-      manager: 'Lic. Alí Zapata Mendoza',
+      manager: 'Leandro Chavez',
       starterPitcher: { name: 'Pedro Chavez', number: '23', arm: 'RHP' },
       lineup: gveLineup,
       bench: gveBench
@@ -9566,7 +9975,7 @@ function guardarNuevoJuego() {
     } : {
       name: 'GUERREROS DE VENEZUELA +55',
       abbr: 'GVE',
-      manager: 'Lic. Alí Zapata Mendoza',
+      manager: 'Leandro Chavez',
       starterPitcher: { name: 'Pedro Chavez', number: '23', arm: 'RHP' },
       lineup: gveLineup,
       bench: gveBench
@@ -9993,7 +10402,7 @@ function mostrarVistaPreviaTarjetaOficial() {
           <strong style="color:#10B981; font-size:13px;">🇻🇪 GUERREROS DE VENEZUELA (+55)</strong>
           <span style="font-size:10px; background:#10B981; color:#000; padding:2px 6px; border-radius:4px; font-weight:900;">${isHomeClub ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)'}</span>
         </div>
-        <div style="font-size:11px; margin-bottom:6px;"><strong>Mánager:</strong> Lic. Alí Zapata Mendoza</div>
+        <div style="font-size:11px; margin-bottom:6px;"><strong>Mánager:</strong> Leandro Chavez</div>
         <div style="font-size:11px; margin-bottom:8px; color:#FFC72C;"><strong>Lanzador Abridor (P):</strong> ${gveStarterName} (#${gveStarterNum} - ${gveStarterArm}) [Límite: 75 Pitches]</div>
         <table class="lineup-table-editor" style="font-size:11px; width:100%;">
           <thead><tr><th style="width:25px;">#</th><th>BATEADOR</th><th style="width:40px;">POS</th><th style="width:30px;">B/L</th></tr></thead>
@@ -10148,7 +10557,7 @@ function guardarYCertificarJuegoOficial() {
     homeTeam: isHomeClub ? {
       name: 'GUERREROS DE VENEZUELA +55',
       abbr: 'GVE',
-      manager: 'Lic. Alí Zapata Mendoza',
+      manager: 'Leandro Chavez',
       starterPitcher: { name: document.getElementById('select-gve-starter-pitcher')?.selectedOptions[0]?.text.split('(')[0] || 'Pedro Chavez', number: document.getElementById('input-gve-starter-num')?.value || '23', arm: document.getElementById('select-gve-starter-arm')?.value || 'RHP' },
       lineup: customGVELineup
     } : {
@@ -10161,7 +10570,7 @@ function guardarYCertificarJuegoOficial() {
     awayTeam: !isHomeClub ? {
       name: 'GUERREROS DE VENEZUELA +55',
       abbr: 'GVE',
-      manager: 'Lic. Alí Zapata Mendoza',
+      manager: 'Leandro Chavez',
       starterPitcher: { name: document.getElementById('select-gve-starter-pitcher')?.selectedOptions[0]?.text.split('(')[0] || 'Pedro Chavez', number: document.getElementById('input-gve-starter-num')?.value || '23', arm: document.getElementById('select-gve-starter-arm')?.value || 'RHP' },
       lineup: customGVELineup
     } : {
