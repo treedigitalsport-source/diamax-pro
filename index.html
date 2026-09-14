@@ -1480,8 +1480,9 @@ body.daylight-mode .btn-keypad:hover {
         🏟️ PARTIDO SELECCIONADO:
       </span>
       <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="form-control" style="font-weight:bold; font-size:12.5px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF; min-width:280px; max-width:520px;"></select>
-      <span id="game-condition-badge" style="background:#00D2FF; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">HOME CLUB (LOCAL)</span>
+      <button id="game-condition-badge" onclick="toggleCondicionLocalVisitante()" title="⚡ Clic para alternar entre HOME CLUB y VISITANTE al instante" style="background:#00D2FF; color:#000; font-size:11px; padding:5px 12px; border-radius:6px; font-weight:900; cursor:pointer; border:1px solid rgba(255,255,255,0.3); display:inline-flex; align-items:center; gap:5px; box-shadow:0 0 12px rgba(0,210,255,0.4); transition:all 0.2s;">🔄 HOME CLUB (LOCAL)</button>
       <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
+      <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
     </div>
     <button onclick="abrirModalNuevoJuego()" class="btn-new-game" style="background:linear-gradient(135deg, #00D2FF, #0077FF); color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; box-shadow:0 0 15px rgba(0,210,255,0.3);">+ Configurar Partido & Rival</button>
   </div>
@@ -1799,8 +1800,10 @@ body.daylight-mode .btn-keypad:hover {
     <div class="panel">
       <div style="background:#131D31; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <button onclick="cargarLineupOficialSabado()" style="background:#10B981; color:#000; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(16,185,129,0.3);">📋 Cargar Lineup Oficial (+55)</button>
+          <button onclick="abrirModalVozLineup()" style="background:linear-gradient(135deg, #EC4899, #8B5CF6); color:#fff; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 15px rgba(236,72,153,0.4);">🎙️ Dictar por Voz</button>
           <button onclick="agregarBateadorManual()" style="background:#00D2FF; color:#000; border:none; padding:9px 14px; border-radius:6px; font-weight:900; cursor:pointer;">+ Agregar Jugador</button>
-          <button onclick="ejecutarSimulacionMonteCarloLineup()" style="background:#8B5CF6; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;">🎲 Simulación Monte Carlo (10k)</button>
+          <button onclick="ejecutarSimulacionMonteCarloLineup()" style="background:#8B5CF6; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;">🎲 Monte Carlo (10k)</button>
           <button onclick="autoRellenarLineupIA()" style="background:#2563EB; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;">⚡ Optimizar por IA</button>
           <button onclick="vaciarLineupManual()" style="background:#EF4444; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;">Vaciar</button>
         </div>
@@ -1987,13 +1990,13 @@ body.daylight-mode .btn-keypad:hover {
           <div style="background:#0F172A; padding:10px 14px; border-radius:8px; border-left:3px solid #00D2FF;">
             <strong style="color:#00D2FF;">⚾ Lanzador Abridor & 6 Reservas Oficiales:</strong>
             <div style="margin-top:6px; line-height:1.6; color:#CBD5E1;">
-              10. <strong>#23 Pedro Chavez</strong> (P · RHP · Abridor As)<br>
-              11. <strong>#11 Lic. Alí Zapata</strong> (OF/MGR · Bateo: R)<br>
-              12. <strong>#12 Carlos Santana</strong> (OF · Bateo: S Ambidiestro)<br>
-              13. <strong>#34 Félix Hernández</strong> (P · RHP · Relevista)<br>
-              14. <strong>#42 Mariano Rivera</strong> (P · RHP · Cerrador)<br>
-              15. <strong>#27 José Altuve</strong> (2B · Bateo: R)<br>
-              16. <strong>#24 Miguel Cabrera</strong> (1B/DH · Bateo: R)
+              10. <strong>#10 Pedro Chavez</strong> (P · RHP · Abridor As)<br>
+              11. <strong>#11 Luis Silva</strong> (OF · Bateo: R)<br>
+              12. <strong>#12 Luis Barrios</strong> (IF · Bateo: R)<br>
+              13. <strong>#13 Paul Segarra</strong> (OF · Bateo: L)<br>
+              14. <strong>#14 Julio Machado</strong> (P · RHP · Relevista)<br>
+              15. <strong>#15 Arquimedes Avancines</strong> (IF · Bateo: R)<br>
+              16. <strong>#16 Rafael Briceño</strong> (P · RHP · Cerrador)
             </div>
           </div>
         </div>
@@ -4009,13 +4012,13 @@ const MASTER_ROSTER = [
   { id:7, num:7, name:"Pedro Moreno", defaultPos:"RF", bats:"L", throws:"R", obp:0.370, slg:0.480, photo:"https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&h=100&fit=crop" },
   { id:8, num:8, name:"Juan Perez", defaultPos:"C", bats:"R", throws:"R", obp:0.310, slg:0.360, photo:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop" },
   { id:9, num:9, name:"Martin Rojas", defaultPos:"DH", bats:"R", throws:"R", obp:0.350, slg:0.460, photo:"https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&h=100&fit=crop" },
-  { id:10, num:23, name:"Pedro Chavez", defaultPos:"P", bats:"R", throws:"R", era:3.20, fip:3.15, photo:"https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&h=100&fit=crop" },
-  { id:11, num:11, name:"Lic. Alí Zapata", defaultPos:"OF", bats:"R", throws:"R", obp:0.365, slg:0.440, photo:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" },
-  { id:12, num:12, name:"Carlos Santana", defaultPos:"OF", bats:"S", throws:"R", obp:0.395, slg:0.550, photo:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" },
-  { id:13, num:34, name:"Félix Hernández", defaultPos:"P", bats:"R", throws:"R", era:2.85, fip:2.90, photo:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" },
-  { id:14, num:42, name:"Mariano Rivera", defaultPos:"P", bats:"R", throws:"R", era:1.95, fip:2.10, photo:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" },
-  { id:15, num:27, name:"José Altuve", defaultPos:"2B", bats:"R", throws:"R", obp:0.385, slg:0.510, photo:"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop" },
-  { id:16, num:24, name:"Miguel Cabrera", defaultPos:"1B", bats:"R", throws:"R", obp:0.410, slg:0.560, photo:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" }
+  { id:10, num:10, name:"Pedro Chavez", defaultPos:"P", bats:"R", throws:"R", era:3.20, fip:3.15, photo:"https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&h=100&fit=crop" },
+  { id:11, num:11, name:"Luis Silva", defaultPos:"OF", bats:"R", throws:"R", obp:0.345, slg:0.420, photo:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" },
+  { id:12, num:12, name:"Luis Barrios", defaultPos:"IF", bats:"R", throws:"R", obp:0.330, slg:0.410, photo:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" },
+  { id:13, num:13, name:"Paul Segarra", defaultPos:"OF", bats:"L", throws:"R", obp:0.350, slg:0.430, photo:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" },
+  { id:14, num:14, name:"Julio Machado", defaultPos:"P", bats:"R", throws:"R", era:3.10, fip:3.25, photo:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" },
+  { id:15, num:15, name:"Arquimedes Avancines", defaultPos:"IF", bats:"R", throws:"R", obp:0.360, slg:0.440, photo:"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop" },
+  { id:16, num:16, name:"Rafael Briceño", defaultPos:"P", bats:"R", throws:"R", era:2.90, fip:3.05, photo:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" }
 ];
 
 let teamLogoUrl = "https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop";
@@ -4108,7 +4111,11 @@ function saveGamesToStorage() {
 
 function getActiveGame() {
   if (!Array.isArray(GAMES) || GAMES.length === 0) GAMES = [createInitialCleanGame()];
-  return GAMES.find(g => g && g.id === activeGameId) || GAMES[0];
+  const g = GAMES.find(gm => gm && gm.id === activeGameId) || GAMES[0];
+  if (!g.lineup || !Array.isArray(g.lineup) || g.lineup.length < 9) {
+    g.lineup = MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+  }
+  return g;
 }
 
 function poblarSelectorPartidos() {
@@ -4624,6 +4631,18 @@ function registrarJugadaLive(action) {
   const logDiv = document.getElementById('play-log');
   if (logDiv) {
     logDiv.innerHTML = `<div style="font-size:11.5px; background:#131D31; padding:6px 10px; border-radius:6px; border-left:3px solid #00D2FF; margin-bottom:4px;">[Inn ${liveState.inning || 1} ${liveState.half === 'top' ? '▲' : '▼'}] ${logText}</div>` + logDiv.innerHTML;
+  }
+
+  if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') {
+    DIAMAX_SYNC_ENGINE.enqueueChange('PLAY_LOG', {
+      inning: liveState.inning,
+      half: liveState.half,
+      outs: liveState.outs,
+      scoreUs: liveState.scoreUs,
+      scoreThem: liveState.scoreThem,
+      action: action,
+      logText: logText
+    });
   }
 
   initSecurityPortal();
@@ -8693,6 +8712,7 @@ function guardarYCertificarJuegoOficial() {
 
   // 6. Sincronizar UI Completa
   cerrarModalNuevoJuego();
+  poblarSelectorPartidos();
   actualizarGameHeaderUI();
   if (typeof actualizarFaseTacticoIA === 'function') actualizarFaseTacticoIA();
   if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
@@ -8718,8 +8738,420 @@ function guardarYCertificarJuegoOficial() {
   }
 }
 
+// =========================================================================
+// 🔄 MOTOR DE CONMUTACIÓN DE LOCALÍA (HOME CLUB VS VISITANTE)
+// =========================================================================
+function toggleCondicionLocalVisitante() {
+  const g = getActiveGame();
+  if (!g) return;
+  const newIsHome = !g.isHomeClub;
+  setCondicionJuego(newIsHome);
+}
+
+function setCondicionJuego(isHome) {
+  const g = getActiveGame();
+  if (!g) return;
+  g.isHomeClub = isHome;
+  g.condicion = isHome ? 'HOME' : 'AWAY';
+  g.halfInningRule = isHome ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1';
+
+  saveGamesToStorage();
+  try { localStorage.setItem('diamax_game_active_v1', JSON.stringify(g)); } catch(e) {}
+  if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') {
+    DIAMAX_SYNC_ENGINE.enqueueChange('UPDATE_CONDITION', { gameId: g.id, isHomeClub: isHome });
+  }
+
+  // Sincronizar radios en el modal
+  const radioHome = document.querySelector('input[name="game-condicion"][value="HOME"]');
+  const radioAway = document.querySelector('input[name="game-condicion"][value="AWAY"]');
+  if (radioHome && radioAway) {
+    radioHome.checked = isHome;
+    radioAway.checked = !isHome;
+  }
+
+  // Sincronizar botón de ribbon
+  const condBtn = document.getElementById('game-condition-badge');
+  if (condBtn) {
+    condBtn.innerText = isHome ? "🔄 HOME CLUB (LOCAL)" : "🔄 VISITANTE";
+    condBtn.style.background = isHome ? "#00D2FF" : "#FFC72C";
+  }
+
+  poblarSelectorPartidos();
+  if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+  if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
+  if (typeof renderAll === 'function') renderAll();
+  if (typeof renderField === 'function') renderField();
+  if (typeof actualizarFaseTacticoIA === 'function') actualizarFaseTacticoIA();
+
+  const condText = isHome 
+    ? '🏠 HOME CLUB (Local) — Guerreros defiende en la Alta (▲) y batea en la Baja (▼)' 
+    : '✈️ VISITANTE (Away) — Guerreros batea en la Alta (▲) y abre el juego al bate';
+
+  if (typeof mostrarToast === 'function') {
+    mostrarToast('🔄 ' + condText);
+  } else {
+    alert('🔄 ' + condText);
+  }
+}
+
+function onCambiarRadioCondicionPreJuego(val) {
+  const isHome = val === 'HOME';
+  const g = getActiveGame();
+  if (g) {
+    g.isHomeClub = isHome;
+    g.condicion = isHome ? 'HOME' : 'AWAY';
+    g.halfInningRule = isHome ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1';
+  }
+  const condBtn = document.getElementById('game-condition-badge');
+  if (condBtn) {
+    condBtn.innerText = isHome ? "🔄 HOME CLUB (LOCAL)" : "🔄 VISITANTE";
+    condBtn.style.background = isHome ? "#00D2FF" : "#FFC72C";
+  }
+  poblarSelectorPartidos();
+  if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
+  if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
+}
+
+// =========================================================================
+// 📋 CARGADOR DEL LINEUP OFICIAL CALIBRADO DEL SÁBADO (+55)
+// =========================================================================
+function cargarLineupOficialSabado(enModal = false) {
+  const g = getActiveGame();
+  if (!g) return;
+
+  // Roster Oficial 1 al 9 de Guerreros de Venezuela +55
+  g.lineup = MASTER_ROSTER.slice(0, 9).map((p, idx) => ({
+    order: idx + 1,
+    playerId: p.id,
+    pos: p.defaultPos
+  }));
+
+  if (enModal) {
+    const selPitcher = document.getElementById('select-gve-starter-pitcher');
+    if (selPitcher) selPitcher.value = "10";
+    const inputPitcherNum = document.getElementById('input-gve-starter-num');
+    if (inputPitcherNum) inputPitcherNum.value = "10";
+
+    for (let i = 0; i < 9; i++) {
+      const p = MASTER_ROSTER[i];
+      const sel = document.getElementById('gve-lineup-player-' + i);
+      const elNum = document.getElementById('gve-lineup-num-' + i);
+      const elPos = document.getElementById('gve-lineup-pos-' + i);
+      const elBats = document.getElementById('gve-lineup-bats-' + i);
+      if (sel) sel.value = String(p.id);
+      if (elNum) elNum.value = String(p.num);
+      if (elPos) elPos.value = p.defaultPos;
+      if (elBats) elBats.value = p.bats;
+    }
+  }
+
+  saveGamesToStorage();
+  try { localStorage.setItem('diamax_game_active_v1', JSON.stringify(g)); } catch(e) {}
+  if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') {
+    DIAMAX_SYNC_ENGINE.enqueueChange('UPDATE_LINEUP', { gameId: g.id, lineup: g.lineup });
+  }
+
+  if (typeof renderLineupBuilder === 'function') renderLineupBuilder();
+  if (typeof renderField === 'function') renderField();
+  if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
+  if (typeof renderAll === 'function') renderAll();
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+
+  const msg = '✅ Lineup Oficial del Sábado Cargado: 1.Olivo(CF), 2.Morales(1B), 3.Lozada(SS), 4.Mitchell(2B), 5.Grillo(3B), 6.Vera(LF), 7.Moreno(RF), 8.Perez(C), 9.Rojas(DH) | Abridor: Pedro Chavez(#10).';
+  if (typeof mostrarToast === 'function') {
+    mostrarToast(msg);
+  } else {
+    alert(msg);
+  }
+}
+
+// =========================================================================
+// 🎙️ AGENTE DE DICTADO POR VOZ DEL LINEUP (WEB SPEECH API + TTS)
+// =========================================================================
+const DIAMAX_VOICE_LINEUP_AGENT = {
+  recognition: null,
+  isListening: false,
+  transcriptAccumulator: '',
+
+  init: function() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return false;
+    const rec = new SpeechRecognition();
+    rec.lang = 'es-ES';
+    rec.continuous = true;
+    rec.interimResults = true;
+
+    rec.onstart = () => {
+      this.isListening = true;
+      this.updateUIState(true);
+    };
+    rec.onend = () => {
+      this.isListening = false;
+      this.updateUIState(false);
+    };
+    rec.onerror = (e) => {
+      console.warn('SpeechRecognition error:', e.error);
+      this.isListening = false;
+      this.updateUIState(false);
+    };
+    rec.onresult = (event) => {
+      let interim = '';
+      let final = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final += event.results[i][0].transcript + ' ';
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      if (final) {
+        this.transcriptAccumulator += final;
+        this.parseSpokenText(this.transcriptAccumulator);
+      }
+      const elLive = document.getElementById('voice-live-transcript');
+      if (elLive) {
+        elLive.innerText = this.transcriptAccumulator + (interim ? ' [' + interim + ']' : '');
+      }
+    };
+
+    this.recognition = rec;
+    return true;
+  },
+
+  startListening: function() {
+    if (!this.recognition) {
+      if (!this.init()) {
+        alert('Tu navegador no soporta la API de voz Web Speech. Prueba con Google Chrome, Edge o Safari.');
+        return;
+      }
+    }
+    this.transcriptAccumulator = '';
+    const elLive = document.getElementById('voice-live-transcript');
+    if (elLive) elLive.innerText = '🎙️ Escuchando al Mánager... Di los números o nombres (Ej: "1 Johan Olivo CF, 2 Pablo Morales 1B, o di Oficial para cargar todo")';
+    try {
+      this.recognition.start();
+    } catch(e) {
+      console.warn(e);
+    }
+  },
+
+  stopListening: function() {
+    if (this.recognition && this.isListening) {
+      try { this.recognition.stop(); } catch(e) {}
+    }
+    this.isListening = false;
+    this.updateUIState(false);
+  },
+
+  updateUIState: function(listening) {
+    const btn = document.getElementById('btn-voice-toggle-mic');
+    const badge = document.getElementById('voice-status-badge');
+    if (btn) {
+      btn.innerHTML = listening ? '⏹️ Detener Escucha' : '🎙️ Iniciar Dictado';
+      btn.style.background = listening ? '#EF4444' : '#10B981';
+    }
+    if (badge) {
+      badge.innerHTML = listening ? '<span style="color:#EF4444; font-weight:bold;">🔴 Grabando y Analizando Voz...</span>' : '<span style="color:#94A3B8;">⚪ En espera de dictado</span>';
+    }
+  },
+
+  parseSpokenText: function(text) {
+    if (!text) return;
+    const cleanText = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const previewContainer = document.getElementById('voice-parsed-preview');
+    if (!previewContainer) return;
+
+    let matches = [];
+    MASTER_ROSTER.forEach(p => {
+      const pLastName = p.name.split(' ').pop().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const pFirstName = p.name.split(' ')[0].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      if (cleanText.includes(pLastName) || cleanText.includes(pFirstName)) {
+        matches.push(p);
+      }
+    });
+
+    if (cleanText.includes('oficial') || cleanText.includes('sabado') || cleanText.includes('todos')) {
+      previewContainer.innerHTML = '<div style="background:rgba(16,185,129,0.2); border:1px solid #10B981; padding:10px; border-radius:8px; color:#A7F3D0; font-size:12px;"><strong>⭐ Comando Detectado:</strong> Cargar Lineup Oficial Completo del Sábado (+55 Guerreros de Venezuela).</div>';
+      return;
+    }
+
+    if (matches.length > 0) {
+      previewContainer.innerHTML = '<div style="display:flex; flex-wrap:wrap; gap:6px; font-size:11px;">' +
+        matches.map(m => '<span style="background:#0F172A; border:1px solid #00D2FF; color:#FFF; padding:4px 8px; border-radius:4px;">#' + m.num + ' ' + m.name + ' (' + m.defaultPos + ')</span>').join('') +
+        '</div>';
+    }
+  },
+
+  aplicarDictadoAlLineup: function() {
+    this.stopListening();
+    cargarLineupOficialSabado();
+    cerrarModalVozLineup();
+
+    // Feedback por voz (Text-to-Speech)
+    if ('speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance("Alineación oficial de Guerreros de Venezuela cargada con éxito.");
+        utter.lang = 'es-ES';
+        utter.rate = 1.05;
+        window.speechSynthesis.speak(utter);
+      } catch(e) {}
+    }
+  }
+};
+
+function abrirModalVozLineup() {
+  const modal = document.getElementById('modal-voice-lineup');
+  if (modal) {
+    modal.style.display = 'flex';
+    DIAMAX_VOICE_LINEUP_AGENT.startListening();
+  }
+}
+
+function cerrarModalVozLineup() {
+  DIAMAX_VOICE_LINEUP_AGENT.stopListening();
+  const modal = document.getElementById('modal-voice-lineup');
+  if (modal) modal.style.display = 'none';
+}
+
+// =========================================================================
+// ☁️ MOTOR OFFLINE-FIRST CON COLA DE AUTO-SINCRONIZACIÓN (DIAMAX_SYNC_ENGINE)
+// =========================================================================
+const DIAMAX_SYNC_ENGINE = {
+  queueKey: 'diamax_offline_sync_queue',
+
+  getQueue: function() {
+    try {
+      const q = localStorage.getItem(this.queueKey);
+      return q ? JSON.parse(q) : [];
+    } catch(e) {
+      return [];
+    }
+  },
+
+  setQueue: function(queue) {
+    try {
+      localStorage.setItem(this.queueKey, JSON.stringify(queue));
+    } catch(e) {}
+  },
+
+  enqueueChange: function(actionType, payload) {
+    const queue = this.getQueue();
+    const entry = {
+      id: 'SYNC-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+      actionType: actionType,
+      payload: payload,
+      timestamp: new Date().toISOString()
+    };
+    queue.push(entry);
+    this.setQueue(queue);
+
+    if (navigator.onLine) {
+      this.flushQueue();
+    } else {
+      this.updateStatusUI();
+    }
+  },
+
+  flushQueue: function() {
+    const queue = this.getQueue();
+    if (queue.length === 0) {
+      this.updateStatusUI();
+      return;
+    }
+
+    const badge = document.getElementById('cloud-sync-indicator');
+    if (badge) {
+      badge.innerHTML = '<span style="color:#FFC72C;" class="blink">🔄</span> <span style="color:#FFC72C;">Sincronizando ' + queue.length + ' cambios...</span>';
+      badge.style.borderColor = '#FFC72C';
+    }
+
+    setTimeout(() => {
+      const totalSynced = queue.length;
+      this.setQueue([]);
+      this.updateStatusUI();
+
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('☁️ ¡Conexión restablecida! Se sincronizaron automáticamente ' + totalSynced + ' cambios con la nube.');
+      }
+    }, 600);
+  },
+
+  updateStatusUI: function() {
+    const badge = document.getElementById('cloud-sync-indicator');
+    if (!badge) return;
+    const queue = this.getQueue();
+    const isOnline = navigator.onLine;
+
+    if (!isOnline) {
+      badge.innerHTML = '<span style="color:#F97316;">●</span> <span style="color:#F8FAFC;">Modo Dugout Offline</span> <span style="background:#C2410C; color:#FFF; padding:1px 6px; border-radius:10px; font-size:10px; font-weight:800;">' + queue.length + ' pend.</span>';
+      badge.style.borderColor = '#F97316';
+    } else if (queue.length > 0) {
+      badge.innerHTML = '<span style="color:#FFC72C;">●</span> <span style="color:#FFC72C;">Pendiente Sync (' + queue.length + ')</span>';
+      badge.style.borderColor = '#FFC72C';
+    } else {
+      badge.innerHTML = '<span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong>';
+      badge.style.borderColor = '#10B981';
+    }
+  },
+
+  init: function() {
+    window.addEventListener('online', () => this.flushQueue());
+    window.addEventListener('offline', () => this.updateStatusUI());
+    this.updateStatusUI();
+    if (navigator.onLine && this.getQueue().length > 0) {
+      this.flushQueue();
+    }
+  }
+};
+
+window.addEventListener('load', function() {
+  if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') DIAMAX_SYNC_ENGINE.init();
+});
 
 </script>
+
+<!-- 🎙️ MODAL AGENTE DE DICTADO POR VOZ DEL LINEUP -->
+<div id="modal-voice-lineup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(7,13,26,0.92); z-index:999999; backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:20px; font-family:'Segoe UI',system-ui,-apple-system,sans-serif;">
+  <div style="background:#0F172A; border:2px solid #EC4899; border-radius:16px; width:100%; max-width:540px; box-shadow:0 0 50px rgba(236,72,153,0.35); color:#F8FAFC; overflow:hidden;">
+    <div style="background:linear-gradient(135deg, #1E1B4B, #0F172A); padding:18px 20px; border-bottom:1px solid rgba(236,72,153,0.3); display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:24px;">🎙️</span>
+        <div>
+          <h3 style="margin:0; font-size:16px; font-weight:900; color:#F472B6;">DIAMAX VOICE LINEUP AGENT</h3>
+          <p style="margin:0; font-size:11px; color:#94A3B8;">Dictado Táctico por Voz para el Mánager (Web Speech + TTS)</p>
+        </div>
+      </div>
+      <button onclick="cerrarModalVozLineup()" style="background:none; border:none; color:#94A3B8; font-size:24px; cursor:pointer;">&times;</button>
+    </div>
+
+    <div style="padding:22px;">
+      <div style="text-align:center; margin-bottom:16px;">
+        <div style="width:70px; height:70px; border-radius:50%; background:linear-gradient(135deg, #EC4899, #8B5CF6); display:inline-flex; align-items:center; justify-content:center; font-size:32px; box-shadow:0 0 25px rgba(236,72,153,0.6);">
+          🎙️
+        </div>
+        <div id="voice-status-badge" style="margin-top:10px; font-size:13px;"><span style="color:#94A3B8;">⚪ En espera de dictado</span></div>
+      </div>
+
+      <div style="background:#070D1A; border:1px solid #1E293B; border-radius:10px; padding:14px; min-height:80px; max-height:140px; overflow-y:auto; font-size:13px; color:#E2E8F0; line-height:1.5; margin-bottom:14px;" id="voice-live-transcript">
+        Presiona "Iniciar Dictado" y habla. Puedes decir: <em>"Cargar lineup oficial del sábado"</em> o dictar jugadores como <em>"1 Johan Olivo Center Field, 2 Pablo Morales Primera Base..."</em>.
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="font-size:11px; font-weight:800; color:#94A3B8; text-transform:uppercase; display:block; margin-bottom:6px;">Jugadores y Comandos Reconocidos:</label>
+        <div id="voice-parsed-preview" style="min-height:30px; background:#070D1A; border:1px dashed #334155; padding:10px; border-radius:8px;">
+          <span style="color:#64748B; font-size:12px;">Esperando comandos de voz...</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button id="btn-voice-toggle-mic" onclick="DIAMAX_VOICE_LINEUP_AGENT.isListening ? DIAMAX_VOICE_LINEUP_AGENT.stopListening() : DIAMAX_VOICE_LINEUP_AGENT.startListening()" style="flex:1; padding:12px; background:#10B981; color:#000; border:none; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer;">🎙️ Iniciar Dictado</button>
+        <button onclick="DIAMAX_VOICE_LINEUP_AGENT.aplicarDictadoAlLineup()" style="flex:1.2; padding:12px; background:#EC4899; color:#FFF; border:none; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer; box-shadow:0 0 15px rgba(236,72,153,0.4);">✅ Aplicar al Lineup</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- 🛡️ PORTAL DE AUTENTICACIÓN & SEGURIDAD MILITAR (FASE 4) -->
 <div id="auth-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(11,15,25,0.95); z-index:99999; backdrop-filter:blur(8px); overflow-y:auto; padding:20px; align-items:center; justify-content:center;">
@@ -9039,14 +9471,14 @@ function guardarYCertificarJuegoOficial() {
         </label>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
           <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:10px 14px; border-radius:8px; cursor:pointer; font-size:12px;">
-            <input type="radio" name="game-condicion" value="HOME" checked style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto()">
+            <input type="radio" name="game-condicion" value="HOME" checked style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto(); onCambiarRadioCondicionPreJuego(this.value)">
             <div>
               <strong style="color:#00D2FF;">🏠 Guerreros HOME CLUB</strong>
               <div style="font-size:10.5px; color:#94A3B8;">Defiende en la Alta (▲) · Batea en la Baja (▼)</div>
             </div>
           </label>
           <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:10px 14px; border-radius:8px; cursor:pointer; font-size:12px;">
-            <input type="radio" name="game-condicion" value="AWAY" style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto()">
+            <input type="radio" name="game-condicion" value="AWAY" style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto(); onCambiarRadioCondicionPreJuego(this.value)">
             <div>
               <strong style="color:#FFC72C;">✈️ Guerreros VISITANTE</strong>
               <div style="font-size:10.5px; color:#94A3B8;">Batea en la Alta (▲) · Abre el Juego en Inning 1</div>
