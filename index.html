@@ -1513,9 +1513,9 @@ body.daylight-mode .btn-keypad:hover {
 
   <!-- Navegación de Pestañas -->
   <div class="nav" id="main-nav">
-    <button class="active" onclick="switchTab('envivo')" id="nav-live"> 1. Anotador Dugout</button>
+    <button class="active" onclick="switchTab('envivo')" id="btn-go-scorer"> 1. Anotador Dugout</button>
     <button onclick="switchTab('lineup')" id="nav-lineup"> 2. Lineup Builder</button>
-    <button onclick="switchTab('campo')" id="nav-field"> 3. Campo 2D</button>
+    <button onclick="switchTab('campo')" id="btn-view-field"> 3. Campo 2D</button>
         <button onclick="switchTab('manual')" id="nav-manual" class="nav-manual-btn">📖 Manual de Uso</button>
     <button onclick="switchTab('tarjeta-oficial')" id="nav-card"> 4. Tarjeta Oficial</button>
     <button onclick="switchTab('dashboard')" id="nav-dash"> 5. Dashboard</button>
@@ -1651,7 +1651,7 @@ body.daylight-mode .btn-keypad:hover {
       <div style="background:#070D1A; border:1px solid #1E293B; border-radius:8px; padding:10px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <span id="lbl-bullpen" style="font-size:11px; font-weight:800; color:#FFC72C; text-transform:uppercase;">🔥 Bullpen Activo:</span>
-          <button onclick="cambiarEstadoBullpenModal()" style="background:transparent; border:none; color:#00D2FF; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;">+ Gestionar Relevo</button>
+          <button onclick="cambiarEstadoBullpenModal()" style="background:transparent; border:none; color:#00D2FF; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;" id="btn-manage-bullpen">+ Gestionar Relevo</button>
         </div>
         <div id="bullpen-relievers-container">
           <!-- Renderizado dinámicamente -->
@@ -1720,7 +1720,7 @@ body.daylight-mode .btn-keypad:hover {
             <rect id="base-2" x="90" y="0" width="22" height="22" transform="rotate(45 100 10)" class="base" onclick="toggleBaseManual(2)"/>
             <rect id="base-3" x="20" y="60" width="22" height="22" transform="rotate(45 30 70)" class="base" onclick="toggleBaseManual(3)"/>
           </svg>
-          <div style="font-size:10.5px; color:#94A3B8; margin-top:2px;">Toca 1B, 2B o 3B para alternar corredores en base</div>
+          <div style="font-size:10.5px; color:#94A3B8; margin-top:2px;" id="lbl-diamond-caption">Toca 1B, 2B o 3B para alternar corredores en base</div>
         </div>
 
         <!-- Bateador Activo -->
@@ -1738,7 +1738,7 @@ body.daylight-mode .btn-keypad:hover {
 
         <div class="ondeck-card">
           <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" id="ondeck-batter-photo" style="width:34px; height:34px; border-radius:50%; object-fit:cover;">
-          <div> Prevenido: <strong id="ondeck-batter-name" style="color:#10B981;">Siguiente Bateador</strong></div>
+          <div> <span id="lbl-ondeck-title">Prevenido:</span> <strong id="ondeck-batter-name" style="color:#10B981;">Siguiente Bateador</strong></div>
         </div>
       </div>
 
@@ -1770,30 +1770,30 @@ body.daylight-mode .btn-keypad:hover {
 
         <div class="btn-section-title">Batazos de Hit & Jonrón:</div>
         <div class="action-grid">
-          <button class="btn-action btn-hit" onclick="registrarJugadaLive('1B')"> 1B (Sencillo)</button>
-          <button class="btn-action btn-hit" onclick="registrarJugadaLive('2B')"> 2B (Doblete)</button>
-          <button class="btn-action btn-hit" onclick="registrarJugadaLive('3B')"> 3B (Triplete)</button>
-          <button class="btn-action btn-hr" onclick="registrarJugadaLive('HR')"> JONRÓN (HR)</button>
+          <button id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')"> 1B (Sencillo)</button>
+          <button id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')"> 2B (Doblete)</button>
+          <button id="act-3b" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')"> 3B (Triplete)</button>
+          <button id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')"> JONRÓN (HR)</button>
         </div>
 
         <div class="btn-section-title">Rolatas & Dobles Plays:</div>
         <div class="action-grid">
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('6-3')"> 6-3 (SS a 1B)</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('4-3')"> 4-3 (2B a 1B)</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('5-3')"> 5-3 (3B a 1B)</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('1-3')"> 1-3 (P a 1B)</button>
+          <button id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')"> 6-3 (SS a 1B)</button>
+          <button id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')"> 4-3 (2B a 1B)</button>
+          <button id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')"> 5-3 (3B a 1B)</button>
+          <button id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')"> 1-3 (P a 1B)</button>
           <button class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')"> 6-4-3 DP</button>
           <button class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')"> 4-6-3 DP</button>
         </div>
 
         <div class="btn-section-title">Pitcheo, Sacrificios & Corredores:</div>
         <div class="action-grid">
-          <button class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')"> Fly Sacrificio (SF)</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('K')"> Ponche (K)</button>
-          <button class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')"> Boleto (BB)</button>
-          <button class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')"> Base Robada (SB)</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('CS')"> Out Robando (CS)</button>
-          <button class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')"> Wild Pitch (WP)</button>
+          <button id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')"> Fly Sacrificio (SF)</button>
+          <button id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')"> Ponche (K)</button>
+          <button id="act-bb" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')"> Boleto (BB)</button>
+          <button id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')"> Base Robada (SB)</button>
+          <button id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')"> Out Robando (CS)</button>
+          <button id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')"> Wild Pitch (WP)</button>
         </div>
 
         <button onclick="finalizarYGuardarJuegoLive()" style="width:100%; min-height:48px; margin-top:14px; background:#10B981; color:#fff; border:none; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;"> Finalizar Juego & Archivar en Base de Datos</button>
@@ -1830,10 +1830,10 @@ body.daylight-mode .btn-keypad:hover {
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <button onclick="cargarLineupOficialSabado()" style="background:#10B981; color:#000; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(16,185,129,0.3);">📋 Cargar Lineup Oficial (+55)</button>
           <button onclick="abrirModalVozLineup()" style="background:linear-gradient(135deg, #EC4899, #8B5CF6); color:#fff; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 15px rgba(236,72,153,0.4);">🎙️ Dictar por Voz</button>
-          <button onclick="agregarBateadorManual()" style="background:#00D2FF; color:#000; border:none; padding:9px 14px; border-radius:6px; font-weight:900; cursor:pointer;">+ Agregar Jugador</button>
-          <button onclick="ejecutarSimulacionMonteCarloLineup()" style="background:#8B5CF6; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;">🎲 Monte Carlo (10k)</button>
-          <button onclick="autoRellenarLineupIA()" style="background:#2563EB; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;">⚡ Optimizar por IA</button>
-          <button onclick="vaciarLineupManual()" style="background:#EF4444; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;">Vaciar</button>
+          <button onclick="agregarBateadorManual()" style="background:#00D2FF; color:#000; border:none; padding:9px 14px; border-radius:6px; font-weight:900; cursor:pointer;" id="btn-add-player">+ Agregar Jugador</button>
+          <button onclick="ejecutarSimulacionMonteCarloLineup()" style="background:#8B5CF6; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;" id="btn-monte-carlo">🎲 Monte Carlo (10k)</button>
+          <button onclick="autoRellenarLineupIA()" style="background:#2563EB; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;" id="btn-optimize-ai">⚡ Optimizar por IA</button>
+          <button onclick="vaciarLineupManual()" style="background:#EF4444; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;" id="btn-clear-lineup">Vaciar</button>
         </div>
         <div style="display:flex; gap:8px;">
           <button onclick="switchTab('envivo')" style="background:#FFC72C; color:#000; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer;"> Ir al Anotador</button>
@@ -1863,8 +1863,8 @@ body.daylight-mode .btn-keypad:hover {
       <div class="panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
           <div>
-            <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;">🏟️ Terreno Táctico 2D & Spray Chart</h3>
-            <p style="margin:2px 0 0 0; font-size:11px; color:#00D2FF; font-weight:700;">📍 Toca cualquier parte del terreno para registrar un batazo táctico en vivo.</p>
+            <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;" id="campo-title">🏟️ Terreno Táctico 2D & Spray Chart</h3>
+            <p style="margin:2px 0 0 0; font-size:11px; color:#00D2FF; font-weight:700;" id="campo-subtitle">📍 Toca cualquier parte del terreno para registrar un batazo táctico en vivo.</p>
           </div>
           <div style="display:flex; gap:6px;">
             <button onclick="toggleSprayChartMode('ALL')" class="btn-sm-action" id="spray-btn-all" style="background:#00D2FF; color:#0B0F19; border:none; padding:5px 10px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">Todos</button>
@@ -1935,19 +1935,19 @@ body.daylight-mode .btn-keypad:hover {
           </div>
 
           <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:10.5px; color:#94A3B8;">
-            <div>🔥 <span style="color:#FCA5A5;">Zona Caliente (AVG > .320)</span></div>
-            <div>❄️ <span style="color:#93C5FD;">Zona Fría (Whiff% > 35%)</span></div>
+            <div>🔥 <span style="color:#FCA5A5;" id="lbl-hot-zone">Zona Caliente (AVG > .320)</span></div>
+            <div>❄️ <span style="color:#93C5FD;" id="lbl-cold-zone">Zona Fría (Whiff% > 35%)</span></div>
           </div>
         </div>
 
         <!-- Métricas de Tendencia de Bateo -->
         <div style="background:#0F172A; border:1px solid #1E293B; border-radius:8px; padding:12px; font-size:11.5px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#94A3B8;">Tendencia Hacia la Banda (Pull%):</span>
+            <span style="color:#94A3B8;" id="lbl-pull-tendency">Tendencia Hacia la Banda (Pull%):</span>
             <strong style="color:#FFC72C;" id="stat-pull-pct">64.2% (Extremo)</strong>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#94A3B8;">Batazos al Centro (Cent%):</span>
+            <span style="color:#94A3B8;" id="lbl-center-tendency">Batazos al Centro (Cent%):</span>
             <strong style="color:#00D2FF;" id="stat-cent-pct">22.8%</strong>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
@@ -2146,7 +2146,7 @@ body.daylight-mode .btn-keypad:hover {
             <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">
               🏟️ <span id="card-header-stadium">Lutz Baseball Park - Campo #1</span> · 
               📅 <span id="card-header-date">2026-09-08</span> · 
-              ⚖️ Regla Oficial: <strong>Visitante abre en Alta (▲) · Home Club cierra en Baja (▼)</strong>
+              ⚖️ Regla Oficial: <strong id="card-rule-header">Visitante abre en Alta (▲) · Home Club cierra en Baja (▼)</strong>
             </p>
           </div>
         </div>
@@ -2163,12 +2163,12 @@ body.daylight-mode .btn-keypad:hover {
       <!-- Toolbar de Exportación y Selector de Tarjeta -->
       <div class="btn-print-hide" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
         <div>
-          <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;">📋 Tarjeta Oficial de Béisbol & Alineación Dual</h3>
+          <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;" id="card-dual-title">📋 Tarjeta Oficial de Béisbol & Alineación Dual</h3>
           <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">Documento oficial reglamentario para árbitros, mánagers y anotador oficial.</p>
         </div>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <div style="display:flex; background:#0B132B; border:1px solid #1E293B; border-radius:6px; padding:2px;">
-            <button type="button" id="btn-card-view-dual" onclick="setCardViewMode('dual')" style="background:#FFC72C; color:#000; border:none; padding:6px 12px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;">👑 Vista Dual</button>
+            <button type="button" id="btn-card-view-dual" onclick="setCardViewMode('dual')" style="background:#FFC72C; color:#000; border:none; padding:6px 12px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;" id="btn-card-dual-view">👑 Vista Dual</button>
             <button type="button" id="btn-card-view-gve" onclick="setCardViewMode('gve')" style="background:transparent; color:#94A3B8; border:none; padding:6px 12px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">🇻🇪 Guerreros</button>
             <button type="button" id="btn-card-view-rival" onclick="setCardViewMode('rival')" style="background:transparent; color:#94A3B8; border:none; padding:6px 12px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">⚔️ Rival (<span id="card-btn-rival-abbr">DAY</span>)</button>
           </div>
@@ -2285,16 +2285,16 @@ body.daylight-mode .btn-keypad:hover {
       <div>
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="background:#00D2FF; color:#000; font-size:11px; font-weight:900; padding:3px 8px; border-radius:4px;">PRO ANALYTICS</span>
-          <h2 style="margin:0; font-size:18px; color:#FFF; font-weight:900; letter-spacing:0.5px;">📈 DIAMAX Tactical Reports & Visual Charts</h2>
+          <h2 style="margin:0; font-size:18px; color:#FFF; font-weight:900; letter-spacing:0.5px;" id="dash-title">📈 DIAMAX Tactical Reports & Visual Charts</h2>
         </div>
         <p style="margin:4px 0 0 0; font-size:11.5px; color:#94A3B8;">Analítica sabermétrica en tiempo real: gráficos de barra, progresión lineal por innings y rendimiento colectivo.</p>
       </div>
       
       <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-        <button onclick="exportarReportePDF()" class="btn-settings" style="background:#10B981; color:#000; border:none; padding:8px 14px; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+        <button id="btn-dash-pdf" onclick="exportarReportePDF()" class="btn-settings" style="background:#10B981; color:#000; border:none; padding:8px 14px; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer; display:flex; align-items:center; gap:6px;">
           🖨️ Imprimir / Guardar PDF
         </button>
-        <button onclick="renderAll()" class="btn-settings" style="background:rgba(0,210,255,0.15); color:#00D2FF; border:1px solid #00D2FF; padding:8px 14px; border-radius:6px; font-weight:bold; font-size:11.5px; cursor:pointer;">
+        <button id="btn-dash-refresh" onclick="renderAll()" class="btn-settings" style="background:rgba(0,210,255,0.15); color:#00D2FF; border:1px solid #00D2FF; padding:8px 14px; border-radius:6px; font-weight:bold; font-size:11.5px; cursor:pointer;">
           🔄 Actualizar Gráficos
         </button>
       </div>
@@ -2619,7 +2619,7 @@ body.daylight-mode .btn-keypad:hover {
     <!-- 📋 PANEL 4: TABLA DETALLADA DEL ROSTER -->
     <div class="panel">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <h3 style="color:#FFC72C; font-size:15px; font-weight:800; margin:0;">📋 Estadísticas Individuales del Roster (En Vivo & Acumuladas)</h3>
+        <h3 style="color:#FFC72C; font-size:15px; font-weight:800; margin:0;" id="dash-sec5-title">📋 Estadísticas Individuales del Roster (En Vivo & Acumuladas)</h3>
         <span style="font-size:11px; color:#94A3B8;">* Registros oficiales sincronizados con la Tarjeta de Árbitros</span>
       </div>
       <div style="overflow-x:auto;">
@@ -2766,7 +2766,7 @@ body.daylight-mode .btn-keypad:hover {
               <div style="font-size:11px; color:#FFC72C; font-weight:bold; margin-bottom:6px;">➕ Entrenar Nueva Habilidad Táctica:</div>
               <input type="text" id="new-skill-title" placeholder="Título (ej: Duelos con 2 Outs)" style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #1E293B; color:#fff; padding:6px 8px; border-radius:4px; font-size:11px; margin-bottom:6px;">
               <input type="text" id="new-skill-desc" placeholder="Regla o directiva táctica..." style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #1E293B; color:#fff; padding:6px 8px; border-radius:4px; font-size:11px; margin-bottom:6px;">
-              <button onclick="agregarNuevaSkill()" style="width:100%; background:#10B981; color:#000; border:none; padding:6px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;">Guardar en Expediente</button>
+              <button onclick="agregarNuevaSkill()" style="width:100%; background:#10B981; color:#000; border:none; padding:6px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;" id="btn-skills-save">Guardar en Expediente</button>
             </div>
           </div>
 
@@ -2796,17 +2796,17 @@ body.daylight-mode .btn-keypad:hover {
       <h3 style="color:#FFC72C; margin-bottom:14px; font-size:16px; font-weight:800;" id="profile-title"> Perfil del Equipo, Manager & Sede</h3>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
         <div class="stat-box">
-          <h4 style="color:#00D2FF; margin-bottom:12px;">Datos Oficiales del Club</h4>
+          <h4 style="color:#00D2FF; margin-bottom:12px;" id="profile-club-data">Datos Oficiales del Club</h4>
           <div style="margin-bottom:12px;">
-            <label style="font-size:11px; color:#94A3B8; font-weight:700;">Nombre del Equipo:</label>
+            <label style="font-size:11px; color:#94A3B8; font-weight:700;" id="lbl-team-name-prof">Nombre del Equipo:</label>
             <input type="text" id="team-name-input" value="GUERREROS DE VENEZUELA +55" style="width:100%; padding:10px 12px; background:#070D1A; color:#FFC72C; border:1px solid #1E293B; border-radius:6px; font-size:13px; font-weight:800;" oninput="actualizarNombreEquipo(this.value)">
           </div>
           <div style="margin-bottom:12px;">
-            <label style="font-size:11px; color:#94A3B8; font-weight:700;">Manager:</label>
+            <label style="font-size:11px; color:#94A3B8; font-weight:700;" id="lbl-manager-prof">Manager:</label>
             <input type="text" id="team-manager-input" value="Leandro Chávez" style="width:100%; padding:10px 12px; background:#070D1A; color:#fff; border:1px solid #1E293B; border-radius:6px; font-size:12px;" oninput="actualizarManager(this.value)">
           </div>
           <div style="margin-bottom:12px;">
-            <label style="font-size:11px; color:#94A3B8; font-weight:700;">Sede Oficial:</label>
+            <label style="font-size:11px; color:#94A3B8; font-weight:700;" id="lbl-stadium-prof">Sede Oficial:</label>
             <input type="text" id="team-address-input" value="5709 Kingfish Drive, Lutz, Florida, USA 33558" style="width:100%; padding:10px 12px; background:#070D1A; color:#fff; border:1px solid #1E293B; border-radius:6px; font-size:12px;" oninput="actualizarDireccion(this.value)">
           </div>
           <div style="display:flex; align-items:center; gap:14px; margin-top:14px;">
@@ -2837,7 +2837,7 @@ body.daylight-mode .btn-keypad:hover {
     </div>
 
     <div>
-      <label style="font-size:12px; color:#94A3B8; font-weight:700; display:block; margin-bottom:6px;">Clave de Acceso Motor IA (3Tree Security):</label>
+      <label style="font-size:12px; color:#94A3B8; font-weight:700; display:block; margin-bottom:6px;" id="lbl-api-key-prof">Clave de Acceso Motor IA (3Tree Security):</label>
       <input type="password" id="diamax-ia-key" placeholder="gsk_..." style="width:100%; padding:10px; background:#070D1A; border:1px solid #1E293B; color:#00D2FF; border-radius:6px; font-size:12px;" onchange="saveIAKey()">
       <div style="font-size:10.5px; color:#64748B; margin-top:4px;">Habilita recomendaciones en tiempo real en &lt; 1.5s con DIAMAX Tactical AI™.</div>
     </div>
@@ -3794,9 +3794,995 @@ window.mostrarToast = mostrarToast;
 var currentLang = localStorage.getItem('diamax_app_lang') || 'es';
 window.currentLang = currentLang;
 
+// 🌐 MOTOR DE TRADUCCIÓN UNIVERSAL DOM TREEWALKER (DIAMAX BILINGUAL ENGINE)
+window.BILINGUAL_MAPS = {
+  "ES_TO_EN": {
+    "1. Anotador Dugout": "1. Live Dugout",
+    "2. Lineup Builder": "2. Lineup Builder",
+    "3. Campo 2D": "3. 2D Field",
+    "📖 Manual de Uso": "📖 User Manual",
+    "4. Tarjeta Oficial": "4. Official Card",
+    "5. Dashboard": "5. Dashboard",
+    "6. Agente & Skills": "6. Agent & Skills",
+    "7. Perfil & Sede": "7. Profile & Venue",
+    "EN VIVO REACTIVO": "LIVE REACTIVE",
+    "ESPAÑOL": "ENGLISH",
+    "☀️ Sol / Noche": "☀️ Sun / Night",
+    "🏟️ Cargar Nuevo Juego": "🏟️ Load New Game",
+    "🔄 Refrescar BD": "🔄 Refresh DB",
+    "⚙️ Configuración": "⚙️ Settings",
+    "+ Configurar Partido & Rival": "+ Configure Game & Opponent",
+    "🏟️ PARTIDO SELECCIONADO:": "🏟️ SELECTED GAME:",
+    "🏠 HOME CLUB": "🏠 HOME CLUB",
+    "✈️ VISITANTE": "✈️ VISITOR",
+    "EN JUEGO": "IN PLAY",
+    "FINALIZADO": "FINAL",
+    "Cloud Sync:": "Cloud Sync:",
+    "Activo": "Active",
+    "HOME CLUB (LOCAL)": "HOME TEAM (LOCAL)",
+    "VISITANTE (AWAY)": "VISITOR (AWAY)",
+    "DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)": "DIAMAX TACTICAL AI (3Tree Sabermetric Engine)",
+    "RED ACTIVA: Gemini 2.5 Pro Sabermétrico conectado": "ACTIVE NETWORK: Gemini 2.5 Pro Sabermetrics online",
+    "⚡ Pitcheo / Selección": "⚡ Pitch Call / Tactics",
+    "🛡️ Shift / Ubicación": "🛡️ Defensive Shift",
+    "🏃 Robo / Toque / Corrido": "🏃 Steal / Bunt / Running",
+    "👥 Emergente Sabermétrico": "👥 Pinch Hitter AI",
+    "📊 Scouting & Predicción Rival": "📊 Opponent Scouting",
+    "🎯 Duelo vs Pitcher Rival": "🎯 Batter vs Pitcher Matchup",
+    "Consultar": "Ask AI",
+    "Recargar Lineup": "Reload Lineup",
+    "Editar": "Edit",
+    "LANZADOR ACTIVO:": "ACTIVE PITCHER:",
+    "FATIGA:": "FATIGUE:",
+    "BULLPEN ACTIVO": "ACTIVE BULLPEN",
+    "STRIKES (%)": "STRIKES (%)",
+    "+1 Strike": "+1 Strike",
+    "+1 Bola": "+1 Ball",
+    "Reiniciar Conteo": "Reset Count",
+    "+ Gestionar Relevo": "+ Manage Relief Pitcher",
+    "Emergente (PH)": "Pinch Hitter (PH)",
+    "Prevenido:": "On Deck:",
+    "Toca 1B, 2B o 3B para alternar corredores en base": "Tap 1B, 2B or 3B to toggle baserunners",
+    "🏁 Finalizar Partido": "🏁 Finish Game",
+    "Finalizar Juego & Archivar en Base de Datos": "Finish Game & Archive in Database",
+    "📋 Registro de Jugadas (Play-by-Play en Vivo)": "📋 Play-by-Play Live Log",
+    "(Tocar)": "(Tap)",
+    "OUTS:": "OUTS:",
+    "1B (Sencillo)": "1B (Single)",
+    "2B (Doblete)": "2B (Double)",
+    "3B (Triplete)": "3B (Triple)",
+    "JONRÓN (HR)": "HOME RUN (HR)",
+    "6-3 (SS a 1B)": "6-3 (SS to 1B)",
+    "4-3 (2B a 1B)": "4-3 (2B to 1B)",
+    "5-3 (3B a 1B)": "5-3 (3B to 1B)",
+    "1-3 (P a 1B)": "1-3 (P to 1B)",
+    "6-4-3 DP": "6-4-3 DP",
+    "4-6-3 DP": "4-6-3 DP",
+    "Fly Sacrificio (SF)": "Sacrifice Fly (SF)",
+    "Ponche (K)": "Strikeout (K)",
+    "Boleto (BB)": "Walk (BB)",
+    "Base Robada (SB)": "Stolen Base (SB)",
+    "Out Robando (CS)": "Caught Stealing (CS)",
+    "Wild Pitch (WP)": "Wild Pitch (WP)",
+    "Fly 7 (LF)": "Fly 7 (LF)",
+    "Fly 8 (CF)": "Fly 8 (CF)",
+    "Fly 9 (RF)": "Fly 9 (RF)",
+    "Fly 5 (3B)": "Fly 5 (3B)",
+    "Fly 6 (SS)": "Fly 6 (SS)",
+    "Fly 4 (2B)": "Fly 4 (2B)",
+    "Fly 3 (1B)": "Fly 3 (1B)",
+    "Fly 1 (P)": "Fly 1 (P)",
+    "Fly 2 (C)": "Fly 2 (C)",
+    "📋 Cargar Lineup Oficial (+55)": "📋 Load Official Lineup (+55)",
+    "🎙️ Dictar por Voz": "🎙️ Voice Dictation",
+    "+ Agregar Jugador": "+ Add Player",
+    "🎲 Monte Carlo (10k)": "🎲 Monte Carlo (10k)",
+    "⚡ Optimizar por IA": "⚡ Optimize with AI",
+    "Vaciar": "Clear",
+    "Ir al Anotador": "Go to Scorer",
+    "Ver Terreno": "View Field",
+    "Orden al Bate Oficial (Posiciones 1 al 9 + Reservas)": "Official Batting Order (Positions 1 to 9 + Reserves)",
+    "📊 Resultados de Simulación Estocástica de Markov (N = 10,000 Innnings)": "📊 Markov Stochastic Simulation Results (N = 10,000 Innings)",
+    "ORD": "ORD",
+    "JUGADOR": "PLAYER",
+    "NÚM": "NUM",
+    "POSICIÓN": "POSITION",
+    "BATEA": "BATS",
+    "LANZA": "THROWS",
+    "ACCIÓN": "ACTION",
+    "ACCIONES": "ACTIONS",
+    "Bateador": "Batter",
+    "Siguiente Bateador": "Next Batter",
+    "🏟️ Terreno Táctico 2D & Spray Chart": "🏟️ 2D Tactical Field & Spray Chart",
+    "🎯 Mapa de Calor (Zona de Strike)": "🎯 Strike Zone Heatmap",
+    "📍 Toca cualquier parte del terreno para registrar un batazo táctico en vivo.": "📍 Tap anywhere on the field to log a live tactical batted ball.",
+    "Todos": "All",
+    "Rodados": "Grounders",
+    "Elevados": "Flyballs",
+    "Jonrones": "Home Runs",
+    "Zona Caliente (AVG > .320)": "Hot Zone (AVG > .320)",
+    "Zona Fría (Whiff% > 35%)": "Cold Zone (Whiff% > 35%)",
+    "Tendencia Hacia la Banda (Pull%):": "Pull Tendency (Pull%):",
+    "Batazos al Centro (Cent%):": "Center Field Tendency (Cent%):",
+    "Batazos Hacia la Banda Opuesta (Oppo%):": "Opposite Field Tendency (Oppo%):",
+    "Seleccionar Jugador a Analizar:": "Select Player to Analyze:",
+    "Infield Normal": "Normal Infield",
+    "Infield Adentro (Bases Llenas)": "Infield In (Bases Loaded)",
+    "Shift Hacia Jalador (Pull)": "Pull Shift",
+    "Shift Anti-Toque": "Bunt Defense",
+    "Manual Oficial de Operación & Protocolos DIAMAX PRO": "Official DIAMAX PRO Operation & Protocol Manual",
+    "Guía técnica para la Dirección, Cuerpo Técnico y Anotadores de Guerreros de Venezuela +55": "Technical Guide for Management, Coaching Staff and Scorers of Guerreros de Venezuela +55",
+    "🖨️ Imprimir Manual Completo": "🖨️ Print Full Manual",
+    "🇻🇪 1. Roster Oficial Calibrado: 16 Integrantes (Guerreros +55)": "🇻🇪 1. Official Calibrated Roster: 16 Members (Guerreros +55)",
+    "🏟️ 2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)": "🏟️ 2. Pre-Game Protocol: 5-Step Wizard (Orlando Sánchez 2026)",
+    "⌨️ 3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)": "⌨️ 3. Live Operation (Dugout Keypad & Pitch-by-Pitch Scoring)",
+    "🩺 4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)": "🩺 4. Sports Medical Protocol: Fatigue Monitor (+55: 75 Pitch Limit)",
+    "📊 5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día": "📊 5. Official Reports, Dual Card & Daily Technical Report",
+    "🧠 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)": "🧠 6. Sabermetric Artificial Intelligence (DIAMAX Engine)",
+    "REGLAS FEDERATIVAS 1-9": "FEDERATION RULES 1-9",
+    "Documento oficial reglamentario para árbitros, mánagers y anotador oficial.": "Official regulatory document for umpires, managers and official scorer.",
+    "★ CLUB OFICIAL · REGLAS 1-9 ★": "★ OFFICIAL CLUB · RULES 1-9 ★",
+    "Selecciona o crea el rival en BD con sus siglas y carga su foto/logo.": "Select or create opponent in DB with abbreviation and logo.",
+    "Sincroniza telemetría climática y define localía (Home Club vs Visitante).": "Synchronize weather telemetry and define locality (Home Club vs Visitor).",
+    "Asigna a Pedro Chavez (#23) y al bateador clave para clutch.": "Assign Pedro Chavez (#23) and the key clutch batter.",
+    "Valida que los 9 titulares no dupliquen posiciones en el campo.": "Validate that the 9 starters do not duplicate fielding positions.",
+    "📋 Tarjeta Oficial de Béisbol & Alineación Dual": "📋 Official Baseball Card & Dual Lineup",
+    "Visitante abre en Alta (▲) · Home Club cierra en Baja (▼)": "Visitor opens in Top (▲) · Home Club closes in Bottom (▼)",
+    "⚙️ Modificar Lineups / Sede": "⚙️ Modify Lineups / Venue",
+    "👑 Vista Dual": "👑 Dual View",
+    "🇻🇪 Guerreros": "🇻🇪 Guerreros",
+    "⚔️ Rival": "⚔️ Opponent",
+    "🖨️ Imprimir / Guardar como PDF": "🖨️ Print / Save as PDF",
+    "📄 Copiar Boxscore": "📄 Copy Boxscore",
+    "JUGADORES TITULARES": "STARTING PLAYERS",
+    "RESERVAS & LANZADORES": "RESERVES & PITCHERS",
+    "POS.": "POS.",
+    "B/L": "B/T",
+    "CONDICIÓN:": "CONDITION:",
+    "FECHA:": "DATE:",
+    "MÁNAGER:": "MANAGER:",
+    "ESTADO:": "STATUS:",
+    "LANZADOR ABRIDOR (P):": "STARTING PITCHER (P):",
+    "📊 3. Rendimiento Técnico Comparativo de Ambos Equipos": "📊 3. Comparative Technical Performance of Both Teams",
+    "Ofensiva Colectiva:": "Team Offense:",
+    "Promedio / Sabermetría:": "Batting Average / Sabermetrics:",
+    "Bateo con Corredores en Base (RISP):": "Runners in Scoring Position (RISP):",
+    "Pitcheo & Bullpen:": "Pitching & Bullpen:",
+    "Defensa & Fildeo:": "Defense & Fielding:",
+    "Certificado oficial para Delegados, Árbitros y Mánagers de la Liga +55": "Official Certificate for Delegates, Umpires and Managers of the +55 League",
+    "Mánager de Guerreros": "Guerreros Manager",
+    "Mánager Rival": "Opponent Manager",
+    "📈 DIAMAX Tactical Reports & Visual Charts": "📈 DIAMAX Tactical Reports & Visual Charts",
+    "Analítica sabermétrica en tiempo real: gráficos de barra, progresión lineal por innings y rendimiento colectivo.": "Real-time sabermetrics analytics: bar charts, inning-by-inning progression and team performance.",
+    "🖨️ Imprimir / Guardar PDF": "🖨️ Print / Save PDF",
+    "🔄 Actualizar Gráficos": "🔄 Refresh Charts",
+    "🖨️ Imprimir Informe / PDF": "🖨️ Print Report / PDF",
+    "📋 Copiar Informe (WhatsApp/Texto)": "📋 Copy Report (WhatsApp/Text)",
+    "📧 Enviar por Correo a la Liga": "📧 Send by Email to League",
+    "🏟️ 1. Ficha Técnica & Entorno Oficial del Encuentro": "🏟️ 1. Technical Data & Official Match Environment",
+    "🔢 2. Pizarra Oficial & Line Score Inning por Inning": "🔢 2. Official Scoreboard & Inning-by-Inning Line Score",
+    "🎯 4. Evaluación Táctica, Jugador Más Valioso (MVP) & Recomendaciones": "🎯 4. Tactical Evaluation, MVP & Recommendations",
+    "📋 Estadísticas Individuales del Roster (En Vivo & Acumuladas)": "📋 Individual Roster Statistics (Live & Accumulated)",
+    "EQUIPO": "TEAM",
+    "Jugador": "Player",
+    "Pos": "Pos",
+    "VB": "AB",
+    "H": "H",
+    "2B": "2B",
+    "HR": "HR",
+    "CI": "RBI",
+    "BB": "BB",
+    "AVE": "AVG",
+    "OBP": "OBP",
+    "OPS": "OPS",
+    "Consola del Agente Sabermétrico de Alto Rendimiento": "High-Performance Sabermetric Agent Console",
+    "📜 Habilidades del Agente (SKILL.md)": "📜 Agent Skills (SKILL.md)",
+    "🧠 Memoria de Decisiones": "🧠 Decision Memory",
+    "🗑️ Limpiar": "🗑️ Clear",
+    "Guardar en Expediente": "Save to Dossier",
+    "🎯 Estrategia del Inning": "🎯 Inning Strategy",
+    "⚔️ Frenar al 4to Bate Rival": "⚔️ Stop Opponent 4th Batter",
+    "🌤️ Viento & Aerodinámica Zapata": "🌤️ Wind & Zapata Aerodynamics",
+    "👥 Bateador Emergente (+55)": "👥 Pinch Hitter (+55)",
+    "⚡ Preguntar": "⚡ Ask AI",
+    "Perfil del Equipo, Manager & Sede": "Team Profile, Manager & Venue",
+    "Datos Oficiales del Club": "Official Club Information",
+    "Nombre del Equipo:": "Team Name:",
+    "Manager:": "Manager:",
+    "Sede Oficial:": "Official Venue:",
+    "Clave de Acceso Motor IA (3Tree Security):": "AI Engine Access Key (3Tree Security):",
+    "💾 Guardar Datos del Club": "💾 Save Club Data",
+    "Restablecer Base de Datos a Cero": "Reset Database to Zero",
+    "FIREBASE API KEY:": "FIREBASE API KEY:",
+    "PROJECT ID (ID DEL PROYECTO):": "PROJECT ID:",
+    "Acciones Oficiales:": "Official Actions:",
+    "Usuario / Correo Táctico": "Tactical Username / Email",
+    "Clave de Acceso": "Password",
+    "Rol Táctico": "Tactical Role",
+    "PIN Rápido Dugout (4 dígitos)": "Quick Dugout PIN (4 digits)",
+    "Contraseña de Cuenta": "Account Password",
+    "🏟️ Configuración Táctica Pre-Juego (Reglas Oficiales 1-9)": "🏟️ Pre-Game Tactical Setup (Official Rules 1-9)",
+    "⚔️ 1. Cargar Equipo Contrario / Rival": "⚔️ 1. Load Opponent Team / Rival",
+    "➕ Registrar Nuevo Rival en BD": "➕ Register New Opponent in DB",
+    "⚔️ EQUIPO RIVAL SELECCIONADO & LOGO:": "⚔️ SELECTED OPPONENT & LOGO:",
+    "Nombre del Club Rival": "Opponent Club Name",
+    "Siglas Oficiales (3 letras)": "Official Abbreviation (3 letters)",
+    "Mánager del Rival": "Opponent Manager",
+    "Lanzador Abridor As": "Ace Starting Pitcher",
+    "Brazo": "Arm",
+    "Diestro (RHP)": "Right-Handed (RHP)",
+    "Zurdo (LHP)": "Left-Handed (LHP)",
+    "🏟️ 2. Registrar Sede, Fecha, Sensor de Clima GPS y Localía": "🏟️ 2. Register Venue, Date, GPS Weather Sensor and Locality",
+    "📅 Fecha del Partido": "📅 Game Date",
+    "⏰ Hora de Inicio": "⏰ Start Time",
+    "🏟️ Estadio / Sede Oficial": "🏟️ Stadium / Official Venue",
+    "📍 Dirección / Ubicación": "📍 Address / Location",
+    "🌤️ Telemetría Climática GPS en Vivo (Estadio):": "🌤️ Live GPS Weather Telemetry (Stadium):",
+    "🔄 Actualizar GPS": "🔄 Update GPS",
+    "TEMPERATURA": "TEMPERATURE",
+    "HUMEDAD": "HUMIDITY",
+    "VIENTO": "WIND",
+    "PRESIÓN BAROM.": "BAROM. PRESSURE",
+    "⚖️ Definición de Localía & Regla Reglamentaria de Primer Turno al Bate:": "⚖️ Home/Away Definition & Official First At-Bat Rule:",
+    "🇻🇪 3, 4 y 5. Configuración Táctica de Guerreros de Venezuela (+55)": "🇻🇪 3, 4 & 5. Tactical Setup of Guerreros de Venezuela (+55)",
+    "3. ⚾ Pitcher Abridor de Guerreros:": "3. ⚾ Guerreros Starting Pitcher:",
+    "4. 🎯 Bateador Clave (Situaciones Clutch):": "4. 🎯 Key Batter (Clutch Situations):",
+    "5. 📋 Alineación Inicial de Guerreros (+55):": "5. 📋 Guerreros Starting Lineup (+55):",
+    "👁️ Vista Previa Tarjeta Oficial (+55)": "👁️ Preview Official Card (+55)",
+    "⚾ Iniciar Encuentro Oficial": "⚾ Start Official Game",
+    "🏁 Cierre Oficial de Encuentro & Certificación (+55)": "🏁 Official Game Wrap-up & Certification (+55)",
+    "Auditoría final de pitcheos, duración reglamentaria y validación de carreras para el boxscore de la liga.": "Final audit of pitches, regulation duration and run validation for league boxscore.",
+    "Hora de Inicio Registrada:": "Recorded Start Time:",
+    "Hora Oficial de Finalización:": "Official Finish Time:",
+    "Duración Total del Encuentro:": "Total Game Duration:",
+    "🏆 Resumen de Marcador Final": "🏆 Final Score Summary",
+    "Cancelar": "Cancel",
+    "Confirmar & Guardar Oficialmente": "Confirm & Save Officially",
+    "🎙️ Iniciar Dictado": "🎙️ Start Dictation",
+    "⏹️ Detener Escucha": "⏹️ Stop Listening",
+    "✅ Aplicar al Lineup": "✅ Apply to Lineup",
+    "Monitor de Lanzador & Bullpen": "Pitcher & Bullpen Monitor",
+    "Lanzamientos:": "Pitches:",
+    "Strikes:": "Strikes:",
+    "ÍNDICE DE FATIGA (+55 LÍMITE: 75 PITCHES)": "FATIGUE INDEX (+55 LIMIT: 75 PITCHES)",
+    "Óptimo (37%)": "Optimal (37%)",
+    "🔥 Bullpen Activo:": "🔥 Active Bullpen:",
+    "INNING 1 (ALTA ▲)": "INNING 1 (TOP ▲)",
+    "INNING 1 (BAJA ▼)": "INNING 1 (BOT ▼)",
+    "Al Bate:": "At Bat:",
+    "Hoy: 0 VB, 0 H, .000 AVE": "Today: 0 AB, 0 H, .000 AVG",
+    "Registro de Jugadas (Dugout Keypad)": "Play-by-Play Entry (Dugout Keypad)",
+    "Batazos de Hit & Jonrón:": "Hits & Home Runs:",
+    "Rolatas & Dobles Plays:": "Groundouts & Double Plays:",
+    "Pitcheo, Sacrificios & Corredores:": "Pitching, Sacrifices & Runners:",
+    "Historial Jugada a Jugada (Live Play Log)": "Play-by-Play History (Live Play Log)",
+    "Boxscore del Partido en Vivo": "Live Match Boxscore",
+    "● Sincronizado en Vivo": "● Live Synced",
+    "MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL": "ENGINE: DIAMAX TACTICAL AI™ · REAL TIME",
+    "⚔️ OFENSIVA (BATEANDO)": "⚔️ OFFENSE (BATTING)",
+    "🛡️ DEFENSIVA (EN CAMPO)": "🛡️ DEFENSE (ON FIELD)",
+    "Orden al Bate:": "Batting Order:",
+    "Quebrado / 82mph": "Breaking / 82mph",
+    "Cambio / 80mph": "Change / 80mph",
+    "Strike / 76mph": "Strike / 76mph",
+    "Fuera de Zona": "Out of Zone",
+    "Contacto": "Contact",
+    "Ajusta el orden táctico con los controles 🔼 / 🔽.": "Adjust batting order using 🔼 / 🔽 controls.",
+    "Rodado (GB)": "Ground Ball (GB)",
+    "Elevado (FB)": "Fly Ball (FB)",
+    "Línea (LD)": "Line Drive (LD)",
+    "Zonas de impacto y Whiff% para formulación del plan de pitcheo.": "Impact zones and Whiff% for pitch planning.",
+    "PERSPECTIVA DEL CÁTCHER (ZONAS 1-9)": "CATCHER PERSPECTIVE (ZONES 1-9)",
+    "64.2% (Extremo)": "64.2% (Extreme)",
+    "Banda Contraria (Oppo%):": "Opposite Field (Oppo%):",
+    "Recomendación Defensiva:": "Defensive Recommendation:",
+    "SHIFT PROFUNDO 3B/SS": "DEEP 3B/SS SHIFT",
+    "⚔️ 9 Titulares Oficiales:": "⚔️ Official 9 Starters:",
+    "⚾ Lanzador Abridor & 6 Reservas Oficiales:": "⚾ Starting Pitcher & 6 Official Reserves:",
+    "Paso 1: Rival & Logo": "Step 1: Opponent & Logo",
+    "Paso 2: Sede & Clima GPS": "Step 2: Venue & GPS Weather",
+    "Paso 3: Abridor & Eje": "Step 3: Starter & Axis",
+    "Paso 4: Lineup 1-9": "Step 4: Lineup 1-9",
+    "Paso 5: Tarjeta Umpire": "Step 5: Umpire Card",
+    "Verifica la alineación dual y certifica para iniciar Dugout.": "Verify dual lineup and certify to start Dugout.",
+    "Conexiones / Hits:": "Batted Balls / Hits:",
+    "Sencillo ·": "Single ·",
+    "Doble ·": "Double ·",
+    "Triple ·": "Triple ·",
+    "Jonrón": "Home Run",
+    "Outs Defensivos:": "Defensive Outs:",
+    "Elevados ·": "Fly balls ·",
+    "Rolatas ·": "Ground balls ·",
+    "Doble Play": "Double Play",
+    "Situacionales / Pitcheo:": "Situational / Pitching:",
+    "Ponche tirando ·": "Swinging Strikeout ·",
+    "Cantado ·": "Looking Strikeout ·",
+    "Boleto ·": "Walk ·",
+    "Robo ·": "Steal ·",
+    "Sacrificio": "Sacrifice",
+    "🟢 0 - 45 Pitches": "🟢 0 - 45 Pitches",
+    "Zona Verde: Rendimiento Óptimo y Plena Potencia.": "Green Zone: Optimal Performance and Full Power.",
+    "🟡 46 - 60 Pitches": "🟡 46 - 60 Pitches",
+    "Zona Amarilla: Monitorear velocidad y control de zona.": "Yellow Zone: Monitor velocity and zone control.",
+    "🔴 61 - 75 Pitches": "🔴 61 - 75 Pitches",
+    "Zona Roja: Alerta máxima. ¡Activar Bullpen!": "Red Zone: Maximum alert. Activate Bullpen!",
+    "📋 Tarjeta Oficial Dual (Umpires):": "📋 Dual Official Card (Umpires):",
+    "Acceso directo:": "Direct access:",
+    ". Muestra 16 personas de Guerreros y el roster rival en formato imprimible con líneas de firma.": ". Displays 16 Guerreros members and opponent roster in printable format with signature lines.",
+    "📈 Informe Técnico del Día:": "📈 Daily Technical Report:",
+    ". Ficha técnica, boxscore 1-9, comparativa ofensiva/pitcheo/fildeo, MVP, Turning Point y dictamen técnico.": ". Technical sheet, 1-9 boxscore, offense/pitching/fielding comparison, MVP, Turning Point and technical verdict.",
+    "GUERREROS DE VENEZUELA vs. RIVAL": "GUERREROS DE VENEZUELA vs. OPPONENT",
+    "🟢 9vs9 VALIDADO": "🟢 9vs9 VALIDATED",
+    "VALIDADO (9/9)": "VALIDATED (9/9)",
+    "★ EQUIPO CONTRARIO · REGLAS 1-9 ★": "★ OPPONENT TEAM · RULES 1-9 ★",
+    "SIGLAS:": "ABBR:",
+    "Árbitro Principal (Chief Umpire)": "Chief Umpire",
+    "INFORME TÉCNICO OFICIAL": "OFFICIAL TECHNICAL REPORT",
+    "CERTIFICADO Y AUDITADO": "CERTIFIED & AUDITED",
+    "LIGA MASTER +55": "MASTER +55 LEAGUE",
+    "ESTADIO & SEDE OFICIAL:": "STADIUM & OFFICIAL VENUE:",
+    "FECHA, HORARIO & DURACIÓN:": "DATE, TIME & DURATION:",
+    "⏱️ Duración: 2h 20m (Oficial)": "⏱️ Duration: 2h 20m (Official)",
+    "CONDICIONES CLIMÁTICAS (GPS):": "WEATHER CONDITIONS (GPS):",
+    "AUTORIDADES & OFICIALES:": "AUTHORITIES & OFFICIALS:",
+    "Árbitro Ppal: Carlos Mendoza": "Chief Umpire: Carlos Mendoza",
+    "Anotador Oficial: DIAMAX Certified System": "Official Scorer: DIAMAX Certified System",
+    "Control de Fatiga (+55): Abridor dentro de norma 75 lanzamientos.": "Fatigue Control (+55): Starter within 75-pitch rule.",
+    "Pitcheo Rival:": "Opponent Pitching:",
+    "Lanzador As: Tom Reynolds (#21 - RHP)": "Ace Pitcher: Tom Reynolds (#21 - RHP)",
+    "JUGADOR MÁS VALIOSO DEL ENCUENTRO (MVP)": "MOST VALUABLE PLAYER (MVP)",
+    "⚡ MOMENTO CLAVE / TURNING POINT:": "⚡ TURNING POINT / KEY MOMENT:",
+    "🧠 Dictamen Técnico & Ajustes Estratégicos para el Próximo Juego:": "🧠 Technical Verdict & Strategic Adjustments for Next Game:",
+    "Bateo Selectivo:": "Selective Batting:",
+    "Dosificación de Pitcheo:": "Pitch Count Management:",
+    "Posicionamiento Defensivo:": "Defensive Positioning:",
+    "Mánager Guerreros de Venezuela": "Manager Guerreros de Venezuela",
+    "Mánager Equipo Contrario": "Opponent Team Manager",
+    "Anotador Oficial": "Official Scorer",
+    "DIAMAX Certified Protocol": "DIAMAX Certified Protocol",
+    "Juegos Totales": "Total Games",
+    "Carreras Anotadas": "Runs Scored",
+    "Hits Colectivos": "Team Hits",
+    "AVE Colectivo": "Team AVG",
+    "OBP Colectivo": "Team OBP",
+    "OPS Colectivo": "Team OPS",
+    "Métrica:": "Metric:",
+    "Hits Totales (H)": "Total Hits (H)",
+    "Carreras Impulsadas (CI)": "Runs Batted In (RBI)",
+    "Bases Alcanzadas (SLG)": "Total Bases (SLG)",
+    "Cuadrangulares (HR)": "Home Runs (HR)",
+    "Promedio al Bate (AVE)": "Batting Average (AVG)",
+    "OPS Sabermétrico": "Sabermetric OPS",
+    "Producción Titulares": "Starters Production",
+    "Líder Ofensivo": "Offensive Leader",
+    "(Pasa el cursor por las barras para ver detalles)": "(Hover over bars to see details)",
+    "Equipo Rival": "Opponent Team",
+    "Eje X: Innings 1-9 · Eje Y: Carreras Acumuladas": "X-Axis: Innings 1-9 · Y-Axis: Cumulative Runs",
+    "* Registros oficiales sincronizados con la Tarjeta de Árbitros": "* Official records synced with Umpire Card",
+    "AGENTE AUTÓNOMO": "AUTONOMOUS AGENT",
+    "🟢 ONLINE & CONECTADO": "🟢 ONLINE & CONNECTED",
+    "DIAMAX TACTICAL AGENT v2.5": "DIAMAX TACTICAL AGENT v2.5",
+    "🏟️ Modo 1: Dugout In-Game (<1.5s)": "🏟️ Mode 1: Dugout In-Game (<1.5s)",
+    "🎲 Modo 2: Optimizador Lineup (Markov)": "🎲 Mode 2: Lineup Optimizer (Markov)",
+    "🕵️ Modo 3: Scouting Pre-Juego (Rival)": "🕵️ Mode 3: Pre-Game Scouting (Opponent)",
+    "📊 Modo 4: Analista Sabermétrico (RAG)": "📊 Mode 4: Sabermetric Analyst (RAG)",
+    "🤖 DIAMAX AGENT:": "🤖 DIAMAX AGENT:",
+    "En Vivo": "Live",
+    "Alineación & Bateo:": "Lineup & Batting:",
+    "Ajustes de orden al bate, emergentes (+55) y duelos vs lanzador rival.": "Batting order adjustments, pinch hitters (+55) and matchups vs rival pitcher.",
+    "Pitcheo & Fatiga:": "Pitching & Fatigue:",
+    "Dosificación de Pedro Chávez (límite 75) y momento óptimo para llamar al bullpen.": "Pacing Pedro Chavez (75-pitch limit) and optimal timing for bullpen.",
+    "Defensa & Scouting:": "Defense & Scouting:",
+    "Posicionamiento táctico (Shifts), spray charts y debilidades del rival.": "Tactical positioning (Shifts), spray charts and opponent weaknesses.",
+    "➕ Entrenar Nueva Habilidad Táctica:": "➕ Train New Tactical Skill:",
+    "Subir Logo": "Upload Logo",
+    "⚙️ Configuración & Conectividad": "⚙️ Settings & Connectivity",
+    "Habilita recomendaciones en tiempo real en < 1.5s con DIAMAX Tactical AI™.": "Enables real-time recommendations in < 1.5s with DIAMAX Tactical AI™.",
+    "Base de datos NoSQL & Grafos en tiempo real para sincronización entre dispositivos.": "Real-time NoSQL database & graph sync across devices.",
+    "○ Estado: Modo Local / Esperando Credenciales": "○ Status: Local Mode / Awaiting Credentials",
+    "🔥 Conectar": "🔥 Connect",
+    "☁️ Sincronizar": "☁️ Sync",
+    "Enviar Tarjeta por Email a la Liga": "Send Card by Email to League",
+    "DIAMAX VOICE LINEUP AGENT": "DIAMAX VOICE LINEUP AGENT",
+    "Dictado Táctico por Voz para el Mánager (Web Speech + TTS)": "Voice Tactical Dictation for Manager (Web Speech + TTS)",
+    "⚪ En espera de dictado": "⚪ Awaiting dictation",
+    "\"Cargar lineup oficial del sábado\"": "\"Load official Saturday lineup\"",
+    "o dictar jugadores como": "or dictate players like",
+    "\"1 Johan Olivo Center Field, 2 Pablo Morales Primera Base...\"": "\"1 Johan Olivo Center Field, 2 Pablo Morales First Base...\"",
+    "Jugadores y Comandos Reconocidos:": "Recognized Players and Commands:",
+    "Esperando comandos de voz...": "Waiting for voice commands...",
+    "DIAMAX SECURITY PORTAL": "DIAMAX SECURITY PORTAL",
+    "Acceso Táctico Autenticado · Cifrado SHA-256": "Authenticated Tactical Access · SHA-256 Encryption",
+    "🔑 Iniciar Sesión": "🔑 Sign In",
+    "⚡ PIN Dugout": "⚡ Dugout PIN",
+    "📝 Registro": "📝 Register",
+    "Entrar al Sistema": "Enter System",
+    "⚡ Entrar en Modo Demo / Invitado Rápido": "⚡ Enter Quick Demo / Guest Mode",
+    "Ingresa el PIN de seguridad de 4 dígitos para desbloqueo rápido en dugout:": "Enter the 4-digit security PIN for quick dugout unlock:",
+    "Nombre del Equipo": "Team Name",
+    "Nombre del Mánager / Operador": "Manager / Operator Name",
+    "👑 Mánager / Head Coach (Acceso Total + IA)": "👑 Manager / Head Coach (Full Access + AI)",
+    "✍️ Anotador Oficial (Anotación + Jugadas)": "✍️ Official Scorer (Scoring + Plays)",
+    "📊 Scout / Analista (Métricas + Monte Carlo)": "📊 Scout / Analyst (Metrics + Monte Carlo)",
+    "Registrar e Iniciar": "Register & Start",
+    "➕ Registro Rápido de Nuevo Rival en Base de Datos": "➕ Quick Register New Opponent in Database",
+    "⚾ Lanzador Abridor y 9 Bateadores del Rival:": "⚾ Opponent Starting Pitcher and 9 Batters:",
+    "Nombre Lanzador Abridor": "Starting Pitcher Name",
+    "Número #": "Number #",
+    "NOMBRE DEL BATEADOR RIVAL": "OPPONENT BATTER NAME",
+    "# NÚM": "# NUM",
+    "Impacto Aerodinámico Zapata:": "Zapata Aerodynamic Impact:",
+    "ASIGNACIÓN OFICIAL DE EQUIPOS:": "OFFICIAL TEAM ASSIGNMENT:",
+    "HOME CLUB (Local):": "HOME CLUB (Local):",
+    "VISITANTE (Away):": "VISITOR (Away):",
+    "Seleccionar del Roster o Personalizar": "Select from Roster or Customize",
+    "Brazo Lanzador": "Throwing Arm",
+    "4. 🎯 Bateador Clave (Eje Ofensivo Táctico):": "4. 🎯 Key Batter (Tactical Offensive Axis):",
+    "5. 📋 Lineup Titular de Guerreros (1 al 9 - Sin Posiciones Duplicadas):": "5. 📋 Guerreros Starting Lineup (1 to 9 - No Duplicate Positions):",
+    "JUGADOR TITULAR (ROSTER GVE)": "STARTING PLAYER (GVE ROSTER)",
+    "Error de Validación Pre-Juego:": "Pre-Game Validation Error:",
+    "Debe ingresar exactamente 9 bateadores titulares y 1 lanzador abridor sin posiciones defensivas repetidas.": "You must enter exactly 9 starting batters and 1 starting pitcher without duplicate defensive positions.",
+    "📋 Vista Previa: Tarjeta Oficial de Béisbol (Alineación Dual)": "📋 Preview: Official Baseball Card (Dual Lineup)",
+    "✏️ Modificar Alineación": "✏️ Modify Lineup",
+    "🏁 Finalizar y Certificar Partido": "🏁 Finalize and Certify Game",
+    "⏰ Hora de Inicio Registrada": "⏰ Recorded Start Time",
+    "🏁 Hora Exacta de Finalización": "🏁 Exact Finish Time",
+    "⏱️ Duración Calculada del Encuentro": "⏱️ Calculated Game Duration",
+    "Volver al Juego": "Back to Game",
+    "✅ Confirmar y Sincronizar Tarjeta Oficial": "✅ Confirm and Sync Official Card",
+    "1. Roster Oficial Calibrado: 16 Integrantes (Guerreros +55)": "1. Official Calibrated Roster: 16 Members (Guerreros +55)",
+    "2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)": "2. Pre-Game Protocol: 5-Step Wizard (Orlando Sánchez 2026)",
+    "3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)": "3. Live Operation (Dugout Keypad & Pitch-by-Pitch Scoring)",
+    "4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)": "4. Sports Medical Protocol: Fatigue Monitor (+55: 75 Pitch Limit)",
+    "5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día": "5. Official Reports, Dual Card & Daily Technical Report",
+    "6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)": "6. Sabermetric Artificial Intelligence (DIAMAX Engine)",
+    "HOME CLUB (Baja ▼)": "HOME CLUB (Bottom ▼)",
+    "VISITANTE (Alta ▲)": "VISITOR (Top ▲)",
+    "Abridor Rival": "Opponent Pitcher"
+  },
+  "EN_TO_ES": {
+    "1. Live Dugout": "1. Anotador Dugout",
+    "2. Lineup Builder": "2. Lineup Builder",
+    "3. 2D Field": "3. Campo 2D",
+    "📖 User Manual": "📖 Manual de Uso",
+    "4. Official Card": "4. Tarjeta Oficial",
+    "5. Dashboard": "5. Dashboard",
+    "6. Agent & Skills": "6. Agente & Skills",
+    "7. Profile & Venue": "7. Perfil & Sede",
+    "LIVE REACTIVE": "EN VIVO REACTIVO",
+    "ENGLISH": "ESPAÑOL",
+    "☀️ Sun / Night": "☀️ Sol / Noche",
+    "🏟️ Load New Game": "🏟️ Cargar Nuevo Juego",
+    "🔄 Refresh DB": "🔄 Refrescar BD",
+    "⚙️ Settings": "⚙️ Configuración",
+    "+ Configure Game & Opponent": "+ Configurar Partido & Rival",
+    "🏟️ SELECTED GAME:": "🏟️ PARTIDO SELECCIONADO:",
+    "🏠 HOME CLUB": "🏠 HOME CLUB",
+    "✈️ VISITOR": "✈️ VISITANTE",
+    "IN PLAY": "EN JUEGO",
+    "FINAL": "FINALIZADO",
+    "Cloud Sync:": "Cloud Sync:",
+    "Active": "Activo",
+    "HOME TEAM (LOCAL)": "HOME CLUB (LOCAL)",
+    "VISITOR (AWAY)": "VISITANTE (AWAY)",
+    "DIAMAX TACTICAL AI (3Tree Sabermetric Engine)": "DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)",
+    "ACTIVE NETWORK: Gemini 2.5 Pro Sabermetrics online": "RED ACTIVA: Gemini 2.5 Pro Sabermétrico conectado",
+    "⚡ Pitch Call / Tactics": "⚡ Pitcheo / Selección",
+    "🛡️ Defensive Shift": "🛡️ Shift / Ubicación",
+    "🏃 Steal / Bunt / Running": "🏃 Robo / Toque / Corrido",
+    "👥 Pinch Hitter AI": "👥 Emergente Sabermétrico",
+    "📊 Opponent Scouting": "📊 Scouting & Predicción Rival",
+    "🎯 Batter vs Pitcher Matchup": "🎯 Duelo vs Pitcher Rival",
+    "Ask AI": "Consultar",
+    "Reload Lineup": "Recargar Lineup",
+    "Edit": "Editar",
+    "ACTIVE PITCHER:": "LANZADOR ACTIVO:",
+    "FATIGUE:": "FATIGA:",
+    "ACTIVE BULLPEN": "BULLPEN ACTIVO",
+    "STRIKES (%)": "STRIKES (%)",
+    "+1 Strike": "+1 Strike",
+    "+1 Ball": "+1 Bola",
+    "Reset Count": "Reiniciar Conteo",
+    "+ Manage Relief Pitcher": "+ Gestionar Relevo",
+    "Pinch Hitter (PH)": "Emergente (PH)",
+    "On Deck:": "Prevenido:",
+    "Tap 1B, 2B or 3B to toggle baserunners": "Toca 1B, 2B o 3B para alternar corredores en base",
+    "🏁 Finish Game": "🏁 Finalizar Partido",
+    "Finish Game & Archive in Database": "Finalizar Juego & Archivar en Base de Datos",
+    "📋 Play-by-Play Live Log": "📋 Registro de Jugadas (Play-by-Play en Vivo)",
+    "(Tap)": "(Tocar)",
+    "OUTS:": "OUTS:",
+    "1B (Single)": "1B (Sencillo)",
+    "2B (Double)": "2B (Doblete)",
+    "3B (Triple)": "3B (Triplete)",
+    "HOME RUN (HR)": "JONRÓN (HR)",
+    "6-3 (SS to 1B)": "6-3 (SS a 1B)",
+    "4-3 (2B to 1B)": "4-3 (2B a 1B)",
+    "5-3 (3B to 1B)": "5-3 (3B a 1B)",
+    "1-3 (P to 1B)": "1-3 (P a 1B)",
+    "6-4-3 DP": "6-4-3 DP",
+    "4-6-3 DP": "4-6-3 DP",
+    "Sacrifice Fly (SF)": "Fly Sacrificio (SF)",
+    "Strikeout (K)": "Ponche (K)",
+    "Walk (BB)": "Boleto (BB)",
+    "Stolen Base (SB)": "Base Robada (SB)",
+    "Caught Stealing (CS)": "Out Robando (CS)",
+    "Wild Pitch (WP)": "Wild Pitch (WP)",
+    "Fly 7 (LF)": "Fly 7 (LF)",
+    "Fly 8 (CF)": "Fly 8 (CF)",
+    "Fly 9 (RF)": "Fly 9 (RF)",
+    "Fly 5 (3B)": "Fly 5 (3B)",
+    "Fly 6 (SS)": "Fly 6 (SS)",
+    "Fly 4 (2B)": "Fly 4 (2B)",
+    "Fly 3 (1B)": "Fly 3 (1B)",
+    "Fly 1 (P)": "Fly 1 (P)",
+    "Fly 2 (C)": "Fly 2 (C)",
+    "📋 Load Official Lineup (+55)": "📋 Cargar Lineup Oficial (+55)",
+    "🎙️ Voice Dictation": "🎙️ Dictar por Voz",
+    "+ Add Player": "+ Agregar Jugador",
+    "🎲 Monte Carlo (10k)": "🎲 Monte Carlo (10k)",
+    "⚡ Optimize with AI": "⚡ Optimizar por IA",
+    "Clear": "Vaciar",
+    "Go to Scorer": "Ir al Anotador",
+    "View Field": "Ver Terreno",
+    "Official Batting Order (Positions 1 to 9 + Reserves)": "Orden al Bate Oficial (Posiciones 1 al 9 + Reservas)",
+    "📊 Markov Stochastic Simulation Results (N = 10,000 Innings)": "📊 Resultados de Simulación Estocástica de Markov (N = 10,000 Innnings)",
+    "ORD": "ORD",
+    "PLAYER": "JUGADOR",
+    "NUM": "NÚM",
+    "POSITION": "POSICIÓN",
+    "BATS": "BATEA",
+    "THROWS": "LANZA",
+    "ACTION": "ACCIÓN",
+    "ACTIONS": "ACCIONES",
+    "Batter": "Bateador",
+    "Next Batter": "Siguiente Bateador",
+    "🏟️ 2D Tactical Field & Spray Chart": "🏟️ Terreno Táctico 2D & Spray Chart",
+    "🎯 Strike Zone Heatmap": "🎯 Mapa de Calor (Zona de Strike)",
+    "📍 Tap anywhere on the field to log a live tactical batted ball.": "📍 Toca cualquier parte del terreno para registrar un batazo táctico en vivo.",
+    "All": "Todos",
+    "Grounders": "Rodados",
+    "Flyballs": "Elevados",
+    "Home Runs": "Jonrones",
+    "Hot Zone (AVG > .320)": "Zona Caliente (AVG > .320)",
+    "Cold Zone (Whiff% > 35%)": "Zona Fría (Whiff% > 35%)",
+    "Pull Tendency (Pull%):": "Tendencia Hacia la Banda (Pull%):",
+    "Center Field Tendency (Cent%):": "Batazos al Centro (Cent%):",
+    "Opposite Field Tendency (Oppo%):": "Batazos Hacia la Banda Opuesta (Oppo%):",
+    "Select Player to Analyze:": "Seleccionar Jugador a Analizar:",
+    "Normal Infield": "Infield Normal",
+    "Infield In (Bases Loaded)": "Infield Adentro (Bases Llenas)",
+    "Pull Shift": "Shift Hacia Jalador (Pull)",
+    "Bunt Defense": "Shift Anti-Toque",
+    "Official DIAMAX PRO Operation & Protocol Manual": "Manual Oficial de Operación & Protocolos DIAMAX PRO",
+    "Technical Guide for Management, Coaching Staff and Scorers of Guerreros de Venezuela +55": "Guía técnica para la Dirección, Cuerpo Técnico y Anotadores de Guerreros de Venezuela +55",
+    "🖨️ Print Full Manual": "🖨️ Imprimir Manual Completo",
+    "🇻🇪 1. Official Calibrated Roster: 16 Members (Guerreros +55)": "🇻🇪 1. Roster Oficial Calibrado: 16 Integrantes (Guerreros +55)",
+    "🏟️ 2. Pre-Game Protocol: 5-Step Wizard (Orlando Sánchez 2026)": "🏟️ 2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)",
+    "⌨️ 3. Live Operation (Dugout Keypad & Pitch-by-Pitch Scoring)": "⌨️ 3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)",
+    "🩺 4. Sports Medical Protocol: Fatigue Monitor (+55: 75 Pitch Limit)": "🩺 4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)",
+    "📊 5. Official Reports, Dual Card & Daily Technical Report": "📊 5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día",
+    "🧠 6. Sabermetric Artificial Intelligence (DIAMAX Engine)": "🧠 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)",
+    "FEDERATION RULES 1-9": "REGLAS FEDERATIVAS 1-9",
+    "Official regulatory document for umpires, managers and official scorer.": "Documento oficial reglamentario para árbitros, mánagers y anotador oficial.",
+    "★ OFFICIAL CLUB · RULES 1-9 ★": "★ CLUB OFICIAL · REGLAS 1-9 ★",
+    "Select or create opponent in DB with abbreviation and logo.": "Selecciona o crea el rival en BD con sus siglas y carga su foto/logo.",
+    "Synchronize weather telemetry and define locality (Home Club vs Visitor).": "Sincroniza telemetría climática y define localía (Home Club vs Visitante).",
+    "Assign Pedro Chavez (#23) and the key clutch batter.": "Asigna a Pedro Chavez (#23) y al bateador clave para clutch.",
+    "Validate that the 9 starters do not duplicate fielding positions.": "Valida que los 9 titulares no dupliquen posiciones en el campo.",
+    "📋 Official Baseball Card & Dual Lineup": "📋 Tarjeta Oficial de Béisbol & Alineación Dual",
+    "Visitor opens in Top (▲) · Home Club closes in Bottom (▼)": "Visitante abre en Alta (▲) · Home Club cierra en Baja (▼)",
+    "⚙️ Modify Lineups / Venue": "⚙️ Modificar Lineups / Sede",
+    "👑 Dual View": "👑 Vista Dual",
+    "🇻🇪 Guerreros": "🇻🇪 Guerreros",
+    "⚔️ Opponent": "⚔️ Rival",
+    "🖨️ Print / Save as PDF": "🖨️ Imprimir / Guardar como PDF",
+    "📄 Copy Boxscore": "📄 Copiar Boxscore",
+    "STARTING PLAYERS": "JUGADORES TITULARES",
+    "RESERVES & PITCHERS": "RESERVAS & LANZADORES",
+    "POS.": "POS.",
+    "B/T": "B/L",
+    "CONDITION:": "CONDICIÓN:",
+    "DATE:": "FECHA:",
+    "MANAGER:": "MÁNAGER:",
+    "STATUS:": "ESTADO:",
+    "STARTING PITCHER (P):": "LANZADOR ABRIDOR (P):",
+    "📊 3. Comparative Technical Performance of Both Teams": "📊 3. Rendimiento Técnico Comparativo de Ambos Equipos",
+    "Team Offense:": "Ofensiva Colectiva:",
+    "Batting Average / Sabermetrics:": "Promedio / Sabermetría:",
+    "Runners in Scoring Position (RISP):": "Bateo con Corredores en Base (RISP):",
+    "Pitching & Bullpen:": "Pitcheo & Bullpen:",
+    "Defense & Fielding:": "Defensa & Fildeo:",
+    "Official Certificate for Delegates, Umpires and Managers of the +55 League": "Certificado oficial para Delegados, Árbitros y Mánagers de la Liga +55",
+    "Guerreros Manager": "Mánager de Guerreros",
+    "Opponent Manager": "Mánager del Rival",
+    "📈 DIAMAX Tactical Reports & Visual Charts": "📈 DIAMAX Tactical Reports & Visual Charts",
+    "Real-time sabermetrics analytics: bar charts, inning-by-inning progression and team performance.": "Analítica sabermétrica en tiempo real: gráficos de barra, progresión lineal por innings y rendimiento colectivo.",
+    "🖨️ Print / Save PDF": "🖨️ Imprimir / Guardar PDF",
+    "🔄 Refresh Charts": "🔄 Actualizar Gráficos",
+    "🖨️ Print Report / PDF": "🖨️ Imprimir Informe / PDF",
+    "📋 Copy Report (WhatsApp/Text)": "📋 Copiar Informe (WhatsApp/Texto)",
+    "📧 Send by Email to League": "📧 Enviar por Correo a la Liga",
+    "🏟️ 1. Technical Data & Official Match Environment": "🏟️ 1. Ficha Técnica & Entorno Oficial del Encuentro",
+    "🔢 2. Official Scoreboard & Inning-by-Inning Line Score": "🔢 2. Pizarra Oficial & Line Score Inning por Inning",
+    "🎯 4. Tactical Evaluation, MVP & Recommendations": "🎯 4. Evaluación Táctica, Jugador Más Valioso (MVP) & Recomendaciones",
+    "📋 Individual Roster Statistics (Live & Accumulated)": "📋 Estadísticas Individuales del Roster (En Vivo & Acumuladas)",
+    "TEAM": "EQUIPO",
+    "Player": "Jugador",
+    "Pos": "Pos",
+    "AB": "VB",
+    "H": "H",
+    "2B": "2B",
+    "HR": "HR",
+    "RBI": "CI",
+    "BB": "BB",
+    "AVG": "AVE",
+    "OBP": "OBP",
+    "OPS": "OPS",
+    "High-Performance Sabermetric Agent Console": "Consola del Agente Sabermétrico de Alto Rendimiento",
+    "📜 Agent Skills (SKILL.md)": "📜 Habilidades del Agente (SKILL.md)",
+    "🧠 Decision Memory": "🧠 Memoria de Decisiones",
+    "🗑️ Clear": "🗑️ Limpiar",
+    "Save to Dossier": "Guardar en Expediente",
+    "🎯 Inning Strategy": "🎯 Estrategia del Inning",
+    "⚔️ Stop Opponent 4th Batter": "⚔️ Frenar al 4to Bate Rival",
+    "🌤️ Wind & Zapata Aerodynamics": "🌤️ Viento & Aerodinámica Zapata",
+    "👥 Pinch Hitter (+55)": "👥 Bateador Emergente (+55)",
+    "⚡ Ask AI": "⚡ Preguntar",
+    "Team Profile, Manager & Venue": "Perfil del Equipo, Manager & Sede",
+    "Official Club Information": "Datos Oficiales del Club",
+    "Team Name:": "Nombre del Equipo:",
+    "Manager:": "Manager:",
+    "Official Venue:": "Sede Oficial:",
+    "AI Engine Access Key (3Tree Security):": "Clave de Acceso Motor IA (3Tree Security):",
+    "💾 Save Club Data": "💾 Guardar Datos del Club",
+    "Reset Database to Zero": "Restablecer Base de Datos a Cero",
+    "FIREBASE API KEY:": "FIREBASE API KEY:",
+    "PROJECT ID:": "PROJECT ID (ID DEL PROYECTO):",
+    "Official Actions:": "Acciones Oficiales:",
+    "Tactical Username / Email": "Usuario / Correo Táctico",
+    "Password": "Clave de Acceso",
+    "Tactical Role": "Rol Táctico",
+    "Quick Dugout PIN (4 digits)": "PIN Rápido Dugout (4 dígitos)",
+    "Account Password": "Contraseña de Cuenta",
+    "🏟️ Pre-Game Tactical Setup (Official Rules 1-9)": "🏟️ Configuración Táctica Pre-Juego (Reglas Oficiales 1-9)",
+    "⚔️ 1. Load Opponent Team / Rival": "⚔️ 1. Cargar Equipo Contrario / Rival",
+    "➕ Register New Opponent in DB": "➕ Registrar Nuevo Rival en BD",
+    "⚔️ SELECTED OPPONENT & LOGO:": "⚔️ EQUIPO RIVAL SELECCIONADO & LOGO:",
+    "Opponent Club Name": "Nombre del Club Rival",
+    "Official Abbreviation (3 letters)": "Siglas Oficiales (3 letras)",
+    "Ace Starting Pitcher": "Lanzador Abridor As",
+    "Arm": "Brazo",
+    "Right-Handed (RHP)": "Diestro (RHP)",
+    "Left-Handed (LHP)": "Zurdo (LHP)",
+    "🏟️ 2. Register Venue, Date, GPS Weather Sensor and Locality": "🏟️ 2. Registrar Sede, Fecha, Sensor de Clima GPS y Localía",
+    "📅 Game Date": "📅 Fecha del Partido",
+    "⏰ Start Time": "⏰ Hora de Inicio",
+    "🏟️ Stadium / Official Venue": "🏟️ Estadio / Sede Oficial",
+    "📍 Address / Location": "📍 Dirección / Ubicación",
+    "🌤️ Live GPS Weather Telemetry (Stadium):": "🌤️ Telemetría Climática GPS en Vivo (Estadio):",
+    "🔄 Update GPS": "🔄 Actualizar GPS",
+    "TEMPERATURE": "TEMPERATURA",
+    "HUMIDITY": "HUMEDAD",
+    "WIND": "VIENTO",
+    "BAROM. PRESSURE": "PRESIÓN BAROM.",
+    "⚖️ Home/Away Definition & Official First At-Bat Rule:": "⚖️ Definición de Localía & Regla Reglamentaria de Primer Turno al Bate:",
+    "🇻🇪 3, 4 & 5. Tactical Setup of Guerreros de Venezuela (+55)": "🇻🇪 3, 4 y 5. Configuración Táctica de Guerreros de Venezuela (+55)",
+    "3. ⚾ Guerreros Starting Pitcher:": "3. ⚾ Pitcher Abridor de Guerreros:",
+    "4. 🎯 Key Batter (Clutch Situations):": "4. 🎯 Bateador Clave (Situaciones Clutch):",
+    "5. 📋 Guerreros Starting Lineup (+55):": "5. 📋 Alineación Inicial de Guerreros (+55):",
+    "👁️ Preview Official Card (+55)": "👁️ Vista Previa Tarjeta Oficial (+55)",
+    "⚾ Start Official Game": "⚾ Iniciar Encuentro Oficial",
+    "🏁 Official Game Wrap-up & Certification (+55)": "🏁 Cierre Oficial de Encuentro & Certificación (+55)",
+    "Final audit of pitches, regulation duration and run validation for league boxscore.": "Auditoría final de pitcheos, duración reglamentaria y validación de carreras para el boxscore de la liga.",
+    "Recorded Start Time:": "Hora de Inicio Registrada:",
+    "Official Finish Time:": "Hora Oficial de Finalización:",
+    "Total Game Duration:": "Duración Total del Encuentro:",
+    "🏆 Final Score Summary": "🏆 Resumen de Marcador Final",
+    "Cancel": "Cancelar",
+    "Confirm & Save Officially": "Confirmar & Guardar Oficialmente",
+    "🎙️ Start Dictation": "🎙️ Iniciar Dictado",
+    "⏹️ Stop Listening": "⏹️ Detener Escucha",
+    "✅ Apply to Lineup": "✅ Aplicar al Lineup",
+    "Pitcher & Bullpen Monitor": "Monitor de Lanzador & Bullpen",
+    "Pitches:": "Lanzamientos:",
+    "Strikes:": "Strikes:",
+    "FATIGUE INDEX (+55 LIMIT: 75 PITCHES)": "ÍNDICE DE FATIGA (+55 LÍMITE: 75 PITCHES)",
+    "Optimal (37%)": "Óptimo (37%)",
+    "🔥 Active Bullpen:": "🔥 Bullpen Activo:",
+    "INNING 1 (TOP ▲)": "INNING 1 (ALTA ▲)",
+    "INNING 1 (BOT ▼)": "INNING 1 (BAJA ▼)",
+    "At Bat:": "Al Bate:",
+    "Today: 0 AB, 0 H, .000 AVG": "Hoy: 0 VB, 0 H, .000 AVE",
+    "Play-by-Play Entry (Dugout Keypad)": "Registro de Jugadas (Dugout Keypad)",
+    "Hits & Home Runs:": "Batazos de Hit & Jonrón:",
+    "Groundouts & Double Plays:": "Rolatas & Dobles Plays:",
+    "Pitching, Sacrifices & Runners:": "Pitcheo, Sacrificios & Corredores:",
+    "Play-by-Play History (Live Play Log)": "Historial Jugada a Jugada (Live Play Log)",
+    "Live Match Boxscore": "Boxscore del Partido en Vivo",
+    "● Live Synced": "● Sincronizado en Vivo",
+    "ENGINE: DIAMAX TACTICAL AI™ · REAL TIME": "MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL",
+    "⚔️ OFFENSE (BATTING)": "⚔️ OFENSIVA (BATEANDO)",
+    "🛡️ DEFENSE (ON FIELD)": "🛡️ DEFENSIVA (EN CAMPO)",
+    "Batting Order:": "Orden al Bate:",
+    "Breaking / 82mph": "Quebrado / 82mph",
+    "Change / 80mph": "Cambio / 80mph",
+    "Strike / 76mph": "Strike / 76mph",
+    "Out of Zone": "Fuera de Zona",
+    "Contact": "Contacto",
+    "Adjust batting order using 🔼 / 🔽 controls.": "Ajusta el orden táctico con los controles 🔼 / 🔽.",
+    "Ground Ball (GB)": "Rodado (GB)",
+    "Fly Ball (FB)": "Elevado (FB)",
+    "Line Drive (LD)": "Línea (LD)",
+    "Impact zones and Whiff% for pitch planning.": "Zonas de impacto y Whiff% para formulación del plan de pitcheo.",
+    "CATCHER PERSPECTIVE (ZONES 1-9)": "PERSPECTIVA DEL CÁTCHER (ZONAS 1-9)",
+    "64.2% (Extreme)": "64.2% (Extremo)",
+    "Opposite Field (Oppo%):": "Banda Contraria (Oppo%):",
+    "Defensive Recommendation:": "Recomendación Defensiva:",
+    "DEEP 3B/SS SHIFT": "SHIFT PROFUNDO 3B/SS",
+    "⚔️ Official 9 Starters:": "⚔️ 9 Titulares Oficiales:",
+    "⚾ Starting Pitcher & 6 Official Reserves:": "⚾ Lanzador Abridor & 6 Reservas Oficiales:",
+    "Step 1: Opponent & Logo": "Paso 1: Rival & Logo",
+    "Step 2: Venue & GPS Weather": "Paso 2: Sede & Clima GPS",
+    "Step 3: Starter & Axis": "Paso 3: Abridor & Eje",
+    "Step 4: Lineup 1-9": "Paso 4: Lineup 1-9",
+    "Step 5: Umpire Card": "Paso 5: Tarjeta Umpire",
+    "Verify dual lineup and certify to start Dugout.": "Verifica la alineación dual y certifica para iniciar Dugout.",
+    "Batted Balls / Hits:": "Conexiones / Hits:",
+    "Single ·": "Sencillo ·",
+    "Double ·": "Doble ·",
+    "Triple ·": "Triple ·",
+    "Home Run": "Jonrón",
+    "Defensive Outs:": "Outs Defensivos:",
+    "Fly balls ·": "Elevados ·",
+    "Ground balls ·": "Rolatas ·",
+    "Double Play": "Doble Play",
+    "Situational / Pitching:": "Situacionales / Pitcheo:",
+    "Swinging Strikeout ·": "Ponche tirando ·",
+    "Looking Strikeout ·": "Cantado ·",
+    "Walk ·": "Boleto ·",
+    "Steal ·": "Robo ·",
+    "Sacrifice": "Sacrificio",
+    "🟢 0 - 45 Pitches": "🟢 0 - 45 Pitches",
+    "Green Zone: Optimal Performance and Full Power.": "Zona Verde: Rendimiento Óptimo y Plena Potencia.",
+    "🟡 46 - 60 Pitches": "🟡 46 - 60 Pitches",
+    "Yellow Zone: Monitor velocity and zone control.": "Zona Amarilla: Monitorear velocidad y control de zona.",
+    "🔴 61 - 75 Pitches": "🔴 61 - 75 Pitches",
+    "Red Zone: Maximum alert. Activate Bullpen!": "Zona Roja: Alerta máxima. ¡Activar Bullpen!",
+    "📋 Dual Official Card (Umpires):": "📋 Tarjeta Oficial Dual (Umpires):",
+    "Direct access:": "Acceso directo:",
+    ". Displays 16 Guerreros members and opponent roster in printable format with signature lines.": ". Muestra 16 personas de Guerreros y el roster rival en formato imprimible con líneas de firma.",
+    "📈 Daily Technical Report:": "📈 Informe Técnico del Día:",
+    ". Technical sheet, 1-9 boxscore, offense/pitching/fielding comparison, MVP, Turning Point and technical verdict.": ". Ficha técnica, boxscore 1-9, comparativa ofensiva/pitcheo/fildeo, MVP, Turning Point y dictamen técnico.",
+    "GUERREROS DE VENEZUELA vs. OPPONENT": "GUERREROS DE VENEZUELA vs. RIVAL",
+    "🟢 9vs9 VALIDATED": "🟢 9vs9 VALIDADO",
+    "VALIDATED (9/9)": "VALIDADO (9/9)",
+    "★ OPPONENT TEAM · RULES 1-9 ★": "★ EQUIPO CONTRARIO · REGLAS 1-9 ★",
+    "ABBR:": "SIGLAS:",
+    "Chief Umpire": "Árbitro Principal (Chief Umpire)",
+    "OFFICIAL TECHNICAL REPORT": "INFORME TÉCNICO OFICIAL",
+    "CERTIFIED & AUDITED": "CERTIFICADO Y AUDITADO",
+    "MASTER +55 LEAGUE": "LIGA MASTER +55",
+    "STADIUM & OFFICIAL VENUE:": "ESTADIO & SEDE OFICIAL:",
+    "DATE, TIME & DURATION:": "FECHA, HORARIO & DURACIÓN:",
+    "⏱️ Duration: 2h 20m (Official)": "⏱️ Duración: 2h 20m (Oficial)",
+    "WEATHER CONDITIONS (GPS):": "CONDICIONES CLIMÁTICAS (GPS):",
+    "AUTHORITIES & OFFICIALS:": "AUTORIDADES & OFICIALES:",
+    "Chief Umpire: Carlos Mendoza": "Árbitro Ppal: Carlos Mendoza",
+    "Official Scorer: DIAMAX Certified System": "Anotador Oficial: DIAMAX Certified System",
+    "Fatigue Control (+55): Starter within 75-pitch rule.": "Control de Fatiga (+55): Abridor dentro de norma 75 lanzamientos.",
+    "Opponent Pitching:": "Pitcheo Rival:",
+    "Ace Pitcher: Tom Reynolds (#21 - RHP)": "Lanzador As: Tom Reynolds (#21 - RHP)",
+    "MOST VALUABLE PLAYER (MVP)": "JUGADOR MÁS VALIOSO DEL ENCUENTRO (MVP)",
+    "⚡ TURNING POINT / KEY MOMENT:": "⚡ MOMENTO CLAVE / TURNING POINT:",
+    "🧠 Technical Verdict & Strategic Adjustments for Next Game:": "🧠 Dictamen Técnico & Ajustes Estratégicos para el Próximo Juego:",
+    "Selective Batting:": "Bateo Selectivo:",
+    "Pitch Count Management:": "Dosificación de Pitcheo:",
+    "Defensive Positioning:": "Posicionamiento Defensivo:",
+    "Manager Guerreros de Venezuela": "Mánager Guerreros de Venezuela",
+    "Opponent Team Manager": "Mánager Equipo Contrario",
+    "Official Scorer": "Anotador Oficial",
+    "DIAMAX Certified Protocol": "DIAMAX Certified Protocol",
+    "Total Games": "Juegos Totales",
+    "Runs Scored": "Carreras Anotadas",
+    "Team Hits": "Hits Colectivos",
+    "Team AVG": "AVE Colectivo",
+    "Team OBP": "OBP Colectivo",
+    "Team OPS": "OPS Colectivo",
+    "Metric:": "Métrica:",
+    "Total Hits (H)": "Hits Totales (H)",
+    "Runs Batted In (RBI)": "Carreras Impulsadas (CI)",
+    "Total Bases (SLG)": "Bases Alcanzadas (SLG)",
+    "Home Runs (HR)": "Cuadrangulares (HR)",
+    "Batting Average (AVG)": "Promedio al Bate (AVE)",
+    "Sabermetric OPS": "OPS Sabermétrico",
+    "Starters Production": "Producción Titulares",
+    "Offensive Leader": "Líder Ofensivo",
+    "(Hover over bars to see details)": "(Pasa el cursor por las barras para ver detalles)",
+    "Opponent Team": "Equipo Rival",
+    "X-Axis: Innings 1-9 · Y-Axis: Cumulative Runs": "Eje X: Innings 1-9 · Eje Y: Carreras Acumuladas",
+    "* Official records synced with Umpire Card": "* Registros oficiales sincronizados con la Tarjeta de Árbitros",
+    "AUTONOMOUS AGENT": "AGENTE AUTÓNOMO",
+    "🟢 ONLINE & CONNECTED": "🟢 ONLINE & CONECTADO",
+    "DIAMAX TACTICAL AGENT v2.5": "DIAMAX TACTICAL AGENT v2.5",
+    "🏟️ Mode 1: Dugout In-Game (<1.5s)": "🏟️ Modo 1: Dugout In-Game (<1.5s)",
+    "🎲 Mode 2: Lineup Optimizer (Markov)": "🎲 Modo 2: Optimizador Lineup (Markov)",
+    "🕵️ Mode 3: Pre-Game Scouting (Opponent)": "🕵️ Modo 3: Scouting Pre-Juego (Rival)",
+    "📊 Mode 4: Sabermetric Analyst (RAG)": "📊 Modo 4: Analista Sabermétrico (RAG)",
+    "🤖 DIAMAX AGENT:": "🤖 DIAMAX AGENT:",
+    "Live": "En Vivo",
+    "Lineup & Batting:": "Alineación & Bateo:",
+    "Batting order adjustments, pinch hitters (+55) and matchups vs rival pitcher.": "Ajustes de orden al bate, emergentes (+55) y duelos vs lanzador rival.",
+    "Pitching & Fatigue:": "Pitcheo & Fatiga:",
+    "Pacing Pedro Chavez (75-pitch limit) and optimal timing for bullpen.": "Dosificación de Pedro Chávez (límite 75) y momento óptimo para llamar al bullpen.",
+    "Defense & Scouting:": "Defensa & Scouting:",
+    "Tactical positioning (Shifts), spray charts and opponent weaknesses.": "Posicionamiento táctico (Shifts), spray charts y debilidades del rival.",
+    "➕ Train New Tactical Skill:": "➕ Entrenar Nueva Habilidad Táctica:",
+    "Upload Logo": "Subir Logo",
+    "⚙️ Settings & Connectivity": "⚙️ Configuración & Conectividad",
+    "Enables real-time recommendations in < 1.5s with DIAMAX Tactical AI™.": "Habilita recomendaciones en tiempo real en < 1.5s con DIAMAX Tactical AI™.",
+    "Real-time NoSQL database & graph sync across devices.": "Base de datos NoSQL & Grafos en tiempo real para sincronización entre dispositivos.",
+    "○ Status: Local Mode / Awaiting Credentials": "○ Estado: Modo Local / Esperando Credenciales",
+    "🔥 Connect": "🔥 Conectar",
+    "☁️ Sync": "☁️ Sincronizar",
+    "Send Card by Email to League": "Enviar Tarjeta por Email a la Liga",
+    "DIAMAX VOICE LINEUP AGENT": "DIAMAX VOICE LINEUP AGENT",
+    "Voice Tactical Dictation for Manager (Web Speech + TTS)": "Dictado Táctico por Voz para el Mánager (Web Speech + TTS)",
+    "⚪ Awaiting dictation": "⚪ En espera de dictado",
+    "\"Load official Saturday lineup\"": "\"Cargar lineup oficial del sábado\"",
+    "or dictate players like": "o dictar jugadores como",
+    "\"1 Johan Olivo Center Field, 2 Pablo Morales First Base...\"": "\"1 Johan Olivo Center Field, 2 Pablo Morales Primera Base...\"",
+    "Recognized Players and Commands:": "Jugadores y Comandos Reconocidos:",
+    "Waiting for voice commands...": "Esperando comandos de voz...",
+    "DIAMAX SECURITY PORTAL": "DIAMAX SECURITY PORTAL",
+    "Authenticated Tactical Access · SHA-256 Encryption": "Acceso Táctico Autenticado · Cifrado SHA-256",
+    "🔑 Sign In": "🔑 Iniciar Sesión",
+    "⚡ Dugout PIN": "⚡ PIN Dugout",
+    "📝 Register": "📝 Registro",
+    "Enter System": "Entrar al Sistema",
+    "⚡ Enter Quick Demo / Guest Mode": "⚡ Entrar en Modo Demo / Invitado Rápido",
+    "Enter the 4-digit security PIN for quick dugout unlock:": "Ingresa el PIN de seguridad de 4 dígitos para desbloqueo rápido en dugout:",
+    "Team Name": "Nombre del Equipo",
+    "Manager / Operator Name": "Nombre del Mánager / Operador",
+    "👑 Manager / Head Coach (Full Access + AI)": "👑 Mánager / Head Coach (Acceso Total + IA)",
+    "✍️ Official Scorer (Scoring + Plays)": "✍️ Anotador Oficial (Anotación + Jugadas)",
+    "📊 Scout / Analyst (Metrics + Monte Carlo)": "📊 Scout / Analista (Métricas + Monte Carlo)",
+    "Register & Start": "Registrar e Iniciar",
+    "➕ Quick Register New Opponent in Database": "➕ Registro Rápido de Nuevo Rival en Base de Datos",
+    "⚾ Opponent Starting Pitcher and 9 Batters:": "⚾ Lanzador Abridor y 9 Bateadores del Rival:",
+    "Starting Pitcher Name": "Nombre Lanzador Abridor",
+    "Number #": "Número #",
+    "OPPONENT BATTER NAME": "NOMBRE DEL BATEADOR RIVAL",
+    "# NUM": "# NÚM",
+    "Zapata Aerodynamic Impact:": "Impacto Aerodinámico Zapata:",
+    "OFFICIAL TEAM ASSIGNMENT:": "ASIGNACIÓN OFICIAL DE EQUIPOS:",
+    "HOME CLUB (Local):": "HOME CLUB (Local):",
+    "VISITOR (Away):": "VISITANTE (Away):",
+    "Select from Roster or Customize": "Seleccionar del Roster o Personalizar",
+    "Throwing Arm": "Brazo Lanzador",
+    "4. 🎯 Key Batter (Tactical Offensive Axis):": "4. 🎯 Bateador Clave (Eje Ofensivo Táctico):",
+    "5. 📋 Guerreros Starting Lineup (1 to 9 - No Duplicate Positions):": "5. 📋 Lineup Titular de Guerreros (1 al 9 - Sin Posiciones Duplicadas):",
+    "STARTING PLAYER (GVE ROSTER)": "JUGADOR TITULAR (ROSTER GVE)",
+    "Pre-Game Validation Error:": "Error de Validación Pre-Juego:",
+    "You must enter exactly 9 starting batters and 1 starting pitcher without duplicate defensive positions.": "Debe ingresar exactamente 9 bateadores titulares y 1 lanzador abridor sin posiciones defensivas repetidas.",
+    "📋 Preview: Official Baseball Card (Dual Lineup)": "📋 Vista Previa: Tarjeta Oficial de Béisbol (Alineación Dual)",
+    "✏️ Modify Lineup": "✏️ Modificar Alineación",
+    "🏁 Finalize and Certify Game": "🏁 Finalizar y Certificar Partido",
+    "⏰ Recorded Start Time": "⏰ Hora de Inicio Registrada",
+    "🏁 Exact Finish Time": "🏁 Hora Exacta de Finalización",
+    "⏱️ Calculated Game Duration": "⏱️ Duración Calculada del Encuentro",
+    "Back to Game": "Volver al Juego",
+    "✅ Confirm and Sync Official Card": "✅ Confirmar y Sincronizar Tarjeta Oficial",
+    "1. Official Calibrated Roster: 16 Members (Guerreros +55)": "1. Roster Oficial Calibrado: 16 Integrantes (Guerreros +55)",
+    "2. Pre-Game Protocol: 5-Step Wizard (Orlando Sánchez 2026)": "2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)",
+    "3. Live Operation (Dugout Keypad & Pitch-by-Pitch Scoring)": "3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)",
+    "4. Sports Medical Protocol: Fatigue Monitor (+55: 75 Pitch Limit)": "4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)",
+    "5. Official Reports, Dual Card & Daily Technical Report": "5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día",
+    "6. Sabermetric Artificial Intelligence (DIAMAX Engine)": "6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)",
+    "HOME CLUB (Bottom ▼)": "HOME CLUB (Baja ▼)",
+    "VISITOR (Top ▲)": "VISITANTE (Alta ▲)",
+    "Opponent Pitcher": "Abridor Rival"
+  }
+};
+
+function translateDOMTexts(targetLang) {
+  const lang = targetLang || window.currentLang || 'es';
+  const mapsObj = window.BILINGUAL_MAPS;
+  if (!mapsObj) return;
+  const map = lang === 'en' ? mapsObj.ES_TO_EN : mapsObj.EN_TO_ES;
+  if (!map) return;
+
+  // 1. Recorrer todos los nodos de texto visibles en el documento
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: function(node) {
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+        const tag = parent.tagName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (!node.nodeValue || !node.nodeValue.trim()) {
+          return NodeFilter.FILTER_SKIP;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    },
+    false
+  );
+
+  const nodes = [];
+  let curr = walker.nextNode();
+  while (curr) {
+    nodes.push(curr);
+    curr = walker.nextNode();
+  }
+
+  for (let i = 0; i < nodes.length; i++) {
+    const n = nodes[i];
+    const val = n.nodeValue;
+    const trimmed = val.trim();
+    if (map[trimmed] !== undefined) {
+      const match = val.match(/^(\s*)(.*?)(\s*)$/s);
+      if (match) {
+        n.nodeValue = match[1] + map[trimmed] + match[3];
+      } else {
+        n.nodeValue = map[trimmed];
+      }
+    } else {
+      // Reemplazos dinámicos con patrones regex
+      if (lang === 'en') {
+        if (/^INNING\s+(\d+)\s+\(ALTA\s+▲\)$/i.test(trimmed)) {
+          n.nodeValue = trimmed.replace(/^INNING\s+(\d+)\s+\(ALTA\s+▲\)$/i, 'INNING $1 (TOP ▲)');
+        } else if (/^INNING\s+(\d+)\s+\(BAJA\s+▼\)$/i.test(trimmed)) {
+          n.nodeValue = trimmed.replace(/^INNING\s+(\d+)\s+\(BAJA\s+▼\)$/i, 'INNING $1 (BOT ▼)');
+        } else if (/^Hoy:\s+(\d+)\s+VB,\s+(\d+)\s+H,\s+([\.\d]+)\s+AVE/i.test(trimmed)) {
+          n.nodeValue = trimmed.replace(/^Hoy:\s+(\d+)\s+VB,\s+(\d+)\s+H,\s+([\.\d]+)\s+AVE/i, 'Today: $1 AB, $2 H, $3 AVG');
+        }
+      } else {
+        if (/^INNING\s+(\d+)\s+\(TOP\s+▲\)$/i.test(trimmed)) {
+          n.nodeValue = trimmed.replace(/^INNING\s+(\d+)\s+\(TOP\s+▲\)$/i, 'INNING $1 (ALTA ▲)');
+        } else if (/^INNING\s+(\d+)\s+\(BOT\s+▼\)$/i.test(trimmed)) {
+          n.nodeValue = trimmed.replace(/^INNING\s+(\d+)\s+\(BOT\s+▼\)$/i, 'INNING $1 (BAJA ▼)');
+        } else if (/^Today:\s+(\d+)\s+AB,\s+(\d+)\s+H,\s+([\.\d]+)\s+AVG/i.test(trimmed)) {
+          n.nodeValue = trimmed.replace(/^Today:\s+(\d+)\s+AB,\s+(\d+)\s+H,\s+([\.\d]+)\s+AVG/i, 'Hoy: $1 VB, $2 H, $3 AVE');
+        }
+      }
+    }
+  }
+
+  // 2. Placeholders de Inputs y Textareas
+  document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+    const ph = (el.placeholder || el.getAttribute('placeholder') || '').trim();
+    if (ph && map[ph] !== undefined) {
+      el.placeholder = map[ph];
+    }
+  });
+
+  // 3. Tooltips y Atributos Title
+  document.querySelectorAll('[title]').forEach(el => {
+    const rawTitle = typeof el.title === 'string' ? el.title : el.getAttribute('title');
+    const t = (rawTitle || '').trim();
+    if (t && map[t] !== undefined) {
+      el.setAttribute('title', map[t]);
+      if (typeof el.title === 'string') el.title = map[t];
+    }
+  });
+
+  // 4. Encabezados de Tablas de Boxscore / Estadísticas (VB <-> AB, AVE <-> AVG, CI <-> RBI, etc.)
+  document.querySelectorAll('th').forEach(th => {
+    const txt = (th.innerText || th.textContent || '').trim();
+    if (txt && map[txt] !== undefined) {
+      th.innerText = map[txt];
+    }
+  });
+}
+window.translateDOMTexts = translateDOMTexts;
+
 const TRANSLATIONS = {
-  es: {
-    // Navegación
+  "es": {
     "nav-live": " 1. Anotador Dugout",
     "nav-lineup": " 2. Lineup Builder",
     "nav-field": " 3. Campo 2D",
@@ -3805,53 +4791,194 @@ const TRANSLATIONS = {
     "nav-dash": " 5. Dashboard",
     "nav-skills": " 6. Agente & Skills",
     "nav-profile": " 7. Perfil & Sede",
-    
-    // Header y Badges
     "badge-live": "EN VIVO REACTIVO",
     "lang-btn": " ESPAÑOL",
     "btn-daylight": "☀️ Sol / Noche",
     "btn-new-game": "🏟️ Cargar Nuevo Juego",
-    "btn-config-game-header": "➕ Configurar Partido & Rival",
+    "btn-config-game-header": "+ Configurar Partido & Rival",
     "btn-refresh-db": "🔄 Refrescar BD",
     "btn-settings": "⚙️ Configuración",
     "lbl-game-selected-ribbon": "🏟️ PARTIDO SELECCIONADO:",
-    "btn-finish-game": "🏁 Finalizar Partido",
-    "btn-print-manual": "🖨️ Imprimir Guía de Dugout",
-    "btn-print-card": "🖨️ Imprimir Tarjeta Oficial (PDF)",
+    "btn-ribbon-home": "🏠 HOME CLUB",
+    "btn-ribbon-away": "✈️ VISITANTE",
+    "ribbon-home-role-label": "HOME:",
+    "ribbon-away-role-label": "VISIT:",
+    "game-status-in-play": "EN JUEGO",
+    "game-status-final": "FINALIZADO",
+    "cloud-sync-title": "Cloud Sync:",
+    "cloud-sync-active": "Activo",
     "cond-home": "🔄 HOME CLUB (LOCAL)",
     "cond-away": "🔄 VISITANTE",
-    "game-status-in-play": "EN JUEGO",
-    "btn-load-official-lineup": "📋 Cargar Lineup Oficial (+55)",
-    "btn-voice-lineup": "🎙️ Dictar por Voz",
-    
-    // IA Táctica
+    "cond-home-sub": "Defiende en la Alta (▲) · Batea en la Baja (▼)",
+    "cond-away-sub": "Batea en la Alta (▲) · Abre el Juego en Inning 1",
+    "lbl-cond-summary-title": "ASIGNACIÓN OFICIAL DE EQUIPOS:",
+    "lbl-summary-home-role": "HOME CLUB (Local):",
+    "lbl-summary-away-role": "VISITANTE (Away):",
+    "cond-opt-gve-home-sub": "Guerreros defiende en la Alta (▲) · Cierra bateando en la Baja (▼)",
+    "cond-opt-gve-away-sub": "Guerreros abre el juego al bate en la Alta (▲) · Defiende en la Baja (▼)",
     "ai-title": "DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)",
-    "ai-status": "MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL",
-    "btn-ai-pitch": "⚡ Pitcheo Sugerido",
-    "btn-ai-shift": "🛡️ Shift Defensivo",
-    "btn-ai-base": "🏃 Robo / Sacrificio",
+    "ai-status": "RED ACTIVA: Gemini 2.5 Pro Sabermétrico conectado",
+    "btn-ai-pitch": "⚡ Pitcheo / Selección",
+    "btn-ai-shift": "🛡️ Shift / Ubicación",
+    "btn-ai-base": "🏃 Robo / Toque / Corrido",
     "btn-ai-pinch": "👥 Emergente Sabermétrico",
     "btn-ai-rival-scout": "📊 Scouting & Predicción Rival",
     "btn-ai-pitcher-matchup": "🎯 Duelo vs Pitcher Rival",
-    "btn-ai-bullpen": "🔄 Alerta Bullpen",
     "btn-ai-query": "Consultar",
-    "ai-custom-prompt-ph": "Preguntar al asistente táctico (ej: ¿Cómo atacamos el conteo 3-2?)...",
-    
-    // Keypad y Anotación
+    "ai-custom-prompt-ph": "Escribe una consulta táctica al motor sabermétrico...",
+    "lbl-active-pitcher": "LANZADOR ACTIVO:",
+    "lbl-fatigue": "FATIGA:",
+    "lbl-bullpen": "BULLPEN ACTIVO",
+    "lbl-strikes-pct": "STRIKES (%)",
     "btn-strike-quick": "+1 Strike",
     "btn-ball-quick": "+1 Bola",
     "btn-reset-count": "Reiniciar Conteo",
-    "lbl-active-pitcher": "Lanzador Activo:",
-    "lbl-bullpen": "Bullpen:",
-    "lbl-fatigue": "Fatiga:",
-    "lbl-strikes-pct": "Strikes:",
-    
-    // Modal Nuevo Juego (Pre-Game Wizard)
+    "btn-manage-bullpen": "+ Gestionar Relevo",
+    "lbl-diamond-caption": "Toca 1B, 2B o 3B para alternar corredores en base",
+    "lbl-outs-tap": "(Tocar)",
+    "btn-pinch-hitter": "Emergente (PH)",
+    "btn-finish-game-main": "🏁 Finalizar Partido",
+    "btn-archive-game-db": "Finalizar Juego & Archivar en Base de Datos",
+    "log-title": "📋 Registro de Jugadas (Play-by-Play en Vivo)",
+    "act-1b": "1B (Sencillo)",
+    "act-2b": "2B (Doblete)",
+    "act-3b": "3B (Triplete)",
+    "act-hr": "JONRÓN (HR)",
+    "act-63": "6-3 (SS a 1B)",
+    "act-43": "4-3 (2B a 1B)",
+    "act-53": "5-3 (3B a 1B)",
+    "act-13": "1-3 (P a 1B)",
+    "act-sf": "Fly Sacrificio (SF)",
+    "act-k": "Ponche (K)",
+    "act-bb": "Boleto (BB)",
+    "act-sb": "Base Robada (SB)",
+    "act-cs": "Out Robando (CS)",
+    "act-wp": "Wild Pitch (WP)",
+    "act-dp-643": "6-4-3 DP",
+    "act-dp-463": "4-6-3 DP",
+    "pitch-4seam": "4-Seam Strike / 91mph",
+    "pitch-slider": "Slider Quebrado / 82mph",
+    "pitch-changeup": "Changeup Cambio / 80mph",
+    "pitch-curve": "Curva Strike / 76mph",
+    "pitch-ball": "Bola Fuera de Zona",
+    "pitch-foul": "Foul Contacto",
+    "btn-load-official-lineup": "📋 Cargar Lineup Oficial (+55)",
+    "btn-voice-lineup": "🎙️ Dictar por Voz",
+    "btn-add-player": "+ Agregar Jugador",
+    "btn-monte-carlo": "🎲 Monte Carlo (10k)",
+    "btn-optimize-ai": "⚡ Optimizar por IA",
+    "btn-clear-lineup": "Vaciar",
+    "btn-go-scorer": "Ir al Anotador",
+    "btn-view-field": "Ver Terreno",
+    "lineup-title": "Orden al Bate Oficial (Posiciones 1 al 9 + Reservas)",
+    "lineup-sim-title": "📊 Resultados de Simulación Estocástica de Markov (N = 10,000 Innings)",
+    "th-order": "ORD",
+    "th-player": "JUGADOR",
+    "th-number": "NÚM",
+    "th-position": "POSICIÓN",
+    "th-bats": "BATEA",
+    "th-throws": "LANZA",
+    "th-actions": "ACCIÓN",
+    "campo-title": "🏟️ Terreno Táctico 2D & Spray Chart",
+    "campo-subtitle": "📍 Toca cualquier parte del terreno para registrar un batazo táctico en vivo.",
+    "filter-all": "Todos",
+    "filter-gb": "Rodados",
+    "filter-fb": "Elevados",
+    "filter-hr": "Jonrones",
+    "lbl-hot-zone": "Zona Caliente (AVG > .320)",
+    "lbl-cold-zone": "Zona Fría (Whiff% > 35%)",
+    "lbl-pull-tendency": "Tendencia Hacia la Banda (Pull%):",
+    "lbl-center-tendency": "Batazos al Centro (Cent%):",
+    "lbl-oppo-tendency": "Batazos Hacia la Banda Opuesta (Oppo%):",
+    "lbl-strikezone-heatmap": "🎯 Mapa de Calor (Zona de Strike)",
+    "lbl-select-player-analyze": "Seleccionar Jugador a Analizar:",
+    "btn-shift-normal": "Infield Normal",
+    "btn-shift-in": "Infield Adentro",
+    "btn-shift-pull": "Shift Hacia Jalador",
+    "btn-shift-bunt": "Shift Anti-Toque",
+    "manual-title": "Manual Oficial de Operación & Protocolos DIAMAX PRO",
+    "manual-subtitle": "Guía técnica para la Dirección, Cuerpo Técnico y Anotadores de Guerreros de Venezuela +55",
+    "btn-print-manual": "🖨️ Imprimir Manual Completo",
+    "manual-sec1-title": "🇻🇪 1. Roster Oficial Calibrado: 16 Integrantes (Guerreros +55)",
+    "manual-quick-header": "🏟️ 2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)",
+    "manual-roles-header": "⌨️ 3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)",
+    "manual-fatigue-header": "🩺 4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)",
+    "manual-sec5-title": "📊 5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día",
+    "manual-ai-header": "🧠 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)",
+    "card-dual-title": "📋 Tarjeta Oficial de Béisbol & Alineación Dual",
+    "card-rule-header": "Visitante abre en Alta (▲) · Home Club cierra en Baja (▼)",
+    "btn-card-modify": "⚙️ Modificar Lineups / Sede",
+    "btn-card-dual-view": "👑 Vista Dual",
+    "btn-card-gve-view": "🇻🇪 Guerreros",
+    "btn-card-rival-view": "⚔️ Rival",
+    "btn-card-print-pdf": "🖨️ Imprimir / Guardar como PDF",
+    "btn-card-copy-boxscore": "📄 Copiar Boxscore",
+    "th-starters-label": "JUGADORES TITULARES",
+    "th-subs-label": "RESERVAS & LANZADORES",
+    "th-pos-col": "POS.",
+    "th-bt-col": "B/L",
+    "lbl-condition-tag": "CONDICIÓN:",
+    "lbl-date-tag": "FECHA:",
+    "lbl-manager-tag": "MÁNAGER:",
+    "lbl-status-tag": "ESTADO:",
+    "lbl-starter-pitcher-tag": "LANZADOR ABRIDOR (P):",
+    "lbl-technical-report-title": "📊 3. Rendimiento Técnico Comparativo de Ambos Equipos",
+    "lbl-team-offense": "Ofensiva Colectiva:",
+    "lbl-team-average": "Promedio / Sabermetría:",
+    "lbl-team-risp": "Bateo con Corredores en Base (RISP):",
+    "lbl-team-pitching": "Pitcheo & Bullpen:",
+    "lbl-team-defense": "Defensa & Fildeo:",
+    "lbl-certified-doc": "Certificado oficial para Delegados, Árbitros y Mánagers de la Liga +55",
+    "lbl-gve-manager-sig": "Lic. Alí Zapata Mendoza (Mánager Guerreros)",
+    "lbl-rival-manager-sig": "Mánager Rival",
+    "dash-title": "📈 DIAMAX Tactical Reports & Visual Charts",
+    "dash-subtitle": "Analítica sabermétrica en tiempo real: gráficos de barra, progresión lineal por innings y rendimiento colectivo.",
+    "btn-dash-pdf": "🖨️ Imprimir / Guardar PDF",
+    "btn-dash-refresh": "🔄 Actualizar Gráficos",
+    "btn-dash-print-report": "🖨️ Imprimir Informe / PDF",
+    "btn-dash-whatsapp": "📋 Copiar Informe (WhatsApp/Texto)",
+    "btn-dash-email": "📧 Enviar por Correo a la Liga",
+    "dash-sec1-title": "🏟️ 1. Ficha Técnica & Entorno Oficial del Encuentro",
+    "dash-sec2-title": "🔢 2. Pizarra Oficial & Line Score Inning por Inning",
+    "dash-sec3-title": "📊 3. Rendimiento Técnico Comparativo de Ambos Equipos",
+    "dash-sec4-title": "🎯 4. Evaluación Táctica, Jugador Más Valioso (MVP) & Recomendaciones",
+    "dash-sec5-title": "📋 Estadísticas Individuales del Roster (En Vivo & Acumuladas)",
+    "th-team-col": "EQUIPO",
+    "th-runs-col": "C",
+    "th-hits-col": "H",
+    "th-errors-col": "E",
+    "th-lob-col": "LOB",
+    "skills-title": "Consola del Agente Sabermétrico de Alto Rendimiento",
+    "skills-subtitle": "Motor autónomo para toma de decisiones y scouting sabermétrico",
+    "skills-list-header": "📜 Habilidades del Agente (SKILL.md)",
+    "skills-memory-header": "🧠 Memoria de Decisiones",
+    "btn-skills-clean": "🗑️ Limpiar",
+    "btn-skills-save": "Guardar en Expediente",
+    "btn-skills-strat-inn": "🎯 Estrategia del Inning",
+    "btn-skills-stop-4th": "⚔️ Frenar al 4to Bate Rival",
+    "btn-skills-wind": "🌤️ Viento & Aerodinámica Zapata",
+    "btn-skills-pinch": "👥 Bateador Emergente (+55)",
+    "btn-skills-ask": "⚡ Preguntar",
+    "profile-title": "Perfil del Equipo, Manager & Sede",
+    "profile-club-data": "Datos Oficiales del Club",
+    "lbl-team-name-prof": "Nombre del Equipo:",
+    "lbl-manager-prof": "Manager:",
+    "lbl-stadium-prof": "Sede Oficial:",
+    "lbl-api-key-prof": "Clave de Acceso Motor IA (3Tree Security):",
+    "btn-save-profile": "💾 Guardar Datos del Club",
+    "btn-restore-profile": "Restablecer Base de Datos a Cero",
     "modal-new-title": "🏟️ Configuración Táctica Pre-Juego (Reglas Oficiales 1-9)",
     "lbl-game-rival": "⚔️ 1. Cargar Equipo Contrario / Rival",
     "btn-toggle-nuevo-rival": "➕ Registrar Nuevo Rival en BD",
     "lbl-rival-selected-header": "⚔️ EQUIPO RIVAL SELECCIONADO & LOGO:",
-    "btn-upload-rival-logo": "🖼️ Subir Logo",
+    "lbl-new-rival-name": "Nombre del Club Rival",
+    "lbl-new-rival-abbr": "Siglas Oficiales (3 letras)",
+    "lbl-new-rival-mgr": "Mánager del Rival",
+    "lbl-new-rival-pitcher": "Lanzador Abridor As",
+    "lbl-new-rival-arm": "Brazo",
+    "opt-arm-rhp": "Diestro (RHP)",
+    "opt-arm-lhp": "Zurdo (LHP)",
+    "lbl-step2-venue-header": "🏟️ 2. Registrar Sede, Fecha, Sensor de Clima GPS y Localía",
     "lbl-game-date": "📅 Fecha del Partido",
     "lbl-game-time": "⏰ Hora de Inicio",
     "lbl-game-stadium": "🏟️ Estadio / Sede Oficial",
@@ -3859,57 +4986,33 @@ const TRANSLATIONS = {
     "lbl-weather-title": "🌤️ Telemetría Climática GPS en Vivo (Estadio):",
     "btn-sync-gps": "🔄 Actualizar GPS",
     "lbl-game-cond": "⚖️ Definición de Localía & Regla Reglamentaria de Primer Turno al Bate:",
-    "btn-preview-official-card": "📋 Vista Previa Tarjeta Oficial (Umpires)",
-    "btn-start-game": "💾 Guardar, Certificar e Iniciar Dugout (Inning 1 ▲▼) ⚾",
-    "opt-local": "Home Club (Local)",
-    "opt-away": "Visitante (Away)",
-    
-    // Modal Finalizar Juego
-    "modal-finish-title": "🏁 Finalizar y Certificar Partido",
-    "modal-finish-desc": "El juego será cerrado formalmente, registrando la hora exacta de terminación y calculando la duración oficial del encuentro.",
-    "lbl-start-recorded": "⏰ Hora de Inicio Registrada",
-    "lbl-finish-exact": "🏁 Hora Exacta de Finalización",
-    "lbl-duration-calc": "⏱️ Duración Calculada del Encuentro",
+    "lbl-step3-gve-header": "🇻🇪 3, 4 y 5. Configuración Táctica de Guerreros de Venezuela (+55)",
+    "lbl-step3-starter-label": "3. ⚾ Pitcher Abridor de Guerreros:",
+    "lbl-step4-key-batter": "4. 🎯 Bateador Clave (Situaciones Clutch):",
+    "lbl-step5-lineup-label": "5. 📋 Alineación Inicial de Guerreros (+55):",
+    "btn-preview-official-card": "👁️ Vista Previa Tarjeta Oficial (+55)",
+    "btn-start-game": "⚾ Iniciar Encuentro Oficial",
+    "modal-finish-title": "🏁 Cierre Oficial de Encuentro & Certificación (+55)",
+    "modal-finish-desc": "Auditoría final de pitcheos, duración reglamentaria y validación de carreras para el boxscore de la liga.",
+    "lbl-start-recorded": "Hora de Inicio Registrada:",
+    "lbl-finish-exact": "Hora Oficial de Finalización:",
+    "lbl-duration-calc": "Duración Total del Encuentro:",
     "lbl-score-summary": "🏆 Resumen de Marcador Final",
     "btn-cancel": "Cancelar",
-    "btn-return-game": "Volver al Juego",
-    "btn-confirm-finish": "✅ Confirmar y Sincronizar Tarjeta Oficial",
-    
-    // Modal Agente de Voz
+    "btn-confirm-finish": "Confirmar & Guardar Oficialmente",
     "voice-modal-title": "DIAMAX VOICE LINEUP AGENT",
-    "voice-modal-sub": "Dictado Táctico por Voz para el Mánager (Web Speech + TTS)",
-    "voice-modal-lbl-commands": "Jugadores y Comandos Reconocidos:",
-    "voice-btn-mic-start": "🎙️ Iniciar Dictado",
-    "voice-btn-mic-stop": "⏹️ Detener Escucha",
+    "voice-modal-sub": "Dicta la alineación por voz y el motor IA estructurará el lineup automáticamente en tiempo real.",
+    "voice-modal-lbl-commands": "🎙️ Comandos Oficiales por Voz:",
+    "voice-btn-start": "🎙️ Iniciar Dictado",
+    "voice-btn-stop": "⏹️ Detener Escucha",
     "voice-btn-apply": "✅ Aplicar al Lineup",
     "voice-status-waiting": "⚪ En espera de dictado",
     "voice-status-listening": "🔴 Grabando y Analizando Voz...",
-    "voice-initial-transcript": 'Presiona "Iniciar Dictado" y habla. Puedes decir: "Cargar lineup oficial del sábado" o dictar jugadores como "1 Johan Olivo Center Field, 2 Pablo Morales Primera Base...".',
+    "voice-initial-transcript": "Presiona \"Iniciar Dictado\" y habla. Puedes decir: \"Cargar lineup oficial del sábado\" o dictar jugadores como \"1 Johan Olivo Center Field, 2 Pablo Morales Primera Base...\".",
     "voice-waiting-preview": "Esperando comandos de voz...",
-    
-    // Manual
-    "manual-title": "Manual Oficial de Operación & Protocolos DIAMAX PRO",
-    "manual-subtitle": "Guía técnica para Gerencia, Mánager, Umpires y Anotadores de Guerreros de Venezuela (+55)",
-    "manual-quick-header": "🏟️ 2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)",
-    "manual-fatigue-header": "🩺 4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)",
-    "manual-roles-header": "⌨️ 3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)",
-    "manual-sec5-title": "📊 5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día",
-    "manual-ai-header": "🧠 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)",
-    "lbl-select-rival": "⚔️ 1. SELECCIONAR O REGISTRAR EQUIPO RIVAL",
-    "lbl-rival-list": "Elegir Rival Registrado",
-    "btn-toggle-rival": "➕ Agregar Nuevo Equipo Rival",
-    "lbl-cond-summary-title": "ASIGNACIÓN OFICIAL DE EQUIPOS:",
-    "lbl-summary-home-role": "HOME CLUB (Local):",
-    "lbl-summary-away-role": "VISITANTE (Away):",
-    "cond-opt-gve-home-sub": "Guerreros defiende en la Alta (▲) · Cierra bateando en la Baja (▼)",
-    "cond-opt-gve-away-sub": "Guerreros abre el juego al bate en la Alta (▲) · Defiende en la Baja (▼)",
-    "btn-ribbon-home": "🏠 HOME CLUB",
-    "btn-ribbon-away": "✈️ VISITANTE",
-    "ribbon-home-role-label": "HOME:",
-    "ribbon-away-role-label": "VISIT:"
+    "voice-alert-done": "Alineación oficial aplicada con éxito."
   },
-  en: {
-    // Navigation
+  "en": {
     "nav-live": " 1. Live Dugout",
     "nav-lineup": " 2. Lineup Builder",
     "nav-field": " 3. 2D Field",
@@ -3918,53 +5021,194 @@ const TRANSLATIONS = {
     "nav-dash": " 5. Dashboard",
     "nav-skills": " 6. Agent & Skills",
     "nav-profile": " 7. Profile & Venue",
-    
-    // Header & Badges
-    "badge-live": "REACTIVE LIVE",
+    "badge-live": "LIVE REACTIVE",
     "lang-btn": " ENGLISH",
     "btn-daylight": "☀️ Sun / Night",
     "btn-new-game": "🏟️ Load New Game",
-    "btn-config-game-header": "➕ Configure Game & Opponent",
+    "btn-config-game-header": "+ Configure Game & Opponent",
     "btn-refresh-db": "🔄 Refresh DB",
     "btn-settings": "⚙️ Settings",
     "lbl-game-selected-ribbon": "🏟️ SELECTED GAME:",
-    "btn-finish-game": "🏁 Finish Game",
-    "btn-print-manual": "🖨️ Print Dugout Guide",
-    "btn-print-card": "🖨️ Print Official Lineup Card (PDF)",
-    "cond-home": "🔄 HOME TEAM (LOCAL)",
-    "cond-away": "🔄 AWAY (VISITOR)",
+    "btn-ribbon-home": "🏠 HOME CLUB",
+    "btn-ribbon-away": "✈️ VISITOR",
+    "ribbon-home-role-label": "HOME:",
+    "ribbon-away-role-label": "VISIT:",
     "game-status-in-play": "IN PLAY",
-    "btn-load-official-lineup": "📋 Load Official Lineup (+55)",
-    "btn-voice-lineup": "🎙️ Voice Dictation",
-    
-    // Tactical AI
+    "game-status-final": "FINAL",
+    "cloud-sync-title": "Cloud Sync:",
+    "cloud-sync-active": "Active",
+    "cond-home": "🔄 HOME TEAM (LOCAL)",
+    "cond-away": "🔄 VISITOR",
+    "cond-home-sub": "Defends in Top (▲) · Bats in Bottom (▼)",
+    "cond-away-sub": "Bats in Top (▲) · Opens Game in Inning 1",
+    "lbl-cond-summary-title": "OFFICIAL TEAM ASSIGNMENT:",
+    "lbl-summary-home-role": "HOME TEAM (Local):",
+    "lbl-summary-away-role": "VISITOR (Away):",
+    "cond-opt-gve-home-sub": "Guerreros defends in Top (▲) · Bats in Bottom (▼)",
+    "cond-opt-gve-away-sub": "Guerreros opens batting in Top (▲) · Defends in Bottom (▼)",
     "ai-title": "DIAMAX TACTICAL AI (3Tree Sabermetric Engine)",
-    "ai-status": "ENGINE: DIAMAX TACTICAL IA™ · REAL TIME",
-    "btn-ai-pitch": "⚡ Suggested Pitch",
+    "ai-status": "ACTIVE NETWORK: Gemini 2.5 Pro Sabermetrics online",
+    "btn-ai-pitch": "⚡ Pitch Call / Tactics",
     "btn-ai-shift": "🛡️ Defensive Shift",
-    "btn-ai-base": "🏃 Steal / Sacrifice",
-    "btn-ai-pinch": "👥 Sabermetric Pinch-Hitter",
-    "btn-ai-rival-scout": "📊 Opponent Scouting & Prediction",
-    "btn-ai-pitcher-matchup": "🎯 Matchup vs Opponent Pitcher",
-    "btn-ai-bullpen": "🔄 Bullpen Alert",
-    "btn-ai-query": "Consult",
-    "ai-custom-prompt-ph": "Ask tactical assistant (e.g. How to attack 3-2 count?)...",
-    
-    // Keypad & Scoring
+    "btn-ai-base": "🏃 Steal / Bunt / Running",
+    "btn-ai-pinch": "👥 Pinch Hitter AI",
+    "btn-ai-rival-scout": "📊 Opponent Scouting",
+    "btn-ai-pitcher-matchup": "🎯 Batter vs Pitcher Matchup",
+    "btn-ai-query": "Ask AI",
+    "ai-custom-prompt-ph": "Write a tactical question to the sabermetric engine...",
+    "lbl-active-pitcher": "ACTIVE PITCHER:",
+    "lbl-fatigue": "FATIGUE:",
+    "lbl-bullpen": "ACTIVE BULLPEN",
+    "lbl-strikes-pct": "STRIKES (%)",
     "btn-strike-quick": "+1 Strike",
     "btn-ball-quick": "+1 Ball",
     "btn-reset-count": "Reset Count",
-    "lbl-active-pitcher": "Active Pitcher:",
-    "lbl-bullpen": "Bullpen:",
-    "lbl-fatigue": "Fatigue:",
-    "lbl-strikes-pct": "Strikes:",
-    
-    // Modal New Game (Pre-Game Wizard)
+    "btn-manage-bullpen": "+ Manage Relief Pitcher",
+    "lbl-diamond-caption": "Tap 1B, 2B or 3B to toggle baserunners",
+    "lbl-outs-tap": "(Tap)",
+    "btn-pinch-hitter": "Pinch Hitter (PH)",
+    "btn-finish-game-main": "🏁 Finish Game",
+    "btn-archive-game-db": "Finish Game & Archive in Database",
+    "log-title": "📋 Play-by-Play Live Log",
+    "act-1b": "1B (Single)",
+    "act-2b": "2B (Double)",
+    "act-3b": "3B (Triple)",
+    "act-hr": "HOME RUN (HR)",
+    "act-63": "6-3 (SS to 1B)",
+    "act-43": "4-3 (2B to 1B)",
+    "act-53": "5-3 (3B to 1B)",
+    "act-13": "1-3 (P to 1B)",
+    "act-sf": "Sacrifice Fly (SF)",
+    "act-k": "Strikeout (K)",
+    "act-bb": "Walk (BB)",
+    "act-sb": "Stolen Base (SB)",
+    "act-cs": "Caught Stealing (CS)",
+    "act-wp": "Wild Pitch (WP)",
+    "act-dp-643": "6-4-3 DP",
+    "act-dp-463": "4-6-3 DP",
+    "pitch-4seam": "4-Seam Strike / 91mph",
+    "pitch-slider": "Slider Breaking / 82mph",
+    "pitch-changeup": "Changeup Offspeed / 80mph",
+    "pitch-curve": "Curveball Strike / 76mph",
+    "pitch-ball": "Ball Out of Zone",
+    "pitch-foul": "Foul Contact",
+    "btn-load-official-lineup": "📋 Load Official Lineup (+55)",
+    "btn-voice-lineup": "🎙️ Voice Dictation",
+    "btn-add-player": "+ Add Player",
+    "btn-monte-carlo": "🎲 Monte Carlo (10k)",
+    "btn-optimize-ai": "⚡ Optimize with AI",
+    "btn-clear-lineup": "Clear",
+    "btn-go-scorer": "Go to Scorer",
+    "btn-view-field": "View Field",
+    "lineup-title": "Official Batting Order (Positions 1 to 9 + Reserves)",
+    "lineup-sim-title": "📊 Markov Stochastic Simulation Results (N = 10,000 Innings)",
+    "th-order": "ORD",
+    "th-player": "PLAYER",
+    "th-number": "NUM",
+    "th-position": "POSITION",
+    "th-bats": "BATS",
+    "th-throws": "THROWS",
+    "th-actions": "ACTION",
+    "campo-title": "🏟️ 2D Tactical Field & Spray Chart",
+    "campo-subtitle": "📍 Tap anywhere on the field to log a live tactical batted ball.",
+    "filter-all": "All",
+    "filter-gb": "Grounders",
+    "filter-fb": "Flyballs",
+    "filter-hr": "Home Runs",
+    "lbl-hot-zone": "Hot Zone (AVG > .320)",
+    "lbl-cold-zone": "Cold Zone (Whiff% > 35%)",
+    "lbl-pull-tendency": "Pull Tendency (Pull%):",
+    "lbl-center-tendency": "Center Field Tendency (Cent%):",
+    "lbl-oppo-tendency": "Opposite Field Tendency (Oppo%):",
+    "lbl-strikezone-heatmap": "🎯 Heatmap (Strike Zone)",
+    "lbl-select-player-analyze": "Select Player to Analyze:",
+    "btn-shift-normal": "Normal Infield",
+    "btn-shift-in": "Infield In",
+    "btn-shift-pull": "Pull Shift",
+    "btn-shift-bunt": "Bunt Defense",
+    "manual-title": "Official DIAMAX PRO Operation & Protocol Manual",
+    "manual-subtitle": "Technical Guide for Management, Coaching Staff and Scorers of Guerreros de Venezuela +55",
+    "btn-print-manual": "🖨️ Print Full Manual",
+    "manual-sec1-title": "🇻🇪 1. Official Calibrated Roster: 16 Members (Guerreros +55)",
+    "manual-quick-header": "🏟️ 2. Pre-Game Protocol: 5-Step Wizard (Orlando Sánchez 2026)",
+    "manual-roles-header": "⌨️ 3. Live Operation (Dugout Keypad & Pitch-by-Pitch Scoring)",
+    "manual-fatigue-header": "🩺 4. Sports Medical Protocol: Fatigue Monitor (+55: 75 Pitch Limit)",
+    "manual-sec5-title": "📊 5. Official Reports, Dual Card & Daily Technical Report",
+    "manual-ai-header": "🧠 6. Sabermetric Artificial Intelligence (DIAMAX Engine)",
+    "card-dual-title": "📋 Official Baseball Card & Dual Lineup",
+    "card-rule-header": "Visitor opens in Top (▲) · Home Club closes in Bottom (▼)",
+    "btn-card-modify": "⚙️ Modify Lineups / Venue",
+    "btn-card-dual-view": "👑 Dual View",
+    "btn-card-gve-view": "🇻🇪 Guerreros",
+    "btn-card-rival-view": "⚔️ Opponent",
+    "btn-card-print-pdf": "🖨️ Print / Save as PDF",
+    "btn-card-copy-boxscore": "📄 Copy Boxscore",
+    "th-starters-label": "STARTING PLAYERS",
+    "th-subs-label": "RESERVES & PITCHERS",
+    "th-pos-col": "POS.",
+    "th-bt-col": "B/T",
+    "lbl-condition-tag": "CONDITION:",
+    "lbl-date-tag": "DATE:",
+    "lbl-manager-tag": "MANAGER:",
+    "lbl-status-tag": "STATUS:",
+    "lbl-starter-pitcher-tag": "STARTING PITCHER (P):",
+    "lbl-technical-report-title": "📊 3. Comparative Technical Performance of Both Teams",
+    "lbl-team-offense": "Team Offense:",
+    "lbl-team-average": "Batting Average / Sabermetrics:",
+    "lbl-team-risp": "Runners in Scoring Position (RISP):",
+    "lbl-team-pitching": "Pitching & Bullpen:",
+    "lbl-team-defense": "Defense & Fielding:",
+    "lbl-certified-doc": "Official Certificate for Delegates, Umpires and Managers of the +55 League",
+    "lbl-gve-manager-sig": "Lic. Alí Zapata Mendoza (Guerreros Manager)",
+    "lbl-rival-manager-sig": "Opponent Manager",
+    "dash-title": "📈 DIAMAX Tactical Reports & Visual Charts",
+    "dash-subtitle": "Real-time sabermetrics analytics: bar charts, inning-by-inning progression and team performance.",
+    "btn-dash-pdf": "🖨️ Print / Save PDF",
+    "btn-dash-refresh": "🔄 Refresh Charts",
+    "btn-dash-print-report": "🖨️ Print Report / PDF",
+    "btn-dash-whatsapp": "📋 Copy Report (WhatsApp/Text)",
+    "btn-dash-email": "📧 Send by Email to League",
+    "dash-sec1-title": "🏟️ 1. Technical Data & Official Match Environment",
+    "dash-sec2-title": "🔢 2. Official Scoreboard & Inning-by-Inning Line Score",
+    "dash-sec3-title": "📊 3. Comparative Technical Performance of Both Teams",
+    "dash-sec4-title": "🎯 4. Tactical Evaluation, MVP & Recommendations",
+    "dash-sec5-title": "📋 Individual Roster Statistics (Live & Accumulated)",
+    "th-team-col": "TEAM",
+    "th-runs-col": "R",
+    "th-hits-col": "H",
+    "th-errors-col": "E",
+    "th-lob-col": "LOB",
+    "skills-title": "High-Performance Sabermetric Agent Console",
+    "skills-subtitle": "Autonomous engine for decision making and sabermetric scouting",
+    "skills-list-header": "📜 Agent Skills (SKILL.md)",
+    "skills-memory-header": "🧠 Decision Memory",
+    "btn-skills-clean": "🗑️ Clear",
+    "btn-skills-save": "Save to Dossier",
+    "btn-skills-strat-inn": "🎯 Inning Strategy",
+    "btn-skills-stop-4th": "⚔️ Stop Opponent 4th Batter",
+    "btn-skills-wind": "🌤️ Wind & Zapata Aerodynamics",
+    "btn-skills-pinch": "👥 Pinch Hitter (+55)",
+    "btn-skills-ask": "⚡ Ask AI",
+    "profile-title": "Team Profile, Manager & Venue",
+    "profile-club-data": "Official Club Information",
+    "lbl-team-name-prof": "Team Name:",
+    "lbl-manager-prof": "Manager:",
+    "lbl-stadium-prof": "Official Venue:",
+    "lbl-api-key-prof": "AI Engine Access Key (3Tree Security):",
+    "btn-save-profile": "💾 Save Club Data",
+    "btn-restore-profile": "Reset Database to Zero",
     "modal-new-title": "🏟️ Pre-Game Tactical Setup (Official Rules 1-9)",
     "lbl-game-rival": "⚔️ 1. Load Opponent Team / Rival",
     "btn-toggle-nuevo-rival": "➕ Register New Opponent in DB",
     "lbl-rival-selected-header": "⚔️ SELECTED OPPONENT & LOGO:",
-    "btn-upload-rival-logo": "🖼️ Upload Logo",
+    "lbl-new-rival-name": "Opponent Club Name",
+    "lbl-new-rival-abbr": "Official Abbreviation (3 letters)",
+    "lbl-new-rival-mgr": "Opponent Manager",
+    "lbl-new-rival-pitcher": "Ace Starting Pitcher",
+    "lbl-new-rival-arm": "Arm",
+    "opt-arm-rhp": "Right-Handed (RHP)",
+    "opt-arm-lhp": "Left-Handed (LHP)",
+    "lbl-step2-venue-header": "🏟️ 2. Register Venue, Date, GPS Weather Sensor and Locality",
     "lbl-game-date": "📅 Game Date",
     "lbl-game-time": "⏰ Start Time",
     "lbl-game-stadium": "🏟️ Stadium / Official Venue",
@@ -3972,55 +5216,38 @@ const TRANSLATIONS = {
     "lbl-weather-title": "🌤️ Live GPS Weather Telemetry (Stadium):",
     "btn-sync-gps": "🔄 Update GPS",
     "lbl-game-cond": "⚖️ Home/Away Definition & Official First At-Bat Rule:",
-    "btn-preview-official-card": "📋 Preview Official Card (Umpires)",
-    "btn-start-game": "💾 Save, Certify & Start Dugout (Inning 1 ▲▼) ⚾",
-    "opt-local": "Home Club (Local)",
-    "opt-away": "Away (Visitor)",
-    
-    // Modal Finish Game
-    "modal-finish-title": "🏁 Finish & Certify Game",
-    "modal-finish-desc": "The game will be formally closed, recording exact finish time and calculating official duration.",
-    "lbl-start-recorded": "⏰ Recorded Start Time",
-    "lbl-finish-exact": "🏁 Exact Finish Time",
-    "lbl-duration-calc": "⏱️ Calculated Game Duration",
+    "lbl-step3-gve-header": "🇻🇪 3, 4 & 5. Tactical Setup of Guerreros de Venezuela (+55)",
+    "lbl-step3-starter-label": "3. ⚾ Guerreros Starting Pitcher:",
+    "lbl-step4-key-batter": "4. 🎯 Key Batter (Clutch Situations):",
+    "lbl-step5-lineup-label": "5. 📋 Guerreros Starting Lineup (+55):",
+    "btn-preview-official-card": "👁️ Preview Official Card (+55)",
+    "btn-start-game": "⚾ Start Official Game",
+    "modal-finish-title": "🏁 Official Game Wrap-up & Certification (+55)",
+    "modal-finish-desc": "Final audit of pitches, regulation duration and run validation for league boxscore.",
+    "lbl-start-recorded": "Recorded Start Time:",
+    "lbl-finish-exact": "Official Finish Time:",
+    "lbl-duration-calc": "Total Game Duration:",
     "lbl-score-summary": "🏆 Final Score Summary",
     "btn-cancel": "Cancel",
-    "btn-return-game": "Return to Game",
-    "btn-confirm-finish": "✅ Confirm & Sync Official Card",
-    
-    // Modal Voice Agent
+    "btn-confirm-finish": "Confirm & Save Officially",
     "voice-modal-title": "DIAMAX VOICE LINEUP AGENT",
-    "voice-modal-sub": "Tactical Voice Dictation for Manager (Web Speech + TTS)",
-    "voice-modal-lbl-commands": "Recognized Players & Commands:",
-    "voice-btn-mic-start": "🎙️ Start Dictation",
-    "voice-btn-mic-stop": "⏹️ Stop Listening",
+    "voice-modal-sub": "Dictate the lineup by voice and the AI engine will structure it in real time automatically.",
+    "voice-modal-lbl-commands": "🎙️ Official Voice Commands:",
+    "voice-btn-start": "🎙️ Start Dictation",
+    "voice-btn-stop": "⏹️ Stop Listening",
     "voice-btn-apply": "✅ Apply to Lineup",
     "voice-status-waiting": "⚪ Waiting for dictation",
     "voice-status-listening": "🔴 Recording & Analyzing Voice...",
-    "voice-initial-transcript": 'Press "Start Dictation" and speak. You can say: "Load Saturday official lineup" or dictate players like "1 Johan Olivo Center Field, 2 Pablo Morales First Base...".',
+    "voice-initial-transcript": "Press \"Start Dictation\" and speak. You can say: \"Load Saturday official lineup\" or dictate players like \"1 Johan Olivo Center Field, 2 Pablo Morales First Base...\".",
     "voice-waiting-preview": "Waiting for voice commands...",
-    
-    // Manual
-    "manual-title": "Official DIAMAX PRO Operation & Protocol Manual",
-    "manual-subtitle": "Technical Guide for Management, Coaching Staff and Scorers of Guerreros de Venezuela +55",
-    "manual-quick-header": "🏟️ 2. Pre-Game Protocol: 5-Step Wizard (Orlando Sánchez 2026)",
-    "manual-fatigue-header": "🩺 4. Sports Medical Protocol: Fatigue Monitor (+55: 75 Pitch Limit)",
-    "manual-roles-header": "⌨️ 3. Live Operation (Dugout Keypad & Pitch-by-Pitch Scoring)",
-    "manual-sec5-title": "📊 5. Official Reports, Dual Card & Daily Technical Report",
-    "manual-ai-header": "🧠 6. Sabermetric Artificial Intelligence (DIAMAX Engine)",
-    "lbl-select-rival": "⚔️ 1. SELECT OR REGISTER OPPONENT TEAM",
-    "lbl-rival-list": "Choose Registered Opponent",
-    "btn-toggle-rival": "➕ Add New Opponent Club",
-    "lbl-cond-summary-title": "OFFICIAL TEAM ASSIGNMENT:",
-    "lbl-summary-home-role": "HOME TEAM (Local):",
-    "lbl-summary-away-role": "VISITOR (Away):",
-    "cond-opt-gve-home-sub": "Guerreros defends in Top (▲) · Bats in Bottom (▼)",
-    "cond-opt-gve-away-sub": "Guerreros opens batting in Top (▲) · Defends in Bottom (▼)",
-    "btn-ribbon-home": "🏠 HOME CLUB",
-    "btn-ribbon-away": "✈️ VISITOR",
-    "ribbon-home-role-label": "HOME:",
-    "ribbon-away-role-label": "VISIT:"
+    "voice-alert-done": "Official lineup applied successfully."
   }
+};
+
+window.t = function(key, fallback) {
+  const lang = window.currentLang || 'es';
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS.es;
+  return dict[key] !== undefined ? dict[key] : (fallback || key);
 };
 
 function applyLanguage(lang) {
@@ -4031,6 +5258,30 @@ function applyLanguage(lang) {
   
   const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.es;
   
+  // 1. Traductor Automático por atributo [data-i18n]
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) el.textContent = dict[key];
+  });
+
+  // 2. Traductor Automático por atributo [data-i18n-html]
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+
+  // 3. Traductor Automático por atributo [data-i18n-placeholder]
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key] !== undefined) el.placeholder = dict[key];
+  });
+
+  // 4. Traductor Automático por atributo [data-i18n-title]
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if (dict[key] !== undefined) el.title = dict[key];
+  });
+
   const updateText = (id, key) => {
     const el = document.getElementById(id);
     if (el && dict[key] !== undefined) el.textContent = dict[key];
@@ -4046,35 +5297,24 @@ function applyLanguage(lang) {
     if (el && dict[key] !== undefined) el.placeholder = dict[key];
   };
 
-  // Navegación
-  updateText('nav-live', 'nav-live');
-  updateText('nav-lineup', 'nav-lineup');
-  updateText('nav-field', 'nav-field');
-  updateText('nav-manual', 'nav-manual');
-  updateText('nav-card', 'nav-card');
-  updateText('nav-dash', 'nav-dash');
-  updateText('nav-skills', 'nav-skills');
-  updateText('nav-profile', 'nav-profile');
-  
-  // Header y Badges
-  updateText('lang-btn', 'lang-btn');
-  updateText('badge-live-text', 'badge-live');
-  updateText('btn-daylight', 'btn-daylight');
-  updateText('btn-config-game-header', 'btn-config-game-header');
-  updateText('btn-refresh-db', 'btn-refresh-db');
-  updateText('btn-settings', 'btn-settings');
-  updateText('lbl-game-selected-ribbon', 'lbl-game-selected-ribbon');
-  updateText('btn-print-manual', 'btn-print-manual');
+  // 5. Mapeo Exhaustivo por IDs para Retrocompatibilidad Total
+  Object.keys(dict).forEach(key => {
+    updateText(key, key);
+  });
 
   // Estado en juego
   const badgeStatus = document.getElementById('game-status-badge');
-  if (badgeStatus) badgeStatus.innerText = dict['game-status-in-play'];
+  if (badgeStatus) {
+    const g = typeof getActiveGame === 'function' ? getActiveGame() : null;
+    const isFinal = g && g.estado === 'Finalizado';
+    badgeStatus.innerText = isFinal ? dict['game-status-final'] : dict['game-status-in-play'];
+  }
 
-  // Conmutador de Condición Home / Away
+  // Conmutador de Condición Home / Away en Ribbon
   const g = typeof getActiveGame === 'function' ? getActiveGame() : null;
+  const isHome = g ? (g.isHomeClub !== false && g.condicion !== 'AWAY') : true;
   const condBtn = document.getElementById('game-condition-badge');
   if (condBtn) {
-    const isHome = g ? g.isHomeClub : true;
     condBtn.innerText = isHome ? dict['cond-home'] : dict['cond-away'];
   }
 
@@ -4096,101 +5336,47 @@ function applyLanguage(lang) {
   });
   document.querySelectorAll('.btn-finish-game').forEach(b => {
     if (b.id !== 'btn-confirm-finish-game') {
-      b.textContent = dict['btn-finish-game'];
+      b.textContent = dict['modal-finish-title'];
     }
   });
 
   // Botones de Lineup y Voz
   document.querySelectorAll('button').forEach(b => {
-    if (b.innerText.includes('Lineup Oficial') || b.innerText.includes('Official Lineup')) {
+    const txt = b.innerText;
+    if (txt.includes('Lineup Oficial') || txt.includes('Official Lineup')) {
       b.innerText = dict['btn-load-official-lineup'];
-    } else if (b.innerText.includes('Dictar por Voz') || b.innerText.includes('Voice Dictation')) {
+    } else if (txt.includes('Dictar por Voz') || txt.includes('Voice Dictation')) {
       b.innerText = dict['btn-voice-lineup'];
+    } else if (txt.includes('Agregar Jugador') || txt.includes('Add Player')) {
+      b.innerText = dict['btn-add-player'];
+    } else if (txt.includes('Optimizar por IA') || txt.includes('Optimize with AI')) {
+      b.innerText = dict['btn-optimize-ai'];
+    } else if (b.onclick && b.onclick.toString().includes('imprimirManualCompleto')) {
+      b.innerText = currentLang === 'en' ? '🖨️ Print Full Manual' : '🖨️ Imprimir Manual Completo';
+    } else if (b.onclick && b.onclick.toString().includes('window.print()')) {
+      b.innerText = currentLang === 'en' ? '🖨️ Print / Save as PDF' : '🖨️ Imprimir / Guardar como PDF';
+    } else if (txt.includes('Guardar Cambios') || txt.includes('Save Changes') || txt.includes('Guardar Datos')) {
+      b.innerText = dict['btn-save-profile'];
     }
   });
-  
-  // Botones de IA Táctica
-  updateText('ai-engine-title', 'ai-title');
-  updateText('ai-engine-status', 'ai-status');
-  updateText('btn-ai-pitch-call', 'btn-ai-pitch');
-  updateText('btn-ai-shift-call', 'btn-ai-shift');
-  updateText('btn-ai-base-call', 'btn-ai-base');
-  updateText('btn-ai-pinch-hitter', 'btn-ai-pinch');
-  updateText('btn-ai-rival-scout', 'btn-ai-rival-scout');
-  updateText('btn-ai-pitcher-matchup', 'btn-ai-pitcher-matchup');
-  updateText('btn-ai-custom-query', 'btn-ai-query');
-  updatePlaceholder('ai-custom-prompt', 'ai-custom-prompt-ph');
-  
-  // Keypad
-  updateText('btn-strike-quick', 'btn-strike-quick');
-  updateText('btn-ball-quick', 'btn-ball-quick');
-  updateText('btn-reset-count', 'btn-reset-count');
-  updateText('lbl-active-pitcher', 'lbl-active-pitcher');
-  updateText('lbl-bullpen', 'lbl-bullpen');
-  updateText('lbl-fatigue', 'lbl-fatigue');
-  updateText('lbl-strikes-pct', 'lbl-strikes-pct');
-  
-  // Modal Pre-Juego
-  updateText('modal-new-game-title', 'modal-new-title');
-  updateText('lbl-new-game-rival', 'lbl-game-rival');
-  updateText('btn-toggle-nuevo-rival', 'btn-toggle-nuevo-rival');
-  updateText('lbl-rival-selected-header', 'lbl-rival-selected-header');
-  updateText('lbl-new-game-date', 'lbl-game-date');
-  updateText('lbl-new-game-time', 'lbl-game-time');
-  updateText('lbl-new-game-cond', 'lbl-game-cond');
-  updateText('lbl-cond-summary-title', 'lbl-cond-summary-title');
-  updateText('lbl-summary-home-role', 'lbl-summary-home-role');
-  updateText('lbl-summary-away-role', 'lbl-summary-away-role');
-  updateText('cond-opt-gve-home-sub', 'cond-opt-gve-home-sub');
-  updateText('cond-opt-gve-away-sub', 'cond-opt-gve-away-sub');
-  updateText('btn-ribbon-home', 'btn-ribbon-home');
-  updateText('btn-ribbon-away', 'btn-ribbon-away');
-  updateText('ribbon-home-role-label', 'ribbon-home-role-label');
-  updateText('ribbon-away-role-label', 'ribbon-away-role-label');
-  if (typeof actualizarUIDefinicionLocalidad === 'function') actualizarUIDefinicionLocalidad();
-  updateText('lbl-new-game-stadium', 'lbl-game-stadium');
-  updateText('lbl-new-game-address', 'lbl-game-address');
-  updateText('lbl-weather-gps-title', 'lbl-weather-title');
-  updateText('btn-gps-weather-sync', 'btn-sync-gps');
-  updateText('btn-preview-official-card', 'btn-preview-official-card');
-  updateText('btn-new-game-submit', 'btn-start-game');
-  
-  // Modal Finalizar Juego
-  updateText('modal-finish-game-title', 'modal-finish-title');
-  updateText('modal-finish-game-desc', 'modal-finish-desc');
-  updateText('lbl-finish-start-recorded', 'lbl-start-recorded');
-  updateText('lbl-finish-exact-time', 'lbl-finish-exact');
-  updateText('lbl-finish-duration-calc', 'lbl-duration-calc');
-  updateText('lbl-finish-score-summary', 'lbl-score-summary');
-  updateText('btn-cancel-finish-game', 'btn-cancel');
-  updateText('btn-confirm-finish-game', 'btn-confirm-finish');
-  
-  // Modal Voz Lineup
-  updateText('voice-modal-title', 'voice-modal-title');
-  updateText('voice-modal-sub', 'voice-modal-sub');
-  updateText('voice-modal-lbl-commands', 'voice-modal-lbl-commands');
-  updateText('btn-voice-apply', 'voice-btn-apply');
-  const btnVoiceMic = document.getElementById('btn-voice-toggle-mic');
-  if (btnVoiceMic && typeof DIAMAX_VOICE_LINEUP_AGENT !== 'undefined') {
-    btnVoiceMic.innerText = DIAMAX_VOICE_LINEUP_AGENT.isListening ? dict['voice-btn-mic-stop'] : dict['voice-btn-mic-start'];
+
+    // 6. Motor DOM TreeWalker Universal (Traducción Completa de Todos los Textos)
+  if (typeof translateDOMTexts === 'function') {
+    translateDOMTexts(currentLang);
   }
-  const badgeVoice = document.getElementById('voice-status-badge');
-  if (badgeVoice && typeof DIAMAX_VOICE_LINEUP_AGENT !== 'undefined' && !DIAMAX_VOICE_LINEUP_AGENT.isListening) {
-    badgeVoice.innerHTML = '<span style="color:#94A3B8;">' + dict['voice-status-waiting'] + '</span>';
+
+  // Actualizar Botón de Idioma con Indicador Visual
+  const langBtn = document.getElementById('lang-btn');
+  if (langBtn) {
+    langBtn.innerHTML = currentLang === 'en' ? '🇺🇸 ENGLISH' : '🇻🇪 ESPAÑOL';
   }
-  const elLiveVoice = document.getElementById('voice-live-transcript');
-  if (elLiveVoice && typeof DIAMAX_VOICE_LINEUP_AGENT !== 'undefined' && !DIAMAX_VOICE_LINEUP_AGENT.isListening && !DIAMAX_VOICE_LINEUP_AGENT.transcriptAccumulator) {
-    elLiveVoice.innerHTML = dict['voice-initial-transcript'];
-  }
-  
-  // Manual de uso
-  updateText('manual-main-title', 'manual-title');
-  updateText('manual-main-subtitle', 'manual-subtitle');
-  updateText('manual-quick-title', 'manual-quick-header');
-  updateText('manual-fatigue-title', 'manual-fatigue-header');
-  updateText('manual-roles-title', 'manual-roles-header');
-  updateText('manual-sec5-title', 'manual-sec5-title');
-  updateText('manual-ai-title', 'manual-ai-header');
+
+  // Actualizar Vistas Dinámicas
+  if (typeof actualizarUIDefinicionLocalidad === 'function') actualizarUIDefinicionLocalidad(isHome);
+  if (typeof poblarSelectorPartidos === 'function') poblarSelectorPartidos();
+  if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+  if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
 }
 
 function toggleLanguage() {
@@ -6114,7 +7300,8 @@ function renderOfficialCard() {
   setSafeText('card-date', game.fecha || '2026-09-08');
 
   // GVE Card Conditions
-  setSafeText('card-gve-condition', isHomeClub ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)');
+  const isEn = (window.currentLang === 'en');
+  setSafeText('card-gve-condition', isHomeClub ? (isEn ? 'HOME CLUB (Bottom ▼)' : 'HOME CLUB (Baja ▼)') : (isEn ? 'VISITOR (Top ▲)' : 'VISITANTE (Alta ▲)'));
   
   // Render GVE Starters (1-9)
   if (gveBody) {
@@ -6160,7 +7347,7 @@ function renderOfficialCard() {
     setSafeText('card-btn-rival-abbr', rivalRecord.abbr || 'RIV');
     setSafeText('card-rival-manager-name', rivalRecord.manager || 'Mánager Rival');
     setSafeText('card-rival-signature-label', `${rivalRecord.manager || 'Mánager Rival'} (Mánager ${rivalRecord.abbr || 'Rival'})`);
-    setSafeText('card-rival-condition', isHomeClub ? 'VISITANTE (Alta ▲)' : 'HOME CLUB (Baja ▼)');
+    setSafeText('card-rival-condition', isHomeClub ? (isEn ? 'VISITOR (Top ▲)' : 'VISITANTE (Alta ▲)') : (isEn ? 'HOME CLUB (Bottom ▼)' : 'HOME CLUB (Baja ▼)'));
     
     const pArm = rivalRecord.pitcherArm || 'RHP';
     const pNum = rivalRecord.pitcherNum ? `#${rivalRecord.pitcherNum} - ` : '';
@@ -6295,6 +7482,7 @@ function renderField() {
 }
 
 function updateLiveBatterDisplay() {
+  const isEn = (window.currentLang === 'en');
   const halfLower = (liveState.half || 'top').toLowerCase();
   const isTop = halfLower === 'top';
   const g = getActiveGame();
@@ -6331,33 +7519,39 @@ function updateLiveBatterDisplay() {
   if (flowContainer) {
     flowContainer.innerHTML = `
       <div class="flow-badge-item ${isTop ? 'active-flow' : 'inactive-flow'}">
-        <span class="flow-inn-label">1️⃣ ENTRADA ALTA ▲</span>
-        <span class="flow-action-label">⚔️ [VISITANTE AL BATE]</span>
+        <span class="flow-inn-label">${isEn ? '1️⃣ TOP HALF ▲' : '1️⃣ ENTRADA ALTA ▲'}</span>
+        <span class="flow-action-label">${isEn ? '⚔️ [VISITOR AT BAT]' : '⚔️ [VISITANTE AL BATE]'}</span>
         <strong class="flow-team-name">${awayName}</strong>
-        <span class="flow-sub-label">${isHomeClub ? '🛡️ Guerreros Defiende/Lanza' : '🔥 Guerreros Ataca/Batea'}</span>
+        <span class="flow-sub-label">${isHomeClub ? (isEn ? '🛡️ Guerreros Defends/Pitches' : '🛡️ Guerreros Defiende/Lanza') : (isEn ? '🔥 Guerreros Attacks/Bats' : '🔥 Guerreros Ataca/Batea')}</span>
       </div>
       <div class="flow-divider-arrow">➔</div>
       <div class="flow-badge-item ${!isTop ? 'active-flow' : 'inactive-flow'}">
-        <span class="flow-inn-label">2️⃣ ENTRADA BAJA ▼</span>
-        <span class="flow-action-label">👑 [HOME CLUB AL BATE]</span>
+        <span class="flow-inn-label">${isEn ? '2️⃣ BOTTOM HALF ▼' : '2️⃣ ENTRADA BAJA ▼'}</span>
+        <span class="flow-action-label">${isEn ? '👑 [HOME CLUB AT BAT]' : '👑 [HOME CLUB AL BATE]'}</span>
         <strong class="flow-team-name">${homeName}</strong>
-        <span class="flow-sub-label">${isHomeClub ? '🔥 Guerreros Ataca/Batea' : '🛡️ Guerreros Defiende/Lanza'}</span>
+        <span class="flow-sub-label">${isHomeClub ? (isEn ? '🔥 Guerreros Attacks/Bats' : '🔥 Guerreros Ataca/Batea') : (isEn ? '🛡️ Guerreros Defends/Pitches' : '🛡️ Guerreros Defiende/Lanza')}</span>
       </div>
     `;
   }
 
   const bTeamBadge = document.getElementById('current-batter-team-badge');
   if (bTeamBadge) {
-    bTeamBadge.innerHTML = current.isGVE 
-      ? `👑 Al Bate (OFENSIVA): <strong style="color:#00D2FF;">${current.team}</strong>`
-      : `⚔️ Al Bate (RIVAL): <strong style="color:#EF4444;">${current.team}</strong>`;
+    if (isEn) {
+      bTeamBadge.innerHTML = current.isGVE 
+        ? `👑 At Bat (OFFENSE): <strong style="color:#00D2FF;">${current.team}</strong>`
+        : `⚔️ At Bat (OPPONENT): <strong style="color:#EF4444;">${current.team}</strong>`;
+    } else {
+      bTeamBadge.innerHTML = current.isGVE 
+        ? `👑 Al Bate (OFENSIVA): <strong style="color:#00D2FF;">${current.team}</strong>`
+        : `⚔️ Al Bate (RIVAL): <strong style="color:#EF4444;">${current.team}</strong>`;
+    }
   }
 
   setSafeText('current-batter-name', pName);
   setSafeText('current-batter-pos', `${pPos} - Pos #${current.order || 1}`);
-  setSafeText('current-batter-today-stats', `Hoy: ${vbToday} VB, ${hToday} H, ${aveToday} AVE (${pBats})`);
+  const statsLabel = isEn ? `Today: ${vbToday} AB, ${hToday} H, ${aveToday} AVG (${pBats})` : `Hoy: ${vbToday} VB, ${hToday} H, ${aveToday} AVE (${pBats})`;
+  setSafeText('current-batter-today-stats', statsLabel);
   setSafeText('pitcher-active-name', `${current.pitcherName || 'Pedro Chavez'} (${current.pitcherArm || 'RHP'})`);
-  
   const bPhotoEl = document.getElementById('current-batter-photo');
   if (bPhotoEl) bPhotoEl.src = pPhoto;
 
@@ -6369,7 +7563,8 @@ function updateLiveBatterDisplay() {
   setSafeText('score-home', homeScore);
   setSafeText('label-away-team', awayName);
   setSafeText('label-home-team', homeName);
-  setSafeText('scoreboard-inn', `INNING ${liveState.inning} (${isTop ? 'ALTA ▲' : 'BAJA ▼'})`);
+  const innHalf = isEn ? (isTop ? 'TOP ▲' : 'BOTTOM ▼') : (isTop ? 'ALTA ▲' : 'BAJA ▼');
+  setSafeText('scoreboard-inn', `INNING ${liveState.inning} (${innHalf})`);
 
   // Actualizar Diamante de Bases Interactivo
   [1, 2, 3].forEach(n => {
@@ -7323,6 +8518,10 @@ function switchTab(rawTabId) {
   } else if (tabId === 'envivo') {
     if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
     if (typeof actualizarPitcherUI === 'function') actualizarPitcherUI();
+  }
+  // Sincronizar traducción universal con la pestaña recién mostrada
+  if (typeof translateDOMTexts === 'function') {
+    translateDOMTexts(window.currentLang || 'es');
   }
 }
 
@@ -9754,19 +10953,19 @@ window.addEventListener('load', function() {
         <div style="font-size:12px; font-weight:800; color:#00D2FF; margin-bottom:8px;">➕ Registro Rápido de Nuevo Rival en Base de Datos</div>
         <div class="rival-form-grid" style="margin-top:0;">
           <div class="form-group">
-            <label style="font-size:11px;">Nombre del Club Rival</label>
+            <label style="font-size:11px;" id="lbl-new-rival-name">Nombre del Club Rival</label>
             <input type="text" id="input-new-rival-name" class="form-control" placeholder="Ej: SARASOTA RED SOX">
           </div>
           <div class="form-group">
-            <label style="font-size:11px;">Siglas Oficiales (3 letras)</label>
+            <label style="font-size:11px;" id="lbl-new-rival-abbr">Siglas Oficiales (3 letras)</label>
             <input type="text" id="input-new-rival-abbr" class="form-control" placeholder="Ej: SAR" maxlength="4">
           </div>
           <div class="form-group">
-            <label style="font-size:11px;">Mánager del Rival</label>
+            <label style="font-size:11px;" id="lbl-new-rival-mgr">Mánager del Rival</label>
             <input type="text" id="input-new-rival-manager" class="form-control" placeholder="Ej: John Doe">
           </div>
           <div class="form-group">
-            <label style="font-size:11px;">Lanzador Abridor As</label>
+            <label style="font-size:11px;" id="lbl-new-rival-pitcher">Lanzador Abridor As</label>
             <div style="display:flex; gap:6px;">
               <input type="text" id="input-new-rival-pitcher" class="form-control" placeholder="Ej: Pedro Martinez">
               <select id="select-new-rival-arm" class="form-control" style="max-width:80px;">
@@ -9808,7 +11007,7 @@ window.addEventListener('load', function() {
             <input type="text" id="input-rival-starter-num" class="form-control" placeholder="#21" value="21" oninput="validarPreJuegoCompleto()">
           </div>
           <div>
-            <label style="font-size:10px; color:#94A3B8;">Brazo</label>
+            <label style="font-size:10px; color:#94A3B8;" id="lbl-new-rival-arm">Brazo</label>
             <select id="select-rival-starter-arm" class="form-control" onchange="validarPreJuegoCompleto()">
               <option value="RHP" selected>Diestro (RHP)</option>
               <option value="LHP">Zurdo (LHP)</option>
@@ -9979,7 +11178,7 @@ window.addEventListener('load', function() {
       <!-- 3. Pitcher Abridor de Guerreros -->
       <div style="background:#0F172A; border:1px solid #334155; border-radius:8px; padding:12px; margin-bottom:12px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
-          <span style="font-size:12px; font-weight:800; color:#FFF;">3. ⚾ Pitcher Abridor de Guerreros:</span>
+          <span style="font-size:12px; font-weight:800; color:#FFF;" id="lbl-step3-starter-label">3. ⚾ Pitcher Abridor de Guerreros:</span>
           <span style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; font-size:10px; font-weight:900; padding:2px 8px; border-radius:4px;">
             🚦 Semáforo de Fatiga (+55: Límite 75 Pitches)
           </span>
@@ -10137,7 +11336,7 @@ window.addEventListener('load', function() {
 
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
       <button type="button" id="btn-cancel-finish-game" class="btn-settings" onclick="cerrarModalFinalizarJuego()">Volver al Juego</button>
-      <button type="button" id="btn-confirm-finish-game" class="btn-finish-game" onclick="confirmarFinDeJuego()">✅ Confirmar y Sincronizar Tarjeta Oficial</button>
+      <button type="button" id="btn-archive-game-db" class="btn-finish-game" onclick="confirmarFinDeJuego()">✅ Confirmar y Sincronizar Tarjeta Oficial</button>
     </div>
   </div>
 </div>
