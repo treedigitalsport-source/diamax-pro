@@ -3873,7 +3873,12 @@ const TRANSLATIONS = {
     "manual-ai-header": "🧠 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)",
     "lbl-select-rival": "⚔️ 1. SELECCIONAR O REGISTRAR EQUIPO RIVAL",
     "lbl-rival-list": "Elegir Rival Registrado",
-    "btn-toggle-rival": "➕ Agregar Nuevo Equipo Rival"
+    "btn-toggle-rival": "➕ Agregar Nuevo Equipo Rival",
+    "lbl-cond-summary-title": "ASIGNACIÓN OFICIAL DE EQUIPOS:",
+    "lbl-summary-home-role": "HOME CLUB (Local):",
+    "lbl-summary-away-role": "VISITANTE (Away):",
+    "cond-opt-gve-home-sub": "Guerreros defiende en la Alta (▲) · Cierra bateando en la Baja (▼)",
+    "cond-opt-gve-away-sub": "Guerreros abre el juego al bate en la Alta (▲) · Defiende en la Baja (▼)"
   },
   en: {
     // Navigation
@@ -3977,7 +3982,12 @@ const TRANSLATIONS = {
     "manual-ai-header": "🧠 6. Sabermetric Artificial Intelligence (DIAMAX Engine)",
     "lbl-select-rival": "⚔️ 1. SELECT OR REGISTER OPPONENT TEAM",
     "lbl-rival-list": "Choose Registered Opponent",
-    "btn-toggle-rival": "➕ Add New Opponent Club"
+    "btn-toggle-rival": "➕ Add New Opponent Club",
+    "lbl-cond-summary-title": "OFFICIAL TEAM ASSIGNMENT:",
+    "lbl-summary-home-role": "HOME TEAM (Local):",
+    "lbl-summary-away-role": "VISITOR (Away):",
+    "cond-opt-gve-home-sub": "Guerreros defends in Top (▲) · Bats in Bottom (▼)",
+    "cond-opt-gve-away-sub": "Guerreros opens batting in Top (▲) · Defends in Bottom (▼)"
   }
 };
 
@@ -4096,6 +4106,12 @@ function applyLanguage(lang) {
   updateText('lbl-new-game-date', 'lbl-game-date');
   updateText('lbl-new-game-time', 'lbl-game-time');
   updateText('lbl-new-game-cond', 'lbl-game-cond');
+  updateText('lbl-cond-summary-title', 'lbl-cond-summary-title');
+  updateText('lbl-summary-home-role', 'lbl-summary-home-role');
+  updateText('lbl-summary-away-role', 'lbl-summary-away-role');
+  updateText('cond-opt-gve-home-sub', 'cond-opt-gve-home-sub');
+  updateText('cond-opt-gve-away-sub', 'cond-opt-gve-away-sub');
+  if (typeof actualizarUIDefinicionLocalidad === 'function') actualizarUIDefinicionLocalidad();
   updateText('lbl-new-game-stadium', 'lbl-game-stadium');
   updateText('lbl-new-game-address', 'lbl-game-address');
   updateText('lbl-weather-gps-title', 'lbl-weather-title');
@@ -5993,15 +6009,17 @@ function renderOfficialCard() {
   const rivalBody = document.getElementById('card-rival-starters-body');
   const rivalSubs = document.getElementById('card-rival-substitutes-body');
 
-  const game = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : {
+  const gActive = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+  const game = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : (gActive || {
     fecha: '2026-09-08',
     estadio: 'Lutz Baseball Park - Campo #1',
     rival: 'DAYTONA BEACH',
     rivalId: 'RIV-001',
-    isHomeClub: true
-  };
+    isHomeClub: true,
+    condicion: 'HOME'
+  });
 
-  const isHomeClub = game.isHomeClub !== undefined ? game.isHomeClub : true;
+  const isHomeClub = game.isHomeClub !== undefined ? (game.isHomeClub && game.condicion !== 'AWAY') : true;
 
   // Header Matchup
   setSafeText('card-matchup-header', isHomeClub ? `GUERREROS DE VENEZUELA vs. ${game.rival || 'RIVAL'}` : `${game.rival || 'RIVAL'} vs. GUERREROS DE VENEZUELA`);
@@ -7578,6 +7596,7 @@ function seleccionarRivalDeLista() {
   validarIntegridadLineupRival();
   actualizarGameHeaderUI();
   if (typeof poblarSelectorPartidos === 'function') poblarSelectorPartidos();
+  if (typeof actualizarUIDefinicionLocalidad === 'function') actualizarUIDefinicionLocalidad();
 }
 
 function toggleFormularioNuevoRival(forceState) {
@@ -8044,6 +8063,7 @@ function abrirModalNuevoJuego() {
     if (typeof poblarSelectoresGVEModal === 'function') poblarSelectoresGVEModal();
     toggleFormularioNuevoRival(false);
     if (typeof validarPreJuegoCompleto === 'function') validarPreJuegoCompleto();
+    if (typeof actualizarUIDefinicionLocalidad === 'function') actualizarUIDefinicionLocalidad();
     modal.classList.add('active');
     modal.style.display = 'flex';
   }
@@ -8375,6 +8395,8 @@ function sincronizarTarjetaOficialHeader() {
   setSafeText('card-header-date', fecha);
   setSafeText('card-date', fecha);
   setSafeText('card-gve-condition', isHome ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)');
+  setSafeText('card-rival-condition', isHome ? 'VISITANTE (Alta ▲)' : 'HOME CLUB (Baja ▼)');
+  if (typeof actualizarUIDefinicionLocalidad === 'function') actualizarUIDefinicionLocalidad();
 
   if (typeof renderOfficialCard === 'function') renderOfficialCard();
   if (typeof renderInformeTecnico === 'function') renderInformeTecnico();
@@ -8386,6 +8408,7 @@ setTimeout(() => {
 }, 600);
 
 // Global Window bindings
+window.actualizarUIDefinicionLocalidad = actualizarUIDefinicionLocalidad;
 window.switchTab = switchTab;
 window.liveState = liveState;
 window.RIVALS_DATABASE = RIVALS_DATABASE;
@@ -8914,6 +8937,93 @@ function guardarYCertificarJuegoOficial() {
 // =========================================================================
 // 🔄 MOTOR DE CONMUTACIÓN DE LOCALÍA (HOME CLUB VS VISITANTE)
 // =========================================================================
+function actualizarUIDefinicionLocalidad(forcedIsHome) {
+  let isHome = true;
+  if (typeof forcedIsHome === 'boolean') {
+    isHome = forcedIsHome;
+  } else {
+    const radioHome = document.querySelector('input[name="game-condicion"][value="HOME"]');
+    const radioAway = document.querySelector('input[name="game-condicion"][value="AWAY"]');
+    if (radioHome && radioAway) {
+      isHome = radioHome.checked && !radioAway.checked;
+    } else if (radioHome) {
+      isHome = radioHome.checked;
+    }
+  }
+
+  // Sincronizar radios en el DOM si es necesario
+  const radioHome = document.querySelector('input[name="game-condicion"][value="HOME"]');
+  const radioAway = document.querySelector('input[name="game-condicion"][value="AWAY"]');
+  if (radioHome && radioAway) {
+    radioHome.checked = isHome;
+    radioAway.checked = !isHome;
+  }
+
+  // Obtener rival activo
+  let rivalName = 'DAYTONA BEACH';
+  let rivalAbbr = 'DAY';
+  const selRival = document.getElementById('select-rival-selector');
+  if (selRival && selRival.selectedOptions && selRival.selectedOptions[0]) {
+    rivalName = selRival.selectedOptions[0].text.split('(')[0].trim();
+  }
+  const customRivalInput = document.getElementById('input-new-rival-name');
+  if (customRivalInput && customRivalInput.value.trim() && (typeof isNewRivalFormOpen !== 'undefined' && isNewRivalFormOpen)) {
+    rivalName = customRivalInput.value.trim();
+  }
+  const g = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+  if ((!rivalName || rivalName === 'DAYTONA BEACH') && g && g.rival) {
+    rivalName = g.rival;
+    rivalAbbr = g.rivalAbbr || 'RIV';
+  }
+
+  // Actualizar nombres del rival en las opciones de selección del modal
+  const opt1Rival = document.getElementById('cond-opt1-rival-name');
+  if (opt1Rival) opt1Rival.innerText = rivalName;
+  const opt2Rival = document.getElementById('cond-opt2-rival-name');
+  if (opt2Rival) opt2Rival.innerText = rivalName;
+
+  // Actualizar bordes de selección activa (resalta la tarjeta seleccionada)
+  const cardHome = document.getElementById('lbl-card-cond-home');
+  const cardAway = document.getElementById('lbl-card-cond-away');
+  if (cardHome && cardAway) {
+    if (isHome) {
+      cardHome.style.borderColor = '#00D2FF';
+      cardHome.style.borderWidth = '1.5px';
+      cardHome.style.background = '#0F1E3A';
+      cardAway.style.borderColor = '#334155';
+      cardAway.style.borderWidth = '1px';
+      cardAway.style.background = '#0B132B';
+    } else {
+      cardHome.style.borderColor = '#334155';
+      cardHome.style.borderWidth = '1px';
+      cardHome.style.background = '#0B132B';
+      cardAway.style.borderColor = '#FFC72C';
+      cardAway.style.borderWidth = '1.5px';
+      cardAway.style.background = '#1E1B0E';
+    }
+  }
+
+  // Actualizar banner de asignación de equipos
+  const sumHomeTeam = document.getElementById('lbl-summary-home-team');
+  const sumAwayTeam = document.getElementById('lbl-summary-away-team');
+  if (sumHomeTeam && sumAwayTeam) {
+    if (isHome) {
+      sumHomeTeam.innerText = 'GUERREROS DE VENEZUELA (+55)';
+      sumAwayTeam.innerText = rivalName.toUpperCase();
+    } else {
+      sumHomeTeam.innerText = rivalName.toUpperCase();
+      sumAwayTeam.innerText = 'GUERREROS DE VENEZUELA (+55)';
+    }
+  }
+
+  // Sincronizar tarjetas de condición y encabezado
+  setSafeText('card-matchup-header', isHome ? `GUERREROS DE VENEZUELA vs. ${rivalName.toUpperCase()}` : `${rivalName.toUpperCase()} vs. GUERREROS DE VENEZUELA`);
+  setSafeText('card-gve-condition', isHome ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)');
+  setSafeText('card-rival-condition', isHome ? 'VISITANTE (Alta ▲)' : 'HOME CLUB (Baja ▼)');
+  setSafeText('inf-badge-localia-gve', isHome ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)');
+  setSafeText('inf-badge-localia-rival', !isHome ? 'HOME CLUB (Baja ▼)' : 'VISITANTE (Alta ▲)');
+}
+
 function toggleCondicionLocalVisitante() {
   const g = getActiveGame();
   if (!g) return;
@@ -8927,19 +9037,19 @@ function setCondicionJuego(isHome) {
   g.isHomeClub = isHome;
   g.condicion = isHome ? 'HOME' : 'AWAY';
   g.halfInningRule = isHome ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1';
+    GAME_ACTIVE = g;
+
+  if (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) {
+    GAME_ACTIVE.isHomeClub = isHome;
+    GAME_ACTIVE.condicion = isHome ? 'HOME' : 'AWAY';
+    GAME_ACTIVE.halfInningRule = isHome ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1';
+    try { localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE)); } catch(e) {}
+  }
 
   saveGamesToStorage();
   try { localStorage.setItem('diamax_game_active_v1', JSON.stringify(g)); } catch(e) {}
   if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') {
     DIAMAX_SYNC_ENGINE.enqueueChange('UPDATE_CONDITION', { gameId: g.id, isHomeClub: isHome });
-  }
-
-  // Sincronizar radios en el modal
-  const radioHome = document.querySelector('input[name="game-condicion"][value="HOME"]');
-  const radioAway = document.querySelector('input[name="game-condicion"][value="AWAY"]');
-  if (radioHome && radioAway) {
-    radioHome.checked = isHome;
-    radioAway.checked = !isHome;
   }
 
   // Sincronizar botón de ribbon
@@ -8949,6 +9059,7 @@ function setCondicionJuego(isHome) {
     condBtn.style.background = isHome ? "#00D2FF" : "#FFC72C";
   }
 
+  actualizarUIDefinicionLocalidad(isHome);
   poblarSelectorPartidos();
   if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
   if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
@@ -8975,12 +9086,22 @@ function onCambiarRadioCondicionPreJuego(val) {
     g.isHomeClub = isHome;
     g.condicion = isHome ? 'HOME' : 'AWAY';
     g.halfInningRule = isHome ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1';
+    GAME_ACTIVE = g;
   }
+  if (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) {
+    GAME_ACTIVE.isHomeClub = isHome;
+    GAME_ACTIVE.condicion = isHome ? 'HOME' : 'AWAY';
+    GAME_ACTIVE.halfInningRule = isHome ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1';
+    try { localStorage.setItem('diamax_game_active_v1', JSON.stringify(GAME_ACTIVE)); } catch(e) {}
+  }
+  saveGamesToStorage();
+
   const condBtn = document.getElementById('game-condition-badge');
   if (condBtn) {
     condBtn.innerText = isHome ? "🔄 HOME CLUB (LOCAL)" : "🔄 VISITANTE";
     condBtn.style.background = isHome ? "#00D2FF" : "#FFC72C";
   }
+  actualizarUIDefinicionLocalidad(isHome);
   poblarSelectorPartidos();
   if (typeof actualizarGameHeaderUI === 'function') actualizarGameHeaderUI();
   if (typeof sincronizarTarjetaOficialHeader === 'function') sincronizarTarjetaOficialHeader();
@@ -9657,26 +9778,60 @@ window.addEventListener('load', function() {
         </div>
       </div>
 
-      <!-- Condición de Localía & Regla Reglamentaria -->
+      <!-- Condición de Localía & Regla Reglamentaria (Sin disparidad entre equipos) -->
       <div style="margin-top:12px; padding-top:10px; border-top:1px solid #1E293B;">
         <label id="lbl-new-game-cond" style="font-weight:900; color:#FFF; font-size:11.5px; display:block; margin-bottom:6px;">
           ⚖️ Definición de Localía & Regla Reglamentaria de Primer Turno al Bate:
         </label>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:10px 14px; border-radius:8px; cursor:pointer; font-size:12px;">
-            <input type="radio" name="game-condicion" value="HOME" checked style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto(); onCambiarRadioCondicionPreJuego(this.value)">
-            <div>
-              <strong style="color:#00D2FF;">🏠 Guerreros HOME CLUB</strong>
-              <div style="font-size:10.5px; color:#94A3B8;">Defiende en la Alta (▲) · Batea en la Baja (▼)</div>
+          <!-- Opción 1: Guerreros Home Club vs Rival Visitante -->
+          <label id="lbl-card-cond-home" style="display:flex; align-items:flex-start; gap:10px; background:#0B132B; border:1.5px solid #00D2FF; padding:12px 14px; border-radius:8px; cursor:pointer; font-size:12px; transition:all 0.2s;">
+            <input type="radio" name="game-condicion" value="HOME" checked style="accent-color:#00D2FF; margin-top:2px;" onchange="validarPreJuegoCompleto(); onCambiarRadioCondicionPreJuego(this.value)">
+            <div style="flex:1;">
+              <div style="font-size:12px; font-weight:900; color:#00D2FF; margin-bottom:2px;">
+                🏠 GUERREROS ES HOME CLUB (LOCAL)
+              </div>
+              <div style="font-size:11px; color:#E2E8F0; margin-bottom:4px;">
+                ⚔️ Visitante: <strong id="cond-opt1-rival-name" class="dyn-cond-rival-name" style="color:#FFC72C;">DAYTONA BEACH</strong>
+              </div>
+              <div id="cond-opt-gve-home-sub" style="font-size:10.5px; color:#94A3B8; line-height:1.3;">
+                Guerreros defiende en la Alta (▲) · Cierra bateando en la Baja (▼)
+              </div>
             </div>
           </label>
-          <label style="display:flex; align-items:center; gap:8px; background:#0B132B; border:1px solid #334155; padding:10px 14px; border-radius:8px; cursor:pointer; font-size:12px;">
-            <input type="radio" name="game-condicion" value="AWAY" style="accent-color:#00D2FF;" onchange="validarPreJuegoCompleto(); onCambiarRadioCondicionPreJuego(this.value)">
-            <div>
-              <strong style="color:#FFC72C;">✈️ Guerreros VISITANTE</strong>
-              <div style="font-size:10.5px; color:#94A3B8;">Batea en la Alta (▲) · Abre el Juego en Inning 1</div>
+
+          <!-- Opción 2: Rival Home Club vs Guerreros Visitante -->
+          <label id="lbl-card-cond-away" style="display:flex; align-items:flex-start; gap:10px; background:#0B132B; border:1px solid #334155; padding:12px 14px; border-radius:8px; cursor:pointer; font-size:12px; transition:all 0.2s;">
+            <input type="radio" name="game-condicion" value="AWAY" style="accent-color:#00D2FF; margin-top:2px;" onchange="validarPreJuegoCompleto(); onCambiarRadioCondicionPreJuego(this.value)">
+            <div style="flex:1;">
+              <div style="font-size:12px; font-weight:900; color:#FFC72C; margin-bottom:2px;">
+                🏠 <span id="cond-opt2-rival-name" class="dyn-cond-rival-name">DAYTONA BEACH</span> ES HOME CLUB (LOCAL)
+              </div>
+              <div style="font-size:11px; color:#E2E8F0; margin-bottom:4px;">
+                🇻🇪 Visitante: <strong style="color:#00D2FF;">GUERREROS DE VENEZUELA</strong>
+              </div>
+              <div id="cond-opt-gve-away-sub" style="font-size:10.5px; color:#94A3B8; line-height:1.3;">
+                Guerreros abre el juego al bate en la Alta (▲) · Defiende en la Baja (▼)
+              </div>
             </div>
           </label>
+        </div>
+
+        <!-- Banner de Asignación Oficial de Equipos (Elimina Toda Disparidad) -->
+        <div id="box-condicion-resumen" style="margin-top:10px; background:#070D1A; border:1px solid #334155; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="font-size:11px; font-weight:800; color:#FFF; display:flex; align-items:center; gap:6px;">
+            <span>⚖️</span>
+            <span id="lbl-cond-summary-title">ASIGNACIÓN OFICIAL DE EQUIPOS:</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center; font-size:11.5px; flex-wrap:wrap;">
+            <span style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; padding:3px 8px; border-radius:5px; font-weight:bold;">
+              🏠 <span id="lbl-summary-home-role">HOME CLUB (Local):</span> <strong id="lbl-summary-home-team">GUERREROS DE VENEZUELA (+55)</strong>
+            </span>
+            <span style="color:#94A3B8; font-weight:900;">VS</span>
+            <span style="background:rgba(255,199,44,0.15); border:1px solid #FFC72C; color:#FFC72C; padding:3px 8px; border-radius:5px; font-weight:bold;">
+              ✈️ <span id="lbl-summary-away-role">VISITANTE (Away):</span> <strong id="lbl-summary-away-team">DAYTONA BEACH</strong>
+            </span>
+          </div>
         </div>
       </div>
     </div>
