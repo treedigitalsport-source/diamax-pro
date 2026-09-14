@@ -3698,7 +3698,7 @@ function initSecurityPortal() {
       return;
     } catch(e) {}
   }
-  // Si no hay sesión, inicializar usuario por defecto o mostrar modal si se requiere
+  // Sesión inicial por defecto para el dugout
   currentUserSession = {
     user: 'manager@diamax.pro',
     name: teamManager || 'Mánager General',
@@ -3707,6 +3707,14 @@ function initSecurityPortal() {
     pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4' // PIN: 1234
   };
   updateHeaderUserBadge();
+
+  // Apertura automática del Portal Principal de Bienvenida (Video Cinemático + Registro/Acceso)
+  if (!sessionStorage.getItem('diamax_portal_welcomed')) {
+    sessionStorage.setItem('diamax_portal_welcomed', 'true');
+    setTimeout(() => {
+      showAuthModal('register');
+    }, 450);
+  }
 }
 
 function switchAuthTab(tab) {
