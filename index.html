@@ -1644,6 +1644,7 @@ body.daylight-mode .btn-keypad:hover {
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
       <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900;" title="Refrescar y limpiar base de datos a cero para el partido">🔄 Refrescar BD</button>
+      <button id="btn-membership-header" onclick="showAuthModal('register')" class="btn-settings" style="background:linear-gradient(135deg, rgba(242,101,34,0.35), rgba(0,210,255,0.25)); border:1.5px solid #F26522; color:#FFF; font-weight:900; box-shadow:0 0 16px rgba(242,101,34,0.4); cursor:pointer;" title="Registrar Equipo, Hoja Oficial y Planes (1 Mes Gratis)">🎟️ Registro & Planes (Mes Gratis)</button>
       <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA">⚙️ Configuración</button>
     </div>
   </div>
@@ -3709,27 +3710,28 @@ function initSecurityPortal() {
 }
 
 function switchAuthTab(tab) {
-  ['login', 'pin', 'register'].forEach(t => {
+  ['register', 'pricing', 'login', 'pin'].forEach(t => {
     const btn = document.getElementById(`auth-tab-${t}-btn`);
     const panel = document.getElementById(`auth-panel-${t}`);
     if (btn && panel) {
       if (t === tab) {
-        btn.style.background = '#131D31';
+        btn.style.background = '#0e1c3a';
         btn.style.color = '#00D2FF';
-        btn.style.borderBottom = '2px solid #00D2FF';
+        btn.style.borderBottom = '3px solid #00D2FF';
         panel.style.display = 'block';
       } else {
-        btn.style.background = '#0B0F19';
+        btn.style.background = '#040915';
         btn.style.color = '#94A3B8';
-        btn.style.borderBottom = '2px solid transparent';
+        btn.style.borderBottom = '3px solid transparent';
         panel.style.display = 'none';
       }
     }
   });
-  document.getElementById('auth-status-alert').style.display = 'none';
+  const alertEl = document.getElementById('auth-status-alert');
+  if (alertEl) alertEl.style.display = 'none';
 }
 
-function showAuthModal(defaultTab = 'login') {
+function showAuthModal(defaultTab = 'register') {
   const overlay = document.getElementById('auth-modal-overlay');
   if (overlay) {
     overlay.style.display = 'flex';
@@ -3746,32 +3748,281 @@ function showAuthAlert(msg, isError = true) {
   const el = document.getElementById('auth-status-alert');
   if (el) {
     el.style.display = 'block';
-    el.style.background = isError ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)';
-    el.style.color = isError ? '#EF4444' : '#10B981';
+    el.style.background = isError ? 'rgba(239, 68, 68, 0.18)' : 'rgba(16, 185, 129, 0.18)';
+    el.style.color = isError ? '#F87171' : '#34D399';
     el.style.border = `1px solid ${isError ? '#EF4444' : '#10B981'}`;
-    el.innerText = msg;
+    el.innerHTML = msg;
   }
 }
 
+function togglePassVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.innerText = '🔒';
+  } else {
+    input.type = 'password';
+    btn.innerText = '👁️';
+  }
+}
+
+function checkPassStrength(val) {
+  const bar = document.getElementById('pass-strength-indicator');
+  if (!bar) return;
+  if (!val || val.length === 0) {
+    bar.style.width = '0%';
+    return;
+  }
+  let strength = 0;
+  if (val.length >= 8) strength += 40;
+  if (/[A-Z]/.test(val)) strength += 20;
+  if (/[0-9]/.test(val)) strength += 20;
+  if (/[^A-Za-z0-9]/.test(val)) strength += 20;
+
+  bar.style.width = `${strength}%`;
+  if (strength < 50) {
+    bar.style.background = '#EF4444';
+  } else if (strength < 80) {
+    bar.style.background = '#F59E0B';
+  } else {
+    bar.style.background = '#10B981';
+  }
+}
+
+function actualizarExplicacionRol(role) {
+  const txt = document.getElementById('txt-info-rol');
+  const badge = document.getElementById('badge-info-rol');
+  if (!txt || !badge) return;
+
+  if (role === 'MANAGER' || role === 'ADMIN_LIGA') {
+    badge.style.background = 'rgba(16,185,129,0.08)';
+    badge.style.borderColor = 'rgba(16,185,129,0.3)';
+    badge.style.color = '#A7F3D0';
+    txt.innerHTML = '<strong>Permisos de Manager/Admin:</strong> Control total de franquicia. Permiso automático para crear roster de hasta 30 jugadores, editar alineaciones, programar partidos y administrar la liga.';
+  } else if (role === 'COACH') {
+    badge.style.background = 'rgba(0,210,255,0.08)';
+    badge.style.borderColor = 'rgba(0,210,255,0.3)';
+    badge.style.color = '#BAE6FD';
+    txt.innerHTML = '<strong>Permisos de Coach:</strong> Acceso táctico al Lineup, pizarra de posiciones y registro de jugadas en vivo bajo la supervisión del Manager.';
+  } else if (role === 'JUGADOR') {
+    badge.style.background = 'rgba(255,199,44,0.08)';
+    badge.style.borderColor = 'rgba(255,199,44,0.3)';
+    badge.style.color = '#FDE68A';
+    txt.innerHTML = '<strong>Regla de Atleta / Jugador:</strong> Al registrarte ingresas como miembro del equipo previa aprobación del Manager en el roster activo. Podrás consultar tus métricas individuales y confirmar asistencia.';
+  }
+}
+
+// 🛡️ REGLAS DE NEGOCIO & VALIDACIÓN OFICIAL DE REGISTRO
+async function ejecutarRegistroOficial() {
+  const fullName = document.getElementById('reg-fullname')?.value.trim();
+  const email = document.getElementById('reg-email')?.value.trim().toLowerCase();
+  const pass = document.getElementById('reg-pass')?.value.trim();
+  const phone = document.getElementById('reg-phone')?.value.trim();
+  const teamNameInput = document.getElementById('reg-team-name')?.value.trim();
+  const category = document.getElementById('reg-category')?.value;
+  const role = document.getElementById('reg-user-role')?.value;
+  const location = document.getElementById('reg-location')?.value.trim();
+
+  // 1. Validación de campos obligatorios
+  if (!fullName || !email || !pass || !phone || !teamNameInput || !category || !role || !location) {
+    return showAuthAlert("⚠️ Todos los campos del formulario son obligatorios para la certificación del equipo.");
+  }
+
+  // 2. Validación de Correo Electrónico (Formato RFC)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return showAuthAlert("❌ Formato de correo electrónico inválido. Ingresa un email corporativo o personal válido.");
+  }
+
+  // 3. Validación de Unicidad de Correo
+  let registeredUsers = [];
+  try {
+    registeredUsers = JSON.parse(localStorage.getItem('diamax_registered_users') || '[]');
+  } catch (e) {
+    registeredUsers = [];
+  }
+
+  const emailExists = registeredUsers.some(u => u.email === email);
+  if (emailExists) {
+    return showAuthAlert(`❌ El correo <strong>${email}</strong> ya está registrado. Inicia sesión con tus credenciales o utiliza otro correo.`);
+  }
+
+  // 4. Validación de Contraseña (Mínimo 8 caracteres)
+  if (pass.length < 8) {
+    return showAuthAlert("❌ La contraseña debe contener un mínimo de 8 caracteres.");
+  }
+
+  // 5. Cifrado criptográfico de credencial
+  const passHash = await hashSHA256(pass);
+  const defaultPin = '1234';
+  const pinHash = await hashSHA256(defaultPin);
+
+  // 6. Generación de Código de Invitación Deportivo
+  const teamPrefix = teamNameInput.substring(0, 4).toUpperCase().replace(/[^A-Z0-9]/g, '') || 'TEAM';
+  const categoryClean = category.replace(/[^A-Za-z0-9]/g, '') || '55';
+  const inviteCode = `DMX-${teamPrefix}-${categoryClean}`;
+
+  // 7. Lógica de Asignación de Permisos según Rol
+  let userPermissions = [];
+  let isTeamOwner = false;
+  let memberStatus = 'ACTIVE';
+
+  if (role === 'MANAGER' || role === 'ADMIN_LIGA') {
+    userPermissions = ['CREATE_ROSTER', 'EDIT_LINEUP', 'SCHEDULE_GAMES', 'MANAGE_PLAYERS', 'ADMIN_TEAM', 'EXPORT_STATS'];
+    isTeamOwner = true;
+    memberStatus = 'ACTIVE';
+  } else if (role === 'COACH') {
+    userPermissions = ['EDIT_LINEUP', 'VIEW_ROSTER', 'RECORD_PLAYS', 'VIEW_STATS'];
+    isTeamOwner = false;
+    memberStatus = 'ACTIVE';
+  } else if (role === 'JUGADOR') {
+    userPermissions = ['VIEW_STATS', 'CONFIRM_ATTENDANCE', 'VIEW_LINEUP'];
+    isTeamOwner = false;
+    memberStatus = 'PENDING_APPROVAL'; // Previa aprobación del Manager
+  }
+
+  // 8. Creación del Perfil y Registro del Usuario
+  const newUser = {
+    id: 'usr_' + Date.now(),
+    fullName,
+    email,
+    phone,
+    role,
+    teamName: teamNameInput,
+    category,
+    location,
+    permissions: userPermissions,
+    isTeamOwner,
+    status: memberStatus,
+    inviteCode,
+    registeredAt: new Date().toISOString()
+  };
+
+  registeredUsers.push(newUser);
+  localStorage.setItem('diamax_registered_users', JSON.stringify(registeredUsers));
+
+  // 9. Carga Automática en Sesión Activa
+  currentUserSession = {
+    user: email,
+    name: fullName,
+    role: role,
+    team: teamNameInput,
+    category: category,
+    location: location,
+    permissions: userPermissions,
+    isTeamOwner: isTeamOwner,
+    status: memberStatus,
+    inviteCode: inviteCode,
+    pinHash: pinHash,
+    token: passHash.substring(0, 32)
+  };
+
+  // 10. Actualizar datos globales de franquicia
+  teamName = teamNameInput;
+  teamManager = fullName;
+  localStorage.setItem('diamax_team_name', teamNameInput);
+  localStorage.setItem('diamax_team_manager', fullName);
+  localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
+
+  // 11. Activar automáticamente Prueba Gratuita de 30 Días
+  const trialExpiration = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+  localStorage.setItem('diamax_license', JSON.stringify({
+    plan: 'FREE_TRIAL_30_DAYS',
+    active: true,
+    startedAt: new Date().toISOString(),
+    expiresAt: trialExpiration,
+    daysRemaining: 30
+  }));
+
+  // 12. Actualizar Interfaz
+  updateHeaderUserBadge();
+  const headerTitle = document.getElementById('header-team-title');
+  if (headerTitle) headerTitle.innerText = teamNameInput;
+
+  let successMsg = '';
+  if (isTeamOwner) {
+    successMsg = `🎉 <strong>¡Franquicia "${teamNameInput}" Creada con Éxito!</strong><br>
+    Asignado como <strong>Creador y Administrador</strong>.<br>
+    Código de Invitación para Jugadores: <strong style="color:#00D2FF; font-size:14px;">${inviteCode}</strong><br>
+    <span style="color:#FFC72C;">🎁 Prueba Gratuita de 30 Días Activada.</span>`;
+  } else {
+    successMsg = `✅ <strong>¡Registro Exitoso!</strong><br>
+    Registrado como <strong>${role === 'JUGADOR' ? 'Jugador' : 'Coach'}</strong> en ${teamNameInput}.<br>
+    ${role === 'JUGADOR' ? 'Estado: Pendiente de confirmación en el Roster por el Manager.' : 'Permisos tácticos activados.'}`;
+  }
+
+  showAuthAlert(successMsg, false);
+  setTimeout(() => {
+    cerrarAuthModal();
+  }, 2400);
+}
+
+// 🎁 ACTIVACIÓN DIRECTA DE MES GRATIS
+function activarPruebaMesGratis() {
+  const trialExpiration = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  const formattedDate = trialExpiration.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  localStorage.setItem('diamax_license', JSON.stringify({
+    plan: 'FREE_TRIAL_30_DAYS',
+    active: true,
+    startedAt: new Date().toISOString(),
+    expiresAt: trialExpiration.toISOString(),
+    daysRemaining: 30
+  }));
+
+  showAuthAlert(`🎉 <strong>¡Prueba Gratuita de 30 Días Activada Exitosamente!</strong><br>
+  Tienes acceso total e ilimitado a todas las herramientas Pro de DIAMAX hasta el <strong>${formattedDate}</strong>.<br>
+  Sin tarjeta de crédito. ¡A ganar en el diamante!`, false);
+
+  setTimeout(() => {
+    switchAuthTab('register');
+  }, 2500);
+}
+
+function seleccionarPlanSuscripcion(plan) {
+  const planName = plan === 'PRO' ? 'Plan Manager Pro ($9.99/mes)' : 'Plan Liga & Torneo Master ($29.99/mes)';
+  showAuthAlert(`Has seleccionado el <strong>${planName}</strong>.<br>
+  Comienza hoy con tus <strong>30 Días de Prueba Gratuita</strong> completando el registro. Si ya estás registrado, tu cuenta se activará automáticamente sin interrupción de tus datos.`, false);
+  
+  setTimeout(() => {
+    switchAuthTab('register');
+  }, 2200);
+}
+
 async function ejecutarLogin() {
-  const user = document.getElementById('login-user')?.value.trim();
+  const user = document.getElementById('login-user')?.value.trim().toLowerCase();
   const pass = document.getElementById('login-pass')?.value.trim();
   if (!user || !pass) return showAuthAlert("Por favor ingresa usuario y contraseña.");
 
   const pHash = await hashSHA256(pass);
+
+  // Buscar si el usuario fue registrado en la base de datos local
+  let registeredUsers = [];
+  try {
+    registeredUsers = JSON.parse(localStorage.getItem('diamax_registered_users') || '[]');
+  } catch (e) {
+    registeredUsers = [];
+  }
+
+  const existing = registeredUsers.find(u => u.email === user);
+  const role = existing ? existing.role : 'MANAGER';
+  const name = existing ? existing.fullName : user.split('@')[0].toUpperCase();
+  const team = existing ? existing.teamName : (localStorage.getItem('diamax_team_name') || 'Guerreros de Venezuela');
+
   currentUserSession = {
     user: user,
-    name: user.split('@')[0].toUpperCase(),
-    role: 'MANAGER',
-    team: teamName,
+    name: name,
+    role: role,
+    team: team,
     pinHash: await hashSHA256('1234'),
     token: pHash.substring(0, 32)
   };
 
   localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
   updateHeaderUserBadge();
-  showAuthAlert("¡Autenticación exitosa! Acceso concedido.", false);
-  setTimeout(() => cerrarAuthModal(), 500);
+  showAuthAlert(`¡Bienvenido de vuelta, ${name}! Acceso táctico concedido.`, false);
+  setTimeout(() => cerrarAuthModal(), 700);
 }
 
 function accesoInvitadoDemo() {
@@ -3779,7 +4030,7 @@ function accesoInvitadoDemo() {
     user: 'demo@diamax.pro',
     name: 'Operador Dugout (Demo)',
     role: 'MANAGER',
-    team: teamName,
+    team: teamName || 'Guerreros de Venezuela',
     pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'
   };
   localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
@@ -3809,7 +4060,6 @@ async function validarPinDugout() {
   if (pinBuffer.length !== 4) return showAuthAlert("Ingresa un PIN de 4 dígitos.");
   const hashedInput = await hashSHA256(pinBuffer);
   
-  // Acepta el PIN guardado o el PIN por defecto '1234'
   const defaultPinHash = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
   const expectedHash = currentUserSession?.pinHash || defaultPinHash;
 
@@ -3823,46 +4073,6 @@ async function validarPinDugout() {
     showAuthAlert("❌ PIN incorrecto. Intenta nuevamente.");
     borrarPin();
   }
-}
-
-async function ejecutarRegistro() {
-  const team = document.getElementById('reg-team')?.value.trim();
-  const manager = document.getElementById('reg-manager')?.value.trim();
-  const role = document.getElementById('reg-role')?.value;
-  const pin = document.getElementById('reg-pin')?.value.trim();
-  const pass = document.getElementById('reg-pass')?.value.trim();
-
-  if (!team || !manager || !pin || !pass) {
-    return showAuthAlert("Completa todos los campos obligatorios.");
-  }
-  if (pin.length !== 4) {
-    return showAuthAlert("El PIN de Dugout debe ser exactamente de 4 dígitos.");
-  }
-
-  const pinHash = await hashSHA256(pin);
-  const passHash = await hashSHA256(pass);
-
-  currentUserSession = {
-    user: manager.toLowerCase().replace(/\s+/g, '') + '@diamax.pro',
-    name: manager,
-    role: role,
-    team: team,
-    pinHash: pinHash,
-    token: passHash.substring(0, 32)
-  };
-
-  teamName = team;
-  teamManager = manager;
-  localStorage.setItem('diamax_team_name', team);
-  localStorage.setItem('diamax_team_manager', manager);
-  localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
-
-  initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
-  updateHeaderUserBadge();
-  showAuthAlert("✅ Equipo y Operador registrados con éxito.", false);
-  setTimeout(() => cerrarAuthModal(), 600);
 }
 
 function updateHeaderUserBadge() {
@@ -11209,55 +11419,331 @@ window.addEventListener('load', function() {
   </div>
 </div>
 
-<!-- 🛡️ PORTAL DE AUTENTICACIÓN & SEGURIDAD MILITAR (FASE 4) -->
-<div id="auth-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(11,15,25,0.95); z-index:99999; backdrop-filter:blur(8px); overflow-y:auto; padding:20px; align-items:center; justify-content:center;">
-  <div style="background:#131D31; border:2px solid #00D2FF; border-radius:16px; width:100%; max-width:480px; box-shadow:0 0 40px rgba(0,210,255,0.25); color:#F8FAFC; overflow:hidden; font-family:'Segoe UI',system-ui,-apple-system,sans-serif;">
+<!-- 🛡️ PORTAL DE AUTENTICACIÓN, HOJA DE REGISTRO & PLANES DE SUSCRIPCIÓN (DIAMAX PRO) -->
+<div id="auth-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.94); z-index:99999; backdrop-filter:blur(16px); overflow-y:auto; padding:16px; align-items:center; justify-content:center; box-sizing:border-box;">
+  <div style="background:linear-gradient(145deg, #091329, #050b18); border:2px solid rgba(0,210,255,0.5); border-radius:22px; width:100%; max-width:760px; box-shadow:0 0 50px rgba(0,210,255,0.25), 0 20px 40px rgba(0,0,0,0.8); color:#F8FAFC; overflow:hidden; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; margin:auto; position:relative;">
     
-    <!-- Auth Header -->
-    <div style="background:linear-gradient(135deg, #0F172A, #1E293B); padding:20px; text-align:center; border-bottom:1px solid rgba(0,210,255,0.3);">
-      <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:6px;">
-        <span style="font-size:24px;">🛡️</span>
-        <h2 style="margin:0; font-size:20px; font-weight:900; letter-spacing:1px; color:#FFC72C;">DIAMAX SECURITY PORTAL</h2>
+    <!-- Modal Top Header -->
+    <div style="background:linear-gradient(135deg, #070e1e, #0d1a38); padding:20px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1);">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg, #F26522, #00D2FF); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:18px; color:#FFF; box-shadow:0 0 15px rgba(242,101,34,0.5);">
+          💎
+        </div>
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h2 style="margin:0; font-size:19px; font-weight:900; letter-spacing:1px; color:#FFF;">DIAMAX PRO</h2>
+            <span style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:900; padding:2px 8px; border-radius:6px; letter-spacing:0.5px;">SPORTS OS · 2026</span>
+          </div>
+          <p style="margin:2px 0 0 0; font-size:11.5px; color:#94A3B8;">Registro Oficial de Franquicia, Seguridad & Planes de Membresía</p>
+        </div>
       </div>
-      <p style="margin:0; font-size:12px; color:#94A3B8; letter-spacing:0.5px;">Acceso Táctico Autenticado · Cifrado SHA-256</p>
+      <button onclick="cerrarAuthModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#FFF; width:34px; height:34px; border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.3)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.15)';">&times;</button>
     </div>
 
-    <!-- Auth Tabs -->
-    <div style="display:flex; border-bottom:1px solid #1E293B; background:#0B0F19;">
-      <button id="auth-tab-login-btn" onclick="switchAuthTab('login')" style="flex:1; padding:12px; font-weight:800; font-size:13px; border:none; background:#131D31; color:#00D2FF; cursor:pointer; border-bottom:2px solid #00D2FF;">🔑 Iniciar Sesión</button>
-      <button id="auth-tab-pin-btn" onclick="switchAuthTab('pin')" style="flex:1; padding:12px; font-weight:800; font-size:13px; border:none; background:#0B0F19; color:#94A3B8; cursor:pointer; border-bottom:2px solid transparent;">⚡ PIN Dugout</button>
-      <button id="auth-tab-register-btn" onclick="switchAuthTab('register')" style="flex:1; padding:12px; font-weight:800; font-size:13px; border:none; background:#0B0F19; color:#94A3B8; cursor:pointer; border-bottom:2px solid transparent;">📝 Registro</button>
+    <!-- Navigation Submenu Tabs -->
+    <div style="display:flex; border-bottom:1px solid rgba(255,255,255,0.08); background:#040915; overflow-x:auto;">
+      <button id="auth-tab-register-btn" onclick="switchAuthTab('register')" style="flex:1; min-width:160px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#0e1c3a; color:#00D2FF; cursor:pointer; border-bottom:3px solid #00D2FF; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <span>📝</span> <span>Hoja de Registro</span>
+      </button>
+      <button id="auth-tab-pricing-btn" onclick="switchAuthTab('pricing')" style="flex:1; min-width:160px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <span>💎</span> <span>Planes & Mes Gratis</span>
+      </button>
+      <button id="auth-tab-login-btn" onclick="switchAuthTab('login')" style="flex:1; min-width:130px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <span>🔑</span> <span>Iniciar Sesión</span>
+      </button>
+      <button id="auth-tab-pin-btn" onclick="switchAuthTab('pin')" style="flex:1; min-width:120px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <span>⚡</span> <span>PIN Dugout</span>
+      </button>
     </div>
 
-    <div style="padding:24px;">
-      
-      <!-- Panel 1: Login Clásico -->
-      <div id="auth-panel-login">
+    <div style="padding:22px; max-height:calc(88vh - 120px); overflow-y:auto;">
+
+      <!-- ======================================================== -->
+      <!-- SUBMENÚ 1: HOJA OFICIAL DE REGISTRO (USUARIO + EQUIPO)     -->
+      <!-- ======================================================== -->
+      <div id="auth-panel-register" style="display:block;">
+        
+        <!-- Header de la Hoja -->
+        <div style="background:rgba(0,210,255,0.06); border:1px solid rgba(0,210,255,0.25); border-radius:12px; padding:12px 16px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div>
+            <span style="color:#00D2FF; font-weight:900; font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">📋 Hoja de Inscripción & Creador de Franquicia</span>
+            <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Completa tus datos para crear tu equipo o incorporarte al roster oficial.</p>
+          </div>
+          <span style="background:rgba(242,101,34,0.2); border:1px solid #F26522; color:#FFF; font-size:10.5px; font-weight:900; padding:4px 10px; border-radius:20px;">
+            🎁 Incluye 30 Días Gratis
+          </span>
+        </div>
+
+        <form id="form-registro-oficial" onsubmit="event.preventDefault(); ejecutarRegistroOficial();">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px;">
+            
+            <!-- SECCIÓN 1: DATOS DEL USUARIO -->
+            <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                <span style="font-size:16px;">👤</span>
+                <h3 style="margin:0; font-size:13px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.5px;">1. Sección Usuario</h3>
+              </div>
+
+              <!-- Nombre Completo -->
+              <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Nombre Completo <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="reg-fullname" placeholder="ej. Orlando Sánchez / Ali Zapata" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+              </div>
+
+              <!-- Correo Electrónico (Único / Clave) -->
+              <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Correo Electrónico (Único / Campo Clave) <span style="color:#EF4444;">*</span></label>
+                <input type="email" id="reg-email" placeholder="manager@guerreros.com" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+                <span style="font-size:10px; color:#64748B; display:block; margin-top:3px;">Tu identificador único para sincronización en la nube.</span>
+              </div>
+
+              <!-- Contraseña -->
+              <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Contraseña (Mínimo 8 caracteres) <span style="color:#EF4444;">*</span></label>
+                <div style="position:relative;">
+                  <input type="password" id="reg-pass" placeholder="••••••••••••" minlength="8" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 38px 10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'" oninput="checkPassStrength(this.value)">
+                  <button type="button" onclick="togglePassVisibility('reg-pass', this)" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94A3B8; cursor:pointer; font-size:14px;">👁️</button>
+                </div>
+                <div id="pass-strength-bar" style="height:3px; border-radius:2px; background:#1E293B; margin-top:5px; overflow:hidden;">
+                  <div id="pass-strength-indicator" style="height:100%; width:0%; transition:all 0.3s; background:#EF4444;"></div>
+                </div>
+              </div>
+
+              <!-- Teléfono -->
+              <div style="margin-bottom:6px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Teléfono / WhatsApp <span style="color:#EF4444;">*</span></label>
+                <input type="tel" id="reg-phone" placeholder="ej. +58 412 1234567 / +1 305..." required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+              </div>
+
+            </div>
+
+            <!-- SECCIÓN 2: EQUIPO Y LIGA -->
+            <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                <span style="font-size:16px;">⚾</span>
+                <h3 style="margin:0; font-size:13px; font-weight:900; color:#F26522; text-transform:uppercase; letter-spacing:0.5px;">2. Sección Equipo y Liga</h3>
+              </div>
+
+              <!-- Nombre del Equipo -->
+              <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Nombre del Equipo <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="reg-team-name" placeholder="ej. Guerreros de Venezuela" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
+              </div>
+
+              <!-- Categoría -->
+              <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Categoría de la Liga <span style="color:#EF4444;">*</span></label>
+                <select id="reg-category" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
+                  <option value="+55">🏆 +55 (Super Máster Leyendas)</option>
+                  <option value="+50">🥇 +50 (Máster Oro)</option>
+                  <option value="+40">🥈 +40 (Máster Plata)</option>
+                  <option value="Senior">⭐ Senior (+35)</option>
+                  <option value="Libre">⚾ Libre / Doble A (Abierta)</option>
+                  <option value="Juvenil">⚡ Juvenil (15 - 18 años)</option>
+                  <option value="Infantil">🌱 Infantil / Formación</option>
+                </select>
+              </div>
+
+              <!-- Rol del Usuario -->
+              <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Rol del Usuario <span style="color:#EF4444;">*</span></label>
+                <select id="reg-user-role" onchange="actualizarExplicacionRol(this.value)" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:13px; font-weight:800; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+                  <option value="MANAGER">👑 Manager (Creador y Administrador de Franquicia)</option>
+                  <option value="COACH">🧢 Coach (Asistente Técnico & Lineup)</option>
+                  <option value="ADMIN_LIGA">🏛️ Administrador de Liga / Comisionado</option>
+                  <option value="JUGADOR">⚾ Jugador (Atleta / Miembro de Roster)</option>
+                </select>
+              </div>
+
+              <!-- Ubicación / Ciudad / País -->
+              <div style="margin-bottom:6px;">
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Ubicación / Ciudad / País <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="reg-location" placeholder="ej. Valencia / Carabobo / Venezuela" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
+              </div>
+
+            </div>
+          </div>
+
+          <!-- REGLAS DE NEGOCIO Y ASIGNACIÓN DE PERMISOS (INFORMACIÓN EN VIVO) -->
+          <div id="badge-info-rol" style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:10px 14px; margin-top:16px; font-size:11.5px; color:#A7F3D0; display:flex; align-items:center; gap:8px;">
+            <span>🛡️</span>
+            <span id="txt-info-rol"><strong>Permiso de Manager/Admin:</strong> Al registrarte tendrás permisos automáticos para crear el roster, agregar hasta 30 jugadores y programar partidos.</span>
+          </div>
+
+          <!-- Botón de Envío -->
+          <div style="margin-top:18px; display:flex; flex-direction:column; gap:10px;">
+            <button type="submit" style="width:100%; padding:14px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(16,185,129,0.4); display:flex; align-items:center; justify-content:center; gap:8px; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.01)'" onmouseout="this.style.transform='scale(1)'">
+              <span>🚀</span> <span>Completar Registro Oficial y Activar Franquicia</span>
+            </button>
+            <p style="margin:0; font-size:11px; text-align:center; color:#94A3B8;">
+              Al registrarte inicias automáticamente con tu <strong>Prueba Gratuita de 30 Días</strong> con acceso completo a DIAMAX PRO.
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- SUBMENÚ 2: PLANES DE SUSCRIPCIÓN & MES GRATIS            -->
+      <!-- ======================================================== -->
+      <div id="auth-panel-pricing" style="display:none;">
+        
+        <div style="text-align:center; margin-bottom:20px;">
+          <span style="background:rgba(242,101,34,0.15); border:1px solid #F26522; color:#F26522; font-size:11px; font-weight:900; padding:4px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">
+            💎 Planes de Suscripción 2026
+          </span>
+          <h3 style="font-size:22px; font-weight:900; margin:10px 0 4px 0; color:#FFF;">Invierte en la Ventaja Competitiva de Tu Equipo</h3>
+          <p style="margin:0; font-size:12.5px; color:#94A3B8;">Elige tu plan o activa tu prueba sin tarjeta de crédito.</p>
+        </div>
+
+        <!-- Grid de Planes -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+          
+          <!-- PLAN 1: FREE TRIAL (MES GRATIS) -->
+          <div style="background:linear-gradient(145deg, #0d1e3a, #071328); border:2px solid #00D2FF; border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between; box-shadow:0 0 25px rgba(0,210,255,0.25); position:relative;">
+            <div style="position:absolute; top:-10px; right:14px; background:#00D2FF; color:#020617; font-weight:900; font-size:9.5px; padding:3px 8px; border-radius:10px; text-transform:uppercase; letter-spacing:0.5px;">
+              Recomendado
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                <span style="font-size:20px;">🎁</span>
+                <h4 style="margin:0; font-size:15px; font-weight:900; color:#FFF;">Mes Gratis</h4>
+              </div>
+              <p style="margin:0 0 12px 0; font-size:11px; color:#94A3B8;">Prueba piloto completa para torneos y temporadas activas.</p>
+              
+              <div style="margin-bottom:14px;">
+                <span style="font-size:28px; font-weight:900; color:#00D2FF;">$0.00</span>
+                <span style="font-size:12px; color:#94A3B8;"> / 30 Días</span>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:8px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Anotador Dugout en vivo oficial</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Sabermetría IA & Monte Carlo</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Roster completo (hasta 30 peloteros)</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>PWA Offline (100% sin internet)</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Exportar Boxscore a PDF & WhatsApp</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>⚡</span> <span style="color:#FFC72C;">Sin tarjeta de crédito</span></li>
+              </ul>
+            </div>
+
+            <div>
+              <button onclick="activarPruebaMesGratis()" style="width:100%; padding:12px; background:#00D2FF; color:#020617; border:none; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase; box-shadow:0 0 15px rgba(0,210,255,0.4);">
+                Activar 30 Días Gratis
+              </button>
+              <span style="display:block; text-align:center; font-size:10px; color:#94A3B8; margin-top:6px;">Extensible +15 días para torneos</span>
+            </div>
+          </div>
+
+          <!-- PLAN 2: MANAGER PRO -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between;">
+            <div>
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                <span style="font-size:20px;">👑</span>
+                <h4 style="margin:0; font-size:15px; font-weight:900; color:#F26522;">Manager Pro</h4>
+              </div>
+              <p style="margin:0 0 12px 0; font-size:11px; color:#94A3B8;">Para 1 equipo que busca dominar su liga con analítica.</p>
+              
+              <div style="margin-bottom:14px;">
+                <span style="font-size:28px; font-weight:900; color:#FFF;">$9.99</span>
+                <span style="font-size:12px; color:#94A3B8;"> / mes</span>
+                <div style="font-size:10px; color:#10B981; font-weight:700;">o $89 / año (Ahorra 25%)</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:11.5px; color:#94A3B8; display:flex; flex-direction:column; gap:8px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Todo lo del Plan Mes Gratis</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Historial de partidos ilimitado</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Backup automático en la nube</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Simulador de Lineup Óptimo con IA</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Soporte prioritario 24/7 por WhatsApp</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('PRO')" style="width:100%; padding:12px; background:rgba(242,101,34,0.15); color:#F26522; border:1px solid #F26522; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase;">
+              Suscribir Manager
+            </button>
+          </div>
+
+          <!-- PLAN 3: LIGA & TORNEOS MASTER -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between;">
+            <div>
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                <span style="font-size:20px;">🏛️</span>
+                <h4 style="margin:0; font-size:15px; font-weight:900; color:#FFC72C;">Liga & Torneos</h4>
+              </div>
+              <p style="margin:0 0 12px 0; font-size:11px; color:#94A3B8;">Para comisionados, directores y torneos multiequipo.</p>
+              
+              <div style="margin-bottom:14px;">
+                <span style="font-size:28px; font-weight:900; color:#FFF;">$29.99</span>
+                <span style="font-size:12px; color:#94A3B8;"> / mes</span>
+                <div style="font-size:10px; color:#10B981; font-weight:700;">o $249 / año por liga</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:11.5px; color:#94A3B8; display:flex; flex-direction:column; gap:8px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Hasta 16 Equipos simultáneos</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Tabla de posiciones automática</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Líderes de bateo, pitcheo y OPS</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Asignación y reporte de Umpires</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Dominio personalizado de torneo</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('LIGA')" style="width:100%; padding:12px; background:rgba(255,199,44,0.15); color:#FFC72C; border:1px solid #FFC72C; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase;">
+              Suscribir Liga
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Garantía y Certificación -->
+        <div style="margin-top:20px; padding:12px 16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:18px;">🛡️</span>
+            <span style="font-size:11.5px; color:#94A3B8;">Garantía de Satisfacción 3Tree: Cancela cuando quieras con 1 clic. Datos protegidos con cifrado militar.</span>
+          </div>
+          <button onclick="switchAuthTab('register')" style="background:none; border:none; color:#00D2FF; font-size:11.5px; font-weight:800; cursor:pointer; text-decoration:underline;">
+            Ir al Registro →
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- SUBMENÚ 3: INICIAR SESIÓN                                -->
+      <!-- ======================================================== -->
+      <div id="auth-panel-login" style="display:none; max-width:440px; margin:0 auto;">
         <div style="margin-bottom:14px;">
           <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:6px; text-transform:uppercase;">Usuario / Correo Táctico</label>
-          <input type="text" id="login-user" placeholder="manager@diamax.pro" style="width:100%; box-sizing:border-box; background:#0B0F19; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:14px; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+          <input type="text" id="login-user" placeholder="manager@diamax.pro" style="width:100%; box-sizing:border-box; background:#040914; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:14px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
         </div>
         <div style="margin-bottom:18px;">
           <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:6px; text-transform:uppercase;">Clave de Acceso</label>
-          <input type="password" id="login-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#0B0F19; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:14px; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+          <input type="password" id="login-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#040914; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:14px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
         </div>
-        <button onclick="ejecutarLogin()" style="width:100%; padding:14px; background:#00D2FF; color:#0B0F19; border:none; border-radius:8px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 0 15px rgba(0,210,255,0.4);">Entrar al Sistema</button>
+        <button onclick="ejecutarLogin()" style="width:100%; padding:14px; background:#00D2FF; color:#040914; border:none; border-radius:8px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 0 15px rgba(0,210,255,0.4);">
+          Entrar al Sistema
+        </button>
         
-        <div style="text-align:center; margin-top:16px;">
-          <button onclick="accesoInvitadoDemo()" style="background:none; border:none; color:#FFC72C; font-size:12px; font-weight:700; cursor:pointer; text-decoration:underline;">⚡ Entrar en Modo Demo / Invitado Rápido</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; font-size:12px;">
+          <button onclick="accesoInvitadoDemo()" style="background:none; border:none; color:#FFC72C; font-weight:700; cursor:pointer; text-decoration:underline;">
+            ⚡ Modo Demo / Invitado
+          </button>
+          <button onclick="switchAuthTab('register')" style="background:none; border:none; color:#00D2FF; font-weight:700; cursor:pointer; text-decoration:underline;">
+            ¿No tienes cuenta? Regístrate
+          </button>
         </div>
       </div>
 
-      <!-- Panel 2: PIN Rápido de Dugout -->
-      <div id="auth-panel-pin" style="display:none; text-align:center;">
+      <!-- ======================================================== -->
+      <!-- SUBMENÚ 4: PIN RÁPIDO DE DUGOUT                          -->
+      <!-- ======================================================== -->
+      <div id="auth-panel-pin" style="display:none; text-align:center; max-width:320px; margin:0 auto;">
         <p style="margin:0 0 12px 0; font-size:13px; color:#94A3B8;">Ingresa el PIN de seguridad de 4 dígitos para desbloqueo rápido en dugout:</p>
         
         <div style="display:flex; justify-content:center; gap:12px; margin-bottom:20px;">
-          <input type="password" id="pin-display" readonly maxlength="4" style="width:180px; text-align:center; font-size:28px; letter-spacing:10px; background:#0B0F19; border:2px solid #FFC72C; border-radius:10px; padding:8px 12px; color:#FFC72C; font-weight:900;">
+          <input type="password" id="pin-display" readonly maxlength="4" style="width:180px; text-align:center; font-size:28px; letter-spacing:10px; background:#040914; border:2px solid #FFC72C; border-radius:10px; padding:8px 12px; color:#FFC72C; font-weight:900;">
         </div>
 
         <!-- Teclado Numérico Tactil -->
-        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; max-width:280px; margin:0 auto 16px auto;">
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin:0 auto 16px auto;">
           <button onclick="teclearPin('1')" class="btn-pin">1</button>
           <button onclick="teclearPin('2')" class="btn-pin">2</button>
           <button onclick="teclearPin('3')" class="btn-pin">3</button>
@@ -11273,42 +11759,12 @@ window.addEventListener('load', function() {
         </div>
       </div>
 
-      <!-- Panel 3: Registro de Equipo & Manager -->
-      <div id="auth-panel-register" style="display:none;">
-        <div style="margin-bottom:12px;">
-          <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:4px; text-transform:uppercase;">Nombre del Equipo</label>
-          <input type="text" id="reg-team" placeholder="Guerreros de Venezuela +55" style="width:100%; box-sizing:border-box; background:#0B0F19; border:1px solid #334155; border-radius:8px; padding:10px; color:#FFF; font-size:13px;">
-        </div>
-        <div style="margin-bottom:12px;">
-          <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:4px; text-transform:uppercase;">Nombre del Mánager / Operador</label>
-          <input type="text" id="reg-manager" placeholder="Mánager Principal" style="width:100%; box-sizing:border-box; background:#0B0F19; border:1px solid #334155; border-radius:8px; padding:10px; color:#FFF; font-size:13px;">
-        </div>
-        <div style="margin-bottom:12px;">
-          <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:4px; text-transform:uppercase;">Rol Táctico</label>
-          <select id="reg-role" style="width:100%; box-sizing:border-box; background:#0B0F19; border:1px solid #334155; border-radius:8px; padding:10px; color:#FFC72C; font-weight:700; font-size:13px;">
-            <option value="MANAGER">👑 Mánager / Head Coach (Acceso Total + IA)</option>
-            <option value="ANOTADOR">✍️ Anotador Oficial (Anotación + Jugadas)</option>
-            <option value="SCOUT">📊 Scout / Analista (Métricas + Monte Carlo)</option>
-          </select>
-        </div>
-        <div style="margin-bottom:12px;">
-          <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:4px; text-transform:uppercase;">PIN Rápido Dugout (4 dígitos)</label>
-          <input type="password" id="reg-pin" placeholder="1234" maxlength="4" style="width:100%; box-sizing:border-box; background:#0B0F19; border:1px solid #334155; border-radius:8px; padding:10px; color:#FFF; font-size:13px;">
-        </div>
-        <div style="margin-bottom:18px;">
-          <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:4px; text-transform:uppercase;">Contraseña de Cuenta</label>
-          <input type="password" id="reg-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#0B0F19; border:1px solid #334155; border-radius:8px; padding:10px; color:#FFF; font-size:13px;">
-        </div>
-        <button onclick="ejecutarRegistro()" style="width:100%; padding:13px; background:#10B981; color:#0B0F19; border:none; border-radius:8px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase;">Registrar e Iniciar</button>
-      </div>
-
       <!-- Status Alert Box -->
-      <div id="auth-status-alert" style="display:none; margin-top:14px; padding:10px; border-radius:8px; font-size:12px; font-weight:700; text-align:center;"></div>
+      <div id="auth-status-alert" style="display:none; margin-top:16px; padding:12px 16px; border-radius:10px; font-size:12.5px; font-weight:800; text-align:center;"></div>
 
     </div>
   </div>
 </div>
-
 
 <!-- MODAL DE CARGAR NUEVO JUEGO Y DATOS DE SEDE -->
 <!-- MODAL: CONFIGURAR NUEVO JUEGO (FLUXO OFICIAL ORLANDO SÁNCHEZ 2026) -->
