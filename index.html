@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '4.5-pure-cinematic';
+  const DEPLOY_VERSION = '4.6-dugout-innings-perfect';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -2121,10 +2121,7 @@ body.daylight-mode .btn-keypad:hover {
         🎁 1 Mes Gratis
       </span>
       
-      <!-- BOTÓN DE SALIDA RÁPIDA HEADER -->
-      <button onclick="abrirModalSalida()" style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); color:#FCA5A5; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:800; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; cursor:pointer; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.25)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(239,68,68,0.12)'; this.style.borderColor='rgba(239,68,68,0.35)';">
-        <svg style="display:inline-block;vertical-align:-2px;margin-right:4px;filter:drop-shadow(0 0 8px rgba(239,68,68,0.7))" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> SALIR
-      </button>
+
     </div>
   </div>
 
@@ -2180,7 +2177,7 @@ body.daylight-mode .btn-keypad:hover {
 
   <!-- 4. Copyright Footer Fijo y Discreto -->
   <div style="position:relative; z-index:10; font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; color:#94A3B8; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,0.9); margin-top:8px;">
-    DIAMAX PRO © 2026 · Diseñado &amp; Desarrollado por <strong style="color:#FFF;">3Tree Digital Sport IA</strong> · CEO Alí Zapata &nbsp;·&nbsp; <a onclick="abrirModalSalida()" style="color:#EF4444; font-weight:700; cursor:pointer; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.color='#F87171'" onmouseout="this.style.color='#EF4444'">⏻ Salir</a>
+    DIAMAX PRO © 2026 · Diseñado &amp; Desarrollado por <strong style="color:#FFF;">3Tree Digital Sport IA</strong> · CEO Alí Zapata
   </div>
 
 </div>
@@ -2734,7 +2731,7 @@ body.daylight-mode .btn-keypad:hover {
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
       <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900;" title="Refrescar y limpiar base de datos a cero para el partido">🔄 Refrescar BD</button>
-      <button id="btn-membership-header" onclick="irAPagina(1)" class="btn-settings" style="background:linear-gradient(135deg, rgba(242,101,34,0.35), rgba(0,210,255,0.25)); border:1.5px solid #F26522; color:#FFF; font-weight:900; box-shadow:0 0 16px rgba(242,101,34,0.4); cursor:pointer;" title="Registrar Equipo, Hoja Oficial y Planes (1 Mes Gratis)">🎟️ Registro & Planes (Mes Gratis)</button>
+      <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900; box-shadow:0 0 16px rgba(239,68,68,0.35); cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.35)'; this.style.boxShadow='0 0 24px rgba(239,68,68,0.6)';" onmouseout="this.style.background='rgba(239,68,68,0.18)'; this.style.boxShadow='0 0 16px rgba(239,68,68,0.35)';" title="Salir del Sistema Seguro y Cerrar Sesión"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> ⏻ Salir del Sistema</button>
       <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA">⚙️ Configuración</button>
     </div>
   </div>
@@ -5740,12 +5737,31 @@ function toggleBaseManual(n) {
 
 function ajustarCarrerasManual(type, delta) {
   const g = getActiveGame();
+  const currentInn = Math.max(1, liveState.inning || 1);
+  const innIdx = currentInn - 1;
+  
+  if (!Array.isArray(liveState.inningsUs)) liveState.inningsUs = [0,0,0,0,0,0,0,0,0];
+  if (!Array.isArray(liveState.inningsThem)) liveState.inningsThem = [0,0,0,0,0,0,0,0,0];
+  while (liveState.inningsUs.length <= innIdx) liveState.inningsUs.push(0);
+  while (liveState.inningsThem.length <= innIdx) liveState.inningsThem.push(0);
+
+  const isHome = g.isHomeClub !== false;
   if (type === 'away') {
-    if (g.isHomeClub) liveState.scoreThem = Math.max(0, (liveState.scoreThem || 0) + delta);
-    else liveState.scoreUs = Math.max(0, (liveState.scoreUs || 0) + delta);
+    if (isHome) {
+      liveState.scoreThem = Math.max(0, (liveState.scoreThem || 0) + delta);
+      liveState.inningsThem[innIdx] = Math.max(0, (liveState.inningsThem[innIdx] || 0) + delta);
+    } else {
+      liveState.scoreUs = Math.max(0, (liveState.scoreUs || 0) + delta);
+      liveState.inningsUs[innIdx] = Math.max(0, (liveState.inningsUs[innIdx] || 0) + delta);
+    }
   } else {
-    if (g.isHomeClub) liveState.scoreUs = Math.max(0, (liveState.scoreUs || 0) + delta);
-    else liveState.scoreThem = Math.max(0, (liveState.scoreThem || 0) + delta);
+    if (isHome) {
+      liveState.scoreUs = Math.max(0, (liveState.scoreUs || 0) + delta);
+      liveState.inningsUs[innIdx] = Math.max(0, (liveState.inningsUs[innIdx] || 0) + delta);
+    } else {
+      liveState.scoreThem = Math.max(0, (liveState.scoreThem || 0) + delta);
+      liveState.inningsThem[innIdx] = Math.max(0, (liveState.inningsThem[innIdx] || 0) + delta);
+    }
   }
   initSecurityPortal();
   initFirebaseFromStorage();
@@ -5939,7 +5955,7 @@ window.DIAMAX_OFFLINE_ENGINE = {
   init: function() {
     // 1. Registro del Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=4.5')
+      navigator.serviceWorker.register('./sw.js?v=4.6')
         .then(reg => {
           reg.update();
           console.log('[3TREE OFFLINE] Service Worker v3.2 registrado con éxito:', reg.scope);
@@ -8075,6 +8091,30 @@ const DP_GROUND_MAP = {
   "6-4-3 DP": [{ a: "SS" }, { a: "2B", po: "2B" }, { po: "1B" }],
   "4-6-3 DP": [{ a: "2B" }, { a: "SS", po: "SS" }, { po: "1B" }]
 };
+
+
+// ═══════════════════════════════════════════════════════════════
+// ⚾ GESTIÓN DE CARRERAS EXACTAS POR INNING
+// ═══════════════════════════════════════════════════════════════
+function sumarCarreraInning(isGVE, cantidad) {
+  if (!cantidad || cantidad <= 0) return;
+  const currentInn = Math.max(1, liveState.inning || 1);
+  const innIdx = currentInn - 1;
+  
+  if (!Array.isArray(liveState.inningsUs)) liveState.inningsUs = [0,0,0,0,0,0,0,0,0];
+  if (!Array.isArray(liveState.inningsThem)) liveState.inningsThem = [0,0,0,0,0,0,0,0,0];
+  
+  while (liveState.inningsUs.length <= innIdx) liveState.inningsUs.push(0);
+  while (liveState.inningsThem.length <= innIdx) liveState.inningsThem.push(0);
+  
+  if (isGVE) {
+    liveState.scoreUs = (liveState.scoreUs || 0) + cantidad;
+    liveState.inningsUs[innIdx] = (liveState.inningsUs[innIdx] || 0) + cantidad;
+  } else {
+    liveState.scoreThem = (liveState.scoreThem || 0) + cantidad;
+    liveState.inningsThem[innIdx] = (liveState.inningsThem[innIdx] || 0) + cantidad;
+  }
+}
 
 function registrarJugadaLive(action) {
   const current = getLiveCurrentBatter(), pId = current.player.id, pName = current.player.name;

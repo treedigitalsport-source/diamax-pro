@@ -7,7 +7,7 @@
  * Todos los derechos reservados 2026. CEO Alí Zapata.
  */
 
-const CACHE_NAME = 'diamax-pro-v4.5-pure-cinematic';
+const CACHE_NAME = 'diamax-pro-v4.6-dugout-innings-perfect';
 const OFFLINE_URL = 'index.html';
 
 const ASSETS_TO_CACHE = [
