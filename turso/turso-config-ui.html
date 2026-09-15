@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>DIAMAX PRO — Configuración Turso Offline</title>
+<style>
+  body { background:#0B1329; color:#fff; font-family:'Rajdhani',sans-serif; margin:0; padding:20px; }
+  .card { background:rgba(255,255,255,0.06); border:1px solid rgba(0,242,254,0.3); border-radius:16px; padding:24px; max-width:480px; margin:0 auto; }
+  h2 { color:#00F2FE; margin:0 0 4px 0; font-size:20px; }
+  .subtitle { color:#94A3B8; font-size:12px; margin-bottom:20px; }
+  label { display:block; color:#94A3B8; font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:4px; }
+  input { width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:10px 14px; border-radius:10px; font-size:13px; margin-bottom:14px; box-sizing:border-box; }
+  input:focus { outline:none; border-color:#00F2FE; }
+  .btn { background:linear-gradient(135deg,#00F2FE,#0284C7); color:#000; border:none; padding:12px 24px; border-radius:12px; font-weight:900; font-size:14px; cursor:pointer; width:100%; margin-bottom:10px; }
+  .btn-sec { background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.2); }
+  .status { text-align:center; padding:10px; border-radius:10px; font-weight:700; font-size:13px; margin-top:10px; display:none; }
+  .status.ok { background:rgba(34,197,94,0.2); color:#22C55E; }
+  .status.err { background:rgba(239,68,68,0.2); color:#EF4444; }
+  .queue-info { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); color:#F59E0B; border-radius:10px; padding:10px; font-size:12px; margin-top:12px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>⚾ DIAMAX PRO — Turso Offline</h2>
+  <p class="subtitle">Configuración de Base de Datos Offline para el Dugout</p>
+  
+  <label>Liga / Base de Datos</label>
+  <input id="turso-league" placeholder="Liga Tampa Junior 2026" />
+  
+  <label>Turso DB URL</label>
+  <input id="turso-url" placeholder="libsql://liga-tampa-2026-user.turso.io" />
+  
+  <label>Auth Token</label>
+  <input id="turso-token" type="password" placeholder="Token de acceso Turso" />
+  
+  <button class="btn" onclick="guardarConfig()">💾 GUARDAR Y CONECTAR</button>
+  <button class="btn btn-sec" onclick="probarConexion()">🔌 PROBAR CONEXIÓN</button>
+  
+  <div id="status" class="status"></div>
+  
+  <div class="queue-info" id="queue-info" style="display:none">
+    📡 Cola offline: <span id="queue-count">0</span> eventos pendientes de sincronizar
+    <button onclick="DiamaxTursoService.syncOfflineQueue()" style="background:#F59E0B;color:#000;border:none;border-radius:8px;padding:4px 12px;cursor:pointer;font-weight:700;margin-left:10px;">Sync Ahora</button>
+  </div>
+</div>
+
+<script>
+  function showStatus(msg, isOk) {
+    const s = document.getElementById('status');
+    s.textContent = msg; s.style.display = 'block';
+    s.className = 'status ' + (isOk ? 'ok' : 'err');
+  }
+  
+  function guardarConfig() {
+    const url = document.getElementById('turso-url').value.trim();
+    const token = document.getElementById('turso-token').value.trim();
+    const league = document.getElementById('turso-league').value.trim();
+    if (!url || !token) { showStatus('❌ Ingresa URL y Token', false); return; }
+    if (typeof DiamaxTursoService !== 'undefined') {
+      DiamaxTursoService.configure(url, token)
+        .then(ok => showStatus(ok ? '✅ Conectado a ' + league : '❌ Error de conexión', ok));
+    } else {
+      localStorage.setItem('diamax_turso_config', JSON.stringify({ dbUrl: url, authToken: token, league }));
+      showStatus('✅ Configuración guardada para ' + league, true);
+    }
+  }
+  
+  function probarConexion() {
+    showStatus('🔄 Probando conexión...', true);
+    if (typeof DiamaxTursoService !== 'undefined') {
+      DiamaxTursoService.init()
+        .then(ok => showStatus(ok ? '✅ Conexión exitosa' : '❌ Sin conexión', ok));
+    } else {
+      showStatus('⚠️ Servicio Turso no cargado en esta página', false);
+    }
+  }
+  
+  // Cargar configuración guardada
+  window.onload = function() {
+    try {
+      const c = JSON.parse(localStorage.getItem('diamax_turso_config') || '{}');
+      if (c.dbUrl) document.getElementById('turso-url').value = c.dbUrl;
+      if (c.authToken) document.getElementById('turso-token').value = c.authToken;
+      if (c.league) document.getElementById('turso-league').value = c.league;
+      
+      if (typeof DiamaxTursoService !== 'undefined') {
+        const qSize = DiamaxTursoService.getQueueSize();
+        if (qSize > 0) {
+          document.getElementById('queue-info').style.display = 'block';
+          document.getElementById('queue-count').textContent = qSize;
+        }
+      }
+    } catch(e) {}
+  };
+</script>
+</body>
+</html>
