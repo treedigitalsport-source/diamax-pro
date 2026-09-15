@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '4.2-hero-translucent';
+  const DEPLOY_VERSION = '4.3-ultra-glass';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -2100,9 +2100,7 @@ body.daylight-mode .btn-keypad:hover {
   <!-- 1. Header Superior Apple Sports Minimalista -->
   <div style="position:relative; z-index:10; width:100%; max-width:960px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
     <div style="display:flex; align-items:center; gap:10px; background:rgba(6,12,26,0.55); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.1); padding:6px 14px; border-radius:24px;">
-      <div style="width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg, #18D8FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:14px; box-shadow:0 0 12px rgba(24,216,255,0.4);">
-        💎
-      </div>
+      <img src="./3tree_digital_logo.png" alt="3Tree Digital" style="height:30px; width:auto; border-radius:6px; filter:drop-shadow(0 0 8px rgba(24,216,255,0.35));">
       <div>
         <div style="font-size:13.5px; font-weight:900; color:#FFF; letter-spacing:0.8px; line-height:1.1;">DIAMAX PRO™</div>
         <div style="font-size:9px; color:#18D8FF; font-weight:700; letter-spacing:0.4px;">3Tree Digital Sport IA</div>
@@ -2124,7 +2122,7 @@ body.daylight-mode .btn-keypad:hover {
   </div>
 
   <!-- 3. Chasis Flotante Translúcido en Tercio Inferior (Apple Liquid Glass Dock) -->
-  <div style="position:relative; z-index:10; width:100%; max-width:680px; background:rgba(6, 12, 26, 0.48); border:1px solid rgba(255,255,255,0.14); border-radius:22px; padding:18px 22px; backdrop-filter:blur(24px) saturate(190%); -webkit-backdrop-filter:blur(24px) saturate(190%); box-shadow:0 20px 60px rgba(0,0,0,0.65), 0 0 35px rgba(24,216,255,0.14), inset 0 1px 0 rgba(255,255,255,0.25); text-align:center;">
+  <div style="position:relative; z-index:10; width:100%; max-width:680px; background:rgba(6, 12, 26, 0.18); border:1px solid rgba(255,255,255,0.10); border-radius:22px; padding:18px 22px; backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%); box-shadow:0 12px 40px rgba(0,0,0,0.35), 0 0 20px rgba(24,216,255,0.08), inset 0 1px 0 rgba(255,255,255,0.15); text-align:center;">
     
     <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-bottom:8px;">
       <span style="display:inline-block; padding:3px 10px; background:rgba(24,216,255,0.12); border:1px solid rgba(24,216,255,0.3); border-radius:14px; color:#18D8FF; font-size:10px; font-weight:900; letter-spacing:0.8px; text-transform:uppercase;">
@@ -5928,7 +5926,7 @@ window.DIAMAX_OFFLINE_ENGINE = {
   init: function() {
     // 1. Registro del Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=4.2')
+      navigator.serviceWorker.register('./sw.js?v=4.3')
         .then(reg => {
           reg.update();
           console.log('[3TREE OFFLINE] Service Worker v3.2 registrado con éxito:', reg.scope);
