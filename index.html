@@ -2,6 +2,28 @@
 <html lang="es">
 <head>
 
+<!-- 🚀 DIAMAX v4.1 NEXT-GEN CACHE BUSTER & INSTANT AUTO-UPDATE -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script>
+(function() {
+  const DEPLOY_VERSION = '4.1-nextgen-ultra';
+  if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
+    localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
+    if ('caches' in window) {
+      caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))));
+    }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        for (let r of regs) r.update();
+      });
+    }
+  }
+})();
+</script>
+
+
 <!-- 
   ========================================================================
   💎 DIAMAX PRO SPORTS OPERATING SYSTEM © 2026
@@ -1640,427 +1662,419 @@ body.daylight-mode .btn-keypad:hover {
    ========================================================================== */
 
 :root {
-  /* Primary Background & Environmental Gradients */
-  --bg-obsidian: #050912;
-  --bg-obsidian-glass: rgba(7, 13, 26, 0.78);
-  --bg-glass-card: rgba(11, 20, 38, 0.72);
-  --bg-glass-floating: rgba(14, 25, 48, 0.82);
-  --bg-glass-input: rgba(4, 9, 20, 0.65);
+  --bg-obsidian: #040814;
+  --bg-obsidian-surface: rgba(7, 13, 26, 0.82);
+  --bg-glass-card: rgba(11, 20, 40, 0.75);
+  --bg-glass-floating: rgba(13, 24, 48, 0.85);
+  --bg-glass-input: rgba(3, 7, 18, 0.82);
   
-  /* Precision Color Hierarchy */
-  --accent-cyan: #18D8FF;          /* Technology, Active Navigation, Telemetry */
+  --accent-cyan: #18D8FF;
   --accent-cyan-dim: rgba(24, 216, 255, 0.15);
-  --accent-cyan-glow: rgba(24, 216, 255, 0.28);
+  --accent-cyan-glow: rgba(24, 216, 255, 0.32);
   
-  --accent-gold: #FFB82E;          /* Titanium Gold: Crucial Actions, Highlights */
+  --accent-gold: #FFB82E;
   --accent-gold-dim: rgba(255, 184, 46, 0.14);
   --accent-gold-glow: rgba(255, 184, 46, 0.35);
   
-  --accent-violet: #8B5CF6;        /* Deep Violet: AI Neural Engine & Prediction */
+  --accent-violet: #8B5CF6;
   --accent-violet-dim: rgba(139, 92, 246, 0.16);
   --accent-violet-glow: rgba(139, 92, 246, 0.35);
   
-  --status-emerald: #18C995;       /* Positive, Synchronized, Safe */
+  --status-emerald: #18C995;
   --status-emerald-dim: rgba(24, 201, 149, 0.16);
   --status-emerald-glow: rgba(24, 201, 149, 0.35);
   
-  --status-amber: #F59E0B;         /* Warning / Tactical Attention */
-  --status-crimson: #EF4444;       /* Critical Alerts / Outs */
+  --glass-border-subtle: rgba(255, 255, 255, 0.09);
+  --glass-border-glow-cyan: rgba(24, 216, 255, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4);
   
-  /* Glass Specular Boundaries & Shadows */
-  --glass-border-subtle: rgba(255, 255, 255, 0.08);
-  --glass-border-glow-cyan: rgba(24, 216, 255, 0.3);
-  --glass-border-glow-violet: rgba(139, 92, 246, 0.35);
-  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.35);
-  
-  --glass-blur-deep: blur(28px) saturate(190%);
-  --glass-blur-card: blur(20px) saturate(180%);
-  --glass-blur-micro: blur(12px);
-  
-  --shadow-ambient-lg: 0 25px 60px -10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.6);
-  --shadow-ambient-md: 0 12px 32px rgba(0, 0, 0, 0.5);
-  --shadow-volumetric-cyan: 0 0 50px -10px rgba(24, 216, 255, 0.2);
-  --shadow-volumetric-violet: 0 0 50px -10px rgba(139, 92, 246, 0.25);
-  
-  --radius-xl: 22px;
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-pill: 9999px;
-  
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
-  --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --shadow-ambient-lg: 0 30px 80px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(0, 0, 0, 0.7);
+  --shadow-volumetric-cyan: 0 0 60px -10px rgba(24, 216, 255, 0.22);
 }
 
-/* Global Atmosphere & Background */
-body {
-  background-color: var(--bg-obsidian) !important;
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(24, 216, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 15% 30%, rgba(139, 92, 246, 0.07) 0%, transparent 45%),
-    radial-gradient(circle at 85% 65%, rgba(255, 184, 46, 0.05) 0%, transparent 40%),
-    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px) !important;
-  background-size: 100% 100%, 100% 100%, 100% 100%, 72px 72px, 72px 72px !important;
-  background-attachment: fixed !important;
-  color: #F8FAFC !important;
-  font-family: var(--font-sans) !important;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ==========================================================================
-   PÁGINA 2: CINEMATIC REGISTRATION & SUBSCRIPTION WIZARD
-   ========================================================================== */
+/* Page 2 Global & Outer Frame */
 #diamax-page-2 {
-  background: radial-gradient(circle at 50% 10%, rgba(24, 216, 255, 0.07) 0%, transparent 60%),
-              radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-              #050912 !important;
-  backdrop-filter: var(--glass-blur-deep) !important;
+  background: radial-gradient(circle at 50% 0%, rgba(24, 216, 255, 0.1) 0%, transparent 60%),
+              radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+              #030712 !important;
+  backdrop-filter: blur(28px) !important;
 }
 
 #diamax-page-2 > div {
-  background: var(--bg-obsidian-glass) !important;
-  backdrop-filter: var(--glass-blur-deep) !important;
-  -webkit-backdrop-filter: var(--glass-blur-deep) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-xl) !important;
-  box-shadow: var(--shadow-ambient-lg), var(--shadow-volumetric-cyan), var(--glass-highlight) !important;
+  background: rgba(7, 13, 26, 0.88) !important;
+  backdrop-filter: blur(32px) !important;
+  -webkit-backdrop-filter: blur(32px) !important;
+  border: 1px solid rgba(24, 216, 255, 0.28) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(24, 216, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-/* Page 2 Top Header */
-#diamax-page-2 > div > div:first-child {
-  background: linear-gradient(180deg, rgba(16, 28, 54, 0.85) 0%, rgba(9, 17, 34, 0.75) 100%) !important;
-  border-bottom: 1px solid var(--glass-border-subtle) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-}
-
-/* Page 2 Stepper Bar */
+/* Stepper Container in Page 2 */
 #p2-stepper-container {
-  background: rgba(7, 13, 28, 0.7) !important;
-  border: 1px solid rgba(24, 216, 255, 0.18) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
+  background: rgba(5, 11, 24, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 18px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Page 2 Wizard Step Cards */
+/* Cards inside Page 2 */
 #p2-wizard-paso-1 > div,
 #p2-wizard-paso-2 > div,
 #p2-wizard-paso-3 > div,
 #p2-wizard-paso-4 > div,
-#p2-wizard-paso-5 > div,
-#p2-sub-login > div {
-  background: var(--bg-glass-card) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+#p2-wizard-paso-5 > div {
+  background: rgba(8, 16, 34, 0.76) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 }
 
-/* Inputs & Form Fields */
-#diamax-page-2 input,
-#diamax-page-2 select,
-#diamax-page-2 textarea {
-  background: var(--bg-glass-input) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: var(--radius-md) !important;
-  color: #FFF !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
-  backdrop-filter: var(--glass-blur-micro) !important;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+/* Input Fields inside Page 2 */
+#diamax-page-2 input[type="text"],
+#diamax-page-2 input[type="email"],
+#diamax-page-2 input[type="password"],
+#diamax-page-2 input[type="tel"],
+#diamax-page-2 select {
+  background: rgba(3, 7, 18, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px !important;
+  color: #FFFFFF !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
+
 #diamax-page-2 input:focus,
 #diamax-page-2 select:focus {
-  border-color: var(--accent-cyan) !important;
-  box-shadow: 0 0 16px var(--accent-cyan-glow), inset 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+  border-color: #18D8FF !important;
+  box-shadow: 0 0 18px rgba(24, 216, 255, 0.32), inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+  outline: none !important;
 }
 
-/* Primary Action Buttons */
-#diamax-page-2 button[type="submit"],
-#diamax-page-2 button[onclick*="validarYAvanzar"],
-#diamax-page-2 button[onclick*="confirmarYVerificar"] {
-  background: linear-gradient(135deg, var(--accent-cyan) 0%, #0284C7 100%) !important;
-  color: #020617 !important;
+/* Plan Cards inside Step 3 */
+#p2-plan-card-TRIAL {
+  background: linear-gradient(165deg, rgba(14, 30, 60, 0.95), rgba(6, 14, 32, 0.98)) !important;
+  border: 2px solid #18D8FF !important;
+  border-radius: 18px !important;
+  box-shadow: 0 0 35px rgba(24, 216, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-2px);
+}
+
+#p2-plan-card-MANAGER {
+  background: linear-gradient(165deg, rgba(28, 20, 10, 0.85), rgba(8, 12, 24, 0.9)) !important;
+  border: 1px solid rgba(255, 184, 46, 0.45) !important;
+  border-radius: 18px !important;
+}
+
+#p2-plan-card-LIGA {
+  background: linear-gradient(165deg, rgba(24, 12, 40, 0.85), rgba(8, 12, 24, 0.9)) !important;
+  border: 1px solid rgba(139, 92, 246, 0.45) !important;
+  border-radius: 18px !important;
+}
+
+/* Buttons in Page 2 */
+#diamax-page-2 button[type="button"],
+#diamax-page-2 button[type="submit"] {
+  border-radius: 12px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif !important;
+  letter-spacing: 0.8px !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* PAGE 3: APPLE SPORTS COCKPIT & BROADCAST COMMAND */
+.header,
+#header-container {
+  background: rgba(6, 12, 24, 0.88) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Page 3 Team Avatar Halo */
+.header-team-avatar,
+.avatar {
+  border: 2px solid #FFB82E !important;
+  box-shadow: 0 0 20px rgba(255, 184, 46, 0.35) !important;
+}
+
+/* Page 3 Header Buttons */
+.header button.btn-settings,
+.header button.btn-lang {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #E2E8F0 !important;
+  border-radius: 20px !important;
+  padding: 6px 14px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  backdrop-filter: blur(12px) !important;
+  transition: all 0.2s !important;
+}
+
+.header button.btn-settings:hover,
+.header button.btn-lang:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: #18D8FF !important;
+  color: #FFF !important;
+  box-shadow: 0 0 14px rgba(24, 216, 255, 0.3) !important;
+}
+
+/* Titanium Gold Membership Button in Header */
+#btn-membership-header {
+  background: linear-gradient(135deg, rgba(255, 184, 46, 0.3), rgba(242, 101, 34, 0.25)) !important;
+  border: 1.5px solid #FFB82E !important;
+  color: #FFFFFF !important;
   font-weight: 900 !important;
-  letter-spacing: 0.06em !important;
-  border: none !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: 0 8px 24px -4px rgba(24, 216, 255, 0.45), var(--glass-highlight) !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-#diamax-page-2 button[type="submit"]:hover,
-#diamax-page-2 button[onclick*="validarYAvanzar"]:hover,
-#diamax-page-2 button[onclick*="confirmarYVerificar"]:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 12px 30px -4px rgba(24, 216, 255, 0.65), 0 0 20px var(--accent-cyan) !important;
-  filter: brightness(1.08) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 0 22px rgba(255, 184, 46, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
-/* ==========================================================================
-   PÁGINA 3: NEXT-GENERATION SPORTS INTELLIGENCE DUGOUT COMMAND CENTER
-   ========================================================================== */
-
-/* Stadium Header (Broadcast Glass Command Bar) */
-.header {
-  background: linear-gradient(180deg, rgba(13, 23, 46, 0.85) 0%, rgba(7, 13, 26, 0.8) 100%) !important;
-  backdrop-filter: var(--glass-blur-deep) !important;
-  -webkit-backdrop-filter: var(--glass-blur-deep) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-xl) !important;
-  box-shadow: var(--shadow-ambient-lg), var(--shadow-volumetric-cyan), var(--glass-highlight) !important;
-}
-.team-logo-img {
-  border: 2px solid var(--accent-gold) !important;
-  box-shadow: 0 0 20px var(--accent-gold-glow) !important;
+#btn-membership-header:hover {
+  background: linear-gradient(135deg, #FFB82E, #EA580C) !important;
+  color: #050912 !important;
+  box-shadow: 0 0 30px rgba(255, 184, 46, 0.6) !important;
+  transform: translateY(-1px) scale(1.02) !important;
 }
 
 /* Game Ribbon */
 .game-ribbon {
-  background: rgba(9, 17, 34, 0.72) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+  background: rgba(7, 14, 28, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(24, 216, 255, 0.22) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Navigation Segmented Capsule (Apple Sports Style) */
-.nav {
-  background: rgba(4, 9, 20, 0.65) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-pill) !important;
+/* Main Navigation Dock */
+#main-nav.nav {
+  background: rgba(5, 10, 22, 0.9) !important;
+  backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
   padding: 6px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+  display: flex !important;
   gap: 6px !important;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5) !important;
 }
-.nav button {
+
+#main-nav.nav button {
   background: transparent !important;
   border: 1px solid transparent !important;
-  border-radius: var(--radius-pill) !important;
+  border-radius: 12px !important;
   color: #94A3B8 !important;
   font-weight: 700 !important;
-  padding: 9px 18px !important;
-  font-size: 11.5px !important;
-  letter-spacing: 0.04em !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.nav button:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  color: #FFF !important;
-  transform: translateY(-1px) !important;
-}
-.nav button.active {
-  background: linear-gradient(135deg, rgba(24, 216, 255, 0.25) 0%, rgba(2, 132, 199, 0.35) 100%) !important;
-  border: 1px solid var(--accent-cyan) !important;
-  color: #FFF !important;
-  box-shadow: 0 0 20px var(--accent-cyan-glow), var(--glass-highlight) !important;
-  transform: translateY(-1px) !important;
+  font-size: 12px !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s !important;
 }
 
-/* LIVE GAME HEADER BAR */
-.game-live-header-bar {
-  background: rgba(9, 17, 34, 0.65) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+#main-nav.nav button.active {
+  background: linear-gradient(135deg, rgba(24, 216, 255, 0.2), rgba(2, 132, 199, 0.25)) !important;
+  border: 1px solid #18D8FF !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  box-shadow: 0 0 18px rgba(24, 216, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
-.game-badge {
-  background: rgba(14, 25, 48, 0.7) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 8px !important;
-  font-family: var(--font-mono) !important;
-  color: #CBD5E1 !important;
+
+#main-nav.nav button:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #F1F5F9 !important;
 }
+
+/* Tactical AI Section */
+#ai-scout-card,
+.tactical-ai-card,
+#tactical-ai-engine {
+  border: 1.5px solid rgba(139, 92, 246, 0.45) !important;
+  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 70%), rgba(8, 14, 30, 0.85) !important;
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
 
 /* ==========================================================================
-   VISUAL FOCAL POINT: AI TACTICAL INTELLIGENCE COMMAND ENGINE
-   (Deep Violet / Ultraviolet Ambient Aura + Cyan Precision Telemetry)
+   🏟️ PÁGINA 3: APPLE SPORTS & BROADCAST COMMAND CENTER LUXURY OVERRIDES
    ========================================================================== */
-.ai-tactical-card {
-  background: linear-gradient(145deg, rgba(17, 24, 52, 0.88) 0%, rgba(10, 14, 30, 0.92) 100%) !important;
-  backdrop-filter: var(--glass-blur-deep) !important;
-  -webkit-backdrop-filter: var(--glass-blur-deep) !important;
-  border: 1.5px solid rgba(139, 92, 246, 0.45) !important;
-  border-radius: var(--radius-xl) !important;
-  box-shadow: var(--shadow-ambient-lg), var(--shadow-volumetric-violet), var(--glass-highlight) !important;
-  position: relative !important;
-  overflow: hidden !important;
+
+/* Main Header Container */
+.header,
+#header-container {
+  background: rgba(6, 12, 24, 0.92) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7) !important;
+  padding: 14px 20px !important;
 }
 
-/* Subtle holographic corner highlight for AI */
-.ai-tactical-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 30%, var(--accent-violet) 70%, transparent 100%);
-  opacity: 0.8;
+/* Header Avatar */
+.header-team-avatar,
+.avatar {
+  border: 2px solid #FFB82E !important;
+  box-shadow: 0 0 20px rgba(255, 184, 46, 0.4) !important;
+  background: radial-gradient(circle, #0F172A 0%, #030712 100%) !important;
 }
 
-.ai-quick-btn-grid {
-  gap: 10px !important;
+/* Header Buttons System */
+.header button.btn-settings,
+.header button.btn-lang {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #E2E8F0 !important;
+  border-radius: 20px !important;
+  padding: 7px 14px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
-.btn-ai-quick {
-  background: rgba(18, 28, 58, 0.6) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: var(--radius-md) !important;
-  color: var(--accent-cyan) !important;
+
+.header button.btn-settings:hover,
+.header button.btn-lang:hover {
+  background: rgba(24, 216, 255, 0.15) !important;
+  border-color: #18D8FF !important;
+  color: #FFF !important;
+  box-shadow: 0 0 16px rgba(24, 216, 255, 0.35) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Specific Action Buttons in Header */
+.header button.btn-new-game {
+  background: linear-gradient(135deg, #10B981, #059669) !important;
+  color: #FFF !important;
+  font-weight: 900 !important;
+  border: none !important;
+  border-radius: 20px !important;
+  padding: 8px 18px !important;
+  font-size: 12px !important;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
+  transition: all 0.2s !important;
+}
+
+.header button.btn-new-game:hover {
+  transform: translateY(-1px) scale(1.02) !important;
+  box-shadow: 0 0 26px rgba(16, 185, 129, 0.6) !important;
+}
+
+#btn-refresh-db {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  color: #FCA5A5 !important;
+  border-radius: 20px !important;
+  padding: 7px 14px !important;
+}
+
+#btn-refresh-db:hover {
+  background: rgba(239, 68, 68, 0.25) !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.4) !important;
+}
+
+#btn-membership-header {
+  background: linear-gradient(135deg, #FFB82E, #EA580C) !important;
+  border: none !important;
+  color: #040814 !important;
+  font-weight: 900 !important;
+  border-radius: 20px !important;
+  padding: 8px 18px !important;
+  box-shadow: 0 0 25px rgba(255, 184, 46, 0.5) !important;
+  letter-spacing: 0.5px !important;
+}
+
+#btn-membership-header:hover {
+  transform: translateY(-1px) scale(1.03) !important;
+  box-shadow: 0 0 35px rgba(255, 184, 46, 0.75) !important;
+}
+
+/* Game Ribbon */
+.game-ribbon {
+  background: rgba(7, 14, 28, 0.88) !important;
+  backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(24, 216, 255, 0.25) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  padding: 12px 18px !important;
+}
+
+/* Apple Sports Floating Navigation Dock */
+#main-nav.nav {
+  background: rgba(5, 10, 22, 0.94) !important;
+  backdrop-filter: blur(28px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 20px !important;
+  padding: 6px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-bottom: 16px !important;
+}
+
+#main-nav.nav button {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 14px !important;
+  color: #94A3B8 !important;
   font-weight: 800 !important;
   font-size: 11.5px !important;
-  padding: 10px 12px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), var(--glass-highlight) !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.btn-ai-quick:hover {
-  background: rgba(24, 216, 255, 0.18) !important;
-  border-color: var(--accent-cyan) !important;
-  color: #FFF !important;
-  box-shadow: 0 0 20px var(--accent-cyan-glow), var(--glass-highlight) !important;
-  transform: translateY(-2px) !important;
-}
-.ai-response-box {
-  background: rgba(4, 8, 18, 0.85) !important;
-  border: 1px solid rgba(139, 92, 246, 0.25) !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
-  color: #E2E8F0 !important;
-  font-family: var(--font-sans) !important;
-  line-height: 1.6 !important;
+  padding: 9px 18px !important;
+  letter-spacing: 0.4px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* ==========================================================================
-   PANELS, SCOREBOARD & DUGOUT KEYPAD
-   ========================================================================== */
-.panel {
-  background: var(--bg-glass-card) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  -webkit-backdrop-filter: var(--glass-blur-card) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-xl) !important;
-  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.panel:hover {
-  border-color: rgba(255, 255, 255, 0.16) !important;
-  box-shadow: var(--shadow-ambient-lg), var(--glass-highlight) !important;
+#main-nav.nav button:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
 }
 
-/* Scoreboard (High-End Broadcast LED) */
-.scoreboard {
-  background: linear-gradient(180deg, rgba(3, 7, 16, 0.95) 0%, rgba(6, 12, 24, 0.9) 100%) !important;
-  border: 1px solid rgba(255, 184, 46, 0.28) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.85), 0 8px 24px rgba(0, 0, 0, 0.6) !important;
-}
-.score-num {
-  font-family: var(--font-mono) !important;
-  font-size: 38px !important;
+#main-nav.nav button.active {
+  background: linear-gradient(135deg, rgba(24, 216, 255, 0.22), rgba(2, 132, 199, 0.3)) !important;
+  border: 1.5px solid #18D8FF !important;
+  color: #FFFFFF !important;
   font-weight: 900 !important;
-  text-shadow: 0 0 25px currentColor !important;
+  box-shadow: 0 0 20px rgba(24, 216, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
 }
 
-/* Outs LED Indicator */
-.outs-container {
+/* Tactical AI Card (Command Center) */
+.ai-tactical-card,
+#tactical-ai-engine {
+  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.14) 0%, transparent 75%), rgba(8, 14, 30, 0.88) !important;
+  backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(139, 92, 246, 0.4) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  padding: 18px 22px !important;
+}
+
+/* AI Quick Action Buttons */
+.ai-quick-btn-grid button.btn-ai-quick {
   background: rgba(4, 9, 20, 0.75) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-.out-led-lamp.on {
-  background: var(--status-crimson) !important;
-  border-color: var(--status-crimson) !important;
-  box-shadow: 0 0 14px var(--status-crimson) !important;
-}
-
-/* Pitch Tracker Card & Bullpen */
-.pitch-tracker-card {
-  background: var(--bg-glass-card) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
-}
-.pitch-type-btn {
-  background: rgba(14, 25, 48, 0.7) !important;
-  backdrop-filter: var(--glass-blur-micro) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: var(--glass-highlight) !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.pitch-type-btn:hover {
-  border-color: var(--accent-cyan) !important;
-  box-shadow: 0 0 16px var(--accent-cyan-glow), var(--glass-highlight) !important;
-  transform: translateY(-2px) !important;
+  border-radius: 12px !important;
+  color: #CBD5E1 !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  padding: 10px 14px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Dugout Action Buttons */
-.btn-action {
-  background: rgba(14, 25, 48, 0.75) !important;
-  backdrop-filter: var(--glass-blur-micro) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), var(--glass-highlight) !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.btn-action:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), var(--glass-highlight) !important;
-}
-.btn-action.btn-hit {
-  background: linear-gradient(145deg, rgba(6, 78, 59, 0.8) 0%, rgba(4, 48, 36, 0.9) 100%) !important;
-  border-color: rgba(24, 201, 149, 0.5) !important;
-  color: #A7F3D0 !important;
-}
-.btn-action.btn-hit:hover {
-  box-shadow: 0 0 25px var(--status-emerald-glow) !important;
-}
-.btn-action.btn-hr {
-  background: linear-gradient(145deg, rgba(180, 83, 9, 0.8) 0%, rgba(120, 53, 15, 0.9) 100%) !important;
-  border-color: var(--accent-gold) !important;
-  color: #FEF3C7 !important;
-}
-.btn-action.btn-hr:hover {
-  box-shadow: 0 0 25px var(--accent-gold-glow) !important;
-}
-.btn-action.btn-out {
-  background: linear-gradient(145deg, rgba(69, 10, 10, 0.8) 0%, rgba(40, 6, 6, 0.9) 100%) !important;
-  border-color: rgba(239, 68, 68, 0.5) !important;
-  color: #FECACA !important;
-}
-.btn-action.btn-out:hover {
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.35) !important;
+.ai-quick-btn-grid button.btn-ai-quick:hover {
+  background: rgba(24, 216, 255, 0.15) !important;
+  border-color: #18D8FF !important;
+  color: #FFF !important;
+  box-shadow: 0 0 16px rgba(24, 216, 255, 0.3) !important;
+  transform: translateY(-1px) !important;
 }
 
-/* Batter Card Active */
-.batter-card-active {
-  background: linear-gradient(145deg, rgba(16, 28, 54, 0.8) 0%, rgba(9, 17, 34, 0.85) 100%) !important;
-  border: 1.5px solid var(--accent-gold) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: 0 0 25px var(--accent-gold-dim), var(--glass-highlight) !important;
-}
-.batter-img {
-  border: 2px solid var(--accent-gold) !important;
-  box-shadow: 0 0 16px var(--accent-gold-glow) !important;
-}
-
-/* 2D Stadium Field */
-.field-container, .field-wrapper {
-  background: radial-gradient(circle at 50% 90%, #0c2b1a 0%, #06180f 65%, #030a06 100%) !important;
-  border: 1.5px solid rgba(24, 201, 149, 0.35) !important;
-  border-radius: var(--radius-xl) !important;
-  box-shadow: 0 0 45px rgba(24, 201, 149, 0.15), inset 0 0 70px rgba(0, 0, 0, 0.85) !important;
-}
-
-/* Analytics Chart Cards */
-.chart-card {
-  background: var(--bg-glass-card) !important;
-  backdrop-filter: var(--glass-blur-card) !important;
-  border: 1px solid var(--glass-border-subtle) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+/* Live Action Banner */
+.live-action-banner {
+  background: rgba(24, 216, 255, 0.08) !important;
+  border: 1px solid rgba(24, 216, 255, 0.25) !important;
+  border-radius: 14px !important;
+  color: #18D8FF !important;
+  font-weight: 800 !important;
+  font-size: 12.5px !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
 </style>
@@ -2150,61 +2164,68 @@ body {
 <!-- ======================================================================== -->
 <!-- 📋 PÁGINA 2: PANTALLA FORMULARIO GUIADO & VERIFICACIÓN                  -->
 <!-- ======================================================================== -->
-<div id="diamax-page-2" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:#020617; overflow-y:auto; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; padding:20px 14px; box-sizing:border-box;">
+<!-- ======================================================================== -->
+<!-- 💎 PÁGINA 2: NEXT-GEN SPORTS REGISTRATION & SUBSCRIPTION INTELLIGENCE    -->
+<!-- ======================================================================== -->
+<div id="diamax-page-2" class="diamax-page-2-luxury" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:radial-gradient(ellipse at 50% -10%, rgba(24, 216, 255, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.1) 0%, transparent 50%), #030712; overflow-y:auto; font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif; padding:24px 14px 60px 14px; box-sizing:border-box;">
   
-  <div style="max-width:760px; margin:0 auto; background:rgba(9,19,41,0.85); border:1.5px solid rgba(0,210,255,0.4); border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,0.9), 0 0 35px rgba(0,210,255,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); overflow:hidden;">
+  <div style="max-width:860px; margin:0 auto; background:rgba(7, 13, 26, 0.92); border:1px solid rgba(24, 216, 255, 0.3); border-radius:24px; box-shadow:0 30px 90px rgba(0,0,0,0.9), 0 0 50px rgba(24, 216, 255, 0.15), inset 0 1px 0 rgba(255,255,255,0.2); backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px); overflow:hidden;">
     
-    <!-- Barra Superior de la Página 2 -->
-    <div style="background:linear-gradient(135deg, #070e1e, #0d1a38); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); flex-wrap:wrap; gap:10px;">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <button onclick="irAPagina(1)" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#00D2FF; font-size:12px; font-weight:800; padding:6px 12px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+    <!-- Barra Superior de la Página 2 (Apple Sports Luxury Bar) -->
+    <div style="background:linear-gradient(135deg, rgba(10,22,46,0.95), rgba(6,12,24,0.95)); padding:18px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); flex-wrap:wrap; gap:12px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button onclick="irAPagina(1)" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); color:#18D8FF; font-size:12px; font-weight:800; padding:8px 16px; border-radius:20px; cursor:pointer; display:flex; align-items:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.15)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.14)';">
           <span>⬅️</span> <span>Página 1 (Portada)</span>
         </button>
-        <div>
-          <h2 style="margin:0; font-size:16px; font-weight:900; color:#FFF;">🎟️ PÁGINA 2: REGISTRO & PLANES (MES GRATIS)</h2>
-          <span style="font-size:10px; color:#94A3B8;">Ecosistema de Seguridad 3Tree Digital Sport IA</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, #18D8FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 0 16px rgba(24,216,255,0.4);">💎</div>
+          <div>
+            <h2 style="margin:0; font-size:15px; font-weight:900; color:#FFF; letter-spacing:0.5px; text-transform:uppercase;">REGISTRO & PLANES (1 MES GRATIS)</h2>
+            <span style="font-size:10.5px; color:#94A3B8; font-weight:600; letter-spacing:0.3px;">DIAMAX INTELLIGENCE SUITE · 3TREE ZERO TRUST DEFENSE</span>
+          </div>
         </div>
       </div>
-      <div style="display:flex; align-items:center; gap:6px;">
-        <button id="p2-tab-reg-btn" onclick="mostrarSubPasoP2('registro')" style="padding:6px 14px; font-size:11.5px; font-weight:800; border-radius:6px; border:1px solid #00D2FF; background:#00D2FF; color:#020617; cursor:pointer;">
+      
+      <!-- Segmented Switch Pill -->
+      <div style="display:flex; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:24px; padding:3px; gap:4px;">
+        <button id="p2-tab-reg-btn" onclick="mostrarSubPasoP2('registro')" style="padding:8px 16px; font-size:11.5px; font-weight:900; border-radius:20px; border:none; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; cursor:pointer; box-shadow:0 0 16px rgba(24,216,255,0.35); transition:all 0.2s;">
           🎟️ Registro & Planes (Mes Gratis)
         </button>
-        <button id="p2-tab-login-btn" onclick="mostrarSubPasoP2('login')" style="padding:6px 12px; font-size:11.5px; font-weight:800; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:#CBD5E1; cursor:pointer;">
+        <button id="p2-tab-login-btn" onclick="mostrarSubPasoP2('login')" style="padding:8px 16px; font-size:11.5px; font-weight:800; border-radius:20px; border:none; background:transparent; color:#94A3B8; cursor:pointer; transition:all 0.2s;">
           🔑 Iniciar Sesión
         </button>
       </div>
     </div>
 
-    <div style="padding:22px;">
+    <div style="padding:24px;">
       
-            <!-- ================================================================ -->
-            <!-- ================================================================ -->
-      <!-- BARRA DE PROGRESO DE 4 PASOS: REGISTRO & PLANES (MES GRATIS)      -->
       <!-- ================================================================ -->
-      <div id="p2-stepper-container" style="margin-bottom:24px; background:#070e1c; border:1px solid rgba(0,210,255,0.25); border-radius:14px; padding:14px 18px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+      <!-- BARRA DE PROGRESO DE 4 PASOS: BROADCAST TELEMETRY TRACKER        -->
+      <!-- ================================================================ -->
+      <div id="p2-stepper-container" style="margin-bottom:26px; background:rgba(5,11,24,0.75); border:1px solid rgba(255,255,255,0.09); border-radius:18px; padding:16px 20px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 24px rgba(0,0,0,0.5);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:16px;">🎟️</span>
-            <span style="font-size:12px; font-weight:900; color:#FFF; text-transform:uppercase; letter-spacing:0.8px;">PROCESO GUIADO: REGISTRO & PLANES</span>
+            <span style="font-size:14px; color:#18D8FF;">⚡</span>
+            <span style="font-size:11.5px; font-weight:900; color:#FFF; text-transform:uppercase; letter-spacing:1px;">FLUJO TELEMÉTRICO DE REGISTRO OFICIAL</span>
           </div>
-          <span id="p2-stepper-text" style="font-size:11px; font-weight:800; color:#00D2FF; background:rgba(0,210,255,0.12); padding:3px 10px; border-radius:12px; border:1px solid #00D2FF;">
-            PASO 1 DE 4: DATOS DEL USUARIO
+          <span id="p2-stepper-text" style="font-size:11px; font-weight:800; color:#18D8FF; background:rgba(24,216,255,0.12); padding:4px 12px; border-radius:14px; border:1px solid rgba(24,216,255,0.4); font-family:monospace;">
+            PASO 01 / 04: DATOS DEL USUARIO
           </span>
         </div>
         
         <!-- Indicadores de los 4 Pasos -->
-        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; position:relative;">
-          <div id="p2-step-indicator-1" style="background:#F26522; color:#FFF; padding:8px 4px; border-radius:8px; text-align:center; font-size:10.5px; font-weight:900; box-shadow:0 0 12px rgba(242,101,34,0.4); transition:all 0.3s;">
-            1. Usuario
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; position:relative;">
+          <div id="p2-step-indicator-1" style="background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; padding:10px 6px; border-radius:10px; text-align:center; font-size:11px; font-weight:900; box-shadow:0 0 16px rgba(24,216,255,0.4); transition:all 0.3s; letter-spacing:0.4px;">
+            1. Perfil / Manager
           </div>
-          <div id="p2-step-indicator-2" style="background:rgba(255,255,255,0.04); color:#94A3B8; padding:8px 4px; border-radius:8px; text-align:center; font-size:10.5px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
-            2. Liga / Equipo
+          <div id="p2-step-indicator-2" style="background:rgba(255,255,255,0.03); color:#64748B; padding:10px 6px; border-radius:10px; text-align:center; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
+            2. Liga / Franquicia
           </div>
-          <div id="p2-step-indicator-3" style="background:rgba(255,255,255,0.04); color:#94A3B8; padding:8px 4px; border-radius:8px; text-align:center; font-size:10.5px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
+          <div id="p2-step-indicator-3" style="background:rgba(255,255,255,0.03); color:#64748B; padding:10px 6px; border-radius:10px; text-align:center; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
             3. Planes & Mes Gratis
           </div>
-          <div id="p2-step-indicator-4" style="background:rgba(255,255,255,0.04); color:#94A3B8; padding:8px 4px; border-radius:8px; text-align:center; font-size:10.5px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
-            4. Verificación
+          <div id="p2-step-indicator-4" style="background:rgba(255,255,255,0.03); color:#64748B; padding:10px 6px; border-radius:10px; text-align:center; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
+            4. Activación Zero-Trust
           </div>
         </div>
       </div>
@@ -2216,64 +2237,64 @@ body {
         <!-- PASO 1: DATOS DEL USUARIO (DIAGRAMA BLOQUE 2)                  -->
         <!-- ============================================================== -->
         <div id="p2-wizard-paso-1" style="display:block;">
-          <div style="background:#070e1c; border:1.5px solid rgba(0,210,255,0.3); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, #00D2FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:16px; color:#020617; font-weight:900;">1</div>
+          <div style="background:rgba(8,16,34,0.78); border:1px solid rgba(24,216,255,0.28); border-radius:20px; padding:24px; margin-bottom:20px; box-shadow:0 20px 45px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:12px;">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, #18D8FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:15px; color:#040814; font-weight:900; box-shadow:0 0 14px rgba(24,216,255,0.4);">1</div>
                 <div>
-                  <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase;">Datos del Usuario</h3>
-                  <span style="font-size:11px; color:#94A3B8;">Ingresa tus datos personales y credenciales de acceso táctico</span>
+                  <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase; letter-spacing:0.5px;">Datos del Usuario / Manager</h3>
+                  <span style="font-size:11px; color:#94A3B8;">Ingresa tus datos personales y credenciales para el vault militar Zero Trust</span>
                 </div>
               </div>
-              <span style="font-size:10.5px; color:#A7F3D0; background:rgba(16,185,129,0.15); border:1px solid #10B981; padding:3px 8px; border-radius:6px; font-weight:700;">Zero Trust v3.0</span>
+              <span style="font-size:10.5px; color:#18C995; background:rgba(24,201,149,0.15); border:1px solid rgba(24,201,149,0.35); padding:4px 10px; border-radius:20px; font-weight:800; font-family:monospace;">● MILITARY-SEC</span>
             </div>
 
-            <div id="p2-alerta-paso-1" style="display:none; padding:12px; border-radius:8px; margin-bottom:14px; font-size:12.5px;"></div>
+            <div id="p2-alerta-paso-1" style="display:none; padding:12px; border-radius:10px; margin-bottom:16px; font-size:12.5px;"></div>
 
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px;">
               <div>
-                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE Y APELLIDO <span style="color:#EF4444;">*</span></label>
-                <input type="text" id="p2-reg-fullname" placeholder="ej. Orlando Sánchez" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">NOMBRE Y APELLIDO <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="p2-reg-fullname" placeholder="ej. Orlando Sánchez" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:13px 14px; color:#FFF; font-size:13.5px; box-shadow:inset 0 2px 4px rgba(0,0,0,0.6); outline:none;">
               </div>
               <div>
-                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CORREO ELECTRÓNICO <span style="color:#EF4444;">*</span></label>
-                <input type="email" id="p2-reg-email" placeholder="ej. manager@equipo.com" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">CORREO ELECTRÓNICO <span style="color:#EF4444;">*</span></label>
+                <input type="email" id="p2-reg-email" placeholder="ej. manager@equipo.com" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:13px 14px; color:#FFF; font-size:13.5px; box-shadow:inset 0 2px 4px rgba(0,0,0,0.6); outline:none;">
               </div>
               <div>
-                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CONTRASEÑA (MÍN. 8 CARACTERES) <span style="color:#EF4444;">*</span></label>
-                <input type="password" id="p2-reg-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">CONTRASEÑA (MÍN. 8 CARACTERES) <span style="color:#EF4444;">*</span></label>
+                <input type="password" id="p2-reg-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:13px 14px; color:#FFF; font-size:13.5px; box-shadow:inset 0 2px 4px rgba(0,0,0,0.6); outline:none;">
               </div>
               <div>
-                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CONFIRMAR CONTRASEÑA <span style="color:#EF4444;">*</span></label>
-                <input type="password" id="p2-reg-pass-confirm" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">CONFIRMAR CONTRASEÑA <span style="color:#EF4444;">*</span></label>
+                <input type="password" id="p2-reg-pass-confirm" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:13px 14px; color:#FFF; font-size:13.5px; box-shadow:inset 0 2px 4px rgba(0,0,0,0.6); outline:none;">
               </div>
               <div>
-                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">TELÉFONO / WHATSAPP <span style="color:#EF4444;">*</span></label>
-                <input type="tel" id="p2-reg-phone" placeholder="ej. +58 412 1234567" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">TELÉFONO / WHATSAPP <span style="color:#EF4444;">*</span></label>
+                <input type="tel" id="p2-reg-phone" placeholder="ej. +58 412 1234567" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:13px 14px; color:#FFF; font-size:13.5px; box-shadow:inset 0 2px 4px rgba(0,0,0,0.6); outline:none;">
               </div>
             </div>
 
             <!-- Selector de Rol del Usuario (Manager / Coach / Admin Liga / Jugador) -->
-            <div style="margin-top:16px;">
-              <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:8px;">ROL DEL USUARIO EN LA FRANQUICIA <span style="color:#EF4444;">*</span></label>
+            <div style="margin-top:18px;">
+              <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;">ROL DEL USUARIO EN LA FRANQUICIA <span style="color:#EF4444;">*</span></label>
               <input type="hidden" id="p2-user-role" value="MANAGER">
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(135px, 1fr)); gap:10px;">
-                <div id="p2-card-role-MANAGER" onclick="seleccionarRolP2('MANAGER')" style="cursor:pointer; background:rgba(242,101,34,0.18); border:2px solid #F26522; border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                <div id="p2-card-role-MANAGER" onclick="seleccionarRolP2('MANAGER')" style="cursor:pointer; background:linear-gradient(145deg, rgba(24,216,255,0.18), rgba(2,132,199,0.1)); border:2px solid #18D8FF; box-shadow:0 0 20px rgba(24,216,255,0.3); border-radius:12px; padding:14px; text-align:center; transition:all 0.25s;">
                   <div style="font-size:22px; margin-bottom:4px;">👑</div>
                   <div style="font-size:12.5px; font-weight:900; color:#FFF;">Manager</div>
-                  <div style="font-size:9.5px; color:#FF9F68;">Dueño Franquicia</div>
+                  <div style="font-size:9.5px; color:#18D8FF; font-weight:700;">Dueño Franquicia</div>
                 </div>
-                <div id="p2-card-role-COACH" onclick="seleccionarRolP2('COACH')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                <div id="p2-card-role-COACH" onclick="seleccionarRolP2('COACH')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px; text-align:center; transition:all 0.25s;">
                   <div style="font-size:22px; margin-bottom:4px;">🧢</div>
                   <div style="font-size:12.5px; font-weight:900; color:#CBD5E1;">Coach</div>
                   <div style="font-size:9.5px; color:#94A3B8;">Asistente Técnico</div>
                 </div>
-                <div id="p2-card-role-ADMIN_LIGA" onclick="seleccionarRolP2('ADMIN_LIGA')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                <div id="p2-card-role-ADMIN_LIGA" onclick="seleccionarRolP2('ADMIN_LIGA')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px; text-align:center; transition:all 0.25s;">
                   <div style="font-size:22px; margin-bottom:4px;">🏛️</div>
                   <div style="font-size:12.5px; font-weight:900; color:#CBD5E1;">Admin Liga</div>
                   <div style="font-size:9.5px; color:#94A3B8;">Comisionado</div>
                 </div>
-                <div id="p2-card-role-JUGADOR" onclick="seleccionarRolP2('JUGADOR')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                <div id="p2-card-role-JUGADOR" onclick="seleccionarRolP2('JUGADOR')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px; text-align:center; transition:all 0.25s;">
                   <div style="font-size:22px; margin-bottom:4px;">⚾</div>
                   <div style="font-size:12.5px; font-weight:900; color:#CBD5E1;">Jugador</div>
                   <div style="font-size:9.5px; color:#94A3B8;">Atleta Oficial</div>
@@ -2282,8 +2303,8 @@ body {
             </div>
 
             <!-- Botón de Avance Paso 1 -> Paso 2 con Validación -->
-            <div style="margin-top:20px; display:flex; justify-content:flex-end;">
-              <button type="button" onclick="validarYAvanzarPaso1()" style="padding:14px 24px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 6px 20px rgba(242,101,34,0.4); display:flex; align-items:center; gap:10px;">
+            <div style="margin-top:22px; display:flex; justify-content:flex-end;">
+              <button type="button" onclick="validarYAvanzarPaso1()" style="padding:15px 28px; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; border:none; border-radius:12px; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 25px rgba(24,216,255,0.35); display:flex; align-items:center; gap:10px; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                 <span>Validar y Continuar a Paso 2 (Configuración de Equipo)</span> <span>➡️</span>
               </button>
             </div>
@@ -2294,39 +2315,39 @@ body {
         <!-- PASO 2: CONFIGURACIÓN DE LIGA / EQUIPO (CON MULTI-TENANT)      -->
         <!-- ============================================================== -->
         <div id="p2-wizard-paso-2" style="display:none;">
-          <div style="background:#070e1c; border:1.5px solid rgba(242,101,34,0.35); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px; flex-wrap:wrap; gap:10px;">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, #F26522, #EA580C); display:flex; align-items:center; justify-content:center; font-size:16px; color:#FFF; font-weight:900;">2</div>
+          <div style="background:rgba(8,16,34,0.78); border:1px solid rgba(255,184,46,0.35); border-radius:20px; padding:24px; margin-bottom:20px; box-shadow:0 20px 45px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:12px; flex-wrap:wrap; gap:12px;">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, #FFB82E, #EA580C); display:flex; align-items:center; justify-content:center; font-size:15px; color:#FFF; font-weight:900; box-shadow:0 0 14px rgba(255,184,46,0.4);">2</div>
                 <div>
-                  <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase;">Configuración de Liga / Equipo (Multi-Tenant)</h3>
-                  <span style="font-size:11px; color:#94A3B8;">Aislamiento total por País, Estado y Liga (No se mezclan datos)</span>
+                  <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase; letter-spacing:0.5px;">Configuración de Liga / Equipo (Multi-Tenant)</h3>
+                  <span style="font-size:11px; color:#94A3B8;">Aislamiento total por País, Estado y Liga (Sin interferencias cruzadas)</span>
                 </div>
               </div>
 
               <!-- Selector Bifurcado: Crear Equipo vs Unirse a Equipo -->
-              <div style="display:flex; background:#020617; border-radius:8px; padding:3px; border:1px solid #334155;">
-                <button type="button" id="p2-btn-mode-crear" onclick="setModoEquipoP2('crear')" style="padding:6px 14px; font-size:11px; font-weight:900; border-radius:6px; border:none; background:#F26522; color:#FFF; cursor:pointer;">
+              <div style="display:flex; background:rgba(3,7,18,0.85); border-radius:12px; padding:3px; border:1px solid rgba(255,255,255,0.12);">
+                <button type="button" id="p2-btn-mode-crear" onclick="setModoEquipoP2('crear')" style="padding:8px 16px; font-size:11px; font-weight:900; border-radius:8px; border:none; background:linear-gradient(135deg, #FFB82E, #EA580C); color:#FFF; cursor:pointer; box-shadow:0 0 12px rgba(255,184,46,0.3);">
                   🏆 Crear Equipo
                 </button>
-                <button type="button" id="p2-btn-mode-unirse" onclick="setModoEquipoP2('unirse')" style="padding:6px 14px; font-size:11px; font-weight:900; border-radius:6px; border:none; background:transparent; color:#94A3B8; cursor:pointer;">
+                <button type="button" id="p2-btn-mode-unirse" onclick="setModoEquipoP2('unirse')" style="padding:8px 16px; font-size:11px; font-weight:900; border-radius:8px; border:none; background:transparent; color:#94A3B8; cursor:pointer;">
                   🔗 Unirse a Equipo
                 </button>
               </div>
             </div>
 
-            <div id="p2-alerta-paso-2" style="display:none; padding:12px; border-radius:8px; margin-bottom:14px; font-size:12.5px;"></div>
+            <div id="p2-alerta-paso-2" style="display:none; padding:12px; border-radius:10px; margin-bottom:16px; font-size:12.5px;"></div>
 
             <!-- BIFURCACIÓN A: CREAR EQUIPO -->
             <div id="p2-seccion-crear-equipo" style="display:block;">
               
               <!-- FILA 1: PAÍS, ESTADO Y LIGA ASOCIADA (AISLAMIENTO GEOGRÁFICO) -->
-              <div style="padding:12px; background:rgba(0,210,255,0.06); border:1px solid rgba(0,210,255,0.2); border-radius:10px; margin-bottom:14px;">
-                <div style="font-size:11px; font-weight:800; color:#00D2FF; margin-bottom:8px;">🌍 UBICACIÓN Y AISLAMIENTO DE LIGA (SIN INTERFERENCIAS)</div>
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px;">
+              <div style="padding:14px; background:rgba(24,216,255,0.06); border:1px solid rgba(24,216,255,0.25); border-radius:14px; margin-bottom:16px;">
+                <div style="font-size:10.5px; font-weight:800; color:#18D8FF; letter-spacing:1px; margin-bottom:10px;">🌍 PROTOCOLO DE AISLAMIENTO TERRITORIAL (MULTI-TENANT SEGURO)</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
                   <div>
-                    <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:4px;">PAÍS <span style="color:#EF4444;">*</span></label>
-                    <select id="p2-geo-pais" onchange="actualizarEstadosP2()" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:6px; padding:9px 10px; color:#FFF; font-size:12px; outline:none;">
+                    <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:5px;">PAÍS <span style="color:#EF4444;">*</span></label>
+                    <select id="p2-geo-pais" onchange="actualizarEstadosP2()" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:10px 12px; color:#FFF; font-size:12.5px; outline:none;">
                       <option value="VEN" selected>🇻🇪 Venezuela</option>
                       <option value="USA">🇺🇸 Estados Unidos</option>
                       <option value="DOM">🇩🇴 República Dominicana</option>
@@ -2337,16 +2358,16 @@ body {
                     </select>
                   </div>
                   <div>
-                    <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:4px;">ESTADO / PROVINCIA <span style="color:#EF4444;">*</span></label>
-                    <input type="text" id="p2-geo-estado" value="Carabobo" placeholder="ej. Carabobo / Florida" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:6px; padding:9px 10px; color:#FFF; font-size:12px; outline:none;">
+                    <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:5px;">ESTADO / PROVINCIA <span style="color:#EF4444;">*</span></label>
+                    <input type="text" id="p2-geo-estado" value="Carabobo" placeholder="ej. Carabobo / Florida" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:10px 12px; color:#FFF; font-size:12.5px; outline:none;">
                   </div>
                   <div>
-                    <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:4px;">CIUDAD / MUNICIPIO <span style="color:#EF4444;">*</span></label>
-                    <input type="text" id="p2-geo-ciudad" value="Valencia" placeholder="ej. Valencia / Miami" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:6px; padding:9px 10px; color:#FFF; font-size:12px; outline:none;">
+                    <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:5px;">CIUDAD / MUNICIPIO <span style="color:#EF4444;">*</span></label>
+                    <input type="text" id="p2-geo-ciudad" value="Valencia" placeholder="ej. Valencia / Miami" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:10px 12px; color:#FFF; font-size:12.5px; outline:none;">
                   </div>
                   <div>
-                    <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:4px;">NOMBRE DE LA LIGA <span style="color:#EF4444;">*</span></label>
-                    <input type="text" id="p2-geo-liga" value="Liga Máster Central +55" placeholder="ej. Liga Máster Central" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #00D2FF; border-radius:6px; padding:9px 10px; color:#00D2FF; font-weight:700; font-size:12px; outline:none;">
+                    <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:5px;">NOMBRE DE LA LIGA <span style="color:#EF4444;">*</span></label>
+                    <input type="text" id="p2-geo-liga" value="Liga Máster Central +55" placeholder="ej. Liga Máster Central" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid #18D8FF; border-radius:8px; padding:10px 12px; color:#18D8FF; font-weight:700; font-size:12.5px; outline:none;">
                   </div>
                 </div>
               </div>
@@ -2354,12 +2375,12 @@ body {
               <!-- FILA 2: DATOS ESPECÍFICOS DEL EQUIPO -->
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
                 <div>
-                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE DEL EQUIPO / FRANQUICIA <span style="color:#EF4444;">*</span></label>
-                  <input type="text" id="p2-team-name" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                  <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; margin-bottom:5px;">NOMBRE DEL EQUIPO / FRANQUICIA <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-team-name" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; color:#FFF; font-size:13px; outline:none;">
                 </div>
                 <div>
-                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CATEGORÍA UNIVERSAL (LIGA) <span style="color:#EF4444;">*</span></label>
-                  <select id="p2-team-category" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;">
+                  <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; margin-bottom:5px;">CATEGORÍA UNIVERSAL <span style="color:#EF4444;">*</span></label>
+                  <select id="p2-team-category" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; color:#FFB82E; font-size:13px; font-weight:700; outline:none;">
                     <optgroup label="🏆 VETERANOS & MÁSTER">
                       <option value="+55" selected>🏆 +55 (Súper Máster / Leyendas)</option>
                       <option value="+65">👑 +65 (Súper Leyendas / Platino)</option>
@@ -2378,8 +2399,8 @@ body {
                   </select>
                 </div>
                 <div>
-                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">MODALIDAD DEPORTIVA</label>
-                  <select id="p2-sport-modality" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#00D2FF; font-size:13px; font-weight:700; outline:none;">
+                  <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; letter-spacing:1px; margin-bottom:5px;">MODALIDAD DEPORTIVA</label>
+                  <select id="p2-sport-modality" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; color:#18D8FF; font-size:13px; font-weight:700; outline:none;">
                     <option value="BEISBOL_9">⚾ Béisbol Tradicional (9 Innings)</option>
                     <option value="BEISBOL_7">⚾ Béisbol Menor / 7 Innings</option>
                     <option value="SOFTBOL_RAPIDA">🥎 Softbol Bola Rápida (Fastpitch)</option>
@@ -2390,26 +2411,26 @@ body {
               </div>
 
               <!-- Selector de Logo y Color de Franquicia -->
-              <div style="margin-top:14px; padding:12px; background:rgba(0,0,0,0.3); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
-                <div style="font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:8px;">LOGO Y COLOR PRINCIPAL DEL EQUIPO</div>
-                <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+              <div style="margin-top:16px; padding:14px; background:rgba(3,7,18,0.6); border-radius:12px; border:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:10.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; margin-bottom:10px;">IDENTIDAD DE LA FRANQUICIA: COLOR Y EMBLEMA</div>
+                <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
                   <div>
-                    <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:4px;">COLOR PRIMARIO:</label>
-                    <div style="display:flex; gap:8px;">
-                      <div onclick="seleccionarColorEquipoP2('#F26522')" id="p2-color-F26522" style="width:26px; height:26px; border-radius:6px; background:#F26522; cursor:pointer; border:2.5px solid #FFF;"></div>
-                      <div onclick="seleccionarColorEquipoP2('#00D2FF')" id="p2-color-00D2FF" style="width:26px; height:26px; border-radius:6px; background:#00D2FF; cursor:pointer; border:1px solid #334155;"></div>
-                      <div onclick="seleccionarColorEquipoP2('#FFC72C')" id="p2-color-FFC72C" style="width:26px; height:26px; border-radius:6px; background:#FFC72C; cursor:pointer; border:1px solid #334155;"></div>
-                      <div onclick="seleccionarColorEquipoP2('#10B981')" id="p2-color-10B981" style="width:26px; height:26px; border-radius:6px; background:#10B981; cursor:pointer; border:1px solid #334155;"></div>
-                      <div onclick="seleccionarColorEquipoP2('#EF4444')" id="p2-color-EF4444" style="width:26px; height:26px; border-radius:6px; background:#EF4444; cursor:pointer; border:1px solid #334155;"></div>
+                    <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:6px;">COLOR PRIMARIO:</label>
+                    <div style="display:flex; gap:10px;">
+                      <div onclick="seleccionarColorEquipoP2('#F26522')" id="p2-color-F26522" style="width:28px; height:28px; border-radius:8px; background:#F26522; cursor:pointer; border:2.5px solid #FFF; box-shadow:0 0 10px rgba(242,101,34,0.5);"></div>
+                      <div onclick="seleccionarColorEquipoP2('#00D2FF')" id="p2-color-00D2FF" style="width:28px; height:28px; border-radius:8px; background:#00D2FF; cursor:pointer; border:1px solid #334155;"></div>
+                      <div onclick="seleccionarColorEquipoP2('#FFC72C')" id="p2-color-FFC72C" style="width:28px; height:28px; border-radius:8px; background:#FFC72C; cursor:pointer; border:1px solid #334155;"></div>
+                      <div onclick="seleccionarColorEquipoP2('#10B981')" id="p2-color-10B981" style="width:28px; height:28px; border-radius:8px; background:#10B981; cursor:pointer; border:1px solid #334155;"></div>
+                      <div onclick="seleccionarColorEquipoP2('#EF4444')" id="p2-color-EF4444" style="width:28px; height:28px; border-radius:8px; background:#EF4444; cursor:pointer; border:1px solid #334155;"></div>
                     </div>
                   </div>
                   <div>
-                    <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:4px;">EMBLEMA / LOGO:</label>
-                    <div style="display:flex; gap:8px;">
-                      <span onclick="seleccionarEmblemaP2('⚾')" id="p2-emb-1" style="cursor:pointer; font-size:18px; background:rgba(0,210,255,0.2); border:2px solid #00D2FF; border-radius:6px; padding:2px 6px;">⚾</span>
-                      <span onclick="seleccionarEmblemaP2('🦅')" id="p2-emb-2" style="cursor:pointer; font-size:18px; background:#0F172A; border:1px solid #334155; border-radius:6px; padding:2px 6px;">🦅</span>
-                      <span onclick="seleccionarEmblemaP2('🐅')" id="p2-emb-3" style="cursor:pointer; font-size:18px; background:#0F172A; border:1px solid #334155; border-radius:6px; padding:2px 6px;">🐅</span>
-                      <span onclick="seleccionarEmblemaP2('🛡️')" id="p2-emb-4" style="cursor:pointer; font-size:18px; background:#0F172A; border:1px solid #334155; border-radius:6px; padding:2px 6px;">🛡️</span>
+                    <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:6px;">EMBLEMA OFICIAL:</label>
+                    <div style="display:flex; gap:10px;">
+                      <span onclick="seleccionarEmblemaP2('⚾')" id="p2-emb-1" style="cursor:pointer; font-size:18px; background:rgba(24,216,255,0.2); border:2px solid #18D8FF; border-radius:8px; padding:4px 8px; box-shadow:0 0 12px rgba(24,216,255,0.4);">⚾</span>
+                      <span onclick="seleccionarEmblemaP2('🦅')" id="p2-emb-2" style="cursor:pointer; font-size:18px; background:#0F172A; border:1px solid #334155; border-radius:8px; padding:4px 8px;">🦅</span>
+                      <span onclick="seleccionarEmblemaP2('🐅')" id="p2-emb-3" style="cursor:pointer; font-size:18px; background:#0F172A; border:1px solid #334155; border-radius:8px; padding:4px 8px;">🐅</span>
+                      <span onclick="seleccionarEmblemaP2('🛡️')" id="p2-emb-4" style="cursor:pointer; font-size:18px; background:#0F172A; border:1px solid #334155; border-radius:8px; padding:4px 8px;">🛡️</span>
                     </div>
                   </div>
                 </div>
@@ -2420,124 +2441,124 @@ body {
             <div id="p2-seccion-unirse-equipo" style="display:none;">
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">
                 <div>
-                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">BUSCAR LIGA / EQUIPO</label>
-                  <input type="text" id="p2-join-search" placeholder="ej. Guerreros de Carabobo" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                  <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:5px;">BUSCAR LIGA / EQUIPO</label>
+                  <input type="text" id="p2-join-search" placeholder="ej. Guerreros de Carabobo" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; color:#FFF; font-size:13px; outline:none;">
                 </div>
                 <div>
-                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CÓDIGO DE INVITACIÓN DEPORTIVO <span style="color:#EF4444;">*</span></label>
-                  <input type="text" id="p2-join-code" placeholder="ej. DMX-GUER-55" style="width:100%; box-sizing:border-box; background:#020617; border:1.5px solid #00D2FF; border-radius:8px; padding:11px 12px; color:#00D2FF; font-size:14px; font-weight:900; letter-spacing:1px; outline:none;">
+                  <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:5px;">CÓDIGO DE INVITACIÓN DEPORTIVO <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-join-code" placeholder="ej. DMX-GUER-55" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1.5px solid #18D8FF; border-radius:10px; padding:12px; color:#18D8FF; font-size:14px; font-weight:900; letter-spacing:1px; outline:none;">
                 </div>
               </div>
-              <p style="margin:10px 0 0 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">
+              <p style="margin:12px 0 0 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">
                 ℹ️ Solicita el código de invitación al Manager de la franquicia para integrarte de forma instantánea al roster oficial sin interferencias con otras ligas.
               </p>
             </div>
 
             <!-- Botones de Navegación del Paso 2 -->
-            <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-              <button type="button" onclick="irAPasoWizardP2(1)" style="padding:12px 20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#CBD5E1; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+            <div style="margin-top:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <button type="button" onclick="irAPasoWizardP2(1)" style="padding:12px 22px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); color:#CBD5E1; border-radius:10px; font-weight:800; font-size:12.5px; cursor:pointer;">
                 ⬅️ Volver a Datos
               </button>
-              <button type="button" onclick="validarYAvanzarPaso2()" style="padding:14px 24px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 6px 20px rgba(242,101,34,0.4); display:flex; align-items:center; gap:8px;">
-                <span>Continuar a Paso 3: Selección de Plan & Mes Gratis</span> <span>➡️</span>
+              <button type="button" onclick="validarYAvanzarPaso2()" style="padding:15px 28px; background:linear-gradient(135deg, #FFB82E, #EA580C); color:#FFF; border:none; border-radius:12px; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 25px rgba(255,184,46,0.35); display:flex; align-items:center; gap:8px;">
+                <span>Continuar a Paso 3: Planes & Mes Gratis</span> <span>➡️</span>
               </button>
             </div>
           </div>
         </div>
 
         <!-- ============================================================== -->
-        <!-- PASO 3: SELECCIÓN DE PLANES & MES GRATIS (SOLICITADO POR CEO)   -->
+        <!-- PASO 3: SELECCIÓN DE PLANES & MES GRATIS (SHOWCASE PREMIUM)    -->
         <!-- ============================================================== -->
         <div id="p2-wizard-paso-3" style="display:none;">
-          <div style="background:#070e1c; border:1.5px solid #00D2FF; border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+          <div style="background:rgba(8,16,34,0.78); border:1.5px solid #18D8FF; border-radius:20px; padding:24px; margin-bottom:20px; box-shadow:0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(24,216,255,0.2), inset 0 1px 0 rgba(255,255,255,0.2);">
             
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px; flex-wrap:wrap; gap:10px;">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, #00D2FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:16px; color:#020617; font-weight:900;">3</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:14px; flex-wrap:wrap; gap:12px;">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, #18D8FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:15px; color:#040814; font-weight:900; box-shadow:0 0 14px rgba(24,216,255,0.4);">3</div>
                 <div>
-                  <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase;">🎟️ Planes de Suscripción & Mes Gratis</h3>
-                  <span style="font-size:11px; color:#94A3B8;">Elige tu modalidad de activación oficial (Sin tarjeta de crédito)</span>
+                  <h3 style="margin:0; font-size:15px; font-weight:900; color:#FFF; text-transform:uppercase; letter-spacing:0.5px;">🎟️ Planes de Suscripción & Mes Gratis</h3>
+                  <span style="font-size:11px; color:#94A3B8;">Elige tu modalidad de activación oficial para tu franquicia</span>
                 </div>
               </div>
-              <span style="font-size:10.5px; color:#FF9F68; background:rgba(242,101,34,0.15); border:1px solid #F26522; padding:3px 8px; border-radius:6px; font-weight:800;">
-                🎁 1 Mes de Prueba Incluido
+              <span style="font-size:11px; color:#FFB82E; background:rgba(255,184,46,0.15); border:1px solid rgba(255,184,46,0.4); padding:4px 12px; border-radius:20px; font-weight:800; font-family:monospace;">
+                🎁 30 DÍAS BONIFICADOS · SIN TARJETA
               </span>
             </div>
 
             <input type="hidden" id="p2-selected-plan" value="TRIAL_MES_GRATIS">
 
             <!-- Grid de Planes de Suscripción -->
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:14px; margin-bottom:18px;">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:22px;">
               
-              <!-- PLAN 1: MES GRATIS (RECOMENDADO / POR DEFECTO) -->
-              <div id="p2-plan-card-TRIAL" onclick="seleccionarPlanP2('TRIAL_MES_GRATIS')" style="background:linear-gradient(145deg, #0d1e3a, #071328); border:2.5px solid #00D2FF; border-radius:14px; padding:16px; cursor:pointer; position:relative; box-shadow:0 0 20px rgba(0,210,255,0.3); transition:all 0.2s;">
-                <div style="position:absolute; top:-10px; right:12px; background:#00D2FF; color:#020617; font-weight:900; font-size:9.5px; padding:3px 8px; border-radius:10px; text-transform:uppercase;">
+              <!-- PLAN 1: MES GRATIS (RECOMENDADO / DESTACADO) -->
+              <div id="p2-plan-card-TRIAL" onclick="seleccionarPlanP2('TRIAL_MES_GRATIS')" style="background:linear-gradient(165deg, rgba(14,32,64,0.95), rgba(6,14,32,0.98)); border:2.5px solid #18D8FF; border-radius:18px; padding:22px; cursor:pointer; position:relative; box-shadow:0 0 35px rgba(24,216,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25); transform:translateY(-2px); transition:all 0.25s;">
+                <div style="position:absolute; top:-12px; right:14px; background:linear-gradient(135deg, #18D8FF, #0077FF); color:#040814; font-weight:900; font-size:10px; padding:4px 10px; border-radius:12px; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 12px rgba(24,216,255,0.5);">
                   Recomendado
                 </div>
-                <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
-                  <span style="font-size:22px;">🎁</span>
-                  <h4 style="margin:0; font-size:15px; font-weight:900; color:#FFF;">Mes Gratis</h4>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                  <span style="font-size:24px;">🎁</span>
+                  <h4 style="margin:0; font-size:16px; font-weight:900; color:#FFF;">Mes Gratis</h4>
                 </div>
-                <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Prueba piloto completa para torneos y temporadas activas.</p>
-                <div style="margin-bottom:10px;">
-                  <span style="font-size:24px; font-weight:900; color:#00D2FF;">$0.00</span>
-                  <span style="font-size:11px; color:#94A3B8;"> / 30 Días</span>
+                <p style="margin:0 0 12px 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">Prueba piloto completa para torneos, campeonatos y temporadas activas.</p>
+                <div style="margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span style="font-size:30px; font-weight:900; color:#18D8FF; letter-spacing:-0.5px;">$0.00</span>
+                  <span style="font-size:11.5px; color:#94A3B8; font-weight:700;"> / 30 Días</span>
                 </div>
-                <ul style="list-style:none; padding:0; margin:0; font-size:11px; color:#CBD5E1; display:flex; flex-direction:column; gap:6px;">
-                  <li>✅ Anotador Dugout en vivo oficial</li>
-                  <li>✅ Sabermetría IA & Monte Carlo</li>
-                  <li>✅ Roster completo hasta 30 peloteros</li>
-                  <li>⚡ <span style="color:#FFC72C; font-weight:700;">Sin tarjeta de crédito</span></li>
+                <ul style="list-style:none; padding:0; margin:0; font-size:11.5px; color:#E2E8F0; display:flex; flex-direction:column; gap:8px;">
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Anotador Dugout en vivo oficial</li>
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Sabermetría IA & Monte Carlo</li>
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Roster completo hasta 30 atletas</li>
+                  <li style="color:#FFB82E; font-weight:800;">⚡ Sin tarjeta de crédito requerida</li>
                 </ul>
               </div>
 
               <!-- PLAN 2: MANAGER PRO -->
-              <div id="p2-plan-card-MANAGER" onclick="seleccionarPlanP2('MANAGER_PRO')" style="background:#070e1c; border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:16px; cursor:pointer; transition:all 0.2s;">
-                <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
-                  <span style="font-size:22px;">👑</span>
-                  <h4 style="margin:0; font-size:15px; font-weight:900; color:#F26522;">Manager Pro</h4>
+              <div id="p2-plan-card-MANAGER" onclick="seleccionarPlanP2('MANAGER_PRO')" style="background:linear-gradient(165deg, rgba(28,20,10,0.85), rgba(8,12,24,0.9)); border:1px solid rgba(255,184,46,0.45); border-radius:18px; padding:22px; cursor:pointer; transition:all 0.25s;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                  <span style="font-size:24px;">👑</span>
+                  <h4 style="margin:0; font-size:16px; font-weight:900; color:#FFB82E;">Manager Pro</h4>
                 </div>
-                <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Para 1 franquicia que busca dominar la liga con analítica.</p>
-                <div style="margin-bottom:10px;">
-                  <span style="font-size:24px; font-weight:900; color:#FFF;">$9.99</span>
-                  <span style="font-size:11px; color:#94A3B8;"> / mes</span>
+                <p style="margin:0 0 12px 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">Para 1 franquicia que busca dominar la liga con analítica de élite.</p>
+                <div style="margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span style="font-size:30px; font-weight:900; color:#FFF; letter-spacing:-0.5px;">$9.99</span>
+                  <span style="font-size:11.5px; color:#94A3B8; font-weight:700;"> / mes</span>
                 </div>
-                <ul style="list-style:none; padding:0; margin:0; font-size:11px; color:#CBD5E1; display:flex; flex-direction:column; gap:6px;">
-                  <li>✅ Todo lo del Mes Gratis</li>
-                  <li>✅ Exportar PDF & WhatsApp masivo</li>
-                  <li>✅ Spray Chart de Bateo por Zona</li>
-                  <li>⭐ Soporte Prioritario 24/7</li>
+                <ul style="list-style:none; padding:0; margin:0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:8px;">
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Todo lo incluido en Mes Gratis</li>
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Exportar PDF & WhatsApp masivo</li>
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Spray Chart de Bateo por Zona</li>
+                  <li style="color:#FFB82E; font-weight:800;">⭐ Soporte Prioritario 24/7</li>
                 </ul>
               </div>
 
               <!-- PLAN 3: LIGA ENTERPRISE -->
-              <div id="p2-plan-card-LIGA" onclick="seleccionarPlanP2('LIGA_ENTERPRISE')" style="background:#070e1c; border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:16px; cursor:pointer; transition:all 0.2s;">
-                <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
-                  <span style="font-size:22px;">🏛️</span>
-                  <h4 style="margin:0; font-size:15px; font-weight:900; color:#FFC72C;">Liga Máster</h4>
+              <div id="p2-plan-card-LIGA" onclick="seleccionarPlanP2('LIGA_ENTERPRISE')" style="background:linear-gradient(165deg, rgba(24,12,42,0.85), rgba(8,12,24,0.9)); border:1px solid rgba(139,92,246,0.45); border-radius:18px; padding:22px; cursor:pointer; transition:all 0.25s;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                  <span style="font-size:24px;">🏛️</span>
+                  <h4 style="margin:0; font-size:16px; font-weight:900; color:#A78BFA;">Liga Máster</h4>
                 </div>
-                <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Para comisionados de liga (hasta 20 equipos aislados).</p>
-                <div style="margin-bottom:10px;">
-                  <span style="font-size:24px; font-weight:900; color:#FFF;">$29.99</span>
-                  <span style="font-size:11px; color:#94A3B8;"> / mes</span>
+                <p style="margin:0 0 12px 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">Para comisionados de liga y circuitos (hasta 20 equipos aislados).</p>
+                <div style="margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span style="font-size:30px; font-weight:900; color:#FFF; letter-spacing:-0.5px;">$29.99</span>
+                  <span style="font-size:11.5px; color:#94A3B8; font-weight:700;"> / mes</span>
                 </div>
-                <ul style="list-style:none; padding:0; margin:0; font-size:11px; color:#CBD5E1; display:flex; flex-direction:column; gap:6px;">
-                  <li>✅ Multi-Tenant Aislado por Estado</li>
-                  <li>✅ Tabla de Posiciones en Vivo</li>
-                  <li>✅ Estadísticas oficiales de bateo y pitcheo</li>
-                  <li>🛡️ Panel Central de Comisionado</li>
+                <ul style="list-style:none; padding:0; margin:0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:8px;">
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Multi-Tenant por Estado y Sede</li>
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Tabla de Posiciones en Vivo</li>
+                  <li><span style="color:#18C995; font-weight:900;">✓</span> Estadísticas oficiales consolidadas</li>
+                  <li style="color:#A78BFA; font-weight:800;">🛡️ Panel Central de Comisionado</li>
                 </ul>
               </div>
 
             </div>
 
             <!-- Botones de Navegación del Paso 3 -->
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-              <button type="button" onclick="irAPasoWizardP2(2)" style="padding:12px 20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#CBD5E1; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <button type="button" onclick="irAPasoWizardP2(2)" style="padding:12px 22px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); color:#CBD5E1; border-radius:10px; font-weight:800; font-size:12.5px; cursor:pointer;">
                 ⬅️ Volver a Liga / Equipo
               </button>
-              <button type="button" onclick="validarYAvanzarPaso3()" style="padding:14px 24px; background:linear-gradient(135deg, #00D2FF, #0284C7); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(0,210,255,0.4); display:flex; align-items:center; gap:8px;">
-                <span>Continuar a Paso 4: Verificación de Correo</span> <span>➡️</span>
+              <button type="button" onclick="validarYAvanzarPaso3()" style="padding:15px 30px; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; border:none; border-radius:12px; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 25px rgba(24,216,255,0.4); display:flex; align-items:center; gap:8px;">
+                <span>Continuar a Paso 4: Activación Zero-Trust</span> <span>➡️</span>
               </button>
             </div>
 
@@ -2548,56 +2569,56 @@ body {
         <!-- PASO 4: CONFIRMACIÓN Y ENVÍO DE CORREO (DIAGRAMA BLOQUE 4)     -->
         <!-- ============================================================== -->
         <div id="p2-wizard-paso-4" style="display:none;">
-          <div style="background:#070e1c; border:1.5px solid #10B981; border-radius:14px; padding:24px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
-              <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, #10B981, #059669); display:flex; align-items:center; justify-content:center; font-size:16px; color:#FFF; font-weight:900;">4</div>
+          <div style="background:rgba(8,16,34,0.78); border:1.5px solid #18C995; border-radius:20px; padding:26px; margin-bottom:20px; box-shadow:0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(24,201,149,0.2), inset 0 1px 0 rgba(255,255,255,0.15);">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:12px;">
+              <div style="width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, #18C995, #059669); display:flex; align-items:center; justify-content:center; font-size:15px; color:#FFF; font-weight:900; box-shadow:0 0 14px rgba(24,201,149,0.4);">4</div>
               <div>
-                <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase;">Confirmación y Activación de Cuenta</h3>
-                <span style="font-size:11px; color:#94A3B8;">Verificación de seguridad para activación de cuenta militar Zero Trust</span>
+                <h3 style="margin:0; font-size:15px; font-weight:900; color:#FFF; text-transform:uppercase; letter-spacing:0.5px;">Confirmación y Activación Militar Zero Trust</h3>
+                <span style="font-size:11px; color:#94A3B8;">Verificación criptográfica para ingreso al Dugout Oficial</span>
               </div>
             </div>
 
             <!-- Caja Informativa de Envío de Código y Plan Seleccionado -->
-            <div style="background:rgba(16,185,129,0.1); border:1px solid #10B981; border-radius:10px; padding:16px; margin-bottom:18px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+            <div style="background:rgba(24,201,149,0.08); border:1px solid rgba(24,201,149,0.3); border-radius:14px; padding:18px; margin-bottom:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <span style="font-size:18px;">📩</span>
-                  <span style="font-size:13px; font-weight:800; color:#A7F3D0;">Código de Verificación para:</span>
+                  <span style="font-size:20px;">📩</span>
+                  <span style="font-size:13.5px; font-weight:800; color:#A7F3D0;">Código de Verificación Militar para:</span>
                 </div>
-                <span id="p2-summary-plan-badge" style="background:#00D2FF; color:#020617; font-weight:900; font-size:10.5px; padding:2px 8px; border-radius:8px;">
+                <span id="p2-summary-plan-badge" style="background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; font-weight:900; font-size:11px; padding:4px 10px; border-radius:12px; box-shadow:0 0 10px rgba(24,216,255,0.3);">
                   🎁 PLAN: MES GRATIS ($0.00)
                 </span>
               </div>
-              <div id="p2-verif-target-email" style="font-size:14px; font-weight:900; color:#FFF; margin-bottom:10px; font-family:monospace;">
+              <div id="p2-verif-target-email" style="font-size:15px; font-weight:900; color:#FFF; margin-bottom:10px; font-family:monospace; letter-spacing:0.5px;">
                 manager@equipo.com
               </div>
-              <p style="margin:0; font-size:11.5px; color:#CBD5E1; line-height:1.4;">
-                Hemos enviado un código seguro de 6 dígitos a tu bandeja de entrada. Introdúcelo a continuación para verificar tu cuenta y activar tu mes gratis.
+              <p style="margin:0; font-size:11.5px; color:#CBD5E1; line-height:1.5;">
+                Hemos emitido un token de activación seguro de 6 dígitos. Introdúcelo a continuación para verificar tu cuenta y activar tu mes de servicio sin costo.
               </p>
             </div>
 
-            <div id="p2-alerta-paso-4" style="display:none; padding:12px; border-radius:8px; margin-bottom:14px; font-size:12.5px;"></div>
+            <div id="p2-alerta-paso-4" style="display:none; padding:12px; border-radius:10px; margin-bottom:16px; font-size:12.5px;"></div>
 
             <!-- Campo de Ingreso del Código de Verificación -->
-            <div style="max-width:340px; margin:0 auto 20px auto; text-align:center;">
-              <label style="display:block; font-size:11.5px; font-weight:800; color:#CBD5E1; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.8px;">
+            <div style="max-width:360px; margin:0 auto 24px auto; text-align:center;">
+              <label style="display:block; font-size:11px; font-weight:800; color:#94A3B8; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px;">
                 Código de 6 Dígitos
               </label>
-              <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="852914" style="width:100%; box-sizing:border-box; background:#020617; border:2px solid #00D2FF; border-radius:10px; padding:14px; font-size:22px; font-weight:900; text-align:center; letter-spacing:8px; color:#00D2FF; outline:none;">
+              <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="852914" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.9); border:2px solid #18D8FF; border-radius:14px; padding:16px; font-size:26px; font-weight:900; text-align:center; letter-spacing:12px; color:#18D8FF; outline:none; box-shadow:0 0 25px rgba(24,216,255,0.3), inset 0 2px 5px rgba(0,0,0,0.6); font-family:monospace;">
               
               <!-- Botón Ayudante para Pruebas del CEO -->
-              <button type="button" onclick="autoLlenarCodigoVerif()" style="margin-top:8px; background:none; border:none; color:#94A3B8; font-size:11px; cursor:pointer; text-decoration:underline;">
-                ⚡ Auto-completar código de verificación (Prueba Rápida: 852914)
+              <button type="button" onclick="autoLlenarCodigoVerif()" style="margin-top:10px; background:none; border:none; color:#18D8FF; font-size:11.5px; cursor:pointer; text-decoration:underline; font-weight:700;">
+                ⚡ Auto-completar código (Prueba Rápida: 852914)
               </button>
             </div>
 
             <!-- Botones de Confirmación del Paso 4 -->
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-              <button type="button" onclick="irAPasoWizardP2(3)" style="padding:12px 20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#CBD5E1; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <button type="button" onclick="irAPasoWizardP2(3)" style="padding:12px 22px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); color:#CBD5E1; border-radius:10px; font-weight:800; font-size:12.5px; cursor:pointer;">
                 ⬅️ Volver a Planes
               </button>
-              <button type="button" onclick="confirmarYVerificarCuentaP2()" style="padding:15px 28px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 25px rgba(16,185,129,0.5); display:flex; align-items:center; gap:10px;">
-                <span>🛡️</span> <span>Activar Mes Gratis & Entrar a Página 3 (Dugout)</span>
+              <button type="button" onclick="confirmarYVerificarCuentaP2()" style="padding:16px 32px; background:linear-gradient(135deg, #18C995, #059669); color:#040814; border:none; border-radius:12px; font-weight:900; font-size:14.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 30px rgba(24,201,149,0.5); display:flex; align-items:center; gap:10px;">
+                <span>🛡️</span> <span>Activar Mes Gratis & Entrar al Dugout (Página 3)</span>
               </button>
             </div>
           </div>
@@ -2607,18 +2628,18 @@ body {
         <!-- PASO 5 / MODAL FINAL: ACTIVACIÓN EXITOSA                        -->
         <!-- ============================================================== -->
         <div id="p2-wizard-paso-5" style="display:none;">
-          <div style="background:#070e1c; border:2px solid #10B981; border-radius:16px; padding:28px; text-align:center; box-shadow:0 0 40px rgba(16,185,129,0.3);">
-            <div style="font-size:48px; margin-bottom:12px;">🎉</div>
-            <h2 style="margin:0 0 8px 0; font-size:22px; font-weight:900; color:#FFF;">¡CUENTA & MES GRATIS ACTIVADOS CON ÉXITO!</h2>
-            <p style="margin:0 0 20px 0; font-size:13.5px; color:#A7F3D0;">
+          <div style="background:rgba(8,16,34,0.85); border:2px solid #18C995; border-radius:20px; padding:32px; text-align:center; box-shadow:0 0 50px rgba(24,201,149,0.35);">
+            <div style="font-size:52px; margin-bottom:14px;">🎉</div>
+            <h2 style="margin:0 0 10px 0; font-size:22px; font-weight:900; color:#FFF; letter-spacing:0.5px;">¡CUENTA & MES GRATIS ACTIVADOS CON ÉXITO!</h2>
+            <p style="margin:0 0 24px 0; font-size:13.5px; color:#A7F3D0; line-height:1.5;">
               Tu franquicia deportiva ha sido registrada oficialmente en la liga bajo la arquitectura de seguridad <strong>3Tree Digital Sport IA</strong>.
             </p>
 
-            <div id="p2-summary-card" style="background:rgba(2,6,23,0.8); border:1px solid #334155; border-radius:12px; padding:16px; max-width:460px; margin:0 auto 24px auto; text-align:left; font-size:12px; color:#CBD5E1;">
+            <div id="p2-summary-card" style="background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:18px; max-width:480px; margin:0 auto 26px auto; text-align:left; font-size:12.5px; color:#CBD5E1;">
               <!-- Rellenado dinámicamente -->
             </div>
 
-            <button type="button" onclick="irAPagina(3)" style="width:100%; max-width:460px; padding:16px 24px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:12px; font-weight:900; font-size:16px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 10px 30px rgba(242,101,34,0.6); display:inline-flex; align-items:center; justify-content:center; gap:10px;">
+            <button type="button" onclick="irAPagina(3)" style="width:100%; max-width:480px; padding:18px 28px; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; border:none; border-radius:14px; font-weight:900; font-size:16px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 10px 35px rgba(24,216,255,0.45); display:inline-flex; align-items:center; justify-content:center; gap:10px;">
               <span>🚀</span> <span>ACCEDER AL DUGOUT & SABERMETRÍA (PÁGINA 3)</span>
             </button>
           </div>
@@ -2627,45 +2648,47 @@ body {
       </div>
 
       <!-- SUB-VISTA B: INICIAR SESIÓN (USUARIO EXISTENTE / ADMINISTRADOR) -->
-      <div id="p2-sub-login" style="display:none; max-width:440px; margin:20px auto;">
+      <div id="p2-sub-login" style="display:none; max-width:460px; margin:20px auto;">
         
         <!-- Tarjeta de Acceso Maestro / Administrador Oficial -->
-        <div style="background:linear-gradient(135deg, rgba(242,101,34,0.15), rgba(0,210,255,0.12)); border:1.5px solid #00D2FF; border-radius:12px; padding:14px 16px; margin-bottom:18px; box-shadow:0 0 20px rgba(0,210,255,0.15);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <div style="font-size:12px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:6px;">
+        <div style="background:linear-gradient(135deg, rgba(24,216,255,0.12), rgba(139,92,246,0.1)); border:1.5px solid #18D8FF; border-radius:16px; padding:16px 18px; margin-bottom:20px; box-shadow:0 0 25px rgba(24,216,255,0.2);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-size:12px; font-weight:900; color:#18D8FF; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:6px;">
               <span>👑</span> <span>Acceso Administrador (CEO Alí Zapata)</span>
             </div>
-            <span style="font-size:10px; background:rgba(16,185,129,0.2); border:1px solid #10B981; color:#A7F3D0; padding:2px 8px; border-radius:12px; font-weight:800;">Activo</span>
+            <span style="font-size:10px; background:rgba(24,201,149,0.2); border:1px solid #18C995; color:#A7F3D0; padding:2px 8px; border-radius:12px; font-weight:800;">Activo</span>
           </div>
-          <div style="font-size:11.5px; color:#CBD5E1; line-height:1.4; margin-bottom:10px;">
-            <div>👤 <strong>Usuario:</strong> <code style="color:#FFC72C; background:rgba(0,0,0,0.4); padding:1px 6px; border-radius:4px;">admin@diamax.pro</code></div>
-            <div style="margin-top:4px;">🔑 <strong>Clave:</strong> <code style="color:#00D2FF; background:rgba(0,0,0,0.4); padding:1px 6px; border-radius:4px;">Diamax2026*</code> (o PIN <code style="color:#A7F3D0;">1234</code>)</div>
+          <div style="font-size:12px; color:#CBD5E1; line-height:1.5; margin-bottom:12px;">
+            <div>👤 <strong>Usuario:</strong> <code style="color:#FFB82E; background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; font-family:monospace;">admin@diamax.pro</code></div>
+            <div style="margin-top:4px;">🔑 <strong>Clave:</strong> <code style="color:#18D8FF; background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; font-family:monospace;">Diamax2026*</code> (o PIN <code style="color:#A7F3D0;">1234</code>)</div>
           </div>
-          <button type="button" onclick="autoLlenarAdmin()" style="width:100%; padding:8px 12px; background:rgba(0,210,255,0.18); border:1px dashed #00D2FF; color:#00D2FF; border-radius:8px; font-size:11.5px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(0,210,255,0.3)'" onmouseout="this.style.background='rgba(0,210,255,0.18)'">
+          <button type="button" onclick="autoLlenarAdmin()" style="width:100%; padding:10px 14px; background:rgba(24,216,255,0.15); border:1px dashed #18D8FF; color:#18D8FF; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.25)'" onmouseout="this.style.background='rgba(24,216,255,0.15)'">
             <span>⚡</span> <span>Auto-completar Credenciales de Administrador</span>
           </button>
         </div>
 
-        <div id="p2-login-alert" style="display:none; padding:12px; border-radius:10px; margin-bottom:14px; font-size:12.5px;"></div>
+        <div id="p2-login-alert" style="display:none; padding:12px; border-radius:10px; margin-bottom:16px; font-size:12.5px;"></div>
 
         <form onsubmit="event.preventDefault(); procesarLoginP2();">
-          <div style="margin-bottom:14px;">
-            <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:6px; text-transform:uppercase;">Correo Electrónico / Usuario Táctico</label>
-            <input type="text" id="p2-login-user" placeholder="admin@diamax.pro" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:13.5px; outline:none;">
-          </div>
           <div style="margin-bottom:16px;">
-            <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:6px; text-transform:uppercase;">Clave de Acceso</label>
-            <input type="password" id="p2-login-pass" placeholder="••••••••" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:13.5px; outline:none;">
+            <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">Correo Electrónico / Usuario Táctico</label>
+            <input type="text" id="p2-login-user" placeholder="admin@diamax.pro" required style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:13px 14px; color:#FFF; font-size:14px; outline:none;">
           </div>
-          <button type="submit" style="width:100%; padding:14px; background:linear-gradient(135deg, #00D2FF, #0284C7); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(0,210,255,0.4); display:flex; align-items:center; justify-content:center; gap:8px;">
-            <span>🔑</span> <span>Entrar a Página 3 (Dugout en Vivo)</span>
+          <div style="margin-bottom:20px;">
+            <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">Clave de Acceso</label>
+            <input type="password" id="p2-login-pass" placeholder="••••••••" required style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:13px 14px; color:#FFF; font-size:14px; outline:none;">
+          </div>
+          <button type="submit" style="width:100%; padding:15px; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; border:none; border-radius:12px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 0 25px rgba(24,216,255,0.4); display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span>🔑</span> <span>ENTRAR AL DUGOUT (PÁGINA 3)</span>
           </button>
         </form>
+
       </div>
 
     </div>
 
   </div>
+
 </div>
 
 
@@ -5896,7 +5919,7 @@ window.DIAMAX_OFFLINE_ENGINE = {
   init: function() {
     // 1. Registro del Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=3.2')
+      navigator.serviceWorker.register('./sw.js?v=4.1')
         .then(reg => {
           reg.update();
           console.log('[3TREE OFFLINE] Service Worker v3.2 registrado con éxito:', reg.scope);
