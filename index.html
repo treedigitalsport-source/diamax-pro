@@ -2084,6 +2084,292 @@ body.daylight-mode .btn-keypad:hover {
 }
 
 </style>
+
+  <!-- ⚡ DIAMAX PRO — SUPABASE REALTIME SDK v5.3 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+  // ════════════════════════════════════════════════════════════════════════════
+  // DIAMAX REALTIME ENGINE v1.0 — 3Tree Digital Sport IA
+  // Tiempo real en el dugout: pitcheos, carreras y marcador LIVE
+  // ════════════════════════════════════════════════════════════════════════════
+  const DIAMAX_RT = (function() {
+    let _sb = null;          // Supabase client
+    let _channel = null;     // Canal de Realtime
+    let _gameId = null;      // ID del juego activo
+    let _tenantId = null;    // ID del tenant (liga)
+    let _connected = false;
+
+    // ── Inicializar Supabase Client ──────────────────────────────────────────
+    function init() {
+      try {
+        const cfg = JSON.parse(localStorage.getItem('diamax_supabase_config') || '{}');
+        if (!cfg.url || !cfg.anonKey) {
+          console.info('[DIAMAX RT] Supabase no configurado. Usando modo local.');
+          return false;
+        }
+        _sb = supabase.createClient(cfg.url, cfg.anonKey);
+        _tenantId = cfg.tenantId || null;
+        console.log('[DIAMAX RT] ✅ Supabase conectado.');
+        mostrarIndicadorRealtime(true);
+        return true;
+      } catch(e) {
+        console.warn('[DIAMAX RT] Error init:', e);
+        return false;
+      }
+    }
+
+    // ── Configurar credenciales ──────────────────────────────────────────────
+    function configure(url, anonKey, tenantId) {
+      localStorage.setItem('diamax_supabase_config', JSON.stringify({ url, anonKey, tenantId: tenantId || null }));
+      return init();
+    }
+
+    // ── Indicador visual LIVE ────────────────────────────────────────────────
+    function mostrarIndicadorRealtime(conectado) {
+      const ind = document.getElementById('diamax-rt-indicator');
+      if (!ind) return;
+      if (conectado) {
+        ind.style.background = 'rgba(34,197,94,0.2)';
+        ind.style.borderColor = '#22C55E';
+        ind.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#22C55E;margin-right:5px;animation:rtPulse 1.2s infinite;"></span><span style="color:#22C55E;font-size:10px;font-weight:800;letter-spacing:0.5px;">LIVE</span>';
+      } else {
+        ind.style.background = 'rgba(239,68,68,0.15)';
+        ind.style.borderColor = '#EF4444';
+        ind.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#EF4444;margin-right:5px;"></span><span style="color:#EF4444;font-size:10px;font-weight:800;letter-spacing:0.5px;">LOCAL</span>';
+      }
+    }
+
+    // ── Suscribir al juego activo (Realtime) ─────────────────────────────────
+    function subscribeToGame(gameId) {
+      if (!_sb) return false;
+      if (_channel) _channel.unsubscribe();
+      _gameId = gameId;
+
+      _channel = _sb
+        .channel('diamax_game_' + gameId)
+        // Cambios en el marcador del juego
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'games',
+          filter: 'id=eq.' + gameId
+        }, (payload) => {
+          console.log('[DIAMAX RT] 🔄 Juego actualizado:', payload.new);
+          handleGameUpdate(payload.new);
+        })
+        // Nuevos pitcheos en tiempo real
+        .on('postgres_changes', {
+          event: 'INSERT', schema: 'public', table: 'pitches',
+          filter: 'game_id=eq.' + gameId
+        }, (payload) => {
+          console.log('[DIAMAX RT] ⚾ Nuevo pitch:', payload.new);
+          handleNewPitch(payload.new);
+        })
+        // Nuevos turnos al bate
+        .on('postgres_changes', {
+          event: 'INSERT', schema: 'public', table: 'at_bats',
+          filter: 'game_id=eq.' + gameId
+        }, (payload) => {
+          console.log('[DIAMAX RT] 🏏 Nuevo turno:', payload.new);
+          handleNewAtBat(payload.new);
+        })
+        // Broadcast de eventos en vivo (sin BD - ultra bajo latencia)
+        .on('broadcast', { event: 'live_play' }, (payload) => {
+          handleLiveBroadcast(payload.payload);
+        })
+        .subscribe((status) => {
+          _connected = status === 'SUBSCRIBED';
+          mostrarIndicadorRealtime(_connected);
+          if (_connected) {
+            console.log('[DIAMAX RT] 📡 Suscrito al juego:', gameId);
+            if (typeof mostrarToast === 'function') mostrarToast('📡 DIAMAX LIVE: Transmisión en tiempo real activa');
+          }
+        });
+
+      return true;
+    }
+
+    // ── Handlers de eventos Realtime ─────────────────────────────────────────
+    function handleGameUpdate(gameData) {
+      if (!gameData) return;
+      // Actualizar marcador desde la nube
+      if (gameData.total_us !== undefined && typeof liveState !== 'undefined') {
+        liveState.scoreUs = gameData.total_us;
+        liveState.scoreThem = gameData.total_them;
+        liveState.inningsUs = gameData.innings_us || liveState.inningsUs;
+        liveState.inningsThem = gameData.innings_them || liveState.inningsThem;
+        // Re-renderizar marcador
+        if (typeof renderAll === 'function') renderAll();
+        if (typeof renderLiveBoxscoreTable === 'function') renderLiveBoxscoreTable();
+        _flashScoreUpdate();
+      }
+    }
+
+    function handleNewPitch(pitchData) {
+      if (!pitchData) return;
+      _flashBanner('⚾ PITCH LIVE: ' + (pitchData.pitch_type || '') + ' · ' + (pitchData.is_strike ? 'STRIKE' : 'BOLA'), '#00F2FE');
+    }
+
+    function handleNewAtBat(atBatData) {
+      if (!atBatData) return;
+      const result = atBatData.result || '';
+      const icons = { 'HR': '🏆 JONRÓN', '1B': '⚡ Sencillo', '2B': '🔥 Doblete', '3B': '🚀 Triplete', 'K': '💨 Ponche', 'BB': '🚶 Boleto' };
+      _flashBanner((icons[result] || '⚾ ' + result) + ' — LIVE', '#FFC72C');
+    }
+
+    function handleLiveBroadcast(data) {
+      if (!data) return;
+      if (data.type === 'score_update') handleGameUpdate(data);
+      if (data.type === 'play') _flashBanner(data.text || '⚾ Jugada LIVE', '#22C55E');
+    }
+
+    // ── Emitir eventos al canal (ultra bajo latencia via Broadcast) ───────────
+    async function broadcast(type, data) {
+      if (!_channel || !_connected) return;
+      await _channel.send({ type: 'broadcast', event: 'live_play', payload: { type, ...data, ts: Date.now() } });
+    }
+
+    // ── Guardar juego en Supabase ─────────────────────────────────────────────
+    async function upsertGame(gameData) {
+      if (!_sb || !_tenantId) return null;
+      try {
+        const payload = {
+          id: gameData.id || ('game_' + Date.now()),
+          home_team_name: gameData.homeTeam || 'Nosotros',
+          away_team_name: gameData.awayTeam || 'Rivales',
+          game_date: new Date().toISOString(),
+          status: gameData.status || 'IN_PROGRESS',
+          innings_us: gameData.inningsUs || [],
+          innings_them: gameData.inningsThem || [],
+          total_us: gameData.scoreUs || 0,
+          total_them: gameData.scoreThem || 0,
+          total_innings: gameData.totalInnings || 9,
+          current_inning: gameData.inning || 1,
+          tenant_id: _tenantId
+        };
+        const { data, error } = await _sb.from('games').upsert(payload).select().single();
+        if (error) { console.error('[DIAMAX RT] upsertGame error:', error); return null; }
+        _gameId = data.id;
+        subscribeToGame(data.id);
+        localStorage.setItem('diamax_active_game_id', data.id);
+        return data;
+      } catch(e) {
+        console.error('[DIAMAX RT] upsertGame exception:', e);
+        return null;
+      }
+    }
+
+    // ── Guardar pitcheo en Supabase ───────────────────────────────────────────
+    async function savePitch(pitchType, isStrike, velocity) {
+      if (!_sb || !_gameId || !_tenantId) {
+        // Solo broadcast local si no hay BD
+        broadcast('play', { text: '⚾ ' + pitchType + ' · ' + (isStrike ? 'Strike' : 'Bola') });
+        return;
+      }
+      try {
+        await _sb.from('pitches').insert({
+          game_id: _gameId,
+          pitch_type: pitchType,
+          is_strike: isStrike,
+          velocity: velocity || null,
+          sequence_number: (typeof activePitcherStats !== 'undefined' ? activePitcherStats.totalPitches : 1),
+          tenant_id: _tenantId
+        });
+      } catch(e) { console.warn('[DIAMAX RT] savePitch:', e); }
+    }
+
+    // ── Guardar turno al bate en Supabase ─────────────────────────────────────
+    async function saveAtBat(action, batterName, pitcherName, rbi) {
+      if (!_sb || !_gameId || !_tenantId) {
+        broadcast('play', { text: '⚾ ' + action + ' — ' + (batterName || '') });
+        return;
+      }
+      try {
+        const { data } = await _sb.from('at_bats').insert({
+          game_id: _gameId,
+          batter_name: batterName || 'Bateador',
+          pitcher_name: pitcherName || 'Lanzador',
+          result: action,
+          rbi: rbi || 0,
+          tenant_id: _tenantId
+        }).select().single();
+        return data;
+      } catch(e) { console.warn('[DIAMAX RT] saveAtBat:', e); }
+    }
+
+    // ── Actualizar marcador en Supabase (tiempo real para todos) ─────────────
+    async function syncScore(inningsUs, inningsThem, totalUs, totalThem, currentInning) {
+      if (!_gameId) return;
+
+      // Broadcast inmediato (< 100ms para todos los dispositivos conectados)
+      broadcast('score_update', {
+        innings_us: inningsUs, innings_them: inningsThem,
+        total_us: totalUs, total_them: totalThem,
+        current_inning: currentInning
+      });
+
+      // Luego guardar en BD (persistencia)
+      if (!_sb || !_tenantId) return;
+      try {
+        await _sb.from('games').update({
+          innings_us: inningsUs,
+          innings_them: inningsThem,
+          total_us: totalUs,
+          total_them: totalThem,
+          current_inning: currentInning
+        }).eq('id', _gameId).eq('tenant_id', _tenantId);
+      } catch(e) { console.warn('[DIAMAX RT] syncScore:', e); }
+    }
+
+    // ── Flash visual en el marcador al recibir actualización ─────────────────
+    function _flashScoreUpdate() {
+      const els = document.querySelectorAll('.score-display, #score-us, #score-them, [id*="marcador"], [id*="score"]');
+      els.forEach(el => {
+        el.style.transition = 'box-shadow 0.3s';
+        el.style.boxShadow = '0 0 30px rgba(34,197,94,0.8)';
+        setTimeout(() => { el.style.boxShadow = ''; }, 800);
+      });
+    }
+
+    function _flashBanner(text, color) {
+      const banner = document.getElementById('live-action-banner');
+      if (banner) {
+        banner.style.color = color || '#00F2FE';
+        banner.style.textShadow = '0 0 20px ' + (color || '#00F2FE');
+        if (typeof setSafeHTML === 'function') setSafeHTML('live-action-banner', '📡 LIVE — ' + text);
+        else banner.textContent = '📡 LIVE — ' + text;
+        setTimeout(() => { banner.style.color = ''; banner.style.textShadow = ''; }, 2000);
+      }
+    }
+
+    // API pública
+    return {
+      init, configure, subscribeToGame,
+      upsertGame, savePitch, saveAtBat, syncScore,
+      broadcast,
+      isConnected: () => _connected,
+      getGameId: () => _gameId,
+      getClient: () => _sb
+    };
+  })();
+
+  // Auto-inicializar al cargar la página
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+      DIAMAX_RT.init();
+      // Reanudar juego activo si hay uno guardado
+      const savedGameId = localStorage.getItem('diamax_active_game_id');
+      if (savedGameId && DIAMAX_RT.isConnected()) {
+        DIAMAX_RT.subscribeToGame(savedGameId);
+      }
+    }, 1500);
+  });
+  </script>
+  <style>
+  @keyframes rtPulse {
+    0%,100% { opacity:1; transform:scale(1); box-shadow:0 0 0 0 rgba(34,197,94,0.7); }
+    50% { opacity:0.6; transform:scale(1.2); box-shadow:0 0 0 6px rgba(34,197,94,0); }
+  }
+  </style>
+
 </head>
 <body>
 
@@ -4322,6 +4608,16 @@ function registrarPitcheoRapido(tipo, esStrike) {
   const toast = document.getElementById('live-action-banner');
   if (toast) {
     setSafeHTML('live-action-banner', `⚾ <strong>Pitcheo registrado:</strong> ${tipo} (${esStrike ? 'Strike' : 'Bola'}) · Total: ${activePitcherStats.totalPitches} lanzamientos.`);
+  }
+
+  
+  // ⚡ DIAMAX REALTIME — Transmitir pitcheo en tiempo real
+  if (typeof DIAMAX_RT !== 'undefined') {
+    DIAMAX_RT.savePitch(tipo, esStrike, null);
+  }
+  if (typeof DiamaxTursoService !== 'undefined') {
+    const gameId = typeof DIAMAX_RT !== 'undefined' ? DIAMAX_RT.getGameId() : null;
+    DiamaxTursoService.savePitch({ pitch_type: tipo, is_strike: esStrike, sequence_num: activePitcherStats.totalPitches, game_id: gameId });
   }
 
   actualizarPitcherUI();
@@ -8208,6 +8504,18 @@ function sumarCarreraInning(isGVE, cantidad) {
   } else {
     liveState.scoreThem = (liveState.scoreThem || 0) + cantidad;
     liveState.inningsThem[innIdx] = (liveState.inningsThem[innIdx] || 0) + cantidad;
+  }
+  // ⚡ DIAMAX REALTIME — Sincronizar marcador en tiempo real para TODOS los dispositivos
+  if (typeof DIAMAX_RT !== 'undefined') {
+    DIAMAX_RT.syncScore(
+      [...liveState.inningsUs], [...liveState.inningsThem],
+      liveState.scoreUs || 0, liveState.scoreThem || 0,
+      liveState.inning || 1
+    );
+  }
+  // Guardar también en Turso offline
+  if (typeof DiamaxTursoService !== 'undefined' && DIAMAX_RT && DIAMAX_RT.getGameId()) {
+    DiamaxTursoService.updateInningRuns(DIAMAX_RT.getGameId(), currentInn, liveState.inningsUs[innIdx], liveState.inningsThem[innIdx]);
   }
 }
 
@@ -14191,6 +14499,89 @@ document.addEventListener('keydown', function(e) {
   </div>
 
 </div>
+
+
+<!-- ⚡ DIAMAX REALTIME CONFIG MODAL -->
+<div id="diamax-rt-modal" style="display:none;position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(15,23,42,0.98),rgba(4,8,20,0.99));border:1px solid rgba(0,242,254,0.4);border-radius:20px;padding:28px;width:min(90vw,440px);box-shadow:0 30px 80px rgba(0,0,0,0.9),0 0 40px rgba(0,242,254,0.15);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1px;">⚡ DIAMAX LIVE — TIEMPO REAL</div>
+        <div style="font-size:11px;color:#64748B;font-weight:600;letter-spacing:0.5px;">Conectar marcador en vivo a la nube</div>
+      </div>
+      <button onclick="cerrarConfigRealtime()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">✕</button>
+    </div>
+    
+    <div id="diamax-rt-status-bar" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:#22C55E;text-align:center;">
+      📡 Estado: Verificando conexión...
+    </div>
+
+    <label style="display:block;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">SUPABASE URL</label>
+    <input id="rt-supabase-url" placeholder="https://xyzabc.supabase.co" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
+
+    <label style="display:block;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ANON / PUBLIC KEY</label>
+    <input id="rt-supabase-key" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
+
+    <label style="display:block;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ID DE LIGA / TENANT (UUID)</label>
+    <input id="rt-tenant-id" placeholder="Ej: liga-tampa-junior-2026 (opcional)" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:18px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
+
+    <button onclick="activarRealtime()" style="width:100%;background:linear-gradient(135deg,#00F2FE,#0284C7);color:#000;border:none;padding:14px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;margin-bottom:8px;">⚡ ACTIVAR TIEMPO REAL</button>
+    <button onclick="cerrarConfigRealtime()" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#94A3B8;padding:10px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">Cancelar</button>
+    
+    <p style="text-align:center;font-size:10px;color:#475569;margin:12px 0 0;font-family:'Plus Jakarta Sans',sans-serif;">Obtén las credenciales en supabase.com → Settings → API · <strong style="color:#00F2FE;">$0/mes</strong></p>
+  </div>
+</div>
+
+<script>
+function abrirConfigRealtime() {
+  const modal = document.getElementById('diamax-rt-modal');
+  if (!modal) return;
+  modal.style.display = 'block';
+  // Cargar config guardada
+  try {
+    const cfg = JSON.parse(localStorage.getItem('diamax_supabase_config') || '{}');
+    if (cfg.url) document.getElementById('rt-supabase-url').value = cfg.url;
+    if (cfg.anonKey) document.getElementById('rt-supabase-key').value = cfg.anonKey;
+    if (cfg.tenantId) document.getElementById('rt-tenant-id').value = cfg.tenantId;
+  } catch(e) {}
+  // Actualizar status
+  const statusBar = document.getElementById('diamax-rt-status-bar');
+  if (statusBar) {
+    const isConn = typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.isConnected();
+    statusBar.style.color = isConn ? '#22C55E' : '#EF4444';
+    statusBar.style.borderColor = isConn ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
+    statusBar.style.background = isConn ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)';
+    statusBar.textContent = isConn ? '📡 Estado: CONECTADO EN VIVO ✅' : '🔴 Estado: No conectado — Configura tus credenciales';
+  }
+}
+
+function cerrarConfigRealtime() {
+  const modal = document.getElementById('diamax-rt-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function activarRealtime() {
+  const url = document.getElementById('rt-supabase-url').value.trim();
+  const key = document.getElementById('rt-supabase-key').value.trim();
+  const tenant = document.getElementById('rt-tenant-id').value.trim();
+  if (!url || !key) { mostrarToast('⚠️ Ingresa URL y Anon Key de Supabase'); return; }
+  const statusBar = document.getElementById('diamax-rt-status-bar');
+  if (statusBar) { statusBar.textContent = '⏳ Conectando...'; statusBar.style.color = '#F59E0B'; }
+  const ok = typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.configure(url, key, tenant || null);
+  setTimeout(() => {
+    if (statusBar) {
+      statusBar.textContent = ok ? '📡 ¡CONECTADO EN VIVO! Marcador sincronizando en tiempo real ✅' : '❌ Error de conexión. Verifica tus credenciales.';
+      statusBar.style.color = ok ? '#22C55E' : '#EF4444';
+    }
+    if (ok) setTimeout(() => cerrarConfigRealtime(), 2000);
+  }, 1200);
+}
+
+// Cerrar modal al hacer clic afuera
+document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e) {
+  if (e.target === this) cerrarConfigRealtime();
+});
+</script>
 
 </body>
 </html>
