@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '4.8-translucent-capsule';
+  const DEPLOY_VERSION = '4.9-world-languages';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -2117,9 +2117,50 @@ body.daylight-mode .btn-keypad:hover {
       <span style="background:rgba(24,201,149,0.15); border:1px solid rgba(24,201,149,0.4); color:#A7F3D0; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:inline-flex; align-items:center; gap:6px;">
         <span style="width:7px; height:7px; border-radius:50%; background:#18C995; box-shadow:0 0 8px #18C995;"></span> Zero Trust v3.5
       </span>
-      <span style="background:linear-gradient(135deg, rgba(255,184,46,0.25), rgba(242,101,34,0.25)); border:1px solid #FFB82E; color:#FFF; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 0 15px rgba(255,184,46,0.3);">
+      <span id="p1-badge-month-free" style="background:linear-gradient(135deg, rgba(255,184,46,0.25), rgba(242,101,34,0.25)); border:1px solid #FFB82E; color:#FFF; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 0 15px rgba(255,184,46,0.3);">
         🎁 1 Mes Gratis
       </span>
+
+      <!-- SELECTOR MULTI-IDIOMA MUNDIAL DE BÉISBOL (APPLE SPORTS GLASS) -->
+      <div style="position:relative;" id="p1-lang-dropdown-wrapper">
+        <button onclick="toggleSelectorIdiomasP1(event)" id="p1-current-lang-btn" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); color:#FFFFFF; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:800; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; cursor:pointer; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); display:inline-flex; align-items:center; gap:6px; box-shadow:0 4px 20px rgba(0,0,0,0.3); transition:all 0.25s;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.2)';">
+          <span style="font-size:14px;">🌐</span> <span id="p1-active-flag">🇪🇸</span> <span id="p1-active-lang-code">ES</span> <span style="font-size:9px; opacity:0.6;">▼</span>
+        </button>
+
+        <!-- MENU DESPLEGABLE TRANSLÚCIDO DE IDIOMAS -->
+        <div id="p1-lang-menu" style="display:none; position:absolute; top:calc(100% + 8px); right:0; z-index:99999; width:220px; background:linear-gradient(180deg, rgba(15,23,42,0.96) 0%, rgba(4,8,20,0.98) 100%); border:1px solid rgba(24,216,255,0.35); border-radius:16px; padding:8px; box-shadow:0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(24,216,255,0.15); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);">
+          <div style="font-family:'Rajdhani', sans-serif; font-size:10px; font-weight:800; color:#18D8FF; letter-spacing:1px; text-transform:uppercase; padding:4px 8px 6px 8px; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:4px;">
+            ⚾ IDIOMAS DE BÉISBOL MUNDIAL
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
+            <button onclick="cambiarIdiomaGlobal('es')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇪🇸</span> Español
+            </button>
+            <button onclick="cambiarIdiomaGlobal('en')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇺🇸</span> English
+            </button>
+            <button onclick="cambiarIdiomaGlobal('ja')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇯🇵</span> 日本語
+            </button>
+            <button onclick="cambiarIdiomaGlobal('ko')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇰🇷</span> 한국어
+            </button>
+            <button onclick="cambiarIdiomaGlobal('zh')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇹🇼</span> 繁中
+            </button>
+            <button onclick="cambiarIdiomaGlobal('nl')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇳🇱</span> Dutch
+            </button>
+            <button onclick="cambiarIdiomaGlobal('pt')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇵🇹</span> Port
+            </button>
+            <button onclick="cambiarIdiomaGlobal('it')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
+              <span>🇮🇹</span> Italiano
+            </button>
+          </div>
+        </div>
+      </div>
+
       
 
     </div>
@@ -2134,18 +2175,18 @@ body.daylight-mode .btn-keypad:hover {
     
     <!-- Tag Subtítulo Cinemático -->
     <div style="margin-bottom:12px;">
-      <span style="display:inline-flex; align-items:center; padding:6px 18px; background:rgba(4,8,20,0.65); border:1px solid rgba(24,216,255,0.4); border-radius:30px; color:#18D8FF; font-family:'Rajdhani', sans-serif; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; text-shadow:0 0 12px rgba(24,216,255,0.8); box-shadow:0 0 25px rgba(24,216,255,0.2);">
+      <span id="p1-sports-os-pill" style="display:inline-flex; align-items:center; padding:6px 18px; background:rgba(4,8,20,0.65); border:1px solid rgba(24,216,255,0.4); border-radius:30px; color:#18D8FF; font-family:'Rajdhani', sans-serif; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; text-shadow:0 0 12px rgba(24,216,255,0.8); box-shadow:0 0 25px rgba(24,216,255,0.2);">
         <svg style="display:inline-block;vertical-align:-2px;margin-right:6px;filter:drop-shadow(0 0 8px #18D8FF)" width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-10z" fill="url(#p1-bolt-grad)"/><defs><linearGradient id="p1-bolt-grad" x1="3" y1="2" x2="21" y2="22"><stop stop-color="#18D8FF"/><stop offset="1" stop-color="#0284C7"/></linearGradient></defs></svg> SPORTS OPERATING SYSTEM · BÉISBOL &amp; SOFTBOL
       </span>
     </div>
 
     <!-- Título Principal de Alto Impacto -->
-    <h1 style="margin:0 0 8px 0; font-family:'Montserrat', sans-serif; font-size:36px; font-weight:900; color:#FFFFFF; letter-spacing:2px; text-transform:uppercase; text-shadow:0 4px 25px rgba(0,0,0,0.95), 0 0 35px rgba(24,216,255,0.35); line-height:1.15;">
+    <h1 id="p1-title-welcome" style="margin:0 0 8px 0; font-family:'Montserrat', sans-serif; font-size:36px; font-weight:900; color:#FFFFFF; letter-spacing:2px; text-transform:uppercase; text-shadow:0 4px 25px rgba(0,0,0,0.95), 0 0 35px rgba(24,216,255,0.35); line-height:1.15;">
       BIENVENIDO A DIAMAX PRO
     </h1>
 
     <!-- Descripción Sabermétrica con Sombra Nítida -->
-    <p style="margin:0 auto 24px auto; max-width:620px; font-family:'Plus Jakarta Sans', sans-serif; font-size:14px; font-weight:500; color:#F1F5F9; line-height:1.6; text-shadow:0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9);">
+    <p id="p1-desc-text" style="margin:0 auto 24px auto; max-width:620px; font-family:'Plus Jakarta Sans', sans-serif; font-size:14px; font-weight:500; color:#F1F5F9; line-height:1.6; text-shadow:0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9);">
       Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría militar de vanguardia.
     </p>
 
@@ -2154,12 +2195,12 @@ body.daylight-mode .btn-keypad:hover {
       
       <!-- Botón 1: Registro & Planes -->
       <button onclick="irAPagina(2, 'register')" style="padding:16px 30px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
-        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v2a2 2 0 0 0 0 4v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-2a2 2 0 0 0 0-4V9z" fill="#040814" stroke="#040814" stroke-width="1.5"/><line x1="9" y1="6" x2="9" y2="18" stroke="#FFB82E" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="15" cy="12" r="2" fill="#FFB82E"/></svg> <span>REGISTRO &amp; PLANES (MES GRATIS)</span>
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v2a2 2 0 0 0 0 4v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-2a2 2 0 0 0 0-4V9z" fill="#040814" stroke="#040814" stroke-width="1.5"/><line x1="9" y1="6" x2="9" y2="18" stroke="#FFB82E" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="15" cy="12" r="2" fill="#FFB82E"/></svg> <span id="p1-btn-register-text">REGISTRO &amp; PLANES (MES GRATIS)</span>
       </button>
 
       <!-- Botón 2: Iniciar Sesión / Entrar -->
       <button onclick="irAPagina(2, 'login')" style="padding:16px 30px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
-        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.7))" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="12" r="5" stroke="#18D8FF" stroke-width="2" fill="rgba(24,216,255,0.15)"/><circle cx="8" cy="12" r="1.8" fill="#18D8FF"/><path d="M13 12h8m-3 0v3m3-3v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> <span>INICIAR SESIÓN / ENTRAR</span>
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.7))" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="12" r="5" stroke="#18D8FF" stroke-width="2" fill="rgba(24,216,255,0.15)"/><circle cx="8" cy="12" r="1.8" fill="#18D8FF"/><path d="M13 12h8m-3 0v3m3-3v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> <span id="p1-btn-login-text">INICIAR SESIÓN / ENTRAR</span>
       </button>
 
     </div>
@@ -2170,7 +2211,7 @@ body.daylight-mode .btn-keypad:hover {
       <span style="color:#18D8FF; opacity:0.6;">·</span>
       <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(24,216,255,0.6))" width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="16" width="3.5" height="5" rx="1" fill="#18D8FF" opacity="0.4"/><rect x="8" y="11" width="3.5" height="10" rx="1" fill="#18D8FF" opacity="0.7"/><rect x="14" y="6" width="3.5" height="15" rx="1" fill="#18D8FF" opacity="0.9"/><rect x="20" y="2" width="3.5" height="19" rx="1" fill="#18D8FF"/></svg> PWA Offline</span>
       <span style="color:#18D8FF; opacity:0.6;">·</span>
-      <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(255,255,255,0.6))" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.5" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1.8"/><path d="M7 4.5c2 2.8 2 12.2 0 15" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round"/><path d="M17 4.5c-2 2.8-2 12.2 0 15" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round"/><path d="M5.5 8.5l2.2.8m-2.2 6.2l2.2-.8m8.6-6.2l2.2-.8m-2.2 6.2l2.2.8" stroke="#EA580C" stroke-width="1.1" stroke-linecap="round"/></svg> Béisbol &amp; Softbol</span>
+      <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(255,255,255,0.6))" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.5" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1.8"/><path d="M7 4.5c2 2.8 2 12.2 0 15" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round"/><path d="M17 4.5c-2 2.8-2 12.2 0 15" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round"/><path d="M5.5 8.5l2.2.8m-2.2 6.2l2.2-.8m8.6-6.2l2.2-.8m-2.2 6.2l2.2.8" stroke="#EA580C" stroke-width="1.1" stroke-linecap="round"/></svg> <span id="p1-sports-text">Béisbol &amp; Softbol</span></span>
     </div>
 
   </div>
@@ -5955,7 +5996,7 @@ window.DIAMAX_OFFLINE_ENGINE = {
   init: function() {
     // 1. Registro del Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=4.8')
+      navigator.serviceWorker.register('./sw.js?v=4.9')
         .then(reg => {
           reg.update();
           console.log('[3TREE OFFLINE] Service Worker v3.2 registrado con éxito:', reg.scope);
@@ -13070,6 +13111,91 @@ window.addEventListener('load', function() {
 // ═══════════════════════════════════════════════════════════════
 // 🛑 FUNCIONES DE CONTROL DE SALIDA DIAMAX PRO
 // ═══════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 MOTOR MULTI-IDIOMA MUNDIAL DIAMAX PRO (8 IDIOMAS)
+// ═══════════════════════════════════════════════════════════════
+const WORLD_LANG_DICT = {"es":{"flag":"🇪🇸","name":"Español","code":"ES","sportsOS":"SPORTS OPERATING SYSTEM · BÉISBOL & SOFTBOL","welcome":"BIENVENIDO A DIAMAX PRO","desc":"Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría militar de vanguardia.","btnRegister":"REGISTRO & PLANES (MES GRATIS)","btnLogin":"INICIAR SESIÓN / ENTRAR","monthFree":"🎁 1 Mes Gratis","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Béisbol & Softbol","footerText":"DIAMAX PRO © 2026 · Diseñado & Desarrollado por","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"¿SALIR DE DIAMAX PRO?","exitDesc":"Tu sesión y datos de juego están protegidos bajo encriptación SHA-256 y arquitectura Zero Trust.","exitCancel":"↩ CONTINUAR EN EL SISTEMA","exitConfirm":"⏻ CONFIRMAR SALIDA SEGURA"},"en":{"flag":"🇺🇸","name":"English","code":"EN","sportsOS":"SPORTS OPERATING SYSTEM · BASEBALL & SOFTBALL","welcome":"WELCOME TO DIAMAX PRO","desc":"Franchise management, official rosters, pitch-by-pitch dugout scorer & military-grade advanced sabermetrics.","btnRegister":"REGISTER & PLANS (FREE MONTH)","btnLogin":"SIGN IN / ENTER DUGOUT","monthFree":"🎁 1 Month Free","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Baseball & Softball","footerText":"DIAMAX PRO © 2026 · Designed & Developed by","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"EXIT DIAMAX PRO?","exitDesc":"Your game session and intelligence data are protected under SHA-256 and Zero Trust architecture.","exitCancel":"↩ RETURN TO DUGOUT","exitConfirm":"⏻ CONFIRM SECURE EXIT"},"ja":{"flag":"🇯🇵","name":"日本語","code":"JA","sportsOS":"スポーツOS · 野球＆ソフトボール最高峰エンジン","welcome":"DIAMAX PRO へようこそ","desc":"球団運営、公式ロースター、1球ごとのダグアウトスコアブック、軍用規格の次世代セイバーメトリクス。","btnRegister":"新規登録＆プラン（初月無料）","btnLogin":"ログイン / ダグアウト入場","monthFree":"🎁 1ヶ月無料","zeroTrust":"Zero Trust v3.5","offlinePwa":"オフラインPWA","sportTypes":"野球＆ソフトボール","footerText":"DIAMAX PRO © 2026 · 開発元","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"DIAMAX PRO を終了しますか？","exitDesc":"試合データはSHA-256暗号化およびZero Trustアーキテクチャにより安全に保護されています。","exitCancel":"↩ システムを継続利用","exitConfirm":"⏻ 安全に終了する"},"ko":{"flag":"🇰🇷","name":"한국어","code":"KO","sportsOS":"스포츠 운영 체제 · 야구 및 소프트볼 지능형 플랫폼","welcome":"DIAMAX PRO에 오신 것을 환영합니다","desc":"구단 관리, 공식 로스터, 투구별 더그아웃 기록원 및 군사 등급 첨단 세이버메트릭스.","btnRegister":"회원가입 및 플랜 (1개월 무료)","btnLogin":"로그인 / 더그아웃 입장","monthFree":"🎁 1개월 무료","zeroTrust":"Zero Trust v3.5","offlinePwa":"오프라인 PWA","sportTypes":"야구 및 소프트볼","footerText":"DIAMAX PRO © 2026 · 개발 및 설계","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"DIAMAX PRO를 종료하시겠습니까?","exitDesc":"경기 세션과 데이터는 SHA-256 암호화 및 Zero Trust 보안 하에 안전하게 보관됩니다.","exitCancel":"↩ 시스템으로 돌아가기","exitConfirm":"⏻ 안전한 종료 확인"},"zh":{"flag":"🇹🇼","name":"繁體中文","code":"ZH","sportsOS":"運動作業系統 · 棒球與壘球次世代智慧平台","welcome":"歡迎來到 DIAMAX PRO","desc":"球團營運、官方名單、逐球球員休息室計分與軍規級先進進階數據分析。","btnRegister":"註冊與方案（免費首月）","btnLogin":"登入 / 進入球員休息室","monthFree":"🎁 1個月免費","zeroTrust":"Zero Trust v3.5","offlinePwa":"離線 PWA","sportTypes":"棒球與壘球","footerText":"DIAMAX PRO © 2026 · 設計與開發","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"確定要退出 DIAMAX PRO？","exitDesc":"您的比賽數據與戰術情資皆在 SHA-256 與 Zero Trust 嚴密防護之下。","exitCancel":"↩ 返回系統","exitConfirm":"⏻ 確認安全退出"},"nl":{"flag":"🇳🇱","name":"Nederlands","code":"NL","sportsOS":"SPORTS OPERATING SYSTEM · HONKBAL & SOFTBAL","welcome":"WELKOM BIJ DIAMAX PRO","desc":"Franchisebeheer, officiële selecties, pitch-by-pitch dugout scoring & geavanceerde sabermetrics.","btnRegister":"REGISTRATIE & PLANNEN (1 MAAND GRATIS)","btnLogin":"INLOGGEN / NAAR DUGOUT","monthFree":"🎁 1 Maand Gratis","zeroTrust":"Zero Trust v3.5","offlinePwa":"Offline PWA","sportTypes":"Honkbal & Softbal","footerText":"DIAMAX PRO © 2026 · Ontworpen & Ontwikkeld door","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"DIAMAX PRO VERLATEN?","exitDesc":"Uw spelsessie en gegevens zijn beveiligd met SHA-256 en Zero Trust-architectuur.","exitCancel":"↩ VERDERGAAN IN SYSTEEM","exitConfirm":"⏻ VEILIG AFSLUITEN"},"pt":{"flag":"🇵🇹","name":"Português","code":"PT","sportsOS":"SISTEMA OPERACIONAL ESPORTIVO · BEISEBOL & SOFTBOL","welcome":"BEM-VINDO AO DIAMAX PRO","desc":"Gestão de franquias, elencos oficiais, anotador de dugout pitch-by-pitch e sabermetria avançada militar.","btnRegister":"REGISTRO & PLANOS (MÊS GRÁTIS)","btnLogin":"ENTRAR / ACESSAR DUGOUT","monthFree":"🎁 1 Mês Grátis","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Beisebol & Softbol","footerText":"DIAMAX PRO © 2026 · Desenvolvido por","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"SAIR DO DIAMAX PRO?","exitDesc":"Sua sessão e dados táticos estão protegidos por criptografia SHA-256 e Zero Trust.","exitCancel":"↩ CONTINUAR NO SISTEMA","exitConfirm":"⏻ CONFIRMAR SAÍDA SEGURA"},"it":{"flag":"🇮🇹","name":"Italiano","code":"IT","sportsOS":"SISTEMA OPERATIVO SPORTIVO · BASEBALL & SOFTBALL","welcome":"BENVENUTO SU DIAMAX PRO","desc":"Gestione franchigie, roster ufficiali, segnapunti dugout pitch-by-pitch e sabermetrica avanzata militare.","btnRegister":"REGISTRAZIONE & PIANI (MESE GRATIS)","btnLogin":"ACCEDI / ENTRA NEL DUGOUT","monthFree":"🎁 1 Mese Gratis","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Baseball & Softball","footerText":"DIAMAX PRO © 2026 · Sviluppato da","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"USCIRE DA DIAMAX PRO?","exitDesc":"La tua sessione e i dati tattici sono protetti da crittografia SHA-256 e Zero Trust.","exitCancel":"↩ CONTINUA NEL SISTEMA","exitConfirm":"⏻ CONFERMA USCITA SICURA"}};
+
+function toggleSelectorIdiomasP1(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('p1-lang-menu');
+  if (!menu) return;
+  menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+}
+
+// Cerrar al hacer clic afuera
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('p1-lang-menu');
+  const wrapper = document.getElementById('p1-lang-dropdown-wrapper');
+  if (menu && wrapper && !wrapper.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
+function cambiarIdiomaGlobal(code) {
+  const l = WORLD_LANG_DICT[code] || WORLD_LANG_DICT.es;
+  window.currentLang = code;
+  try { localStorage.setItem('diamax_app_lang', code); } catch(e) {}
+  document.documentElement.lang = code;
+
+  // Actualizar Botón Header Página 1
+  const flagEl = document.getElementById('p1-active-flag');
+  const codeEl = document.getElementById('p1-active-lang-code');
+  if (flagEl) flagEl.innerText = l.flag;
+  if (codeEl) codeEl.innerText = l.code;
+
+  // Cerrar menú
+  const menu = document.getElementById('p1-lang-menu');
+  if (menu) menu.style.display = 'none';
+
+  // Traducir Página 1
+  const boltSVG = `<svg style="display:inline-block;vertical-align:-2px;margin-right:6px;filter:drop-shadow(0 0 8px #18D8FF)" width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-10z" fill="url(#p1-bolt-grad)"/><defs><linearGradient id="p1-bolt-grad" x1="3" y1="2" x2="21" y2="22"><stop stop-color="#18D8FF"/><stop offset="1" stop-color="#0284C7"/></linearGradient></defs></svg>`;
+  
+  const pill = document.getElementById('p1-sports-os-pill');
+  if (pill) pill.innerHTML = boltSVG + ' ' + l.sportsOS;
+
+  const title = document.getElementById('p1-title-welcome');
+  if (title) title.innerText = l.welcome;
+
+  const desc = document.getElementById('p1-desc-text');
+  if (desc) desc.innerText = l.desc;
+
+  const btnReg = document.getElementById('p1-btn-register-text');
+  if (btnReg) btnReg.innerText = l.btnRegister;
+
+  const btnLog = document.getElementById('p1-btn-login-text');
+  if (btnLog) btnLog.innerText = l.btnLogin;
+
+  const badgeFree = document.getElementById('p1-badge-month-free');
+  if (badgeFree) badgeFree.innerText = l.monthFree;
+
+  const sportsSpan = document.getElementById('p1-sports-text');
+  if (sportsSpan) sportsSpan.innerText = l.sportTypes;
+
+  // Traducir Modal de Salida
+  const exitTitle = document.querySelector('#diamax-exit-modal-card h2');
+  if (exitTitle) exitTitle.innerText = l.exitPrompt;
+  const exitDesc = document.querySelector('#diamax-exit-modal-card p');
+  if (exitDesc) exitDesc.innerText = l.exitDesc;
+
+  // Si existe applyLanguage para las otras páginas, sincronizar
+  if (typeof applyLanguage === 'function') {
+    applyLanguage(code === 'es' ? 'es' : 'en');
+  }
+
+  // Notificación visual de cambio de idioma
+  mostrarToast(l.flag + ' ' + l.name + ' (' + l.code + ')');
+}
+
+// Inicializar idioma al cargar
+document.addEventListener('DOMContentLoaded', function() {
+  const savedLang = localStorage.getItem('diamax_app_lang') || 'es';
+  if (savedLang && WORLD_LANG_DICT[savedLang]) {
+    cambiarIdiomaGlobal(savedLang);
+  }
+});
+
 function abrirModalSalida() {
   const modal = document.getElementById('diamax-exit-modal');
   const card = document.getElementById('diamax-exit-modal-card');
