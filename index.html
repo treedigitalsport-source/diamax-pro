@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '4.4-spatial-glass';
+  const DEPLOY_VERSION = '4.5-pure-cinematic';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -36,6 +36,12 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- 🌟 TIPOGRAFÍAS CINEMÁTICAS PROFESIONALES (MONTSERRAT + RAJDHANI + PLUS JAKARTA SANS) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+
 <title>DIAMAX Pro | Score & Tactics Engine</title>
 <!-- PWA & Apple Translucent Status Bar -->
 <link rel="manifest" href="./manifest.json">
@@ -2082,99 +2088,104 @@ body.daylight-mode .btn-keypad:hover {
 <body>
 
 <!-- ======================================================================== -->
-<!-- 🎬 PÁGINA 1: PANTALLA INICIAL (HERO VIDEO 1080p & PUERTA DE ENTRADA)    -->
+<!-- 🎬 PÁGINA 1: PANTALLA INICIAL (CINEMÁTICA PURA · CERO CUADROS · 100% VIDEO NÍTIDO) -->
 <!-- ======================================================================== -->
-<!-- ======================================================================== -->
-<!-- 🎬 PÁGINA 1: PANTALLA INICIAL (HERO CINEMÁTICO & TRANSLÚCIDO DESPEJADO) -->
-<!-- ======================================================================== -->
-<div id="diamax-page-1" style="display:flex; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:#020617; overflow:hidden; font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif; flex-direction:column; justify-content:space-between; align-items:center; padding:18px 16px 20px 16px; box-sizing:border-box;">
+<div id="diamax-page-1" style="display:flex; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:#020617; overflow:hidden; font-family:'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; flex-direction:column; justify-content:space-between; align-items:center; padding:20px 20px 24px 20px; box-sizing:border-box;">
   
-  <!-- Video de Fondo Cinemático 1080p (Mayor Brillo y Claridad Visual) -->
-  <video autoplay muted loop playsinline preload="auto" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.78) contrast(1.1); z-index:1;">
+  <!-- Video de Fondo Cinemático 1080p — MÁXIMA NITIDEZ SIN DISTORSIÓN -->
+  <video autoplay muted loop playsinline preload="auto" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.85) contrast(1.08); z-index:1;">
     <source src="./Baseball_bat_striking_ball_1080p_20260913144643.mp4" type="video/mp4">
   </video>
 
-  <!-- Máscara de Iluminación Perimetral (Centro 100% Despejado para ver la Jugada) -->
-  <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(3,7,18,0.7) 0%, rgba(3,7,18,0.04) 28%, rgba(3,7,18,0.04) 62%, rgba(3,7,18,0.85) 100%); z-index:2; pointer-events:none;"></div>
+  <!-- Gradiente Cinemático Sutil (Protección de legibilidad en bordes sin tapar el centro) -->
+  <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.65) 0%, rgba(2,6,23,0) 30%, rgba(2,6,23,0) 55%, rgba(2,6,23,0.85) 100%); z-index:2; pointer-events:none;"></div>
 
   <!-- 1. Header Superior Apple Sports Minimalista -->
-  <div style="position:relative; z-index:10; width:100%; max-width:960px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-    <div style="display:flex; align-items:center; gap:10px; background:rgba(6,12,26,0.55); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.1); padding:6px 14px; border-radius:24px;">
-      <img src="./3tree_digital_logo.png" alt="3Tree Digital" style="height:30px; width:auto; border-radius:6px; filter:drop-shadow(0 0 8px rgba(24,216,255,0.35));">
+  <div style="position:relative; z-index:10; width:100%; max-width:1100px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    
+    <!-- Logo 3Tree + DIAMAX PRO -->
+    <div style="display:flex; align-items:center; gap:12px; background:rgba(4,8,20,0.6); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:30px; box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+      <img src="./3tree_digital_logo.png" alt="3Tree Digital" style="height:32px; width:auto; border-radius:6px; filter:drop-shadow(0 0 10px rgba(24,216,255,0.4));">
       <div>
-        <div style="font-size:13.5px; font-weight:900; color:#FFF; letter-spacing:0.8px; line-height:1.1;">DIAMAX PRO™</div>
-        <div style="font-size:9px; color:#18D8FF; font-weight:700; letter-spacing:0.4px;">3Tree Digital Sport IA</div>
+        <div style="font-family:'Montserrat', sans-serif; font-size:14px; font-weight:900; color:#FFFFFF; letter-spacing:1px; line-height:1.1;">DIAMAX PRO™</div>
+        <div style="font-family:'Rajdhani', sans-serif; font-size:10px; color:#18D8FF; font-weight:700; letter-spacing:1px; text-transform:uppercase;">3Tree Digital Sport IA</div>
       </div>
     </div>
     
-    <div style="display:flex; align-items:center; gap:8px;">
-      <span style="background:rgba(24,201,149,0.15); border:1px solid rgba(24,201,149,0.35); color:#A7F3D0; font-size:11px; font-weight:800; padding:5px 12px; border-radius:20px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);">
-        ● Zero Trust v3.5
+    <!-- Badges y Botón de Salida -->
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="background:rgba(24,201,149,0.15); border:1px solid rgba(24,201,149,0.4); color:#A7F3D0; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:inline-flex; align-items:center; gap:6px;">
+        <span style="width:7px; height:7px; border-radius:50%; background:#18C995; box-shadow:0 0 8px #18C995;"></span> Zero Trust v3.5
       </span>
-      <span style="background:linear-gradient(135deg, rgba(255,184,46,0.25), rgba(242,101,34,0.25)); border:1px solid #FFB82E; color:#FFF; font-size:11px; font-weight:800; padding:5px 12px; border-radius:20px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 0 12px rgba(255,184,46,0.35);">
+      <span style="background:linear-gradient(135deg, rgba(255,184,46,0.25), rgba(242,101,34,0.25)); border:1px solid #FFB82E; color:#FFF; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 0 15px rgba(255,184,46,0.3);">
         🎁 1 Mes Gratis
       </span>
+      
+      <!-- BOTÓN DE SALIDA RÁPIDA HEADER -->
+      <button onclick="abrirModalSalida()" style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); color:#FCA5A5; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:800; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; cursor:pointer; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.25)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(239,68,68,0.12)'; this.style.borderColor='rgba(239,68,68,0.35)';">
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:4px;filter:drop-shadow(0 0 8px rgba(239,68,68,0.7))" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> SALIR
+      </button>
     </div>
   </div>
 
-  <!-- 2. Zona Central Totalmente Abierta / Despejada (El video de bateo se luce 100%) -->
+  <!-- 2. Zona Central Totalmente Abierta (El video de bateo se luce 100% puro) -->
   <div style="position:relative; z-index:5; flex:1; width:100%; display:flex; align-items:center; justify-content:center; pointer-events:none;">
   </div>
 
-  <!-- 3. Contenido Flotante Sin Marco — Apple Vision Pro Spatial Glass -->
-  <div style="position:relative; z-index:10; width:100%; max-width:680px; background:linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(6,12,26,0.08) 100%); border:none; border-top:1px solid rgba(255,255,255,0.06); border-radius:28px; padding:22px 24px 18px 24px; backdrop-filter:blur(10px) saturate(120%); -webkit-backdrop-filter:blur(10px) saturate(120%); box-shadow:none; text-align:center;">
+  <!-- 3. CONTENIDO FLOTANTE DIRECTO SOBRE EL VIDEO (SIN CUADRO, SIN BLUR, CERO DISTORSIÓN) -->
+  <div style="position:relative; z-index:10; width:100%; max-width:820px; text-align:center; padding:0 10px;">
     
-    <!-- Tag Sutil -->
-    <div style="margin-bottom:10px;">
-      <span style="display:inline-block; padding:4px 14px; background:rgba(24,216,255,0.06); border:1px solid rgba(24,216,255,0.15); border-radius:20px; color:rgba(24,216,255,0.85); font-size:9.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase;">
-        ⚡ SPORTS OPERATING SYSTEM · BÉISBOL & SOFTBOL
+    <!-- Tag Subtítulo Cinemático -->
+    <div style="margin-bottom:12px;">
+      <span style="display:inline-flex; align-items:center; padding:6px 18px; background:rgba(4,8,20,0.65); border:1px solid rgba(24,216,255,0.4); border-radius:30px; color:#18D8FF; font-family:'Rajdhani', sans-serif; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; text-shadow:0 0 12px rgba(24,216,255,0.8); box-shadow:0 0 25px rgba(24,216,255,0.2);">
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:6px;filter:drop-shadow(0 0 8px #18D8FF)" width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-10z" fill="url(#p1-bolt-grad)"/><defs><linearGradient id="p1-bolt-grad" x1="3" y1="2" x2="21" y2="22"><stop stop-color="#18D8FF"/><stop offset="1" stop-color="#0284C7"/></linearGradient></defs></svg> SPORTS OPERATING SYSTEM · BÉISBOL &amp; SOFTBOL
       </span>
     </div>
 
-    <!-- Título con Resplandor Cinemático -->
-    <h1 style="margin:0 0 5px 0; font-size:24px; font-weight:900; color:#FFFFFF; letter-spacing:1.2px; text-shadow:0 0 40px rgba(24,216,255,0.25), 0 2px 16px rgba(0,0,0,0.9);">
+    <!-- Título Principal de Alto Impacto -->
+    <h1 style="margin:0 0 8px 0; font-family:'Montserrat', sans-serif; font-size:36px; font-weight:900; color:#FFFFFF; letter-spacing:2px; text-transform:uppercase; text-shadow:0 4px 25px rgba(0,0,0,0.95), 0 0 35px rgba(24,216,255,0.35); line-height:1.15;">
       BIENVENIDO A DIAMAX PRO
     </h1>
-    <p style="margin:0 0 18px 0; font-size:12px; color:rgba(226,232,240,0.8); line-height:1.5; text-shadow:0 1px 6px rgba(0,0,0,0.9); max-width:520px; margin-left:auto; margin-right:auto;">
+
+    <!-- Descripción Sabermétrica con Sombra Nítida -->
+    <p style="margin:0 auto 24px auto; max-width:620px; font-family:'Plus Jakarta Sans', sans-serif; font-size:14px; font-weight:500; color:#F1F5F9; line-height:1.6; text-shadow:0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9);">
       Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría militar de vanguardia.
     </p>
 
-    <!-- Botones Flotantes con Cristal Independiente -->
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+    <!-- Botones de Acción Cinemáticos Flotantes -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:20px;">
       
-      <!-- Registro — Botón Dorado Cinemático -->
-      <button onclick="irAPagina(2, 'register')" style="padding:14px 24px; background:linear-gradient(135deg, rgba(255,184,46,0.88), rgba(234,88,12,0.88)); color:#040814; border:none; border-radius:14px; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 4px 24px rgba(255,184,46,0.35); display:inline-flex; align-items:center; gap:8px; transition:all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 32px rgba(255,184,46,0.55)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 24px rgba(255,184,46,0.35)';">
-        <span style="font-size:15px;">🎟️</span> <span>REGISTRO & PLANES (MES GRATIS)</span>
+      <!-- Botón 1: Registro & Planes -->
+      <button onclick="irAPagina(2, 'register')" style="padding:16px 30px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v2a2 2 0 0 0 0 4v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-2a2 2 0 0 0 0-4V9z" fill="#040814" stroke="#040814" stroke-width="1.5"/><line x1="9" y1="6" x2="9" y2="18" stroke="#FFB82E" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="15" cy="12" r="2" fill="#FFB82E"/></svg> <span>REGISTRO &amp; PLANES (MES GRATIS)</span>
       </button>
 
-      <!-- Login — Botón Cristal Cyan -->
-      <button onclick="irAPagina(2, 'login')" style="padding:14px 24px; background:rgba(24,216,255,0.06); color:#18D8FF; border:1px solid rgba(24,216,255,0.35); border-radius:14px; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); display:inline-flex; align-items:center; gap:8px; transition:all 0.3s ease;" onmouseover="this.style.background='rgba(24,216,255,0.14)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 28px rgba(24,216,255,0.25)';" onmouseout="this.style.background='rgba(24,216,255,0.06)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-        <span style="font-size:15px;">🔑</span> <span>INICIAR SESIÓN / ENTRAR</span>
+      <!-- Botón 2: Iniciar Sesión / Entrar -->
+      <button onclick="irAPagina(2, 'login')" style="padding:16px 30px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.7))" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="12" r="5" stroke="#18D8FF" stroke-width="2" fill="rgba(24,216,255,0.15)"/><circle cx="8" cy="12" r="1.8" fill="#18D8FF"/><path d="M13 12h8m-3 0v3m3-3v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> <span>INICIAR SESIÓN / ENTRAR</span>
       </button>
 
     </div>
 
-    <!-- Micro Certificación — Flotante y Discreta -->
-    <div style="margin-top:14px; display:flex; justify-content:center; align-items:center; gap:14px; font-size:10px; color:rgba(148,163,184,0.6); flex-wrap:wrap;">
-      <span>🔒 SHA-256</span>
-      <span style="opacity:0.3;">·</span>
-      <span>📶 PWA Offline</span>
-      <span style="opacity:0.3;">·</span>
-      <span>⚾ Béisbol & Softbol</span>
+    <!-- Micro Footer de Certificación y Seguridad Flotante -->
+    <div style="display:flex; justify-content:center; align-items:center; gap:20px; font-family:'Rajdhani', sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; color:#E2E8F0; text-shadow:0 2px 10px rgba(0,0,0,0.95); flex-wrap:wrap;">
+      <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(24,201,149,0.7))" width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="3" fill="rgba(24,201,149,0.2)" stroke="#18C995" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#18C995" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.5" fill="#18C995"/></svg> SHA-256</span>
+      <span style="color:#18D8FF; opacity:0.6;">·</span>
+      <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(24,216,255,0.6))" width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="16" width="3.5" height="5" rx="1" fill="#18D8FF" opacity="0.4"/><rect x="8" y="11" width="3.5" height="10" rx="1" fill="#18D8FF" opacity="0.7"/><rect x="14" y="6" width="3.5" height="15" rx="1" fill="#18D8FF" opacity="0.9"/><rect x="20" y="2" width="3.5" height="19" rx="1" fill="#18D8FF"/></svg> PWA Offline</span>
+      <span style="color:#18D8FF; opacity:0.6;">·</span>
+      <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(255,255,255,0.6))" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.5" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1.8"/><path d="M7 4.5c2 2.8 2 12.2 0 15" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round"/><path d="M17 4.5c-2 2.8-2 12.2 0 15" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round"/><path d="M5.5 8.5l2.2.8m-2.2 6.2l2.2-.8m8.6-6.2l2.2-.8m-2.2 6.2l2.2.8" stroke="#EA580C" stroke-width="1.1" stroke-linecap="round"/></svg> Béisbol &amp; Softbol</span>
     </div>
 
   </div>
 
   <!-- 4. Copyright Footer Fijo y Discreto -->
-  <div style="position:relative; z-index:10; font-size:10.5px; color:#94A3B8; text-align:center; text-shadow:0 1px 3px rgba(0,0,0,0.8); margin-top:6px;">
-    DIAMAX PRO © 2026 · Diseñado & Desarrollado por <strong>3Tree Digital Sport IA</strong> · CEO Alí Zapata
+  <div style="position:relative; z-index:10; font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; color:#94A3B8; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,0.9); margin-top:8px;">
+    DIAMAX PRO © 2026 · Diseñado &amp; Desarrollado por <strong style="color:#FFF;">3Tree Digital Sport IA</strong> · CEO Alí Zapata &nbsp;·&nbsp; <a onclick="abrirModalSalida()" style="color:#EF4444; font-weight:700; cursor:pointer; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.color='#F87171'" onmouseout="this.style.color='#EF4444'">⏻ Salir</a>
   </div>
 
 </div>
 
 
-<!-- ======================================================================== -->
-<!-- 💎 PÁGINA 2: NEXT-GEN SPORTS REGISTRATION & SUBSCRIPTION INTELLIGENCE    -->
 <!-- ======================================================================== -->
 <div id="diamax-page-2" class="diamax-page-2-luxury" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:radial-gradient(ellipse at 50% -10%, rgba(24, 216, 255, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.1) 0%, transparent 50%), #030712; overflow-y:auto; font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif; padding:24px 14px 60px 14px; box-sizing:border-box;">
   
@@ -2187,7 +2198,7 @@ body.daylight-mode .btn-keypad:hover {
           <span>⬅️</span> <span>Página 1 (Portada)</span>
         </button>
         <div style="display:flex; align-items:center; gap:10px;">
-          <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, #18D8FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 0 16px rgba(24,216,255,0.4);">💎</div>
+          <img src="./3tree_digital_logo.png" alt="3Tree Digital" style="height:34px; width:auto; border-radius:6px; filter:drop-shadow(0 0 8px rgba(24,216,255,0.35));">
           <div>
             <h2 style="margin:0; font-size:15px; font-weight:900; color:#FFF; letter-spacing:0.5px; text-transform:uppercase;">REGISTRO & PLANES (1 MES GRATIS)</h2>
             <span style="font-size:10.5px; color:#94A3B8; font-weight:600; letter-spacing:0.3px;">DIAMAX INTELLIGENCE SUITE · 3TREE ZERO TRUST DEFENSE</span>
@@ -5928,7 +5939,7 @@ window.DIAMAX_OFFLINE_ENGINE = {
   init: function() {
     // 1. Registro del Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=4.4')
+      navigator.serviceWorker.register('./sw.js?v=4.5')
         .then(reg => {
           reg.update();
           console.log('[3TREE OFFLINE] Service Worker v3.2 registrado con éxito:', reg.scope);
@@ -13015,6 +13026,73 @@ window.addEventListener('load', function() {
   if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') DIAMAX_SYNC_ENGINE.init();
 });
 
+
+// ═══════════════════════════════════════════════════════════════
+// 🛑 FUNCIONES DE CONTROL DE SALIDA DIAMAX PRO
+// ═══════════════════════════════════════════════════════════════
+function abrirModalSalida() {
+  const modal = document.getElementById('diamax-exit-modal');
+  const card = document.getElementById('diamax-exit-modal-card');
+  if (!modal || !card) return;
+  modal.style.display = 'flex';
+  requestAnimationFrame(() => {
+    modal.style.opacity = '1';
+    card.style.transform = 'scale(1)';
+  });
+}
+
+function cerrarModalSalida() {
+  const modal = document.getElementById('diamax-exit-modal');
+  const card = document.getElementById('diamax-exit-modal-card');
+  if (!modal || !card) return;
+  modal.style.opacity = '0';
+  card.style.transform = 'scale(0.92)';
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 350);
+}
+
+function ejecutarSalida() {
+  const modal = document.getElementById('diamax-exit-modal');
+  const card = document.getElementById('diamax-exit-modal-card');
+  if (card) {
+    card.style.transform = 'scale(0.85)';
+    card.style.opacity = '0';
+  }
+  setTimeout(() => {
+    if (modal) modal.style.opacity = '0';
+  }, 150);
+  setTimeout(() => {
+    if (modal) {
+      modal.style.display = 'none';
+      if (card) {
+        card.style.opacity = '1';
+        card.style.transform = 'scale(0.92)';
+      }
+    }
+    // Limpiar sesión local y volver a la portada limpia
+    localStorage.removeItem('diamax_session');
+    localStorage.removeItem('diamax_user_data');
+    if (typeof irAPagina === 'function') {
+      irAPagina(1);
+    }
+    // Si es PWA instalada, intentar cerrar ventana
+    if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+      window.close();
+    }
+  }, 500);
+}
+
+// Soporte tecla Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('diamax-exit-modal');
+    if (modal && modal.style.display === 'flex' && modal.style.opacity !== '0') {
+      cerrarModalSalida();
+    }
+  }
+});
+
 </script>
 
 <!-- 🎙️ MODAL AGENTE DE DICTADO POR VOZ DEL LINEUP -->
@@ -13843,6 +13921,55 @@ window.addEventListener('load', function() {
       <button type="button" id="btn-archive-game-db" class="btn-finish-game" onclick="confirmarFinDeJuego()">✅ Confirmar y Sincronizar Tarjeta Oficial</button>
     </div>
   </div>
+</div>
+
+
+<!-- ======================================================================== -->
+<!-- 🛑 MODAL CINEMÁTICO DE SALIDA DEL SISTEMA DIAMAX PRO -->
+<!-- ======================================================================== -->
+<div id="diamax-exit-modal" style="display:none; position:fixed; inset:0; z-index:9999999; background:rgba(2,6,23,0.88); backdrop-filter:blur(24px) saturate(140%); -webkit-backdrop-filter:blur(24px) saturate(140%); flex-direction:column; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; opacity:0; transition:opacity 0.35s ease;">
+  
+  <div id="diamax-exit-modal-card" style="width:100%; max-width:440px; background:linear-gradient(180deg, rgba(15,23,42,0.95) 0%, rgba(4,8,20,0.98) 100%); border:1px solid rgba(239,68,68,0.3); border-radius:24px; padding:32px 28px; text-align:center; box-shadow:0 25px 70px rgba(0,0,0,0.8), 0 0 40px rgba(239,68,68,0.15); transform:scale(0.92); transition:transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);">
+    
+    <!-- Logo 3Tree -->
+    <div style="margin-bottom:16px;">
+      <img src="./3tree_digital_logo.png" alt="3Tree Digital" style="height:36px; width:auto; filter:drop-shadow(0 0 10px rgba(24,216,255,0.3));">
+    </div>
+
+    <!-- Ícono Power Pulsante -->
+    <div style="width:68px; height:68px; margin:0 auto 18px auto; border-radius:50%; background:radial-gradient(circle, rgba(239,68,68,0.2) 0%, rgba(239,68,68,0.05) 70%); border:2px solid rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; box-shadow:0 0 25px rgba(239,68,68,0.35);">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 8px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.8" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+    </div>
+
+    <!-- Título y Mensaje -->
+    <h2 style="margin:0 0 8px 0; font-family:'Montserrat', sans-serif; font-size:22px; font-weight:900; color:#FFFFFF; letter-spacing:1px; text-transform:uppercase;">
+      ¿SALIR DE DIAMAX PRO?
+    </h2>
+    <p style="margin:0 0 24px 0; font-size:13px; color:#94A3B8; line-height:1.5;">
+      Tu sesión y datos de juego están protegidos bajo encriptación SHA-256 y arquitectura Zero Trust.
+    </p>
+
+    <!-- Botones de Salida / Retorno -->
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      
+      <!-- Botón Cancelar y Regresar -->
+      <button onclick="cerrarModalSalida()" style="padding:15px; background:linear-gradient(135deg, #18D8FF 0%, #0284C7 100%); color:#040814; border:none; border-radius:12px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 6px 20px rgba(24,216,255,0.35); transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
+        ↩ CONTINUAR EN EL SISTEMA
+      </button>
+
+      <!-- Botón Confirmar Salida -->
+      <button onclick="ejecutarSalida()" style="padding:13px; background:rgba(239,68,68,0.1); color:#FCA5A5; border:1px solid rgba(239,68,68,0.35); border-radius:12px; font-family:'Montserrat', sans-serif; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.22)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(239,68,68,0.1)'; this.style.borderColor='rgba(239,68,68,0.35)';">
+        ⏻ CONFIRMAR SALIDA SEGURA
+      </button>
+
+    </div>
+
+    <div style="margin-top:16px; font-family:'Rajdhani', sans-serif; font-size:11px; color:#64748B; letter-spacing:0.8px;">
+      3Tree Digital Sport IA · Lutz, Florida USA
+    </div>
+
+  </div>
+
 </div>
 
 </body>
