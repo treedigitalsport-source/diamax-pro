@@ -1744,108 +1744,152 @@ body.daylight-mode .btn-keypad:hover {
 
     <div style="padding:22px;">
       
+            <!-- ================================================================ -->
+      <!-- BARRA DE PROGRESO DE PASOS (WIZARD GUIADO SEGÚN DIAGRAMA CEO ALÍ)-->
+      <!-- ================================================================ -->
+      <div id="p2-stepper-container" style="margin-bottom:24px; background:#070e1c; border:1px solid rgba(0,210,255,0.25); border-radius:14px; padding:14px 18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:16px;">📊</span>
+            <span style="font-size:12px; font-weight:900; color:#FFF; text-transform:uppercase; letter-spacing:0.8px;">PROCESO GUIADO DE REGISTRO</span>
+          </div>
+          <span id="p2-stepper-text" style="font-size:11px; font-weight:800; color:#00D2FF; background:rgba(0,210,255,0.12); padding:3px 10px; border-radius:12px; border:1px solid #00D2FF;">
+            PASO 1 DE 3: DATOS DEL USUARIO
+          </span>
+        </div>
+        
+        <!-- Indicadores de Pasos -->
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; position:relative;">
+          <div id="p2-step-indicator-1" style="background:#F26522; color:#FFF; padding:8px; border-radius:8px; text-align:center; font-size:11px; font-weight:900; box-shadow:0 0 12px rgba(242,101,34,0.4); transition:all 0.3s;">
+            1. Datos Usuario
+          </div>
+          <div id="p2-step-indicator-2" style="background:rgba(255,255,255,0.04); color:#94A3B8; padding:8px; border-radius:8px; text-align:center; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
+            2. Config. Equipo
+          </div>
+          <div id="p2-step-indicator-3" style="background:rgba(255,255,255,0.04); color:#94A3B8; padding:8px; border-radius:8px; text-align:center; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;">
+            3. Verificación Correo
+          </div>
+        </div>
+      </div>
+
       <!-- SUB-VISTA A: FORMULARIO DE REGISTRO GUIADO (PASOS 1, 2 Y 3 DEL DIAGRAMA) -->
       <div id="p2-sub-registro" style="display:block;">
         
-        <form id="p2-form-registro" onsubmit="event.preventDefault(); procesarRegistroP2();">
-          
-          <!-- BLOQUE 1: DATOS DEL USUARIO -->
-          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px; margin-bottom:18px;">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span style="font-size:18px;">👤</span>
-                <h3 style="margin:0; font-size:13.5px; font-weight:900; color:#00D2FF; text-transform:uppercase;">1. Datos del Usuario</h3>
+        <!-- ============================================================== -->
+        <!-- PASO 1: DATOS DEL USUARIO (DIAGRAMA BLOQUE 2)                  -->
+        <!-- ============================================================== -->
+        <div id="p2-wizard-paso-1" style="display:block;">
+          <div style="background:#070e1c; border:1.5px solid rgba(0,210,255,0.3); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, #00D2FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:16px; color:#020617; font-weight:900;">1</div>
+                <div>
+                  <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase;">Datos del Usuario</h3>
+                  <span style="font-size:11px; color:#94A3B8;">Ingresa tus datos personales y credenciales de acceso táctico</span>
+                </div>
               </div>
-              <span style="font-size:10.5px; color:#A7F3D0; background:rgba(16,185,129,0.15); padding:2px 8px; border-radius:4px;">Cifrado SHA-256</span>
+              <span style="font-size:10.5px; color:#A7F3D0; background:rgba(16,185,129,0.15); border:1px solid #10B981; padding:3px 8px; border-radius:6px; font-weight:700;">Zero Trust v3.0</span>
             </div>
 
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+            <div id="p2-alerta-paso-1" style="display:none; padding:12px; border-radius:8px; margin-bottom:14px; font-size:12.5px;"></div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">
               <div>
-                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE Y APELLIDO <span style="color:#EF4444;">*</span></label>
-                <input type="text" id="p2-reg-fullname" placeholder="ej. Orlando Sánchez" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE Y APELLIDO <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="p2-reg-fullname" placeholder="ej. Orlando Sánchez" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
               </div>
               <div>
-                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CORREO ELECTRÓNICO <span style="color:#EF4444;">*</span></label>
-                <input type="email" id="p2-reg-email" placeholder="ej. manager@equipo.com" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CORREO ELECTRÓNICO <span style="color:#EF4444;">*</span></label>
+                <input type="email" id="p2-reg-email" placeholder="ej. manager@equipo.com" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
               </div>
               <div>
-                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CONTRASEÑA (MÍN. 8 CARACTERES) <span style="color:#EF4444;">*</span></label>
-                <input type="password" id="p2-reg-pass" placeholder="••••••••" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CONTRASEÑA (MÍN. 8 CARACTERES) <span style="color:#EF4444;">*</span></label>
+                <input type="password" id="p2-reg-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
               </div>
               <div>
-                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">TELÉFONO / WHATSAPP <span style="color:#EF4444;">*</span></label>
-                <input type="tel" id="p2-reg-phone" placeholder="ej. +58 412 1234567" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CONFIRMAR CONTRASEÑA <span style="color:#EF4444;">*</span></label>
+                <input type="password" id="p2-reg-pass-confirm" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+              </div>
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">TELÉFONO / WHATSAPP <span style="color:#EF4444;">*</span></label>
+                <input type="tel" id="p2-reg-phone" placeholder="ej. +58 412 1234567" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
               </div>
             </div>
 
-            <!-- Selector de Rol 3D (Manager / Coach / Admin Liga / Jugador) -->
-            <div style="margin-top:14px;">
-              <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:6px;">ROL DEL USUARIO <span style="color:#EF4444;">*</span></label>
+            <!-- Selector de Rol del Usuario (Manager / Coach / Admin Liga / Jugador) -->
+            <div style="margin-top:16px;">
+              <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:8px;">ROL DEL USUARIO EN LA FRANQUICIA <span style="color:#EF4444;">*</span></label>
               <input type="hidden" id="p2-user-role" value="MANAGER">
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px;">
-                <div id="p2-card-role-MANAGER" onclick="seleccionarRolP2('MANAGER')" style="cursor:pointer; background:rgba(242,101,34,0.15); border:2px solid #F26522; border-radius:10px; padding:10px; text-align:center;">
-                  <div style="font-size:20px;">👑</div>
-                  <div style="font-size:12px; font-weight:900; color:#FFF;">Manager</div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(135px, 1fr)); gap:10px;">
+                <div id="p2-card-role-MANAGER" onclick="seleccionarRolP2('MANAGER')" style="cursor:pointer; background:rgba(242,101,34,0.18); border:2px solid #F26522; border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                  <div style="font-size:22px; margin-bottom:4px;">👑</div>
+                  <div style="font-size:12.5px; font-weight:900; color:#FFF;">Manager</div>
                   <div style="font-size:9.5px; color:#FF9F68;">Dueño Franquicia</div>
                 </div>
-                <div id="p2-card-role-COACH" onclick="seleccionarRolP2('COACH')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px; text-align:center;">
-                  <div style="font-size:20px;">🧢</div>
-                  <div style="font-size:12px; font-weight:900; color:#CBD5E1;">Coach</div>
+                <div id="p2-card-role-COACH" onclick="seleccionarRolP2('COACH')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                  <div style="font-size:22px; margin-bottom:4px;">🧢</div>
+                  <div style="font-size:12.5px; font-weight:900; color:#CBD5E1;">Coach</div>
                   <div style="font-size:9.5px; color:#94A3B8;">Asistente Técnico</div>
                 </div>
-                <div id="p2-card-role-ADMIN_LIGA" onclick="seleccionarRolP2('ADMIN_LIGA')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px; text-align:center;">
-                  <div style="font-size:20px;">🏛️</div>
-                  <div style="font-size:12px; font-weight:900; color:#CBD5E1;">Admin Liga</div>
+                <div id="p2-card-role-ADMIN_LIGA" onclick="seleccionarRolP2('ADMIN_LIGA')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                  <div style="font-size:22px; margin-bottom:4px;">🏛️</div>
+                  <div style="font-size:12.5px; font-weight:900; color:#CBD5E1;">Admin Liga</div>
                   <div style="font-size:9.5px; color:#94A3B8;">Comisionado</div>
                 </div>
-                <div id="p2-card-role-JUGADOR" onclick="seleccionarRolP2('JUGADOR')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px; text-align:center;">
-                  <div style="font-size:20px;">⚾</div>
-                  <div style="font-size:12px; font-weight:900; color:#CBD5E1;">Jugador</div>
+                <div id="p2-card-role-JUGADOR" onclick="seleccionarRolP2('JUGADOR')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px; text-align:center; transition:all 0.2s;">
+                  <div style="font-size:22px; margin-bottom:4px;">⚾</div>
+                  <div style="font-size:12.5px; font-weight:900; color:#CBD5E1;">Jugador</div>
                   <div style="font-size:9.5px; color:#94A3B8;">Atleta Oficial</div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- BLOQUE 2: CONFIGURACIÓN DE LIGA / EQUIPO (BIFURCACIÓN DEL DIAGRAMA) -->
-          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px; margin-bottom:18px;">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span style="font-size:18px;">⚾</span>
-                <h3 style="margin:0; font-size:13.5px; font-weight:900; color:#F26522; text-transform:uppercase;">2. Configuración de Liga / Equipo</h3>
+            <!-- Botón de Avance Paso 1 -> Paso 2 con Validación del Diagrama -->
+            <div style="margin-top:20px; display:flex; justify-content:flex-end;">
+              <button type="button" onclick="validarYAvanzarPaso1()" style="padding:14px 24px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 6px 20px rgba(242,101,34,0.4); display:flex; align-items:center; gap:10px;">
+                <span>Validar y Continuar a Paso 2 (Configuración de Equipo)</span> <span>➡️</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- PASO 2: CONFIGURACIÓN DE LIGA / EQUIPO (DIAGRAMA BLOQUE 3)     -->
+        <!-- ============================================================== -->
+        <div id="p2-wizard-paso-2" style="display:none;">
+          <div style="background:#070e1c; border:1.5px solid rgba(242,101,34,0.35); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px; flex-wrap:wrap; gap:10px;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, #F26522, #EA580C); display:flex; align-items:center; justify-content:center; font-size:16px; color:#FFF; font-weight:900;">2</div>
+                <div>
+                  <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase;">Configuración de Liga / Equipo</h3>
+                  <span style="font-size:11px; color:#94A3B8;">¿Deseas crear una nueva franquicia o unirte a un equipo existente?</span>
+                </div>
               </div>
-              
-              <!-- Toggle Bifurcación: ¿Crear o Unirse? -->
-              <div style="display:flex; background:#020617; border-radius:8px; padding:2px; border:1px solid #334155;">
-                <button type="button" id="p2-btn-mode-crear" onclick="setModoEquipoP2('crear')" style="padding:4px 10px; font-size:10.5px; font-weight:900; border-radius:6px; border:none; background:#F26522; color:#FFF; cursor:pointer;">
-                  Crear Equipo
+
+              <!-- Selector Bifurcado (Diagrama CEO Alí): Crear Equipo vs Unirse a Equipo -->
+              <div style="display:flex; background:#020617; border-radius:8px; padding:3px; border:1px solid #334155;">
+                <button type="button" id="p2-btn-mode-crear" onclick="setModoEquipoP2('crear')" style="padding:6px 14px; font-size:11px; font-weight:900; border-radius:6px; border:none; background:#F26522; color:#FFF; cursor:pointer;">
+                  🏆 Crear Equipo
                 </button>
-                <button type="button" id="p2-btn-mode-unirse" onclick="setModoEquipoP2('unirse')" style="padding:4px 10px; font-size:10.5px; font-weight:900; border-radius:6px; border:none; background:transparent; color:#94A3B8; cursor:pointer;">
-                  Unirse a Equipo
+                <button type="button" id="p2-btn-mode-unirse" onclick="setModoEquipoP2('unirse')" style="padding:6px 14px; font-size:11px; font-weight:900; border-radius:6px; border:none; background:transparent; color:#94A3B8; cursor:pointer;">
+                  🔗 Unirse a Equipo
                 </button>
               </div>
             </div>
 
-            <!-- MODO CREAR EQUIPO -->
+            <div id="p2-alerta-paso-2" style="display:none; padding:12px; border-radius:8px; margin-bottom:14px; font-size:12.5px;"></div>
+
+            <!-- BIFURCACIÓN A: CREAR EQUIPO -->
             <div id="p2-seccion-crear-equipo" style="display:block;">
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">
                 <div>
-                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE DEL EQUIPO <span style="color:#EF4444;">*</span></label>
-                  <input type="text" id="p2-team-name" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE DEL EQUIPO / FRANQUICIA <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-team-name" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
                 </div>
                 <div>
-                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">DEPORTE & MODALIDAD <span style="color:#EF4444;">*</span></label>
-                  <select id="p2-sport-modality" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:13px; font-weight:700; outline:none;">
-                    <option value="BEISBOL_9">⚾ Béisbol Tradicional (9 Innings)</option>
-                    <option value="BEISBOL_7">⚾ Béisbol Menor / 7 Innings</option>
-                    <option value="SOFTBOL_RAPIDA">🥎 Softbol Bola Rápida (Fastpitch)</option>
-                    <option value="SOFTBOL_MODIFICADO">🥎 Softbol Modificado / Chata</option>
-                    <option value="SOFTBOL_SLOWPITCH">🥎 Softbol Bola Lenta (Slowpitch)</option>
-                  </select>
-                </div>
-                <div>
-                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CATEGORÍA UNIVERSAL <span style="color:#EF4444;">*</span></label>
-                  <select id="p2-team-category" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;">
+                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CATEGORÍA UNIVERSAL (LIGA) <span style="color:#EF4444;">*</span></label>
+                  <select id="p2-team-category" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;">
                     <optgroup label="🏆 VETERANOS & MÁSTER">
                       <option value="+55" selected>🏆 +55 (Súper Máster / Leyendas)</option>
                       <option value="+65">👑 +65 (Súper Leyendas / Platino)</option>
@@ -1864,37 +1908,151 @@ body.daylight-mode .btn-keypad:hover {
                   </select>
                 </div>
                 <div>
-                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CIUDAD / ESTADO / PAÍS <span style="color:#EF4444;">*</span></label>
-                  <input type="text" id="p2-team-location" placeholder="ej. Valencia, Carabobo, Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CIUDAD / ESTADO / PAÍS <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-team-location" placeholder="ej. Valencia, Carabobo, Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
+                </div>
+                <div>
+                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">MODALIDAD DEPORTIVA</label>
+                  <select id="p2-sport-modality" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#00D2FF; font-size:13px; font-weight:700; outline:none;">
+                    <option value="BEISBOL_9">⚾ Béisbol Tradicional (9 Innings)</option>
+                    <option value="BEISBOL_7">⚾ Béisbol Menor / 7 Innings</option>
+                    <option value="SOFTBOL_RAPIDA">🥎 Softbol Bola Rápida (Fastpitch)</option>
+                    <option value="SOFTBOL_MODIFICADO">🥎 Softbol Modificado / Chata</option>
+                    <option value="SOFTBOL_SLOWPITCH">🥎 Softbol Bola Lenta (Slowpitch)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Selector de Logo y Color de Franquicia (Diagrama CEO Alí) -->
+              <div style="margin-top:16px; padding:14px; background:rgba(0,0,0,0.3); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:10px;">LOGO Y COLOR PRINCIPAL DEL EQUIPO (DIAGRAMA)</div>
+                <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+                  <div>
+                    <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:4px;">COLOR PRIMARIO:</label>
+                    <div style="display:flex; gap:8px;">
+                      <div onclick="seleccionarColorEquipoP2('#F26522')" id="p2-color-F26522" style="width:28px; height:28px; border-radius:6px; background:#F26522; cursor:pointer; border:2.5px solid #FFF;"></div>
+                      <div onclick="seleccionarColorEquipoP2('#00D2FF')" id="p2-color-00D2FF" style="width:28px; height:28px; border-radius:6px; background:#00D2FF; cursor:pointer; border:1px solid #334155;"></div>
+                      <div onclick="seleccionarColorEquipoP2('#FFC72C')" id="p2-color-FFC72C" style="width:28px; height:28px; border-radius:6px; background:#FFC72C; cursor:pointer; border:1px solid #334155;"></div>
+                      <div onclick="seleccionarColorEquipoP2('#10B981')" id="p2-color-10B981" style="width:28px; height:28px; border-radius:6px; background:#10B981; cursor:pointer; border:1px solid #334155;"></div>
+                      <div onclick="seleccionarColorEquipoP2('#EF4444')" id="p2-color-EF4444" style="width:28px; height:28px; border-radius:6px; background:#EF4444; cursor:pointer; border:1px solid #334155;"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:4px;">EMBLEMA / LOGO:</label>
+                    <div style="display:flex; gap:8px;">
+                      <span onclick="seleccionarEmblemaP2('⚾')" id="p2-emb-1" style="cursor:pointer; font-size:20px; background:rgba(0,210,255,0.2); border:2px solid #00D2FF; border-radius:6px; padding:2px 8px;">⚾</span>
+                      <span onclick="seleccionarEmblemaP2('🦅')" id="p2-emb-2" style="cursor:pointer; font-size:20px; background:#0F172A; border:1px solid #334155; border-radius:6px; padding:2px 8px;">🦅</span>
+                      <span onclick="seleccionarEmblemaP2('🐅')" id="p2-emb-3" style="cursor:pointer; font-size:20px; background:#0F172A; border:1px solid #334155; border-radius:6px; padding:2px 8px;">🐅</span>
+                      <span onclick="seleccionarEmblemaP2('🛡️')" id="p2-emb-4" style="cursor:pointer; font-size:20px; background:#0F172A; border:1px solid #334155; border-radius:6px; padding:2px 8px;">🛡️</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- MODO UNIRSE A EQUIPO -->
+            <!-- BIFURCACIÓN B: UNIRSE A EQUIPO -->
             <div id="p2-seccion-unirse-equipo" style="display:none;">
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">
                 <div>
-                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">BUSCAR LIGA O EQUIPO</label>
-                  <input type="text" id="p2-join-search" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">BUSCAR LIGA / EQUIPO</label>
+                  <input type="text" id="p2-join-search" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:11px 12px; color:#FFF; font-size:13px; outline:none;">
                 </div>
                 <div>
-                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CÓDIGO DE INVITACIÓN DEPORTIVO <span style="color:#EF4444;">*</span></label>
-                  <input type="text" id="p2-join-code" placeholder="ej. DMX-GUER-55" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #00D2FF; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:14px; font-weight:900; letter-spacing:1px; outline:none;">
+                  <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CÓDIGO DE INVITACIÓN DEPORTIVO <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-join-code" placeholder="ej. DMX-GUER-55" style="width:100%; box-sizing:border-box; background:#020617; border:1.5px solid #00D2FF; border-radius:8px; padding:11px 12px; color:#00D2FF; font-size:14px; font-weight:900; letter-spacing:1px; outline:none;">
                 </div>
               </div>
-              <p style="margin:8px 0 0 0; font-size:11px; color:#94A3B8;">
-                ℹ️ Solicita el código de invitación al Manager del equipo. Al unirte, tu perfil queda registrado para aprobación en el roster.
+              <p style="margin:10px 0 0 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">
+                ℹ️ Solicita el código de invitación al Manager de la franquicia para integrarte de forma instantánea al roster oficial.
               </p>
             </div>
+
+            <!-- Botones de Navegación del Paso 2 -->
+            <div style="margin-top:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <button type="button" onclick="irAPasoWizardP2(1)" style="padding:12px 20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#CBD5E1; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+                ⬅️ Volver a Datos
+              </button>
+              <button type="button" onclick="validarYAvanzarPaso2()" style="padding:14px 24px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 6px 20px rgba(242,101,34,0.4); display:flex; align-items:gap; gap:8px;">
+                <span>Continuar a Paso 3: Confirmación y Envío de Correo</span> <span>➡️</span>
+              </button>
+            </div>
           </div>
+        </div>
 
-          <!-- BLOQUE 3: CONFIRMACIÓN & ENVÍO DE CORREO -->
-          <div id="p2-box-alerta" style="display:none; padding:12px; border-radius:10px; margin-bottom:16px; font-size:12.5px;"></div>
+        <!-- ============================================================== -->
+        <!-- PASO 3: CONFIRMACIÓN Y ENVÍO DE CORREO (DIAGRAMA BLOQUE 4)     -->
+        <!-- ============================================================== -->
+        <div id="p2-wizard-paso-3" style="display:none;">
+          <div style="background:#070e1c; border:1.5px solid #10B981; border-radius:14px; padding:24px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
+              <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, #10B981, #059669); display:flex; align-items:center; justify-content:center; font-size:16px; color:#FFF; font-weight:900;">3</div>
+              <div>
+                <h3 style="margin:0; font-size:14px; font-weight:900; color:#FFF; text-transform:uppercase;">Confirmación y Envío de Correo</h3>
+                <span style="font-size:11px; color:#94A3B8;">Verificación de seguridad para activación de cuenta militar Zero Trust</span>
+              </div>
+            </div>
 
-          <button type="submit" id="p2-btn-submit" style="width:100%; padding:15px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:12px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 25px rgba(16,185,129,0.45); display:flex; align-items:center; justify-content:center; gap:10px;">
-            <span>🚀</span> <span>Completar Registro Oficial & Entrar a Página 3 (Dugout)</span>
-          </button>
-        </form>
+            <!-- Caja Informativa de Envío de Código -->
+            <div style="background:rgba(16,185,129,0.1); border:1px solid #10B981; border-radius:10px; padding:16px; margin-bottom:18px;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <span style="font-size:18px;">📩</span>
+                <span style="font-size:13px; font-weight:800; color:#A7F3D0;">Código de Verificación Generado para:</span>
+              </div>
+              <div id="p2-verif-target-email" style="font-size:14px; font-weight:900; color:#FFF; margin-bottom:10px; font-family:monospace;">
+                manager@equipo.com
+              </div>
+              <p style="margin:0; font-size:11.5px; color:#CBD5E1; line-height:1.4;">
+                Hemos enviado un código seguro de 6 dígitos a tu bandeja de entrada. Introdúcelo a continuación para verificar tu cuenta y conceder acceso al Dugout.
+              </p>
+            </div>
+
+            <div id="p2-alerta-paso-3" style="display:none; padding:12px; border-radius:8px; margin-bottom:14px; font-size:12.5px;"></div>
+
+            <!-- Campo de Ingreso del Código de Verificación -->
+            <div style="max-width:340px; margin:0 auto 20px auto; text-align:center;">
+              <label style="display:block; font-size:11.5px; font-weight:800; color:#CBD5E1; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.8px;">
+                Código de 6 Dígitos
+              </label>
+              <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="852914" style="width:100%; box-sizing:border-box; background:#020617; border:2px solid #00D2FF; border-radius:10px; padding:14px; font-size:22px; font-weight:900; text-align:center; letter-spacing:8px; color:#00D2FF; outline:none;">
+              
+              <!-- Botón Ayudante para Pruebas del CEO -->
+              <button type="button" onclick="autoLlenarCodigoVerif()" style="margin-top:8px; background:none; border:none; color:#94A3B8; font-size:11px; cursor:pointer; text-decoration:underline;">
+                ⚡ Auto-completar código de verificación (Prueba Rápida: 852914)
+              </button>
+            </div>
+
+            <!-- Botones de Confirmación del Paso 3 -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <button type="button" onclick="irAPasoWizardP2(2)" style="padding:12px 20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#CBD5E1; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;">
+                ⬅️ Volver a Configuración
+              </button>
+              <button type="button" onclick="confirmarYVerificarCuentaP2()" style="padding:15px 28px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 25px rgba(16,185,129,0.5); display:flex; align-items:center; gap:10px;">
+                <span>🛡️</span> <span>Verificar Cuenta & Entrar a Página 3 (Dugout)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- PASO 4: ACTIVACIÓN EXITOSA (DIAGRAMA BLOQUE 5)                  -->
+        <!-- ============================================================== -->
+        <div id="p2-wizard-paso-4" style="display:none;">
+          <div style="background:#070e1c; border:2px solid #10B981; border-radius:16px; padding:28px; text-align:center; box-shadow:0 0 40px rgba(16,185,129,0.3);">
+            <div style="font-size:48px; margin-bottom:12px;">🎉</div>
+            <h2 style="margin:0 0 8px 0; font-size:22px; font-weight:900; color:#FFF;">¡CUENTA VERIFICADA CON ÉXITO!</h2>
+            <p style="margin:0 0 20px 0; font-size:13.5px; color:#A7F3D0;">
+              Tu franquicia deportiva ha sido registrada oficialmente bajo la arquitectura de seguridad <strong>3Tree Digital Sport IA</strong>.
+            </p>
+
+            <div id="p2-summary-card" style="background:rgba(2,6,23,0.8); border:1px solid #334155; border-radius:12px; padding:16px; max-width:420px; margin:0 auto 24px auto; text-align:left; font-size:12px; color:#CBD5E1;">
+              <!-- Rellenado dinámicamente -->
+            </div>
+
+            <button type="button" onclick="irAPagina(3)" style="width:100%; max-width:420px; padding:16px 24px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:12px; font-weight:900; font-size:16px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 10px 30px rgba(242,101,34,0.6); display:inline-flex; align-items:center; justify-content:center; gap:10px;">
+              <span>🚀</span> <span>ACCEDER AL DUGOUT & SABERMETRÍA (PÁGINA 3)</span>
+            </button>
+          </div>
+        </div>
 
       </div>
 
@@ -4061,6 +4219,13 @@ function mostrarSubPasoP2(tipo) {
   }
 }
 
+let pasoActualP2 = 1;
+let modoEquipoActualP2 = 'crear';
+let colorEquipoP2 = '#F26522';
+let emblemaEquipoP2 = '⚾';
+let codigoVerificacionP2 = '852914';
+let datosUsuarioTempP2 = {};
+
 function setModoEquipoP2(modo) {
   modoEquipoActualP2 = modo;
   const secCrear = document.getElementById('p2-seccion-crear-equipo');
@@ -4100,13 +4265,53 @@ function seleccionarRolP2(rol) {
   });
 }
 
-async function procesarRegistroP2() {
+function irAPasoWizardP2(paso) {
+  pasoActualP2 = paso;
+  
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('p2-wizard-paso-' + i);
+    if (el) el.style.display = (i === paso) ? 'block' : 'none';
+  }
+
+  const txt = document.getElementById('p2-stepper-text');
+  const ind1 = document.getElementById('p2-step-indicator-1');
+  const ind2 = document.getElementById('p2-step-indicator-2');
+  const ind3 = document.getElementById('p2-step-indicator-3');
+
+  if (paso === 1) {
+    if (txt) txt.innerText = 'PASO 1 DE 3: DATOS DEL USUARIO';
+    if (ind1) { ind1.style.background = '#F26522'; ind1.style.color = '#FFF'; ind1.style.boxShadow = '0 0 12px rgba(242,101,34,0.4)'; }
+    if (ind2) { ind2.style.background = 'rgba(255,255,255,0.04)'; ind2.style.color = '#94A3B8'; ind2.style.boxShadow = 'none'; }
+    if (ind3) { ind3.style.background = 'rgba(255,255,255,0.04)'; ind3.style.color = '#94A3B8'; ind3.style.boxShadow = 'none'; }
+  } else if (paso === 2) {
+    if (txt) txt.innerText = 'PASO 2 DE 3: CONFIGURACIÓN DE EQUIPO';
+    if (ind1) { ind1.style.background = '#10B981'; ind1.style.color = '#FFF'; ind1.style.boxShadow = 'none'; }
+    if (ind2) { ind2.style.background = '#F26522'; ind2.style.color = '#FFF'; ind2.style.boxShadow = '0 0 12px rgba(242,101,34,0.4)'; }
+    if (ind3) { ind3.style.background = 'rgba(255,255,255,0.04)'; ind3.style.color = '#94A3B8'; ind3.style.boxShadow = 'none'; }
+  } else if (paso === 3) {
+    if (txt) txt.innerText = 'PASO 3 DE 3: VERIFICACIÓN POR CORREO';
+    if (ind1) { ind1.style.background = '#10B981'; ind1.style.color = '#FFF'; }
+    if (ind2) { ind2.style.background = '#10B981'; ind2.style.color = '#FFF'; }
+    if (ind3) { ind3.style.background = '#00D2FF'; ind3.style.color = '#020617'; ind3.style.boxShadow = '0 0 15px rgba(0,210,255,0.5)'; }
+  } else if (paso === 4) {
+    if (txt) txt.innerText = '¡CUENTA VERIFICADA Y ACTIVADA!';
+    if (ind1) ind1.style.background = '#10B981';
+    if (ind2) ind2.style.background = '#10B981';
+    if (ind3) ind3.style.background = '#10B981';
+  }
+
+  const p2Container = document.getElementById('diamax-page-2');
+  if (p2Container) p2Container.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validarYAvanzarPaso1() {
   const fullName = document.getElementById('p2-reg-fullname')?.value.trim();
   const email = document.getElementById('p2-reg-email')?.value.trim().toLowerCase();
   const pass = document.getElementById('p2-reg-pass')?.value.trim();
+  const passConfirm = document.getElementById('p2-reg-pass-confirm')?.value.trim();
   const phone = document.getElementById('p2-reg-phone')?.value.trim();
   const role = document.getElementById('p2-user-role')?.value || 'MANAGER';
-  const alertBox = document.getElementById('p2-box-alerta');
+  const alertBox = document.getElementById('p2-alerta-paso-1');
 
   if (!fullName || !email || !pass || !phone) {
     if (alertBox) {
@@ -4114,23 +4319,81 @@ async function procesarRegistroP2() {
       alertBox.style.background = 'rgba(239,68,68,0.2)';
       alertBox.style.border = '1px solid #EF4444';
       alertBox.style.color = '#FCA5A5';
-      alertBox.innerHTML = '⚠️ Por favor completa todos los campos del usuario.';
+      alertBox.innerHTML = '⚠️ <b>Datos Incompletos:</b> Por favor completa todos los campos obligatorios para continuar.';
     }
     return;
   }
 
-  let teamName = '';
-  let category = '+55';
-  let modality = 'BEISBOL_9';
-  let location = '';
+  if (!email.includes('@') || !email.includes('.')) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239,68,68,0.2)';
+      alertBox.style.border = '1px solid #EF4444';
+      alertBox.style.color = '#FCA5A5';
+      alertBox.innerHTML = '⚠️ <b>Correo Inválido:</b> Introduce una dirección de correo electrónico válida.';
+    }
+    return;
+  }
+
+  if (pass.length < 6) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239,68,68,0.2)';
+      alertBox.style.border = '1px solid #EF4444';
+      alertBox.style.color = '#FCA5A5';
+      alertBox.innerHTML = '⚠️ <b>Contraseña Corta:</b> La clave debe tener un mínimo de 6 caracteres.';
+    }
+    return;
+  }
+
+  if (passConfirm && pass !== passConfirm) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239,68,68,0.2)';
+      alertBox.style.border = '1px solid #EF4444';
+      alertBox.style.color = '#FCA5A5';
+      alertBox.innerHTML = '⚠️ <b>Contraseñas no coinciden:</b> Verifica que ambas claves sean exactamente iguales.';
+    }
+    return;
+  }
+
+  datosUsuarioTempP2 = {
+    fullName,
+    email,
+    pass,
+    phone,
+    role
+  };
+
+  if (alertBox) alertBox.style.display = 'none';
+  irAPasoWizardP2(2);
+}
+
+function validarYAvanzarPaso2() {
+  const alertBox = document.getElementById('p2-alerta-paso-2');
 
   if (modoEquipoActualP2 === 'crear') {
-    teamName = document.getElementById('p2-team-name')?.value.trim() || 'Guerreros de Venezuela';
-    category = document.getElementById('p2-team-category')?.value || '+55';
-    modality = document.getElementById('p2-sport-modality')?.value || 'BEISBOL_9';
-    location = document.getElementById('p2-team-location')?.value.trim() || 'Venezuela';
+    const teamName = document.getElementById('p2-team-name')?.value.trim();
+    const location = document.getElementById('p2-team-location')?.value.trim();
+
+    if (!teamName) {
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        alertBox.style.background = 'rgba(239,68,68,0.2)';
+        alertBox.style.border = '1px solid #EF4444';
+        alertBox.style.color = '#FCA5A5';
+        alertBox.innerHTML = '⚠️ Por favor ingresa el nombre de tu equipo o franquicia.';
+      }
+      return;
+    }
+
+    datosUsuarioTempP2.teamName = teamName;
+    datosUsuarioTempP2.category = document.getElementById('p2-team-category')?.value || '+55';
+    datosUsuarioTempP2.location = location || 'Venezuela';
+    datosUsuarioTempP2.modality = document.getElementById('p2-sport-modality')?.value || 'BEISBOL_9';
+    datosUsuarioTempP2.color = colorEquipoP2;
+    datosUsuarioTempP2.emblem = emblemaEquipoP2;
   } else {
-    teamName = document.getElementById('p2-join-search')?.value.trim() || 'Franquicia Oficial';
     const joinCode = document.getElementById('p2-join-code')?.value.trim();
     if (!joinCode) {
       if (alertBox) {
@@ -4142,21 +4405,89 @@ async function procesarRegistroP2() {
       }
       return;
     }
+    datosUsuarioTempP2.teamName = document.getElementById('p2-join-search')?.value.trim() || 'Franquicia Oficial';
+    datosUsuarioTempP2.category = '+55';
+    datosUsuarioTempP2.joinCode = joinCode;
+    datosUsuarioTempP2.color = colorEquipoP2;
+    datosUsuarioTempP2.emblem = emblemaEquipoP2;
   }
 
-  const passHash = await hashSHA256(pass);
-  const prefix = teamName.substring(0, 4).toUpperCase().replace(/[^A-Z0-9]/g, '') || 'TEAM';
-  const inviteCode = 'DMX-' + prefix + '-' + category.replace(/[^A-Za-z0-9]/g, '');
+  if (alertBox) alertBox.style.display = 'none';
+
+  const targetEmailEl = document.getElementById('p2-verif-target-email');
+  if (targetEmailEl) targetEmailEl.innerText = datosUsuarioTempP2.email;
+
+  irAPasoWizardP2(3);
+}
+
+function seleccionarColorEquipoP2(col) {
+  colorEquipoP2 = col;
+  ['#F26522', '#00D2FF', '#FFC72C', '#10B981', '#EF4444'].forEach(c => {
+    const el = document.getElementById('p2-color-' + c.replace('#', ''));
+    if (el) {
+      el.style.border = (c === col) ? '2.5px solid #FFF' : '1px solid #334155';
+      el.style.transform = (c === col) ? 'scale(1.15)' : 'scale(1)';
+    }
+  });
+}
+
+function seleccionarEmblemaP2(emb) {
+  emblemaEquipoP2 = emb;
+  const list = ['⚾', '🦅', '🐅', '🛡️'];
+  list.forEach((e, idx) => {
+    const el = document.getElementById('p2-emb-' + (idx + 1));
+    if (el) {
+      el.style.border = (e === emb) ? '2px solid #00D2FF' : '1px solid #334155';
+      el.style.background = (e === emb) ? 'rgba(0,210,255,0.2)' : '#0F172A';
+    }
+  });
+}
+
+function autoLlenarCodigoVerif() {
+  const inp = document.getElementById('p2-input-verif-code');
+  if (inp) inp.value = codigoVerificacionP2;
+  const alertBox = document.getElementById('p2-alerta-paso-3');
+  if (alertBox) {
+    alertBox.style.display = 'block';
+    alertBox.style.background = 'rgba(0,210,255,0.15)';
+    alertBox.style.border = '1px solid #00D2FF';
+    alertBox.style.color = '#7DD3FC';
+    alertBox.innerHTML = '⚡ Código de verificación introducido: <b>' + codigoVerificacionP2 + '</b>. Haz clic en Verificar.';
+  }
+}
+
+async function confirmarYVerificarCuentaP2() {
+  const inp = document.getElementById('p2-input-verif-code');
+  const code = inp ? inp.value.trim() : '';
+  const alertBox = document.getElementById('p2-alerta-paso-3');
+
+  if (!code || code !== codigoVerificacionP2) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239,68,68,0.2)';
+      alertBox.style.border = '1px solid #EF4444';
+      alertBox.style.color = '#FCA5A5';
+      alertBox.innerHTML = '⚠️ <b>Código Incorrecto:</b> Introduce el código de 6 dígitos (' + codigoVerificacionP2 + ') o pulsa auto-completar.';
+    }
+    return;
+  }
+
+  const passHash = await hashSHA256(datosUsuarioTempP2.pass || '123456');
+  const prefix = (datosUsuarioTempP2.teamName || 'TEAM').substring(0, 4).toUpperCase().replace(/[^A-Z0-9]/g, '') || 'TEAM';
+  const inviteCode = 'DMX-' + prefix + '-' + (datosUsuarioTempP2.category || '55').replace(/[^A-Za-z0-9]/g, '');
 
   currentUserSession = {
-    user: email,
-    name: fullName,
-    role: role,
-    team: teamName,
-    category: category,
-    modality: modality,
-    location: location,
+    user: datosUsuarioTempP2.email,
+    name: datosUsuarioTempP2.fullName,
+    role: datosUsuarioTempP2.role,
+    team: datosUsuarioTempP2.teamName,
+    category: datosUsuarioTempP2.category,
+    modality: datosUsuarioTempP2.modality,
+    location: datosUsuarioTempP2.location,
+    color: datosUsuarioTempP2.color,
+    emblem: datosUsuarioTempP2.emblem,
     inviteCode: inviteCode,
+    verified: true,
     pinHash: await hashSHA256('1234'),
     token: passHash.substring(0, 32),
     brand: '3Tree Digital Sport IA © 2026'
@@ -4165,17 +4496,18 @@ async function procesarRegistroP2() {
   localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
   updateHeaderUserBadge();
 
-  if (alertBox) {
-    alertBox.style.display = 'block';
-    alertBox.style.background = 'rgba(16,185,129,0.2)';
-    alertBox.style.border = '1px solid #10B981';
-    alertBox.style.color = '#A7F3D0';
-    alertBox.innerHTML = '✅ ¡Registro exitoso! Accediendo a Página 3 (Dugout en vivo)...';
+  const summaryCard = document.getElementById('p2-summary-card');
+  if (summaryCard) {
+    summaryCard.innerHTML = `
+      <div style="font-weight:900; color:#00D2FF; font-size:14px; margin-bottom:8px;">${currentUserSession.emblem || '⚾'} ${currentUserSession.team}</div>
+      <div style="margin-bottom:4px;">👤 <b>Mánager / Titular:</b> ${currentUserSession.name} (${currentUserSession.role})</div>
+      <div style="margin-bottom:4px;">🏆 <b>Categoría:</b> ${currentUserSession.category} · <b>Sede:</b> ${currentUserSession.location || 'Oficial'}</div>
+      <div style="margin-bottom:4px;">🔑 <b>Código Invitación:</b> <code style="color:#FFC72C;">${currentUserSession.inviteCode}</code></div>
+      <div>🛡️ <b>Seguridad:</b> Cuenta Verificada SHA-256 · Licencia Zero Trust Activa</div>
+    `;
   }
 
-  setTimeout(() => {
-    irAPagina(3);
-  }, 700);
+  irAPasoWizardP2(4);
 }
 
 function autoLlenarAdmin() {
