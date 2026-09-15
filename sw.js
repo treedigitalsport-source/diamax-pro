@@ -7,7 +7,7 @@
  * Todos los derechos reservados 2026. CEO Alí Zapata.
  */
 
-const CACHE_NAME = 'diamax-pro-v4.9-world-languages';
+const CACHE_NAME = 'diamax-pro-v5.0-luxury-step1-form';
 const OFFLINE_URL = 'index.html';
 
 const ASSETS_TO_CACHE = [
