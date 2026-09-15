@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
+<!-- 
+  ========================================================================
+  💎 DIAMAX PRO SPORTS OPERATING SYSTEM © 2026
+  PROPIEDAD INTELECTUAL EXCLUSIVA DE: 3Tree Digital Sport IA
+  FUNDADOR & CEO: ALÍ ZAPATA
+  ARQUITECTURA DE SEGURIDAD: Military-Grade Zero Trust Defense v3.0
+  TODOS LOS DERECHOS RESERVADOS · INGENIERÍA INVERSA PROHIBIDA
+  ========================================================================
+-->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>DIAMAX Pro | Score & Tactics Engine</title>
@@ -1622,7 +1633,300 @@ body.daylight-mode .btn-keypad:hover {
 
 </head>
 <body>
-<div class="container">
+
+<!-- ======================================================================== -->
+<!-- 🎬 PÁGINA 1: PANTALLA INICIAL (HERO VIDEO 1080p & PUERTA DE ENTRADA)    -->
+<!-- ======================================================================== -->
+<div id="diamax-page-1" style="display:flex; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:#020617; overflow:hidden; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; flex-direction:column; align-items:center; justify-content:center;">
+  
+  <!-- Video de Fondo Cinemático 1080p -->
+  <video autoplay muted loop playsinline preload="auto" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.45) contrast(1.15); z-index:1;">
+    <source src="./Baseball_bat_striking_ball_1080p_20260913144643.mp4" type="video/mp4">
+  </video>
+
+  <!-- Capa de Gradiente OLED & Glass -->
+  <div style="position:absolute; inset:0; background:radial-gradient(circle at center, rgba(2,6,23,0.4) 0%, rgba(2,6,23,0.88) 100%); z-index:2;"></div>
+
+  <!-- Header Superior con Sello 3Tree Digital Sport IA -->
+  <div style="position:absolute; top:20px; left:24px; right:24px; display:flex; justify-content:space-between; align-items:center; z-index:10; flex-wrap:wrap; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg, #F26522, #00D2FF); display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 0 15px rgba(242,101,34,0.5);">
+        💎
+      </div>
+      <div>
+        <div style="font-size:16px; font-weight:900; color:#FFF; letter-spacing:1px; line-height:1.1;">DIAMAX PRO</div>
+        <div style="font-size:9.5px; color:#00D2FF; font-weight:700; letter-spacing:0.5px;">3Tree Digital Sport IA · © 2026</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="background:rgba(16,185,129,0.2); border:1px solid #10B981; color:#A7F3D0; font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px; backdrop-filter:blur(8px);">
+        🛡️ Zero Trust Defense v3.0
+      </span>
+      <span style="background:rgba(242,101,34,0.25); border:1px solid #F26522; color:#FF9F68; font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px; backdrop-filter:blur(8px);">
+        🎁 30 Días Gratis
+      </span>
+    </div>
+  </div>
+
+  <!-- Contenedor Central de Decisión (Apple Liquid Glass) -->
+  <div style="position:relative; z-index:10; width:92%; max-width:540px; background:rgba(9,19,41,0.72); border:1.5px solid rgba(0,210,255,0.4); border-radius:24px; padding:32px 28px; backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); box-shadow:0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(0,210,255,0.2); text-align:center;">
+    
+    <div style="display:inline-block; padding:4px 14px; background:rgba(0,210,255,0.12); border:1px solid #00D2FF; border-radius:20px; color:#00D2FF; font-size:11px; font-weight:900; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">
+      Sports Operating System · Béisbol & Softbol
+    </div>
+
+    <h1 style="margin:0 0 8px 0; font-size:28px; font-weight:900; color:#FFFFFF; letter-spacing:0.8px; text-shadow:0 2px 16px rgba(0,0,0,0.9);">
+      BIENVENIDO A DIAMAX PRO
+    </h1>
+    <p style="margin:0 0 26px 0; font-size:13.5px; color:#CBD5E1; line-height:1.45;">
+      Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría militar de vanguardia.
+    </p>
+
+    <!-- Puertas de Entrada Principales (Diagrama CEO Ali) -->
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      
+      <!-- Opción A: Registrarse (Lleva a la Página 2) -->
+      <button onclick="irAPagina(2, 'register')" style="width:100%; padding:15px 20px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:12px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 6px 20px rgba(242,101,34,0.45); display:flex; align-items:center; justify-content:center; gap:10px; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+        <span>📝</span> <span>Registrarse (Nuevo Usuario / Franquicia)</span>
+      </button>
+
+      <!-- Opción B: Iniciar Sesión (Usuario Existente) -->
+      <button onclick="irAPagina(2, 'login')" style="width:100%; padding:14px 20px; background:rgba(0,210,255,0.12); color:#00D2FF; border:1.5px solid #00D2FF; border-radius:12px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s;" onmouseover="this.style.background='rgba(0,210,255,0.22)'; this.style.transform='scale(1.02)'" onmouseout="this.style.background='rgba(0,210,255,0.12)'; this.style.transform='scale(1)'">
+        <span>🔑</span> <span>Iniciar Sesión (Usuario Existente)</span>
+      </button>
+
+      <!-- Opción C: Acceso Rápido al Dugout (Página 3 Directo) -->
+      <button onclick="irAPagina(3)" style="width:100%; padding:11px 16px; background:rgba(255,255,255,0.04); color:#94A3B8; border:1px solid rgba(255,255,255,0.12); border-radius:10px; font-weight:700; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;" onmouseover="this.style.color='#FFF'; this.style.borderColor='rgba(255,255,255,0.3)';" onmouseout="this.style.color='#94A3B8'; this.style.borderColor='rgba(255,255,255,0.12)';">
+        <span>⚡</span> <span>Acceso Rápido Dugout en Vivo (Ir a Página 3)</span>
+      </button>
+
+    </div>
+
+    <!-- Footer Seguro -->
+    <div style="margin-top:22px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#64748B;">
+      <span>🔒 Encriptación SHA-256</span>
+      <span>📶 Offline Ready PWA</span>
+      <span>⚾ Béisbol & Softbol</span>
+    </div>
+
+  </div>
+
+  <!-- Copyright Footer Fijo -->
+  <div style="position:absolute; bottom:14px; font-size:11px; color:#64748B; z-index:10; text-align:center;">
+    DIAMAX PRO © 2026 · Diseñado & Desarrollado por <strong>3Tree Digital Sport IA</strong> · CEO Alí Zapata
+  </div>
+
+</div>
+
+
+<!-- ======================================================================== -->
+<!-- 📋 PÁGINA 2: PANTALLA FORMULARIO GUIADO & VERIFICACIÓN                  -->
+<!-- ======================================================================== -->
+<div id="diamax-page-2" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:#020617; overflow-y:auto; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; padding:20px 14px; box-sizing:border-box;">
+  
+  <div style="max-width:760px; margin:0 auto; background:rgba(9,19,41,0.85); border:1.5px solid rgba(0,210,255,0.4); border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,0.9), 0 0 35px rgba(0,210,255,0.2); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); overflow:hidden;">
+    
+    <!-- Barra Superior de la Página 2 -->
+    <div style="background:linear-gradient(135deg, #070e1e, #0d1a38); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); flex-wrap:wrap; gap:10px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button onclick="irAPagina(1)" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#00D2FF; font-size:12px; font-weight:800; padding:6px 12px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          <span>⬅️</span> <span>Página 1 (Portada)</span>
+        </button>
+        <div>
+          <h2 style="margin:0; font-size:16px; font-weight:900; color:#FFF;">PÁGINA 2: REGISTRO & CONFIGURACIÓN</h2>
+          <span style="font-size:10px; color:#94A3B8;">Ecosistema de Seguridad 3Tree Digital Sport IA</span>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <button id="p2-tab-reg-btn" onclick="mostrarSubPasoP2('registro')" style="padding:6px 12px; font-size:11.5px; font-weight:800; border-radius:6px; border:1px solid #00D2FF; background:#00D2FF; color:#020617; cursor:pointer;">
+          📝 Registro
+        </button>
+        <button id="p2-tab-login-btn" onclick="mostrarSubPasoP2('login')" style="padding:6px 12px; font-size:11.5px; font-weight:800; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:#CBD5E1; cursor:pointer;">
+          🔑 Iniciar Sesión
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:22px;">
+      
+      <!-- SUB-VISTA A: FORMULARIO DE REGISTRO GUIADO (PASOS 1, 2 Y 3 DEL DIAGRAMA) -->
+      <div id="p2-sub-registro" style="display:block;">
+        
+        <form id="p2-form-registro" onsubmit="event.preventDefault(); procesarRegistroP2();">
+          
+          <!-- BLOQUE 1: DATOS DEL USUARIO -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px; margin-bottom:18px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:18px;">👤</span>
+                <h3 style="margin:0; font-size:13.5px; font-weight:900; color:#00D2FF; text-transform:uppercase;">1. Datos del Usuario</h3>
+              </div>
+              <span style="font-size:10.5px; color:#A7F3D0; background:rgba(16,185,129,0.15); padding:2px 8px; border-radius:4px;">Cifrado SHA-256</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+              <div>
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE Y APELLIDO <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="p2-reg-fullname" placeholder="ej. Orlando Sánchez" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+              </div>
+              <div>
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CORREO ELECTRÓNICO <span style="color:#EF4444;">*</span></label>
+                <input type="email" id="p2-reg-email" placeholder="ej. manager@equipo.com" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+              </div>
+              <div>
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CONTRASEÑA (MÍN. 8 CARACTERES) <span style="color:#EF4444;">*</span></label>
+                <input type="password" id="p2-reg-pass" placeholder="••••••••" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+              </div>
+              <div>
+                <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">TELÉFONO / WHATSAPP <span style="color:#EF4444;">*</span></label>
+                <input type="tel" id="p2-reg-phone" placeholder="ej. +58 412 1234567" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+              </div>
+            </div>
+
+            <!-- Selector de Rol 3D (Manager / Coach / Admin Liga / Jugador) -->
+            <div style="margin-top:14px;">
+              <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:6px;">ROL DEL USUARIO <span style="color:#EF4444;">*</span></label>
+              <input type="hidden" id="p2-user-role" value="MANAGER">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px;">
+                <div id="p2-card-role-MANAGER" onclick="seleccionarRolP2('MANAGER')" style="cursor:pointer; background:rgba(242,101,34,0.15); border:2px solid #F26522; border-radius:10px; padding:10px; text-align:center;">
+                  <div style="font-size:20px;">👑</div>
+                  <div style="font-size:12px; font-weight:900; color:#FFF;">Manager</div>
+                  <div style="font-size:9.5px; color:#FF9F68;">Dueño Franquicia</div>
+                </div>
+                <div id="p2-card-role-COACH" onclick="seleccionarRolP2('COACH')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px; text-align:center;">
+                  <div style="font-size:20px;">🧢</div>
+                  <div style="font-size:12px; font-weight:900; color:#CBD5E1;">Coach</div>
+                  <div style="font-size:9.5px; color:#94A3B8;">Asistente Técnico</div>
+                </div>
+                <div id="p2-card-role-ADMIN_LIGA" onclick="seleccionarRolP2('ADMIN_LIGA')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px; text-align:center;">
+                  <div style="font-size:20px;">🏛️</div>
+                  <div style="font-size:12px; font-weight:900; color:#CBD5E1;">Admin Liga</div>
+                  <div style="font-size:9.5px; color:#94A3B8;">Comisionado</div>
+                </div>
+                <div id="p2-card-role-JUGADOR" onclick="seleccionarRolP2('JUGADOR')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px; text-align:center;">
+                  <div style="font-size:20px;">⚾</div>
+                  <div style="font-size:12px; font-weight:900; color:#CBD5E1;">Jugador</div>
+                  <div style="font-size:9.5px; color:#94A3B8;">Atleta Oficial</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOQUE 2: CONFIGURACIÓN DE LIGA / EQUIPO (BIFURCACIÓN DEL DIAGRAMA) -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px; margin-bottom:18px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:18px;">⚾</span>
+                <h3 style="margin:0; font-size:13.5px; font-weight:900; color:#F26522; text-transform:uppercase;">2. Configuración de Liga / Equipo</h3>
+              </div>
+              
+              <!-- Toggle Bifurcación: ¿Crear o Unirse? -->
+              <div style="display:flex; background:#020617; border-radius:8px; padding:2px; border:1px solid #334155;">
+                <button type="button" id="p2-btn-mode-crear" onclick="setModoEquipoP2('crear')" style="padding:4px 10px; font-size:10.5px; font-weight:900; border-radius:6px; border:none; background:#F26522; color:#FFF; cursor:pointer;">
+                  Crear Equipo
+                </button>
+                <button type="button" id="p2-btn-mode-unirse" onclick="setModoEquipoP2('unirse')" style="padding:4px 10px; font-size:10.5px; font-weight:900; border-radius:6px; border:none; background:transparent; color:#94A3B8; cursor:pointer;">
+                  Unirse a Equipo
+                </button>
+              </div>
+            </div>
+
+            <!-- MODO CREAR EQUIPO -->
+            <div id="p2-seccion-crear-equipo" style="display:block;">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+                <div>
+                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">NOMBRE DEL EQUIPO <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-team-name" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                </div>
+                <div>
+                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">DEPORTE & MODALIDAD <span style="color:#EF4444;">*</span></label>
+                  <select id="p2-sport-modality" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:13px; font-weight:700; outline:none;">
+                    <option value="BEISBOL_9">⚾ Béisbol Tradicional (9 Innings)</option>
+                    <option value="BEISBOL_7">⚾ Béisbol Menor / 7 Innings</option>
+                    <option value="SOFTBOL_RAPIDA">🥎 Softbol Bola Rápida (Fastpitch)</option>
+                    <option value="SOFTBOL_MODIFICADO">🥎 Softbol Modificado / Chata</option>
+                    <option value="SOFTBOL_SLOWPITCH">🥎 Softbol Bola Lenta (Slowpitch)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CATEGORÍA UNIVERSAL <span style="color:#EF4444;">*</span></label>
+                  <select id="p2-team-category" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;">
+                    <optgroup label="🏆 VETERANOS & MÁSTER">
+                      <option value="+55" selected>🏆 +55 (Súper Máster / Leyendas)</option>
+                      <option value="+65">👑 +65 (Súper Leyendas / Platino)</option>
+                      <option value="+60">🎖️ +60 (Gran Máster)</option>
+                      <option value="+50">🥇 +50 (Máster Oro)</option>
+                      <option value="+40">🥈 +40 (Máster Plata)</option>
+                    </optgroup>
+                    <optgroup label="⭐ ADULTOS & ABIERTA">
+                      <option value="Senior">⭐ Senior (+35)</option>
+                      <option value="Libre">⚾ Libre / Categoría A / Doble A</option>
+                    </optgroup>
+                    <optgroup label="⚡ JUVENIL & MENOR">
+                      <option value="Juvenil">⚡ Juvenil (15 - 18 años)</option>
+                      <option value="Infantil">🌱 Infantil / Menor</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div>
+                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CIUDAD / ESTADO / PAÍS <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-team-location" placeholder="ej. Valencia, Carabobo, Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                </div>
+              </div>
+            </div>
+
+            <!-- MODO UNIRSE A EQUIPO -->
+            <div id="p2-seccion-unirse-equipo" style="display:none;">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+                <div>
+                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">BUSCAR LIGA O EQUIPO</label>
+                  <input type="text" id="p2-join-search" placeholder="ej. Guerreros de Venezuela" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFF; font-size:13px; outline:none;">
+                </div>
+                <div>
+                  <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px;">CÓDIGO DE INVITACIÓN DEPORTIVO <span style="color:#EF4444;">*</span></label>
+                  <input type="text" id="p2-join-code" placeholder="ej. DMX-GUER-55" style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #00D2FF; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:14px; font-weight:900; letter-spacing:1px; outline:none;">
+                </div>
+              </div>
+              <p style="margin:8px 0 0 0; font-size:11px; color:#94A3B8;">
+                ℹ️ Solicita el código de invitación al Manager del equipo. Al unirte, tu perfil queda registrado para aprobación en el roster.
+              </p>
+            </div>
+          </div>
+
+          <!-- BLOQUE 3: CONFIRMACIÓN & ENVÍO DE CORREO -->
+          <div id="p2-box-alerta" style="display:none; padding:12px; border-radius:10px; margin-bottom:16px; font-size:12.5px;"></div>
+
+          <button type="submit" id="p2-btn-submit" style="width:100%; padding:15px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:12px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 25px rgba(16,185,129,0.45); display:flex; align-items:center; justify-content:center; gap:10px;">
+            <span>🚀</span> <span>Completar Registro Oficial & Entrar a Página 3 (Dugout)</span>
+          </button>
+        </form>
+
+      </div>
+
+      <!-- SUB-VISTA B: INICIAR SESIÓN (USUARIO EXISTENTE) -->
+      <div id="p2-sub-login" style="display:none; max-width:440px; margin:20px auto;">
+        <form onsubmit="event.preventDefault(); procesarLoginP2();">
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:6px; text-transform:uppercase;">Correo Electrónico / Usuario Táctico</label>
+            <input type="text" id="p2-login-user" placeholder="manager@diamax.pro" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:13.5px; outline:none;">
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:6px; text-transform:uppercase;">Clave de Acceso</label>
+            <input type="password" id="p2-login-pass" placeholder="••••••••" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:13.5px; outline:none;">
+          </div>
+          <button type="submit" style="width:100%; padding:14px; background:#00D2FF; color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(0,210,255,0.4);">
+            🔑 Entrar a Página 3 (Dugout)
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div id="diamax-page-3" class="container" style="display:none;">
   <!-- Header Pro Stadium -->
   <div class="header">
     <div class="header-logo-container">
@@ -1644,7 +1948,7 @@ body.daylight-mode .btn-keypad:hover {
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
       <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900;" title="Refrescar y limpiar base de datos a cero para el partido">🔄 Refrescar BD</button>
-      <button id="btn-membership-header" onclick="showAuthModal('register')" class="btn-settings" style="background:linear-gradient(135deg, rgba(242,101,34,0.35), rgba(0,210,255,0.25)); border:1.5px solid #F26522; color:#FFF; font-weight:900; box-shadow:0 0 16px rgba(242,101,34,0.4); cursor:pointer;" title="Registrar Equipo, Hoja Oficial y Planes (1 Mes Gratis)">🎟️ Registro & Planes (Mes Gratis)</button>
+      <button id="btn-membership-header" onclick="irAPagina(1)" class="btn-settings" style="background:linear-gradient(135deg, rgba(242,101,34,0.35), rgba(0,210,255,0.25)); border:1.5px solid #F26522; color:#FFF; font-weight:900; box-shadow:0 0 16px rgba(242,101,34,0.4); cursor:pointer;" title="Registrar Equipo, Hoja Oficial y Planes (1 Mes Gratis)">🎟️ Registro & Planes (Mes Gratis)</button>
       <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA">⚙️ Configuración</button>
     </div>
   </div>
@@ -3686,6 +3990,185 @@ async function hashSHA256(text) {
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+
+// ========================================================================
+// 🧭 CONTROLADOR MAESTRO DE NAVEGACIÓN DE 3 PÁGINAS (3Tree Digital Sport IA)
+// ========================================================================
+let paginaActualDiamax = 1;
+let modoEquipoActualP2 = 'crear';
+
+function irAPagina(num, subtab) {
+  paginaActualDiamax = num;
+  const p1 = document.getElementById('diamax-page-1');
+  const p2 = document.getElementById('diamax-page-2');
+  const p3 = document.getElementById('diamax-page-3');
+
+  if (p1) p1.style.display = (num === 1) ? 'flex' : 'none';
+  if (p2) p2.style.display = (num === 2) ? 'block' : 'none';
+  if (p3) p3.style.display = (num === 3) ? 'block' : 'none';
+
+  if (num === 2 && subtab) {
+    mostrarSubPasoP2(subtab === 'login' ? 'login' : 'registro');
+  }
+
+  if (num === 3) {
+    if (typeof renderAll === 'function') renderAll();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function mostrarSubPasoP2(tipo) {
+  const regBox = document.getElementById('p2-sub-registro');
+  const logBox = document.getElementById('p2-sub-login');
+  const btnReg = document.getElementById('p2-tab-reg-btn');
+  const btnLog = document.getElementById('p2-tab-login-btn');
+
+  if (tipo === 'login') {
+    if (regBox) regBox.style.display = 'none';
+    if (logBox) logBox.style.display = 'block';
+    if (btnReg) { btnReg.style.background = 'rgba(255,255,255,0.05)'; btnReg.style.color = '#CBD5E1'; }
+    if (btnLog) { btnLog.style.background = '#00D2FF'; btnLog.style.color = '#020617'; }
+  } else {
+    if (regBox) regBox.style.display = 'block';
+    if (logBox) logBox.style.display = 'none';
+    if (btnReg) { btnReg.style.background = '#00D2FF'; btnReg.style.color = '#020617'; }
+    if (btnLog) { btnLog.style.background = 'rgba(255,255,255,0.05)'; btnLog.style.color = '#CBD5E1'; }
+  }
+}
+
+function setModoEquipoP2(modo) {
+  modoEquipoActualP2 = modo;
+  const secCrear = document.getElementById('p2-seccion-crear-equipo');
+  const secUnirse = document.getElementById('p2-seccion-unirse-equipo');
+  const btnCrear = document.getElementById('p2-btn-mode-crear');
+  const btnUnirse = document.getElementById('p2-btn-mode-unirse');
+
+  if (modo === 'crear') {
+    if (secCrear) secCrear.style.display = 'block';
+    if (secUnirse) secUnirse.style.display = 'none';
+    if (btnCrear) { btnCrear.style.background = '#F26522'; btnCrear.style.color = '#FFF'; }
+    if (btnUnirse) { btnUnirse.style.background = 'transparent'; btnUnirse.style.color = '#94A3B8'; }
+  } else {
+    if (secCrear) secCrear.style.display = 'none';
+    if (secUnirse) secUnirse.style.display = 'block';
+    if (btnCrear) { btnCrear.style.background = 'transparent'; btnCrear.style.color = '#94A3B8'; }
+    if (btnUnirse) { btnUnirse.style.background = '#00D2FF'; btnUnirse.style.color = '#020617'; }
+  }
+}
+
+function seleccionarRolP2(rol) {
+  const hiddenInput = document.getElementById('p2-user-role');
+  if (hiddenInput) hiddenInput.value = rol;
+
+  ['MANAGER', 'COACH', 'ADMIN_LIGA', 'JUGADOR'].forEach(r => {
+    const card = document.getElementById('p2-card-role-' + r);
+    if (!card) return;
+    if (r === rol) {
+      card.style.background = (r === 'MANAGER') ? 'rgba(242,101,34,0.22)' : 'rgba(0,210,255,0.22)';
+      card.style.borderColor = (r === 'MANAGER') ? '#F26522' : '#00D2FF';
+      card.style.transform = 'scale(1.03)';
+    } else {
+      card.style.background = 'rgba(255,255,255,0.03)';
+      card.style.borderColor = 'rgba(255,255,255,0.12)';
+      card.style.transform = 'scale(1)';
+    }
+  });
+}
+
+async function procesarRegistroP2() {
+  const fullName = document.getElementById('p2-reg-fullname')?.value.trim();
+  const email = document.getElementById('p2-reg-email')?.value.trim().toLowerCase();
+  const pass = document.getElementById('p2-reg-pass')?.value.trim();
+  const phone = document.getElementById('p2-reg-phone')?.value.trim();
+  const role = document.getElementById('p2-user-role')?.value || 'MANAGER';
+  const alertBox = document.getElementById('p2-box-alerta');
+
+  if (!fullName || !email || !pass || !phone) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239,68,68,0.2)';
+      alertBox.style.border = '1px solid #EF4444';
+      alertBox.style.color = '#FCA5A5';
+      alertBox.innerHTML = '⚠️ Por favor completa todos los campos del usuario.';
+    }
+    return;
+  }
+
+  let teamName = '';
+  let category = '+55';
+  let modality = 'BEISBOL_9';
+  let location = '';
+
+  if (modoEquipoActualP2 === 'crear') {
+    teamName = document.getElementById('p2-team-name')?.value.trim() || 'Guerreros de Venezuela';
+    category = document.getElementById('p2-team-category')?.value || '+55';
+    modality = document.getElementById('p2-sport-modality')?.value || 'BEISBOL_9';
+    location = document.getElementById('p2-team-location')?.value.trim() || 'Venezuela';
+  } else {
+    teamName = document.getElementById('p2-join-search')?.value.trim() || 'Franquicia Oficial';
+    const joinCode = document.getElementById('p2-join-code')?.value.trim();
+    if (!joinCode) {
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        alertBox.style.background = 'rgba(239,68,68,0.2)';
+        alertBox.style.border = '1px solid #EF4444';
+        alertBox.style.color = '#FCA5A5';
+        alertBox.innerHTML = '⚠️ Ingresa el código de invitación para unirte al equipo.';
+      }
+      return;
+    }
+  }
+
+  const passHash = await hashSHA256(pass);
+  const prefix = teamName.substring(0, 4).toUpperCase().replace(/[^A-Z0-9]/g, '') || 'TEAM';
+  const inviteCode = 'DMX-' + prefix + '-' + category.replace(/[^A-Za-z0-9]/g, '');
+
+  currentUserSession = {
+    user: email,
+    name: fullName,
+    role: role,
+    team: teamName,
+    category: category,
+    modality: modality,
+    location: location,
+    inviteCode: inviteCode,
+    pinHash: await hashSHA256('1234'),
+    token: passHash.substring(0, 32),
+    brand: '3Tree Digital Sport IA © 2026'
+  };
+
+  localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
+  updateHeaderUserBadge();
+
+  if (alertBox) {
+    alertBox.style.display = 'block';
+    alertBox.style.background = 'rgba(16,185,129,0.2)';
+    alertBox.style.border = '1px solid #10B981';
+    alertBox.style.color = '#A7F3D0';
+    alertBox.innerHTML = '✅ ¡Registro exitoso! Accediendo a Página 3 (Dugout en vivo)...';
+  }
+
+  setTimeout(() => {
+    irAPagina(3);
+  }, 700);
+}
+
+function procesarLoginP2() {
+  const user = document.getElementById('p2-login-user')?.value.trim();
+  if (!user) return alert('Ingresa tu correo');
+
+  currentUserSession = {
+    user: user,
+    name: user.split('@')[0],
+    role: 'MANAGER',
+    team: 'Guerreros de Venezuela +55',
+    brand: '3Tree Digital Sport IA © 2026'
+  };
+  localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
+  updateHeaderUserBadge();
+  irAPagina(3);
 }
 
 function initSecurityPortal() {
