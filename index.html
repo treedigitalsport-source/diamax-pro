@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '4.3-ultra-glass';
+  const DEPLOY_VERSION = '4.4-spatial-glass';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -2121,43 +2121,45 @@ body.daylight-mode .btn-keypad:hover {
   <div style="position:relative; z-index:5; flex:1; width:100%; display:flex; align-items:center; justify-content:center; pointer-events:none;">
   </div>
 
-  <!-- 3. Chasis Flotante Translúcido en Tercio Inferior (Apple Liquid Glass Dock) -->
-  <div style="position:relative; z-index:10; width:100%; max-width:680px; background:rgba(6, 12, 26, 0.18); border:1px solid rgba(255,255,255,0.10); border-radius:22px; padding:18px 22px; backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%); box-shadow:0 12px 40px rgba(0,0,0,0.35), 0 0 20px rgba(24,216,255,0.08), inset 0 1px 0 rgba(255,255,255,0.15); text-align:center;">
+  <!-- 3. Contenido Flotante Sin Marco — Apple Vision Pro Spatial Glass -->
+  <div style="position:relative; z-index:10; width:100%; max-width:680px; background:linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(6,12,26,0.08) 100%); border:none; border-top:1px solid rgba(255,255,255,0.06); border-radius:28px; padding:22px 24px 18px 24px; backdrop-filter:blur(10px) saturate(120%); -webkit-backdrop-filter:blur(10px) saturate(120%); box-shadow:none; text-align:center;">
     
-    <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-bottom:8px;">
-      <span style="display:inline-block; padding:3px 10px; background:rgba(24,216,255,0.12); border:1px solid rgba(24,216,255,0.3); border-radius:14px; color:#18D8FF; font-size:10px; font-weight:900; letter-spacing:0.8px; text-transform:uppercase;">
+    <!-- Tag Sutil -->
+    <div style="margin-bottom:10px;">
+      <span style="display:inline-block; padding:4px 14px; background:rgba(24,216,255,0.06); border:1px solid rgba(24,216,255,0.15); border-radius:20px; color:rgba(24,216,255,0.85); font-size:9.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase;">
         ⚡ SPORTS OPERATING SYSTEM · BÉISBOL & SOFTBOL
       </span>
     </div>
 
-    <h1 style="margin:0 0 4px 0; font-size:22px; font-weight:900; color:#FFFFFF; letter-spacing:0.6px; text-shadow:0 2px 12px rgba(0,0,0,0.9);">
+    <!-- Título con Resplandor Cinemático -->
+    <h1 style="margin:0 0 5px 0; font-size:24px; font-weight:900; color:#FFFFFF; letter-spacing:1.2px; text-shadow:0 0 40px rgba(24,216,255,0.25), 0 2px 16px rgba(0,0,0,0.9);">
       BIENVENIDO A DIAMAX PRO
     </h1>
-    <p style="margin:0 0 14px 0; font-size:12px; color:#E2E8F0; line-height:1.4; text-shadow:0 1px 4px rgba(0,0,0,0.8);">
+    <p style="margin:0 0 18px 0; font-size:12px; color:rgba(226,232,240,0.8); line-height:1.5; text-shadow:0 1px 6px rgba(0,0,0,0.9); max-width:520px; margin-left:auto; margin-right:auto;">
       Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría militar de vanguardia.
     </p>
 
-    <!-- Disposición Horizontal Compacta de Puertas de Entrada -->
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+    <!-- Botones Flotantes con Cristal Independiente -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
       
-      <!-- Opción A: Registrarse (Lleva a la Página 2 - Formulario Guiado & Planes) -->
-      <button onclick="irAPagina(2, 'register')" style="padding:13px 16px; background:linear-gradient(135deg, #FFB82E, #EA580C); color:#040814; border:none; border-radius:12px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.6px; box-shadow:0 0 20px rgba(255,184,46,0.45); display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 28px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 20px rgba(255,184,46,0.45)';">
+      <!-- Registro — Botón Dorado Cinemático -->
+      <button onclick="irAPagina(2, 'register')" style="padding:14px 24px; background:linear-gradient(135deg, rgba(255,184,46,0.88), rgba(234,88,12,0.88)); color:#040814; border:none; border-radius:14px; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 4px 24px rgba(255,184,46,0.35); display:inline-flex; align-items:center; gap:8px; transition:all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 32px rgba(255,184,46,0.55)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 24px rgba(255,184,46,0.35)';">
         <span style="font-size:15px;">🎟️</span> <span>REGISTRO & PLANES (MES GRATIS)</span>
       </button>
 
-      <!-- Opción B: Iniciar Sesión / Entrar (Lleva a la Página 2 - Acceso Seguro) -->
-      <button onclick="irAPagina(2, 'login')" style="padding:13px 16px; background:rgba(24,216,255,0.12); color:#18D8FF; border:1.5px solid #18D8FF; border-radius:12px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.6px; backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.22)'; this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 20px rgba(24,216,255,0.35)';" onmouseout="this.style.background='rgba(24,216,255,0.12)'; this.style.transform='scale(1)'; this.style.boxShadow='none';">
+      <!-- Login — Botón Cristal Cyan -->
+      <button onclick="irAPagina(2, 'login')" style="padding:14px 24px; background:rgba(24,216,255,0.06); color:#18D8FF; border:1px solid rgba(24,216,255,0.35); border-radius:14px; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); display:inline-flex; align-items:center; gap:8px; transition:all 0.3s ease;" onmouseover="this.style.background='rgba(24,216,255,0.14)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 28px rgba(24,216,255,0.25)';" onmouseout="this.style.background='rgba(24,216,255,0.06)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
         <span style="font-size:15px;">🔑</span> <span>INICIAR SESIÓN / ENTRAR</span>
       </button>
 
     </div>
 
-    <!-- Micro Footer de Certificación y Seguridad -->
-    <div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:center; align-items:center; gap:16px; font-size:10.5px; color:#94A3B8; flex-wrap:wrap;">
-      <span>🔒 Encriptación SHA-256</span>
-      <span>●</span>
-      <span>📶 Offline Ready PWA</span>
-      <span>●</span>
+    <!-- Micro Certificación — Flotante y Discreta -->
+    <div style="margin-top:14px; display:flex; justify-content:center; align-items:center; gap:14px; font-size:10px; color:rgba(148,163,184,0.6); flex-wrap:wrap;">
+      <span>🔒 SHA-256</span>
+      <span style="opacity:0.3;">·</span>
+      <span>📶 PWA Offline</span>
+      <span style="opacity:0.3;">·</span>
       <span>⚾ Béisbol & Softbol</span>
     </div>
 
@@ -5926,7 +5928,7 @@ window.DIAMAX_OFFLINE_ENGINE = {
   init: function() {
     // 1. Registro del Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=4.3')
+      navigator.serviceWorker.register('./sw.js?v=4.4')
         .then(reg => {
           reg.update();
           console.log('[3TREE OFFLINE] Service Worker v3.2 registrado con éxito:', reg.scope);
