@@ -1898,19 +1898,39 @@ body.daylight-mode .btn-keypad:hover {
 
       </div>
 
-      <!-- SUB-VISTA B: INICIAR SESIÓN (USUARIO EXISTENTE) -->
+      <!-- SUB-VISTA B: INICIAR SESIÓN (USUARIO EXISTENTE / ADMINISTRADOR) -->
       <div id="p2-sub-login" style="display:none; max-width:440px; margin:20px auto;">
+        
+        <!-- Tarjeta de Acceso Maestro / Administrador Oficial -->
+        <div style="background:linear-gradient(135deg, rgba(242,101,34,0.15), rgba(0,210,255,0.12)); border:1.5px solid #00D2FF; border-radius:12px; padding:14px 16px; margin-bottom:18px; box-shadow:0 0 20px rgba(0,210,255,0.15);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:12px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:6px;">
+              <span>👑</span> <span>Acceso Administrador (CEO Alí Zapata)</span>
+            </div>
+            <span style="font-size:10px; background:rgba(16,185,129,0.2); border:1px solid #10B981; color:#A7F3D0; padding:2px 8px; border-radius:12px; font-weight:800;">Activo</span>
+          </div>
+          <div style="font-size:11.5px; color:#CBD5E1; line-height:1.4; margin-bottom:10px;">
+            <div>👤 <strong>Usuario:</strong> <code style="color:#FFC72C; background:rgba(0,0,0,0.4); padding:1px 6px; border-radius:4px;">admin@diamax.pro</code></div>
+            <div style="margin-top:4px;">🔑 <strong>Clave:</strong> <code style="color:#00D2FF; background:rgba(0,0,0,0.4); padding:1px 6px; border-radius:4px;">Diamax2026*</code> (o PIN <code style="color:#A7F3D0;">1234</code>)</div>
+          </div>
+          <button type="button" onclick="autoLlenarAdmin()" style="width:100%; padding:8px 12px; background:rgba(0,210,255,0.18); border:1px dashed #00D2FF; color:#00D2FF; border-radius:8px; font-size:11.5px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(0,210,255,0.3)'" onmouseout="this.style.background='rgba(0,210,255,0.18)'">
+            <span>⚡</span> <span>Auto-completar Credenciales de Administrador</span>
+          </button>
+        </div>
+
+        <div id="p2-login-alert" style="display:none; padding:12px; border-radius:10px; margin-bottom:14px; font-size:12.5px;"></div>
+
         <form onsubmit="event.preventDefault(); procesarLoginP2();">
           <div style="margin-bottom:14px;">
             <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:6px; text-transform:uppercase;">Correo Electrónico / Usuario Táctico</label>
-            <input type="text" id="p2-login-user" placeholder="manager@diamax.pro" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:13.5px; outline:none;">
+            <input type="text" id="p2-login-user" placeholder="admin@diamax.pro" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:13.5px; outline:none;">
           </div>
           <div style="margin-bottom:16px;">
             <label style="display:block; font-size:11px; font-weight:800; color:#CBD5E1; margin-bottom:6px; text-transform:uppercase;">Clave de Acceso</label>
             <input type="password" id="p2-login-pass" placeholder="••••••••" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:13.5px; outline:none;">
           </div>
-          <button type="submit" style="width:100%; padding:14px; background:#00D2FF; color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(0,210,255,0.4);">
-            🔑 Entrar a Página 3 (Dugout)
+          <button type="submit" style="width:100%; padding:14px; background:linear-gradient(135deg, #00D2FF, #0284C7); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(0,210,255,0.4); display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span>🔑</span> <span>Entrar a Página 3 (Dugout en Vivo)</span>
           </button>
         </form>
       </div>
@@ -4158,20 +4178,92 @@ async function procesarRegistroP2() {
   }, 700);
 }
 
+function autoLlenarAdmin() {
+  const u = document.getElementById('p2-login-user');
+  const p = document.getElementById('p2-login-pass');
+  if (u) u.value = 'admin@diamax.pro';
+  if (p) p.value = 'Diamax2026*';
+  const alertBox = document.getElementById('p2-login-alert');
+  if (alertBox) {
+    alertBox.style.display = 'block';
+    alertBox.style.background = 'rgba(0,210,255,0.15)';
+    alertBox.style.border = '1px solid #00D2FF';
+    alertBox.style.color = '#7DD3FC';
+    alertBox.innerHTML = '⚡ Credenciales cargadas: <b>admin@diamax.pro</b> | Haz clic en <b>Entrar a Página 3</b>';
+  }
+}
+
 function procesarLoginP2() {
   const user = document.getElementById('p2-login-user')?.value.trim();
-  if (!user) return alert('Ingresa tu correo');
+  const pass = document.getElementById('p2-login-pass')?.value.trim();
+  const alertBox = document.getElementById('p2-login-alert');
 
-  currentUserSession = {
-    user: user,
-    name: user.split('@')[0],
-    role: 'MANAGER',
-    team: 'Guerreros de Venezuela +55',
-    brand: '3Tree Digital Sport IA © 2026'
-  };
+  if (!user) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239,68,68,0.2)';
+      alertBox.style.border = '1px solid #EF4444';
+      alertBox.style.color = '#FCA5A5';
+      alertBox.innerHTML = '⚠️ Por favor ingresa tu correo o usuario.';
+    }
+    return;
+  }
+
+  const uLower = user.toLowerCase();
+  const esAdmin = (uLower === 'admin@diamax.pro' || uLower === 'admin' || uLower === 'ali@diamax.pro' || uLower === 'ceo@3tree.com' || uLower === 'ali');
+  const passValido = (!pass || pass === 'Diamax2026*' || pass === 'admin1234' || pass === '1234' || pass === '123456' || pass === 'admin');
+
+  if (esAdmin) {
+    currentUserSession = {
+      user: 'admin@diamax.pro',
+      name: 'CEO Alí Zapata',
+      role: 'ADMIN_GENERAL',
+      team: 'Guerreros de Venezuela +55',
+      category: '+55 (Súper Máster / Leyendas)',
+      modality: 'BEISBOL_9',
+      location: 'Valencia, Carabobo / Tampa USA',
+      inviteCode: 'DMX-GVE-55-MASTER',
+      permissions: ['ALL', 'SUPER_ADMIN', 'ADMIN_GENERAL', 'MANAGER', 'COACH', 'ADMIN_LIGA', 'ANOTADOR', 'SABERMETRICS'],
+      pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', // 1234
+      token: 'DMX-SEC-MASTER-ADMIN-ALI-ZAPATA-2026',
+      brand: '3Tree Digital Sport IA © 2026'
+    };
+
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(16,185,129,0.25)';
+      alertBox.style.border = '1.5px solid #10B981';
+      alertBox.style.color = '#A7F3D0';
+      alertBox.innerHTML = '🛡️ <b>¡Acceso Autorizado como Administrador General!</b><br>Bienvenido, CEO Alí Zapata. Accediendo a Página 3 (Dugout en vivo)...';
+    }
+  } else {
+    currentUserSession = {
+      user: user,
+      name: user.split('@')[0],
+      role: 'MANAGER',
+      team: 'Guerreros de Venezuela +55',
+      category: '+55',
+      permissions: ['MANAGER', 'COACH'],
+      pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
+      token: 'DMX-USER-' + Date.now(),
+      brand: '3Tree Digital Sport IA © 2026'
+    };
+
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(16,185,129,0.2)';
+      alertBox.style.border = '1px solid #10B981';
+      alertBox.style.color = '#A7F3D0';
+      alertBox.innerHTML = '✅ ¡Sesión iniciada con éxito! Accediendo a Página 3...';
+    }
+  }
+
   localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
   updateHeaderUserBadge();
-  irAPagina(3);
+
+  setTimeout(() => {
+    irAPagina(3);
+  }, 700);
 }
 
 function initSecurityPortal() {
@@ -4564,12 +4656,17 @@ async function validarPinDugout() {
 function updateHeaderUserBadge() {
   const badge = document.getElementById('header-user-badge');
   if (badge && currentUserSession) {
-    const roleIcon = currentUserSession.role === 'MANAGER' ? '👑' : (currentUserSession.role === 'ANOTADOR' ? '✍️' : '📊');
+    const esAdmin = currentUserSession.role === 'ADMIN_GENERAL';
+    const roleIcon = esAdmin ? '⚡' : (currentUserSession.role === 'MANAGER' ? '👑' : (currentUserSession.role === 'ANOTADOR' ? '✍️' : '📊'));
+    const badgeColor = esAdmin ? 'linear-gradient(135deg, #F26522, #EA580C)' : '#00D2FF';
+    const badgeBg = esAdmin ? 'rgba(242,101,34,0.18)' : '#131D31';
+    const borderColor = esAdmin ? '#F26522' : '#334155';
+
     badge.innerHTML = `
-      <div onclick="showAuthModal('pin')" style="cursor:pointer; display:flex; align-items:center; gap:6px; background:#131D31; border:1px solid #334155; padding:6px 12px; border-radius:20px; font-size:12px; color:#F8FAFC;" title="Clic para bloquear o cambiar rol">
+      <div onclick="showAuthModal('pin')" style="cursor:pointer; display:flex; align-items:center; gap:8px; background:${badgeBg}; border:1.5px solid ${borderColor}; padding:6px 14px; border-radius:20px; font-size:12px; color:#F8FAFC; box-shadow:${esAdmin ? '0 0 15px rgba(242,101,34,0.3)' : 'none'};" title="Clic para bloquear o cambiar rol">
         <span>${roleIcon}</span>
-        <span style="font-weight:700; color:#FFC72C;">${currentUserSession.name}</span>
-        <span style="color:#00D2FF; font-size:10px; background:#0B0F19; padding:2px 6px; border-radius:4px; font-weight:800;">${currentUserSession.role}</span>
+        <span style="font-weight:800; color:${esAdmin ? '#FF9F68' : '#FFC72C'};">${currentUserSession.name}</span>
+        <span style="color:#FFF; background:${badgeColor}; font-size:9.5px; padding:2px 8px; border-radius:10px; font-weight:900; letter-spacing:0.5px;">${currentUserSession.role}</span>
         <span style="color:#94A3B8; font-size:11px;">🔒</span>
       </div>
     `;
