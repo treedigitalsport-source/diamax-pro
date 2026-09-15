@@ -1682,22 +1682,17 @@ body.daylight-mode .btn-keypad:hover {
       Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría militar de vanguardia.
     </p>
 
-    <!-- Puertas de Entrada Principales (Diagrama CEO Ali) -->
-    <div style="display:flex; flex-direction:column; gap:12px;">
+    <!-- Puertas de Entrada Principales (Diagrama Exclusivo CEO Alí Zapata) -->
+    <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
       
-      <!-- Opción A: Registrarse (Lleva a la Página 2) -->
-      <button onclick="irAPagina(2, 'register')" style="width:100%; padding:15px 20px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:12px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 6px 20px rgba(242,101,34,0.45); display:flex; align-items:center; justify-content:center; gap:10px; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-        <span>📝</span> <span>Registrarse (Nuevo Usuario / Franquicia)</span>
+      <!-- Opción A: Registrarse (Lleva a la Página 2 - Formulario Guiado) -->
+      <button onclick="irAPagina(2, 'register')" style="width:100%; padding:16px 22px; background:linear-gradient(135deg, #F26522, #EA580C); color:#FFF; border:none; border-radius:14px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 24px rgba(242,101,34,0.5); display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.25s;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 10px 28px rgba(242,101,34,0.65)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 24px rgba(242,101,34,0.5)';">
+        <span style="font-size:18px;">📝</span> <span>REGISTRARSE (NUEVO USUARIO / EQUIPO)</span>
       </button>
 
-      <!-- Opción B: Iniciar Sesión (Usuario Existente) -->
-      <button onclick="irAPagina(2, 'login')" style="width:100%; padding:14px 20px; background:rgba(0,210,255,0.12); color:#00D2FF; border:1.5px solid #00D2FF; border-radius:12px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s;" onmouseover="this.style.background='rgba(0,210,255,0.22)'; this.style.transform='scale(1.02)'" onmouseout="this.style.background='rgba(0,210,255,0.12)'; this.style.transform='scale(1)'">
-        <span>🔑</span> <span>Iniciar Sesión (Usuario Existente)</span>
-      </button>
-
-      <!-- Opción C: Acceso Rápido al Dugout (Página 3 Directo) -->
-      <button onclick="irAPagina(3)" style="width:100%; padding:11px 16px; background:rgba(255,255,255,0.04); color:#94A3B8; border:1px solid rgba(255,255,255,0.12); border-radius:10px; font-weight:700; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;" onmouseover="this.style.color='#FFF'; this.style.borderColor='rgba(255,255,255,0.3)';" onmouseout="this.style.color='#94A3B8'; this.style.borderColor='rgba(255,255,255,0.12)';">
-        <span>⚡</span> <span>Acceso Rápido Dugout en Vivo (Ir a Página 3)</span>
+      <!-- Opción B: Iniciar Sesión / Entrar (Lleva a la Página 2 - Acceso Seguro) -->
+      <button onclick="irAPagina(2, 'login')" style="width:100%; padding:15px 22px; background:rgba(0,210,255,0.12); color:#00D2FF; border:2px solid #00D2FF; border-radius:14px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.25s;" onmouseover="this.style.background='rgba(0,210,255,0.25)'; this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 25px rgba(0,210,255,0.4)';" onmouseout="this.style.background='rgba(0,210,255,0.12)'; this.style.transform='scale(1)'; this.style.boxShadow='none';">
+        <span style="font-size:18px;">🔑</span> <span>INICIAR SESIÓN / ENTRAR</span>
       </button>
 
     </div>
@@ -4009,11 +4004,19 @@ function irAPagina(num, subtab) {
   if (p2) p2.style.display = (num === 2) ? 'block' : 'none';
   if (p3) p3.style.display = (num === 3) ? 'block' : 'none';
 
-  if (num === 2 && subtab) {
-    mostrarSubPasoP2(subtab === 'login' ? 'login' : 'registro');
-  }
-
-  if (num === 3) {
+  if (num === 1) {
+    document.body.style.overflow = 'hidden';
+    const vid = p1 ? p1.querySelector('video') : null;
+    if (vid && vid.paused) {
+      vid.play().catch(() => {});
+    }
+  } else if (num === 2) {
+    document.body.style.overflow = 'auto';
+    if (subtab) {
+      mostrarSubPasoP2(subtab === 'login' ? 'login' : 'registro');
+    }
+  } else if (num === 3) {
+    document.body.style.overflow = 'auto';
     if (typeof renderAll === 'function') renderAll();
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4787,8 +4790,11 @@ window.DIAMAX_OFFLINE_ENGINE = {
   init: function() {
     // 1. Registro del Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('[3TREE OFFLINE] Service Worker registrado con éxito:', reg.scope))
+      navigator.serviceWorker.register('./sw.js?v=3.2')
+        .then(reg => {
+          reg.update();
+          console.log('[3TREE OFFLINE] Service Worker v3.2 registrado con éxito:', reg.scope);
+        })
         .catch(err => console.warn('[3TREE OFFLINE] Aviso Service Worker:', err));
     }
 
@@ -9778,9 +9784,21 @@ window.addEventListener('DOMContentLoaded', () => {
   // Hash routing automático para enlaces directos
   if (window.location.hash) {
     const rawHash = window.location.hash.replace('#', '');
-    setTimeout(() => {
-      switchTab(rawHash);
-    }, 60);
+    if (rawHash === 'pagina2' || rawHash === 'registro') {
+      irAPagina(2, 'register');
+    } else if (rawHash === 'login') {
+      irAPagina(2, 'login');
+    } else if (rawHash === 'pagina3' || rawHash === 'dugout') {
+      irAPagina(3);
+    } else {
+      setTimeout(() => {
+        switchTab(rawHash);
+      }, 60);
+    }
+  } else {
+    // 🎯 REGLA DE ORO CEO ALÍ ZAPATA:
+    // Al cargar la plataforma, la vista obligatoria es SIEMPRE PÁGINA 1 (Video Hero + Registro/Acceso)
+    irAPagina(1);
   }
 });
 
