@@ -1631,6 +1631,439 @@ body.daylight-mode .btn-keypad:hover {
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
+
+<style id="diamax-nextgen-intelligence-theme">
+/* ==========================================================================
+   💎 DIAMAX PRO · NEXT-GENERATION SPORTS INTELLIGENCE PLATFORM (DESIGN SYSTEM)
+   Propiedad Intelectual: 3Tree Digital Sport IA · CEO Alí Zapata
+   Aesthetic: Obsidian Glassmorphism · Apple Sports Luxury · Broadcast Command
+   ========================================================================== */
+
+:root {
+  /* Primary Background & Environmental Gradients */
+  --bg-obsidian: #050912;
+  --bg-obsidian-glass: rgba(7, 13, 26, 0.78);
+  --bg-glass-card: rgba(11, 20, 38, 0.72);
+  --bg-glass-floating: rgba(14, 25, 48, 0.82);
+  --bg-glass-input: rgba(4, 9, 20, 0.65);
+  
+  /* Precision Color Hierarchy */
+  --accent-cyan: #18D8FF;          /* Technology, Active Navigation, Telemetry */
+  --accent-cyan-dim: rgba(24, 216, 255, 0.15);
+  --accent-cyan-glow: rgba(24, 216, 255, 0.28);
+  
+  --accent-gold: #FFB82E;          /* Titanium Gold: Crucial Actions, Highlights */
+  --accent-gold-dim: rgba(255, 184, 46, 0.14);
+  --accent-gold-glow: rgba(255, 184, 46, 0.35);
+  
+  --accent-violet: #8B5CF6;        /* Deep Violet: AI Neural Engine & Prediction */
+  --accent-violet-dim: rgba(139, 92, 246, 0.16);
+  --accent-violet-glow: rgba(139, 92, 246, 0.35);
+  
+  --status-emerald: #18C995;       /* Positive, Synchronized, Safe */
+  --status-emerald-dim: rgba(24, 201, 149, 0.16);
+  --status-emerald-glow: rgba(24, 201, 149, 0.35);
+  
+  --status-amber: #F59E0B;         /* Warning / Tactical Attention */
+  --status-crimson: #EF4444;       /* Critical Alerts / Outs */
+  
+  /* Glass Specular Boundaries & Shadows */
+  --glass-border-subtle: rgba(255, 255, 255, 0.08);
+  --glass-border-glow-cyan: rgba(24, 216, 255, 0.3);
+  --glass-border-glow-violet: rgba(139, 92, 246, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.35);
+  
+  --glass-blur-deep: blur(28px) saturate(190%);
+  --glass-blur-card: blur(20px) saturate(180%);
+  --glass-blur-micro: blur(12px);
+  
+  --shadow-ambient-lg: 0 25px 60px -10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.6);
+  --shadow-ambient-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-volumetric-cyan: 0 0 50px -10px rgba(24, 216, 255, 0.2);
+  --shadow-volumetric-violet: 0 0 50px -10px rgba(139, 92, 246, 0.25);
+  
+  --radius-xl: 22px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-pill: 9999px;
+  
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+/* Global Atmosphere & Background */
+body {
+  background-color: var(--bg-obsidian) !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(24, 216, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 15% 30%, rgba(139, 92, 246, 0.07) 0%, transparent 45%),
+    radial-gradient(circle at 85% 65%, rgba(255, 184, 46, 0.05) 0%, transparent 40%),
+    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 72px 72px, 72px 72px !important;
+  background-attachment: fixed !important;
+  color: #F8FAFC !important;
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   PÁGINA 2: CINEMATIC REGISTRATION & SUBSCRIPTION WIZARD
+   ========================================================================== */
+#diamax-page-2 {
+  background: radial-gradient(circle at 50% 10%, rgba(24, 216, 255, 0.07) 0%, transparent 60%),
+              radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+              #050912 !important;
+  backdrop-filter: var(--glass-blur-deep) !important;
+}
+
+#diamax-page-2 > div {
+  background: var(--bg-obsidian-glass) !important;
+  backdrop-filter: var(--glass-blur-deep) !important;
+  -webkit-backdrop-filter: var(--glass-blur-deep) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-ambient-lg), var(--shadow-volumetric-cyan), var(--glass-highlight) !important;
+}
+
+/* Page 2 Top Header */
+#diamax-page-2 > div > div:first-child {
+  background: linear-gradient(180deg, rgba(16, 28, 54, 0.85) 0%, rgba(9, 17, 34, 0.75) 100%) !important;
+  border-bottom: 1px solid var(--glass-border-subtle) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+}
+
+/* Page 2 Stepper Bar */
+#p2-stepper-container {
+  background: rgba(7, 13, 28, 0.7) !important;
+  border: 1px solid rgba(24, 216, 255, 0.18) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+}
+
+/* Page 2 Wizard Step Cards */
+#p2-wizard-paso-1 > div,
+#p2-wizard-paso-2 > div,
+#p2-wizard-paso-3 > div,
+#p2-wizard-paso-4 > div,
+#p2-wizard-paso-5 > div,
+#p2-sub-login > div {
+  background: var(--bg-glass-card) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Inputs & Form Fields */
+#diamax-page-2 input,
+#diamax-page-2 select,
+#diamax-page-2 textarea {
+  background: var(--bg-glass-input) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--radius-md) !important;
+  color: #FFF !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: var(--glass-blur-micro) !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+#diamax-page-2 input:focus,
+#diamax-page-2 select:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 16px var(--accent-cyan-glow), inset 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Primary Action Buttons */
+#diamax-page-2 button[type="submit"],
+#diamax-page-2 button[onclick*="validarYAvanzar"],
+#diamax-page-2 button[onclick*="confirmarYVerificar"] {
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, #0284C7 100%) !important;
+  color: #020617 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.06em !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 8px 24px -4px rgba(24, 216, 255, 0.45), var(--glass-highlight) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+#diamax-page-2 button[type="submit"]:hover,
+#diamax-page-2 button[onclick*="validarYAvanzar"]:hover,
+#diamax-page-2 button[onclick*="confirmarYVerificar"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 30px -4px rgba(24, 216, 255, 0.65), 0 0 20px var(--accent-cyan) !important;
+  filter: brightness(1.08) !important;
+}
+
+/* ==========================================================================
+   PÁGINA 3: NEXT-GENERATION SPORTS INTELLIGENCE DUGOUT COMMAND CENTER
+   ========================================================================== */
+
+/* Stadium Header (Broadcast Glass Command Bar) */
+.header {
+  background: linear-gradient(180deg, rgba(13, 23, 46, 0.85) 0%, rgba(7, 13, 26, 0.8) 100%) !important;
+  backdrop-filter: var(--glass-blur-deep) !important;
+  -webkit-backdrop-filter: var(--glass-blur-deep) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-ambient-lg), var(--shadow-volumetric-cyan), var(--glass-highlight) !important;
+}
+.team-logo-img {
+  border: 2px solid var(--accent-gold) !important;
+  box-shadow: 0 0 20px var(--accent-gold-glow) !important;
+}
+
+/* Game Ribbon */
+.game-ribbon {
+  background: rgba(9, 17, 34, 0.72) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+}
+
+/* Navigation Segmented Capsule (Apple Sports Style) */
+.nav {
+  background: rgba(4, 9, 20, 0.65) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-pill) !important;
+  padding: 6px !important;
+  gap: 6px !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5) !important;
+}
+.nav button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--radius-pill) !important;
+  color: #94A3B8 !important;
+  font-weight: 700 !important;
+  padding: 9px 18px !important;
+  font-size: 11.5px !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.nav button:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #FFF !important;
+  transform: translateY(-1px) !important;
+}
+.nav button.active {
+  background: linear-gradient(135deg, rgba(24, 216, 255, 0.25) 0%, rgba(2, 132, 199, 0.35) 100%) !important;
+  border: 1px solid var(--accent-cyan) !important;
+  color: #FFF !important;
+  box-shadow: 0 0 20px var(--accent-cyan-glow), var(--glass-highlight) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* LIVE GAME HEADER BAR */
+.game-live-header-bar {
+  background: rgba(9, 17, 34, 0.65) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+}
+.game-badge {
+  background: rgba(14, 25, 48, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  font-family: var(--font-mono) !important;
+  color: #CBD5E1 !important;
+}
+
+/* ==========================================================================
+   VISUAL FOCAL POINT: AI TACTICAL INTELLIGENCE COMMAND ENGINE
+   (Deep Violet / Ultraviolet Ambient Aura + Cyan Precision Telemetry)
+   ========================================================================== */
+.ai-tactical-card {
+  background: linear-gradient(145deg, rgba(17, 24, 52, 0.88) 0%, rgba(10, 14, 30, 0.92) 100%) !important;
+  backdrop-filter: var(--glass-blur-deep) !important;
+  -webkit-backdrop-filter: var(--glass-blur-deep) !important;
+  border: 1.5px solid rgba(139, 92, 246, 0.45) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-ambient-lg), var(--shadow-volumetric-violet), var(--glass-highlight) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Subtle holographic corner highlight for AI */
+.ai-tactical-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 30%, var(--accent-violet) 70%, transparent 100%);
+  opacity: 0.8;
+}
+
+.ai-quick-btn-grid {
+  gap: 10px !important;
+}
+.btn-ai-quick {
+  background: rgba(18, 28, 58, 0.6) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--accent-cyan) !important;
+  font-weight: 800 !important;
+  font-size: 11.5px !important;
+  padding: 10px 12px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), var(--glass-highlight) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn-ai-quick:hover {
+  background: rgba(24, 216, 255, 0.18) !important;
+  border-color: var(--accent-cyan) !important;
+  color: #FFF !important;
+  box-shadow: 0 0 20px var(--accent-cyan-glow), var(--glass-highlight) !important;
+  transform: translateY(-2px) !important;
+}
+.ai-response-box {
+  background: rgba(4, 8, 18, 0.85) !important;
+  border: 1px solid rgba(139, 92, 246, 0.25) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+  color: #E2E8F0 !important;
+  font-family: var(--font-sans) !important;
+  line-height: 1.6 !important;
+}
+
+/* ==========================================================================
+   PANELS, SCOREBOARD & DUGOUT KEYPAD
+   ========================================================================== */
+.panel {
+  background: var(--bg-glass-card) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  -webkit-backdrop-filter: var(--glass-blur-card) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.panel:hover {
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  box-shadow: var(--shadow-ambient-lg), var(--glass-highlight) !important;
+}
+
+/* Scoreboard (High-End Broadcast LED) */
+.scoreboard {
+  background: linear-gradient(180deg, rgba(3, 7, 16, 0.95) 0%, rgba(6, 12, 24, 0.9) 100%) !important;
+  border: 1px solid rgba(255, 184, 46, 0.28) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.85), 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+}
+.score-num {
+  font-family: var(--font-mono) !important;
+  font-size: 38px !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 25px currentColor !important;
+}
+
+/* Outs LED Indicator */
+.outs-container {
+  background: rgba(4, 9, 20, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.out-led-lamp.on {
+  background: var(--status-crimson) !important;
+  border-color: var(--status-crimson) !important;
+  box-shadow: 0 0 14px var(--status-crimson) !important;
+}
+
+/* Pitch Tracker Card & Bullpen */
+.pitch-tracker-card {
+  background: var(--bg-glass-card) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+}
+.pitch-type-btn {
+  background: rgba(14, 25, 48, 0.7) !important;
+  backdrop-filter: var(--glass-blur-micro) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--glass-highlight) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.pitch-type-btn:hover {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 16px var(--accent-cyan-glow), var(--glass-highlight) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Dugout Action Buttons */
+.btn-action {
+  background: rgba(14, 25, 48, 0.75) !important;
+  backdrop-filter: var(--glass-blur-micro) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), var(--glass-highlight) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn-action:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), var(--glass-highlight) !important;
+}
+.btn-action.btn-hit {
+  background: linear-gradient(145deg, rgba(6, 78, 59, 0.8) 0%, rgba(4, 48, 36, 0.9) 100%) !important;
+  border-color: rgba(24, 201, 149, 0.5) !important;
+  color: #A7F3D0 !important;
+}
+.btn-action.btn-hit:hover {
+  box-shadow: 0 0 25px var(--status-emerald-glow) !important;
+}
+.btn-action.btn-hr {
+  background: linear-gradient(145deg, rgba(180, 83, 9, 0.8) 0%, rgba(120, 53, 15, 0.9) 100%) !important;
+  border-color: var(--accent-gold) !important;
+  color: #FEF3C7 !important;
+}
+.btn-action.btn-hr:hover {
+  box-shadow: 0 0 25px var(--accent-gold-glow) !important;
+}
+.btn-action.btn-out {
+  background: linear-gradient(145deg, rgba(69, 10, 10, 0.8) 0%, rgba(40, 6, 6, 0.9) 100%) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  color: #FECACA !important;
+}
+.btn-action.btn-out:hover {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.35) !important;
+}
+
+/* Batter Card Active */
+.batter-card-active {
+  background: linear-gradient(145deg, rgba(16, 28, 54, 0.8) 0%, rgba(9, 17, 34, 0.85) 100%) !important;
+  border: 1.5px solid var(--accent-gold) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: 0 0 25px var(--accent-gold-dim), var(--glass-highlight) !important;
+}
+.batter-img {
+  border: 2px solid var(--accent-gold) !important;
+  box-shadow: 0 0 16px var(--accent-gold-glow) !important;
+}
+
+/* 2D Stadium Field */
+.field-container, .field-wrapper {
+  background: radial-gradient(circle at 50% 90%, #0c2b1a 0%, #06180f 65%, #030a06 100%) !important;
+  border: 1.5px solid rgba(24, 201, 149, 0.35) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: 0 0 45px rgba(24, 201, 149, 0.15), inset 0 0 70px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Analytics Chart Cards */
+.chart-card {
+  background: var(--bg-glass-card) !important;
+  backdrop-filter: var(--glass-blur-card) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-ambient-md), var(--glass-highlight) !important;
+}
+
+</style>
 </head>
 <body>
 
