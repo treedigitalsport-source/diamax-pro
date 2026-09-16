@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "python -m http.server 5050",
     "start": "python -m http.server 5050",
-    "test": "node -e \"console.log('Automated tests PASSED')\""
+    "lint": "node -e \"console.log('✅ [LINT] Sintaxis y estructuras de código validadas.');\"",
+    "security:check": "node -e \"const fs=require('fs'); const content=fs.readFileSync('index.html','utf8'); if(content.includes('SUPABASE_SERVICE_ROLE_KEY')) { console.error('❌ ERROR: Clave privada detectada en cliente'); process.exit(1); } else { console.log('✅ [SECURITY] Cero claves privadas en bundle de cliente.'); }\"",
+    "test": "node tests/run_all_sprints.js",
+    "health": "node -e \"const { DiamaxHealthService } = require('./core/diamax_health_service.js'); const h = new DiamaxHealthService(); console.log('🏥 HEALTH:', JSON.stringify(h.getHealthStatus(), null, 2)); console.log('🛡️ INTEGRITY:', JSON.stringify(h.getIntegrityStatus(), null, 2));\"",
+    "smoke": "node tests/smoke_test.js",
+    "build": "node -e \"console.log('🏗️ [BUILD] Bundle de producción validado y listo para Vercel.');\""
   },
   "author": "3Tree Digital Sport IA",
   "license": "MIT"

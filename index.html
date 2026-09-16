@@ -2375,6 +2375,7 @@ body.daylight-mode .btn-keypad:hover {
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GGnk=" crossorigin=""></script>
 
+  <script src="./diamax-core-bundle.js"></script>
 </head>
 <body>
 
@@ -8525,255 +8526,105 @@ function sumarCarreraInning(isGVE, cantidad) {
 }
 
 function registrarJugadaLive(action) {
-  const current = getLiveCurrentBatter(), pId = current.player.id, pName = current.player.name;
-  const isGVE = current.isGVE;
-
-  if (!liveState.currentLiveBox) liveState.currentLiveBox = {};
-  if (!liveState.currentRivalBox) liveState.currentRivalBox = {};
-  if (!liveState.currentPitchingBox) liveState.currentPitchingBox = { outsPitcher: 0, h: 0, r: 0, er: 0, bb: 0, k: 0, hr: 0, wp: 0 };
-  if (!liveState.bases) liveState.bases = { b1: false, b2: false, b3: false };
-
-  const targetBox = isGVE ? liveState.currentLiveBox : liveState.currentRivalBox;
-  if (!targetBox[pId]) targetBox[pId] = { playerId: pId, name: pName, vb: 0, ca: 0, h1: 0, h2: 0, h3: 0, hr: 0, ci: 0, bb: 0, k: 0, sf: 0, sb: 0, cs: 0 };
-  const bBox = targetBox[pId];
-  let logText = "";
-
-  // 1. BATAZOS DE HIT & JONRÓN (1B, 2B, 3B, HR)
-  if (action === "1B" || action === "2B" || action === "3B" || action === "HR") {
-    bBox.vb++;
-    liveState.currentPitchingBox.h = (liveState.currentPitchingBox.h || 0) + 1;
-
-    if (action === "1B") {
-      bBox.h1 = (bBox.h1 || 0) + 1;
-      let r = liveState.bases.b3 ? 1 : 0;
-      if (r > 0) {
-        if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
-        else liveState.scoreThem = (liveState.scoreThem || 0) + r;
-      }
-      liveState.bases.b3 = !!liveState.bases.b2;
-      liveState.bases.b2 = !!liveState.bases.b1;
-      liveState.bases.b1 = true;
-      bBox.ci = (bBox.ci || 0) + r;
-      logText = `⚡ Sencillo (1B) de ${pName}. ${r > 0 ? '¡Anota carrera! (+1 CI)' : 'Corredor en 1B.'}`;
-
-    } else if (action === "2B") {
-      bBox.h2 = (bBox.h2 || 0) + 1;
-      let r = (liveState.bases.b3 ? 1 : 0) + (liveState.bases.b2 ? 1 : 0);
-      if (r > 0) {
-        if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
-        else liveState.scoreThem = (liveState.scoreThem || 0) + r;
-      }
-      liveState.bases.b3 = !!liveState.bases.b1;
-      liveState.bases.b2 = true;
-      liveState.bases.b1 = false;
-      bBox.ci = (bBox.ci || 0) + r;
-      logText = `🔥 ¡Doblete (2B) de ${pName}! ${r > 0 ? `(+${r} Carrera${r > 1 ? 's' : ''} / +${r} CI)` : 'Corredor en 2B.'}`;
-
-    } else if (action === "3B") {
-      bBox.h3 = (bBox.h3 || 0) + 1;
-      let r = (liveState.bases.b3 ? 1 : 0) + (liveState.bases.b2 ? 1 : 0) + (liveState.bases.b1 ? 1 : 0);
-      if (r > 0) {
-        if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
-        else liveState.scoreThem = (liveState.scoreThem || 0) + r;
-      }
-      liveState.bases = { b1: false, b2: false, b3: true };
-      bBox.ci = (bBox.ci || 0) + r;
-      logText = `🚀 ¡Triplete (3B) de ${pName}! ${r > 0 ? `(+${r} Carrera${r > 1 ? 's' : ''} / +${r} CI)` : 'Corredor en 3B.'}`;
-
-    } else if (action === "HR") {
-      bBox.hr = (bBox.hr || 0) + 1;
-      bBox.ca = (bBox.ca || 0) + 1;
-      let r = 1 + (liveState.bases.b3 ? 1 : 0) + (liveState.bases.b2 ? 1 : 0) + (liveState.bases.b1 ? 1 : 0);
-      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + r;
-      else liveState.scoreThem = (liveState.scoreThem || 0) + r;
-      bBox.ci = (bBox.ci || 0) + r;
-      liveState.currentPitchingBox.hr = (liveState.currentPitchingBox.hr || 0) + 1;
-      liveState.bases = { b1: false, b2: false, b3: false };
-      logText = r === 4 
-        ? `👑 ¡GRAND SLAM DE ${pName}! (+4 Carreras / +4 CI)` 
-        : `🏆 ¡JONRÓN DE ${pName}! (+${r} Carrera${r > 1 ? 's' : ''} / +${r} CI)`;
-    }
-
-  // 2. ELEVADOS AL INFIELD (FLY 1 AL 6)
-  } else if (action.startsWith("Fly ") && parseInt(action.split(" ")[1]) <= 6) {
-    const num = parseInt(action.split(" ")[1]), pMap = { 1:"P", 2:"C", 3:"1B", 4:"2B", 5:"3B", 6:"SS" };
-    bBox.vb++;
-    liveState.outs++;
-    liveState.currentPitchingBox.outsPitcher++;
-    addDefenseStat(pMap[num], "po");
-    logText = `⚾ [${action}]: Elevado al Infield atrapado por ${pMap[num]}. Out ${liveState.outs}`;
-
-  // 3. ELEVADOS AL OUTFIELD (FLY 7, 8, 9)
-  } else if (action === "Fly 7" || action === "Fly 8" || action === "Fly 9") {
-    const ofMap = { "Fly 7":"LF", "Fly 8":"CF", "Fly 9":"RF" };
-    bBox.vb++;
-    liveState.outs++;
-    liveState.currentPitchingBox.outsPitcher++;
-    addDefenseStat(ofMap[action], "po");
-    logText = `⚾ [${action}]: Elevado al Outfield capturado por ${ofMap[action]}. Out ${liveState.outs}`;
-
-  // 4. DOBLE PLAYS POR EL AIRE / CORREDORES
-  } else if (action.includes("/") && action.includes("DP")) {
-    const parts = action.split(" ")[0].split("/");
-    const ofMap = { "7":"LF", "8":"CF", "9":"RF" }, infMap = { "1":"P", "2":"C", "3":"1B", "4":"2B", "5":"3B", "6":"SS" };
-    bBox.vb++;
-    liveState.outs += 2;
-    liveState.currentPitchingBox.outsPitcher += 2;
-    addDefenseStat(ofMap[parts[0]] || "CF", "po");
-    addDefenseStat(ofMap[parts[0]] || "CF", "a");
-    addDefenseStat(infMap[parts[1]] || "2B", "po");
-    if (parts[1] === "2" || parts[1] === "5") liveState.bases.b3 = false;
-    else if (parts[1] === "4" || parts[1] === "6") liveState.bases.b2 = false;
-    else if (parts[1] === "3") liveState.bases.b1 = false;
-    logText = `🛡️ Doble Play [${action}] (2 Outs)`;
-
-  // 5. ROLATAS DE OUT (6-3, 4-3, 5-3, 1-3)
-  } else if (GROUNDOUT_MAP[action]) {
-    bBox.vb++;
-    liveState.outs++;
-    liveState.currentPitchingBox.outsPitcher++;
-    const m = GROUNDOUT_MAP[action];
-    if (m.a) addDefenseStat(m.a, "a");
-    addDefenseStat(m.po, "po");
-    logText = `⚾ Rolata [${action}]: Out en 1B. Out ${liveState.outs}`;
-
-  // 6. DOBLE PLAYS POR EL SUELO (6-4-3 DP, 4-6-3 DP)
-  } else if (DP_GROUND_MAP[action]) {
-    bBox.vb++;
-    liveState.outs += 2;
-    liveState.currentPitchingBox.outsPitcher += 2;
-    liveState.bases.b1 = false;
-    DP_GROUND_MAP[action].forEach(step => {
-      if (step.a) addDefenseStat(step.a, "a");
-      if (step.po) addDefenseStat(step.po, "po");
-    });
-    logText = `🛡️ Doble Play por el Suelo [${action}] (2 Outs)`;
-
-  // 7. FLY DE SACRIFICIO (SF)
-  } else if (action === "SF") {
-    if (liveState.bases.b3 && liveState.outs < 2) {
-      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + 1;
-      else liveState.scoreThem = (liveState.scoreThem || 0) + 1;
-      bBox.ci = (bBox.ci || 0) + 1;
-      bBox.sf = (bBox.sf || 0) + 1;
-      liveState.bases.b3 = false;
-      liveState.outs++;
-      liveState.currentPitchingBox.outsPitcher++;
-      addDefenseStat("CF", "po");
-      logText = `🎯 [Fly de Sacrificio]: Anota carrera desde 3B (+1 CI). Out ${liveState.outs}`;
-    } else {
-      bBox.vb++;
-      liveState.outs++;
-      liveState.currentPitchingBox.outsPitcher++;
-      addDefenseStat("CF", "po");
-      logText = `⚾ Elevado al outfield (Out ${liveState.outs})`;
-    }
-
-  // 8. ROBO DE BASE (SB)
-  } else if (action === "SB") {
-    bBox.sb = (bBox.sb || 0) + 1;
-    if (liveState.bases.b2 && !liveState.bases.b3) {
-      liveState.bases.b3 = true;
-      liveState.bases.b2 = false;
-    } else if (liveState.bases.b1 && !liveState.bases.b2) {
-      liveState.bases.b2 = true;
-      liveState.bases.b1 = false;
-    }
-    logText = `🏃 [Base Robada]: Corredor avanza a la siguiente base con éxito`;
-
-  // 9. OUT ROBANDO BASE (CS)
-  } else if (action === "CS") {
-    bBox.cs = (bBox.cs || 0) + 1;
-    liveState.outs++;
-    liveState.currentPitchingBox.outsPitcher++;
-    addDefenseStat("C", "a");
-    addDefenseStat("2B", "po");
-    if (liveState.bases.b2) liveState.bases.b2 = false;
-    else if (liveState.bases.b1) liveState.bases.b1 = false;
-    logText = `🚫 [Caught Stealing]: Out robando base (Out ${liveState.outs})`;
-
-  // 10. WILD PITCH (WP)
-  } else if (action === "WP") {
-    liveState.currentPitchingBox.wp = (liveState.currentPitchingBox.wp || 0) + 1;
-    let scored = false;
-    if (liveState.bases.b3) {
-      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + 1;
-      else liveState.scoreThem = (liveState.scoreThem || 0) + 1;
-      liveState.bases.b3 = false;
-      scored = true;
-    }
-    if (liveState.bases.b2) { liveState.bases.b3 = true; liveState.bases.b2 = false; }
-    if (liveState.bases.b1) { liveState.bases.b2 = true; liveState.bases.b1 = false; }
-    logText = `⚡ [Wild Pitch]: Lanzamiento desviado, avanzan corredores${scored ? ' (¡Anota carrera!)' : ''}`;
-
-  // 11. PONCHE (K)
-  } else if (action === "K") {
-    bBox.vb++;
-    bBox.k = (bBox.k || 0) + 1;
-    liveState.outs++;
-    liveState.currentPitchingBox.outsPitcher++;
-    liveState.currentPitchingBox.k = (liveState.currentPitchingBox.k || 0) + 1;
-    addDefenseStat("C", "po");
-    logText = `💨 Ponche (K) para ${pName} (Out ${liveState.outs})`;
-
-  // 12. BOLETO (BB)
-  } else if (action === "BB") {
-    bBox.bb = (bBox.bb || 0) + 1;
-    liveState.currentPitchingBox.bb = (liveState.currentPitchingBox.bb || 0) + 1;
-    let scored = false;
-    if (liveState.bases.b1 && liveState.bases.b2 && liveState.bases.b3) {
-      if (isGVE) liveState.scoreUs = (liveState.scoreUs || 0) + 1;
-      else liveState.scoreThem = (liveState.scoreThem || 0) + 1;
-      bBox.ci = (bBox.ci || 0) + 1;
-      scored = true;
-    }
-    liveState.bases.b3 = liveState.bases.b2;
-    liveState.bases.b2 = liveState.bases.b1;
-    liveState.bases.b1 = true;
-    logText = `🎟️ Boleto (BB) para ${pName}${scored ? ' (¡Carrera forzada caballito +1 CI!)' : ''}`;
-  }
-
-  // GESTIÓN DE FIN DE ENTRADA (3 OUTS)
-  if (liveState.outs >= 3) {
-    logText += " ➔ Fin del Inning.";
-    liveState.outs = 0;
-    liveState.bases = { b1: false, b2: false, b3: false };
-    liveState.half = liveState.half === 'top' ? 'bot' : 'top';
-    if (liveState.half === 'top') liveState.inning = (liveState.inning || 1) + 1;
-  }
-
-  // ROTACIÓN PRECISA DEL LINEUP
-  if (action !== "SB" && action !== "CS" && action !== "WP") {
-    if (isGVE) {
-      liveState.batterIndex = (Number(liveState.batterIndex) || 0) + 1;
-      liveState.gveBatterIndex = liveState.batterIndex;
-      liveState.currentBatterIndex = liveState.batterIndex;
-    } else {
-      liveState.rivalBatterIndex = (Number(liveState.rivalBatterIndex) || 0) + 1;
+  if (!window.DIAMAX_DISPATCHER) {
+    if (typeof DIAMAX_CORE !== 'undefined') {
+      window.DIAMAX_DISPATCHER = new DIAMAX_CORE.CommandDispatcher();
     }
   }
 
-  setSafeHTML('live-action-banner', `Última Jugada: <strong>${logText}</strong>`);
-  const logDiv = document.getElementById('play-log');
-  if (logDiv) {
-    logDiv.innerHTML = `<div style="font-size:11.5px; background:#131D31; padding:6px 10px; border-radius:6px; border-left:3px solid #00D2FF; margin-bottom:4px;">[Inn ${liveState.inning || 1} ${liveState.half === 'top' ? '▲' : '▼'}] ${logText}</div>` + logDiv.innerHTML;
+  const current = (typeof getLiveCurrentBatter === 'function') ? getLiveCurrentBatter() : { player: { id: 'p-1', name: 'Bateador' }, isGVE: true };
+  const pId = (current && current.player) ? current.player.id : 'away-1';
+  const pName = (current && current.player) ? current.player.name : 'Bateador';
+  const isGVE = current ? current.isGVE : true;
+
+  let cmdType = 'RECORD_HIT';
+  let payload = { resultCode: action, batterId: pId, description: action };
+
+  if (action === '1B' || action === '2B' || action === '3B' || action === 'HR') {
+    cmdType = 'RECORD_HIT';
+    payload = { resultCode: action, batterId: pId, description: `Hit ${action} de ${pName}` };
+  } else if (action === 'K' || action === 'K_SWINGING' || action === 'K_LOOKING') {
+    cmdType = 'RECORD_OUT';
+    payload = { resultCode: 'K_SWINGING', batterId: pId, description: `Ponche (K) de ${pName}` };
+  } else if (action === 'BB' || action === 'IBB' || action === 'HBP') {
+    cmdType = 'RECORD_WALK';
+    payload = { resultCode: action, batterId: pId, description: `Boleto (${action}) para ${pName}` };
+  } else if (action === 'SF' || action === 'SAC_FLY' || action === 'SAC_BUNT') {
+    cmdType = 'RECORD_SACRIFICE';
+    payload = { resultCode: action === 'SAC_BUNT' ? 'SAC_BUNT' : 'SAC_FLY', batterId: pId, description: `Sacrificio de ${pName}` };
+  } else if (action === '6-4-3 DP' || action === '4-6-3 DP' || action === 'DP') {
+    cmdType = 'RECORD_DOUBLE_PLAY';
+    payload = { resultCode: 'DP_GROUND', batterId: pId, description: `Doble Play (${action})`, fielderIds: action === '4-6-3 DP' ? ['2B', 'SS', '1B'] : ['SS', '2B', '1B'] };
+  } else if (action === '6-3' || action === '4-3' || action === '5-3' || action === '1-3') {
+    cmdType = 'RECORD_OUT';
+    const fMap = { '6-3': ['SS', '1B'], '4-3': ['2B', '1B'], '5-3': ['3B', '1B'], '1-3': ['P', '1B'] };
+    payload = { resultCode: 'GO', batterId: pId, description: `Rolata (${action})`, fielderIds: fMap[action] };
+  } else if (action.startsWith('Fly ') || action === 'FO' || action === 'PO') {
+    cmdType = 'RECORD_OUT';
+    payload = { resultCode: 'FO', batterId: pId, description: `Elevado (${action})` };
+  } else if (action === 'ROE' || action === 'ERROR') {
+    cmdType = 'RECORD_ERROR';
+    payload = { resultCode: 'ROE', batterId: pId, description: 'Llegó a base por error defensivo' };
+  } else if (action === 'SB' || action === 'CS' || action === 'WP') {
+    cmdType = action === 'CS' ? 'RECORD_OUT' : 'RECORD_HIT';
+    payload = { resultCode: action, batterId: pId, description: action };
   }
 
-  if (typeof DIAMAX_SYNC_ENGINE !== 'undefined') {
-    DIAMAX_SYNC_ENGINE.enqueueChange('PLAY_LOG', {
-      inning: liveState.inning,
-      half: liveState.half,
-      outs: liveState.outs,
-      scoreUs: liveState.scoreUs,
-      scoreThem: liveState.scoreThem,
-      action: action,
-      logText: logText
-    });
+  const res = window.DIAMAX_DISPATCHER ? window.DIAMAX_DISPATCHER.dispatch({ type: cmdType, payload }) : { success: false };
+
+  if (res.success && res.snapshot) {
+    const { gameState, stats, reconciliation } = res.snapshot;
+
+    // Sincronización transparente de liveState
+    if (typeof liveState !== 'undefined') {
+      liveState.inning = gameState.inning;
+      liveState.half = gameState.half === 'TOP' ? 'top' : 'bot';
+      liveState.outs = gameState.outs;
+      liveState.bases = { b1: !!gameState.bases.b1, b2: !!gameState.bases.b2, b3: !!gameState.bases.b3 };
+      liveState.scoreUs = gameState.score.away;
+      liveState.scoreThem = gameState.score.home;
+      liveState.stats = stats;
+      liveState.reconciliation = reconciliation;
+    }
+
+    const logText = payload.description;
+    if (typeof setSafeHTML === 'function') {
+      setSafeHTML('live-action-banner', `Última Jugada: <strong>${logText}</strong>`);
+    }
+    const logDiv = document.getElementById('play-log');
+    if (logDiv) {
+      logDiv.innerHTML = `<div style="font-size:11.5px; background:#131D31; padding:6px 10px; border-radius:6px; border-left:3px solid #00D2FF; margin-bottom:4px;">[Inn ${gameState.inning} ${gameState.half === 'TOP' ? '▲' : '▼'}] ${logText} <span style="color:#10B981; font-size:10px; margin-left:6px;">✓ Reconciliado</span></div>` + logDiv.innerHTML;
+    }
   }
 
-  initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
+  if (typeof renderAll === 'function') renderAll();
+}
+
+function deshacerJugadaLive() {
+  if (!window.DIAMAX_DISPATCHER) return;
+  const res = window.DIAMAX_DISPATCHER.dispatch({ type: 'UNDO' });
+  if (res.success && res.snapshot) {
+    const { gameState, stats, reconciliation } = res.snapshot;
+    if (typeof liveState !== 'undefined') {
+      liveState.inning = gameState.inning;
+      liveState.half = gameState.half === 'TOP' ? 'top' : 'bot';
+      liveState.outs = gameState.outs;
+      liveState.bases = { b1: !!gameState.bases.b1, b2: !!gameState.bases.b2, b3: !!gameState.bases.b3 };
+      liveState.scoreUs = gameState.score.away;
+      liveState.scoreThem = gameState.score.home;
+      liveState.stats = stats;
+      liveState.reconciliation = reconciliation;
+    }
+
+    if (typeof setSafeHTML === 'function') {
+      setSafeHTML('live-action-banner', `Última Jugada: <strong style="color:#EF4444;">↩️ Jugada Deshecha (${res.undoMode})</strong>`);
+    }
+    const logDiv = document.getElementById('play-log');
+    if (logDiv) {
+      logDiv.innerHTML = `<div style="font-size:11.5px; background:#2A141A; color:#FCA5A5; padding:6px 10px; border-radius:6px; border-left:3px solid #EF4444; margin-bottom:4px;">[DESHACER] Jugada revertida exitosamente. Marcador restaurado.</div>` + logDiv.innerHTML;
+    }
+  }
+  if (typeof renderAll === 'function') renderAll();
 }
 
 function procesarFlyPosicion(numPos) {

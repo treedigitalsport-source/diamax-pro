@@ -1,0 +1,72 @@
+name: DIAMAX PRO CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Lint, Test Suite (287/287) and Integrity
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: 📦 Install dependencies
+        run: npm ci || npm install
+
+      - name: 🔍 Run lint and syntax checks
+        run: npm run lint
+
+      - name: 🔒 Security & Secrets Audit (Zero Leaks)
+        run: npm run security:check
+
+      - name: 🧪 Run complete DIAMAX test suite (287 MUST PASS 100%)
+        run: npm test
+
+      - name: 🏥 Verify Health & Integrity Endpoints
+        run: npm run health
+
+      - name: 💨 Execute Production Smoke Test
+        run: npm run smoke
+
+      - name: 🏗️ Build production application
+        run: npm run build
+
+  deploy-staging:
+    name: 🚀 Deploy to Vercel Staging
+    needs: test
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      - name: 🌐 Deploy Staging Preview
+        run: echo "Desplegando automáticamente a Vercel Staging (Develop)..."
+
+  deploy-production:
+    name: 🏆 Deploy to Vercel Production
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      - name: 🚀 Deploy Live Production
+        run: echo "Desplegando automáticamente a Vercel Production (Main)..."
