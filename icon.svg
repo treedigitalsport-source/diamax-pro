@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente de Cromo Especular Pulido para el cuerpo de la D -->
+    <linearGradient id="dChromeBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="20%" stop-color="#E2E8F0"/>
+      <stop offset="38%" stop-color="#94A3B8"/>
+      <stop offset="55%" stop-color="#1E293B"/>
+      <stop offset="72%" stop-color="#334155"/>
+      <stop offset="88%" stop-color="#CBD5E1"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+
+    <!-- Borde de Luz Azul Tecnológica #00B7FF Intenso -->
+    <linearGradient id="dCyanGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67E8F9"/>
+      <stop offset="30%" stop-color="#00E5FF"/>
+      <stop offset="70%" stop-color="#00B7FF"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+
+    <!-- Bisel de Luz Secundaria Dorada #FFB000 -->
+    <linearGradient id="dGoldAccentGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="30%" stop-color="#FDE047"/>
+      <stop offset="65%" stop-color="#FFB000"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+
+    <!-- Esfera de Pelota de Béisbol (Blanca Brillante Envejecida) -->
+    <radialGradient id="baseballSphere" cx="35%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#F8FAFC"/>
+      <stop offset="70%" stop-color="#E2E8F0"/>
+      <stop offset="90%" stop-color="#CBD5E1"/>
+      <stop offset="100%" stop-color="#94A3B8"/>
+    </radialGradient>
+
+    <!-- Resplandor Dorado de Fondo de la Pelota -->
+    <radialGradient id="ballGoldHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD75A" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#FFB000" stop-opacity="0.5"/>
+      <stop offset="85%" stop-color="#D97706" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="neonCyanDrop" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#00B7FF" flood-opacity="0.9"/>
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.9"/>
+    </filter>
+
+    <filter id="goldHaloBlur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+  </defs>
+
+  <g>
+    <!-- Sombra 3D -->
+    <path d="M 12 12 L 44 12 C 72 12, 92 28, 92 50 C 92 72, 72 88, 44 88 L 12 88 Z" fill="#020914" filter="drop-shadow(0 10px 14px rgba(0,0,0,0.95))"/>
+    
+    <!-- Halo Dorado de la Pelota -->
+    <circle cx="50" cy="50" r="28" fill="url(#ballGoldHalo)" filter="url(#goldHaloBlur)"/>
+    
+    <!-- Cuerpo Cromado de la D con recorte interior -->
+    <path d="M 12 8 L 46 8 C 76 8, 94 26, 94 50 C 94 74, 76 92, 46 92 L 12 92 Z 
+             M 28 25 L 42 25 C 57 25, 70 36, 70 50 C 70 64, 57 75, 42 75 L 28 75 Z" 
+          fill="url(#dChromeBody)" 
+          fill-rule="evenodd" 
+          stroke="url(#dCyanGlowGrad)" 
+          stroke-width="2" 
+          filter="url(#neonCyanDrop)"/>
+          
+    <!-- Bisel Dorado en arco exterior superior -->
+    <path d="M 14 10 L 45 10 C 73 10, 90 27, 90 48" fill="none" stroke="url(#dGoldAccentGrad)" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- Bisel Dorado en arco interior -->
+    <path d="M 28 73 L 42 73 C 55 73, 67 63, 68 51" fill="none" stroke="url(#dGoldAccentGrad)" stroke-width="1.3" stroke-linecap="round"/>
+    
+    <!-- Reflejos verticales en la columna izquierda -->
+    <line x1="16" y1="12" x2="16" y2="88" stroke="#FFFFFF" stroke-width="1.5" opacity="0.85"/>
+    <line x1="20" y1="14" x2="20" y2="86" stroke="url(#dCyanGlowGrad)" stroke-width="1" opacity="0.8"/>
+    
+    <!-- ⚾ Pelota de béisbol centrada en el ojo de la D -->
+    <g transform="translate(50, 50)">
+      <circle cx="0" cy="0" r="19.5" fill="#050B14" opacity="0.75"/>
+      <circle cx="0" cy="0" r="19" fill="url(#baseballSphere)" stroke="#94A3B8" stroke-width="0.7"/>
+      
+      <!-- Costura Izquierda Rojo Vino #A71930 -->
+      <path d="M -8.5 -16 C -4 -8, -4 8, -8.5 16" fill="none" stroke="#A71930" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M -12 -14 L -9 -13 M -6 -14 L -9 -13" stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M -11 -8  L -8 -7   M -5 -8  L -8 -7"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M -10 -2  L -7 -2   M -4 -3  L -7 -2"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M -10 4   L -7 4    M -4 3   L -7 4"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M -11 10  L -8 9    M -5 8   L -8 9"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M -12 15  L -9 14   M -6 15  L -9 14"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      
+      <!-- Costura Derecha Rojo Vino #A71930 -->
+      <path d="M 8.5 -16 C 4 -8, 4 8, 8.5 16" fill="none" stroke="#A71930" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M 12 -14 L 9 -13 M 6 -14 L 9 -13" stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 11 -8  L 8 -7   M 5 -8  L 8 -7"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 10 -2  L 7 -2   M 4 -3  L 7 -2"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 10 4   L 7 4    M 4 3   L 7 4"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 11 10  L 8 9    M 5 8   L 8 9"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 12 15  L 9 14   M 6 15  L 9 14"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
+      
+      <!-- Brillo especular superior -->
+      <ellipse cx="-4" cy="-7" rx="6" ry="3.5" fill="#FFFFFF" opacity="0.75" transform="rotate(-25 -4 -7)"/>
+      <circle cx="0" cy="0" r="19" fill="none" stroke="url(#dGoldAccentGrad)" stroke-width="1.2" opacity="0.8"/>
+    </g>
+  </g>
+</svg>
