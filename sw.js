@@ -14,9 +14,8 @@ const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './assets/logo-Photoroom.png',
-  './assets/logo.png',
-  './logo.png',
+  './assets/diamax_diamond_isotipo.svg',
+  './favicon.svg',
   './Baseball_bat_striking_ball_1080p_20260913144643.mp4'
 ];
 

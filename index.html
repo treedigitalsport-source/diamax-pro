@@ -2513,115 +2513,73 @@ body.daylight-mode .btn-keypad:hover {
 </head>
 <body>
 
-<!-- 💎 DEFINICIÓN VECTORIAL MAESTRA DEL ISOTIPO [ D + ⚾ ] (3Tree Digital Sport IA) -->
+<!-- 💎 DEFINICIÓN VECTORIAL MAESTRA DEL HOME PLATE DIAMOND (3Tree Digital Sport IA) -->
 <svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Gradiente de Cromo Especular Pulido para el cuerpo de la D -->
-    <linearGradient id="dChromeBody" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Gradiente de Cromo Especular Pulido -->
+    <linearGradient id="plateChromeBody" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="20%" stop-color="#E2E8F0"/>
-      <stop offset="38%" stop-color="#94A3B8"/>
-      <stop offset="55%" stop-color="#1E293B"/>
-      <stop offset="72%" stop-color="#334155"/>
-      <stop offset="88%" stop-color="#CBD5E1"/>
-      <stop offset="100%" stop-color="#FFFFFF"/>
+      <stop offset="22%" stop-color="#E2E8F0"/>
+      <stop offset="45%" stop-color="#94A3B8"/>
+      <stop offset="68%" stop-color="#334155"/>
+      <stop offset="85%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
     </linearGradient>
 
-    <!-- Borde de Luz Azul Tecnológica #00B7FF Intenso -->
-    <linearGradient id="dCyanGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#67E8F9"/>
-      <stop offset="30%" stop-color="#00E5FF"/>
-      <stop offset="70%" stop-color="#00B7FF"/>
+    <!-- Borde de Luz Azul Tecnológica #00D2FF -->
+    <linearGradient id="plateCyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A5F3FC"/>
+      <stop offset="30%" stop-color="#22D3EE"/>
+      <stop offset="70%" stop-color="#00D2FF"/>
       <stop offset="100%" stop-color="#0284C7"/>
     </linearGradient>
 
-    <!-- Bisel de Luz Secundaria Dorada #FFB000 -->
-    <linearGradient id="dGoldAccentGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+    <!-- Bisel Dorado #FFB300 -->
+    <linearGradient id="plateGoldAccent" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#FFFBEB"/>
-      <stop offset="30%" stop-color="#FDE047"/>
-      <stop offset="65%" stop-color="#FFB000"/>
-      <stop offset="100%" stop-color="#D97706"/>
+      <stop offset="35%" stop-color="#FDE047"/>
+      <stop offset="70%" stop-color="#FFB300"/>
+      <stop offset="100%" stop-color="#EA580C"/>
     </linearGradient>
 
-    <!-- Esfera de Pelota de Béisbol (Blanca Brillante Envejecida) -->
-    <radialGradient id="baseballSphere" cx="35%" cy="32%" r="68%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="40%" stop-color="#F8FAFC"/>
-      <stop offset="70%" stop-color="#E2E8F0"/>
-      <stop offset="90%" stop-color="#CBD5E1"/>
-      <stop offset="100%" stop-color="#94A3B8"/>
-    </radialGradient>
-
-    <!-- Resplandor Dorado de Fondo de la Pelota -->
-    <radialGradient id="ballGoldHalo" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFD75A" stop-opacity="0.9"/>
-      <stop offset="50%" stop-color="#FFB000" stop-opacity="0.5"/>
-      <stop offset="85%" stop-color="#D97706" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
-    </radialGradient>
-
-    <filter id="neonCyanDrop" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#00B7FF" flood-opacity="0.9"/>
-      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-
-    <filter id="goldHaloBlur" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="3"/>
+    <filter id="plateNeonDrop" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#00D2FF" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.95"/>
     </filter>
   </defs>
 
-  <symbol id="diamax-master-d-symbol" viewBox="0 0 100 100">
-    <!-- Sombra 3D -->
-    <path d="M 12 12 L 44 12 C 72 12, 92 28, 92 50 C 92 72, 72 88, 44 88 L 12 88 Z" fill="#020914" filter="drop-shadow(0 10px 14px rgba(0,0,0,0.95))"/>
-    
-    <!-- Halo Dorado de la Pelota -->
-    <circle cx="50" cy="50" r="28" fill="url(#ballGoldHalo)" filter="url(#goldHaloBlur)"/>
-    
-    <!-- Cuerpo Cromado de la D con recorte interior -->
-    <path d="M 12 8 L 46 8 C 76 8, 94 26, 94 50 C 94 74, 76 92, 46 92 L 12 92 Z 
-             M 28 25 L 42 25 C 57 25, 70 36, 70 50 C 70 64, 57 75, 42 75 L 28 75 Z" 
-          fill="url(#dChromeBody)" 
-          fill-rule="evenodd" 
-          stroke="url(#dCyanGlowGrad)" 
-          stroke-width="2" 
-          filter="url(#neonCyanDrop)"/>
-          
-    <!-- Bisel Dorado en arco exterior superior -->
-    <path d="M 14 10 L 45 10 C 73 10, 90 27, 90 48" fill="none" stroke="url(#dGoldAccentGrad)" stroke-width="1.6" stroke-linecap="round"/>
-    <!-- Bisel Dorado en arco interior -->
-    <path d="M 28 73 L 42 73 C 55 73, 67 63, 68 51" fill="none" stroke="url(#dGoldAccentGrad)" stroke-width="1.3" stroke-linecap="round"/>
-    
-    <!-- Reflejos verticales en la columna izquierda -->
-    <line x1="16" y1="12" x2="16" y2="88" stroke="#FFFFFF" stroke-width="1.5" opacity="0.85"/>
-    <line x1="20" y1="14" x2="20" y2="86" stroke="url(#dCyanGlowGrad)" stroke-width="1" opacity="0.8"/>
-    
-    <!-- ⚾ Pelota de béisbol centrada en el ojo de la D -->
-    <g transform="translate(50, 50)">
-      <circle cx="0" cy="0" r="19.5" fill="#050B14" opacity="0.75"/>
-      <circle cx="0" cy="0" r="19" fill="url(#baseballSphere)" stroke="#94A3B8" stroke-width="0.7"/>
-      
-      <!-- Costura Izquierda Rojo Vino #A71930 -->
-      <path d="M -8.5 -16 C -4 -8, -4 8, -8.5 16" fill="none" stroke="#A71930" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M -12 -14 L -9 -13 M -6 -14 L -9 -13" stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M -11 -8  L -8 -7   M -5 -8  L -8 -7"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M -10 -2  L -7 -2   M -4 -3  L -7 -2"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M -10 4   L -7 4    M -4 3   L -7 4"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M -11 10  L -8 9    M -5 8   L -8 9"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M -12 15  L -9 14   M -6 15  L -9 14"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      
-      <!-- Costura Derecha Rojo Vino #A71930 -->
-      <path d="M 8.5 -16 C 4 -8, 4 8, 8.5 16" fill="none" stroke="#A71930" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M 12 -14 L 9 -13 M 6 -14 L 9 -13" stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M 11 -8  L 8 -7   M 5 -8  L 8 -7"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M 10 -2  L 7 -2   M 4 -3  L 7 -2"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M 10 4   L 7 4    M 4 3   L 7 4"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M 11 10  L 8 9    M 5 8   L 8 9"    stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M 12 15  L 9 14   M 6 15  L 9 14"   stroke="#A71930" stroke-width="1.2" stroke-linecap="round"/>
-      
-      <!-- Brillo especular superior -->
-      <ellipse cx="-4" cy="-7" rx="6" ry="3.5" fill="#FFFFFF" opacity="0.75" transform="rotate(-25 -4 -7)"/>
-      <circle cx="0" cy="0" r="19" fill="none" stroke="url(#dGoldAccentGrad)" stroke-width="1.2" opacity="0.8"/>
-    </g>
+  <symbol id="diamax-home-plate-symbol" viewBox="0 0 100 100">
+    <!-- Sombra 3D Profunda -->
+    <polygon points="50,92 13,54 13,15 87,15 87,54" fill="#020617" filter="drop-shadow(0 8px 16px rgba(0,0,0,0.98))"/>
+
+    <!-- Placa Principal Home Plate Cromada -->
+    <polygon points="50,88 15,52 15,15 85,15 85,52" 
+             fill="url(#plateChromeBody)" 
+             stroke="url(#plateCyanGlow)" 
+             stroke-width="3" 
+             stroke-linejoin="round"
+             filter="url(#plateNeonDrop)"/>
+
+    <!-- Bisel Interior Reflejante -->
+    <polygon points="50,78 24,47 24,23 76,23 76,47" 
+             fill="none" 
+             stroke="rgba(255,255,255,0.75)" 
+             stroke-width="1.8" 
+             stroke-linejoin="round"/>
+
+    <!-- Diamante Central Dorado (Las 4 Bases de Béisbol) -->
+    <polygon points="50,31 65,46 50,61 35,46" 
+             fill="url(#plateGoldAccent)" 
+             stroke="#FFFFFF" 
+             stroke-width="1.4" 
+             stroke-linejoin="round"
+             filter="drop-shadow(0 0 8px rgba(255,179,0,0.85))"/>
+
+    <!-- Punto Central del Diamante -->
+    <circle cx="50" cy="46" r="3" fill="#FFFFFF" filter="drop-shadow(0 0 4px #00D2FF)"/>
+
+    <!-- Reflejo Especular Superior -->
+    <line x1="22" y1="19" x2="78" y2="19" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
   </symbol>
 </svg>
 
@@ -2641,17 +2599,15 @@ body.daylight-mode .btn-keypad:hover {
   <!-- 1. Header Superior Apple Sports Minimalista -->
   <div style="position:relative; z-index:10; width:100%; max-width:1100px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
     
-    <!-- Logo DIAMAX PRO (Cinemático Puro · Libre sin Marco · Flotando Directamente sobre el Fondo) -->
-    <div style="display:inline-flex; align-items:center; background:transparent; border:none; padding:0; margin:0;">
-      <img src="./assets/logo-Photoroom.png?v=2.4.3" 
-           alt="DIAMAX PRO" 
-           class="diamax-logo-p1" 
-           onclick="irAPagina(1)" 
-           onerror="if(!this.dataset.retry){this.dataset.retry='1'; this.src='./logo.png?v='+Date.now();}"
-           style="height:64px; width:auto; object-fit:contain; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.9)) drop-shadow(0 0 30px rgba(0,210,255,0.5)); cursor:pointer; transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);" 
-           onmouseover="this.style.transform='scale(1.05)';" 
-           onmouseout="this.style.transform='scale(1)';" 
-           title="DIAMAX PRO — Sports Operating System">
+    <!-- Logo DIAMAX PRO (Home Plate Diamond + Tipografía Metálica Unificada) -->
+    <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:10px; cursor:pointer; text-decoration:none; transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';" title="DIAMAX PRO — Sports Operating System">
+      <svg viewBox="0 0 100 100" width="36" height="36" style="overflow:visible; flex-shrink:0;">
+        <use href="#diamax-home-plate-symbol"/>
+      </svg>
+      <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:24px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+        <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
+        <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:20px;">PRO</span>
+      </div>
     </div>
     
     <!-- Badges y Botón de Salida -->
@@ -2796,7 +2752,15 @@ body.daylight-mode .btn-keypad:hover {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="#18D8FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>PORTADA</span>
         </button>
         <div style="display:flex; align-items:center; gap:12px;">
-          <img src="./assets/logo-Photoroom.png?v=2.4.2" alt="DIAMAX PRO" class="diamax-logo-p2" style="height:44px; width:auto; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7));">
+          <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:8px; cursor:pointer;" title="DIAMAX PRO">
+            <svg viewBox="0 0 100 100" width="28" height="28" style="overflow:visible; flex-shrink:0;">
+              <use href="#diamax-home-plate-symbol"/>
+            </svg>
+            <div style="display:inline-flex; align-items:baseline; gap:4px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:18px; letter-spacing:0.8px; line-height:1; text-transform:uppercase;">
+              <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
+              <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:15px;">PRO</span>
+            </div>
+          </div>
           <div class="p2-header-title-box">
             <h2 class="p2-header-title" style="margin:0; font-family:'Montserrat', sans-serif; font-size:15px; font-weight:900; color:#FFFFFF; letter-spacing:1px; text-transform:uppercase;">REGISTRO &amp; PLANES DE FRANQUICIA</h2>
             <span class="p2-header-sub" style="font-family:'Rajdhani', sans-serif; font-size:11px; color:#18D8FF; font-weight:700; letter-spacing:0.8px; text-transform:uppercase;">DIAMAX INTELLIGENCE SUITE · 3TREE DIGITAL SPORT IA</span>
@@ -3348,7 +3312,15 @@ body.daylight-mode .btn-keypad:hover {
   <div class="header">
     <div class="header-logo-container">
       <div style="display:flex; align-items:center; gap:10px;">
-        <img src="./assets/logo-Photoroom.png?v=2.4.2" alt="DIAMAX PRO" class="diamax-logo-dugout" style="height:44px; width:auto; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7));" title="DIAMAX PRO — Sports Operating System">
+        <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:8px; cursor:pointer;" title="DIAMAX PRO — Volver a Portada">
+          <svg viewBox="0 0 100 100" width="30" height="30" style="overflow:visible; flex-shrink:0;">
+            <use href="#diamax-home-plate-symbol"/>
+          </svg>
+          <div style="display:inline-flex; align-items:baseline; gap:4px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:19px; letter-spacing:0.8px; line-height:1; text-transform:uppercase;">
+            <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
+            <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:16px;">PRO</span>
+          </div>
+        </div>
         <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="team-logo-display" class="team-logo-img" alt="Logo Equipo" onclick="toggleSettingsDrawer(true)" title="Haz clic para configurar equipo">
       </div>
       <div>
@@ -14667,7 +14639,15 @@ document.addEventListener('keydown', function(e) {
     
     <!-- Logo DIAMAX PRO -->
     <div style="margin-bottom:18px;">
-      <img src="./assets/logo-Photoroom.png?v=2.4.2" alt="DIAMAX PRO" style="height:52px; width:auto; object-fit:contain; filter:drop-shadow(0 4px 15px rgba(0,0,0,0.8));">
+      <div style="display:inline-flex; align-items:center; justify-content:center; gap:10px;">
+        <svg viewBox="0 0 100 100" width="34" height="34" style="overflow:visible; flex-shrink:0;">
+          <use href="#diamax-home-plate-symbol"/>
+        </svg>
+        <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:22px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+          <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
+          <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:18px;">PRO</span>
+        </div>
+      </div>
     </div>
 
     <!-- Ícono Power Pulsante -->
