@@ -819,7 +819,7 @@
               newBases.b2 = newBases.b1;
               newBases.b1 = null;
             }
-          } else if (action === 'WP' || action === 'PB') {
+          } else if (action === 'WP' || action === 'PB' || action === 'BK') {
             if (newBases.b3) {
               runsScored.push(newBases.b3);
               newBases.b3 = null;

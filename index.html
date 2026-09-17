@@ -3696,14 +3696,21 @@ body.daylight-mode .btn-keypad:hover {
         </div>
       </div>
 
-      <!-- Botonera Táctil Dugout (Touch Targets Ampliados) -->
+      <!-- Botonera Táctil Dugout Oficial (36 JUGADAS CANÓNICAS COMPLETAS) -->
       <div class="panel">
-        <h4 style="color:#FFC72C; margin-bottom:10px; font-size:14px; font-weight:800;"> Registro de Jugadas (Dugout Keypad)</h4>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <h4 style="color:#FFC72C; margin:0; font-size:14.5px; font-weight:900; display:flex; align-items:center; gap:8px;">
+            <span>⚾</span> <span>Botonera Táctil Oficial (36 Jugadas Canónicas)</span>
+          </h4>
+          <span style="font-size:11px; background:rgba(24,201,149,0.2); border:1.5px solid #18C995; color:#A7F3D0; padding:4px 12px; border-radius:14px; font-weight:900; letter-spacing:0.5px; box-shadow:0 0 10px rgba(24,201,149,0.3);">
+            ✓ 36 / 36 JUGADAS ACTIVAS
+          </span>
+        </div>
         
-        <!-- Selector Defensivo de Elevados Reorganizado -->
+        <!-- SECCIÓN 1: ELEVADOS POR POSICIÓN DEFENSIVA (9 JUGADAS) -->
         <div class="fly-field-layout">
           <div style="font-size:11px; color:#00D2FF; font-weight:900; margin-bottom:6px; text-align:center;">
-            Elevados por Posición Defensiva (Fly Putouts):
+            Elevados por Posición Defensiva (9 Putouts):
           </div>
           <div class="fly-grid-outfield">
             <button class="btn-fly-pos" onclick="procesarFlyPosicion(7)">Fly 7 (LF)</button>
@@ -3722,7 +3729,8 @@ body.daylight-mode .btn-keypad:hover {
           </div>
         </div>
 
-        <div class="btn-section-title">Batazos de Hit & Jonrón:</div>
+        <!-- SECCIÓN 2: BATAZOS DE HIT & JONRÓN (4 JUGADAS) -->
+        <div class="btn-section-title">Batazos de Hit & Jonrón (4 Jugadas):</div>
         <div class="action-grid">
           <button id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')"> 1B (Sencillo)</button>
           <button id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')"> 2B (Doblete)</button>
@@ -3730,18 +3738,22 @@ body.daylight-mode .btn-keypad:hover {
           <button id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')"> JONRÓN (HR)</button>
         </div>
 
-        <div class="btn-section-title">Rolatas & Dobles Plays:</div>
-        <div class="action-grid">
+        <!-- SECCIÓN 3: ROLATAS & DOBLES PLAYS (8 JUGADAS) -->
+        <div class="btn-section-title">Rolatas & Dobles Plays (8 Jugadas):</div>
+        <div class="action-grid" style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));">
           <button id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')"> 6-3 (SS a 1B)</button>
           <button id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')"> 4-3 (2B a 1B)</button>
           <button id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')"> 5-3 (3B a 1B)</button>
           <button id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')"> 1-3 (P a 1B)</button>
+          <button id="act-31" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')"> 3-1 (1B a P)</button>
           <button class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')"> 6-4-3 DP</button>
           <button class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')"> 4-6-3 DP</button>
+          <button class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')"> 5-4-3 DP</button>
         </div>
 
-        <div class="btn-section-title">Pitcheo, Sacrificios & Corredores:</div>
-        <div class="action-grid" style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));">
+        <!-- SECCIÓN 4: PITCHEO, SACRIFICIOS, BOLA OCUPADA & CORREDORES (15 JUGADAS) -->
+        <div class="btn-section-title">Pitcheo, Sacrificios, Avances & Corredores (15 Jugadas):</div>
+        <div class="action-grid" style="grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));">
           <button id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')"> Fly Sacrificio (SF)</button>
           <button id="act-sh" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')"> Toque Sacrificio (SH)</button>
           <button id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')"> Ponche (K)</button>
@@ -3750,9 +3762,13 @@ body.daylight-mode .btn-keypad:hover {
           <button id="act-ibb" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')"> Boleto Int. (IBB)</button>
           <button id="act-hbp" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')"> Golpeado (HBP)</button>
           <button id="act-roe" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')"> Por Error (ROE)</button>
+          <button id="act-fc" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')"> Bola Ocupada (FC)</button>
+          <button id="act-ifr" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')"> Infield Fly (IFR)</button>
           <button id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')"> Base Robada (SB)</button>
           <button id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')"> Out Robando (CS)</button>
           <button id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')"> Wild Pitch (WP)</button>
+          <button id="act-pb" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')"> Passed Ball (PB)</button>
+          <button id="act-bk" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')"> Balk (BK)</button>
         </div>
 
         <button onclick="finalizarYGuardarJuegoLive()" style="width:100%; min-height:48px; margin-top:14px; background:#10B981; color:#fff; border:none; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;"> Finalizar Juego & Archivar en Base de Datos</button>
@@ -8921,29 +8937,38 @@ function registrarJugadaLive(action) {
     payload = { resultCode: action, batterId: pId, description: `Hit ${action} de ${pName}` };
   } else if (action === 'K' || action === 'K_SWINGING' || action === 'K_LOOKING') {
     cmdType = 'RECORD_OUT';
-    payload = { resultCode: 'K_SWINGING', batterId: pId, description: `Ponche (K) de ${pName}` };
+    payload = { resultCode: action === 'K_LOOKING' ? 'K_LOOKING' : 'K_SWINGING', batterId: pId, description: `Ponche (${action === 'K_LOOKING' ? 'ꓘ' : 'K'}) de ${pName}` };
   } else if (action === 'BB' || action === 'IBB' || action === 'HBP') {
     cmdType = 'RECORD_WALK';
     payload = { resultCode: action, batterId: pId, description: `Boleto (${action}) para ${pName}` };
   } else if (action === 'SF' || action === 'SAC_FLY' || action === 'SAC_BUNT') {
     cmdType = 'RECORD_SACRIFICE';
     payload = { resultCode: action === 'SAC_BUNT' ? 'SAC_BUNT' : 'SAC_FLY', batterId: pId, description: `Sacrificio de ${pName}` };
-  } else if (action === '6-4-3 DP' || action === '4-6-3 DP' || action === 'DP') {
+  } else if (action === '6-4-3 DP' || action === '4-6-3 DP' || action === '5-4-3 DP' || action === 'DP') {
     cmdType = 'RECORD_DOUBLE_PLAY';
-    payload = { resultCode: 'DP_GROUND', batterId: pId, description: `Doble Play (${action})`, fielderIds: action === '4-6-3 DP' ? ['2B', 'SS', '1B'] : ['SS', '2B', '1B'] };
-  } else if (action === '6-3' || action === '4-3' || action === '5-3' || action === '1-3') {
+    const dpMap = {
+      '6-4-3 DP': ['SS', '2B', '1B'],
+      '4-6-3 DP': ['2B', 'SS', '1B'],
+      '5-4-3 DP': ['3B', '2B', '1B']
+    };
+    payload = { resultCode: 'DP_GROUND', batterId: pId, description: `Doble Play (${action})`, fielderIds: dpMap[action] || ['SS', '2B', '1B'] };
+  } else if (action === '6-3' || action === '4-3' || action === '5-3' || action === '1-3' || action === '3-1') {
     cmdType = 'RECORD_OUT';
-    const fMap = { '6-3': ['SS', '1B'], '4-3': ['2B', '1B'], '5-3': ['3B', '1B'], '1-3': ['P', '1B'] };
-    payload = { resultCode: 'GO', batterId: pId, description: `Rolata (${action})`, fielderIds: fMap[action] };
-  } else if (action.startsWith('Fly ') || action === 'FO' || action === 'PO') {
+    const fMap = { '6-3': ['SS', '1B'], '4-3': ['2B', '1B'], '5-3': ['3B', '1B'], '1-3': ['P', '1B'], '3-1': ['1B', 'P'] };
+    payload = { resultCode: 'GO', batterId: pId, description: `Rolata (${action})`, fielderIds: fMap[action] || ['SS', '1B'] };
+  } else if (action.startsWith('Fly ') || action === 'FO' || action === 'PO' || action === 'IFR') {
     cmdType = 'RECORD_OUT';
-    payload = { resultCode: 'FO', batterId: pId, description: `Elevado (${action})` };
+    payload = { resultCode: 'FO', batterId: pId, description: action === 'IFR' ? `Infield Fly (IFR)` : `Elevado (${action})` };
   } else if (action === 'ROE' || action === 'ERROR') {
     cmdType = 'RECORD_ERROR';
     payload = { resultCode: 'ROE', batterId: pId, description: 'Llegó a base por error defensivo' };
-  } else if (action === 'SB' || action === 'WP') {
+  } else if (action === 'FC' || action === 'FIELDER_CHOICE') {
+    cmdType = 'RECORD_OUT';
+    payload = { resultCode: 'FC', batterId: pId, description: `Bola Ocupada (FC) de ${pName}` };
+  } else if (action === 'SB' || action === 'WP' || action === 'PB' || action === 'BK') {
     cmdType = 'RECORD_RUNNER_EVENT';
-    payload = { resultCode: action, action, description: action === 'SB' ? 'Base Robada (SB)' : 'Wild Pitch (WP)' };
+    const descMap = { 'SB': 'Base Robada (SB)', 'WP': 'Wild Pitch (WP)', 'PB': 'Passed Ball (PB)', 'BK': 'Balk (BK)' };
+    payload = { resultCode: action, action, description: descMap[action] || action };
   } else if (action === 'CS') {
     cmdType = 'RECORD_RUNNER_EVENT';
     payload = { resultCode: 'CS', action: 'CS', description: 'Out Robando (CS)' };
