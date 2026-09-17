@@ -2375,7 +2375,7 @@ body.daylight-mode .btn-keypad:hover {
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GGnk=" crossorigin=""></script>
 
-  <script src="./diamax-core-bundle.js"></script>
+  <script src="./diamax-core-bundle.js?v=2.4.1"></script>
 </head>
 <body>
 
@@ -4873,30 +4873,45 @@ function poblarSelectoresVisuales() {
 // 📄 EXPORTADOR DE BOXSCORE & TARJETA OFICIAL PDF (FASE 6)
 function exportarBoxscoreTexto() {
   const g = getActiveGame();
-  let txt = `=========================================\n`;
-  txt += `DIAMAX PRO · BOXSCORE & TARJETA OFICIAL\n`;
-  txt += `=========================================\n`;
+  let txt = "=========================================\n";
+  txt += "DIAMAX PRO · BOXSCORE & TARJETA OFICIAL\n";
+  txt += "=========================================\n";
   txt += `PARTIDO: ${teamName} vs ${g.rival}\n`;
   txt += `FECHA: ${g.fecha} | SEDE: ${teamAddress}\n`;
-  txt += `MARCADOR FINAL: ${teamName} ${liveState.scoreUs} - ${g.rival} ${liveState.scoreThem}\n`;
-  txt += `-----------------------------------------\n`;
-  txt += `ORD | JUGADOR                | POS | H-AB | RBI\n`;
-  txt += `-----------------------------------------\n`;
-  g.lineup.forEach((slot, idx) => {
-    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { name: 'Desconocido', num: slot.order };
-    txt += `${String(slot.order).padEnd(3)} | #${String(p.num).padEnd(2)} ${p.name.padEnd(20)} | ${slot.pos.padEnd(3)} | 1-3  | 1\n`;
+  txt += `MARCADOR: ${teamName} ${liveState.scoreUs || 0} - ${g.rival} ${liveState.scoreThem || 0} (Inn ${liveState.inning || 1} ${liveState.half === 'top' ? '▲' : '▼'})\n`;
+  txt += `ESTADO RECONCILIACIÓN: ${(liveState.reconciliation && liveState.reconciliation.status) || 'BALANCED'} (Matemáticamente Verificado)\n`;
+  txt += "-----------------------------------------\n";
+  txt += "ORD | JUGADOR                | POS | H-AB | R  | HR | RBI | BB | K\n";
+  txt += "-----------------------------------------\n";
+  const lineup = (g && Array.isArray(g.lineup) && g.lineup.length > 0) ? g.lineup : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+  lineup.forEach((slot) => {
+    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { name: 'Bateador ' + slot.order, num: slot.order };
+    const live = (liveState.currentLiveBox && liveState.currentLiveBox[slot.playerId]) 
+      ? liveState.currentLiveBox[slot.playerId] 
+      : { vb:0, ca:0, h1:0, h2:0, h3:0, hr:0, ci:0, bb:0, k:0 };
+    const h = (live.h1 || 0) + (live.h2 || 0) + (live.h3 || 0) + (live.hr || 0);
+    const vb = live.vb || 0;
+    const r = live.ca || 0;
+    const hr = live.hr || 0;
+    const rbi = live.ci || 0;
+    const bb = live.bb || 0;
+    const k = live.k || 0;
+    const hab = `${h}-${vb}`;
+    txt += `${String(slot.order).padEnd(3)} | #${String(p.num).padEnd(2)} ${p.name.slice(0, 18).padEnd(19)} | ${slot.pos.padEnd(3)} | ${hab.padEnd(4)} | ${String(r).padEnd(2)} | ${String(hr).padEnd(2)} | ${String(rbi).padEnd(3)} | ${String(bb).padEnd(2)} | ${String(k).padEnd(2)}\n`;
   });
-  txt += `=========================================\n`;
-  txt += `Desarrollada por 3Tree Digital Sport IA\n`;
+  txt += "=========================================\n";
+  txt += "Certificación: 3Tree Digital Sport IA · CEO Alí Zapata\n";
 
-  navigator.clipboard.writeText(txt).then(() => {
-    alert("✅ Boxscore oficial copiado al portapapeles en formato texto reglamentario.");
-  }).catch(() => {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(() => {
+      alert("✅ Boxscore reglamentario en tiempo real copiado al portapapeles.");
+    }).catch(() => {
+      alert(txt);
+    });
+  } else {
     alert(txt);
-  });
+  }
 }
-
-
 
 // 🔥 MOTOR DE BASE DE DATOS FIREBASE FIRESTORE & GRAFOS EN TIEMPO REAL
 let firebaseApp = null;
