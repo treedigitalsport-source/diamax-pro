@@ -303,6 +303,55 @@ class CommandDispatcher {
         break;
       }
 
+      case 'RECORD_RUNNER_EVENT': {
+        const action = command.payload.action || command.payload.resultCode || 'SB'; // SB, CS, WP, PB
+        canonicalEvent.eventType = 'RUNNER_EVENT';
+        let newBases = { ...state.bases };
+        let outsRecorded = 0;
+        let runsScored = [];
+
+        if (action === 'SB') {
+          if (newBases.b2 && !newBases.b3) {
+            newBases.b3 = newBases.b2;
+            newBases.b2 = null;
+          } else if (newBases.b1 && !newBases.b2) {
+            newBases.b2 = newBases.b1;
+            newBases.b1 = null;
+          }
+        } else if (action === 'WP' || action === 'PB') {
+          if (newBases.b3) {
+            runsScored.push(newBases.b3);
+            newBases.b3 = null;
+          }
+          if (newBases.b2) {
+            newBases.b3 = newBases.b2;
+            newBases.b2 = null;
+          }
+          if (newBases.b1) {
+            newBases.b2 = newBases.b1;
+            newBases.b1 = null;
+          }
+        } else if (action === 'CS') {
+          outsRecorded = 1;
+          if (newBases.b2) newBases.b2 = null;
+          else if (newBases.b1) newBases.b1 = null;
+          else if (newBases.b3) newBases.b3 = null;
+        }
+
+        canonicalEvent.result = {
+          code: action,
+          description: command.payload.description || `Jugada de Corredor (${action})`,
+          outsRecorded,
+          runsScored,
+          rbi: 0,
+          errors: []
+        };
+        canonicalEvent.basesAfter = newBases;
+        canonicalEvent.outsAfter = state.outs + outsRecorded;
+        canonicalEvent.isHalfInningEnd = canonicalEvent.outsAfter >= 3;
+        break;
+      }
+
       case 'CHANGE_PITCHER': {
         canonicalEvent.eventType = 'SUBSTITUTION';
         canonicalEvent.substitution = {
