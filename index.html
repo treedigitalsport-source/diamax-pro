@@ -3049,10 +3049,10 @@ body.daylight-mode .btn-keypad:hover {
               <label style="display:block; font-size:11px; font-weight:800; color:#94A3B8; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px;">
                 Código de 6 Dígitos
               </label>
-              <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="852914" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.9); border:2px solid #18D8FF; border-radius:14px; padding:16px; font-size:26px; font-weight:900; text-align:center; letter-spacing:12px; color:#18D8FF; outline:none; box-shadow:0 0 25px rgba(24,216,255,0.3), inset 0 2px 5px rgba(0,0,0,0.6); font-family:monospace;">
+              <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="000000" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.9); border:2px solid #18D8FF; border-radius:14px; padding:16px; font-size:26px; font-weight:900; text-align:center; letter-spacing:12px; color:#18D8FF; outline:none; box-shadow:0 0 25px rgba(24,216,255,0.3), inset 0 2px 5px rgba(0,0,0,0.6); font-family:monospace;">
               
-              <!-- Botón Ayudante para Pruebas del CEO -->
-              <button type="button" onclick="autoLlenarCodigoVerif()" style="margin-top:10px; background:none; border:none; color:#18D8FF; font-size:11.5px; cursor:pointer; text-decoration:underline; font-weight:700;">
+              <!-- Botón Ayudante para Pruebas del CEO (Oculto en Producción Pública) -->
+              <button type="button" id="p2-qa-verif-btn" onclick="autoLlenarCodigoVerif()" style="display:none; margin-top:10px; background:none; border:none; color:#18D8FF; font-size:11.5px; cursor:pointer; text-decoration:underline; font-weight:700;">
                 ⚡ Auto-completar código (Prueba Rápida: 852914)
               </button>
             </div>
@@ -3095,20 +3095,16 @@ body.daylight-mode .btn-keypad:hover {
       <!-- SUB-VISTA B: INICIAR SESIÓN (USUARIO EXISTENTE / ADMINISTRADOR) -->
       <div id="p2-sub-login" style="display:none; max-width:460px; margin:20px auto;">
         
-        <!-- Tarjeta de Acceso Maestro / Administrador Oficial -->
-        <div style="background:linear-gradient(135deg, rgba(24,216,255,0.12), rgba(139,92,246,0.1)); border:1.5px solid #18D8FF; border-radius:16px; padding:16px 18px; margin-bottom:20px; box-shadow:0 0 25px rgba(24,216,255,0.2);">
+        <!-- Tarjeta de Acceso QA / Administrador Oficial (Oculta en Producción Pública · Activa en Modo QA) -->
+        <div id="p2-qa-admin-panel" style="display:none; background:linear-gradient(135deg, rgba(24,216,255,0.12), rgba(139,92,246,0.1)); border:1.5px solid #18D8FF; border-radius:16px; padding:16px 18px; margin-bottom:20px; box-shadow:0 0 25px rgba(24,216,255,0.2);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <div style="font-size:12px; font-weight:900; color:#18D8FF; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:6px;">
-              <span>👑</span> <span>Acceso Administrador (CEO Alí Zapata)</span>
+              <span>👑</span> <span>Acceso QA / Administrador (CEO Alí Zapata)</span>
             </div>
-            <span style="font-size:10px; background:rgba(24,201,149,0.2); border:1px solid #18C995; color:#A7F3D0; padding:2px 8px; border-radius:12px; font-weight:800;">Activo</span>
-          </div>
-          <div style="font-size:12px; color:#CBD5E1; line-height:1.5; margin-bottom:12px;">
-            <div>👤 <strong>Usuario:</strong> <code style="color:#FFB82E; background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; font-family:monospace;">admin@diamax.pro</code></div>
-            <div style="margin-top:4px;">🔑 <strong>Clave:</strong> <code style="color:#18D8FF; background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; font-family:monospace;">Diamax2026*</code> (o PIN <code style="color:#A7F3D0;">1234</code>)</div>
+            <span style="font-size:10px; background:rgba(24,201,149,0.2); border:1px solid #18C995; color:#A7F3D0; padding:2px 8px; border-radius:12px; font-weight:800;">QA Activo</span>
           </div>
           <button type="button" onclick="autoLlenarAdmin()" style="width:100%; padding:10px 14px; background:rgba(24,216,255,0.15); border:1px dashed #18D8FF; color:#18D8FF; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.25)'" onmouseout="this.style.background='rgba(24,216,255,0.15)'">
-            <span>⚡</span> <span>Auto-completar Credenciales de Administrador</span>
+            <span>⚡</span> <span>Cargar Acceso Directo de Pruebas (QA)</span>
           </button>
         </div>
 
@@ -3117,7 +3113,7 @@ body.daylight-mode .btn-keypad:hover {
         <form onsubmit="event.preventDefault(); procesarLoginP2();">
           <div style="margin-bottom:16px;">
             <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">Correo Electrónico / Usuario Táctico</label>
-            <input type="text" id="p2-login-user" placeholder="admin@diamax.pro" required style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:13px 14px; color:#FFF; font-size:14px; outline:none;">
+            <input type="text" id="p2-login-user" placeholder="tu-correo@ejemplo.com" required style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.85); border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:13px 14px; color:#FFF; font-size:14px; outline:none;">
           </div>
           <div style="margin-bottom:20px;">
             <label style="display:block; font-size:10px; font-weight:800; color:#94A3B8; margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">Clave de Acceso</label>
@@ -5701,6 +5697,41 @@ async function confirmarYVerificarCuentaP2() {
   irAPasoWizardP2(5);
 }
 
+// 🔒 CONTROLADOR SEGURO DE MODO QA INTERNO (CEO ALÍ ZAPATA)
+function toggleModoQA(activar) {
+  const panel = document.getElementById('p2-qa-admin-panel');
+  const verifBtn = document.getElementById('p2-qa-verif-btn');
+  const forzar = activar !== undefined ? activar : (panel && panel.style.display === 'none');
+  if (panel) panel.style.display = forzar ? 'block' : 'none';
+  if (verifBtn) verifBtn.style.display = forzar ? 'inline-block' : 'none';
+  if (forzar) {
+    localStorage.setItem('diamax_qa_mode', 'true');
+    if (typeof mostrarToast === 'function') mostrarToast('🛠️ Modo QA Interno Activado.');
+  } else {
+    localStorage.removeItem('diamax_qa_mode');
+    if (typeof mostrarToast === 'function') mostrarToast('🔒 Modo QA Desactivado.');
+  }
+}
+
+// Inicialización de Modo QA mediante parámetro (?qa=1 o ?mode=qa) o atajo Ctrl+Shift+A
+window.addEventListener('DOMContentLoaded', function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('qa') === '1' || params.get('mode') === 'qa' || localStorage.getItem('diamax_qa_mode') === 'true') {
+    setTimeout(function() {
+      const panel = document.getElementById('p2-qa-admin-panel');
+      const verifBtn = document.getElementById('p2-qa-verif-btn');
+      if (panel) panel.style.display = 'block';
+      if (verifBtn) verifBtn.style.display = 'inline-block';
+    }, 400);
+  }
+});
+window.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+    e.preventDefault();
+    toggleModoQA();
+  }
+});
+
 function autoLlenarAdmin() {
   const u = document.getElementById('p2-login-user');
   const p = document.getElementById('p2-login-pass');
@@ -5712,7 +5743,7 @@ function autoLlenarAdmin() {
     alertBox.style.background = 'rgba(0,210,255,0.15)';
     alertBox.style.border = '1px solid #00D2FF';
     alertBox.style.color = '#7DD3FC';
-    alertBox.innerHTML = '⚡ Credenciales cargadas: <b>admin@diamax.pro</b> | Haz clic en <b>Entrar a Página 3</b>';
+    alertBox.innerHTML = '⚡ <b>Modo QA:</b> Credenciales autorizadas cargadas. Haz clic en <b>ENTRAR AL DUGOUT</b>.';
   }
 }
 
