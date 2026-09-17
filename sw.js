@@ -7,13 +7,16 @@
  * Todos los derechos reservados 2026. CEO Alí Zapata.
  */
 
-const CACHE_NAME = 'diamax-pro-v5.4-global-map';
+const CACHE_NAME = 'diamax-pro-v5.5-logo-clean';
 const OFFLINE_URL = 'index.html';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
+  './assets/logo-Photoroom.png',
+  './assets/logo.png',
+  './logo.png',
   './Baseball_bat_striking_ball_1080p_20260913144643.mp4'
 ];
 
