@@ -3452,27 +3452,34 @@ body.daylight-mode .btn-keypad:hover {
 
 <div id="diamax-page-3" class="container" style="display:none;">
   <!-- Header Pro Stadium -->
-  <div class="header">
-    <div class="header-logo-container">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:8px; cursor:pointer;" title="DIAMAX PRO — Volver a Portada">
-          <svg viewBox="0 0 100 100" width="30" height="30" style="overflow:visible; flex-shrink:0;">
+  <div class="header" style="padding:14px 20px; margin-bottom:16px;">
+    <div class="header-logo-container" style="display:flex; align-items:center; gap:14px;">
+      <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:12px; cursor:pointer;" title="DIAMAX PRO — Volver a Portada">
+        <!-- Isotipo 3D Home Plate Diamante con Resplandor Holográfico -->
+        <div style="position:relative; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle, rgba(0,210,255,0.25) 0%, rgba(9,18,36,0.9) 100%); border:1.5px solid #00D2FF; border-radius:12px; box-shadow:0 0 20px rgba(0,210,255,0.4); flex-shrink:0;">
+          <svg viewBox="0 0 100 100" width="30" height="30" style="overflow:visible;">
             <use href="#diamax-home-plate-symbol"/>
           </svg>
-          <div style="display:inline-flex; align-items:baseline; gap:4px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:19px; letter-spacing:0.8px; line-height:1; text-transform:uppercase;">
-            <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
-            <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:16px;">PRO</span>
+        </div>
+        <!-- Bloque de Títulos y Alineación Tipográfica Perfecta -->
+        <div style="display:flex; flex-direction:column; justify-content:center;">
+          <div class="header-title-row" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <div style="display:inline-flex; align-items:baseline; gap:3px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:16px; letter-spacing:0.8px; line-height:1; text-transform:uppercase;">
+              <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 45%, #94A3B8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
+              <span style="color:#FFC72C; background:linear-gradient(180deg, #FFFBEB 0%, #FFC72C 50%, #F59E0B 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:13.5px;">PRO</span>
+            </div>
+            <span style="color:rgba(255,255,255,0.25); font-weight:300; font-size:14px;">|</span>
+            <h1 id="header-team-title" style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.5px; line-height:1; display:inline-flex; align-items:center; gap:8px;">
+              <span id="team-title-span">GUERREROS DE VENEZUELA +55</span>
+            </h1>
+            <span class="live-pulse-badge" style="margin:0;"><span class="pulse-red"></span> <span id="badge-live-text">EN VIVO REACTIVO</span></span>
           </div>
+          <p id="header-subtitle" style="margin:3px 0 0 0; font-size:11px; color:#94A3B8; letter-spacing:0.3px;">
+            Sports Operating System · Motor Dugout Pitch-by-Pitch & Reglas 1-9 · Mánager: Leandro Chavez
+          </p>
         </div>
-        <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="team-logo-display" class="team-logo-img" alt="Logo Equipo" onclick="toggleSettingsDrawer(true)" title="Haz clic para configurar equipo">
       </div>
-      <div>
-        <div class="header-title-row">
-          <h1 id="header-team-title"><span id="team-title-span">GUERREROS DE VENEZUELA +55</span></h1>
-          <span class="live-pulse-badge"><span class="pulse-red"></span> <span id="badge-live-text">EN VIVO REACTIVO</span></span>
-        </div>
-        <p id="header-subtitle">DIAMAX Pro · Motor Dugout Pitch-by-Pitch & Reglas 1-9</p>
-      </div>
+      <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="team-logo-display" class="team-logo-img" alt="Logo Equipo" onclick="toggleSettingsDrawer(true)" title="Haz clic para configurar equipo" style="display:none;">
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <div id="network-status-badge" style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.14); padding:5px 12px; border-radius:9999px; font-size:10.5px; font-family:var(--font-mono); display:inline-flex; align-items:center; backdrop-filter:blur(12px);">
@@ -3604,8 +3611,22 @@ body.daylight-mode .btn-keypad:hover {
         </div>
       </div>
 
+      <!-- BARRA DE CONSULTA TÁCTICA + CONTROL POR VOZ DUGOUT (FASE B) -->
+      <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico o pulsar el micrófono..." style="flex:1; min-width:240px; background:#060C18; border:1.5px solid #1E293B; color:#fff; padding:10px 14px; border-radius:8px; font-size:12.5px; outline:none;" onkeydown="if(event.key==='Enter') consultarAgenteIA('CUSTOM')">
+        <button id="btn-ai-voice-mic" type="button" onclick="toggleDictadoVozAgente('ai-custom-prompt')" style="background:rgba(0,210,255,0.15); border:1.5px solid #00D2FF; color:#00D2FF; padding:9px 14px; border-radius:8px; font-weight:800; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;" title="Hablarle al Agente por Voz">
+          <span id="ai-voice-mic-icon">🎤</span> <span id="ai-voice-mic-label">Voz</span>
+        </button>
+        <button id="btn-ai-voice-speaker" type="button" onclick="toggleVozAudioAgente()" style="background:rgba(16,185,129,0.15); border:1.5px solid #10B981; color:#10B981; padding:9px 12px; border-radius:8px; font-weight:800; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Activar/Desactivar Respuesta de Audio Hablada">
+          <span id="ai-voice-speaker-icon">🔊</span>
+        </button>
+        <button id="btn-ai-custom-query" type="button" onclick="consultarAgenteIA('CUSTOM')" style="background:linear-gradient(135deg, #00D2FF, #0284C7); color:#000; border:none; padding:10px 16px; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; box-shadow:0 0 15px rgba(0,210,255,0.3);">
+          ⚡ Consultar
+        </button>
+      </div>
+
       <div class="ai-response-box" id="ai-response-display">
-        [DIAMAX AI LISTO] Selecciona una consulta rápida o escribe tu duda táctica para recibir prescripción sabermétrica instantánea en tiempo real.
+        [DIAMAX AI LISTO] Selecciona una consulta rápida o escribe/habla tu duda táctica para recibir prescripción sabermétrica instantánea en tiempo real.
       </div>
     </div>
 
@@ -4938,9 +4959,15 @@ body.daylight-mode .btn-keypad:hover {
             </button>
           </div>
 
-          <!-- Input Bar de Consulta al Agente -->
-          <div style="display:flex; gap:8px;">
-            <input type="text" id="agent-user-input" placeholder="Escribe tu pregunta táctica al Agente (ej: ¿Debemos tocar la bola con hombre en 1B?)..." style="flex:1; background:#0B132B; border:1.5px solid #334155; color:#FFF; padding:11px 14px; border-radius:8px; font-size:13px; outline:none;" onkeydown="if(event.key==='Enter') ejecutarConsultaAgenteConsola()">
+          <!-- Input Bar de Consulta al Agente + Control por Voz (Fase B) -->
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <input type="text" id="agent-user-input" placeholder="Escribe o dicta tu pregunta táctica al Agente (ej: ¿Cómo atacamos el conteo 3-2?)..." style="flex:1; min-width:260px; background:#0B132B; border:1.5px solid #334155; color:#FFF; padding:11px 14px; border-radius:8px; font-size:13px; outline:none;" onkeydown="if(event.key==='Enter') ejecutarConsultaAgenteConsola()">
+            <button id="btn-agent-console-mic" type="button" onclick="toggleDictadoVozAgente('agent-user-input')" style="background:rgba(0,210,255,0.15); border:1.5px solid #00D2FF; color:#00D2FF; padding:10px 14px; border-radius:8px; font-weight:800; font-size:12.5px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;" title="Dictar por Voz">
+              <span id="console-voice-mic-icon">🎤</span> <span>Voz</span>
+            </button>
+            <button id="btn-agent-console-speaker" type="button" onclick="toggleVozAudioAgente()" style="background:rgba(16,185,129,0.15); border:1.5px solid #10B981; color:#10B981; padding:10px 12px; border-radius:8px; font-weight:800; font-size:12.5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Alternar Audio">
+              <span id="console-voice-speaker-icon">🔊</span>
+            </button>
             <button type="button" id="btn-agent-send" onclick="ejecutarConsultaAgenteConsola()" style="background:#00D2FF; color:#000; border:none; padding:11px 20px; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 0 15px rgba(0,210,255,0.3);">
               ⚡ Preguntar
             </button>
@@ -10095,7 +10122,171 @@ const BaseballKnowledgeGraph = {
       leverageIndex: (liveState.outs === 2 && (liveState.bases.b2 || liveState.bases.b3)) ? 2.35 : 1.10
     };
   }
+// =========================================================================
+// 🎙️ DIAMAX AGENT VOICE ENGINE (FASE B · SPEECH-TO-TEXT & TEXT-TO-SPEECH)
+// =========================================================================
+
+const DIAMAX_AGENT_VOICE = {
+  isListening: false,
+  audioEnabled: true,
+  recognition: null,
+  activeTargetInputId: null,
+
+  init: function() {
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRec) {
+      console.warn("SpeechRecognition no soportado en este navegador.");
+      return false;
+    }
+    const rec = new SpeechRec();
+    rec.lang = 'es-ES';
+    rec.continuous = false;
+    rec.interimResults = false;
+
+    rec.onstart = () => {
+      this.isListening = true;
+      this.updateMicUI(true);
+      if (typeof mostrarToast === 'function') {
+        mostrarToast("🎙️ Escuchando... Habla tu consulta táctica.");
+      }
+    };
+
+    rec.onend = () => {
+      this.isListening = false;
+      this.updateMicUI(false);
+    };
+
+    rec.onerror = (e) => {
+      console.warn("SpeechRec error:", e.error);
+      this.isListening = false;
+      this.updateMicUI(false);
+      if (typeof mostrarToast === 'function' && e.error !== 'no-speech') {
+        mostrarToast("⚠️ Error de voz: " + e.error);
+      }
+    };
+
+    rec.onresult = (event) => {
+      if (event.results && event.results[0] && event.results[0][0]) {
+        const spoken = event.results[0][0].transcript;
+        if (this.activeTargetInputId) {
+          const inp = document.getElementById(this.activeTargetInputId);
+          if (inp) {
+            inp.value = spoken;
+            if (this.activeTargetInputId === 'ai-custom-prompt') {
+              consultarAgenteIA('CUSTOM');
+            } else if (this.activeTargetInputId === 'agent-user-input') {
+              ejecutarConsultaAgenteConsola();
+            }
+          }
+        }
+      }
+    };
+
+    this.recognition = rec;
+    return true;
+  },
+
+  updateMicUI: function(listening) {
+    const micBtns = [
+      { btnId: 'btn-ai-voice-mic', iconId: 'ai-voice-mic-icon', labelId: 'ai-voice-mic-label' },
+      { btnId: 'btn-agent-console-mic', iconId: 'console-voice-mic-icon', labelId: null }
+    ];
+    micBtns.forEach(item => {
+      const b = document.getElementById(item.btnId);
+      if (b) {
+        if (listening) {
+          b.style.background = '#EF4444';
+          b.style.borderColor = '#EF4444';
+          b.style.color = '#FFF';
+          b.style.boxShadow = '0 0 20px rgba(239,68,68,0.8)';
+          if (item.iconId && document.getElementById(item.iconId)) document.getElementById(item.iconId).innerText = '🔴';
+          if (item.labelId && document.getElementById(item.labelId)) document.getElementById(item.labelId).innerText = 'Escuchando...';
+        } else {
+          b.style.background = 'rgba(0,210,255,0.15)';
+          b.style.borderColor = '#00D2FF';
+          b.style.color = '#00D2FF';
+          b.style.boxShadow = 'none';
+          if (item.iconId && document.getElementById(item.iconId)) document.getElementById(item.iconId).innerText = '🎤';
+          if (item.labelId && document.getElementById(item.labelId)) document.getElementById(item.labelId).innerText = 'Voz';
+        }
+      }
+    });
+  },
+
+  toggleListening: function(inputId) {
+    if (!this.recognition) {
+      const ok = this.init();
+      if (!ok) {
+        if (typeof mostrarToast === 'function') {
+          mostrarToast("⚠️ Tu navegador no soporta reconocimiento de voz nativo.");
+        }
+        return;
+      }
+    }
+
+    if (this.isListening) {
+      try { this.recognition.stop(); } catch(e){}
+      this.isListening = false;
+      this.updateMicUI(false);
+    } else {
+      this.activeTargetInputId = inputId;
+      try { this.recognition.start(); } catch(e){
+        console.warn("SpeechRec start error:", e);
+      }
+    }
+  },
+
+  toggleAudio: function() {
+    this.audioEnabled = !this.audioEnabled;
+    const icons = ['ai-voice-speaker-icon', 'console-voice-speaker-icon'];
+    icons.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerText = this.audioEnabled ? '🔊' : '🔇';
+    });
+    if (typeof mostrarToast === 'function') {
+      mostrarToast(this.audioEnabled ? "🔊 Respuestas de voz activadas" : "🔇 Respuestas de voz silenciadas");
+    }
+    return this.audioEnabled;
+  },
+
+  speak: function(text) {
+    if (!this.audioEnabled || typeof window === 'undefined' || !window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      // Limpiar etiquetas HTML y formato Markdown
+      const cleanText = (text || '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\[[^\]]*\]/g, ' ')
+        .replace(/[•*#]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      // Sintetizar los primeros 2 enunciados clave para lectura telegráfica < 10s
+      const sentences = cleanText.split('.');
+      const spokenSummary = (sentences.slice(0, 2).join('.') + '.').substring(0, 220);
+
+      const utterance = new SpeechSynthesisUtterance(spokenSummary);
+      utterance.lang = 'es-ES';
+      utterance.rate = 1.08;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } catch(e) {
+      console.warn("Speech synthesis error:", e);
+    }
+  }
 };
+
+function toggleDictadoVozAgente(inputId) {
+  DIAMAX_AGENT_VOICE.toggleListening(inputId);
+}
+
+function toggleVozAudioAgente() {
+  DIAMAX_AGENT_VOICE.toggleAudio();
+}
+
+window.DIAMAX_AGENT_VOICE = DIAMAX_AGENT_VOICE;
+window.toggleDictadoVozAgente = toggleDictadoVozAgente;
+window.toggleVozAudioAgente = toggleVozAudioAgente;
 
 // 🧠 ASISTENTE TÁCTICO GROQ AI (STREAMING / ULTRA-LOW LATENCY)
 // Actualizador en tiempo real del rol táctico (Ofensivo vs Defensivo)
@@ -10956,6 +11147,11 @@ async function consultarAgenteIA(queryType) {
             rival: rivalObj.name
           });
 
+          // Síntesis de voz hablada
+          if (typeof DIAMAX_AGENT_VOICE !== 'undefined') {
+            DIAMAX_AGENT_VOICE.speak(contentRes);
+          }
+
           return;
         }
       }
@@ -11055,6 +11251,11 @@ async function consultarAgenteIA(queryType) {
     }
 
     display.innerHTML = finalHTML;
+
+    // Síntesis de Audio Hablada (Fase B)
+    if (typeof DIAMAX_AGENT_VOICE !== 'undefined') {
+      DIAMAX_AGENT_VOICE.speak(finalHTML);
+    }
 
     // Registrar en Memoria Episódica
     DIAMAX_TACTICAL_MEMORY.addEntry({
@@ -12326,6 +12527,11 @@ async function ejecutarConsultaAgenteConsola() {
     '<div>' + agentResponseText.split(String.fromCharCode(10)).join('<br>') + '</div>';
   chatContainer.appendChild(agentBubble);
   chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  // Síntesis de voz hablada
+  if (typeof DIAMAX_AGENT_VOICE !== 'undefined') {
+    DIAMAX_AGENT_VOICE.speak(agentResponseText);
+  }
 
   // 5. Registrar en memoria y actualizar UI de memoria
   DIAMAX_TACTICAL_MEMORY.addEntry({
