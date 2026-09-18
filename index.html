@@ -2102,21 +2102,37 @@ body.daylight-mode .btn-keypad:hover {
     let _tenantId = null;    // ID del tenant (liga)
     let _connected = false;
 
+    const DEFAULT_CONFIG = {
+      url: 'https://bhodoynuevnketbfbkvy.supabase.co',
+      anonKey: 'sb_publishable_S0pAut-LOp91Ny1oNBY4mg_DRDI6KiC',
+      tenantId: 'b0000000-0000-0000-0000-000000000001',
+      gameId: 'a0000000-0000-0000-0000-000000000001'
+    };
+
     // ── Inicializar Supabase Client ──────────────────────────────────────────
     function init() {
       try {
-        const cfg = JSON.parse(localStorage.getItem('diamax_supabase_config') || '{}');
-        if (!cfg.url || !cfg.anonKey) {
-          console.info('[DIAMAX RT] Supabase no configurado. Usando modo local.');
+        let cfg = {};
+        try { cfg = JSON.parse(localStorage.getItem('diamax_supabase_config') || '{}'); } catch(e) {}
+        const url = cfg.url || DEFAULT_CONFIG.url;
+        const anonKey = cfg.anonKey || DEFAULT_CONFIG.anonKey;
+        _tenantId = cfg.tenantId || DEFAULT_CONFIG.tenantId;
+        _gameId = cfg.gameId || DEFAULT_CONFIG.gameId;
+
+        if (!url || !anonKey || typeof supabase === 'undefined') {
+          console.info('[DIAMAX RT] Supabase no configurado o SDK ausente. Usando modo local.');
           return false;
         }
-        _sb = supabase.createClient(cfg.url, cfg.anonKey);
-        _tenantId = cfg.tenantId || null;
-        console.log('[DIAMAX RT] ✅ Supabase conectado.');
+        _sb = supabase.createClient(url, anonKey);
+        _connected = true;
+        console.log('[DIAMAX RT] ✅ Supabase conectado a 3Tree Cloud.');
         mostrarIndicadorRealtime(true);
+        subscribeToGame(_gameId);
         return true;
       } catch(e) {
         console.warn('[DIAMAX RT] Error init:', e);
+        _connected = false;
+        mostrarIndicadorRealtime(false);
         return false;
       }
     }
@@ -2343,10 +2359,47 @@ body.daylight-mode .btn-keypad:hover {
       }
     }
 
+    async function saveCanonicalEvent(ev) {
+      if (!_sb) return;
+      try {
+        const payload = {
+          game_id: _gameId || 'a0000000-0000-0000-0000-000000000001',
+          client_event_id: ev.eventId || ('ev_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+          seq: ev.seq || Date.now(),
+          event_type: ev.type || 'UNKNOWN',
+          schema_version: ev.schemaVersion || '1.1-FINAL',
+          timestamp: ev.timestamp ? new Date(ev.timestamp).toISOString() : new Date().toISOString(),
+          inning: ev.inning || 1,
+          half: (ev.half === 'bot' || ev.half === 'BOTTOM') ? 'BOTTOM' : 'TOP',
+          outs_before: ev.outsBefore || 0,
+          outs_after: ev.outsAfter !== undefined ? ev.outsAfter : 0,
+          score_home_after: ev.scoreHomeAfter || 0,
+          score_away_after: ev.scoreAwayAfter || 0,
+          bases_after: ev.basesAfter || {},
+          runs_scored: ev.runsScored || 0,
+          rbi_count: ev.rbiCount || 0,
+          batter: ev.batter || {},
+          pitcher: ev.pitcher || {},
+          runners_advanced: ev.runnersAdvanced || [],
+          earned_run_analysis: ev.earnedRunAnalysis || [],
+          reverted_event_id: ev.revertedEventId || null,
+          ordering_status: ev.orderingStatus || 'CANONICAL',
+          raw_payload: ev,
+          tenant_id: _tenantId || 'b0000000-0000-0000-0000-000000000001'
+        };
+        const { error } = await _sb.from('canonical_game_events').insert(payload);
+        if (error) console.warn('[DIAMAX RT] saveCanonicalEvent warn:', error.message);
+        else console.log('[DIAMAX RT] ☁️ Evento canónico sincronizado en Supabase:', ev.type);
+      } catch(e) {
+        console.warn('[DIAMAX RT] saveCanonicalEvent exception:', e);
+      }
+    }
+
     // API pública
     return {
       init, configure, subscribeToGame,
       upsertGame, savePitch, saveAtBat, syncScore,
+      saveCanonicalEvent,
       broadcast,
       isConnected: () => _connected,
       getGameId: () => _gameId,
@@ -9155,6 +9208,21 @@ function registrarJugadaLive(action) {
     if (typeof mostrarToast === 'function' && typeof window !== 'undefined' && window.document) {
       mostrarToast(`✓ Jugada registrada: ${payload.description}`);
     }
+
+    // ☁️ Sincronización atómica inmediata en Supabase Cloud
+    if (typeof DIAMAX_RT !== 'undefined') {
+      const ev = (window.DIAMAX_DISPATCHER && window.DIAMAX_DISPATCHER.eventStore) 
+        ? window.DIAMAX_DISPATCHER.eventStore.getAll().slice(-1)[0] 
+        : null;
+      if (ev) DIAMAX_RT.saveCanonicalEvent(ev);
+      DIAMAX_RT.syncScore(
+        liveState.inningsUs || [], 
+        liveState.inningsThem || [], 
+        gameState.score.away, 
+        gameState.score.home, 
+        gameState.inning
+      );
+    }
   }
 
   if (typeof renderAll === 'function') renderAll();
@@ -9219,6 +9287,21 @@ function deshacerJugadaLive() {
     }
     if (typeof mostrarToast === 'function') {
       mostrarToast('↩️ Jugada revertida exitosamente. Marcador restaurado.');
+    }
+
+    // ☁️ Sincronización atómica de reversión en Supabase Cloud
+    if (typeof DIAMAX_RT !== 'undefined') {
+      const revEv = (window.DIAMAX_DISPATCHER && window.DIAMAX_DISPATCHER.eventStore) 
+        ? window.DIAMAX_DISPATCHER.eventStore.getAll().slice(-1)[0] 
+        : null;
+      if (revEv) DIAMAX_RT.saveCanonicalEvent(revEv);
+      DIAMAX_RT.syncScore(
+        liveState.inningsUs || [], 
+        liveState.inningsThem || [], 
+        gameState.score.away, 
+        gameState.score.home, 
+        gameState.inning
+      );
     }
   } else {
     if (typeof mostrarToast === 'function') {
