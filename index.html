@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '6.1-dugout-button-and-36-plays';
+  const DEPLOY_VERSION = '6.2-undo-button-and-compact-keypad';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -3582,6 +3582,32 @@ body.daylight-mode .btn-keypad:hover {
             <div class="out-led-lamp" id="led-out-3"></div>
             <span style="font-size:10px; color:#64748B; margin-left:4px;">(Tocar)</span>
           </div>
+
+          <!-- ⌫ BOTÓN DE BORRAR / DESHACER EN EL TABLERO (SI EL ANOTADOR SE EQUIVOCA) -->
+          <div style="margin-top:10px; display:flex; justify-content:center;">
+            <button type="button" id="btn-undo-scoreboard" onclick="deshacerJugadaLive()" style="padding:8px 16px; background:linear-gradient(135deg, rgba(239,68,68,0.22) 0%, rgba(185,28,28,0.3) 100%); color:#FCA5A5; border:1.8px solid #EF4444; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 14px rgba(239,68,68,0.35); transition:all 0.15s;" title="¿Te equivocaste anotando? Toca aquí para borrar/deshacer la última jugada de inmediato">
+              <span style="font-size:14px;">⌫</span>
+              <span>BORRAR / CORREGIR JUGADA (DESHACER)</span>
+            </button>
+          </div>
+
+          <!-- JUGADAS RÁPIDAS DIRECTAMENTE EN EL TABLERO -->
+          <div style="margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:10.5px; color:#00D2FF; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">⚡ JUGADAS EN EL TABLERO:</span>
+              <button type="button" onclick="document.getElementById('panel-36-plays').scrollIntoView({behavior:'smooth'})" style="background:transparent; border:none; color:#FFC72C; font-size:10.5px; font-weight:800; cursor:pointer; text-decoration:underline;">Ver las 36 jugadas ▾</button>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">1B</button>
+              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">2B</button>
+              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">3B</button>
+              <button type="button" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">HR</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('K')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">K</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">BB</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">6-3</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">DP</button>
+            </div>
+          </div>
         </div>
 
         <!-- Diamante SVG Interactivo -->
@@ -3616,8 +3642,8 @@ body.daylight-mode .btn-keypad:hover {
       </div>
 
       <!-- Botonera Táctil Dugout Oficial (36 JUGADAS CANÓNICAS COMPLETAS) -->
-      <div class="panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+      <div class="panel" id="panel-36-plays">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
           <h4 style="color:#FFC72C; margin:0; font-size:14.5px; font-weight:900; display:flex; align-items:center; gap:8px;">
             <span>⚾</span> <span>Botonera Táctil Oficial (36 Jugadas Canónicas)</span>
           </h4>
@@ -3625,72 +3651,89 @@ body.daylight-mode .btn-keypad:hover {
             ✓ 36 / 36 JUGADAS ACTIVAS
           </span>
         </div>
+
+        <!-- ⌫ BOTÓN PRINCIPAL DE CORREGIR ERROR / BORRAR EN LA BOTONERA -->
+        <div style="margin-bottom:12px;">
+          <button type="button" id="btn-undo-keypad" onclick="deshacerJugadaLive()" style="width:100%; min-height:46px; padding:10px 16px; background:linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%); color:#FFFFFF; border:2px solid #FCA5A5; border-radius:10px; font-family:'Montserrat',sans-serif; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 16px rgba(239,68,68,0.45); text-transform:uppercase; letter-spacing:0.5px; transition:transform 0.15s;" title="¿Te equivocaste? Pulsa para borrar la última jugada y restaurar el juego">
+            <span style="font-size:16px;">⌫</span>
+            <span>CORREGIR ERROR: DESHACER / BORRAR ÚLTIMA JUGADA</span>
+          </button>
+        </div>
+
+        <!-- PESTAÑAS / FILTROS DE CATEGORÍA -->
+        <div class="play-category-tabs" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+          <button type="button" class="play-tab active" onclick="filtrarCategoriaJugadas('all', this)" style="padding:6px 12px; background:#00D2FF; color:#000; border:none; border-radius:6px; font-size:11px; font-weight:900; cursor:pointer;">⚾ TODAS (36)</button>
+          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('hits', this)" style="padding:6px 12px; background:#131D31; color:#A7F3D0; border:1px solid #059669; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;">🟢 HITS (4)</button>
+          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('flies', this)" style="padding:6px 12px; background:#131D31; color:#FFC72C; border:1px solid #EAB308; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;">🔵 ELEVADOS (9)</button>
+          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('grounders', this)" style="padding:6px 12px; background:#131D31; color:#FECACA; border:1px solid #DC2626; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;">🔴 ROLATAS & DP (8)</button>
+          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('tactical', this)" style="padding:6px 12px; background:#131D31; color:#E0E7FF; border:1px solid #6366F1; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;">🟣 PITCHEO & BASES (15)</button>
+        </div>
         
-        <!-- SECCIÓN 1: ELEVADOS POR POSICIÓN DEFENSIVA (9 JUGADAS) -->
-        <div class="fly-field-layout">
-          <div style="font-size:11px; color:#00D2FF; font-weight:900; margin-bottom:6px; text-align:center;">
-            Elevados por Posición Defensiva (9 Putouts):
-          </div>
-          <div class="fly-grid-outfield">
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(7)">Fly 7 (LF)</button>
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(8)">Fly 8 (CF)</button>
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(9)">Fly 9 (RF)</button>
-          </div>
-          <div class="fly-grid-infield">
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(5)">Fly 5 (3B)</button>
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(6)">Fly 6 (SS)</button>
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(4)">Fly 4 (2B)</button>
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(3)">Fly 3 (1B)</button>
-          </div>
-          <div class="fly-grid-battery">
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(1)">Fly 1 (P)</button>
-            <button class="btn-fly-pos" onclick="procesarFlyPosicion(2)">Fly 2 (C)</button>
+        <!-- GRUPO 1: BATAZOS DE HIT & JONRÓN (4 JUGADAS) -->
+        <div class="play-section-group" data-category="hits" style="margin-bottom:10px;">
+          <div class="btn-section-title" style="margin:0 0 6px 0; color:#10B981; font-weight:900;">🟢 Batazos de Hit & Jonrón (4 Jugadas):</div>
+          <div class="action-grid" style="grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap:6px;">
+            <button type="button" id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')" style="min-height:42px;"> 1B (Sencillo)</button>
+            <button type="button" id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')" style="min-height:42px;"> 2B (Doblete)</button>
+            <button type="button" id="act-3b" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')" style="min-height:42px;"> 3B (Triplete)</button>
+            <button type="button" id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')" style="min-height:42px;"> JONRÓN (HR)</button>
           </div>
         </div>
 
-        <!-- SECCIÓN 2: BATAZOS DE HIT & JONRÓN (4 JUGADAS) -->
-        <div class="btn-section-title">Batazos de Hit & Jonrón (4 Jugadas):</div>
-        <div class="action-grid">
-          <button id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')"> 1B (Sencillo)</button>
-          <button id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')"> 2B (Doblete)</button>
-          <button id="act-3b" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')"> 3B (Triplete)</button>
-          <button id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')"> JONRÓN (HR)</button>
+        <!-- GRUPO 2: ELEVADOS POR POSICIÓN DEFENSIVA (9 JUGADAS) -->
+        <div class="play-section-group" data-category="flies" style="margin-bottom:10px;">
+          <div class="btn-section-title" style="margin:0 0 6px 0; color:#00D2FF; font-weight:900;">🔵 Elevados por Posición Defensiva (9 Putouts):</div>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px;">
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(7)" style="min-height:38px;">Fly 7 (LF)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(8)" style="min-height:38px;">Fly 8 (CF)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(9)" style="min-height:38px;">Fly 9 (RF)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(5)" style="min-height:38px;">Fly 5 (3B)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(6)" style="min-height:38px;">Fly 6 (SS)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(4)" style="min-height:38px;">Fly 4 (2B)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(3)" style="min-height:38px;">Fly 3 (1B)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(1)" style="min-height:38px;">Fly 1 (P)</button>
+            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(2)" style="min-height:38px;">Fly 2 (C)</button>
+          </div>
         </div>
 
-        <!-- SECCIÓN 3: ROLATAS & DOBLES PLAYS (8 JUGADAS) -->
-        <div class="btn-section-title">Rolatas & Dobles Plays (8 Jugadas):</div>
-        <div class="action-grid" style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));">
-          <button id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')"> 6-3 (SS a 1B)</button>
-          <button id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')"> 4-3 (2B a 1B)</button>
-          <button id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')"> 5-3 (3B a 1B)</button>
-          <button id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')"> 1-3 (P a 1B)</button>
-          <button id="act-31" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')"> 3-1 (1B a P)</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')"> 6-4-3 DP</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')"> 4-6-3 DP</button>
-          <button class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')"> 5-4-3 DP</button>
+        <!-- GRUPO 3: ROLATAS & DOBLES PLAYS (8 JUGADAS) -->
+        <div class="play-section-group" data-category="grounders" style="margin-bottom:10px;">
+          <div class="btn-section-title" style="margin:0 0 6px 0; color:#F87171; font-weight:900;">🔴 Rolatas & Dobles Plays (8 Jugadas):</div>
+          <div class="action-grid" style="grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap:6px;">
+            <button type="button" id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')" style="min-height:40px;"> 6-3 (SS a 1B)</button>
+            <button type="button" id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')" style="min-height:40px;"> 4-3 (2B a 1B)</button>
+            <button type="button" id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')" style="min-height:40px;"> 5-3 (3B a 1B)</button>
+            <button type="button" id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')" style="min-height:40px;"> 1-3 (P a 1B)</button>
+            <button type="button" id="act-31" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')" style="min-height:40px;"> 3-1 (1B a P)</button>
+            <button type="button" id="act-dp-643" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')" style="min-height:40px;"> 6-4-3 DP</button>
+            <button type="button" id="act-dp-463" class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')" style="min-height:40px;"> 4-6-3 DP</button>
+            <button type="button" id="act-dp-543" class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')" style="min-height:40px;"> 5-4-3 DP</button>
+          </div>
         </div>
 
-        <!-- SECCIÓN 4: PITCHEO, SACRIFICIOS, BOLA OCUPADA & CORREDORES (15 JUGADAS) -->
-        <div class="btn-section-title">Pitcheo, Sacrificios, Avances & Corredores (15 Jugadas):</div>
-        <div class="action-grid" style="grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));">
-          <button id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')"> Fly Sacrificio (SF)</button>
-          <button id="act-sh" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')"> Toque Sacrificio (SH)</button>
-          <button id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')"> Ponche (K)</button>
-          <button id="act-kl" class="btn-action btn-out" onclick="registrarJugadaLive('K_LOOKING')"> Ponche Cantado (ꓘ)</button>
-          <button id="act-bb" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')"> Boleto (BB)</button>
-          <button id="act-ibb" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')"> Boleto Int. (IBB)</button>
-          <button id="act-hbp" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')"> Golpeado (HBP)</button>
-          <button id="act-roe" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')"> Por Error (ROE)</button>
-          <button id="act-fc" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')"> Bola Ocupada (FC)</button>
-          <button id="act-ifr" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')"> Infield Fly (IFR)</button>
-          <button id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')"> Base Robada (SB)</button>
-          <button id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')"> Out Robando (CS)</button>
-          <button id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')"> Wild Pitch (WP)</button>
-          <button id="act-pb" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')"> Passed Ball (PB)</button>
-          <button id="act-bk" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')"> Balk (BK)</button>
+        <!-- GRUPO 4: PITCHEO, SACRIFICIOS, AVANCES & CORREDORES (15 JUGADAS) -->
+        <div class="play-section-group" data-category="tactical" style="margin-bottom:10px;">
+          <div class="btn-section-title" style="margin:0 0 6px 0; color:#A5B4FC; font-weight:900;">🟣 Pitcheo, Sacrificios, Avances & Corredores (15 Jugadas):</div>
+          <div class="action-grid" style="grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap:6px;">
+            <button type="button" id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')" style="min-height:40px;"> Fly Sacrificio (SF)</button>
+            <button type="button" id="act-sh" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')" style="min-height:40px;"> Toque Sacrificio (SH)</button>
+            <button type="button" id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')" style="min-height:40px;"> Ponche (K)</button>
+            <button type="button" id="act-kl" class="btn-action btn-out" onclick="registrarJugadaLive('K_LOOKING')" style="min-height:40px;"> Ponche Cantado (ꓘ)</button>
+            <button type="button" id="act-bb" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')" style="min-height:40px;"> Boleto (BB)</button>
+            <button type="button" id="act-ibb" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')" style="min-height:40px;"> Boleto Int. (IBB)</button>
+            <button type="button" id="act-hbp" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')" style="min-height:40px;"> Golpeado (HBP)</button>
+            <button type="button" id="act-roe" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')" style="min-height:40px;"> Por Error (ROE)</button>
+            <button type="button" id="act-fc" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')" style="min-height:40px;"> Bola Ocupada (FC)</button>
+            <button type="button" id="act-ifr" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')" style="min-height:40px;"> Infield Fly (IFR)</button>
+            <button type="button" id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')" style="min-height:40px;"> Base Robada (SB)</button>
+            <button type="button" id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')" style="min-height:40px;"> Out Robando (CS)</button>
+            <button type="button" id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')" style="min-height:40px;"> Wild Pitch (WP)</button>
+            <button type="button" id="act-pb" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')" style="min-height:40px;"> Passed Ball (PB)</button>
+            <button type="button" id="act-bk" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')" style="min-height:40px;"> Balk (BK)</button>
+          </div>
         </div>
 
-        <button onclick="finalizarYGuardarJuegoLive()" style="width:100%; min-height:48px; margin-top:14px; background:#10B981; color:#fff; border:none; border-radius:8px; font-weight:800; font-size:13px; cursor:pointer;"> Finalizar Juego & Archivar en Base de Datos</button>
+        <button type="button" onclick="finalizarYGuardarJuegoLive()" style="width:100%; min-height:46px; margin-top:10px; background:#10B981; color:#fff; border:none; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer; box-shadow:0 0 15px rgba(16,185,129,0.3);"> Finalizar Juego & Archivar en Base de Datos</button>
       </div>
 
       <!-- Historial de Jugadas Play-by-Play -->
@@ -8924,7 +8967,13 @@ function registrarJugadaLive(action) {
 }
 
 function deshacerJugadaLive() {
-  if (!window.DIAMAX_DISPATCHER) return;
+  if (!window.DIAMAX_DISPATCHER) {
+    if (typeof DIAMAX_CORE !== 'undefined') {
+      window.DIAMAX_DISPATCHER = new DIAMAX_CORE.CommandDispatcher();
+    } else {
+      return;
+    }
+  }
   const res = window.DIAMAX_DISPATCHER.dispatch({ type: 'UNDO' });
   if (res.success && res.snapshot) {
     const { gameState, stats, reconciliation } = res.snapshot;
@@ -8946,12 +8995,54 @@ function deshacerJugadaLive() {
     if (logDiv) {
       logDiv.innerHTML = `<div style="font-size:11.5px; background:#2A141A; color:#FCA5A5; padding:6px 10px; border-radius:6px; border-left:3px solid #EF4444; margin-bottom:4px;">[DESHACER] Jugada revertida exitosamente. Marcador restaurado.</div>` + logDiv.innerHTML;
     }
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('↩️ Jugada revertida exitosamente. Marcador restaurado.');
+    }
+  } else {
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('ℹ️ No hay jugadas previas para deshacer');
+    }
   }
   if (typeof renderAll === 'function') renderAll();
 }
 
 function procesarFlyPosicion(numPos) {
   registrarJugadaLive(`Fly ${numPos}`);
+}
+
+function filtrarCategoriaJugadas(cat, btn) {
+  const container = document.getElementById('panel-36-plays');
+  if (!container) return;
+  const groups = container.querySelectorAll('.play-section-group');
+  groups.forEach(function(grp) {
+    if (cat === 'all' || grp.getAttribute('data-category') === cat) {
+      grp.style.display = 'block';
+    } else {
+      grp.style.display = 'none';
+    }
+  });
+  const tabs = container.querySelectorAll('.play-tab');
+  tabs.forEach(function(t) {
+    t.classList.remove('active');
+    t.style.background = '#131D31';
+    t.style.color = '#94A3B8';
+  });
+  if (btn) {
+    btn.classList.add('active');
+    btn.style.background = '#00D2FF';
+    btn.style.color = '#000';
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+      const activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) return;
+      e.preventDefault();
+      deshacerJugadaLive();
+    }
+  });
 }
 
 function renderLiveBoxscoreTable() {
