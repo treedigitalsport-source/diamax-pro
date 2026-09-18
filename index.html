@@ -2362,13 +2362,17 @@ body.daylight-mode .btn-keypad:hover {
     async function saveCanonicalEvent(ev) {
       if (!_sb) return;
       try {
+        const curBat = (typeof getLiveCurrentBatter === 'function') ? getLiveCurrentBatter() : null;
+        const curBatName = (curBat && curBat.player) ? curBat.player.name : (ev.batterName || ev.batterId || 'Bateador');
+        const curPitchName = (typeof activePitcherStats !== 'undefined' && activePitcherStats.name) ? activePitcherStats.name : (ev.pitcherName || 'Pedro Chavez');
+
         const payload = {
           game_id: _gameId || 'a0000000-0000-0000-0000-000000000001',
-          client_event_id: ev.eventId || ('ev_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+          client_event_id: ev.clientEventId || ev.eventId || ('ev_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
           seq: ev.seq || Date.now(),
-          event_type: ev.type || 'UNKNOWN',
+          event_type: ev.eventType || ev.type || ev.result || 'EVENT_CANONICAL',
           schema_version: ev.schemaVersion || '1.1-FINAL',
-          timestamp: ev.timestamp ? new Date(ev.timestamp).toISOString() : new Date().toISOString(),
+          timestamp: ev.clientTimestamp ? new Date(ev.clientTimestamp).toISOString() : new Date().toISOString(),
           inning: ev.inning || 1,
           half: (ev.half === 'bot' || ev.half === 'BOTTOM') ? 'BOTTOM' : 'TOP',
           outs_before: ev.outsBefore || 0,
@@ -2378,8 +2382,8 @@ body.daylight-mode .btn-keypad:hover {
           bases_after: ev.basesAfter || {},
           runs_scored: ev.runsScored || 0,
           rbi_count: ev.rbiCount || 0,
-          batter: ev.batter || {},
-          pitcher: ev.pitcher || {},
+          batter: ev.batter || { id: ev.batterId || 'bat-1', name: curBatName },
+          pitcher: ev.pitcher || { id: ev.pitcherId || 'pitch-1', name: curPitchName },
           runners_advanced: ev.runnersAdvanced || [],
           earned_run_analysis: ev.earnedRunAnalysis || [],
           reverted_event_id: ev.revertedEventId || null,
@@ -2389,7 +2393,7 @@ body.daylight-mode .btn-keypad:hover {
         };
         const { error } = await _sb.from('canonical_game_events').insert(payload);
         if (error) console.warn('[DIAMAX RT] saveCanonicalEvent warn:', error.message);
-        else console.log('[DIAMAX RT] ☁️ Evento canónico sincronizado en Supabase:', ev.type);
+        else console.log('[DIAMAX RT] ☁️ Evento canónico sincronizado en Supabase:', payload.event_type, curBatName);
       } catch(e) {
         console.warn('[DIAMAX RT] saveCanonicalEvent exception:', e);
       }
