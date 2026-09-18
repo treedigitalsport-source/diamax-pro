@@ -153,7 +153,7 @@
         this.lastReport = report;
         const response = {
           type: 'REPORT_BOXSCORE',
-          title: '📊 Reporte Oficial Boxscore (R-H-E)',
+          title: 'Reporte Oficial Boxscore (R-H-E)',
           data: report,
           message: 'Boxscore oficial generado en base a eventos en tiempo real.'
         };
@@ -167,7 +167,7 @@
         this.lastReport = report;
         const response = {
           type: 'REPORT_SABERMETRICS',
-          title: '🧠 Reporte Sabermétrico Profundo',
+          title: 'Reporte Sabermétrico Profundo',
           data: report,
           message: 'Métricas avanzadas (wOBA, OPS, ISO, BABIP, WHIP, FIP) computadas.'
         };
@@ -181,7 +181,7 @@
         this.lastReport = report;
         const response = {
           type: 'REPORT_PITCHING_FATIGUE',
-          title: '🔥 Reporte de Pitcheo, Fatiga y Bullpen',
+          title: 'Reporte de Pitcheo, Fatiga y Bullpen',
           data: report,
           message: 'Análisis de carga de trabajo, strikes/bolas y umbrales de fatiga.'
         };
@@ -194,7 +194,7 @@
         const advice = this.generateTacticalAdvice(context.gameState);
         const response = {
           type: 'TACTICAL_ADVICE',
-          title: '🎯 Asesoría Táctica Situacional Dugout',
+          title: 'Asesoría Táctica Situacional Dugout',
           data: advice,
           message: advice.recommendation
         };
@@ -206,7 +206,7 @@
       const searchResult = this.searchDatabase(cleanQuery, context);
       const response = {
         type: 'DATABASE_QUERY',
-        title: '🔍 Búsqueda en Base de Datos Sabermétrica',
+        title: 'Búsqueda en Base de Datos Sabermétrica',
         data: searchResult,
         message: searchResult.summary
       };
