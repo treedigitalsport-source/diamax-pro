@@ -3584,9 +3584,24 @@ body.daylight-mode .btn-keypad:hover {
         <button class="btn-ai-quick" id="btn-ai-pitcher-matchup" onclick="consultarAgenteIA('PITCHER_MATCHUP')" style="border-color:#00D2FF; color:#00D2FF;">🎯 Duelo vs Pitcher Rival</button>
       </div>
 
-      <div style="display:flex; gap:8px; margin-bottom:8px;">
-        <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico (ej: ¿Cómo atacamos el conteo 3-2?)..." style="flex:1; background:#060C18; border:1px solid #1E293B; color:#fff; padding:8px 12px; border-radius:6px; font-size:12px;" onkeydown="if(event.key==='Enter') consultarAgenteIA('CUSTOM')">
-        <button id="btn-ai-custom-query" onclick="consultarAgenteIA('CUSTOM')" style="background:#00D2FF; color:#000; border:none; padding:8px 14px; border-radius:6px; font-weight:900; font-size:12px; cursor:pointer;">Consultar</button>
+      <!-- 🔴 RADAR DE ALERTAS PROACTIVAS EN TIEMPO REAL (+55 & RISP) -->
+      <div id="diamax-ai-radar-banner" style="background:linear-gradient(135deg, rgba(239,68,68,0.12), rgba(245,158,11,0.08)); border:1.5px solid #F59E0B; border-radius:10px; padding:12px 14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:0 0 20px rgba(245,158,11,0.15);">
+        <div style="display:flex; align-items:flex-start; gap:10px; flex:1; min-width:280px;">
+          <span id="ai-radar-pulse-icon" style="font-size:22px; line-height:1;">⚡</span>
+          <div style="flex:1;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span id="ai-radar-title" style="color:#FFC72C; font-weight:900; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">RADAR TÁCTICO PROACTIVO</span>
+              <span id="ai-radar-urgency-badge" style="background:#10B981; color:#000; font-size:10px; font-weight:900; padding:2px 8px; border-radius:10px;">🟢 SITUACIÓN BAJO CONTROL</span>
+              <span id="ai-radar-fatigue-metric" style="color:#94A3B8; font-size:10.5px; font-weight:700;">Pitcheos: 0 / 75 (0%)</span>
+            </div>
+            <div id="ai-radar-message" style="color:#EAEEF5; font-size:12px; line-height:1.5; margin-top:3px;">
+              Monitoreando estado del juego, fatiga del lanzador (+55) y situaciones de alto leverage en tiempo real...
+            </div>
+          </div>
+        </div>
+        <div id="ai-radar-actions-container" style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <!-- Botones de acción rápida inyectados dinámicamente -->
+        </div>
       </div>
 
       <div class="ai-response-box" id="ai-response-display">
@@ -10113,7 +10128,207 @@ function actualizarFaseTacticoIA() {
     winP = Math.max(5, Math.min(96, winP)).toFixed(1);
     badgeWin.innerText = `🏆 Win Prob: ${winP}%`;
   }
+
+  // Disparar evaluación proactiva en vivo del radar
+  evaluarAlertasProactivasAgente();
 }
+
+// =========================================================================
+// 🚨 MOTOR DE ALERTAS PROACTIVAS EN TIEMPO REAL (+55 & RISP TACTICAL ENGINE)
+// =========================================================================
+
+function evaluarAlertasProactivasAgente() {
+  const banner = document.getElementById('diamax-ai-radar-banner');
+  if (!banner) return;
+
+  const iconEl = document.getElementById('ai-radar-pulse-icon');
+  const titleEl = document.getElementById('ai-radar-title');
+  const urgencyEl = document.getElementById('ai-radar-urgency-badge');
+  const metricEl = document.getElementById('ai-radar-fatigue-metric');
+  const msgEl = document.getElementById('ai-radar-message');
+  const actionsEl = document.getElementById('ai-radar-actions-container');
+
+  const g = typeof getActiveGame === 'function' ? getActiveGame() : { isHomeClub: true, rival: 'DAYTONA BEACH' };
+  const isLocal = g && g.isHomeClub !== undefined ? g.isHomeClub : true;
+  const isGuerrerosBatting = isLocal ? (liveState.half === 'bot') : (liveState.half === 'top');
+  const pCount = (typeof activePitcherStats !== 'undefined') ? (activePitcherStats.totalPitches || 0) : 0;
+  const maxP = (typeof activePitcherStats !== 'undefined') ? (activePitcherStats.maxLimit || 75) : 75;
+  const fatPct = Math.min(100, Math.round((pCount / maxP) * 100));
+  const outs = (typeof liveState !== 'undefined') ? (liveState.outs || 0) : 0;
+  const bases = (typeof liveState !== 'undefined') ? (liveState.bases || { b1: false, b2: false, b3: false }) : { b1: false, b2: false, b3: false };
+  const current = typeof getLiveCurrentBatter === 'function' ? getLiveCurrentBatter() : { player: { num: 1, name: "Bateador", bats: "R" } };
+  const rivalsList = typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : [];
+  const rivalObj = rivalsList.find(function(r) { return r.name.toUpperCase() === ((g && g.rival)||'').toUpperCase(); }) || { name: (g && g.rival) || "RIVAL", abbr: "RIV", pitcherAs: "Abridor Rival", dangerBatter: "4to Bate" };
+
+  if (metricEl) {
+    metricEl.innerText = `Pitcheos: ${pCount} / ${maxP} (${fatPct}%)`;
+  }
+
+  let urgencyText = "🟢 SITUACIÓN BAJO CONTROL";
+  let urgencyBg = "#10B981";
+  let urgencyColor = "#000";
+  let icon = "⚡";
+  let title = "RADAR TÁCTICO PROACTIVO";
+  let message = "";
+  let actionButtons = "";
+
+  // 1. EVALUACIÓN DE FATIGA Y BULLPEN (+55)
+  if (!isGuerrerosBatting) {
+    // Modo Defensivo (Guerreros defendiendo / lanzando)
+    if (pCount >= 70) {
+      urgencyText = "🚨 ALERTA ROJA CRÍTICA (+55)";
+      urgencyBg = "#EF4444";
+      urgencyColor = "#FFF";
+      icon = "🚨";
+      title = "LÍMITE REGLAMENTARIO DE PITCHEO INMINENTE";
+      message = `<strong>${activePitcherStats.name || 'Pedro Chávez'}</strong> acumula <strong>${pCount} lanzamientos (${fatPct}%)</strong>. Límite de 75 a punto de expirar. Se requiere relevo inmediato para evitar sanción médica/federativa.`;
+      actionButtons = `
+        <button type="button" onclick="ejecutarRelevoRapido(24)" style="background:#EF4444; color:#FFF; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer; box-shadow:0 0 10px rgba(239,68,68,0.5);">🚨 Traer a M. Quintero (#24 RHP)</button>
+        <button type="button" onclick="ejecutarRelevoRapido(33)" style="background:#00D2FF; color:#040814; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">Traer a C. Mendoza (#33 LHP)</button>
+      `;
+    } else if (pCount >= 58) {
+      urgencyText = "🟠 ALERTA BULLPEN (+55)";
+      urgencyBg = "#F59E0B";
+      urgencyColor = "#000";
+      icon = "🔥";
+      title = "ACTIVAR CALENTAMIENTO DE RELEVISTAS";
+      message = `<strong>${activePitcherStats.name || 'Pedro Chávez'}</strong> en <strong>${pCount} lanzamientos (${fatPct}%)</strong>. Su FIP se incrementa +38% tras el pitcheo 60. Activar preparación en el bullpen.`;
+      actionButtons = `
+        <button type="button" onclick="activarCalentamientoBullpen(24)" style="background:#F59E0B; color:#000; border:none; padding:6px 10px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">🔥 Calentar #24 Quintero</button>
+        <button type="button" onclick="activarCalentamientoBullpen(33)" style="background:#3B82F6; color:#FFF; border:none; padding:6px 10px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">🔥 Calentar #33 Mendoza</button>
+      `;
+    } else if (bases.b1 && bases.b2 && bases.b3) {
+      urgencyText = "🔥 AMENAZA MÁXIMA (BASES LLENAS)";
+      urgencyBg = "#EF4444";
+      urgencyColor = "#FFF";
+      icon = "⚠️";
+      title = `BASES LLENAS CON ${outs} OUT(S)`;
+      message = `Situación crítica defensiva. Buscar inducir rodado por el cuadro para Doble Play (6-4-3 o 4-6-3). Prescribir slider baja o sinker a las rodillas.`;
+      actionButtons = `
+        <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('DP_DEPTH')" style="background:#00D2FF; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">🛡️ Aplicar DP Depth</button>
+        <button type="button" onclick="consultarAgenteIA('PITCH_CALL')" style="background:#1E293B; color:#00D2FF; border:1px solid #00D2FF; padding:6px 10px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer;">⚡ Pitcheo de Ponche</button>
+      `;
+    } else if ((bases.b2 || bases.b3) && outs < 2) {
+      urgencyText = "⚡ ALTO LEVERAGE (RISP)";
+      urgencyBg = "#8B5CF6";
+      urgencyColor = "#FFF";
+      icon = "🛡️";
+      title = `CORREDOR EN POSICIÓN ANOTADORA (${outs} OUTS)`;
+      message = `${bases.b3 ? 'Corredor en 3B' : 'Corredor en 2B'} amenazando. Evaluar Infield Adentro si la carrera define el juego o jugar a profundidad media.`;
+      actionButtons = `
+        <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('INFIELD_IN')" style="background:#8B5CF6; color:#FFF; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">🛡️ Infield Adentro</button>
+        <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('NORMAL')" style="background:#1E293B; color:#CBD5E1; border:1px solid #334155; padding:6px 10px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer;">Normal Depth</button>
+      `;
+    } else if (bases.b1 && bases.b2 && outs === 0) {
+      urgencyText = "📐 ALERTA ANTI-TOQUE";
+      urgencyBg = "#3B82F6";
+      urgencyColor = "#FFF";
+      icon = "📐";
+      title = "PROBABLE TOQUE DE BOLA RIVAL (0 OUTS)";
+      message = `Corredores en 1B y 2B sin outs. Probabilidad de sacrificio rival > 78%. Cerrar esquinas (1B y 3B adelantados).`;
+      actionButtons = `
+        <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('BUNT_DEFENSE')" style="background:#3B82F6; color:#FFF; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">📐 Bunt Defense (Esquinas)</button>
+      `;
+    } else {
+      urgencyText = "🟢 DEFENSIVA ESTABLE";
+      urgencyBg = "#10B981";
+      urgencyColor = "#000";
+      icon = "🛡️";
+      title = `DEFENDIENDO VS ${rivalObj.name}`;
+      message = `${activePitcherStats.name || 'Pedro Chávez'} en control (${pCount} pitcheos). Próximo objetivo: forzar contacto débil a las manos de los infielders.`;
+      actionButtons = `
+        <button type="button" onclick="consultarAgenteIA('PITCH_CALL')" style="background:#00D2FF; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">⚡ Secuencia Pitcheo</button>
+        <button type="button" onclick="consultarAgenteIA('DEFENSIVE_SHIFT')" style="background:#1E293B; color:#00D2FF; border:1px solid #00D2FF; padding:6px 10px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer;">🛡️ Shift Rival</button>
+      `;
+    }
+  } else {
+    // Modo Ofensivo (Guerreros al Bate)
+    if ((bases.b2 || bases.b3) && outs < 2) {
+      urgencyText = "🎯 OPORTUNIDAD ANOTADORA (+wRC)";
+      urgencyBg = "#10B981";
+      urgencyColor = "#000";
+      icon = "🔥";
+      title = `CORREDORES EN POSICIÓN DE ANOTAR (${outs} OUTS)`;
+      message = `Turno clave para <strong>#${current.player.num} ${current.player.name}</strong>. Conectar hacia el jardín central/derecho o elevado profundo para producir carrera.`;
+      actionButtons = `
+        <button type="button" onclick="consultarAgenteIA('PINCH_HITTER')" style="background:#8B5CF6; color:#FFF; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">👥 Evaluar Emergente</button>
+        <button type="button" onclick="consultarAgenteIA('PITCHER_MATCHUP')" style="background:#FFC72C; color:#000; border:none; padding:6px 10px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">🎯 Duelo vs Abridor</button>
+      `;
+    } else if (bases.b1 && !bases.b2 && outs < 2) {
+      urgencyText = "🏃 SITUACIÓN DE ROBO / AVANCE";
+      urgencyBg = "#00D2FF";
+      urgencyColor = "#000";
+      icon = "⚡";
+      title = "CORREDOR EN 1B (POTENCIAL HIT & RUN)";
+      message = `Corredor en 1B con ${outs} out(s). Evaluar intento de avance o bateo y corrido para romper intento de doble play rival.`;
+      actionButtons = `
+        <button type="button" onclick="consultarAgenteIA('BASERUNNING')" style="background:#00D2FF; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">🏃 Consultar Robo/Corrido</button>
+      `;
+    } else {
+      urgencyText = "⚔️ OFENSIVA ACTIVA";
+      urgencyBg = "#10B981";
+      urgencyColor = "#000";
+      icon = "⚾";
+      title = `AL BATE: #${current.player.num} ${current.player.name}`;
+      message = `Atacar pitcheos en zona media de ${rivalObj.pitcherAs || 'Abridor Rival'}. Esperar lanzamientos favorables y alargar los turnos.`;
+      actionButtons = `
+        <button type="button" onclick="consultarAgenteIA('PITCHER_MATCHUP')" style="background:#00D2FF; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">🎯 Debilidades del Pitcher</button>
+      `;
+    }
+  }
+
+  if (iconEl) iconEl.innerText = icon;
+  if (titleEl) titleEl.innerText = title;
+  if (urgencyEl) {
+    urgencyEl.innerText = urgencyText;
+    urgencyEl.style.background = urgencyBg;
+    urgencyEl.style.color = urgencyColor;
+  }
+  if (msgEl) msgEl.innerHTML = message;
+  if (actionsEl) actionsEl.innerHTML = actionButtons;
+}
+
+function activarCalentamientoBullpen(relieverId) {
+  if (typeof bullpenRoster === 'undefined') return;
+  const rel = bullpenRoster.find(function(r) { return r.id === relieverId; });
+  if (!rel) return;
+  rel.status = "Calentando";
+  if (typeof actualizarPitcherUI === 'function') actualizarPitcherUI();
+  evaluarAlertasProactivasAgente();
+  if (typeof mostrarToast === 'function') {
+    mostrarToast(`🔥 Bullpen: #${rel.num} ${rel.name} (${rel.throws}HP) ha comenzado a calentar.`);
+  }
+}
+
+function ejecutarRelevoRapido(relieverId) {
+  if (typeof traerRelevista === 'function') {
+    traerRelevista(relieverId);
+  }
+  evaluarAlertasProactivasAgente();
+}
+
+function aplicarShiftDefensivoDesdeAlerta(shiftType) {
+  const shiftNames = {
+    'DP_DEPTH': 'Profundidad de Doble Play (Cuadro Intermedio)',
+    'INFIELD_IN': 'Infield Adentro (Cortar Carrera en Home)',
+    'BUNT_DEFENSE': 'Bunt Defense (1B y 3B Adelantados)',
+    'NORMAL': 'Posicionamiento Defensivo Estándar'
+  };
+  const desc = shiftNames[shiftType] || shiftType;
+  if (typeof mostrarToast === 'function') {
+    mostrarToast(`🛡️ Shift Aplicado: ${desc}`);
+  }
+  const display = document.getElementById('ai-response-display');
+  if (display) {
+    display.innerHTML = `<strong>🛡️ [AJUSTE DEFENSIVO EN TIEMPO REAL]</strong><br>• <strong>Formación:</strong> ${desc}.<br>• <strong>Objetivo Táctico:</strong> Maximizar la probabilidad de éxito ante la situación actual de corredores.<br>• <strong>Ejecución:</strong> Cuadro y jardines reposicionados según prescripción sabermétrica.`;
+  }
+  evaluarAlertasProactivasAgente();
+}
+
+window.evaluarAlertasProactivasAgente = evaluarAlertasProactivasAgente;
+window.activarCalentamientoBullpen = activarCalentamientoBullpen;
+window.ejecutarRelevoRapido = ejecutarRelevoRapido;
+window.aplicarShiftDefensivoDesdeAlerta = aplicarShiftDefensivoDesdeAlerta;
 
 
 // =========================================================================
