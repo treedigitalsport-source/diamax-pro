@@ -2852,35 +2852,17 @@ body.daylight-mode .btn-keypad:hover {
           <span id="p1-base-lang-icon" style="display:inline-flex; align-items:center; margin-right:2px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:-2px; filter:drop-shadow(0 0 8px #00F2FE); flex-shrink:0;"><polygon points="12,22 3.5,13.5 3.5,4 20.5,4 20.5,13.5" fill="url(#stadiumBaseGradP1)" stroke="#00F2FE" stroke-width="1.8" stroke-linejoin="round"/><polygon points="12,18 6,12 6,6.5 18,6.5 18,12" fill="url(#stadiumInnerGleamP1)" stroke="rgba(255,255,255,0.6)" stroke-width="0.8" stroke-linejoin="round"/><polygon points="12,8.5 14.5,11.5 12,14.5 9.5,11.5" fill="#00F2FE" opacity="0.95"/><defs><linearGradient id="stadiumBaseGradP1" x1="12" y1="4" x2="12" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="35%" stop-color="#E2E8F0"/><stop offset="75%" stop-color="#64748B"/><stop offset="100%" stop-color="#0284C7"/></linearGradient><linearGradient id="stadiumInnerGleamP1" x1="12" y1="6.5" x2="12" y2="18" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/><stop offset="60%" stop-color="#CBD5E1" stop-opacity="0.75"/><stop offset="100%" stop-color="#0B1329" stop-opacity="0.9"/></linearGradient></defs></svg></span> <span id="p1-active-flag">🇪🇸</span> <span id="p1-active-lang-code">ES</span> <span style="font-size:9px; opacity:0.6;">▼</span>
         </button>
 
-        <!-- MENU DESPLEGABLE TRANSLÚCIDO DE IDIOMAS -->
-        <div id="p1-lang-menu" style="display:none; position:absolute; top:calc(100% + 8px); right:0; z-index:99999; width:220px; background:linear-gradient(180deg, rgba(15,23,42,0.96) 0%, rgba(4,8,20,0.98) 100%); border:1px solid rgba(24,216,255,0.35); border-radius:16px; padding:8px; box-shadow:0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(24,216,255,0.15); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);">
-          <div style="font-family:'Rajdhani', sans-serif; font-size:10px; font-weight:800; color:#18D8FF; letter-spacing:1px; text-transform:uppercase; padding:4px 8px 6px 8px; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:4px;">
-            <span style="display:inline-flex; align-items:center; gap:6px; vertical-align:middle;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:-2px; filter:drop-shadow(0 0 8px #00F2FE); flex-shrink:0;"><polygon points="12,22 3.5,13.5 3.5,4 20.5,4 20.5,13.5" fill="url(#stadiumBaseGradP1)" stroke="#00F2FE" stroke-width="1.8" stroke-linejoin="round"/><polygon points="12,18 6,12 6,6.5 18,6.5 18,12" fill="url(#stadiumInnerGleamP1)" stroke="rgba(255,255,255,0.6)" stroke-width="0.8" stroke-linejoin="round"/><polygon points="12,8.5 14.5,11.5 12,14.5 9.5,11.5" fill="#00F2FE" opacity="0.95"/><defs><linearGradient id="stadiumBaseGradP1" x1="12" y1="4" x2="12" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="35%" stop-color="#E2E8F0"/><stop offset="75%" stop-color="#64748B"/><stop offset="100%" stop-color="#0284C7"/></linearGradient><linearGradient id="stadiumInnerGleamP1" x1="12" y1="6.5" x2="12" y2="18" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/><stop offset="60%" stop-color="#CBD5E1" stop-opacity="0.75"/><stop offset="100%" stop-color="#0B1329" stop-opacity="0.9"/></linearGradient></defs></svg> IDIOMAS DE BÉISBOL MUNDIAL</span>
+        <!-- MENU DESPLEGABLE TRANSLÚCIDO DE IDIOMAS (ESPAÑOL ⇄ ENGLISH) -->
+        <div id="p1-lang-menu" style="display:none; position:absolute; top:calc(100% + 8px); right:0; z-index:99999; width:200px; background:linear-gradient(180deg, rgba(15,23,42,0.96) 0%, rgba(4,8,20,0.98) 100%); border:1px solid rgba(24,216,255,0.35); border-radius:16px; padding:8px; box-shadow:0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(24,216,255,0.15); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);">
+          <div style="font-family:'Rajdhani', sans-serif; font-size:10px; font-weight:800; color:#18D8FF; letter-spacing:1px; text-transform:uppercase; padding:4px 8px 6px 8px; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:6px;">
+            <span style="display:inline-flex; align-items:center; gap:6px; vertical-align:middle;">🌐 IDIOMA / LANGUAGE</span>
           </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
-            <button onclick="cambiarIdiomaGlobal('es')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇪🇸</span> Español
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <button onclick="cambiarIdiomaGlobal('es')" class="p1-lang-opt" style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:8px 12px; border-radius:10px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+              <span>🇪🇸 Español</span> <span style="font-family:'Rajdhani', sans-serif; font-size:11px; color:#00D2FF; font-weight:800;">(ES)</span>
             </button>
-            <button onclick="cambiarIdiomaGlobal('en')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇺🇸</span> English
-            </button>
-            <button onclick="cambiarIdiomaGlobal('ja')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇯🇵</span> 日本語
-            </button>
-            <button onclick="cambiarIdiomaGlobal('ko')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇰🇷</span> 한국어
-            </button>
-            <button onclick="cambiarIdiomaGlobal('zh')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇹🇼</span> 繁中
-            </button>
-            <button onclick="cambiarIdiomaGlobal('nl')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇳🇱</span> Dutch
-            </button>
-            <button onclick="cambiarIdiomaGlobal('pt')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇵🇹</span> Port
-            </button>
-            <button onclick="cambiarIdiomaGlobal('it')" class="p1-lang-opt" style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:700; cursor:pointer; text-align:left; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)';">
-              <span>🇮🇹</span> Italiano
+            <button onclick="cambiarIdiomaGlobal('en')" class="p1-lang-opt" style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:8px 12px; border-radius:10px; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.2)'; this.style.borderColor='#18D8FF';" onmouseout="this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+              <span>🇺🇸 English</span> <span style="font-family:'Rajdhani', sans-serif; font-size:11px; color:#00D2FF; font-weight:800;">(EN)</span>
             </button>
           </div>
         </div>
@@ -8886,7 +8868,7 @@ function applyLanguage(lang) {
   // Actualizar Botón de Idioma con Indicador Visual
   const langBtn = document.getElementById('lang-btn');
   if (langBtn) {
-    langBtn.innerHTML = currentLang === 'en' ? '🇺🇸 ENGLISH' : '🇻🇪 ESPAÑOL';
+    langBtn.innerHTML = currentLang === 'en' ? '🇺🇸 ENGLISH' : '🇪🇸 ESPAÑOL';
   }
 
   // Actualizar Vistas Dinámicas
@@ -8898,9 +8880,13 @@ function applyLanguage(lang) {
 }
 
 function toggleLanguage() {
-  const nextLang = currentLang === 'es' ? 'en' : 'es';
-  applyLanguage(nextLang);
-  mostrarToast(currentLang === 'es' ? '🇪🇸 Idioma: Español Activo' : '🇺🇸 Language: English Active');
+  const nextLang = (currentLang === 'es' || window.currentLang === 'es') ? 'en' : 'es';
+  if (typeof cambiarIdiomaGlobal === 'function') {
+    cambiarIdiomaGlobal(nextLang);
+  } else {
+    applyLanguage(nextLang);
+    mostrarToast(nextLang === 'es' ? '🇪🇸 Idioma: Español Activo' : '🇺🇸 Language: English Active');
+  }
 }
 
 window.currentLang = currentLang;
@@ -10207,6 +10193,8 @@ const BaseballKnowledgeGraph = {
       leverageIndex: (liveState.outs === 2 && (liveState.bases.b2 || liveState.bases.b3)) ? 2.35 : 1.10
     };
   }
+};
+
 // =========================================================================
 // 🎙️ DIAMAX AGENT VOICE ENGINE (FASE B · SPEECH-TO-TEXT & TEXT-TO-SPEECH)
 // =========================================================================
@@ -15121,9 +15109,54 @@ window.addEventListener('load', function() {
 // ═══════════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════════════════════
-// 🌐 MOTOR MULTI-IDIOMA MUNDIAL DIAMAX PRO (8 IDIOMAS)
+// 🌐 MOTOR BILINGÜE OFICIAL DIAMAX PRO (ESPAÑOL ⇄ ENGLISH)
 // ═══════════════════════════════════════════════════════════════
-const WORLD_LANG_DICT = {"es":{"flag":"🇪🇸","name":"Español","code":"ES","sportsOS":"SPORTS OPERATING SYSTEM · BÉISBOL & SOFTBOL","welcome":"BIENVENIDO A","desc":"Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría avanzada.","btnRegister":"REGISTRO & PLANES (MES GRATIS)","btnLogin":"INICIAR SESIÓN / ENTRAR","monthFree":"🎁 1 Mes Gratis","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Béisbol & Softbol","footerText":"DIAMAX PRO © 2026 · Diseñado & Desarrollado por","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"¿SALIR DE DIAMAX PRO?","exitDesc":"Tu sesión y datos de juego están protegidos bajo encriptación SHA-256 y arquitectura Zero Trust.","exitCancel":"↩ CONTINUAR EN EL SISTEMA","exitConfirm":"⏻ CONFIRMAR SALIDA SEGURA"},"en":{"flag":"🇺🇸","name":"English","code":"EN","sportsOS":"SPORTS OPERATING SYSTEM · BASEBALL & SOFTBALL","welcome":"WELCOME TO","desc":"Franchise management, official rosters, pitch-by-pitch dugout scorer & advanced sabermetrics.","btnRegister":"REGISTER & PLANS (FREE MONTH)","btnLogin":"SIGN IN / ENTER DUGOUT","monthFree":"🎁 1 Month Free","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Baseball & Softball","footerText":"DIAMAX PRO © 2026 · Designed & Developed by","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"EXIT DIAMAX PRO?","exitDesc":"Your game session and intelligence data are protected under SHA-256 and Zero Trust architecture.","exitCancel":"↩ RETURN TO DUGOUT","exitConfirm":"⏻ CONFIRM SECURE EXIT"},"ja":{"flag":"🇯🇵","name":"日本語","code":"JA","sportsOS":"スポーツOS · 野球＆ソフトボール最高峰エンジン","welcome":"ようこそ","desc":"球団運営、公式ロースター、1球ごとのダグアウトスコアブック、先進的なセイバーメトリクス。","btnRegister":"新規登録＆プラン（初月無料）","btnLogin":"ログイン / ダグアウト入場","monthFree":"🎁 1ヶ月無料","zeroTrust":"Zero Trust v3.5","offlinePwa":"オフラインPWA","sportTypes":"野球＆ソフトボール","footerText":"DIAMAX PRO © 2026 · 開発元","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"DIAMAX PRO を終了しますか？","exitDesc":"試合データはSHA-256暗号化およびZero Trustアーキテクチャにより安全に保護されています。","exitCancel":"↩ システムを継続利用","exitConfirm":"⏻ 安全に終了する"},"ko":{"flag":"🇰🇷","name":"한국어","code":"KO","sportsOS":"스포츠 운영 체제 · 야구 및 소프트볼 지능형 플랫폼","welcome":"환영합니다","desc":"구단 관리, 공식 로스터, 투구별 더그아웃 기록원 및 첨단 세이버메트릭스.","btnRegister":"회원가입 및 플랜 (1개월 무료)","btnLogin":"로그인 / 더그아웃 입장","monthFree":"🎁 1개월 무료","zeroTrust":"Zero Trust v3.5","offlinePwa":"오프라인 PWA","sportTypes":"야구 및 소프트볼","footerText":"DIAMAX PRO © 2026 · 개발 및 설계","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"DIAMAX PRO를 종료하시겠습니까?","exitDesc":"경기 세션과 데이터는 SHA-256 암호화 및 Zero Trust 보안 하에 안전하게 보관됩니다.","exitCancel":"↩ 시스템으로 돌아가기","exitConfirm":"⏻ 안전한 종료 확인"},"zh":{"flag":"🇹🇼","name":"繁體中文","code":"ZH","sportsOS":"運動作業系統 · 棒球與壘球次世代智慧平台","welcome":"歡迎來到","desc":"球團營運、官方名單、逐球球員休息室計分與先進進階數據分析。","btnRegister":"註冊與方案（免費首月）","btnLogin":"登入 / 進入球員休息室","monthFree":"🎁 1個月免費","zeroTrust":"Zero Trust v3.5","offlinePwa":"離線 PWA","sportTypes":"棒球與壘球","footerText":"DIAMAX PRO © 2026 · 設計與開發","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"確定要退出 DIAMAX PRO？","exitDesc":"您的比賽數據與戰術情資皆在 SHA-256 與 Zero Trust 嚴密防護之下。","exitCancel":"↩ 返回系統","exitConfirm":"⏻ 確認安全退出"},"nl":{"flag":"🇳🇱","name":"Nederlands","code":"NL","sportsOS":"SPORTS OPERATING SYSTEM · HONKBAL & SOFTBAL","welcome":"WELKOM BIJ","desc":"Franchisebeheer, officiële selecties, pitch-by-pitch dugout scoring & geavanceerde sabermetrics.","btnRegister":"REGISTRATIE & PLANNEN (1 MAAND GRATIS)","btnLogin":"INLOGGEN / NAAR DUGOUT","monthFree":"🎁 1 Maand Gratis","zeroTrust":"Zero Trust v3.5","offlinePwa":"Offline PWA","sportTypes":"Honkbal & Softbal","footerText":"DIAMAX PRO © 2026 · Ontworpen & Ontwikkeld door","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"DIAMAX PRO VERLATEN?","exitDesc":"Uw spelsessie en gegevens zijn beveiligd met SHA-256 en Zero Trust-architectuur.","exitCancel":"↩ VERDERGAAN IN SYSTEEM","exitConfirm":"⏻ VEILIG AFSLUITEN"},"pt":{"flag":"🇵🇹","name":"Português","code":"PT","sportsOS":"SISTEMA OPERACIONAL ESPORTIVO · BEISEBOL & SOFTBOL","welcome":"BEM-VINDO A","desc":"Gestão de franquias, elencos oficiais, anotador de dugout pitch-by-pitch e sabermetria avançada.","btnRegister":"REGISTRO & PLANOS (MÊS GRÁTIS)","btnLogin":"ENTRAR / ACESSAR DUGOUT","monthFree":"🎁 1 Mês Grátis","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Beisebol & Softbol","footerText":"DIAMAX PRO © 2026 · Desenvolvido por","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"SAIR DO DIAMAX PRO?","exitDesc":"Sua sessão e dados táticos estão protegidos por criptografia SHA-256 e Zero Trust.","exitCancel":"↩ CONTINUAR NO SISTEMA","exitConfirm":"⏻ CONFIRMAR SAÍDA SEGURA"},"it":{"flag":"🇮🇹","name":"Italiano","code":"IT","sportsOS":"SISTEMA OPERATIVO SPORTIVO · BASEBALL & SOFTBALL","welcome":"BENVENUTO SU","desc":"Gestione franchigie, roster ufficiali, segnapunti dugout pitch-by-pitch e sabermetrica avanzata.","btnRegister":"REGISTRAZIONE & PIANI (MESE GRATIS)","btnLogin":"ACCEDI / ENTRA NEL DUGOUT","monthFree":"🎁 1 Mese Gratis","zeroTrust":"Zero Trust v3.5","offlinePwa":"PWA Offline","sportTypes":"Baseball & Softball","footerText":"DIAMAX PRO © 2026 · Sviluppato da","corporate":"3Tree Digital Sport IA","ceo":"CEO Alí Zapata","exitPrompt":"USCIRE DA DIAMAX PRO?","exitDesc":"La tua sessione e i dati tattici sono protetti da crittografia SHA-256 e Zero Trust.","exitCancel":"↩ CONTINUA NEL SISTEMA","exitConfirm":"⏻ CONFERMA USCITA SICURA"}};
+const WORLD_LANG_DICT = {
+  "es": {
+    "flag": "🇪🇸",
+    "name": "Español",
+    "code": "ES",
+    "sportsOS": "SPORTS OPERATING SYSTEM · BÉISBOL & SOFTBOL",
+    "welcome": "BIENVENIDO A",
+    "desc": "Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría avanzada.",
+    "btnDugout": "ENTRAR AL ANOTADOR",
+    "btnRegister": "REGISTRO & PLANES",
+    "btnLogin": "INICIAR SESIÓN",
+    "monthFree": "🎁 1 Mes Gratis",
+    "zeroTrust": "Zero Trust v3.5",
+    "offlinePwa": "PWA Offline",
+    "sportTypes": "Béisbol & Softbol",
+    "footerText": "DIAMAX PRO © 2026 · Diseñado & Desarrollado por",
+    "corporate": "3Tree Digital Sport IA",
+    "ceo": "CEO Alí Zapata",
+    "exitPrompt": "¿SALIR DE DIAMAX PRO?",
+    "exitDesc": "Tu sesión y datos de juego están protegidos bajo encriptación SHA-256 y arquitectura Zero Trust.",
+    "exitCancel": "↩ CONTINUAR EN EL SISTEMA",
+    "exitConfirm": "⏻ CONFIRMAR SALIDA SEGURA"
+  },
+  "en": {
+    "flag": "🇺🇸",
+    "name": "English",
+    "code": "EN",
+    "sportsOS": "SPORTS OPERATING SYSTEM · BASEBALL & SOFTBALL",
+    "welcome": "WELCOME TO",
+    "desc": "Franchise management, official rosters, pitch-by-pitch dugout scorer & advanced sabermetrics.",
+    "btnDugout": "ENTER DUGOUT SCORER",
+    "btnRegister": "REGISTER & PLANS",
+    "btnLogin": "SIGN IN / ENTER",
+    "monthFree": "🎁 1 Month Free",
+    "zeroTrust": "Zero Trust v3.5",
+    "offlinePwa": "PWA Offline",
+    "sportTypes": "Baseball & Softball",
+    "footerText": "DIAMAX PRO © 2026 · Designed & Developed by",
+    "corporate": "3Tree Digital Sport IA",
+    "ceo": "CEO Alí Zapata",
+    "exitPrompt": "EXIT DIAMAX PRO?",
+    "exitDesc": "Your game session and intelligence data are protected under SHA-256 and Zero Trust architecture.",
+    "exitCancel": "↩ RETURN TO DUGOUT",
+    "exitConfirm": "⏻ CONFIRM SECURE EXIT"
+  }
+};
 
 function toggleSelectorIdiomasP1(e) {
   if (e) e.stopPropagation();
@@ -15168,6 +15201,9 @@ function cambiarIdiomaGlobal(code) {
 
   const desc = document.getElementById('p1-desc-text');
   if (desc) desc.innerText = l.desc;
+
+  const btnDugout = document.getElementById('p1-btn-dugout-text');
+  if (btnDugout) btnDugout.innerText = l.btnDugout;
 
   const btnReg = document.getElementById('p1-btn-register-text');
   if (btnReg) btnReg.innerText = l.btnRegister;
@@ -16393,8 +16429,8 @@ function crearPopupLiga(liga) {
   const flag = COUNTRY_FLAGS[liga.country] || '🌎';
   const color = CATEGORY_COLORS[liga.category_level] || CATEGORY_COLORS.default;
   const activeGame = liga.active_game ? '<span style="background:rgba(34,197,94,0.2);color:#22C55E;border:1px solid rgba(34,197,94,0.4);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;">🔴 JUEGO EN VIVO</span>' : '<span style="background:rgba(255,255,255,0.05);color:#64748B;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;">Sin juego activo</span>';
-  return '<div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:220px;">' +
-    '<div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
+  return '<div style="font-family:sans-serif;min-width:220px;">' +
+    '<div style="font-family:sans-serif;font-size:15px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
     '<div style="display:flex;gap:6px;margin-bottom:8px;">' + activeGame + '</div>' +
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:10px;">' +
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">PAÍS</div><div style="color:#fff;font-size:12px;font-weight:700;">' + flag + ' ' + (liga.country || '—') + '</div></div>' +
@@ -16402,7 +16438,7 @@ function crearPopupLiga(liga) {
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">CATEGORÍA</div><div style="color:' + color + ';font-size:12px;font-weight:800;">' + (liga.category_level || '—') + '</div></div>' +
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">EQUIPOS</div><div style="color:#FFB82E;font-size:12px;font-weight:800;">⚾ ' + (liga.teams || 0) + '</div></div>' +
     '</div>' +
-    '<div style="background:rgba(0,242,254,0.05);border:1px solid rgba(0,242,254,0.2);border-radius:8px;padding:6px 10px;text-align:center;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
+    '<div style="background:rgba(0,242,254,0.05);border:1px solid rgba(0,242,254,0.2);border-radius:8px;padding:6px 10px;text-align:center;font-family:sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
     '</div>';
 }
 
@@ -16412,8 +16448,8 @@ function renderLeagueCard(liga) {
   const color = CATEGORY_COLORS[liga.category_level] || CATEGORY_COLORS.default;
   const dot = liga.active_game ? '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22C55E;margin-right:4px;animation:rtPulse 1.2s infinite;"></span>' : '';
   return '<div class="map-league-card" onclick="focusLiga(' + JSON.stringify(liga.id) + ')">' +
-    '<div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:2px;">' + dot + flag + ' ' + liga.name + '</div>' +
-    '<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:#64748B;font-weight:600;">📍 ' + liga.city + ' · ' + (liga.teams || 0) + ' equipos</div>' +
+    '<div style="font-family:sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:2px;">' + dot + flag + ' ' + liga.name + '</div>' +
+    '<div style="font-family:sans-serif;font-size:10px;color:#64748B;font-weight:600;">📍 ' + liga.city + ' · ' + (liga.teams || 0) + ' equipos</div>' +
     '</div>';
 }
 
