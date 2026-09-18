@@ -422,3 +422,12 @@ CREATE POLICY "Sabermetrics: Tenant isolation select" ON public.sabermetrics_sum
 DROP POLICY IF EXISTS "Sabermetrics: Calculation engine management" ON public.sabermetrics_summary;
 CREATE POLICY "Sabermetrics: Calculation engine management" ON public.sabermetrics_summary
     FOR ALL USING (is_super_admin() OR (get_jwt_user_role() IN ('ADMIN_LIGA', 'MANAGER', 'COACH') AND tenant_id = get_jwt_tenant_id()));
+
+-- 7. POLÍTICAS PARA SYNC AUDIT LOG
+DROP POLICY IF EXISTS "SyncAudit: Tenant isolation select" ON public.sync_audit_log;
+CREATE POLICY "SyncAudit: Tenant isolation select" ON public.sync_audit_log
+    FOR SELECT USING (is_super_admin() OR tenant_id = get_jwt_tenant_id());
+
+DROP POLICY IF EXISTS "SyncAudit: Insert by authenticated or staff" ON public.sync_audit_log;
+CREATE POLICY "SyncAudit: Insert by authenticated or staff" ON public.sync_audit_log
+    FOR INSERT WITH CHECK (is_super_admin() OR tenant_id = get_jwt_tenant_id());
