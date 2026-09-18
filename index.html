@@ -2737,6 +2737,7 @@ body.daylight-mode .btn-keypad:hover {
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GGnk=" crossorigin=""></script>
 
   <script src="./diamax-core-bundle.js?v=2.4.1"></script>
+  <script src="./core/diamax_ai_agent.js?v=2.5.0"></script>
 </head>
 <body>
 
@@ -3553,6 +3554,10 @@ body.daylight-mode .btn-keypad:hover {
       </div>
       <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn"> ESPAÑOL</button>
       <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo">☀️ Sol / Noche</button>
+      <button id="btn-ai-agent" onclick="abrirModalAIAgent()" class="btn-settings" style="background:linear-gradient(135deg, rgba(0,210,255,0.22), rgba(242,101,34,0.22)); border:1.5px solid #00D2FF; color:#FFF; font-weight:900; box-shadow:0 0 16px rgba(0,210,255,0.35); display:inline-flex; align-items:center; gap:6px; cursor:pointer;" title="Abrir Asistente IA Sabermétrico DIAMAX">
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#00E5FF; box-shadow:0 0 8px #00E5FF;"></span>
+        🤖 ASISTENTE IA
+      </button>
       <button class="btn-new-game" onclick="abrirModalNuevoJuego()">🏟️ Cargar Nuevo Juego</button>
       <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900;" title="Refrescar y limpiar base de datos a cero para el partido">🔄 Refrescar BD</button>
       <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900; box-shadow:0 0 16px rgba(239,68,68,0.35); cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.35)'; this.style.boxShadow='0 0 24px rgba(239,68,68,0.6)';" onmouseout="this.style.background='rgba(239,68,68,0.18)'; this.style.boxShadow='0 0 16px rgba(239,68,68,0.35)';" title="Salir del Sistema Seguro y Cerrar Sesión"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> ⏻ Salir del Sistema</button>
@@ -16613,12 +16618,9 @@ function ocultarBotonMapa() {
   const btn = document.getElementById('btn-open-global-map');
   if (btn) btn.style.display = 'none';
 }
-</script>
 
-<script>
 // ── DIAMAX MAP BUTTON: Auto-show on Page 3 ──────────────────────────────
 window.addEventListener('DOMContentLoaded', function() {
-  // Observe page visibility changes to show/hide map button
   const observer = new MutationObserver(function() {
     const p3 = document.getElementById('diamax-page-3');
     if (p3) {
@@ -16631,5 +16633,251 @@ window.addEventListener('DOMContentLoaded', function() {
   if (target) observer.observe(target, { attributes: true, subtree: true, attributeFilter: ['style'] });
 });
 </script>
+
+<!-- ======================================================================== -->
+<!-- 🤖 MODAL HUD INTERACTIVO: DIAMAX AI SABERMETRIC COPILOT                 -->
+<!-- ======================================================================== -->
+<div id="diamax-ai-hud-modal" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(2,6,23,0.85); backdrop-filter:blur(14px); align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
+  <div style="background:linear-gradient(180deg, #09142E 0%, #04091A 100%); border:1.8px solid #00D2FF; border-radius:24px; width:100%; max-width:880px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 24px 80px rgba(0,0,0,0.9), 0 0 40px rgba(0,210,255,0.25); overflow:hidden;">
+    
+    <!-- Top Header HUD -->
+    <div style="padding:16px 22px; border-bottom:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); flex-shrink:0;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg, #00D2FF, #0284C7); display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 0 16px rgba(0,210,255,0.5);">
+          🤖
+        </div>
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h3 style="margin:0; font-family:'Montserrat', sans-serif; font-size:16px; font-weight:900; color:#FFFFFF; letter-spacing:0.5px;">DIAMAX AI COPILOT</h3>
+            <span id="ai-voice-status-badge" style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:800; color:#10B981; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); padding:2px 8px; border-radius:12px;">● LISTO</span>
+          </div>
+          <span style="font-size:11.5px; color:#94A3B8;">Asistente Sabermétrico Autónomo · Dictado de Alineaciones &amp; Análisis de Datos</span>
+        </div>
+      </div>
+      <button onclick="cerrarModalAIAgent()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#FFF; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.3)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.12)';">✕</button>
+    </div>
+
+    <!-- Quick Action Chips -->
+    <div style="padding:12px 20px; background:rgba(0,0,0,0.35); border-bottom:1px solid rgba(255,255,255,0.08); display:flex; gap:8px; overflow-x:auto; white-space:nowrap; flex-shrink:0;">
+      <button onclick="insertarComandoIA('Alineacion Visitante: 1. Jose Altuve 2B, 2. Ronald Acuña Jr RF, 3. Miguel Cabrera DH, 4. Salvador Perez C, 5. Luis Arraez 1B, 6. Gleyber Torres SS, 7. Anthony Santander LF, 8. Eugenio Suarez 3B, 9. Jackson Chourio CF, Lanzador: Ranger Suarez')" style="background:rgba(0,210,255,0.12); border:1px solid rgba(0,210,255,0.35); color:#00D2FF; font-size:11px; font-weight:800; padding:6px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">🎙️ Dictar / Cargar Lineup</button>
+      <button onclick="ejecutarConsultaIA('Generar boxscore oficial del juego')" style="background:rgba(255,199,44,0.12); border:1px solid rgba(255,199,44,0.35); color:#FFC72C; font-size:11px; font-weight:800; padding:6px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">📊 Generar Boxscore</button>
+      <button onclick="ejecutarConsultaIA('Dame el analisis sabermetrico y woba')" style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#10B981; font-size:11px; font-weight:800; padding:6px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">🧠 Reporte Sabermétrico</button>
+      <button onclick="ejecutarConsultaIA('Como va el pitcheo y la fatiga del bullpen?')" style="background:rgba(242,101,34,0.12); border:1px solid rgba(242,101,34,0.35); color:#F26522; font-size:11px; font-weight:800; padding:6px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">🔥 Pitcheo y Fatiga</button>
+      <button onclick="ejecutarConsultaIA('Que sugerencia tactica tienes para esta situacion?')" style="background:rgba(168,85,247,0.12); border:1px solid rgba(168,85,247,0.35); color:#C084FC; font-size:11px; font-weight:800; padding:6px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">🎯 Táctica En Vivo</button>
+    </div>
+
+    <!-- Live Conversation & Results Display -->
+    <div id="diamax-ai-results-container" style="padding:20px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:16px; min-height:260px;">
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:18px; color:#E2E8F0; font-size:13px; line-height:1.6;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; color:#00D2FF; font-weight:900; font-family:'Montserrat', sans-serif;">
+          <span>⚡</span> BIENVENIDO AL AGENTE IA SABERMÉTRICO
+        </div>
+        <p style="margin:0 0 10px 0; color:#94A3B8;">
+          Puedo procesar dictado por voz o texto de alineaciones de equipos, consultar la base de datos de jugadores, generar 4 tipos de reportes ejecutivos oficiales (Boxscore R-H-E, Sabermetría avanzada, Pitcheo/Fatiga y Asesoría táctica situacional) y aplicar los datos directamente al partido en vivo.
+        </p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <span style="background:rgba(0,210,255,0.08); border:1px solid rgba(0,210,255,0.2); padding:4px 10px; border-radius:8px; font-size:11px; color:#7DD3FC;">🎙️ Dictado Nativo en Español/Inglés</span>
+          <span style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); padding:4px 10px; border-radius:8px; font-size:11px; color:#86EFAC;">⚡ Motor Sabermétrico &lt;10ms</span>
+          <span style="background:rgba(255,199,44,0.08); border:1px solid rgba(255,199,44,0.2); padding:4px 10px; border-radius:8px; font-size:11px; color:#FDE047;">🛡️ Integridad Zero-Trust Offline</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Bar with Mic & Send Controls -->
+    <div style="padding:16px 20px; background:rgba(0,0,0,0.4); border-top:1px solid rgba(255,255,255,0.08); display:flex; gap:10px; align-items:center;">
+      <button id="btn-ai-mic" onclick="alternarMicrofonoIA()" style="width:46px; height:46px; border-radius:14px; background:linear-gradient(135deg, #00D2FF, #0284C7); border:none; color:#04091A; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(0,210,255,0.4); transition:all 0.2s; flex-shrink:0;" title="Iniciar/Detener Dictado por Voz">
+        🎙️
+      </button>
+      <input type="text" id="ai-query-input" placeholder="Escribe o dicta tu consulta (ej: 'Alineación Visitante: 1. Altuve 2B, 2. Acuña RF...')" style="flex:1; background:rgba(4,9,20,0.9); border:1.5px solid rgba(0,210,255,0.3); border-radius:14px; padding:12px 16px; color:#FFF; font-size:13px; outline:none; font-family:'Plus Jakarta Sans', sans-serif;" onkeydown="if(event.key==='Enter') ejecutarConsultaDesdeInput();">
+      <button onclick="ejecutarConsultaDesdeInput()" style="background:linear-gradient(135deg, #F26522, #EA580C); border:none; color:#FFF; padding:12px 20px; border-radius:14px; font-weight:900; font-family:'Montserrat', sans-serif; font-size:12.5px; cursor:pointer; box-shadow:0 0 16px rgba(242,101,34,0.4); transition:all 0.2s; flex-shrink:0;">
+        ⚡ Procesar
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── DIAMAX AI COPILOT CONTROLLER ──────────────────────────────────────────
+let _diamaxAIAgentInstance = null;
+
+function getAIAgent() {
+  if (!_diamaxAIAgentInstance && typeof DiamaxAIAgent !== 'undefined') {
+    _diamaxAIAgentInstance = new DiamaxAIAgent();
+  }
+  return _diamaxAIAgentInstance;
+}
+
+function abrirModalAIAgent() {
+  const modal = document.getElementById('diamax-ai-hud-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+    const input = document.getElementById('ai-query-input');
+    if (input) setTimeout(() => input.focus(), 150);
+  }
+}
+
+function cerrarModalAIAgent() {
+  const modal = document.getElementById('diamax-ai-hud-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function insertarComandoIA(texto) {
+  const input = document.getElementById('ai-query-input');
+  if (input) {
+    input.value = texto;
+    input.focus();
+  }
+}
+
+function alternarMicrofonoIA() {
+  const agent = getAIAgent();
+  const micBtn = document.getElementById('btn-ai-mic');
+  const badge = document.getElementById('ai-voice-status-badge');
+  if (!agent) return;
+
+  try {
+    const listening = agent.toggleVoiceRecognition((transcript) => {
+      const input = document.getElementById('ai-query-input');
+      if (input) {
+        input.value = transcript;
+        ejecutarConsultaIA(transcript);
+      }
+    });
+
+    if (micBtn) {
+      micBtn.style.background = listening ? '#EF4444' : 'linear-gradient(135deg, #00D2FF, #0284C7)';
+      micBtn.style.boxShadow = listening ? '0 0 24px #EF4444' : '0 0 16px rgba(0,210,255,0.4)';
+    }
+    if (badge) {
+      badge.textContent = listening ? '🎙️ ESCUCHANDO...' : '● LISTO';
+      badge.style.color = listening ? '#EF4444' : '#10B981';
+      badge.style.background = listening ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.15)';
+    }
+  } catch (err) {
+    alert('Aviso de Voz: ' + err.message);
+  }
+}
+
+async function ejecutarConsultaDesdeInput() {
+  const input = document.getElementById('ai-query-input');
+  if (!input || !input.value.trim()) return;
+  const q = input.value.trim();
+  input.value = '';
+  await ejecutarConsultaIA(q);
+}
+
+async function ejecutarConsultaIA(queryText) {
+  const agent = getAIAgent();
+  const container = document.getElementById('diamax-ai-results-container');
+  if (!agent || !container) return;
+
+  // Contexto en vivo
+  const context = {
+    gameState: window.estadoJuego || {},
+    events: (window.DIAMAX_DISPATCHER && window.DIAMAX_DISPATCHER.eventStore && window.DIAMAX_DISPATCHER.eventStore.events) || []
+  };
+
+  // Render User Message
+  const userCard = document.createElement('div');
+  userCard.style.cssText = 'align-self:flex-end; background:rgba(0,210,255,0.15); border:1px solid rgba(0,210,255,0.4); border-radius:14px; padding:10px 16px; color:#FFF; font-size:12.5px; max-width:80%; font-weight:700;';
+  userCard.innerHTML = '👤 ' + escapeHTML(queryText);
+  container.appendChild(userCard);
+
+  // Response Card Placeholder
+  const resCard = document.createElement('div');
+  resCard.style.cssText = 'align-self:flex-start; background:rgba(4,9,22,0.9); border:1.5px solid rgba(255,255,255,0.1); border-radius:16px; padding:16px; color:#E2E8F0; width:100%; box-sizing:border-box; box-shadow:0 8px 24px rgba(0,0,0,0.5);';
+  resCard.innerHTML = '<span style="color:#00D2FF; font-weight:800;">⚡ Procesando con IA Sabermétrica...</span>';
+  container.appendChild(resCard);
+  container.scrollTop = container.scrollHeight;
+
+  const result = await agent.processQuery(queryText, context);
+
+  // Render Rich Interactive Content
+  let html = '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">';
+  html += '<strong style="color:#00D2FF; font-size:14px; font-family:\'Montserrat\', sans-serif;">' + escapeHTML(result.title || 'Respuesta IA') + '</strong>';
+  html += '<span style="font-size:10.5px; color:#94A3B8; font-family:var(--font-mono);">' + new Date().toLocaleTimeString() + '</span></div>';
+
+  if (result.type === 'LINEUP_CREATED') {
+    const p = result.data;
+    html += '<p style="margin:0 0 12px 0; color:#A7F3D0; font-size:12.5px;">' + escapeHTML(result.message) + '</p>';
+    html += '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:6px; margin-bottom:14px;">';
+    p.players.forEach(pl => {
+      html += '<div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; font-size:11.5px;">';
+      html += '<span><strong>' + pl.order + '.</strong> ' + escapeHTML(pl.name) + '</span>';
+      html += '<span style="color:#FFC72C; font-weight:900;">' + pl.position + '</span></div>';
+    });
+    html += '</div>';
+    html += '<div style="background:rgba(242,101,34,0.1); border:1px solid rgba(242,101,34,0.3); padding:8px 12px; border-radius:8px; margin-bottom:12px; font-size:11.5px; color:#FDBA74;">';
+    html += '⚾ <strong>Lanzador Designado:</strong> ' + escapeHTML(p.pitcher.name) + '</div>';
+    html += '<button onclick="aplicarAlineacionDesdeIA()" style="background:linear-gradient(135deg, #10B981, #059669); border:none; color:#04091A; font-weight:900; padding:10px 18px; border-radius:10px; cursor:pointer; font-size:12px; box-shadow:0 0 15px rgba(16,185,129,0.4);">⚾ APLICAR ALINEACIÓN AL JUEGO</button>';
+  } else if (result.type === 'REPORT_BOXSCORE') {
+    const b = result.data;
+    html += '<table style="width:100%; border-collapse:collapse; margin-bottom:12px; font-size:12px;">';
+    html += '<tr style="border-bottom:1px solid #334155; color:#94A3B8;"><th style="text-align:left; padding:6px;">EQUIPO</th><th style="text-align:center; padding:6px;">C</th><th style="text-align:center; padding:6px;">H</th><th style="text-align:center; padding:6px;">E</th></tr>';
+    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05); font-weight:bold;"><td>' + escapeHTML(b.summary.away.name) + '</td><td style="text-align:center; color:#FFC72C;">' + b.summary.away.runs + '</td><td style="text-align:center;">' + b.summary.away.hits + '</td><td style="text-align:center;">' + b.summary.away.errors + '</td></tr>';
+    html += '<tr style="font-weight:bold;"><td>' + escapeHTML(b.summary.home.name) + '</td><td style="text-align:center; color:#FFC72C;">' + b.summary.home.runs + '</td><td style="text-align:center;">' + b.summary.home.hits + '</td><td style="text-align:center;">' + b.summary.home.errors + '</td></tr>';
+    html += '</table>';
+    html += '<div style="display:flex; gap:8px;"><button onclick="copiarReporteIAMarkdown()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#FFF; font-size:11px; padding:6px 12px; border-radius:8px; cursor:pointer;">📋 Copiar Reporte</button></div>';
+  } else if (result.type === 'REPORT_SABERMETRICS') {
+    const s = result.data;
+    html += '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:8px; margin-bottom:12px;">';
+    for (const [k, v] of Object.entries(s.metrics)) {
+      html += '<div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:8px; border-radius:8px; text-align:center;">';
+      html += '<div style="font-size:10px; color:#94A3B8;">' + k + '</div>';
+      html += '<div style="font-size:14px; font-weight:900; color:#00D2FF;">' + v + '</div></div>';
+    }
+    html += '</div>';
+    html += '<div style="background:rgba(0,210,255,0.1); border:1px solid rgba(0,210,255,0.3); padding:8px 12px; border-radius:8px; font-size:11.5px; color:#7DD3FC;">⚡ <strong>Diagnóstico:</strong> ' + s.evaluation + '</div>';
+  } else if (result.type === 'REPORT_PITCHING_FATIGUE') {
+    const p = result.data;
+    html += '<p style="margin:0 0 8px 0; font-size:12.5px;"><strong>Lanzador Activo:</strong> ' + escapeHTML(p.currentPitcher) + '</p>';
+    html += '<div style="margin-bottom:10px;"><div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;"><span>Pitcheos: ' + p.totalPitches + ' (Strikes: ' + p.strikes + ' / ' + p.strikePercentage + ')</span><span style="color:' + p.fatigueColor + '; font-weight:bold;">' + p.fatigueLevel + '</span></div>';
+    html += '<div style="background:#1E293B; height:6px; border-radius:3px; overflow:hidden;"><div style="background:' + p.fatigueColor + '; width:' + Math.min(100, (p.totalPitches / 110) * 100) + '%; height:100%;"></div></div></div>';
+  } else if (result.type === 'TACTICAL_ADVICE') {
+    html += '<p style="margin:0 0 10px 0; font-size:13px; color:#FDE047;">🎯 ' + escapeHTML(result.message) + '</p>';
+    html += '<div style="font-size:11px; color:#94A3B8;">Apalancamiento: ' + escapeHTML(result.data.leverageIndex) + ' · Nivel de Riesgo: ' + escapeHTML(result.data.riskLevel) + '</div>';
+  } else {
+    html += '<p style="margin:0; font-size:12.5px;">' + escapeHTML(result.message) + '</p>';
+  }
+
+  resCard.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
+function aplicarAlineacionDesdeIA() {
+  const agent = getAIAgent();
+  if (!agent || !agent.lastParsedLineup) {
+    alert('No hay alineación disponible para aplicar.');
+    return;
+  }
+  try {
+    const res = agent.applyLineupToGame(agent.lastParsedLineup, window.estadoJuego);
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('⚾ Alineación de ' + res.appliedCount + ' jugadores aplicada al partido con éxito.');
+    } else {
+      alert('⚾ Alineación aplicada con éxito (' + res.appliedCount + ' bateadores).');
+    }
+  } catch (err) {
+    alert('Error al aplicar alineación: ' + err.message);
+  }
+}
+
+function copiarReporteIAMarkdown() {
+  const agent = getAIAgent();
+  if (!agent || !agent.lastReport) return;
+  const md = agent.formatReportToMarkdown(agent.lastReport);
+  navigator.clipboard.writeText(md).then(() => {
+    if (typeof mostrarToast === 'function') mostrarToast('📋 Reporte copiado al portapapeles en Markdown.');
+    else alert('📋 Reporte copiado al portapapeles en formato Markdown.');
+  });
+}
+
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+</script>
+
 </body>
 </html>

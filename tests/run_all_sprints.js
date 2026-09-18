@@ -17,11 +17,12 @@ const suites = [
   { name: 'Sprint 2A — Dugout + UI Dispatcher Integration', file: 'test_ui_integration_sprint2a.js' },
   { name: 'Sprint 2B — Browser E2E & Determinism (B01-B35)', file: 'test_browser_e2e_sprint2b.js' },
   { name: 'Sprint 2C — IndexedDB / Offline & Sync Engine (C01-C35)', file: 'test_c01_c35.js' },
-  { name: 'Sprint 2D — Supabase Auth, RLS & RBAC (D01-D30)', file: 'test_d01_d30.js' }
+  { name: 'Sprint 2D — Supabase Auth, RLS & RBAC (D01-D30)', file: 'test_d01_d30.js' },
+  { name: 'Sprint 3 — Agente IA Sabermétrico & Lineup NLP (AI01-AI30)', file: 'test_ai_agent.js' }
 ];
 
 console.log('═══════════════════════════════════════════════════════════════════════════');
-console.log('🚀 DIAMAX PRO — PRODUCTION CI/CD TEST RUNNER (287 TESTS)');
+console.log('🚀 DIAMAX PRO — PRODUCTION CI/CD MASTER TEST RUNNER (317 TESTS)');
 console.log('═══════════════════════════════════════════════════════════════════════════\n');
 
 let totalSuitesPassed = 0;
