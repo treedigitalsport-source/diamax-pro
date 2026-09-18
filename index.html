@@ -4779,6 +4779,37 @@ body.daylight-mode .btn-keypad:hover {
       <div style="font-size:10.5px; color:#64748B; margin-top:4px;">Habilita recomendaciones en tiempo real en &lt; 1.5s con DIAMAX Tactical AI™.</div>
     </div>
 
+    <!-- ⚡ CONFIGURACIÓN OFICIAL DE SUPABASE CLOUD (BASE DE DATOS RELACIONAL & REALTIME) -->
+    <div style="margin-top:14px; padding:14px; background:#071322; border:1.5px solid #00D2FF; border-radius:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="font-size:16px;">⚡</span>
+          <h4 style="margin:0; font-size:13px; color:#00D2FF; font-weight:900; text-transform:uppercase;">Supabase Cloud (PostgreSQL)</h4>
+        </div>
+        <span style="font-size:10px; background:#00D2FF; color:#0B0F19; padding:2px 6px; border-radius:4px; font-weight:900;">TIEMPO REAL LIVE</span>
+      </div>
+      <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Sincronización multi-dispositivo, Stream Canónico de Jugadas y Marcador en Vivo.</p>
+      
+      <div style="margin-bottom:8px;">
+        <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">SUPABASE PROJECT URL:</label>
+        <input type="text" id="sb-drawer-url" placeholder="https://xyzabcdef.supabase.co" style="width:100%; box-sizing:border-box; background:#040814; border:1px solid #1E293B; border-radius:6px; padding:8px; color:#00D2FF; font-size:12px;">
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">SUPABASE ANON / PUBLIC KEY:</label>
+        <input type="password" id="sb-drawer-key" placeholder="eyJhbGciOi..." style="width:100%; box-sizing:border-box; background:#040814; border:1px solid #1E293B; border-radius:6px; padding:8px; color:#FFF; font-size:12px;">
+      </div>
+
+      <div id="sb-drawer-status" style="margin-bottom:10px; font-size:11px;">
+        <span style="color:#94A3B8;">○ Estado: Esperando Credenciales de Supabase</span>
+      </div>
+
+      <div style="display:flex; gap:6px;">
+        <button onclick="conectarSupabaseDrawer()" style="flex:1; padding:9px; background:linear-gradient(135deg, #00D2FF, #0284C7); color:#0B0F19; border:none; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer;">⚡ Conectar Supabase</button>
+        <button onclick="abrirConfigRealtime()" style="flex:1; padding:9px; background:#1E293B; color:#94A3B8; border:1px solid #334155; border-radius:6px; font-weight:800; font-size:11.5px; cursor:pointer;">📡 Panel Avanzado</button>
+      </div>
+    </div>
+
     <!-- 🔥 CONFIGURACIÓN OFICIAL DE FIREBASE FIRESTORE (BASE DE DATOS EN LA NUBE) -->
     <div style="margin-top:14px; padding:14px; background:#0F172A; border:1.5px solid #FFC72C; border-radius:10px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -4834,12 +4865,64 @@ function setSafeHTML(id, html) {
   if (el) el.innerHTML = html;
 }
 
-// TOGGLE DRAWER
+// TOGGLE DRAWER & CARGA DE CONFIGURACIÓN SUPABASE
 function toggleSettingsDrawer(open) {
   const drawer = document.getElementById('settings-drawer');
   if (!drawer) return;
-  if (open) drawer.classList.add('open');
-  else drawer.classList.remove('open');
+  if (open) {
+    drawer.classList.add('open');
+    // Pre-cargar valores de Supabase si existen
+    try {
+      const cfg = JSON.parse(localStorage.getItem('diamax_supabase_config') || '{}');
+      const urlInput = document.getElementById('sb-drawer-url');
+      const keyInput = document.getElementById('sb-drawer-key');
+      const statusEl = document.getElementById('sb-drawer-status');
+      if (urlInput && cfg.url) urlInput.value = cfg.url;
+      if (keyInput && cfg.anonKey) keyInput.value = cfg.anonKey;
+      if (statusEl) {
+        const isConn = typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.isConnected();
+        statusEl.innerHTML = isConn 
+          ? '<span style="color:#22C55E; font-weight:800;">⚡ Conectado a Supabase Cloud en Vivo</span>' 
+          : '<span style="color:#94A3B8;">○ Modo Local (Ingresa credenciales de Supabase)</span>';
+      }
+    } catch(e) {}
+  } else {
+    drawer.classList.remove('open');
+  }
+}
+
+// CONECTAR SUPABASE DIRECTAMENTE DESDE EL DRAWER
+function conectarSupabaseDrawer() {
+  const urlEl = document.getElementById('sb-drawer-url');
+  const keyEl = document.getElementById('sb-drawer-key');
+  const statusEl = document.getElementById('sb-drawer-status');
+  
+  const url = urlEl ? urlEl.value.trim() : '';
+  const key = keyEl ? keyEl.value.trim() : '';
+
+  if (!url || !key) {
+    if (typeof mostrarToast === 'function') mostrarToast('⚠️ Ingresa URL y Anon Key de Supabase');
+    if (statusEl) statusEl.innerHTML = '<span style="color:#EF4444; font-weight:800;">⚠️ Ingresa la URL y Anon Key</span>';
+    return;
+  }
+
+  if (statusEl) statusEl.innerHTML = '<span style="color:#FFC72C; font-weight:800;">⏳ Conectando con Supabase...</span>';
+
+  try {
+    const ok = typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.configure(url, key, null);
+    setTimeout(() => {
+      if (statusEl) {
+        statusEl.innerHTML = ok 
+          ? '<span style="color:#22C55E; font-weight:800;">✅ ¡Conectado a Supabase Cloud en Vivo!</span>' 
+          : '<span style="color:#EF4444; font-weight:800;">❌ Error al conectar. Verifica Project URL y Anon Key.</span>';
+      }
+      if (typeof mostrarToast === 'function') {
+        mostrarToast(ok ? '✅ Supabase Cloud conectado exitosamente' : '❌ Error al conectar a Supabase');
+      }
+    }, 1000);
+  } catch(err) {
+    if (statusEl) statusEl.innerHTML = `<span style="color:#EF4444; font-weight:800;">❌ Error: ${err.message}</span>`;
+  }
 }
 
 // NOMBRE Y SEDE
