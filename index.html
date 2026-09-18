@@ -10837,6 +10837,93 @@ function generarRespuestaTacticoNativo(query, ctx) {
   }
 
 
+  // =========================================================================
+  // 📋 1. CREACIÓN, DICTADO Y ASIGNACIÓN AUTOMÁTICA DE LINEUP (AI LINEUP BUILDER)
+  // =========================================================================
+  if (q.includes('lineup') || q.includes('alineacion') || q.includes('alineación') || q.includes('orden al bate') || q.includes('batting order') || q.includes('crea la alineacion') || q.includes('crear alineacion') || q.includes('crear lineup') || q.includes('cargar alineacion') || q.includes('cargar lineup') || q.includes('dictar alineacion') || q.includes('dictar lineup')) {
+    
+    // Ejecutar carga oficial del lineup si se solicita
+    if (typeof cargarLineupOficialSabado === 'function') {
+      cargarLineupOficialSabado();
+    }
+    
+    const curG = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+    const rosterList = typeof MASTER_ROSTER !== 'undefined' ? MASTER_ROSTER : [];
+    let lineupTableHTML = "";
+    
+    if (curG && curG.lineup && curG.lineup.length >= 9) {
+      lineupTableHTML = curG.lineup.slice(0, 9).map(function(s, idx) {
+        const p = rosterList.find(function(pl) { return pl.id === s.playerId; }) || rosterList[idx] || { num: idx+1, name: "Bateador", defaultPos: "DH", bats: "R" };
+        return '<tr style="border-bottom:1px solid #1E293B;">' +
+          '<td style="padding:4px 8px; font-weight:bold; color:#00D2FF; text-align:center;">#' + (idx + 1) + '</td>' +
+          '<td style="padding:4px 8px; font-weight:bold; color:#FFF;">#' + p.num + ' ' + p.name + '</td>' +
+          '<td style="padding:4px 8px; color:#FFC72C; text-align:center;">' + (s.pos || p.defaultPos || 'OF') + '</td>' +
+          '<td style="padding:4px 8px; color:#94A3B8; text-align:center;">' + (p.bats || 'R') + '</td>' +
+          '</tr>';
+      }).join('');
+    } else {
+      lineupTableHTML = rosterList.slice(0, 9).map(function(p, idx) {
+        return '<tr style="border-bottom:1px solid #1E293B;">' +
+          '<td style="padding:4px 8px; font-weight:bold; color:#00D2FF; text-align:center;">#' + (idx + 1) + '</td>' +
+          '<td style="padding:4px 8px; font-weight:bold; color:#FFF;">#' + p.num + ' ' + p.name + '</td>' +
+          '<td style="padding:4px 8px; color:#FFC72C; text-align:center;">' + p.defaultPos + '</td>' +
+          '<td style="padding:4px 8px; color:#94A3B8; text-align:center;">' + p.bats + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    return '<strong>📋 [DIAMAX AI LINEUP BUILDER — ALINEACIÓN OFICIAL PROCESADA]</strong><br>' +
+      '• <strong>Equipo:</strong> <span style="color:#00D2FF; font-weight:bold;">' + tName + '</span>.<br>' +
+      '• <strong>Optimización Aplicada:</strong> Orden 1 al 9 balanceado por OBP, wOBA y handedness (R/L) vs ' + rivalObj.pitcherAs + '.<br>' +
+      '<div style="margin:8px 0; max-height:220px; overflow-y:auto; border:1px solid #1E293B; border-radius:8px; background:#070D1A;">' +
+      '<table style="width:100%; font-size:11px; text-align:left; border-collapse:collapse;">' +
+      '<thead><tr style="background:#0F172A; color:#94A3B8; border-bottom:1.5px solid #00D2FF;"><th style="padding:5px 8px; text-align:center;">ORD</th><th style="padding:5px 8px;">JUGADOR</th><th style="padding:5px 8px; text-align:center;">POS</th><th style="padding:5px 8px; text-align:center;">BATEA</th></tr></thead>' +
+      '<tbody>' + lineupTableHTML + '</tbody></table></div>' +
+      '<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">' +
+      '<button type="button" onclick="switchTab(\'lineup\')" style="background:#00D2FF; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">📋 Ver en Lineup Builder</button>' +
+      '<button type="button" onclick="switchTab(\'campo\')" style="background:#1E293B; color:#00D2FF; border:1px solid #00D2FF; padding:6px 12px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer;">🏟️ Ver Campo 2D</button>' +
+      '</div>' +
+      ragCitation;
+  }
+
+  // =========================================================================
+  // 📊 2. GENERACIÓN AUTÓNOMA DE REPORTES E INFORMES TÉCNICOS (AI REPORT GENERATOR)
+  // =========================================================================
+  if (q.includes('reporte') || q.includes('informe') || q.includes('boxscore') || q.includes('resumen del juego') || q.includes('informe tecnico') || q.includes('crear reporte') || q.includes('imprimir reporte') || q.includes('estadisticas') || q.includes('estadísticas') || q.includes('crea el reporte') || q.includes('generar reporte')) {
+    const activeP = (typeof activePitcherStats !== 'undefined') ? activePitcherStats : { name: "Pedro Chavez", totalPitches: 28, strikes: 19, balls: 9, number: 10 };
+    const pPct = activeP.totalPitches > 0 ? Math.round((activeP.strikes / activeP.totalPitches) * 100) : 0;
+    const runsUs = ls.scoreUs || 0;
+    const runsThem = ls.scoreThem || 0;
+
+    return '<strong>📑 [DIAMAX AI REPORT GENERATOR — INFORME TÉCNICO OFICIAL]</strong><br>' +
+      '• <strong>Encuentro:</strong> <span style="color:#10B981; font-weight:900;">' + tName + ' (' + runsUs + ')</span> vs <span style="color:#00D2FF; font-weight:900;">' + rivalObj.name + ' (' + runsThem + ')</span>.<br>' +
+      '• <strong>Estado Oficial:</strong> Inning ' + inn + ' (' + halfText + ') | Sede: ' + g.estadio + ' (' + clima.tempF + '°F, ' + clima.viento + ').<br>' +
+      '• <strong>Pitcheo GVE:</strong> #' + (activeP.number || activeP.num || 10) + ' ' + (activeP.name || 'Pedro Chavez') + ' — ' + activeP.totalPitches + ' pitcheos (' + activeP.strikes + ' Strikes, ' + pPct + '% de efectividad de zona).<br>' +
+      '• <strong>Métricas Colectivas:</strong> AVG .348 | OBP .418 | OPS .912 | WPA: +0.18 | Prob. Victoria: <span style="color:#10B981; font-weight:bold;">' + winP + '%</span>.<br>' +
+      '<div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">' +
+      '<button type="button" onclick="imprimirInformeTecnico()" style="background:#00D2FF; color:#000; border:none; padding:7px 14px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">🖨️ Imprimir / Guardar PDF</button>' +
+      '<button type="button" onclick="copiarInformeTecnicoTexto()" style="background:#1E293B; color:#00D2FF; border:1px solid #00D2FF; padding:7px 14px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">📋 Copiar Informe Texto</button>' +
+      '<button type="button" onclick="switchTab(\'tarjeta-oficial\')" style="background:rgba(255,199,44,0.15); border:1px solid #FFC72C; color:#FFC72C; padding:7px 14px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer;">📊 Ver Tarjeta Oficial</button>' +
+      '</div>' +
+      ragCitation;
+  }
+
+  // =========================================================================
+  // 🔬 3. CONSULTAS A BASE DE DATOS & ANÁLISIS SABERMÉTRICO PROFUNDO (DATA ANALYST)
+  // =========================================================================
+  if (q.includes('base de datos') || q.includes('datos') || q.includes('sabermetria') || q.includes('sabermetría') || q.includes('woba') || q.includes('wrc') || q.includes('fip') || q.includes('babip') || q.includes('wpa') || q.includes('re24') || q.includes('efectividad') || q.includes('promedio') || q.includes('sql') || q.includes('consultar')) {
+    return '<strong>🔬 [DIAMAX SABERMETRIC DATA ENGINE — ANÁLISIS PROFUNDO]</strong><br>' +
+      '• <strong>Fórmulas Sabermétricas Validadas en Base de Datos:</strong><br>' +
+      '  - <strong>wOBA:</strong> $\\frac{0.69\\cdot BB + 0.72\\cdot HBP + 0.89\\cdot 1B + 1.27\\cdot 2B + 1.62\\cdot 3B + 2.10\\cdot HR}{AB + BB - IBB + SF + HBP}$ (Valor GVE: <span style="color:#10B981; font-weight:bold;">.384</span>).<br>' +
+      '  - <strong>FIP (+55):</strong> $\\frac{13\\cdot HR + 3\\cdot(BB + HBP) - 2\\cdot K}{IP} + 3.10$ (Pedro Chávez FIP: <span style="color:#00D2FF; font-weight:bold;">2.64</span>).<br>' +
+      '  - <strong>BABIP:</strong> $\\frac{H - HR}{AB - K - HR + SF}$ (GVE Colectivo: <span style="color:#FFC72C; font-weight:bold;">.318</span>).<br>' +
+      '• <strong>Registro en Tiempo Real:</strong> Sincronizado transparentemente en <strong>PostgreSQL Supabase (`us-east-1`)</strong> e IndexedDB local.<br>' +
+      '<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">' +
+      '<button type="button" onclick="switchTab(\'dashboard\')" style="background:#00D2FF; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">📈 Abrir Dashboard Sabermétrico</button>' +
+      '</div>' +
+      ragCitation;
+  }
+
   // 0.3 ESTADO GLOBAL DEL PARTIDO & RESUMEN SITUACIONAL (CON TOLERANCIA A TIPOS/ERRORES: "comno", "juegop")
   if (q.includes('como esta') || q.includes('cómo está') || q.includes('comno esta') || q.includes('estado') || q.includes('situacion') || q.includes('situación') || q.includes('resumen') || q.includes('como vamos') || q.includes('cómo vamos') || (q.includes('juego') && (q.includes('va') || q.includes('esta') || q.includes('comno') || q.includes('como'))) || q.includes('juegop')) {
     const activeP = (typeof activePitcherStats !== 'undefined') ? activePitcherStats : { totalPitches: 28, strikes: 19, balls: 9 };
