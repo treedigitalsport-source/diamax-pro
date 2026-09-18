@@ -4062,7 +4062,7 @@ body.daylight-mode .btn-keypad:hover {
   
   <!-- TAB 4: TARJETA OFICIAL -->
   
-    <!-- PESTAÑA: MANUAL DE USO Y GUÍA MAESTRA DE DUGOUT -->
+    <!-- PESTAÑA: MANUAL DE USO Y GUÍA MAESTRA DE OPERACIONES (10 MÓDULOS) -->
   <div id="tab-manual" class="tab-pane">
     <div class="panel" style="border: 2px solid #FFC72C; background:linear-gradient(145deg, #091224 0%, #0F172A 100%);">
       
@@ -4072,114 +4072,149 @@ body.daylight-mode .btn-keypad:hover {
           <div style="font-size:36px; background:#070D1A; padding:6px 12px; border-radius:10px; border:1px solid #FFC72C;">📖</div>
           <div>
             <h2 id="manual-main-title" style="color:#FFC72C; font-size:20px; font-weight:900; text-transform:uppercase; margin:0;">
-              Manual Oficial de Operación & Protocolos DIAMAX PRO
+              Manual Oficial de Operaciones & Protocolos DIAMAX PRO
             </h2>
             <p id="manual-main-subtitle" style="color:#94A3B8; font-size:12px; margin:3px 0 0 0;">
-              Guía técnica para Gerencia, Mánager, Umpires y Anotadores de <strong>Guerreros de Venezuela (+55)</strong>
+              Guía técnica y operativa paso a paso para Gerencia, Mánagers, Coaches, Umpires, Anotadores y Jugadores de <strong>Guerreros de Venezuela (+55)</strong>
             </p>
           </div>
         </div>
         <div style="display:flex; gap:8px;">
-          <button id="btn-print-manual" class="btn-settings" onclick="window.print()" style="background:#00D2FF; color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          <button id="btn-print-manual" class="btn-settings" onclick="window.print()" style="background:#00D2FF; color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(0,210,255,0.4);">
             🖨️ Imprimir Manual Completo
           </button>
         </div>
       </div>
 
-      <!-- SECCIÓN 1: ROSTER OFICIAL DE 16 PERSONAS -->
+      <!-- MÓDULO 1: ACCESO, ROLES & SEGURIDAD ZERO-TRUST -->
+      <div style="background:#070D1A; border:1px solid #38BDF8; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+          <h3 style="color:#38BDF8; font-size:14px; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">
+            <span>🔐</span> 1. Acceso, Roles & Seguridad Zero-Trust
+          </h3>
+          <span style="font-size:11px; background:rgba(56,189,248,0.2); color:#38BDF8; border:1px solid #38BDF8; font-weight:900; padding:2px 8px; border-radius:4px;">MULTI-TENANT RBAC</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:10px; font-size:11.5px;">
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border-left:3px solid #00D2FF;">
+            <strong style="color:#00D2FF;">Paso 1.1: Inicio y Portada</strong>
+            <p style="margin:4px 0 0 0; color:#CBD5E1;">Al ingresar a <a href="https://diamax-pro.vercel.app/" target="_blank" style="color:#00D2FF;">diamax-pro.vercel.app</a>, presione <strong>"Entrar al Anotador"</strong> o seleccione su rol en el selector de bienvenida.</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border-left:3px solid #10B981;">
+            <strong style="color:#10B981;">Paso 1.2: Roles del Sistema</strong>
+            <p style="margin:4px 0 0 0; color:#CBD5E1;"><code>CEO</code> (Control total), <code>ADMIN_LIGA</code> (Gestión y calendarios), <code>MANAGER</code> (Lineups y táctica), <code>COACH</code> (Anotación y bullpen), <code>JUGADOR</code> (Estadísticas personales).</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border-left:3px solid #FFC72C;">
+            <strong style="color:#FFC72C;">Paso 1.3: PIN de Seguridad</strong>
+            <p style="margin:4px 0 0 0; color:#CBD5E1;">Para mánagers y anotadores autorizados, el PIN canónico predeterminado es <strong><code>1234</code></strong> para desbloqueo táctico instantáneo.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 2: PROTOCOLO PRE-JUEGO & WIZARD DE 5 PASOS -->
+      <div style="background:#070D1A; border:1px solid #00D2FF; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+          <h3 id="manual-quick-title" style="color:#00D2FF; font-size:14px; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">
+            <span>🏟️</span> 2. Protocolo Pre-Juego: Wizard de 5 Pasos & Definición de Localía
+          </h3>
+          <span style="font-size:11px; background:rgba(0,210,255,0.2); color:#00D2FF; border:1px solid #00D2FF; font-weight:900; padding:2px 8px; border-radius:4px;">REGLAMENTO OFICIAL</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:10px; font-size:11.5px;">
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#FFC72C;">Paso 2.1: Rival & Logo</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Presione <code>+ Configurar Partido & Rival</code>. Seleccione un rival de la BD (ej. Daytona Beach, Tampa Masters) o cree uno nuevo cargando su logo oficial.</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#FFC72C;">Paso 2.2: Sede & Clima GPS</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Confirme la sede (Lutz Baseball Park) y sincronice la telemetría climática (temperatura, humedad y dirección del viento hacia el CF).</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#FFC72C;">Paso 2.3: Localía (Home vs Away)</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">• <strong>🏠 HOME CLUB:</strong> Guerreros defiende en la Alta (▲) y cierra bateando en la Baja (▼).<br>• <strong>✈️ VISITANTE:</strong> Guerreros abre bateando en la Alta (▲).</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#FFC72C;">Paso 2.4: Abridor & Clutch</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Designe al lanzador abridor (Pedro Chavez #10) y al bateador clave para situaciones de presión (*clutch*).</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#FFC72C;">Paso 2.5: Certificar & Iniciar</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Verifique la validación 9vs9 sin posiciones repetidas y presione <strong>"Iniciar Juego Oficial"</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 3: LINEUP BUILDER DUAL (TAB 2) -->
       <div style="background:#070D1A; border:1px solid #10B981; border-radius:10px; padding:16px; margin-bottom:18px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
           <h3 style="color:#10B981; font-size:14px; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">
-            <span>🇻🇪</span> 1. Roster Oficial Calibrado: 16 Integrantes (Guerreros +55)
+            <span>📋</span> 3. Lineup Builder Dual (Tab 2) & Simulación Monte Carlo
           </h3>
-          <span style="font-size:11px; background:#10B981; color:#000; font-weight:900; padding:2px 8px; border-radius:4px;">REGLAS FEDERATIVAS 1-9</span>
+          <span style="font-size:11px; background:rgba(16,185,129,0.2); color:#10B981; border:1px solid #10B981; font-weight:900; padding:2px 8px; border-radius:4px;">16 INTEGRANTES + RIVAL</span>
         </div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:12px; font-size:11.5px;">
-          <div style="background:#0F172A; padding:10px 14px; border-radius:8px; border-left:3px solid #FFC72C;">
-            <strong style="color:#FFC72C;">⚔️ 9 Titulares Oficiales:</strong>
-            <div style="margin-top:6px; line-height:1.6; color:#CBD5E1;">
-              1. <strong>#1 Johan Olivo</strong> (CF · Bateo: L)<br>
-              2. <strong>#2 Pablo Morales</strong> (1B · Bateo: R)<br>
-              3. <strong>#3 Raul Lozada</strong> (SS · Bateo: R)<br>
-              4. <strong>#4 Jorge Mitchell</strong> (2B · Bateo: R)<br>
-              5. <strong>#5 Oswaldo Grillo</strong> (3B · Bateo: R)<br>
-              6. <strong>#6 Nestor Vera</strong> (LF · Bateo: L)<br>
-              7. <strong>#7 Pedro Moreno</strong> (RF · Bateo: L)<br>
-              8. <strong>#8 Juan Perez</strong> (C · Bateo: R)<br>
-              9. <strong>#9 Martin Rojas</strong> (DH · Bateo: R)
-            </div>
-          </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:11.5px;">
           <div style="background:#0F172A; padding:10px 14px; border-radius:8px; border-left:3px solid #00D2FF;">
-            <strong style="color:#00D2FF;">⚾ Lanzador Abridor & 6 Reservas Oficiales:</strong>
-            <div style="margin-top:6px; line-height:1.6; color:#CBD5E1;">
-              10. <strong>#10 Pedro Chavez</strong> (P · RHP · Abridor As)<br>
-              11. <strong>#11 Luis Silva</strong> (OF · Bateo: R)<br>
-              12. <strong>#12 Luis Barrios</strong> (IF · Bateo: R)<br>
-              13. <strong>#13 Paul Segarra</strong> (OF · Bateo: L)<br>
-              14. <strong>#14 Julio Machado</strong> (P · RHP · Relevista)<br>
-              15. <strong>#15 Arquimedes Avancines</strong> (IF · Bateo: R)<br>
-              16. <strong>#16 Rafael Briceño</strong> (P · RHP · Cerrador)
-            </div>
+            <strong style="color:#00D2FF;">Botonera Dual Home Club vs Visitante:</strong>
+            <p style="margin:4px 0 6px 0; color:#CBD5E1;">Use las pestañas <code>[🏠 ALINEACIÓN HOME CLUB]</code> y <code>[✈️ ALINEACIÓN VISITANTE]</code> para alternar y editar de forma independiente ambos equipos.</p>
+            <strong style="color:#FFC72C;">Acciones del Lineup de Guerreros:</strong>
+            <ul style="margin:4px 0 0 16px; padding:0; color:#94A3B8; line-height:1.6;">
+              <li><code>📋 Cargar Lineup Oficial (+55)</code>: Restaura los 9 titulares y abridor calibrados.</li>
+              <li><code>🎙️ Dictar por Voz</code>: Registre el orden al bate mediante reconocimiento vocal.</li>
+              <li><code>🔼 / 🔽</code>: Reordena turnos al bate al instante.</li>
+              <li><code>🎲 Monte Carlo (10k)</code>: Simula 10,000 entradas para proyectar carreras esperadas ($xRuns$).</li>
+            </ul>
+          </div>
+          <div style="background:#0F172A; padding:10px 14px; border-radius:8px; border-left:3px solid #FFC72C;">
+            <strong style="color:#FFC72C;">Gestión del Lineup Rival:</strong>
+            <p style="margin:4px 0 6px 0; color:#CBD5E1;">Al seleccionar la pestaña del Rival, puede editar directamente nombres, dorsales, posiciones defensivas y orden de los 9 bateadores rivales.</p>
+            <strong style="color:#10B981;">Roster Oficial Calibrado (+55):</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8; line-height:1.5;">
+              • <strong>9 Titulares:</strong> #1 Olivo (CF), #2 Morales (1B), #3 Lozada (SS), #4 Mitchell (2B), #5 Grillo (3B), #6 Vera (LF), #7 Moreno (RF), #8 Perez (C), #9 Rojas (DH).<br>
+              • <strong>Abridor & Reservas:</strong> #10 Chavez (P As), #11 Silva, #12 Barrios, #13 Segarra, #14 Machado, #15 Avancines, #16 Briceño.
+            </p>
           </div>
         </div>
       </div>
 
-      <!-- SECCIÓN 2: PROTOCOLO PRE-JUEGO (5 PASOS) -->
-      <div style="background:#070D1A; border:1px solid #00D2FF; border-radius:10px; padding:16px; margin-bottom:18px;">
-        <h3 id="manual-quick-title" style="color:#00D2FF; font-size:14px; font-weight:900; margin:0 0 12px 0; display:flex; align-items:center; gap:6px;">
-          <span>🏟️</span> 2. Protocolo Pre-Juego: Wizard de 5 Pasos (Orlando Sánchez 2026)
-        </h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:11.5px;">
-          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
-            <strong style="color:#FFC72C;">Paso 1: Rival & Logo</strong>
-            <p style="margin:4px 0 0 0; color:#94A3B8;">Selecciona o crea el rival en BD con sus siglas y carga su foto/logo.</p>
-          </div>
-          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
-            <strong style="color:#FFC72C;">Paso 2: Sede & Clima GPS</strong>
-            <p style="margin:4px 0 0 0; color:#94A3B8;">Sincroniza telemetría climática y define localía (Home Club vs Visitante).</p>
-          </div>
-          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
-            <strong style="color:#FFC72C;">Paso 3: Abridor & Eje</strong>
-            <p style="margin:4px 0 0 0; color:#94A3B8;">Asigna a Pedro Chavez (#23) y al bateador clave para clutch.</p>
-          </div>
-          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
-            <strong style="color:#FFC72C;">Paso 4: Lineup 1-9</strong>
-            <p style="margin:4px 0 0 0; color:#94A3B8;">Valida que los 9 titulares no dupliquen posiciones en el campo.</p>
-          </div>
-          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
-            <strong style="color:#FFC72C;">Paso 5: Tarjeta Umpire</strong>
-            <p style="margin:4px 0 0 0; color:#94A3B8;">Verifica la alineación dual y certifica para iniciar Dugout.</p>
-          </div>
+      <!-- MÓDULO 4: OPERACIÓN EN VIVO EN DUGOUT (TAB 1) -->
+      <div style="background:#070D1A; border:1px solid #FFC72C; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+          <h3 id="manual-roles-title" style="color:#FFC72C; font-size:14px; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">
+            <span>⌨️</span> 4. Operación en Vivo (Dugout Keypad, 36 Jugadas Canónicas & Deshacer)
+          </h3>
+          <span style="font-size:11px; background:rgba(255,199,44,0.2); color:#FFC72C; border:1px solid #FFC72C; font-weight:900; padding:2px 8px; border-radius:4px;">EVENT SOURCING V2.4</span>
         </div>
-      </div>
-
-      <!-- SECCIÓN 3: OPERACIÓN EN VIVO (DUGOUT KEYPAD) -->
-      <div style="background:#070D1A; border:1px solid #334155; border-radius:10px; padding:16px; margin-bottom:18px;">
-        <h3 id="manual-roles-title" style="color:#FFC72C; font-size:14px; font-weight:900; margin:0 0 12px 0; display:flex; align-items:center; gap:6px;">
-          <span>⌨️</span> 3. Operación en Vivo (Dugout Keypad & Anotación Lanzamiento a Lanzamiento)
-        </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; font-size:11.5px;">
-          <div style="background:#0F172A; padding:10px; border-radius:6px;">
-            <strong style="color:#10B981;">Conexiones / Hits:</strong>
-            <div style="margin-top:4px; color:#CBD5E1;"><code>[1B]</code> Sencillo · <code>[2B]</code> Doble · <code>[3B]</code> Triple · <code>[HR]</code> Jonrón</div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#00D2FF;">1. Flujo Táctico Alta/Baja:</strong>
+            <p style="margin:4px 0 0 0; color:#CBD5E1;">Toque <code>1️⃣ ENTRADA ALTA ▲</code> o <code>2️⃣ ENTRADA BAJA ▼</code> para cambiar de mitad de entrada. Resetea outs a 0 y conmuta el bateador activo al equipo correspondiente.</p>
           </div>
-          <div style="background:#0F172A; padding:10px; border-radius:6px;">
-            <strong style="color:#EF4444;">Outs Defensivos:</strong>
-            <div style="margin-top:4px; color:#CBD5E1;"><code>[F1 a F9]</code> Elevados · <code>[6-3, 4-3, 5-3]</code> Rolatas · <code>[DP]</code> Doble Play</div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#10B981;">2. Conexiones & Hits:</strong>
+            <div style="margin-top:4px; color:#CBD5E1;"><code>[1B]</code> Sencillo · <code>[2B]</code> Doble · <code>[3B]</code> Triple · <code>[HR]</code> Jonrón. Calcula automáticamente carreras impulsadas (RBI) y avance en bases.</div>
           </div>
-          <div style="background:#0F172A; padding:10px; border-radius:6px;">
-            <strong style="color:#00D2FF;">Situacionales / Pitcheo:</strong>
-            <div style="margin-top:4px; color:#CBD5E1;"><code>[K]</code> Ponche tirando · <code>[Kc]</code> Cantado · <code>[BB]</code> Boleto · <code>[SB]</code> Robo · <code>[SF]</code> Sacrificio</div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#EF4444;">3. Outs Defensivos & Doble Play:</strong>
+            <div style="margin-top:4px; color:#CBD5E1;"><code>[Fly 1 a 9]</code> Elevados por posición · <code>[6-3, 4-3, 5-3, 1-3]</code> Rolatas con asistencia y putout · <code>[6-4-3 DP]</code> y <code>[4-6-3 DP]</code> Doble Matanza.</div>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #1E293B;">
+            <strong style="color:#A78BFA;">4. Pitcheo & Jugadas Especiales:</strong>
+            <div style="margin-top:4px; color:#CBD5E1;"><code>[K]</code> Tirando · <code>[Kc]</code> Cantado · <code>[BB]</code> Boleto · <code>[HBP]</code> Golpeado · <code>[SF/SH]</code> Sacrificios · <code>[SB]</code> Robo · <code>[CS]</code> Out Robando · <code>[E]</code> Error.</div>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px; border:1px solid #EF4444;">
+            <strong style="color:#EF4444;">5. Corrección / Deshacer (Undo):</strong>
+            <p style="margin:4px 0 0 0; color:#CBD5E1;">Presione el botón rojo <strong>"CORREGIR ERROR: DESHACER / BORRAR ÚLTIMA JUGADA"</strong> para revertir inmediatamente la última acción manteniendo la integridad inmutable del Event Store.</p>
           </div>
         </div>
       </div>
 
-      <!-- SECCIÓN 4: PROTOCOLO MÉDICO +55 & SEMÁFORO DE FATIGA -->
+      <!-- MÓDULO 5: PROTOCOLO MÉDICO +55 & SEMÁFORO DE FATIGA -->
       <div style="background:#070D1A; border:1px solid #EF4444; border-radius:10px; padding:16px; margin-bottom:18px;">
-        <h3 id="manual-fatigue-title" style="color:#EF4444; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
-          <span>🩺</span> 4. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)
-        </h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; font-size:11.5px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+          <h3 id="manual-fatigue-title" style="color:#EF4444; font-size:14px; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">
+            <span>🩺</span> 5. Protocolo Médico-Deportivo: Semáforo de Fatiga (+55: Límite 75 Pitches)
+          </h3>
+          <span style="font-size:11px; background:rgba(239,68,68,0.2); color:#EF4444; border:1px solid #EF4444; font-weight:900; padding:2px 8px; border-radius:4px;">SEGURIDAD DEL ATLETA</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:10px; font-size:11.5px;">
           <div style="background:rgba(16,185,129,0.15); border:1px solid #10B981; border-radius:6px; padding:10px; text-align:center;">
             <strong style="color:#10B981;">🟢 0 - 45 Pitches</strong>
             <p style="margin:2px 0 0 0; color:#EAEEF5;">Zona Verde: Rendimiento Óptimo y Plena Potencia.</p>
@@ -4190,36 +4225,95 @@ body.daylight-mode .btn-keypad:hover {
           </div>
           <div style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; border-radius:6px; padding:10px; text-align:center;">
             <strong style="color:#EF4444;">🔴 61 - 75 Pitches</strong>
-            <p style="margin:2px 0 0 0; color:#EAEEF5;">Zona Roja: Alerta máxima. ¡Activar Bullpen!</p>
+            <p style="margin:2px 0 0 0; color:#EAEEF5;">Zona Roja: Alerta máxima. ¡Activar Relevista de Inmediato!</p>
+          </div>
+          <div style="background:#0F172A; border:1px solid #334155; border-radius:6px; padding:10px;">
+            <strong style="color:#38BDF8;">Bullpen en Vivo:</strong>
+            <p style="margin:2px 0 0 0; color:#CBD5E1;">Presione <strong>"Traer a Lanzar"</strong> junto a Manuel Quintero (#24), Carlos Mendoza (#33) o Luis Hernandez (#45) para efectuar el relevo oficial.</p>
           </div>
         </div>
       </div>
 
-      <!-- SECCIÓN 5: REPORTES, TARJETA OFICIAL E INFORME TÉCNICO -->
-      <div style="background:#070D1A; border:1px solid #A78BFA; border-radius:10px; padding:16px; margin-bottom:18px;">
-        <h3 id="manual-sec5-title" style="color:#A78BFA; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
-          <span>📊</span> 5. Reportes Oficiales, Tarjeta Dual e Informe Técnico del Día
+      <!-- MÓDULO 6: TERRENO 2D, SPRAY CHART & SHIFTS (TAB 3) -->
+      <div style="background:#070D1A; border:1px solid #10B981; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <h3 style="color:#10B981; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
+          <span>🏟️</span> 6. Terreno Táctico 2D, Spray Chart & Posicionamiento Defensivo (Tab 3)
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; font-size:11.5px;">
           <div style="background:#0F172A; padding:10px; border-radius:6px;">
-            <strong style="color:#FFC72C;">📋 Tarjeta Oficial Dual (Umpires):</strong>
-            <p style="margin:4px 0 0 0; color:#94A3B8;">Acceso directo: <code>#tarjeta-oficial</code>. Muestra 16 personas de Guerreros y el roster rival en formato imprimible con líneas de firma.</p>
+            <strong style="color:#00D2FF;">📍 Marcado Táctico de Batazos:</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Haga clic sobre cualquier coordenada del diamante interactivo para trazar el punto exacto de caída del batazo (infield, gaps o zona de cuadrangular).</p>
           </div>
           <div style="background:#0F172A; padding:10px; border-radius:6px;">
-            <strong style="color:#00D2FF;">📈 Informe Técnico del Día:</strong>
-            <p style="margin:4px 0 0 0; color:#94A3B8;">Acceso directo: <code>#informe-tecnico</code>. Ficha técnica, boxscore 1-9, comparativa ofensiva/pitcheo/fildeo, MVP, Turning Point y dictamen técnico.</p>
+            <strong style="color:#FFC72C;">🎯 Filtros de Sabermetría Visual:</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Filtre los puntos de contacto entre <code>Todos</code>, <code>Rodados (GB)</code>, <code>Elevados (FB)</code> y <code>Jonrones (HR)</code> para identificar tendencias del bateador rival.</p>
           </div>
         </div>
       </div>
 
-      <!-- SECCIÓN 6: INTELIGENCIA ARTIFICIAL SABERMÉTRICA -->
-      <div style="background:#070D1A; border:1px solid #00D2FF; border-radius:10px; padding:16px;">
-        <h3 id="manual-ai-title" style="color:#00D2FF; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
-          <span>🧠</span> 6. Inteligencia Artificial Sabermétrica (DIAMAX Engine)
+      <!-- MÓDULO 7: TARJETA OFICIAL DUAL & INFORMES (TAB 4) -->
+      <div style="background:#070D1A; border:1px solid #A78BFA; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <h3 id="manual-sec5-title" style="color:#A78BFA; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
+          <span>📊</span> 7. Tarjeta Oficial de Béisbol Dual & Exportación Reglamentaria (Tab 4)
         </h3>
-        <p style="margin:0; font-size:12px; color:#94A3B8;">
-          Motor predictivo neuronal con RAG y memoria episódica. Monitorea conteo de lanzamientos, fatiga de lanzadores, probabilidad de victoria en tiempo real y sugerencias de jugada para el mánager.
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; font-size:11.5px;">
+          <div style="background:#0F172A; padding:10px; border-radius:6px;">
+            <strong style="color:#FFC72C;">📋 Tarjeta Dual para Árbitros y Mánagers:</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Acceda a <code>Tab 4 (Tarjeta Oficial)</code>. Seleccione entre <code>👑 Vista Dual</code>, <code>🇻🇪 Guerreros</code> o <code>⚔️ Rival</code> para imprimir en papel oficial o exportar a PDF con las líneas de firma.</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px;">
+            <strong style="color:#00D2FF;">📄 Exportación de Boxscore Oficial:</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Presione <strong>"Copiar Boxscore"</strong> para obtener el resumen tabular del encuentro listo para compartir por WhatsApp o publicar en boletines oficiales de la liga.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 8: DASHBOARD SABERMÉTRICO & LÍDERES (TAB 5) -->
+      <div style="background:#070D1A; border:1px solid #38BDF8; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <h3 style="color:#38BDF8; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
+          <span>📈</span> 8. Dashboard Sabermétrico, Métricas Avanzadas & Tabla de Posiciones (Tab 5)
+        </h3>
+        <p style="margin:0 0 8px 0; font-size:12px; color:#CBD5E1;">
+          Cálculo matemático determinista en tiempo real sin manipulación manual:
         </p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; font-size:11px;">
+          <div style="background:#0F172A; padding:8px; border-radius:6px;"><strong>AVG:</strong> $H / VB$</div>
+          <div style="background:#0F172A; padding:8px; border-radius:6px;"><strong>OBP:</strong> $(H + BB + HBP) / (VB + BB + HBP + SF)$</div>
+          <div style="background:#0F172A; padding:8px; border-radius:6px;"><strong>SLG:</strong> $(1B + 2\cdot 2B + 3\cdot 3B + 4\cdot HR) / VB$</div>
+          <div style="background:#0F172A; padding:8px; border-radius:6px;"><strong>OPS:</strong> $OBP + SLG$</div>
+          <div style="background:#0F172A; padding:8px; border-radius:6px;"><strong>ERA:</strong> $(CL \cdot 9) / IP$</div>
+          <div style="background:#0F172A; padding:8px; border-radius:6px;"><strong>WHIP:</strong> $(BB + H) / IP$</div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 9: DIAMAX TACTICAL IA & RAG NEURONAL (TAB 6) -->
+      <div style="background:#070D1A; border:1px solid #EC4899; border-radius:10px; padding:16px; margin-bottom:18px;">
+        <h3 id="manual-ai-title" style="color:#EC4899; font-size:14px; font-weight:900; margin:0 0 10px 0; display:flex; align-items:center; gap:6px;">
+          <span>🧠</span> 9. Inteligencia Artificial Sabermétrica & Asistente Táctico (Tab 6)
+        </h3>
+        <p style="margin:0; font-size:12px; color:#CBD5E1;">
+          Motor predictivo neuronal con memoria episódica de juego y RAG (Retrieval-Augmented Generation). Prescriba decisiones situacionales en vivo ante conteos 3-2, defensas especiales contra bateadores zurdos, probabilidad de victoria en vivo (*Win Probability*) y alertas de fatiga.
+        </p>
+      </div>
+
+      <!-- MÓDULO 10: SINCRONIZACIÓN NUBE SUPABASE & MODO OFFLINE PWA -->
+      <div style="background:#070D1A; border:1px solid #10B981; border-radius:10px; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+          <h3 style="color:#10B981; font-size:14px; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">
+            <span>📡</span> 10. Sincronización en la Nube (PostgreSQL / Supabase) & Modo Offline
+          </h3>
+          <span style="font-size:11px; background:rgba(16,185,129,0.2); color:#10B981; border:1px solid #10B981; font-weight:900; padding:2px 8px; border-radius:4px;">CLOUD SYNC ACTIVO</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:10px; font-size:11.5px;">
+          <div style="background:#0F172A; padding:10px; border-radius:6px;">
+            <strong style="color:#10B981;">● Modo Desconectado (PWA Offline):</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Si el estadio carece de señal celular o internet, DIAMAX PRO almacena cada jugada en IndexedDB local sin interrumpir la anotación ni perder datos.</p>
+          </div>
+          <div style="background:#0F172A; padding:10px; border-radius:6px;">
+            <strong style="color:#00D2FF;">● Streaming Canónico en Supabase:</strong>
+            <p style="margin:4px 0 0 0; color:#94A3B8;">Al recuperar conexión, el motor encola y sincroniza automáticamente los eventos en la base de datos oficial en la nube (PostgreSQL en <code>us-east-1</code>).</p>
+          </div>
+        </div>
       </div>
 
     </div>

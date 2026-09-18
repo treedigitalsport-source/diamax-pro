@@ -71,16 +71,30 @@ $$	ext{Juego en Terreno} longrightarrow 	ext{Anotación Canónica} longrightarro
 > [!TIP]
 > **DISEÑO PARA EL DUGOUT:** La interfaz está optimizada con botones de alto contraste y tamaño táctil mínimo de $48 	imes 48	ext{ px}$ para permitir la anotación rápida con una sola mano bajo la presión del juego.
 
-### 3.1. Configuración Previa al Partido
-#### Procedimiento: Apertura de Juego y Lineup
-- **Objetivo:** Preparar el encuentro antes de que se cante la voz de *"Play Ball"*.
-- **Requisitos:** Conocer las alineaciones oficiales de ambos equipos (Visitante y Local).
-- **Paso 1:** Presione el botón **"⚾ Nuevo Juego"**.
-- **Paso 2:** Confirme el equipo Visitante (*Away*) y el equipo Local (*Home*).
-- **Paso 3:** En el **Lineup Builder**, ordene los bateadores del 1 al 9 y asigne sus posiciones defensivas (P, C, 1B, 2B, 3B, SS, LF, CF, RF).
-- **Paso 4:** Seleccione el Lanzador Abridor de cada equipo.
-- **Paso 5:** Presione **"🔒 Iniciar Juego"**.
-- **Resultado Esperado:** El marcador se inicializa en Inning 1 (Alta), 0 outs, conteo 0-0 y bases limpias.
+### 3.1. Configuración Previa al Partido (Wizard de 5 Pasos)
+#### Procedimiento: Apertura de Juego, Localía & Lineup Dual
+- **Objetivo:** Preparar el encuentro antes de que se cante la voz de *"Play Ball"*, definiendo con precisión la localía y las alineaciones de ambos conjuntos.
+- **Requisitos:** Conocer los equipos rivales, sede, condiciones meteorológicas y lanzadores abridores.
+- **Paso 1 (Rival & Logo):** Presione **`+ Configurar Partido & Rival`**. Seleccione un equipo de la base de datos (ej. Daytona Beach, Tampa Masters) o cree uno nuevo cargando su fotografía o logotipo.
+- **Paso 2 (Sede & Clima):** Confirme la sede (Lutz Baseball Park) y sincronice la telemetría climática GPS (temperatura, humedad y velocidad/dirección del viento).
+- **Paso 3 (Definición Canónica de Localía):**
+  - **🏠 HOME CLUB:** Guerreros defiende en la Alta (▲) y cierra bateando en la Baja (▼).
+  - **✈️ VISITANTE:** Guerreros ataca y abre el juego al bate en la Alta (▲), defendiendo en la Baja (▼).
+- **Paso 4 (Abridor & Eje Clutch):** Asigne al lanzador abridor (Pedro Chavez #10) y al bateador clave para situaciones bajo presión (*clutch*).
+- **Paso 5 (Lineup Builder Dual - Tab 2):**
+  - Use la pestaña `[🏠 ALINEACIÓN HOME CLUB]` para configurar los 9 titulares y posiciones defensivas de Guerreros (o del Rival si actúa como local).
+  - Use la pestaña `[✈️ ALINEACIÓN VISITANTE]` para revisar y ajustar los 9 bateadores rivales (nombres, números y posiciones).
+  - Opcional: Presione `🎙️ Dictar por Voz`, `🎲 Monte Carlo (10k)` para simulación de 10,000 entradas o `⚡ Optimizar por IA`.
+- **Paso 6:** Presione **"🔒 Iniciar Juego Oficial"**.
+- **Resultado Esperado:** El marcador se inicializa en Inning 1 (Alta ▲), 0 outs, conteo 0-0, bases limpias y con el bateador inicial del equipo visitante listo en caja de bateo.
+
+---
+
+### 3.1.1. Conmutación Táctica en Vivo (Dugout Flow Diagram)
+En la parte superior del Anotador Dugout, el usuario dispone de dos tarjetas tácticas interactivas con resplandor (*glow*) activo:
+- **`1️⃣ ENTRADA ALTA ▲ ⚔️ [VISITANTE AL BATE]`:** Al pulsar este botón, el sistema conmuta inmediatamente a la mitad alta de la entrada, resetea el conteo de outs a 0, limpia los senderos y coloca en turno al bateador correspondiente del equipo visitante.
+- **`2️⃣ ENTRADA BAJA ▼ 👑 [HOME CLUB AL BATE]`:** Al pulsar este botón, el sistema conmuta a la mitad baja de la entrada, resetea outs a 0, limpia senderos y coloca en turno al bateador del equipo Home Club.
+- **Alternancia Manual en Marcador:** También puede pulsar directamente sobre el indicador central del marcador (`INNING 1 (ALTA ▲)`) para alternar fluidamente entre Alta y Baja.
 
 ---
 
