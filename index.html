@@ -1422,6 +1422,91 @@ body.daylight-mode .btn-keypad:hover {
     border-radius: 24px !important;
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), inset 0 1px 1.5px rgba(255, 255, 255, 0.35) !important;
   }
+
+  /* DIAGRAMA DE FLUJO TÁCTICO INTERACTIVO (HOME CLUB VS VISITANTE) */
+  .tactical-flow-diagram-container {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .flow-badge-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1.5px solid #1E293B;
+    background: #0B132B;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    font-family: inherit;
+    color: inherit;
+    user-select: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  .flow-badge-item:hover {
+    transform: translateY(-2px);
+    border-color: #00D2FF;
+    box-shadow: 0 6px 18px rgba(0, 210, 255, 0.25);
+  }
+  .flow-badge-item.active-flow {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.16), rgba(16, 185, 129, 0.14));
+    border-color: #00D2FF;
+    box-shadow: 0 0 16px rgba(0, 210, 255, 0.4), inset 0 0 12px rgba(0, 210, 255, 0.1);
+  }
+  .flow-badge-item.inactive-flow {
+    background: rgba(11, 19, 43, 0.5);
+    border-color: #1E293B;
+    opacity: 0.7;
+  }
+  .flow-badge-item.inactive-flow:hover {
+    opacity: 1;
+    border-color: #FFC72C;
+    box-shadow: 0 4px 14px rgba(255, 199, 44, 0.25);
+  }
+  .flow-inn-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    color: #FFC72C;
+  }
+  .flow-action-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    margin: 2px 0;
+  }
+  .active-flow .flow-action-label {
+    color: #10B981;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+  }
+  .inactive-flow .flow-action-label {
+    color: #94A3B8;
+  }
+  .flow-team-name {
+    font-size: 13px;
+    font-weight: 900;
+    color: #FFFFFF;
+    margin: 2px 0;
+  }
+  .flow-sub-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #94A3B8;
+  }
+  .flow-divider-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #475569;
+    user-select: none;
+    padding: 0 4px;
+  }
 </style>
 
 <style>
@@ -3841,9 +3926,24 @@ body.daylight-mode .btn-keypad:hover {
         <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:#EAEEF5; margin-top:6px;" id="monte-carlo-metrics-row"></div>
       </div>
 
+      <!-- Selector de Alineación Home Club vs Visitante -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; background:#070D1A; border:1px solid #1E293B; border-radius:8px; padding:8px 12px;">
+        <div style="display:inline-flex; align-items:center; background:#0B132B; border:1.5px solid #334155; border-radius:8px; padding:3px; gap:4px;">
+          <button id="btn-lineup-tab-home" type="button" onclick="cambiarPestanaLineup('home')" style="background:#00D2FF; color:#000; font-size:12px; padding:7px 14px; border-radius:6px; font-weight:900; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;">
+            🏠 ALINEACIÓN HOME CLUB <span id="label-lineup-tab-home" style="opacity:0.85;">(GUERREROS)</span>
+          </button>
+          <button id="btn-lineup-tab-away" type="button" onclick="cambiarPestanaLineup('away')" style="background:transparent; color:#94A3B8; font-size:12px; padding:7px 14px; border-radius:6px; font-weight:700; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;">
+            ✈️ ALINEACIÓN VISITANTE <span id="label-lineup-tab-away" style="opacity:0.85;">(RIVAL)</span>
+          </button>
+        </div>
+        <div id="badge-lineup-role-info" style="font-size:11px; font-weight:800; color:#10B981; background:rgba(16,185,129,0.15); border:1px solid #10B981; padding:5px 12px; border-radius:6px;">
+          👑 Cierra el Inning (Baja ▼)
+        </div>
+      </div>
+
       <div style="margin-bottom:12px;">
-        <h3 style="color:#FFC72C; font-size:15px; font-weight:800;"> Orden al Bate Oficial (Posiciones 1 al 9 + Reservas)</h3>
-        <p style="font-size:12px; color:#94A3B8;">Ajusta el orden táctico con los controles 🔼 / 🔽.</p>
+        <h3 style="color:#FFC72C; font-size:15px; font-weight:800;" id="lineup-builder-title">📋 Orden al Bate Oficial (Posiciones 1 al 9 + Reservas)</h3>
+        <p style="font-size:12px; color:#94A3B8;" id="lineup-builder-subtitle">Ajusta el orden táctico con los controles 🔼 / 🔽.</p>
       </div>
       <div id="lineup-builder-container"></div>
     </div>
@@ -6729,11 +6829,44 @@ function cambiarInningManual(d) {
   renderAll();
 }
 
-function toggleHalfInningManual() {
-  liveState.half = liveState.half === 'top' ? 'bot' : 'top';
+function setHalfInningDugout(half) {
+  if (half !== 'top' && half !== 'bot') return;
+  liveState.half = half;
+  liveState.outs = 0;
+  liveState.base1 = false;
+  liveState.base2 = false;
+  liveState.base3 = false;
+  window.liveState = liveState;
+  if (window.DIAMAX_DISPATCHER && window.DIAMAX_DISPATCHER.gameState) {
+    window.DIAMAX_DISPATCHER.gameState.half = half;
+    window.DIAMAX_DISPATCHER.gameState.outs = 0;
+    window.DIAMAX_DISPATCHER.gameState.runner1 = null;
+    window.DIAMAX_DISPATCHER.gameState.runner2 = null;
+    window.DIAMAX_DISPATCHER.gameState.runner3 = null;
+  }
+  const g = typeof getActiveGame === 'function' ? getActiveGame() : null;
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? g.isHomeClub : true;
+  const isTop = half === 'top';
+  const awayName = isHomeClub ? (g && g.rival ? g.rival : 'VISITANTE') : (typeof teamName !== 'undefined' ? teamName : 'GUERREROS');
+  const homeName = isHomeClub ? (typeof teamName !== 'undefined' ? teamName : 'GUERREROS') : (g && g.rival ? g.rival : 'RIVAL');
+
   initSecurityPortal();
   initFirebaseFromStorage();
-  renderAll();
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+  if (typeof renderAll === 'function') renderAll();
+  if (typeof renderField === 'function') renderField();
+  if (typeof actualizarFaseTacticoIA === 'function') actualizarFaseTacticoIA();
+
+  const msg = isTop 
+    ? `✓ Entrada Alta (▲): VISITANTE al bate [${awayName}]` 
+    : `✓ Entrada Baja (▼): HOME CLUB al bate [${homeName}]`;
+  if (typeof mostrarToast === 'function') mostrarToast(msg, 2500);
+}
+window.setHalfInningDugout = setHalfInningDugout;
+
+function toggleHalfInningManual() {
+  const nextHalf = liveState.half === 'top' ? 'bot' : 'top';
+  setHalfInningDugout(nextHalf);
 }
 
 
@@ -8673,6 +8806,7 @@ let liveState = {
   currentPitchingBox: { outsPitcher: 0, k: 0, bb: 0, h: 0, cl: 0, wp: 0 },
   currentFieldingBox: {}
 };
+window.liveState = liveState;
 
 let teamSkills = [
   { title: "Análisis de Tendencia de Bateo", desc: "Identifica patrones del rival en las últimas 3 entradas." },
@@ -8868,6 +9002,7 @@ function resetearBaseDeDatos(skipConfirm = false) {
       currentPitchingBox: { outsPitcher: 0, k: 0, bb: 0, h: 0, cl: 0, wp: 0 },
       currentFieldingBox: {}
     };
+    window.liveState = liveState;
 
     activePitcherStats.totalPitches = 0;
     activePitcherStats.strikes = 0;
@@ -9461,29 +9596,226 @@ function seleccionarTurnoDirecto(idx, isGVE = true) {
   renderAll();
 }
 
-function renderLineupBuilder() {
-  const g = getActiveGame(), c = document.getElementById('lineup-builder-container');
-  if (!c) return;
-  const opts = ["P", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "DH", "EH"];
-  if (!g.lineup || g.lineup.length === 0) {
-    c.innerHTML = `<div style="padding:20px; text-align:center; color:#94A3B8;"><button onclick="agregarBateadorManual()" style="background:#00D2FF; color:#000; border:none; padding:8px 16px; border-radius:6px; font-weight:900; cursor:pointer;">+ Agregar Bateador</button></div>`;
-    return;
-  }
-  c.innerHTML = g.lineup.map((slot, i) => `
-    <div class="lineup-builder-row">
-      <div class="order-badge">${slot.order}</div>
-      <select onchange="updateLineupSlot(${i}, 'playerId', this.value)" style="flex:2; background:#070D1A; color:#fff; border:1px solid #1E293B; padding:8px; border-radius:6px; font-weight:700;">
-        ${MASTER_ROSTER.map(p => `<option value="${p.id}" ${p.id == slot.playerId ? 'selected' : ''}>#${p.num} ${p.name} (${p.bats||'R'})</option>`).join('')}
-      </select>
-      <select onchange="updateLineupSlot(${i}, 'pos', this.value)" style="width:110px; background:#070D1A; color:#FFC72C; font-weight:800; border:1px solid #1E293B; padding:8px; border-radius:6px;">
-        ${opts.map(pos => `<option value="${pos}" ${pos === slot.pos ? 'selected' : ''}>${pos} (${POS_NUM[pos]||pos})</option>`).join('')}
-      </select>
-      <button onclick="moverBateadorManual(${i}, -1)" class="btn-order-move" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>🔼</button>
-      <button onclick="moverBateadorManual(${i}, 1)" class="btn-order-move" ${i === g.lineup.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>🔽</button>
-      <button onclick="eliminarBateadorManual(${i})" class="btn-slot-delete">✖</button>
-    </div>
-  `).join('');
+let currentLineupBuilderView = 'home'; // 'home' | 'away'
+
+function cambiarPestanaLineup(tipo) {
+  currentLineupBuilderView = tipo;
+  renderLineupBuilder();
 }
+window.cambiarPestanaLineup = cambiarPestanaLineup;
+
+function renderLineupBuilder() {
+  const g = getActiveGame();
+  const c = document.getElementById('lineup-builder-container');
+  if (!c || !g) return;
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? (g.isHomeClub && g.condicion !== 'AWAY') : true;
+  const rivalName = (g.rival || 'RIVAL').toUpperCase();
+  const gveName = 'GUERREROS';
+  
+  // Sincronizar botones de pestañas en el Lineup Builder
+  const btnTabHome = document.getElementById('btn-lineup-tab-home');
+  const btnTabAway = document.getElementById('btn-lineup-tab-away');
+  const lblHome = document.getElementById('label-lineup-tab-home');
+  const lblAway = document.getElementById('label-lineup-tab-away');
+  const badgeRole = document.getElementById('badge-lineup-role-info');
+  const titleEl = document.getElementById('lineup-builder-title');
+  const subtitleEl = document.getElementById('lineup-builder-subtitle');
+  
+  if (lblHome) lblHome.innerText = isHomeClub ? `(${gveName})` : `(${rivalName})`;
+  if (lblAway) lblAway.innerText = isHomeClub ? `(${rivalName})` : `(${gveName})`;
+
+  const isViewingHome = (currentLineupBuilderView === 'home');
+  if (btnTabHome && btnTabAway) {
+    if (isViewingHome) {
+      btnTabHome.style.background = '#00D2FF';
+      btnTabHome.style.color = '#000';
+      btnTabHome.style.fontWeight = '900';
+      btnTabHome.style.boxShadow = '0 0 10px rgba(0,210,255,0.4)';
+
+      btnTabAway.style.background = 'transparent';
+      btnTabAway.style.color = '#94A3B8';
+      btnTabAway.style.fontWeight = '700';
+      btnTabAway.style.boxShadow = 'none';
+
+      if (badgeRole) {
+        badgeRole.innerHTML = '👑 Cierra el Inning (Baja ▼)';
+        badgeRole.style.color = '#10B981';
+        badgeRole.style.borderColor = '#10B981';
+        badgeRole.style.background = 'rgba(16,185,129,0.15)';
+      }
+    } else {
+      btnTabHome.style.background = 'transparent';
+      btnTabHome.style.color = '#94A3B8';
+      btnTabHome.style.fontWeight = '700';
+      btnTabHome.style.boxShadow = 'none';
+
+      btnTabAway.style.background = '#FFC72C';
+      btnTabAway.style.color = '#000';
+      btnTabAway.style.fontWeight = '900';
+      btnTabAway.style.boxShadow = '0 0 10px rgba(255,199,44,0.4)';
+
+      if (badgeRole) {
+        badgeRole.innerHTML = '⚔️ Abre el Inning (Alta ▲)';
+        badgeRole.style.color = '#FFC72C';
+        badgeRole.style.borderColor = '#FFC72C';
+        badgeRole.style.background = 'rgba(255,199,44,0.15)';
+      }
+    }
+  }
+
+  // Determinar si se edita Guerreros o Rival
+  const isEditingGVE = (isViewingHome && isHomeClub) || (!isViewingHome && !isHomeClub);
+  const activeTeamName = isEditingGVE ? 'GUERREROS (+55)' : rivalName;
+  if (titleEl) {
+    titleEl.innerText = `📋 Orden al Bate Oficial: ${activeTeamName} (${isViewingHome ? 'HOME CLUB ▼' : 'VISITANTE ▲'})`;
+  }
+  if (subtitleEl) {
+    subtitleEl.innerText = isEditingGVE 
+      ? 'Ajusta el orden táctico de Guerreros con los controles 🔼 / 🔽 o selecciona del Roster Master.'
+      : `Ajusta el orden al bate del rival (${rivalName}) con nombres, números, posiciones y orden táctico.`;
+  }
+
+  const opts = ["P", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "DH", "EH"];
+
+  if (isEditingGVE) {
+    // 🇻🇪 ALINEACIÓN GUERREROS DE VENEZUELA
+    if (!g.lineup || g.lineup.length === 0) {
+      c.innerHTML = `<div style="padding:20px; text-align:center; color:#94A3B8;"><button onclick="agregarBateadorManual()" style="background:#00D2FF; color:#000; border:none; padding:8px 16px; border-radius:6px; font-weight:900; cursor:pointer;">+ Agregar Bateador</button></div>`;
+      return;
+    }
+    c.innerHTML = g.lineup.map((slot, i) => `
+      <div class="lineup-builder-row">
+        <div class="order-badge">${slot.order}</div>
+        <select onchange="updateLineupSlot(${i}, 'playerId', this.value)" style="flex:2; background:#070D1A; color:#fff; border:1px solid #1E293B; padding:8px; border-radius:6px; font-weight:700;">
+          ${MASTER_ROSTER.map(p => `<option value="${p.id}" ${p.id == slot.playerId ? 'selected' : ''}>#${p.num} ${p.name} (${p.bats||'R'})</option>`).join('')}
+        </select>
+        <select onchange="updateLineupSlot(${i}, 'pos', this.value)" style="width:110px; background:#070D1A; color:#FFC72C; font-weight:800; border:1px solid #1E293B; padding:8px; border-radius:6px;">
+          ${opts.map(pos => `<option value="${pos}" ${pos === slot.pos ? 'selected' : ''}>${pos} (${POS_NUM[pos]||pos})</option>`).join('')}
+        </select>
+        <button onclick="moverBateadorManual(${i}, -1)" class="btn-order-move" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>🔼</button>
+        <button onclick="moverBateadorManual(${i}, 1)" class="btn-order-move" ${i === g.lineup.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>🔽</button>
+        <button onclick="eliminarBateadorManual(${i})" class="btn-slot-delete">✖</button>
+      </div>
+    `).join('');
+  } else {
+    // ⚔️ ALINEACIÓN EQUIPO RIVAL
+    const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : null);
+    if (!rivalRecord) {
+      c.innerHTML = `<div style="padding:20px; text-align:center; color:#94A3B8;">No se encontró información del rival.</div>`;
+      return;
+    }
+    if (!Array.isArray(rivalRecord.lineup) || rivalRecord.lineup.length === 0) {
+      rivalRecord.lineup = [
+        { order: 1, name: "Carlos Perez", number: "10", pos: "CF", bats: "R", throws: "R" },
+        { order: 2, name: "Derek Johnson", number: "4", pos: "2B", bats: "R", throws: "R" },
+        { order: 3, name: "Marcus Vance", number: "25", pos: "1B", bats: "L", throws: "L" },
+        { order: 4, name: "Anthony Miller", number: "34", pos: "LF", bats: "R", throws: "R" },
+        { order: 5, name: "Steve Clark", number: "18", pos: "RF", bats: "R", throws: "R" },
+        { order: 6, name: "Luis Rodriguez", number: "12", pos: "3B", bats: "R", throws: "R" },
+        { order: 7, name: "Jason Smith", number: "7", pos: "SS", bats: "S", throws: "R" },
+        { order: 8, name: "Brian White", number: "2", pos: "C", bats: "R", throws: "R" },
+        { order: 9, name: "Tom Reynolds", number: "21", pos: "P", bats: "R", throws: "R" }
+      ];
+    }
+    const rivalHeader = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:#0B132B; padding:8px 12px; border-radius:6px; border:1px solid #1E293B;">
+        <span style="font-size:12px; color:#FFC72C; font-weight:800;">⚔️ Alineación de ${rivalRecord.name || rivalName} (${rivalRecord.lineup.length} Bateadores)</span>
+        <div style="display:flex; gap:6px;">
+          <button type="button" onclick="agregarBateadorRival()" style="background:#00D2FF; color:#000; border:none; padding:4px 10px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;">+ Agregar Bateador</button>
+          <button type="button" onclick="restaurarLineupRivalDefecto()" style="background:#334155; color:#FFF; border:none; padding:4px 10px; border-radius:4px; font-weight:700; font-size:11px; cursor:pointer;">↺ Restaurar</button>
+        </div>
+      </div>
+    `;
+    const rivalRows = rivalRecord.lineup.map((slot, i) => `
+      <div class="lineup-builder-row">
+        <div class="order-badge" style="background:#FFC72C; color:#000;">${slot.order}</div>
+        <input type="text" value="${slot.name || ''}" onchange="updateRivalLineupSlot(${i}, 'name', this.value)" style="flex:2; background:#070D1A; color:#FFC72C; border:1px solid #1E293B; padding:8px; border-radius:6px; font-weight:700; font-size:12px;" placeholder="Nombre del Bateador">
+        <input type="text" value="${slot.number || ''}" onchange="updateRivalLineupSlot(${i}, 'number', this.value)" style="width:50px; background:#070D1A; color:#FFF; border:1px solid #1E293B; padding:8px; border-radius:6px; font-weight:800; font-size:12px; text-align:center;" placeholder="#">
+        <select onchange="updateRivalLineupSlot(${i}, 'pos', this.value)" style="width:110px; background:#070D1A; color:#00D2FF; font-weight:800; border:1px solid #1E293B; padding:8px; border-radius:6px;">
+          ${opts.map(pos => `<option value="${pos}" ${pos === slot.pos ? 'selected' : ''}>${pos} (${POS_NUM[pos]||pos})</option>`).join('')}
+        </select>
+        <button onclick="moverBateadorRival(${i}, -1)" class="btn-order-move" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>🔼</button>
+        <button onclick="moverBateadorRival(${i}, 1)" class="btn-order-move" ${i === rivalRecord.lineup.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>🔽</button>
+        <button onclick="eliminarBateadorRival(${i})" class="btn-slot-delete">✖</button>
+      </div>
+    `).join('');
+    c.innerHTML = rivalHeader + rivalRows;
+  }
+}
+
+function updateRivalLineupSlot(i, field, value) {
+  const g = getActiveGame();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
+  if (!rivalRecord || !rivalRecord.lineup || !rivalRecord.lineup[i]) return;
+  rivalRecord.lineup[i][field] = value;
+  try { localStorage.setItem('diamax_rivals_db_custom', JSON.stringify(RIVALS_DATABASE)); } catch(e) {}
+  updateLiveBatterDisplay();
+}
+
+function moverBateadorRival(i, dir) {
+  const g = getActiveGame();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
+  if (!rivalRecord || !rivalRecord.lineup) return;
+  const target = i + dir;
+  if (target < 0 || target >= rivalRecord.lineup.length) return;
+  const temp = rivalRecord.lineup[i];
+  rivalRecord.lineup[i] = rivalRecord.lineup[target];
+  rivalRecord.lineup[target] = temp;
+  rivalRecord.lineup.forEach((slot, idx) => slot.order = idx + 1);
+  try { localStorage.setItem('diamax_rivals_db_custom', JSON.stringify(RIVALS_DATABASE)); } catch(e) {}
+  renderLineupBuilder();
+  updateLiveBatterDisplay();
+}
+
+function eliminarBateadorRival(i) {
+  const g = getActiveGame();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
+  if (!rivalRecord || !rivalRecord.lineup || rivalRecord.lineup.length <= 1) return alert("Mínimo 1 bateador en alineación rival.");
+  rivalRecord.lineup.splice(i, 1);
+  rivalRecord.lineup.forEach((slot, idx) => slot.order = idx + 1);
+  try { localStorage.setItem('diamax_rivals_db_custom', JSON.stringify(RIVALS_DATABASE)); } catch(e) {}
+  renderLineupBuilder();
+  updateLiveBatterDisplay();
+}
+
+function agregarBateadorRival() {
+  const g = getActiveGame();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
+  if (!rivalRecord) return;
+  if (!Array.isArray(rivalRecord.lineup)) rivalRecord.lineup = [];
+  if (rivalRecord.lineup.length >= 14) return alert("Máximo 14 bateadores permitidos.");
+  const nextOrder = rivalRecord.lineup.length + 1;
+  rivalRecord.lineup.push({
+    order: nextOrder,
+    name: `Bateador ${nextOrder}`,
+    number: `${nextOrder}`,
+    pos: "DH",
+    bats: "R",
+    throws: "R"
+  });
+  try { localStorage.setItem('diamax_rivals_db_custom', JSON.stringify(RIVALS_DATABASE)); } catch(e) {}
+  renderLineupBuilder();
+  updateLiveBatterDisplay();
+}
+
+function restaurarLineupRivalDefecto() {
+  const g = getActiveGame();
+  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
+  if (!rivalRecord) return;
+  const defRival = (typeof DEFAULT_RIVALS_DATABASE !== 'undefined' ? DEFAULT_RIVALS_DATABASE : []).find(r => r.id === rivalRecord.id) || DEFAULT_RIVALS_DATABASE[0];
+  if (defRival && Array.isArray(defRival.lineup)) {
+    rivalRecord.lineup = JSON.parse(JSON.stringify(defRival.lineup));
+    try { localStorage.setItem('diamax_rivals_db_custom', JSON.stringify(RIVALS_DATABASE)); } catch(e) {}
+    renderLineupBuilder();
+    updateLiveBatterDisplay();
+    mostrarToast("↺ Lineup predeterminado del rival restaurado");
+  }
+}
+window.updateRivalLineupSlot = updateRivalLineupSlot;
+window.moverBateadorRival = moverBateadorRival;
+window.eliminarBateadorRival = eliminarBateadorRival;
+window.agregarBateadorRival = agregarBateadorRival;
+window.restaurarLineupRivalDefecto = restaurarLineupRivalDefecto;
 
 function agregarBateadorManual() {
   const g = getActiveGame();
@@ -10757,19 +11089,19 @@ function updateLiveBatterDisplay() {
   const flowContainer = document.getElementById('tactical-flow-diagram');
   if (flowContainer) {
     flowContainer.innerHTML = `
-      <div class="flow-badge-item ${isTop ? 'active-flow' : 'inactive-flow'}">
+      <button type="button" id="btn-flow-top" class="flow-badge-item ${isTop ? 'active-flow' : 'inactive-flow'}" onclick="setHalfInningDugout('top')" title="${isEn ? 'Click to set VISITOR at bat (Top Half ▲)' : 'Clic para activar VISITANTE al bate (Entrada Alta ▲)'}">
         <span class="flow-inn-label">${isEn ? '1️⃣ TOP HALF ▲' : '1️⃣ ENTRADA ALTA ▲'}</span>
         <span class="flow-action-label">${isEn ? '⚔️ [VISITOR AT BAT]' : '⚔️ [VISITANTE AL BATE]'}</span>
         <strong class="flow-team-name">${awayName}</strong>
         <span class="flow-sub-label">${isHomeClub ? (isEn ? '🛡️ Guerreros Defends/Pitches' : '🛡️ Guerreros Defiende/Lanza') : (isEn ? '🔥 Guerreros Attacks/Bats' : '🔥 Guerreros Ataca/Batea')}</span>
-      </div>
+      </button>
       <div class="flow-divider-arrow">➔</div>
-      <div class="flow-badge-item ${!isTop ? 'active-flow' : 'inactive-flow'}">
+      <button type="button" id="btn-flow-bot" class="flow-badge-item ${!isTop ? 'active-flow' : 'inactive-flow'}" onclick="setHalfInningDugout('bot')" title="${isEn ? 'Click to set HOME CLUB at bat (Bottom Half ▼)' : 'Clic para activar HOME CLUB al bate (Entrada Baja ▼)'}">
         <span class="flow-inn-label">${isEn ? '2️⃣ BOTTOM HALF ▼' : '2️⃣ ENTRADA BAJA ▼'}</span>
         <span class="flow-action-label">${isEn ? '👑 [HOME CLUB AT BAT]' : '👑 [HOME CLUB AL BATE]'}</span>
         <strong class="flow-team-name">${homeName}</strong>
         <span class="flow-sub-label">${isHomeClub ? (isEn ? '🔥 Guerreros Attacks/Bats' : '🔥 Guerreros Ataca/Batea') : (isEn ? '🛡️ Guerreros Defends/Pitches' : '🛡️ Guerreros Defiende/Lanza')}</span>
-      </div>
+      </button>
     `;
   }
 
@@ -13661,7 +13993,12 @@ function setCondicionJuego(isHome) {
   g.isHomeClub = isHome;
   g.condicion = isHome ? 'HOME' : 'AWAY';
   g.halfInningRule = isHome ? 'VISITANTE_BATEA_ALTA_1' : 'GUERREROS_BATEA_ALTA_1';
-    GAME_ACTIVE = g;
+  GAME_ACTIVE = g;
+
+  liveState.isHomeClub = isHome;
+  if (window.DIAMAX_DISPATCHER && window.DIAMAX_DISPATCHER.gameState) {
+    window.DIAMAX_DISPATCHER.gameState.isHomeClub = isHome;
+  }
 
   if (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) {
     GAME_ACTIVE.isHomeClub = isHome;
@@ -13676,7 +14013,50 @@ function setCondicionJuego(isHome) {
     DIAMAX_SYNC_ENGINE.enqueueChange('UPDATE_CONDITION', { gameId: g.id, isHomeClub: isHome });
   }
 
-  // Sincronizar botón de ribbon
+  // Sincronizar botones individuales en el ribbon de inmediato
+  const btnRibbonHome = document.getElementById('btn-ribbon-home');
+  const btnRibbonAway = document.getElementById('btn-ribbon-away');
+  if (btnRibbonHome && btnRibbonAway) {
+    if (isHome) {
+      btnRibbonHome.style.background = '#00D2FF';
+      btnRibbonHome.style.color = '#000';
+      btnRibbonHome.style.fontWeight = '900';
+      btnRibbonHome.style.boxShadow = '0 0 12px rgba(0,210,255,0.5)';
+
+      btnRibbonAway.style.background = 'transparent';
+      btnRibbonAway.style.color = '#94A3B8';
+      btnRibbonAway.style.fontWeight = '700';
+      btnRibbonAway.style.boxShadow = 'none';
+    } else {
+      btnRibbonHome.style.background = 'transparent';
+      btnRibbonHome.style.color = '#94A3B8';
+      btnRibbonHome.style.fontWeight = '700';
+      btnRibbonHome.style.boxShadow = 'none';
+
+      btnRibbonAway.style.background = '#FFC72C';
+      btnRibbonAway.style.color = '#000';
+      btnRibbonAway.style.fontWeight = '900';
+      btnRibbonAway.style.boxShadow = '0 0 12px rgba(255,199,44,0.5)';
+    }
+  }
+
+  // Sincronizar insignia de matchup en ribbon
+  const ribbonHomeTeam = document.getElementById('ribbon-home-team-name');
+  const ribbonAwayTeam = document.getElementById('ribbon-away-team-name');
+  if (ribbonHomeTeam && ribbonAwayTeam) {
+    const rivalName = (g && g.rival) ? g.rival : 'DAYTONA BEACH';
+    const rivalAbbr = (g && g.rivalAbbr) ? g.rivalAbbr : '';
+    const rDisplayName = (rivalAbbr ? rivalAbbr : rivalName).toUpperCase();
+    if (isHome) {
+      ribbonHomeTeam.innerText = 'GUERREROS';
+      ribbonAwayTeam.innerText = rDisplayName;
+    } else {
+      ribbonHomeTeam.innerText = rDisplayName;
+      ribbonAwayTeam.innerText = 'GUERREROS';
+    }
+  }
+
+  // Sincronizar botón de ribbon de compatibilidad
   const condBtn = document.getElementById('game-condition-badge');
   if (condBtn) {
     condBtn.innerText = isHome ? "🔄 HOME CLUB (LOCAL)" : "🔄 VISITANTE";
