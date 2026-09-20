@@ -18,11 +18,15 @@ const suites = [
   { name: 'Sprint 2B — Browser E2E & Determinism (B01-B35)', file: 'test_browser_e2e_sprint2b.js' },
   { name: 'Sprint 2C — IndexedDB / Offline & Sync Engine (C01-C35)', file: 'test_c01_c35.js' },
   { name: 'Sprint 2D — Supabase Auth, RLS & RBAC (D01-D30)', file: 'test_d01_d30.js' },
-  { name: 'Sprint 3 — Agente IA Sabermétrico & Lineup NLP (AI01-AI30)', file: 'test_ai_agent.js' }
+  { name: 'Sprint 2E — Dugout 30 Tactical Commands Regression (BTN01-BTN29)', file: 'test_dugout_regression_buttons.js' },
+  { name: 'Sprint 2F — Lineup Isolation & Half-Inning Transitions (LIN01-LIN25)', file: 'test_independent_lineups_buttons.js' },
+  { name: 'Sprint 2G — Master Multi-Inning E2E Pipeline & 4 Pillars (E2E01-E2E54)', file: 'test_master_e2e_lineup_and_pipeline.js' },
+  { name: 'Sprint 3 — Agente IA Sabermétrico & Lineup NLP (AI01-AI30)', file: 'test_ai_agent.js' },
+  { name: 'Sprint 4 — Blindaje Estricto de Alineaciones & Anti-Mezcla', file: 'test_isolated_lineup_hardening.js' }
 ];
 
 console.log('═══════════════════════════════════════════════════════════════════════════');
-console.log('🚀 DIAMAX PRO — PRODUCTION CI/CD MASTER TEST RUNNER (317 TESTS)');
+console.log('🚀 DIAMAX PRO — PRODUCTION CI/CD MASTER TEST RUNNER (425 TESTS)');
 console.log('═══════════════════════════════════════════════════════════════════════════\n');
 
 let totalSuitesPassed = 0;

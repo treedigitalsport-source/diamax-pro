@@ -59,8 +59,8 @@ function createInitialTeamState(teamId, teamName, playerPrefix = 'p') {
 function createInitialGameState(config = {}) {
   const gameId = config.gameId || 'game-001';
   const tenantId = config.tenantId || 'tenant-tampa-2026';
-  const awayTeam = config.awayTeam || createInitialTeamState('team-away', 'Visitantes', 'away');
-  const homeTeam = config.homeTeam || createInitialTeamState('team-home', 'Locales', 'home');
+  const awayTeam = config.awayTeam ? JSON.parse(JSON.stringify(config.awayTeam)) : createInitialTeamState('team-away', 'Visitantes', 'away');
+  const homeTeam = config.homeTeam ? JSON.parse(JSON.stringify(config.homeTeam)) : createInitialTeamState('team-home', 'Locales', 'home');
 
   return {
     gameId,

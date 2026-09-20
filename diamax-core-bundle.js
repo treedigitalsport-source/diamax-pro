@@ -141,6 +141,8 @@
   }
 
   function createInitialGameState(config = {}) {
+    const awayTeam = config.awayTeam ? JSON.parse(JSON.stringify(config.awayTeam)) : createInitialTeamState('team-away', 'Guerreros (Visitante)', 'away');
+    const homeTeam = config.homeTeam ? JSON.parse(JSON.stringify(config.homeTeam)) : createInitialTeamState('team-home', 'Rival (Local)', 'home');
     return {
       gameId: config.gameId || 'game-001',
       tenantId: config.tenantId || 'tenant-001',
@@ -151,8 +153,8 @@
       count: { balls: 0, strikes: 0 },
       bases: { b1: null, b2: null, b3: null },
       score: { home: 0, away: 0, inningsHome: [0], inningsAway: [0] },
-      awayTeam: config.awayTeam || createInitialTeamState('team-away', 'Guerreros (Visitante)', 'away'),
-      homeTeam: config.homeTeam || createInitialTeamState('team-home', 'Rival (Local)', 'home'),
+      awayTeam,
+      homeTeam,
       activePlateAppearanceId: null,
       totalEventsProcessed: 0,
       lastEventId: null
@@ -720,6 +722,24 @@
       };
 
       switch (command.type) {
+        case 'RECORD_PITCH': {
+          canonicalEvent.eventType = 'PITCH';
+          const isStrike = !!command.payload.isStrike;
+          canonicalEvent.pitchDetails = {
+            pitchType: command.payload.pitchType || '4-SEAM',
+            velocity: command.payload.velocity || 0,
+            isStrike,
+            result: command.payload.pitchResult || (isStrike ? 'CALLED_STRIKE' : 'BALL')
+          };
+          canonicalEvent.plateAppearanceId = state.activePlateAppearanceId || `pa-${state.inning}-${state.half}-${batterId}`;
+          
+          let bAfter = state.count.balls + (isStrike ? 0 : 1);
+          let sAfter = state.count.strikes + (isStrike ? 1 : 0);
+          canonicalEvent.countAfter = { balls: bAfter, strikes: sAfter };
+          canonicalEvent.coordinates = command.payload.coordinates || (command.payload.x !== undefined ? { x: command.payload.x, y: command.payload.y } : null);
+          break;
+        }
+
         case 'RECORD_HIT': {
           const code = command.payload.resultCode || '1B';
           let runs = [];
@@ -748,6 +768,7 @@
           const rbi = typeof command.payload.rbi === 'number' ? command.payload.rbi : runs.length;
 
           canonicalEvent.result = { code, description: command.payload.description || `Hit (${code})`, outsRecorded: 0, runsScored: runs, rbi, errors: [] };
+          canonicalEvent.coordinates = command.payload.coordinates || (command.payload.x !== undefined ? { x: command.payload.x, y: command.payload.y } : null);
           break;
         }
 
@@ -756,6 +777,7 @@
           canonicalEvent.result = { code, description: command.payload.description || `Out (${code})`, outsRecorded: 1, runsScored: [], rbi: 0, errors: [] };
           canonicalEvent.outsAfter = state.outs + 1;
           canonicalEvent.isHalfInningEnd = canonicalEvent.outsAfter >= 3;
+          canonicalEvent.coordinates = command.payload.coordinates || (command.payload.x !== undefined ? { x: command.payload.x, y: command.payload.y } : null);
           break;
         }
 
@@ -785,6 +807,7 @@
           canonicalEvent.result = { code, description: `Sacrificio (${code})`, outsRecorded: 1, runsScored: runs, rbi: runs.length, errors: [] };
           canonicalEvent.outsAfter = state.outs + 1;
           canonicalEvent.isHalfInningEnd = canonicalEvent.outsAfter >= 3;
+          canonicalEvent.coordinates = command.payload.coordinates || (command.payload.x !== undefined ? { x: command.payload.x, y: command.payload.y } : null);
           break;
         }
 
@@ -794,6 +817,7 @@
           canonicalEvent.outsAfter = state.outs + 2;
           canonicalEvent.isHalfInningEnd = canonicalEvent.outsAfter >= 3;
           canonicalEvent.basesAfter = { b1: null, b2: null, b3: state.bases.b3 };
+          canonicalEvent.coordinates = command.payload.coordinates || (command.payload.x !== undefined ? { x: command.payload.x, y: command.payload.y } : null);
           break;
         }
 
@@ -801,6 +825,7 @@
           const errors = command.payload.errors || [{ fielderId: command.payload.fielderId || 'home-5', errorType: 'FIELDING', baseReached: 'b1' }];
           canonicalEvent.result = { code: 'ROE', description: 'Error Defensivo', outsRecorded: 0, runsScored: [], rbi: 0, errors };
           canonicalEvent.basesAfter = { ...state.bases, b1: batterId };
+          canonicalEvent.coordinates = command.payload.coordinates || (command.payload.x !== undefined ? { x: command.payload.x, y: command.payload.y } : null);
           break;
         }
 
@@ -850,6 +875,18 @@
           canonicalEvent.basesAfter = newBases;
           canonicalEvent.outsAfter = state.outs + outsRecorded;
           canonicalEvent.isHalfInningEnd = canonicalEvent.outsAfter >= 3;
+          break;
+        }
+
+        case 'CHANGE_PITCHER': {
+          canonicalEvent.eventType = 'SUBSTITUTION';
+          canonicalEvent.substitution = {
+            type: 'PITCHER_CHANGE',
+            team: command.payload.team || (isTop ? 'home' : 'away'),
+            outgoingPlayerId: pitcherId,
+            incomingPlayerId: command.payload.newPitcherId
+          };
+          canonicalEvent.result = { code: 'PITCHER_CHANGE', outsRecorded: 0, runsScored: [], rbi: 0 };
           break;
         }
 

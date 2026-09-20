@@ -3597,18 +3597,8 @@ body.daylight-mode .btn-keypad:hover {
       <!-- SUB-VISTA B: INICIAR SESIÓN (USUARIO EXISTENTE / ADMINISTRADOR) -->
       <div id="p2-sub-login" style="display:none; max-width:460px; margin:20px auto;">
         
-        <!-- Tarjeta de Acceso QA / Administrador Oficial (Oculta en Producción Pública · Activa en Modo QA) -->
-        <div id="p2-qa-admin-panel" style="display:none; background:linear-gradient(135deg, rgba(24,216,255,0.12), rgba(139,92,246,0.1)); border:1.5px solid #18D8FF; border-radius:16px; padding:16px 18px; margin-bottom:20px; box-shadow:0 0 25px rgba(24,216,255,0.2);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <div style="font-size:12px; font-weight:900; color:#18D8FF; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:6px;">
-              <span>👑</span> <span>Acceso QA / Administrador (CEO Alí Zapata)</span>
-            </div>
-            <span style="font-size:10px; background:rgba(24,201,149,0.2); border:1px solid #18C995; color:#A7F3D0; padding:2px 8px; border-radius:12px; font-weight:800;">QA Activo</span>
-          </div>
-          <button type="button" onclick="autoLlenarAdmin()" style="width:100%; padding:10px 14px; background:rgba(24,216,255,0.15); border:1px dashed #18D8FF; color:#18D8FF; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(24,216,255,0.25)'" onmouseout="this.style.background='rgba(24,216,255,0.15)'">
-            <span>⚡</span> <span>Cargar Acceso Directo de Pruebas (QA)</span>
-          </button>
-        </div>
+        <!-- Contenedor dinámico para QA Privado (Renderizado solo bajo comando explícito del desarrollador) -->
+        <div id="p2-qa-admin-panel" style="display:none;"></div>
 
         <div id="p2-login-alert" style="display:none; padding:12px; border-radius:10px; margin-bottom:16px; font-size:12.5px;"></div>
 
@@ -5355,6 +5345,37 @@ function setSafeHTML(id, html) {
   if (el) el.innerHTML = html;
 }
 
+// 📡 OBSERVABILIDAD Y TELEMETRÍA CENTRALIZADA (Zero Unhandled Errors)
+window.addEventListener('error', function(e) {
+  const errorPayload = {
+    type: 'UNHANDLED_ERROR',
+    message: e.message,
+    filename: e.filename,
+    lineno: e.lineno,
+    colno: e.colno,
+    stack: e.error ? e.error.stack : null,
+    timestamp: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    url: window.location.href,
+    gameState: (typeof window !== 'undefined' && window.DIAMAX_DISPATCHER) ? {
+      inning: window.DIAMAX_DISPATCHER.getCurrentSnapshot().gameState.inning,
+      half: window.DIAMAX_DISPATCHER.getCurrentSnapshot().gameState.half,
+      outs: window.DIAMAX_DISPATCHER.getCurrentSnapshot().gameState.outs
+    } : null
+  };
+  console.error('[DIAMAX_TELEMETRY_EXCEPTION]', errorPayload);
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+  const errorPayload = {
+    type: 'UNHANDLED_PROMISE_REJECTION',
+    reason: e.reason ? (e.reason.message || String(e.reason)) : 'Unknown',
+    stack: e.reason && e.reason.stack ? e.reason.stack : null,
+    timestamp: new Date().toISOString()
+  };
+  console.error('[DIAMAX_TELEMETRY_REJECTION]', errorPayload);
+});
+
 // TOGGLE DRAWER & CARGA DE CONFIGURACIÓN SUPABASE
 function toggleSettingsDrawer(open) {
   const drawer = document.getElementById('settings-drawer');
@@ -5477,6 +5498,13 @@ let bullpenRoster = [
 ];
 
 function registrarPitcheoRapido(tipo, esStrike) {
+  if (window.DIAMAX_DISPATCHER) {
+    window.DIAMAX_DISPATCHER.dispatch({
+      type: 'RECORD_PITCH',
+      payload: { pitchType: tipo, isStrike: !!esStrike }
+    });
+  }
+
   activePitcherStats.totalPitches++;
   if (esStrike) {
     activePitcherStats.strikes++;
@@ -5617,18 +5645,7 @@ function cambiarEstadoBullpenModal() {
 // 📊 MOTOR DE SPRAY CHARTS 2D & MAPAS DE CALOR POR ZONA (FASE 7)
 let currentSprayFilter = 'ALL';
 
-const SPRAY_MOCK_DATA = [
-  { id: 1, type: 'GB', x: 200, y: 340, text: 'Rolata 6-3' },
-  { id: 2, type: 'GB', x: 170, y: 350, text: 'Hit por 3B' },
-  { id: 3, type: 'LD', x: 290, y: 320, text: 'Línea a 2B' },
-  { id: 4, type: 'FB', x: 120, y: 220, text: 'Fly al LF' },
-  { id: 5, type: 'FB', x: 250, y: 180, text: 'Fly al CF' },
-  { id: 6, type: 'LD', x: 380, y: 230, text: 'Doble al RF' },
-  { id: 7, type: 'HR', x: 100, y: 140, text: 'Jonrón por LF' },
-  { id: 8, type: 'GB', x: 230, y: 360, text: 'Fielder Choice' },
-  { id: 9, type: 'FB', x: 370, y: 200, text: 'Flyout RF' },
-  { id: 10, type: 'HR', x: 260, y: 120, text: 'Jonrón por CF' }
-];
+const SPRAY_MOCK_DATA = [];
 
 const ZONE_PROFILES = {
   1: { avg: '.345', whiff: '14%', status: 'sz-hot' },
@@ -5655,7 +5672,14 @@ function renderSprayChart() {
       if (!code || code === 'BB' || code === 'IBB' || code === 'HBP' || code === 'K_SWINGING' || code === 'K_LOOKING') return;
 
       let x = 250, y = 250, type = 'GB', text = ev.result.description || code;
-      if (code === '1B') { x = 220 + (idx % 5) * 15; y = 290; type = 'LD'; }
+      if (ev.coordinates && typeof ev.coordinates.x === 'number' && typeof ev.coordinates.y === 'number') {
+        x = ev.coordinates.x;
+        y = ev.coordinates.y;
+        if (code === 'HR' || code === 'HR_INSIDE_PARK') type = 'HR';
+        else if (code === '1B' || code === '2B' || code === '3B') type = 'LD';
+        else if (code === 'FO' || (typeof code === 'string' && code.startsWith('Fly'))) type = 'FB';
+        else type = 'GB';
+      } else if (code === '1B') { x = 220 + (idx % 5) * 15; y = 290; type = 'LD'; }
       else if (code === '2B') { x = 160 + (idx % 4) * 20; y = 220; type = 'LD'; }
       else if (code === '3B') { x = 360 + (idx % 3) * 15; y = 200; type = 'LD'; }
       else if (code === 'HR' || code === 'HR_INSIDE_PARK') { x = 200 + (idx % 6) * 20; y = 110; type = 'HR'; }
@@ -6558,7 +6582,28 @@ function toggleModoQA(activar) {
   const verifBtn = document.getElementById('p2-qa-verif-btn');
   const p1QaBtn = document.getElementById('p1-qa-dugout-btn');
   const forzar = activar !== undefined ? activar : (panel && panel.style.display === 'none');
-  if (panel) panel.style.display = forzar ? 'block' : 'none';
+  
+  if (panel) {
+    if (forzar) {
+      panel.style.display = 'block';
+      panel.innerHTML = `
+        <div style="background:linear-gradient(135deg, rgba(24,216,255,0.12), rgba(139,92,246,0.1)); border:1.5px solid #18D8FF; border-radius:16px; padding:16px 18px; margin-bottom:20px; box-shadow:0 0 25px rgba(24,216,255,0.2);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-size:12px; font-weight:900; color:#18D8FF; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:6px;">
+              <span>👑</span> <span>Acceso QA / Administrador Privado</span>
+            </div>
+            <span style="font-size:10px; background:rgba(24,201,149,0.2); border:1px solid #18C995; color:#A7F3D0; padding:2px 8px; border-radius:12px; font-weight:800;">QA Activo</span>
+          </div>
+          <button type="button" onclick="autoLlenarAdmin()" style="width:100%; padding:10px 14px; background:rgba(24,216,255,0.15); border:1px dashed #18D8FF; color:#18D8FF; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span>⚡</span> <span>Cargar Acceso Directo de Pruebas (QA)</span>
+          </button>
+        </div>
+      `;
+    } else {
+      panel.style.display = 'none';
+      panel.innerHTML = '';
+    }
+  }
   if (verifBtn) verifBtn.style.display = forzar ? 'inline-block' : 'none';
   if (p1QaBtn) p1QaBtn.style.display = forzar ? 'inline-flex' : 'none';
   if (forzar) {
@@ -6575,12 +6620,7 @@ window.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   if (params.get('qa') === '1' || params.get('mode') === 'qa' || localStorage.getItem('diamax_qa_mode') === 'true') {
     setTimeout(function() {
-      const panel = document.getElementById('p2-qa-admin-panel');
-      const verifBtn = document.getElementById('p2-qa-verif-btn');
-      const p1QaBtn = document.getElementById('p1-qa-dugout-btn');
-      if (panel) panel.style.display = 'block';
-      if (verifBtn) verifBtn.style.display = 'inline-block';
-      if (p1QaBtn) p1QaBtn.style.display = 'inline-flex';
+      toggleModoQA(true);
     }, 400);
   }
 });
@@ -6636,6 +6676,11 @@ function procesarLoginP2() {
       modality: 'BEISBOL_9',
       location: 'Valencia, Carabobo / Tampa USA',
       inviteCode: 'DMX-GVE-55-MASTER',
+      subscription: {
+        plan: 'ENTERPRISE',
+        status: 'ACTIVE',
+        entitlements: ['canScoreLive', 'canExportPDF', 'canUseAI', 'canManageRoster', 'canSyncSupabase', 'canAdminAll']
+      },
       permissions: ['ALL', 'SUPER_ADMIN', 'ADMIN_GENERAL', 'MANAGER', 'COACH', 'ADMIN_LIGA', 'ANOTADOR', 'SABERMETRICS'],
       pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', // 1234
       token: 'DMX-SEC-MASTER-ADMIN-ALI-ZAPATA-2026',
@@ -6656,7 +6701,13 @@ function procesarLoginP2() {
       role: 'MANAGER',
       team: 'Guerreros de Venezuela +55',
       category: '+55',
-      permissions: ['MANAGER', 'COACH'],
+      subscription: {
+        plan: 'PRO_TRIAL',
+        status: 'ACTIVE',
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        entitlements: ['canScoreLive', 'canExportPDF', 'canUseAI', 'canManageRoster']
+      },
+      permissions: ['MANAGER', 'COACH', 'ANOTADOR'],
       pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
       token: 'DMX-USER-' + Date.now(),
       brand: '3Tree Digital Sport IA © 2026'
@@ -7171,7 +7222,7 @@ function setHalfInningDugout(half) {
   liveState.base3 = false;
   window.liveState = liveState;
   if (window.DIAMAX_DISPATCHER && window.DIAMAX_DISPATCHER.gameState) {
-    window.DIAMAX_DISPATCHER.gameState.half = half;
+    window.DIAMAX_DISPATCHER.gameState.half = (half === 'top') ? 'TOP' : 'BOTTOM';
     window.DIAMAX_DISPATCHER.gameState.outs = 0;
     window.DIAMAX_DISPATCHER.gameState.runner1 = null;
     window.DIAMAX_DISPATCHER.gameState.runner2 = null;
@@ -9411,9 +9462,9 @@ function getLiveCurrentBatter() {
       ? g.lineup
       : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
     
-    const idx = Math.abs(Number(liveState.batterIndex !== undefined ? liveState.batterIndex : (liveState.gveBatterIndex || 0)));
-    liveState.batterIndex = idx;
+    const idx = Math.abs(Number(liveState.gveBatterIndex !== undefined ? liveState.gveBatterIndex : 0));
     liveState.gveBatterIndex = idx;
+    liveState.batterIndex = idx;
     
     const slot = lineup[idx % lineup.length] || lineup[0];
     const nextSlot = lineup[(idx + 1) % lineup.length] || lineup[0];
@@ -9605,6 +9656,11 @@ function registrarJugadaLive(action) {
     payload = { resultCode: 'CS', action: 'CS', description: 'Out Robando (CS)', pitcherName: pitcherName };
   }
 
+  if (window.DIAMAX_PENDING_HIT_COORDS) {
+    payload.coordinates = { ...window.DIAMAX_PENDING_HIT_COORDS };
+    window.DIAMAX_PENDING_HIT_COORDS = null;
+  }
+
   const res = window.DIAMAX_DISPATCHER ? window.DIAMAX_DISPATCHER.dispatch({ type: cmdType, payload }) : { success: false };
 
   if (res.success && res.snapshot) {
@@ -9642,9 +9698,14 @@ function registrarJugadaLive(action) {
         }
       }
 
-      // Avanzar el turno del bateador si concluyó la comparecencia al plato
+      // Avanzar el turno del bateador de forma aislada para cada alineación
       if (cmdType !== 'RECORD_RUNNER_EVENT') {
-        liveState.batterIndex = (liveState.batterIndex || 0) + 1;
+        if (isGVE) {
+          liveState.gveBatterIndex = ((liveState.gveBatterIndex || 0) + 1) % 9;
+          liveState.batterIndex = liveState.gveBatterIndex;
+        } else {
+          liveState.rivalBatterIndex = ((liveState.rivalBatterIndex || 0) + 1) % 9;
+        }
       }
     }
 
@@ -9744,8 +9805,14 @@ function deshacerJugadaLive() {
         }
       }
 
-      // Decrementar turno de bateador al revertir
-      liveState.batterIndex = Math.max(0, (liveState.batterIndex || 1) - 1);
+      // Decrementar turno de bateador al revertir sin mezclar alineaciones
+      const wasGVEBatting = (typeof isGuerrerosBattingNow === 'function') ? isGuerrerosBattingNow() : true;
+      if (wasGVEBatting) {
+        liveState.gveBatterIndex = ((liveState.gveBatterIndex || 1) - 1 + 9) % 9;
+        liveState.batterIndex = liveState.gveBatterIndex;
+      } else {
+        liveState.rivalBatterIndex = ((liveState.rivalBatterIndex || 1) - 1 + 9) % 9;
+      }
     }
 
     if (typeof setSafeHTML === 'function') {
@@ -9873,7 +9940,7 @@ function renderLiveLineupChips() {
   const container = document.getElementById('live-lineup-chips');
   if (!container) return;
   const g = getActiveGame();
-  const gveBatting = isGuerrerosBattingNow();
+  const gveBatting = (typeof isGuerrerosBattingNow === 'function') ? isGuerrerosBattingNow() : true;
   const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : { name: "CARDENALES", abbr: "CAR" });
 
   if (gveBatting) {
@@ -9881,14 +9948,18 @@ function renderLiveLineupChips() {
       ? g.lineup
       : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
     
-    const activeOrder = (Math.abs(Number(liveState.batterIndex || 0)) % lineup.length) + 1;
+    const activeIdx = Math.abs(Number(liveState.gveBatterIndex !== undefined ? liveState.gveBatterIndex : (liveState.batterIndex || 0))) % lineup.length;
+    const activeOrder = activeIdx + 1;
+    const nextOrder = ((activeIdx + 1) % lineup.length) + 1;
 
     container.innerHTML = lineup.map(slot => {
       const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { num: slot.order, name: `Bateador ${slot.order}` };
       const isCurrent = slot.order === activeOrder;
+      const isNext = slot.order === nextOrder;
       const firstName = p.name ? p.name.split(' ')[0] : `P${slot.order}`;
+      const chipClass = isCurrent ? 'lineup-chip active' : (isNext ? 'lineup-chip next' : 'lineup-chip');
       return `
-        <div class="lineup-chip ${isCurrent ? 'active' : ''}" onclick="seleccionarTurnoDirecto(${slot.order - 1}, true)" title="Guerreros: #${p.num} ${p.name} (${slot.pos})">
+        <div class="${chipClass}" onclick="seleccionarTurnoDirecto(${slot.order - 1}, true)" title="Guerreros: #${p.num} ${p.name} (${slot.pos})">
           ${slot.order}º #${p.num} ${firstName} (${slot.pos})
         </div>
       `;
@@ -9908,13 +9979,18 @@ function renderLiveLineupChips() {
           { order: 9, name: "Tom Reynolds", number: "21", pos: "P" }
         ];
 
-    const activeOrder = (Math.abs(Number(liveState.rivalBatterIndex || 0)) % rLineup.length) + 1;
+    const activeIdx = Math.abs(Number(liveState.rivalBatterIndex !== undefined ? liveState.rivalBatterIndex : 0)) % rLineup.length;
+    const activeOrder = activeIdx + 1;
+    const nextOrder = ((activeIdx + 1) % rLineup.length) + 1;
 
     container.innerHTML = rLineup.map(slot => {
       const isCurrent = slot.order === activeOrder;
+      const isNext = slot.order === nextOrder;
       const firstName = slot.name ? slot.name.split(' ')[0] : `R${slot.order}`;
+      const chipClass = isCurrent ? 'lineup-chip active' : (isNext ? 'lineup-chip next' : 'lineup-chip');
+      const activeStyle = isCurrent ? 'background:#EF4444; color:#fff; border-color:#EF4444; font-weight:900;' : (isNext ? 'border-color:#F59E0B; color:#F59E0B;' : 'border-color:#475569;');
       return `
-        <div class="lineup-chip ${isCurrent ? 'active' : ''}" style="${isCurrent ? 'background:#EF4444; color:#fff; border-color:#EF4444;' : 'border-color:#475569;'}" onclick="seleccionarTurnoDirecto(${slot.order - 1}, false)" title="${rivalRecord.name}: #${slot.number || slot.order} ${slot.name} (${slot.pos})">
+        <div class="${chipClass}" style="${activeStyle}" onclick="seleccionarTurnoDirecto(${slot.order - 1}, false)" title="${rivalRecord.name}: #${slot.number || slot.order} ${slot.name} (${slot.pos})">
           ${slot.order}º #${slot.number || slot.order} ${firstName} (${slot.pos})
         </div>
       `;
@@ -9922,15 +9998,20 @@ function renderLiveLineupChips() {
   }
 }
 
-function seleccionarTurnoDirecto(idx, isGVE = true) {
+function seleccionarTurnoDirecto(idx, isGVE) {
+  if (isGVE === undefined) {
+    isGVE = (typeof isGuerrerosBattingNow === 'function') ? isGuerrerosBattingNow() : true;
+  }
   if (isGVE) {
     liveState.batterIndex = idx;
     liveState.gveBatterIndex = idx;
     liveState.currentBatterIndex = idx;
   } else {
     liveState.rivalBatterIndex = idx;
+    liveState.currentBatterIndex = idx;
   }
-  renderAll();
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+  if (typeof renderAll === 'function') renderAll();
 }
 
 let currentLineupBuilderView = 'home'; // 'home' | 'away'
@@ -10156,70 +10237,108 @@ window.restaurarLineupRivalDefecto = restaurarLineupRivalDefecto;
 
 function agregarBateadorManual() {
   const g = getActiveGame();
-  if (g.lineup.length >= 14) return alert("Máximo 14 bateadores permitidos.");
-  const nextOrder = g.lineup.length + 1;
-  const used = g.lineup.map(s => s.playerId);
-  const avail = MASTER_ROSTER.find(p => !used.includes(p.id)) || MASTER_ROSTER[0];
-  g.lineup.push({ order: nextOrder, playerId: avail.id, pos: avail.defaultPos || "DH" });
-  saveGamesToStorage();
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? (g.isHomeClub && g.condicion !== 'AWAY') : true;
+  const isEditingGVE = (currentLineupBuilderView === 'home' && isHomeClub) || (currentLineupBuilderView === 'away' && !isHomeClub);
+
+  if (isEditingGVE) {
+    if (g.lineup.length >= 14) return alert("Máximo 14 bateadores permitidos para Guerreros.");
+    const nextOrder = g.lineup.length + 1;
+    const used = g.lineup.map(s => s.playerId);
+    const avail = MASTER_ROSTER.find(p => !used.includes(p.id)) || MASTER_ROSTER[0];
+    g.lineup.push({ order: nextOrder, playerId: avail.id, pos: avail.defaultPos || "DH" });
+    saveGamesToStorage();
     simularSincronizacionCloud();
     guardarJuegoEnFirestore();
-  initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
+    renderLineupBuilder();
+    renderAll();
+  } else {
+    agregarBateadorRival();
+  }
 }
 
 function eliminarBateadorManual(i) {
   const g = getActiveGame();
-  if (g.lineup.length <= 1) return alert("Mínimo 1 bateador.");
-  g.lineup.splice(i, 1);
-  g.lineup.forEach((slot, idx) => slot.order = idx + 1);
-  saveGamesToStorage();
-    simularSincronizacionCloud();
-    guardarJuegoEnFirestore();
-  initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
-}
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? (g.isHomeClub && g.condicion !== 'AWAY') : true;
+  const isEditingGVE = (currentLineupBuilderView === 'home' && isHomeClub) || (currentLineupBuilderView === 'away' && !isHomeClub);
 
-function moverBateadorManual(i, dir) {
-  const g = getActiveGame(), target = i + dir;
-  if (target < 0 || target >= g.lineup.length) return;
-  const temp = g.lineup[i];
-  g.lineup[i] = g.lineup[target];
-  g.lineup[target] = temp;
-  g.lineup.forEach((slot, idx) => slot.order = idx + 1);
-  saveGamesToStorage();
-    simularSincronizacionCloud();
-    guardarJuegoEnFirestore();
-  initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
-}
-
-function vaciarLineupManual() {
-  if (confirm("¿Vaciar todo el orden al bate?")) {
-    getActiveGame().lineup = [];
+  if (isEditingGVE) {
+    if (g.lineup.length <= 1) return alert("Mínimo 1 bateador para Guerreros.");
+    g.lineup.splice(i, 1);
+    g.lineup.forEach((slot, idx) => slot.order = idx + 1);
     saveGamesToStorage();
     simularSincronizacionCloud();
     guardarJuegoEnFirestore();
-    initSecurityPortal();
-  initFirebaseFromStorage();
-  renderAll();
+    renderLineupBuilder();
+    renderAll();
+  } else {
+    eliminarBateadorRival(i);
+  }
+}
+
+function moverBateadorManual(i, dir) {
+  const g = getActiveGame();
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? (g.isHomeClub && g.condicion !== 'AWAY') : true;
+  const isEditingGVE = (currentLineupBuilderView === 'home' && isHomeClub) || (currentLineupBuilderView === 'away' && !isHomeClub);
+
+  if (isEditingGVE) {
+    const target = i + dir;
+    if (target < 0 || target >= g.lineup.length) return;
+    const temp = g.lineup[i];
+    g.lineup[i] = g.lineup[target];
+    g.lineup[target] = temp;
+    g.lineup.forEach((slot, idx) => slot.order = idx + 1);
+    saveGamesToStorage();
+    simularSincronizacionCloud();
+    guardarJuegoEnFirestore();
+    renderLineupBuilder();
+    renderAll();
+  } else {
+    moverBateadorRival(i, dir);
+  }
+}
+
+function vaciarLineupManual() {
+  const g = getActiveGame();
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? (g.isHomeClub && g.condicion !== 'AWAY') : true;
+  const isEditingGVE = (currentLineupBuilderView === 'home' && isHomeClub) || (currentLineupBuilderView === 'away' && !isHomeClub);
+  const teamLabel = isEditingGVE ? 'Guerreros (+55)' : (g.rival || 'el Rival');
+
+  if (confirm(`¿Vaciar todo el orden al bate de ${teamLabel}?`)) {
+    if (isEditingGVE) {
+      g.lineup = [];
+      saveGamesToStorage();
+      simularSincronizacionCloud();
+      guardarJuegoEnFirestore();
+    } else {
+      const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
+      if (rivalRecord) {
+        rivalRecord.lineup = [];
+        try { localStorage.setItem('diamax_rivals_db_custom', JSON.stringify(RIVALS_DATABASE)); } catch(e) {}
+      }
+    }
+    renderLineupBuilder();
+    renderAll();
   }
 }
 
 function autoRellenarLineupIA() {
   const g = getActiveGame();
-  const order = [MASTER_ROSTER[0], MASTER_ROSTER[2], MASTER_ROSTER[5], MASTER_ROSTER[6], MASTER_ROSTER[1], MASTER_ROSTER[3], MASTER_ROSTER[4], MASTER_ROSTER[7], MASTER_ROSTER[8]];
-  g.lineup = order.map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
-  saveGamesToStorage();
+  const isHomeClub = (g && g.isHomeClub !== undefined) ? (g.isHomeClub && g.condicion !== 'AWAY') : true;
+  const isEditingGVE = (currentLineupBuilderView === 'home' && isHomeClub) || (currentLineupBuilderView === 'away' && !isHomeClub);
+
+  if (isEditingGVE) {
+    const order = [MASTER_ROSTER[0], MASTER_ROSTER[2], MASTER_ROSTER[5], MASTER_ROSTER[6], MASTER_ROSTER[1], MASTER_ROSTER[3], MASTER_ROSTER[4], MASTER_ROSTER[7], MASTER_ROSTER[8]];
+    g.lineup = order.map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+    saveGamesToStorage();
     simularSincronizacionCloud();
     guardarJuegoEnFirestore();
-  initSecurityPortal();
-  initFirebaseFromStorage();
+    setSafeHTML('live-action-banner', ' Lineup de Guerreros optimizado por el motor de IA de DIAMAX.');
+  } else {
+    restaurarLineupRivalDefecto();
+    setSafeHTML('live-action-banner', ' Lineup del Rival restaurado a su configuración predeterminada.');
+  }
+  renderLineupBuilder();
   renderAll();
-  setSafeHTML('live-action-banner', ' Lineup optimizado por el motor de IA de DIAMAX.');
 }
 
 // 🎲 MOTOR DE SIMULACIÓN MONTE CARLO & MARKOV DE 24 ESTADOS
@@ -11814,16 +11933,10 @@ function marcarUbicacionBatazoCampo(e) {
   const current = (typeof getLiveCurrentBatter === 'function') ? getLiveCurrentBatter() : { player: { name: 'Bateador' } };
   const pName = (current && current.player) ? current.player.name : 'Bateador';
 
-  SPRAY_MOCK_DATA.push({
-    id: Date.now(),
-    type: type,
-    x: x,
-    y: y,
-    text: `${desc} de ${pName} (X:${x}, Y:${y})`
-  });
+  window.DIAMAX_PENDING_HIT_COORDS = { x, y, type, desc };
 
-  renderSprayChart();
-  mostrarToast(`📍 Terreno: ${desc} registrado en (${x}, ${y})`, 3000);
+  if (typeof renderSprayChart === 'function') renderSprayChart();
+  mostrarToast(`📍 Terreno: Ubicación fijada en (${x}, ${y}) - Selecciona la jugada en Dugout`, 3000);
 }
 window.marcarUbicacionBatazoCampo = marcarUbicacionBatazoCampo;
 
@@ -11951,34 +12064,7 @@ function updateLiveBatterDisplay() {
   updateOutsLEDs();
 }
 
-function renderLiveLineupChips() {
-  const container = document.getElementById('live-lineup-chips');
-  if (!container) return;
-  container.innerHTML = '';
-
-  const isTop = liveState.half === 'TOP';
-  const isHomeClub = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE && GAME_ACTIVE.isHomeClub !== undefined) ? GAME_ACTIVE.isHomeClub : true;
-  const gveIsBatting = (isHomeClub && !isTop) || (!isHomeClub && isTop);
-  const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => r.id === (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE ? GAME_ACTIVE.rivalId : activeRivalId)) || (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE[0] : null);
-
-  const lineupToRender = gveIsBatting ? getGuerrerosLineup() : ((rivalRecord && rivalRecord.lineup) ? rivalRecord.lineup.slice(0, 9) : []);
-
-  lineupToRender.forEach((item, index) => {
-    const isCurrent = index === liveState.currentBatterIndex;
-    const isDueNext = index === ((liveState.currentBatterIndex + 1) % lineupToRender.length);
-    const chip = document.createElement('div');
-    chip.className = `live-batter-chip ${isCurrent ? 'active' : ''} ${isDueNext ? 'next' : ''}`;
-    chip.onclick = () => seleccionarTurnoDirecto(index);
-    chip.innerHTML = `
-      <div class="chip-order">${index + 1}</div>
-      <div class="chip-info">
-        <div class="chip-name">${item.name}</div>
-        <div class="chip-pos">POS: ${item.pos || '-'} | #${item.number || '-'}</div>
-      </div>
-    `;
-    container.appendChild(chip);
-  });
-}
+// renderLiveLineupChips consolidated above
 
 function cambiarBateadorEmergente() {
   const g = getActiveGame(), slotIndex = liveState.batterIndex % g.lineup.length, cur = g.lineup[slotIndex];
