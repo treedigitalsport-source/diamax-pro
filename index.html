@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '6.3-pipeline-and-dynamic-spray';
+  const DEPLOY_VERSION = '6.4-live-hardening-and-highres-brand';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -2774,38 +2774,59 @@ body.daylight-mode .btn-keypad:hover {
   </defs>
 
   <symbol id="diamax-home-plate-symbol" viewBox="0 0 100 100">
-    <!-- Placa Principal Home Plate Pentagonal -->
-    <polygon points="50,89 14,53 14,14 86,14 86,53" 
+    <!-- 1. Placa Principal Home Plate Pentagonal con Gradiente Obsidian Profundo -->
+    <polygon points="50,90 12,52 12,12 88,12 88,52" 
              fill="url(#plateObsidianBase)" 
              stroke="url(#plateGoldBorder)" 
-             stroke-width="3.2" 
+             stroke-width="3.5" 
              stroke-linejoin="round"
              filter="url(#plateGoldDrop)"/>
 
-    <!-- Bisel Interior Reflejante -->
-    <polygon points="50,78 23,48 23,22 77,22 77,48" 
+    <!-- 2. Facetas Geométricas de Diamante Interno (Gleam 3D) -->
+    <polygon points="50,90 50,50 12,52" fill="rgba(255,255,255,0.03)"/>
+    <polygon points="50,90 50,50 88,52" fill="rgba(0,0,0,0.25)"/>
+    <polygon points="50,50 12,12 88,12" fill="rgba(255,255,255,0.05)"/>
+
+    <!-- 3. Bisel Interior Reflejante Cromo -->
+    <polygon points="50,79 21,47 21,20 79,20 79,47" 
              fill="none" 
-             stroke="rgba(255,255,255,0.45)" 
+             stroke="rgba(255,255,255,0.4)" 
              stroke-width="1.2" 
              stroke-linejoin="round"/>
 
-    <!-- Costuras Dinámicas de Pelota de Béisbol (Trayectorias Curvas) -->
-    <path d="M 28 19 C 36 38, 36 50, 48 76" stroke="#F26522" stroke-width="2" stroke-dasharray="3.5 2" fill="none" opacity="0.95"/>
-    <path d="M 72 19 C 64 38, 64 50, 52 76" stroke="#F26522" stroke-width="2" stroke-dasharray="3.5 2" fill="none" opacity="0.95"/>
+    <!-- 4. Costuras de Béisbol Dinámicas (Curvas de Alta Fidelidad) -->
+    <path d="M 26 18 C 35 36, 35 52, 47 76" stroke="#F26522" stroke-width="1.8" fill="none" opacity="0.9"/>
+    <path d="M 74 18 C 65 36, 65 52, 53 76" stroke="#F26522" stroke-width="1.8" fill="none" opacity="0.9"/>
 
-    <!-- Monograma 'D' Esculpido de Alta Precisión -->
-    <path d="M 38 31 L 54 31 C 64 31, 69 37, 69 46 C 69 55, 64 61, 54 61 L 38 61 Z M 46 38 L 46 54 L 53 54 C 58 54, 61 51, 61 46 C 61 41, 58 38, 53 38 Z" 
+    <!-- Puntadas Chevron de Béisbol (Costura Izquierda) -->
+    <line x1="23" y1="21" x2="28" y2="23" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="26" y1="30" x2="31" y2="31" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="29" y1="39" x2="34" y2="39" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="32" y1="49" x2="37" y2="48" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="37" y1="59" x2="41" y2="57" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="42" y1="68" x2="46" y2="65" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+
+    <!-- Puntadas Chevron de Béisbol (Costura Derecha) -->
+    <line x1="77" y1="21" x2="72" y2="23" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="74" y1="30" x2="69" y2="31" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="71" y1="39" x2="66" y2="39" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="68" y1="49" x2="63" y2="48" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="63" y1="59" x2="59" y2="57" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="58" y1="68" x2="54" y2="65" stroke="#FF5722" stroke-width="1.4" stroke-linecap="round"/>
+
+    <!-- 5. Monograma 'D' Esculpido de Alta Precisión con Bisel Cromo -->
+    <path d="M 37 29 L 55 29 C 66 29, 71 36, 71 46 C 71 56, 66 63, 55 63 L 37 63 Z M 45 37 L 45 55 L 54 55 C 60 55, 63 51, 63 46 C 63 41, 60 37, 54 37 Z" 
           fill="url(#monogramGold)" 
           stroke="#FFFFFF" 
           stroke-width="1" 
           stroke-linejoin="round"
-          filter="drop-shadow(0 0 10px rgba(255,199,44,0.85))"/>
+          filter="drop-shadow(0 0 12px rgba(255,199,44,0.9))"/>
 
-    <!-- Nodo Central de Enfoque Cian Sabermétrico -->
-    <circle cx="53" cy="46" r="3" fill="#00E5FF" filter="drop-shadow(0 0 6px #00E5FF)"/>
+    <!-- 6. Nodo Central de Enfoque Sabermétrico Cian -->
+    <circle cx="54" cy="46" r="3.2" fill="#00E5FF" stroke="#FFFFFF" stroke-width="0.8" filter="drop-shadow(0 0 8px #00E5FF)"/>
 
-    <!-- Destello Superior de Luz Cromo -->
-    <line x1="22" y1="18" x2="78" y2="18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+    <!-- 7. Destello Superior de Luz Cromo -->
+    <line x1="20" y1="16" x2="80" y2="16" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" opacity="0.95"/>
   </symbol>
 
   <!-- 🤖 1. ICONO IA SABERMÉTRICA NEURO-CORE -->
@@ -2944,14 +2965,16 @@ body.daylight-mode .btn-keypad:hover {
   <!-- 1. Header Superior Apple Sports Minimalista -->
   <div style="position:relative; z-index:10; width:100%; max-width:1100px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
     
-    <!-- Logo DIAMAX PRO (Home Plate Diamond + Tipografía Metálica Unificada) -->
-    <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:10px; cursor:pointer; text-decoration:none; transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';" title="DIAMAX PRO — Sports Operating System">
-      <svg viewBox="0 0 100 100" width="36" height="36" style="overflow:visible; flex-shrink:0;">
-        <use href="#diamax-home-plate-symbol"/>
-      </svg>
-      <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:24px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+    <!-- Logo DIAMAX PRO (Home Plate Diamond + Tipografía Metálica Unificada - ALTA DEFINICIÓN) -->
+    <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:14px; cursor:pointer; text-decoration:none; transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='scale(1.04)';" onmouseout="this.style.transform='scale(1)';" title="DIAMAX PRO — Sports Operating System">
+      <div style="position:relative; width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <svg viewBox="0 0 100 100" width="54" height="54" style="overflow:visible; filter:drop-shadow(0 0 18px rgba(255,199,44,0.65)) drop-shadow(0 4px 14px rgba(0,0,0,0.9));">
+          <use href="#diamax-home-plate-symbol"/>
+        </svg>
+      </div>
+      <div style="display:inline-flex; align-items:baseline; gap:6px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:28px; letter-spacing:1.2px; line-height:1; text-transform:uppercase;">
         <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
-        <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:20px;">PRO</span>
+        <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:23px;">PRO</span>
       </div>
     </div>
     
@@ -3009,6 +3032,13 @@ body.daylight-mode .btn-keypad:hover {
       <!-- 1. TEXTO SUPERIOR: «BIENVENIDO A» -->
       <div class="diamax-cinema-welcome" id="p1-title-welcome">
         BIENVENIDO A
+      </div>
+
+      <!-- 🌟 EMBLEMA 3D HOME PLATE DIAMOND CENTRAL (GRAN TAMAÑO RETINA 114px · MÁXIMO DETALLE) -->
+      <div style="margin:10px auto 16px auto; display:inline-flex; align-items:center; justify-content:center; position:relative; width:120px; height:120px; cursor:pointer; transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='scale(1.08) translateY(-4px)';" onmouseout="this.style.transform='scale(1) translateY(0)';" title="DIAMAX PRO — The Diamond Vault">
+        <svg viewBox="0 0 100 100" width="114" height="114" style="overflow:visible; filter:drop-shadow(0 0 32px rgba(255,199,44,0.8)) drop-shadow(0 10px 28px rgba(0,0,0,0.95));">
+          <use href="#diamax-home-plate-symbol"/>
+        </svg>
       </div>
 
       <!-- 2. MARCA CINEMÁTICA: DIAMAX PRO (UNIFICADO CROMO Y ORO) -->
@@ -3631,8 +3661,8 @@ body.daylight-mode .btn-keypad:hover {
     <div class="header-logo-container" style="display:flex; align-items:center; gap:14px;">
       <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:12px; cursor:pointer;" title="DIAMAX PRO — Volver a Portada">
         <!-- Isotipo 3D Home Plate Diamante Option 2 (The Diamond Vault) - Integración Orgánica Fluida -->
-        <div style="position:relative; width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; background:transparent; border:none; box-shadow:none; flex-shrink:0; transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.08)';" onmouseout="this.style.transform='scale(1)';">
-          <svg viewBox="0 0 100 100" width="38" height="38" style="overflow:visible; filter:drop-shadow(0 0 10px rgba(255,199,44,0.35));">
+        <div style="position:relative; width:52px; height:52px; display:inline-flex; align-items:center; justify-content:center; background:transparent; border:none; box-shadow:none; flex-shrink:0; transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.08)';" onmouseout="this.style.transform='scale(1)';">
+          <svg viewBox="0 0 100 100" width="50" height="50" style="overflow:visible; filter:drop-shadow(0 0 14px rgba(255,199,44,0.55)) drop-shadow(0 2px 8px rgba(0,0,0,0.8));">
             <use href="#diamax-home-plate-symbol"/>
           </svg>
         </div>
