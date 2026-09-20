@@ -9732,11 +9732,16 @@ function registrarJugadaLive(action) {
 
       // Avanzar el turno del bateador de forma aislada para cada alineación
       if (cmdType !== 'RECORD_RUNNER_EVENT') {
+        const activeG = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+        const gveLen = (activeG && Array.isArray(activeG.lineup) && activeG.lineup.length > 0) ? activeG.lineup.length : 9;
+        const rivalRec = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === activeG?.rivalId) || (r.name && r.name.toUpperCase() === (activeG?.rival || '').toUpperCase()));
+        const rivalLen = (rivalRec && Array.isArray(rivalRec.lineup) && rivalRec.lineup.length > 0) ? rivalRec.lineup.length : 9;
+
         if (isGVE) {
-          liveState.gveBatterIndex = ((liveState.gveBatterIndex || 0) + 1) % 9;
+          liveState.gveBatterIndex = ((liveState.gveBatterIndex || 0) + 1) % gveLen;
           liveState.batterIndex = liveState.gveBatterIndex;
         } else {
-          liveState.rivalBatterIndex = ((liveState.rivalBatterIndex || 0) + 1) % 9;
+          liveState.rivalBatterIndex = ((liveState.rivalBatterIndex || 0) + 1) % rivalLen;
         }
       }
     }
@@ -9801,6 +9806,8 @@ function registrarJugadaLive(action) {
     }
   }
 
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+  if (typeof renderLiveLineupChips === 'function') renderLiveLineupChips();
   if (typeof renderAll === 'function') renderAll();
 }
 
@@ -9874,12 +9881,16 @@ function deshacerJugadaLive() {
       }
 
       // Decrementar turno de bateador al revertir sin mezclar alineaciones
+      const gveLen = (activeG && Array.isArray(activeG.lineup) && activeG.lineup.length > 0) ? activeG.lineup.length : 9;
+      const rivalRec = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === activeG?.rivalId) || (r.name && r.name.toUpperCase() === (activeG?.rival || '').toUpperCase()));
+      const rivalLen = (rivalRec && Array.isArray(rivalRec.lineup) && rivalRec.lineup.length > 0) ? rivalRec.lineup.length : 9;
+
       const wasGVEBatting = (typeof isGuerrerosBattingNow === 'function') ? isGuerrerosBattingNow() : true;
       if (wasGVEBatting) {
-        liveState.gveBatterIndex = ((liveState.gveBatterIndex || 1) - 1 + 9) % 9;
+        liveState.gveBatterIndex = ((liveState.gveBatterIndex || 1) - 1 + gveLen) % gveLen;
         liveState.batterIndex = liveState.gveBatterIndex;
       } else {
-        liveState.rivalBatterIndex = ((liveState.rivalBatterIndex || 1) - 1 + 9) % 9;
+        liveState.rivalBatterIndex = ((liveState.rivalBatterIndex || 1) - 1 + rivalLen) % rivalLen;
       }
     }
 
@@ -9926,6 +9937,8 @@ function deshacerJugadaLive() {
       mostrarToast('ℹ️ No hay jugadas previas para deshacer');
     }
   }
+  if (typeof updateLiveBatterDisplay === 'function') updateLiveBatterDisplay();
+  if (typeof renderLiveLineupChips === 'function') renderLiveLineupChips();
   if (typeof renderAll === 'function') renderAll();
 }
 
