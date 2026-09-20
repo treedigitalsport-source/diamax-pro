@@ -9668,14 +9668,46 @@ function registrarJugadaLive(action) {
     const outsBefore = (typeof liveState !== 'undefined' && liveState.outs !== undefined) ? liveState.outs : 0;
     const runsBefore = (typeof liveState !== 'undefined' && liveState.scoreUs !== undefined) ? (liveState.scoreUs + (liveState.scoreThem || 0)) : 0;
 
-    // Sincronización transparente de liveState
+    // Sincronización transparente y condicional estricta de liveState según condición Home/Away
     if (typeof liveState !== 'undefined') {
+      const activeG = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+      let isHomeClubNow = true;
+      if (activeG && activeG.isHomeClub !== undefined) {
+        isHomeClubNow = activeG.isHomeClub && activeG.condicion !== 'AWAY';
+      } else if (typeof getLiveCurrentBatter === 'function') {
+        const isTopNow = (gameState.half || 'TOP').toUpperCase() === 'TOP';
+        const gveBatting = !!getLiveCurrentBatter().isGVE;
+        isHomeClubNow = isTopNow ? !gveBatting : gveBatting;
+      } else if (typeof isGuerrerosBattingNow === 'function') {
+        const isTopNow = (gameState.half || 'TOP').toUpperCase() === 'TOP';
+        const gveBatting = isGuerrerosBattingNow();
+        isHomeClubNow = isTopNow ? !gveBatting : gveBatting;
+      }
+
       liveState.inning = gameState.inning;
       liveState.half = gameState.half === 'TOP' ? 'top' : 'bot';
       liveState.outs = gameState.outs;
       liveState.bases = { b1: !!gameState.bases.b1, b2: !!gameState.bases.b2, b3: !!gameState.bases.b3 };
-      liveState.scoreUs = gameState.score.away;
-      liveState.scoreThem = gameState.score.home;
+
+      // REGLA ESTRICTA DE ATRIBUCIÓN DE CARRERAS:
+      // Si Guerreros es HOME: Alta (away) = Rival, Baja (home) = Guerreros
+      // Si Guerreros es AWAY: Alta (away) = Guerreros, Baja (home) = Rival
+      if (isHomeClubNow) {
+        liveState.scoreUs = gameState.score.home;
+        liveState.scoreThem = gameState.score.away;
+        if (gameState.linescore) {
+          liveState.inningsUs = [...gameState.linescore.home];
+          liveState.inningsThem = [...gameState.linescore.away];
+        }
+      } else {
+        liveState.scoreUs = gameState.score.away;
+        liveState.scoreThem = gameState.score.home;
+        if (gameState.linescore) {
+          liveState.inningsUs = [...gameState.linescore.away];
+          liveState.inningsThem = [...gameState.linescore.home];
+        }
+      }
+
       liveState.stats = stats;
       liveState.reconciliation = reconciliation;
 
@@ -9710,8 +9742,15 @@ function registrarJugadaLive(action) {
     }
 
     const logText = payload.description;
+    const activeGForLog = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+    const rivalNameLog = activeGForLog && activeGForLog.rival ? activeGForLog.rival : 'RIVAL';
+    const isHomeLog = (activeGForLog && activeGForLog.isHomeClub !== undefined) ? (activeGForLog.isHomeClub && activeGForLog.condicion !== 'AWAY') : true;
+    const displayScoreText = isHomeLog 
+      ? `${rivalNameLog} ${gameState.score.away} - ${gameState.score.home} GUERREROS`
+      : `GUERREROS ${gameState.score.away} - ${gameState.score.home} ${rivalNameLog}`;
+
     if (typeof setSafeHTML === 'function') {
-      setSafeHTML('live-action-banner', `Última Jugada: <strong>${logText}</strong> · Marcador: ${gameState.score.away} - ${gameState.score.home}`);
+      setSafeHTML('live-action-banner', `Última Jugada: <strong>${logText}</strong> · Marcador: ${displayScoreText}`);
     }
 
     // Actualización forense completa del Play Log
@@ -9755,8 +9794,8 @@ function registrarJugadaLive(action) {
       DIAMAX_RT.syncScore(
         liveState.inningsUs || [], 
         liveState.inningsThem || [], 
-        gameState.score.away, 
-        gameState.score.home, 
+        liveState.scoreUs || 0, 
+        liveState.scoreThem || 0, 
         gameState.inning
       );
     }
@@ -9777,12 +9816,41 @@ function deshacerJugadaLive() {
   if (res.success && res.snapshot) {
     const { gameState, stats, reconciliation } = res.snapshot;
     if (typeof liveState !== 'undefined') {
+      const activeG = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+      let isHomeClubNow = true;
+      if (activeG && activeG.isHomeClub !== undefined) {
+        isHomeClubNow = activeG.isHomeClub && activeG.condicion !== 'AWAY';
+      } else if (typeof getLiveCurrentBatter === 'function') {
+        const isTopNow = (gameState.half || 'TOP').toUpperCase() === 'TOP';
+        const gveBatting = !!getLiveCurrentBatter().isGVE;
+        isHomeClubNow = isTopNow ? !gveBatting : gveBatting;
+      } else if (typeof isGuerrerosBattingNow === 'function') {
+        const isTopNow = (gameState.half || 'TOP').toUpperCase() === 'TOP';
+        const gveBatting = isGuerrerosBattingNow();
+        isHomeClubNow = isTopNow ? !gveBatting : gveBatting;
+      }
+
       liveState.inning = gameState.inning;
       liveState.half = gameState.half === 'TOP' ? 'top' : 'bot';
       liveState.outs = gameState.outs;
       liveState.bases = { b1: !!gameState.bases.b1, b2: !!gameState.bases.b2, b3: !!gameState.bases.b3 };
-      liveState.scoreUs = gameState.score.away;
-      liveState.scoreThem = gameState.score.home;
+
+      if (isHomeClubNow) {
+        liveState.scoreUs = gameState.score.home;
+        liveState.scoreThem = gameState.score.away;
+        if (gameState.linescore) {
+          liveState.inningsUs = [...gameState.linescore.home];
+          liveState.inningsThem = [...gameState.linescore.away];
+        }
+      } else {
+        liveState.scoreUs = gameState.score.away;
+        liveState.scoreThem = gameState.score.home;
+        if (gameState.linescore) {
+          liveState.inningsUs = [...gameState.linescore.away];
+          liveState.inningsThem = [...gameState.linescore.home];
+        }
+      }
+
       liveState.stats = stats;
       liveState.reconciliation = reconciliation;
 
@@ -9815,8 +9883,15 @@ function deshacerJugadaLive() {
       }
     }
 
+    const activeGForLog = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+    const rivalNameLog = activeGForLog && activeGForLog.rival ? activeGForLog.rival : 'RIVAL';
+    const isHomeLog = (activeGForLog && activeGForLog.isHomeClub !== undefined) ? (activeGForLog.isHomeClub && activeGForLog.condicion !== 'AWAY') : true;
+    const displayScoreText = isHomeLog 
+      ? `${rivalNameLog} ${gameState.score.away} - ${gameState.score.home} GUERREROS`
+      : `GUERREROS ${gameState.score.away} - ${gameState.score.home} ${rivalNameLog}`;
+
     if (typeof setSafeHTML === 'function') {
-      setSafeHTML('live-action-banner', `Última Jugada: <strong style="color:#EF4444;">↩️ Jugada Deshecha (${res.undoMode})</strong> · Marcador: ${gameState.score.away} - ${gameState.score.home}`);
+      setSafeHTML('live-action-banner', `Última Jugada: <strong style="color:#EF4444;">↩️ Jugada Deshecha (${res.undoMode})</strong> · Marcador: ${displayScoreText}`);
     }
 
     // En el Play Log: remover la entrada revertida y colocar confirmación de reversión
@@ -9841,8 +9916,8 @@ function deshacerJugadaLive() {
       DIAMAX_RT.syncScore(
         liveState.inningsUs || [], 
         liveState.inningsThem || [], 
-        gameState.score.away, 
-        gameState.score.home, 
+        liveState.scoreUs || 0, 
+        liveState.scoreThem || 0, 
         gameState.inning
       );
     }
