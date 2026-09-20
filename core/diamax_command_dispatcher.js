@@ -121,7 +121,15 @@ class CommandDispatcher {
     // Obtener estado actual previo al comando
     const currentSnapshot = this.getCurrentSnapshot();
     const state = currentSnapshot.gameState;
-    const isTop = state.half === 'TOP';
+
+    // Permitir alineación contextual de inning y media entrada desde el payload
+    const effectiveInning = (command.payload && command.payload.inning !== undefined) ? Number(command.payload.inning) : state.inning;
+    let effectiveHalf = state.half;
+    if (command.payload && command.payload.half !== undefined) {
+      const hStr = String(command.payload.half).toUpperCase();
+      effectiveHalf = (hStr === 'BOT' || hStr === 'BOTTOM') ? 'BOTTOM' : 'TOP';
+    }
+    const isTop = effectiveHalf === 'TOP';
 
     // Determinar bateador y pitcher activos
     const offensiveTeam = isTop ? state.awayTeam : state.homeTeam;
@@ -130,7 +138,19 @@ class CommandDispatcher {
     const currentBatterId = offensiveTeam && offensiveTeam.lineupState ? offensiveTeam.lineupState.currentBatterId : (isTop ? 'away-1' : 'home-1');
     const currentPitcherId = defensiveTeam && defensiveTeam.pitchingState ? defensiveTeam.pitchingState.activePitcherId : (isTop ? 'home-1' : 'away-1');
 
-    const batterId = (command.payload && command.payload.batter && command.payload.batter.id) || (command.payload && command.payload.batterId) || currentBatterId;
+    let batterId = (command.payload && command.payload.batter && command.payload.batter.id) || (command.payload && command.payload.batterId) || currentBatterId;
+    
+    // Si el batterId provisto ya está ocupando una base, seleccionar el siguiente bateador del orden
+    if (state.bases.b1 === batterId || state.bases.b2 === batterId || state.bases.b3 === batterId) {
+      if (offensiveTeam && offensiveTeam.lineupState && offensiveTeam.lineupState.slots) {
+        const availableSlot = offensiveTeam.lineupState.slots.find(s => s.playerId !== state.bases.b1 && s.playerId !== state.bases.b2 && s.playerId !== state.bases.b3);
+        if (availableSlot) batterId = availableSlot.playerId;
+        else batterId = `batter-${Date.now() % 1000}`;
+      } else {
+        batterId = `batter-${(this.eventStore.getAll().length + 1)}`;
+      }
+    }
+
     const pitcherId = (command.payload && command.payload.pitcher && command.payload.pitcher.id) || (command.payload && command.payload.pitcherId) || currentPitcherId;
     const tenantId = command.tenantId || this.initialConfig.tenantId || 'default-tenant';
     const gameId = command.gameId || this.initialConfig.gameId || 'default-game';
@@ -147,8 +167,8 @@ class CommandDispatcher {
       orderingStatus: command.orderingStatus || 'CANONICAL',
       clientTimestamp: Date.now(),
       tenantId,
-      inning: state.inning,
-      half: state.half,
+      inning: effectiveInning,
+      half: effectiveHalf,
       outsBefore: state.outs,
       countBefore: { ...state.count },
       basesBefore: { ...state.bases },
@@ -191,8 +211,21 @@ class CommandDispatcher {
 
       case 'RECORD_HIT': {
         const code = command.payload.resultCode || command.payload.hitType || '1B'; // 1B, 2B, 3B, HR
-        const rbi = typeof command.payload.rbi === 'number' ? command.payload.rbi : (code === 'HR' ? 1 : 0);
-        const runsScored = command.payload.runsScored || (code === 'HR' ? [batterId] : []);
+        let runsScored = command.payload.runsScored;
+        if (!runsScored) {
+          if (code === 'HR') {
+            runsScored = [state.bases.b3, state.bases.b2, state.bases.b1, batterId].filter(Boolean);
+          } else if (code === '3B') {
+            runsScored = [state.bases.b3, state.bases.b2, state.bases.b1].filter(Boolean);
+          } else if (code === '2B') {
+            runsScored = [state.bases.b3, state.bases.b2].filter(Boolean);
+          } else if (code === '1B') {
+            runsScored = state.bases.b3 ? [state.bases.b3] : [];
+          } else {
+            runsScored = [];
+          }
+        }
+        const rbi = typeof command.payload.rbi === 'number' ? command.payload.rbi : runsScored.length;
 
         canonicalEvent.result = {
           code,

@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '6.4-live-hardening-and-highres-brand';
+  const DEPLOY_VERSION = '6.5-scoreboard-half-coordination';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -3943,28 +3943,38 @@ body.daylight-mode .btn-keypad:hover {
             <div style="font-size:12px; color:#FFC72C; font-weight:900; letter-spacing:1px; cursor:pointer;" id="scoreboard-inn" onclick="toggleHalfInningManual()">INNING 1 (ALTA ▲)</div>
             <button onclick="cambiarInningManual(1)" class="btn-score-adjust">▶</button>
           </div>
-          <div class="score-flex">
-            <div style="text-align:center;">
-              <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:4px;">
-                <img src="" id="score-away-logo" style="width:24px; height:24px; border-radius:50%; border:1px solid #FFC72C; object-fit:cover;">
-                <span style="font-size:11px; color:#94A3B8; font-weight:800;" id="label-away-team">VISITANTE</span>
+          <div class="score-flex" style="gap:8px; align-items:stretch;">
+            <!-- CAJA EQUIPO VISITANTE (BATEA EN LA ALTA ▲) -->
+            <div id="scoreboard-away-box" style="flex:1; text-align:center; padding:8px 6px; border-radius:10px; background:rgba(15,23,42,0.6); border:1.5px solid rgba(255,255,255,0.1); transition:all 0.25s;">
+              <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:2px;">
+                <img src="" id="score-away-logo" style="width:22px; height:22px; border-radius:50%; border:1px solid #FFC72C; object-fit:cover;">
+                <span style="font-size:11.5px; color:#F8FAFC; font-weight:800;" id="label-away-team">VISITANTE</span>
               </div>
-              <div style="display:flex; align-items:center; justify-content:center; gap:4px;">
-                <button onclick="ajustarCarrerasManual('away', -1)" class="btn-score-adjust">-</button>
-                <span class="score-num" style="color:#10B981" id="score-away">0</span>
-                <button onclick="ajustarCarrerasManual('away', 1)" class="btn-score-adjust">+</button>
+              <div id="status-away-team" style="margin-bottom:6px; min-height:18px;">
+                <!-- Renderizado dinámicamente: 👑 AL BATE (ALTA ▲) vs 🛡️ AL CAMPO -->
+              </div>
+              <div style="display:flex; align-items:center; justify-content:center; gap:6px;">
+                <button type="button" onclick="ajustarCarrerasManual('away', -1)" class="btn-score-adjust">-</button>
+                <span class="score-num" style="color:#00D2FF; font-size:26px; font-weight:900;" id="score-away">0</span>
+                <button type="button" onclick="ajustarCarrerasManual('away', 1)" class="btn-score-adjust">+</button>
               </div>
             </div>
-            <div style="font-size:16px; color:#FFC72C; font-weight:900;">VS</div>
-            <div style="text-align:center;">
-              <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:4px;">
-                <img src="" id="score-home-logo" style="width:24px; height:24px; border-radius:50%; border:1px solid #FFC72C; object-fit:cover;">
-                <span style="font-size:11px; color:#94A3B8; font-weight:800;" id="label-home-team">HOME CLUB</span>
+
+            <div style="display:flex; align-items:center; justify-content:center; font-size:15px; color:#FFC72C; font-weight:900; padding:0 2px;">VS</div>
+
+            <!-- CAJA EQUIPO HOME CLUB (BATEA EN LA BAJA ▼) -->
+            <div id="scoreboard-home-box" style="flex:1; text-align:center; padding:8px 6px; border-radius:10px; background:rgba(15,23,42,0.6); border:1.5px solid rgba(255,255,255,0.1); transition:all 0.25s;">
+              <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:2px;">
+                <img src="" id="score-home-logo" style="width:22px; height:22px; border-radius:50%; border:1px solid #FFC72C; object-fit:cover;">
+                <span style="font-size:11.5px; color:#F8FAFC; font-weight:800;" id="label-home-team">HOME CLUB</span>
               </div>
-              <div style="display:flex; align-items:center; justify-content:center; gap:4px;">
-                <button onclick="ajustarCarrerasManual('home', -1)" class="btn-score-adjust">-</button>
-                <span class="score-num" style="color:#EF4444" id="score-home">0</span>
-                <button onclick="ajustarCarrerasManual('home', 1)" class="btn-score-adjust">+</button>
+              <div id="status-home-team" style="margin-bottom:6px; min-height:18px;">
+                <!-- Renderizado dinámicamente: 👑 AL BATE (BAJA ▼) vs 🛡️ AL CAMPO -->
+              </div>
+              <div style="display:flex; align-items:center; justify-content:center; gap:6px;">
+                <button type="button" onclick="ajustarCarrerasManual('home', -1)" class="btn-score-adjust">-</button>
+                <span class="score-num" style="color:#10B981; font-size:26px; font-weight:900;" id="score-home">0</span>
+                <button type="button" onclick="ajustarCarrerasManual('home', 1)" class="btn-score-adjust">+</button>
               </div>
             </div>
           </div>
@@ -9686,6 +9696,9 @@ function registrarJugadaLive(action) {
     payload = { resultCode: 'CS', action: 'CS', description: 'Out Robando (CS)', pitcherName: pitcherName };
   }
 
+  payload.inning = (typeof liveState !== 'undefined' && liveState.inning) ? liveState.inning : 1;
+  payload.half = (typeof liveState !== 'undefined' && liveState.half) ? (liveState.half.toUpperCase() === 'BOT' ? 'BOTTOM' : 'TOP') : 'TOP';
+
   if (window.DIAMAX_PENDING_HIT_COORDS) {
     payload.coordinates = { ...window.DIAMAX_PENDING_HIT_COORDS };
     window.DIAMAX_PENDING_HIT_COORDS = null;
@@ -12163,10 +12176,36 @@ function updateLiveBatterDisplay() {
 
   setSafeText('score-away', awayScore);
   setSafeText('score-home', homeScore);
-  setSafeText('label-away-team', awayName);
-  setSafeText('label-home-team', homeName);
+  setSafeText('label-away-team', `${awayName} (VISITANTE)`);
+  setSafeText('label-home-team', `${homeName} (HOME CLUB)`);
   const innHalf = isEn ? (isTop ? 'TOP ▲' : 'BOTTOM ▼') : (isTop ? 'ALTA ▲' : 'BAJA ▼');
   setSafeText('scoreboard-inn', `INNING ${liveState.inning} (${innHalf})`);
+
+  // Actualizar distintivos activos y bordes en las cajas del Marcador
+  const awayBox = document.getElementById('scoreboard-away-box');
+  const homeBox = document.getElementById('scoreboard-home-box');
+  const statusAway = document.getElementById('status-away-team');
+  const statusHome = document.getElementById('status-home-team');
+
+  if (isTop) {
+    if (statusAway) statusAway.innerHTML = `<span style="background:linear-gradient(135deg, #00D2FF, #0072FF); color:#000; font-size:9.5px; font-weight:900; padding:2px 8px; border-radius:10px; box-shadow:0 0 10px rgba(0,210,255,0.7); display:inline-block;">👑 ${isEn ? 'AT BAT (TOP ▲)' : 'AL BATE (ALTA ▲)'}</span>`;
+    if (statusHome) statusHome.innerHTML = `<span style="background:rgba(255,255,255,0.08); color:#94A3B8; font-size:9.5px; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-block;">🛡️ ${isEn ? 'DEFENDING' : 'AL CAMPO'}</span>`;
+    if (awayBox) { awayBox.style.borderColor = '#00D2FF'; awayBox.style.boxShadow = '0 0 15px rgba(0,210,255,0.35)'; awayBox.style.background = 'rgba(0,210,255,0.08)'; }
+    if (homeBox) { homeBox.style.borderColor = 'rgba(255,255,255,0.08)'; homeBox.style.boxShadow = 'none'; homeBox.style.background = 'rgba(15,23,42,0.6)'; }
+  } else {
+    if (statusHome) statusHome.innerHTML = `<span style="background:linear-gradient(135deg, #10B981, #059669); color:#000; font-size:9.5px; font-weight:900; padding:2px 8px; border-radius:10px; box-shadow:0 0 10px rgba(16,185,129,0.7); display:inline-block;">👑 ${isEn ? 'AT BAT (BOT ▼)' : 'AL BATE (BAJA ▼)'}</span>`;
+    if (statusAway) statusAway.innerHTML = `<span style="background:rgba(255,255,255,0.08); color:#94A3B8; font-size:9.5px; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-block;">🛡️ ${isEn ? 'DEFENDING' : 'AL CAMPO'}</span>`;
+    if (homeBox) { homeBox.style.borderColor = '#10B981'; homeBox.style.boxShadow = '0 0 15px rgba(16,185,129,0.35)'; homeBox.style.background = 'rgba(16,185,129,0.08)'; }
+    if (awayBox) { awayBox.style.borderColor = 'rgba(255,255,255,0.08)'; awayBox.style.boxShadow = 'none'; awayBox.style.background = 'rgba(15,23,42,0.6)'; }
+  }
+
+  // Sincronizar logos de equipos en el marcador
+  const scoreAwayLogo = document.getElementById('score-away-logo');
+  const scoreHomeLogo = document.getElementById('score-home-logo');
+  const rivalLogoUrl = (rivalRecord && rivalRecord.logoUrl) ? rivalRecord.logoUrl : "https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop";
+  const gveLogoUrl = teamLogoUrl || "./assets/diamax_d_isotipo.svg";
+  if (scoreAwayLogo) scoreAwayLogo.src = isHomeClub ? rivalLogoUrl : gveLogoUrl;
+  if (scoreHomeLogo) scoreHomeLogo.src = isHomeClub ? gveLogoUrl : rivalLogoUrl;
 
   // Actualizar Diamante de Bases Interactivo
   [1, 2, 3].forEach(n => {

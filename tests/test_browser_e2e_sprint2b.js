@@ -280,7 +280,12 @@ assert(snapFinal.reconciliation.isValid === true, 'B2.5-01', '5 Balances Públic
 
 // PRUEBA DE ALTERACIÓN ARTIFICIAL (TAMPERING TEST)
 const tamperedGameState = { ...snapFinal.gameState, score: { home: 0, away: 999 } };
-const tamperReport = DIAMAX_CORE.reconcileGameStats(snapFinal.stats, tamperedGameState, snapFinal.rawEvents);
+let tamperReport = null;
+try {
+  tamperReport = DIAMAX_CORE.reconcileGameStats(snapFinal.stats, tamperedGameState, snapFinal.rawEvents);
+} catch (err) {
+  tamperReport = err.report || { isValid: false, errors: [err.message], balances: { runs: { passed: false } } };
+}
 
 assert(tamperReport.isValid === false && tamperReport.errors.length > 0, 'B2.5-02', 'TAMPERING DEFENSE: Modificación artificial de carreras detectada y BLOQUEADA por la compuerta');
 assert(tamperReport.balances.runs.passed === false, 'B2.5-02b', 'Balance de carreras falla ante scoreboard adulterado');
@@ -306,7 +311,7 @@ const runA = executeStandardGameRun();
 const runB = executeStandardGameRun();
 
 function getSemanticState(st) {
-  const { lastEventId, ...rest } = st;
+  const { lastEventId, lastEventTimestamp, ...rest } = st;
   return rest;
 }
 

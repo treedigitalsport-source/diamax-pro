@@ -30,6 +30,12 @@ function projectGameStateWithReverts(rawEvents = [], initialConfig = {}) {
     state.lastEventId = event.id;
     state.lastEventTimestamp = event.clientTimestamp || event.serverTimestamp || Date.now();
 
+    if (event.inning) state.inning = Number(event.inning);
+    if (event.half) {
+      const hStr = String(event.half).toUpperCase();
+      state.half = (hStr === 'BOT' || hStr === 'BOTTOM') ? 'BOTTOM' : 'TOP';
+    }
+
     const { offense, defense } = getActiveOffenseDefense(state);
 
     // ── 1. SUSTITUCIONES ──────────────────────────────────────────────────────
