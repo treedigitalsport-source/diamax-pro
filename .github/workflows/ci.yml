@@ -1,0 +1,31 @@
+name: DIAMAX Pro CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-verify:
+    name: Execute Master Test Runner & Security Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Verify Security & Client Secrets
+        run: npm run security:check
+
+      - name: Run Master CI/CD Test Runner (15 Suites / 425+ Tests)
+        run: npm test
+
+      - name: Verify Core Bundle Integrity
+        run: node scripts/build_core_bundle.js
