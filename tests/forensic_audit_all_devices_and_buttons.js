@@ -49,9 +49,8 @@ check('Media query para tablets intermedias (max-width: 768px)', html.includes('
 check('Viewport fit=cover y prevent zoom no deseado configurado', html.includes('viewport-fit=cover') && html.includes('width=device-width'));
 check('Botonera de 36 jugadas con auto-fit responsivo', html.includes('.action-grid') || html.includes('grid-template-columns'));
 
-// 3. AUDITORÍA DE PORTADA (PÁGINA 1): 6 PLANES Y ACCESO CON CLAVE CEO
+// 3. AUDITORÍA DE PORTADA (PÁGINA 1): 3 BOTONES OFICIALES AUTORIZADOS POR EL CEO
 check('Botón 6 Planes Oficiales (#p1-btn-plans)', html.includes('id="p1-btn-plans"'));
-check('Botón Registro & Franquicia (#p1-btn-register)', html.includes('id="p1-btn-register"'));
 check('Botón Iniciar Sesión (#p1-btn-login)', html.includes('id="p1-btn-login"'));
 check('Botón Acceso con Clave CEO (#p1-btn-ceo-key)', html.includes('id="p1-btn-ceo-key"'));
 check('Función abrirAccesoClaveCEO() y accesoMaestroFounder(clave)', html.includes('abrirAccesoClaveCEO') && html.includes('accesoMaestroFounder'));
@@ -63,7 +62,7 @@ check('Definición de 6 Planes Oficiales (TEAM, CLUB, LEAGUE, LEAGUE PRO, ORGANI
   html.includes('DIAMAX ORGANIZATION') && 
   html.includes('ENTERPRISE')
 );
-check('Seguridad PIN Dugout y Master Key implementados', html.includes('auth-panel-pin') && html.includes('ejecutarLogin'));
+check('Seguridad Master Key CEO implementada', html.includes('auth-panel-master') && html.includes('ejecutarLogin'));
 
 // 4. AUDITORÍA BOTÓN POR BOTÓN EN EL HEADER & RIBBON
 console.log('\n▶ 4. AUDITORÍA DE CONTROLES: HEADER, RIBBON Y NAVEGACIÓN...');
