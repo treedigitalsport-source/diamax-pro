@@ -1,13 +1,13 @@
 /**
- * 🛡️ DIAMAX PRO — SERVICE WORKER ENGINE v3.2
- * [3TREE DIGITAL SPORT IA · ADVANCED ZERO TRUST DEFENSE-IN-DEPTH ARCHITECTURE]
+ * 🛡️ DIAMAX PRO — SERVICE WORKER ENGINE v3.5
+ * [3TREE DIGITAL SPORT IA CORP. · ADVANCED ZERO TRUST DEFENSE-IN-DEPTH ARCHITECTURE]
  * CAPA 4: ZERO-TRUST OFFLINE ISOLATION & AIR-GAP VAULT
  * 
- * Desarrollado por 3Tree Digital Sport IA · Lutz, Florida USA.
+ * Desarrollado por 3Tree Digital Sport IA Corp. · Lutz, Florida USA.
  * Todos los derechos reservados 2026. CEO Alí Zapata.
  */
 
-const CACHE_NAME = 'diamax-pro-v6.0-clean';
+const CACHE_NAME = 'diamax-pro-v9.2-clean-ui-corp';
 const OFFLINE_URL = 'index.html';
 
 const ASSETS_TO_CACHE = [

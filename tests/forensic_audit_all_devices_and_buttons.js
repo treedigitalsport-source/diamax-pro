@@ -55,8 +55,14 @@ check('Botón 6 Planes Oficiales (#p1-btn-plans)', html.includes('id="p1-btn-pla
 check('Botón Registro Gratuito (#p1-btn-register)', html.includes('id="p1-btn-register"'));
 check('Botón Iniciar Sesión (#p1-btn-login)', html.includes('id="p1-btn-login"'));
 check('Botón Acceso Maestro 3Tree (#p1-btn-master)', html.includes('id="p1-btn-master"'));
-check('Función showAuthModal() con switch a planes, registro y login', html.includes('function showAuthModal('));
-check('Definición de Planes Oficiales (Mes Gratis, Manager Pro, Liga & Torneos)', html.includes('Mes Gratis') && html.includes('Manager Pro') && html.includes('Liga & Torneos'));
+check('Definición de 6 Planes Oficiales (TEAM, CLUB, LEAGUE, LEAGUE PRO, ORGANIZATION, ENTERPRISE)', 
+  html.includes('DIAMAX TEAM') && 
+  html.includes('DIAMAX CLUB') && 
+  html.includes('DIAMAX LEAGUE') && 
+  html.includes('DIAMAX LEAGUE PRO') && 
+  html.includes('DIAMAX ORGANIZATION') && 
+  html.includes('ENTERPRISE')
+);
 check('Seguridad PIN Dugout y Master Key implementados', html.includes('auth-panel-pin') && html.includes('ejecutarLogin'));
 
 // 4. AUDITORÍA BOTÓN POR BOTÓN EN EL HEADER & RIBBON

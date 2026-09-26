@@ -15773,20 +15773,50 @@ document.addEventListener('keydown', function(e) {
 
 <!-- 🛡️ PORTAL DE AUTENTICACIÓN, HOJA DE REGISTRO & PLANES DE SUSCRIPCIÓN (DIAMAX PRO) -->
 <div id="auth-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.94); z-index:99999; backdrop-filter:blur(16px); overflow-y:auto; padding:16px; align-items:center; justify-content:center; box-sizing:border-box;">
-  <div style="background:linear-gradient(145deg, #091329, #050b18); border:2px solid rgba(0,210,255,0.5); border-radius:22px; width:100%; max-width:760px; box-shadow:0 0 50px rgba(0,210,255,0.25), 0 20px 40px rgba(0,0,0,0.8); color:#F8FAFC; overflow:hidden; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; margin:auto; position:relative;">
+  <div style="background:linear-gradient(145deg, #091329, #050b18); border:2px solid rgba(0,210,255,0.5); border-radius:22px; width:100%; max-width:880px; box-shadow:0 0 50px rgba(0,210,255,0.25), 0 20px 40px rgba(0,0,0,0.8); color:#F8FAFC; overflow:hidden; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; margin:auto; position:relative;">
     
     <!-- Modal Top Header -->
-    <div style="background:linear-gradient(135deg, #070e1e, #0d1a38); padding:20px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1);">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg, #F26522, #00D2FF); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:18px; color:#FFF; box-shadow:0 0 15px rgba(242,101,34,0.5);">
-          💎
+    <div style="background:linear-gradient(135deg, #070e1e, #0d1a38); padding:18px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1);">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <!-- 3D Baseball Home Plate Base Icon Oficial -->
+        <div style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(255,255,255,0.18); box-shadow:0 4px 16px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.35); backdrop-filter:blur(10px); flex-shrink:0;">
+          <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 2px 10px rgba(24,216,255,0.7));">
+            <defs>
+              <linearGradient id="hp3d-auth-base" x1="18" y1="4" x2="18" y2="33" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="35%" stop-color="#E2E8F0"/>
+                <stop offset="70%" stop-color="#64748B"/>
+                <stop offset="100%" stop-color="#0F172A"/>
+              </linearGradient>
+              <linearGradient id="hp3d-auth-rim" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#18D8FF"/>
+                <stop offset="45%" stop-color="#FFFFFF"/>
+                <stop offset="100%" stop-color="#0284C7"/>
+              </linearGradient>
+              <linearGradient id="hp3d-auth-inner" x1="18" y1="8" x2="18" y2="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0F243E"/>
+                <stop offset="50%" stop-color="#081426"/>
+                <stop offset="100%" stop-color="#020814"/>
+              </linearGradient>
+            </defs>
+            <polygon points="18,33 5,20 5,5 31,5 31,20" fill="url(#hp3d-auth-base)" stroke="url(#hp3d-auth-rim)" stroke-width="1.8" stroke-linejoin="round"/>
+            <polygon points="18,28 8,18 8,8 28,8 28,18" fill="url(#hp3d-auth-inner)" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-linejoin="round"/>
+            <polygon points="18,23 11,16 11,11 25,11 25,16" fill="url(#hp3d-auth-base)" opacity="0.95"/>
+            <polygon points="18,19 13,14 13,12 23,12 23,14" fill="url(#hp3d-auth-rim)"/>
+            <line x1="5" y1="5" x2="18" y2="18" stroke="rgba(255,255,255,0.8)" stroke-width="0.8"/>
+            <line x1="31" y1="5" x2="18" y2="18" stroke="rgba(255,255,255,0.8)" stroke-width="0.8"/>
+            <line x1="18" y1="18" x2="18" y2="33" stroke="rgba(255,255,255,0.9)" stroke-width="1"/>
+          </svg>
         </div>
         <div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <h2 style="margin:0; font-size:19px; font-weight:900; letter-spacing:1px; color:#FFF;">DIAMAX PRO</h2>
-            <span style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:900; padding:2px 8px; border-radius:6px; letter-spacing:0.5px;">SPORTS OS · 2026</span>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:20px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+              <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
+              <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:17px;">PRO</span>
+            </div>
+            <span style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:900; padding:2px 8px; border-radius:6px; letter-spacing:0.5px; font-family:'Rajdhani', sans-serif;">SPORTS OS · 2026</span>
           </div>
-          <p style="margin:2px 0 0 0; font-size:11.5px; color:#94A3B8;">Registro Oficial de Franquicia, Seguridad & Planes de Membresía</p>
+          <p style="margin:3px 0 0 0; font-size:11.5px; color:#94A3B8;">Portal de Acceso, Registro de Franquicia &amp; Planes Oficiales por Temporada</p>
         </div>
       </div>
       <button onclick="cerrarAuthModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#FFF; width:34px; height:34px; border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.3)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.15)';">&times;</button>
@@ -15794,35 +15824,264 @@ document.addEventListener('keydown', function(e) {
 
     <!-- Navigation Submenu Tabs -->
     <div style="display:flex; border-bottom:1px solid rgba(255,255,255,0.08); background:#040915; overflow-x:auto;">
-      <button id="auth-tab-register-btn" onclick="switchAuthTab('register')" style="flex:1; min-width:160px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#0e1c3a; color:#00D2FF; cursor:pointer; border-bottom:3px solid #00D2FF; display:flex; align-items:center; justify-content:center; gap:6px;">
-        <span>📝</span> <span>Hoja de Registro</span>
+      <button id="auth-tab-pricing-btn" onclick="switchAuthTab('pricing')" style="flex:1; min-width:145px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#0e1c3a; color:#00D2FF; cursor:pointer; border-bottom:3px solid #00D2FF; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:middle;"><use href="#diamax-icon-franchise-tier"/></svg> <span>6 Planes Oficiales</span>
       </button>
-      <button id="auth-tab-pricing-btn" onclick="switchAuthTab('pricing')" style="flex:1; min-width:160px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
-        <span>💎</span> <span>Planes & Mes Gratis</span>
+      <button id="auth-tab-register-btn" onclick="switchAuthTab('register')" style="flex:1; min-width:145px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:middle;"><use href="#diamax-icon-roster-sheet"/></svg> <span>Registro Gratuito</span>
       </button>
-      <button id="auth-tab-login-btn" onclick="switchAuthTab('login')" style="flex:1; min-width:130px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
-        <span>🔑</span> <span>Iniciar Sesión</span>
+      <button id="auth-tab-login-btn" onclick="switchAuthTab('login')" style="flex:1; min-width:125px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:middle;"><use href="#diamax-icon-biometric-auth"/></svg> <span>Iniciar Sesión</span>
       </button>
-      <button id="auth-tab-pin-btn" onclick="switchAuthTab('pin')" style="flex:1; min-width:120px; padding:13px 10px; font-weight:800; font-size:12.5px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
-        <span>⚡</span> <span>PIN Dugout</span>
+      <button id="auth-tab-master-btn" onclick="switchAuthTab('master')" style="flex:1; min-width:155px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#040915; color:#FFC72C; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:middle;"><use href="#diamax-icon-founder-crown"/></svg> <span>Acceso Maestro 3Tree</span>
+      </button>
+      <button id="auth-tab-pin-btn" onclick="switchAuthTab('pin')" style="flex:1; min-width:115px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:middle;"><use href="#diamax-icon-keypad-pin"/></svg> <span>PIN Dugout</span>
       </button>
     </div>
 
     <div style="padding:22px; max-height:calc(88vh - 120px); overflow-y:auto;">
 
       <!-- ======================================================== -->
-      <!-- SUBMENÚ 1: HOJA OFICIAL DE REGISTRO (USUARIO + EQUIPO)     -->
+      <!-- SUBMENÚ 1: PLANES OFICIALES POR TEMPORADA (6 PLANES)     -->
       <!-- ======================================================== -->
-      <div id="auth-panel-register" style="display:block;">
+      <div id="auth-panel-pricing" style="display:block;">
+        
+        <div style="text-align:center; margin-bottom:18px;">
+          <span style="background:rgba(242,101,34,0.15); border:1px solid #F26522; color:#F26522; font-size:11px; font-weight:900; padding:4px 14px; border-radius:20px; text-transform:uppercase; letter-spacing:0.8px;">
+            MODELO HÍBRIDO • PRECIOS POR TEMPORADA
+          </span>
+          <h3 style="font-size:22px; font-weight:900; margin:10px 0 4px 0; color:#FFF;">Seis planes, un solo ecosistema.</h3>
+          <p style="margin:0; font-size:12px; color:#94A3B8;">Solución integral de sabermetría y anotación en vivo para equipos, academias y ligas completas.</p>
+        </div>
+
+        <!-- Banner de Prueba Gratuita sin Tarjeta -->
+        <div style="background:linear-gradient(135deg, rgba(0,210,255,0.12), rgba(16,185,129,0.08)); border:1px solid rgba(0,210,255,0.4); border-radius:12px; padding:12px 18px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <svg viewBox="0 0 24 24" width="24" height="24" style="color:#00D2FF; flex-shrink:0;"><use href="#diamax-icon-franchise-tier"/></svg>
+            <div>
+              <div style="color:#00D2FF; font-weight:900; font-size:13px;">¿Quieres probar el Anotador Dugout antes de suscribirte?</div>
+              <div style="color:#CBD5E1; font-size:11.5px;">Regístrate con tu correo y contraseña para activar tu acceso inmediato sin tarjeta de crédito.</div>
+            </div>
+          </div>
+          <button onclick="switchAuthTab('register')" style="background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; padding:8px 16px; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; box-shadow:0 0 15px rgba(16,185,129,0.3); display:inline-flex; align-items:center; gap:6px;">
+            <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-roster-sheet"/></svg> Registro Gratuito →
+          </button>
+        </div>
+
+        <!-- Grid de los 6 Planes Oficiales -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:16px;">
+          
+          <!-- PLAN 1: DIAMAX TEAM ($40) -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between; transition:transform 0.2s;" onmouseover="this.style.borderColor='#00D2FF'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:16px; font-weight:900; color:#00D2FF; display:inline-flex; align-items:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" width="18" height="18"><use href="#diamax-icon-tier-team"/></svg> DIAMAX TEAM
+                </h4>
+                <span style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:6px;">1 EQUIPO</span>
+              </div>
+              
+              <div style="margin-bottom:12px;">
+                <span style="font-size:28px; font-weight:900; color:#FFF;">$40</span>
+                <span style="font-size:11.5px; color:#94A3B8;"> / temporada</span>
+                <div style="font-size:11px; color:#38BDF8; font-weight:700; margin-top:2px;">1 equipo / temp.</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 16px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:7px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Anotador Dugout en vivo oficial</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Sabermetría IA &amp; Monte Carlo</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Roster de hasta 30 peloteros</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>PWA Offline (100% sin internet)</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Exportar Boxscore a PDF &amp; WhatsApp</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('TEAM')" style="width:100%; padding:11px; background:rgba(0,210,255,0.12); color:#00D2FF; border:1.5px solid #00D2FF; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; transition:all 0.2s;" onmouseover="this.style.background='#00D2FF'; this.style.color='#020617';" onmouseout="this.style.background='rgba(0,210,255,0.12)'; this.style.color='#00D2FF';">
+              Elegir Plan TEAM ($40)
+            </button>
+          </div>
+
+          <!-- PLAN 2: DIAMAX CLUB ($180) -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between; transition:transform 0.2s;" onmouseover="this.style.borderColor='#10B981'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:16px; font-weight:900; color:#10B981; display:inline-flex; align-items:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" width="18" height="18"><use href="#diamax-icon-tier-club"/></svg> DIAMAX CLUB
+                </h4>
+                <span style="background:rgba(16,185,129,0.15); color:#10B981; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:6px;">5 EQUIPOS</span>
+              </div>
+              
+              <div style="margin-bottom:12px;">
+                <span style="font-size:28px; font-weight:900; color:#FFF;">$180</span>
+                <span style="font-size:11.5px; color:#94A3B8;"> / temporada</span>
+                <div style="font-size:11px; color:#34D399; font-weight:700; margin-top:2px;">Hasta 5 equipos / temp.</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 16px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:7px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#10B981;"><use href="#diamax-icon-check-circle"/></svg> <span>Todo lo del Plan TEAM</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#10B981;"><use href="#diamax-icon-check-circle"/></svg> <span>Gestión multi-equipo (hasta 5 rosters)</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#10B981;"><use href="#diamax-icon-check-circle"/></svg> <span>Estadísticas cruzadas de cantera</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#10B981;"><use href="#diamax-icon-check-circle"/></svg> <span>Backup en la nube multi-dispositivo</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#10B981;"><use href="#diamax-icon-check-circle"/></svg> <span>Soporte prioritario por WhatsApp</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('CLUB')" style="width:100%; padding:11px; background:rgba(16,185,129,0.12); color:#10B981; border:1.5px solid #10B981; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; transition:all 0.2s;" onmouseover="this.style.background='#10B981'; this.style.color='#020617';" onmouseout="this.style.background='rgba(16,185,129,0.12)'; this.style.color='#10B981';">
+              Elegir Plan CLUB ($180)
+            </button>
+          </div>
+
+          <!-- PLAN 3: DIAMAX LEAGUE ($350) -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between; transition:transform 0.2s;" onmouseover="this.style.borderColor='#FFC72C'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:16px; font-weight:900; color:#FFC72C; display:inline-flex; align-items:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" width="18" height="18"><use href="#diamax-icon-tier-league"/></svg> DIAMAX LEAGUE
+                </h4>
+                <span style="background:rgba(255,199,44,0.15); color:#FFC72C; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:6px;">10 EQUIPOS</span>
+              </div>
+              
+              <div style="margin-bottom:12px;">
+                <span style="font-size:28px; font-weight:900; color:#FFF;">$350</span>
+                <span style="font-size:11.5px; color:#94A3B8;"> / temporada</span>
+                <div style="font-size:11px; color:#FDE047; font-weight:700; margin-top:2px;">Hasta 10 equipos / temp.</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 16px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:7px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#FFC72C;"><use href="#diamax-icon-check-circle"/></svg> <span>Todo lo del Plan CLUB</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#FFC72C;"><use href="#diamax-icon-check-circle"/></svg> <span>Hasta 10 equipos simultáneos</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#FFC72C;"><use href="#diamax-icon-check-circle"/></svg> <span>Tabla de posiciones automática en vivo</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#FFC72C;"><use href="#diamax-icon-check-circle"/></svg> <span>Líderes de bateo, pitcheo y OPS</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#FFC72C;"><use href="#diamax-icon-check-circle"/></svg> <span>Asignación y reporte de Umpires</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('LEAGUE')" style="width:100%; padding:11px; background:rgba(255,199,44,0.12); color:#FFC72C; border:1.5px solid #FFC72C; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; transition:all 0.2s;" onmouseover="this.style.background='#FFC72C'; this.style.color='#020617';" onmouseout="this.style.background='rgba(255,199,44,0.12)'; this.style.color='#FFC72C';">
+              Elegir Plan LEAGUE ($350)
+            </button>
+          </div>
+
+          <!-- PLAN 4: DIAMAX LEAGUE PRO ($650) (DESTACADO) -->
+          <div style="background:linear-gradient(145deg, #0f2444, #08152c); border:2px solid #00D2FF; border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between; box-shadow:0 0 25px rgba(0,210,255,0.25); position:relative;">
+            <div style="position:absolute; top:-10px; right:14px; background:#00D2FF; color:#020617; font-weight:900; font-size:9.5px; padding:3px 8px; border-radius:10px; text-transform:uppercase; letter-spacing:0.5px;">
+              Recomendado Ligas
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:16px; font-weight:900; color:#FFF; display:inline-flex; align-items:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" width="18" height="18"><use href="#diamax-icon-tier-league-pro"/></svg> DIAMAX LEAGUE PRO
+                </h4>
+              </div>
+              
+              <div style="margin-bottom:12px;">
+                <span style="font-size:28px; font-weight:900; color:#00D2FF;">$650</span>
+                <span style="font-size:11.5px; color:#94A3B8;"> / temporada</span>
+                <div style="font-size:11px; color:#38BDF8; font-weight:700; margin-top:2px;">Hasta 20 equipos / temp.</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 16px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:7px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Todo lo del Plan LEAGUE</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Hasta 20 equipos por circuito</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Sabermetría avanzada &amp; Simulador IA</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Portal público de estadísticas de liga</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#00D2FF;"><use href="#diamax-icon-check-circle"/></svg> <span>Multiusuario simultáneo para comisarios</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('LEAGUE_PRO')" style="width:100%; padding:12px; background:#00D2FF; color:#020617; border:none; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase; box-shadow:0 0 15px rgba(0,210,255,0.4);">
+              Elegir LEAGUE PRO ($650)
+            </button>
+          </div>
+
+          <!-- PLAN 5: DIAMAX ORGANIZATION ($950) -->
+          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between; transition:transform 0.2s;" onmouseover="this.style.borderColor='#F26522'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:16px; font-weight:900; color:#F26522; display:inline-flex; align-items:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" width="18" height="18"><use href="#diamax-icon-tier-organization"/></svg> DIAMAX ORGANIZATION
+                </h4>
+                <span style="background:rgba(242,101,34,0.15); color:#F26522; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:6px;">30 EQUIPOS</span>
+              </div>
+              
+              <div style="margin-bottom:12px;">
+                <span style="font-size:28px; font-weight:900; color:#FFF;">$950</span>
+                <span style="font-size:11.5px; color:#94A3B8;"> / temporada</span>
+                <div style="font-size:11px; color:#FB923C; font-weight:700; margin-top:2px;">Hasta 30 equipos / temp.</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 16px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:7px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#F26522;"><use href="#diamax-icon-check-circle"/></svg> <span>Todo lo de LEAGUE PRO</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#F26522;"><use href="#diamax-icon-check-circle"/></svg> <span>Hasta 30 equipos por circuito</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#F26522;"><use href="#diamax-icon-check-circle"/></svg> <span>Panel de Comisionado General</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#F26522;"><use href="#diamax-icon-check-circle"/></svg> <span>Marca propia &amp; Personalización</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#F26522;"><use href="#diamax-icon-check-circle"/></svg> <span>Exportación masiva de datos (CSV/PDF)</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('ORGANIZATION')" style="width:100%; padding:11px; background:rgba(242,101,34,0.12); color:#F26522; border:1.5px solid #F26522; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; transition:all 0.2s;" onmouseover="this.style.background='#F26522'; this.style.color='#020617';" onmouseout="this.style.background='rgba(242,101,34,0.12)'; this.style.color='#F26522';">
+              Elegir ORGANIZATION ($950)
+            </button>
+          </div>
+
+          <!-- PLAN 6: ENTERPRISE (PERSONALIZADO) -->
+          <div style="background:linear-gradient(145deg, #161026, #090514); border:1px solid #A855F7; border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:16px; font-weight:900; color:#C084FC; display:inline-flex; align-items:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" width="18" height="18"><use href="#diamax-icon-tier-enterprise"/></svg> ENTERPRISE
+                </h4>
+                <span style="background:rgba(168,85,247,0.2); color:#C084FC; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:6px;">30+ EQUIPOS</span>
+              </div>
+              
+              <div style="margin-bottom:12px;">
+                <span style="font-size:24px; font-weight:900; color:#FFF;">Personalizado</span>
+                <div style="font-size:11px; color:#DDD6FE; font-weight:700; margin-top:2px;">30+ equipos / temp.</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 16px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:7px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#C084FC;"><use href="#diamax-icon-check-circle"/></svg> <span>Todo lo de ORGANIZATION</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#C084FC;"><use href="#diamax-icon-check-circle"/></svg> <span>Federaciones y circuitos nacionales</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#C084FC;"><use href="#diamax-icon-check-circle"/></svg> <span>Integraciones API &amp; Servidor dedicado</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#C084FC;"><use href="#diamax-icon-check-circle"/></svg> <span>Ingeniero de soporte asignado 24/7</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" style="flex-shrink:0; margin-top:2px; color:#C084FC;"><use href="#diamax-icon-check-circle"/></svg> <span>Contrato corporativo SLA garantizado</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('ENTERPRISE')" style="width:100%; padding:11px; background:rgba(168,85,247,0.18); color:#C084FC; border:1.5px solid #A855F7; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; transition:all 0.2s;" onmouseover="this.style.background='#A855F7'; this.style.color='#020617';" onmouseout="this.style.background='rgba(168,85,247,0.18)'; this.style.color='#C084FC';">
+              Solicitar ENTERPRISE
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Footer Bar del Submenú de Planes -->
+        <div style="margin-top:20px; padding:12px 16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg viewBox="0 0 24 24" width="18" height="18" style="color:#FFC72C;"><use href="#diamax-icon-founder-crown"/></svg>
+            <span style="font-size:11.5px; color:#94A3B8;">¿Eres del equipo directivo de 3Tree? Utiliza el acceso maestro de fundador con clave PIN.</span>
+          </div>
+          <button onclick="switchAuthTab('master')" style="background:none; border:none; color:#FFC72C; font-size:11.5px; font-weight:900; cursor:pointer; text-decoration:underline;">
+            Portal Maestro 3Tree →
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- SUBMENÚ 2: HOJA OFICIAL DE REGISTRO (USUARIO + EQUIPO)     -->
+      <!-- ======================================================== -->
+      <div id="auth-panel-register" style="display:none;">
         
         <!-- Header de la Hoja -->
         <div style="background:rgba(0,210,255,0.06); border:1px solid rgba(0,210,255,0.25); border-radius:12px; padding:12px 16px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
           <div>
-            <span style="color:#00D2FF; font-weight:900; font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">📋 Hoja de Inscripción & Creador de Franquicia</span>
-            <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Completa tus datos para crear tu equipo o incorporarte al roster oficial.</p>
+            <span style="color:#00D2FF; font-weight:900; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:6px;"><svg viewBox="0 0 24 24" width="16" height="16"><use href="#diamax-icon-roster-sheet"/></svg> Hoja de Inscripción &amp; Creador de Franquicia</span>
+            <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Completa tus datos con correo y clave para crear tu equipo o incorporarte al roster oficial.</p>
           </div>
-          <span style="background:rgba(242,101,34,0.2); border:1px solid #F26522; color:#FFF; font-size:10.5px; font-weight:900; padding:4px 10px; border-radius:20px;">
-            🎁 Incluye 30 Días Gratis
+          <span style="background:rgba(242,101,34,0.2); border:1px solid #F26522; color:#FFF; font-size:10.5px; font-weight:900; padding:4px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;">
+            <svg viewBox="0 0 24 24" width="12" height="12"><use href="#diamax-icon-franchise-tier"/></svg> Acceso Inmediato al Anotador
           </span>
         </div>
 
@@ -15832,7 +16091,7 @@ document.addEventListener('keydown', function(e) {
             <!-- SECCIÓN 1: DATOS DEL USUARIO -->
             <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px;">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
-                <span style="font-size:16px;">👤</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" style="color:#00D2FF;"><use href="#diamax-icon-biometric-auth"/></svg>
                 <h3 style="margin:0; font-size:13px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.5px;">1. Sección Usuario</h3>
               </div>
 
@@ -15872,7 +16131,7 @@ document.addEventListener('keydown', function(e) {
             <!-- SECCIÓN 2: EQUIPO Y LIGA -->
             <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px;">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
-                <span style="font-size:16px;">⚾</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" style="color:#F26522;"><use href="#diamax-icon-nav-field"/></svg>
                 <h3 style="margin:0; font-size:13px; font-weight:900; color:#F26522; text-transform:uppercase; letter-spacing:0.5px;">2. Sección Equipo y Liga</h3>
               </div>
 
@@ -15901,7 +16160,7 @@ document.addEventListener('keydown', function(e) {
                 <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Rol del Usuario <span style="color:#EF4444;">*</span></label>
                 <select id="reg-user-role" onchange="actualizarExplicacionRol(this.value)" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:13px; font-weight:800; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
                   <option value="MANAGER">👑 Manager (Creador y Administrador de Franquicia)</option>
-                  <option value="COACH">🧢 Coach (Asistente Técnico & Lineup)</option>
+                  <option value="COACH">🧢 Coach (Asistente Técnico &amp; Lineup)</option>
                   <option value="ADMIN_LIGA">🏛️ Administrador de Liga / Comisionado</option>
                   <option value="JUGADOR">⚾ Jugador (Atleta / Miembro de Roster)</option>
                 </select>
@@ -15916,146 +16175,22 @@ document.addEventListener('keydown', function(e) {
             </div>
           </div>
 
-          <!-- REGLAS DE NEGOCIO Y ASIGNACIÓN DE PERMISOS (INFORMACIÓN EN VIVO) -->
+          <!-- REGLAS DE NEGOCIO Y ASIGNACIÓN DE PERMISOS -->
           <div id="badge-info-rol" style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:10px 14px; margin-top:16px; font-size:11.5px; color:#A7F3D0; display:flex; align-items:center; gap:8px;">
-            <span>🛡️</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" style="color:#10B981; flex-shrink:0;"><use href="#diamax-icon-shield-cert"/></svg>
             <span id="txt-info-rol"><strong>Permiso de Manager/Admin:</strong> Al registrarte tendrás permisos automáticos para crear el roster, agregar hasta 30 jugadores y programar partidos.</span>
           </div>
 
           <!-- Botón de Envío -->
           <div style="margin-top:18px; display:flex; flex-direction:column; gap:10px;">
             <button type="submit" style="width:100%; padding:14px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(16,185,129,0.4); display:flex; align-items:center; justify-content:center; gap:8px; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.01)'" onmouseout="this.style.transform='scale(1)'">
-              <span>🚀</span> <span>Completar Registro Oficial y Activar Franquicia</span>
+              <svg viewBox="0 0 24 24" width="18" height="18"><use href="#diamax-icon-roster-sheet"/></svg> <span>Completar Registro Oficial y Entrar al Anotador</span>
             </button>
             <p style="margin:0; font-size:11px; text-align:center; color:#94A3B8;">
-              Al registrarte inicias automáticamente con tu <strong>Prueba Gratuita de 30 Días</strong> con acceso completo a DIAMAX PRO.
+              Al registrarte inicias automáticamente con acceso activo a DIAMAX PRO.
             </p>
           </div>
         </form>
-      </div>
-
-      <!-- ======================================================== -->
-      <!-- SUBMENÚ 2: PLANES DE SUSCRIPCIÓN & MES GRATIS            -->
-      <!-- ======================================================== -->
-      <div id="auth-panel-pricing" style="display:none;">
-        
-        <div style="text-align:center; margin-bottom:20px;">
-          <span style="background:rgba(242,101,34,0.15); border:1px solid #F26522; color:#F26522; font-size:11px; font-weight:900; padding:4px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">
-            💎 Planes de Suscripción 2026
-          </span>
-          <h3 style="font-size:22px; font-weight:900; margin:10px 0 4px 0; color:#FFF;">Invierte en la Ventaja Competitiva de Tu Equipo</h3>
-          <p style="margin:0; font-size:12.5px; color:#94A3B8;">Elige tu plan o activa tu prueba sin tarjeta de crédito.</p>
-        </div>
-
-        <!-- Grid de Planes -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
-          
-          <!-- PLAN 1: FREE TRIAL (MES GRATIS) -->
-          <div style="background:linear-gradient(145deg, #0d1e3a, #071328); border:2px solid #00D2FF; border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between; box-shadow:0 0 25px rgba(0,210,255,0.25); position:relative;">
-            <div style="position:absolute; top:-10px; right:14px; background:#00D2FF; color:#020617; font-weight:900; font-size:9.5px; padding:3px 8px; border-radius:10px; text-transform:uppercase; letter-spacing:0.5px;">
-              Recomendado
-            </div>
-            <div>
-              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
-                <span style="font-size:20px;">🎁</span>
-                <h4 style="margin:0; font-size:15px; font-weight:900; color:#FFF;">Mes Gratis</h4>
-              </div>
-              <p style="margin:0 0 12px 0; font-size:11px; color:#94A3B8;">Prueba piloto completa para torneos y temporadas activas.</p>
-              
-              <div style="margin-bottom:14px;">
-                <span style="font-size:28px; font-weight:900; color:#00D2FF;">$0.00</span>
-                <span style="font-size:12px; color:#94A3B8;"> / 30 Días</span>
-              </div>
-
-              <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:8px;">
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Anotador Dugout en vivo oficial</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Sabermetría IA & Monte Carlo</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Roster completo (hasta 30 peloteros)</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>PWA Offline (100% sin internet)</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Exportar Boxscore a PDF & WhatsApp</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>⚡</span> <span style="color:#FFC72C;">Sin tarjeta de crédito</span></li>
-              </ul>
-            </div>
-
-            <div>
-              <button onclick="activarPruebaMesGratis()" style="width:100%; padding:12px; background:#00D2FF; color:#020617; border:none; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase; box-shadow:0 0 15px rgba(0,210,255,0.4);">
-                Activar 30 Días Gratis
-              </button>
-              <span style="display:block; text-align:center; font-size:10px; color:#94A3B8; margin-top:6px;">Extensible +15 días para torneos</span>
-            </div>
-          </div>
-
-          <!-- PLAN 2: MANAGER PRO -->
-          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between;">
-            <div>
-              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
-                <span style="font-size:20px;">👑</span>
-                <h4 style="margin:0; font-size:15px; font-weight:900; color:#F26522;">Manager Pro</h4>
-              </div>
-              <p style="margin:0 0 12px 0; font-size:11px; color:#94A3B8;">Para 1 equipo que busca dominar su liga con analítica.</p>
-              
-              <div style="margin-bottom:14px;">
-                <span style="font-size:28px; font-weight:900; color:#FFF;">$9.99</span>
-                <span style="font-size:12px; color:#94A3B8;"> / mes</span>
-                <div style="font-size:10px; color:#10B981; font-weight:700;">o $89 / año (Ahorra 25%)</div>
-              </div>
-
-              <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:11.5px; color:#94A3B8; display:flex; flex-direction:column; gap:8px;">
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Todo lo del Plan Mes Gratis</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Historial de partidos ilimitado</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Backup automático en la nube</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Simulador de Lineup Óptimo con IA</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Soporte prioritario 24/7 por WhatsApp</span></li>
-              </ul>
-            </div>
-
-            <button onclick="seleccionarPlanSuscripcion('PRO')" style="width:100%; padding:12px; background:rgba(242,101,34,0.15); color:#F26522; border:1px solid #F26522; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase;">
-              Suscribir Manager
-            </button>
-          </div>
-
-          <!-- PLAN 3: LIGA & TORNEOS MASTER -->
-          <div style="background:#070e1c; border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:between;">
-            <div>
-              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
-                <span style="font-size:20px;">🏛️</span>
-                <h4 style="margin:0; font-size:15px; font-weight:900; color:#FFC72C;">Liga & Torneos</h4>
-              </div>
-              <p style="margin:0 0 12px 0; font-size:11px; color:#94A3B8;">Para comisionados, directores y torneos multiequipo.</p>
-              
-              <div style="margin-bottom:14px;">
-                <span style="font-size:28px; font-weight:900; color:#FFF;">$29.99</span>
-                <span style="font-size:12px; color:#94A3B8;"> / mes</span>
-                <div style="font-size:10px; color:#10B981; font-weight:700;">o $249 / año por liga</div>
-              </div>
-
-              <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:11.5px; color:#94A3B8; display:flex; flex-direction:column; gap:8px;">
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Hasta 16 Equipos simultáneos</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Tabla de posiciones automática</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Líderes de bateo, pitcheo y OPS</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Asignación y reporte de Umpires</span></li>
-                <li style="display:flex; align-items:flex-start; gap:6px;"><span>✅</span> <span>Dominio personalizado de torneo</span></li>
-              </ul>
-            </div>
-
-            <button onclick="seleccionarPlanSuscripcion('LIGA')" style="width:100%; padding:12px; background:rgba(255,199,44,0.15); color:#FFC72C; border:1px solid #FFC72C; border-radius:8px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase;">
-              Suscribir Liga
-            </button>
-          </div>
-
-        </div>
-
-        <!-- Garantía y Certificación -->
-        <div style="margin-top:20px; padding:12px 16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:18px;">🛡️</span>
-            <span style="font-size:11.5px; color:#94A3B8;">Garantía de Satisfacción 3Tree: Cancela cuando quieras con 1 clic. Datos protegidos con cifrado avanzado Zero Trust.</span>
-          </div>
-          <button onclick="switchAuthTab('register')" style="background:none; border:none; color:#00D2FF; font-size:11.5px; font-weight:800; cursor:pointer; text-decoration:underline;">
-            Ir al Registro →
-          </button>
-        </div>
-
       </div>
 
       <!-- ======================================================== -->
@@ -16070,22 +16205,55 @@ document.addEventListener('keydown', function(e) {
           <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:6px; text-transform:uppercase;">Clave de Acceso</label>
           <input type="password" id="login-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:#040914; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:14px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
         </div>
-        <button onclick="ejecutarLogin()" style="width:100%; padding:14px; background:#00D2FF; color:#040914; border:none; border-radius:8px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 0 15px rgba(0,210,255,0.4);">
-          Entrar al Sistema
+        <button onclick="ejecutarLogin()" style="width:100%; padding:14px; background:#00D2FF; color:#040914; border:none; border-radius:8px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 0 15px rgba(0,210,255,0.4); display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#diamax-icon-biometric-auth"/></svg> Entrar al Sistema
         </button>
         
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; font-size:12px;">
-          <button onclick="accesoInvitadoDemo()" style="background:none; border:none; color:#FFC72C; font-weight:700; cursor:pointer; text-decoration:underline;">
-            ⚡ Modo Demo / Invitado
+          <button onclick="switchAuthTab('master')" style="background:none; border:none; color:#FFC72C; font-weight:700; cursor:pointer; text-decoration:underline; display:inline-flex; align-items:center; gap:4px;">
+            <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-founder-crown"/></svg> Acceso Maestro Fundador
           </button>
-          <button onclick="switchAuthTab('register')" style="background:none; border:none; color:#00D2FF; font-weight:700; cursor:pointer; text-decoration:underline;">
-            ¿No tienes cuenta? Regístrate
+          <button onclick="switchAuthTab('register')" style="background:none; border:none; color:#00D2FF; font-weight:700; cursor:pointer; text-decoration:underline; display:inline-flex; align-items:center; gap:4px;">
+            <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-roster-sheet"/></svg> ¿No tienes cuenta? Regístrate
           </button>
         </div>
       </div>
 
       <!-- ======================================================== -->
-      <!-- SUBMENÚ 4: PIN RÁPIDO DE DUGOUT                          -->
+      <!-- SUBMENÚ 4: ACCESO MAESTRO 3TREE (FOUNDER / SUPER ADMIN)  -->
+      <!-- ======================================================== -->
+      <div id="auth-panel-master" style="display:none; max-width:480px; margin:0 auto;">
+        <div style="background:linear-gradient(145deg, #1c1305, #0a0600); border:2px solid #FFC72C; border-radius:16px; padding:20px; box-shadow:0 0 30px rgba(255,199,44,0.25); text-align:center;">
+          <div style="width:52px; height:52px; margin:0 auto 12px auto; border-radius:50%; background:rgba(255,199,44,0.15); border:2px solid #FFC72C; display:flex; align-items:center; justify-content:center;">
+            <svg viewBox="0 0 24 24" width="28" height="28" style="color:#FFC72C;"><use href="#diamax-icon-founder-crown"/></svg>
+          </div>
+          <h3 style="margin:0 0 4px 0; font-size:17px; font-weight:900; color:#FFC72C; letter-spacing:0.5px;">Portal Maestro 3Tree Digital Sport</h3>
+          <p style="margin:0 0 16px 0; font-size:12px; color:#94A3B8;">Acceso directo para Fundador (Lic. Alí Zapata) y el equipo directivo de 3Tree Digital Sport IA Corp.</p>
+
+          <div style="display:flex; justify-content:center; gap:6px; margin-bottom:16px; flex-wrap:wrap;">
+            <span style="background:rgba(255,199,44,0.15); border:1px solid #FFC72C; color:#FFC72C; font-size:10px; font-weight:900; padding:3px 8px; border-radius:6px;">ADMIN_GENERAL</span>
+            <span style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:900; padding:3px 8px; border-radius:6px;">ENTERPRISE_UNLIMITED</span>
+            <span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; font-size:10px; font-weight:900; padding:3px 8px; border-radius:6px;">BYPASS_ALL</span>
+          </div>
+
+          <div style="margin-bottom:16px; text-align:left;">
+            <label style="display:block; font-size:11px; font-weight:800; color:#FFC72C; margin-bottom:6px; text-transform:uppercase;">Clave Maestra o PIN de Fundador</label>
+            <div style="position:relative;">
+              <input type="password" id="master-key-input" placeholder="••••••••••••" autocomplete="off" style="width:100%; box-sizing:border-box; background:#040914; border:1.5px solid #FFC72C; border-radius:8px; padding:12px 38px 12px 14px; color:#FFF; font-size:15px; outline:none; text-align:center; letter-spacing:3px;" onkeydown="if(event.key==='Enter') accesoMaestroFounder(this.value)">
+              <button type="button" onclick="togglePassVisibility('master-key-input', this)" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#FFC72C; cursor:pointer; font-size:14px;">👁️</button>
+            </div>
+          </div>
+
+          <div>
+            <button onclick="accesoMaestroFounder(document.getElementById('master-key-input').value)" style="width:100%; padding:14px; background:linear-gradient(135deg, #FFC72C, #F59E0B); color:#040914; border:none; border-radius:8px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; box-shadow:0 0 20px rgba(255,199,44,0.4); display:flex; align-items:center; justify-content:center; gap:8px;">
+              <svg viewBox="0 0 24 24" width="16" height="16"><use href="#diamax-icon-keypad-pin"/></svg> <span>Desbloquear Acceso Maestro</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- SUBMENÚ 5: PIN RÁPIDO DE DUGOUT                          -->
       <!-- ======================================================== -->
       <div id="auth-panel-pin" style="display:none; text-align:center; max-width:320px; margin:0 auto;">
         <p style="margin:0 0 12px 0; font-size:13px; color:#94A3B8;">Ingresa el PIN de seguridad de 4 dígitos para desbloqueo rápido en dugout:</p>
