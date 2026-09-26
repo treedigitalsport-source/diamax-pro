@@ -49,11 +49,12 @@ check('Media query para tablets intermedias (max-width: 768px)', html.includes('
 check('Viewport fit=cover y prevent zoom no deseado configurado', html.includes('viewport-fit=cover') && html.includes('width=device-width'));
 check('Botonera de 36 jugadas con auto-fit responsivo', html.includes('.action-grid') || html.includes('grid-template-columns'));
 
-// 3. AUDITORÍA DE PORTADA (PÁGINA 1) Y LOS 6 PLANES
-check('Botón Entrar al Anotador (#p1-btn-dugout)', html.includes('id="p1-btn-dugout"'));
-check('Botón Registro & Planes (#p1-btn-register)', html.includes('id="p1-btn-register"'));
+// 3. AUDITORÍA DE PORTADA (PÁGINA 1): 6 PLANES Y ACCESO CON CLAVE CEO
+check('Botón 6 Planes Oficiales (#p1-btn-plans)', html.includes('id="p1-btn-plans"'));
+check('Botón Registro & Franquicia (#p1-btn-register)', html.includes('id="p1-btn-register"'));
 check('Botón Iniciar Sesión (#p1-btn-login)', html.includes('id="p1-btn-login"'));
-check('Navegación irAPagina(3) para entrada directa', html.includes('onclick="irAPagina(3)"'));
+check('Botón Acceso con Clave CEO (#p1-btn-ceo-key)', html.includes('id="p1-btn-ceo-key"'));
+check('Función abrirAccesoClaveCEO() y accesoMaestroFounder(clave)', html.includes('abrirAccesoClaveCEO') && html.includes('accesoMaestroFounder'));
 check('Definición de 6 Planes Oficiales (TEAM, CLUB, LEAGUE, LEAGUE PRO, ORGANIZATION, ENTERPRISE)', 
   html.includes('DIAMAX TEAM') && 
   html.includes('DIAMAX CLUB') && 

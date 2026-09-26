@@ -3093,23 +3093,31 @@ body.daylight-mode .btn-keypad:hover {
       Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría avanzada.
     </p>
 
-    <!-- Botones de Acción Cinemáticos Flotantes -->
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:20px;">
+    <!-- Botones de Acción Cinemáticos Flotantes (Planes Oficiales & Acceso Maestro CEO con Clave) -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-bottom:20px;">
       
-      <!-- Botón 1: Entrar al Anotador Dugout (Acceso Directo con 36 Jugadas) -->
-      <button type="button" id="p1-btn-dugout" onclick="irAPagina(3)" style="padding:16px 28px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #FFFFFF);"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span id="p1-btn-dugout-text">ENTRAR AL ANOTADOR</span>
+      <!-- Botón 1: 6 Planes Oficiales por Temporada -->
+      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:16px 26px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">💎</span>
+        <span id="p1-btn-plans-text">6 PLANES OFICIALES</span>
       </button>
 
-      <!-- Botón 2: Registro & Planes -->
-      <button type="button" id="p1-btn-register" onclick="irAPagina(2, 'register')" style="padding:16px 28px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
-        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v2a2 2 0 0 0 0 4v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-2a2 2 0 0 0 0-4V9z" fill="#040814" stroke="#040814" stroke-width="1.5"/><line x1="9" y1="6" x2="9" y2="18" stroke="#FFB82E" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="15" cy="12" r="2" fill="#FFB82E"/></svg> <span id="p1-btn-register-text">REGISTRO &amp; PLANES</span>
+      <!-- Botón 2: Registro de Franquicia & Peloteros -->
+      <button type="button" id="p1-btn-register" onclick="showAuthModal('register')" style="padding:16px 26px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">📝</span>
+        <span id="p1-btn-register-text">REGISTRO &amp; FRANQUICIA</span>
       </button>
 
-      <!-- Botón 3: Iniciar Sesión / Entrar -->
-      <button type="button" id="p1-btn-login" onclick="irAPagina(2, 'login')" style="padding:16px 28px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
-        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.7))" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="12" r="5" stroke="#18D8FF" stroke-width="2" fill="rgba(24,216,255,0.15)"/><circle cx="8" cy="12" r="1.8" fill="#18D8FF"/><path d="M13 12h8m-3 0v3m3-3v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> <span id="p1-btn-login-text">INICIAR SESIÓN</span>
+      <!-- Botón 3: Iniciar Sesión -->
+      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:16px 24px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">🔑</span>
+        <span id="p1-btn-login-text">INICIAR SESIÓN</span>
+      </button>
+
+      <!-- Botón 4: ACCESO CON CLAVE (CEO ALÍ ZAPATA / FUNDADOR 3TREE) -->
+      <button type="button" id="p1-btn-ceo-key" onclick="abrirAccesoClaveCEO()" style="padding:16px 26px; background:linear-gradient(135deg, rgba(255,199,44,0.2), rgba(245,158,11,0.3)); color:#FFC72C; border:2px solid #FFC72C; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,199,44,0.35), inset 0 0 15px rgba(255,199,44,0.15); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='linear-gradient(135deg, #FFC72C, #F59E0B)'; this.style.color='#040814'; this.style.transform='translateY(-3px) scale(1.03)'; this.style.boxShadow='0 12px 40px rgba(255,199,44,0.7)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(255,199,44,0.2), rgba(245,158,11,0.3))'; this.style.color='#FFC72C'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,199,44,0.35), inset 0 0 15px rgba(255,199,44,0.15)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">👑</span>
+        <span id="p1-btn-ceo-key-text">ACCESO CON CLAVE</span>
       </button>
 
     </div>
@@ -6831,14 +6839,14 @@ function initSecurityPortal() {
 }
 
 function switchAuthTab(tab) {
-  ['register', 'pricing', 'login', 'pin'].forEach(t => {
+  ['pricing', 'register', 'login', 'master', 'pin'].forEach(t => {
     const btn = document.getElementById(`auth-tab-${t}-btn`);
     const panel = document.getElementById(`auth-panel-${t}`);
     if (btn && panel) {
       if (t === tab) {
         btn.style.background = '#0e1c3a';
-        btn.style.color = '#00D2FF';
-        btn.style.borderBottom = '3px solid #00D2FF';
+        btn.style.color = (t === 'master') ? '#FFC72C' : '#00D2FF';
+        btn.style.borderBottom = `3px solid ${t === 'master' ? '#FFC72C' : '#00D2FF'}`;
         panel.style.display = 'block';
       } else {
         btn.style.background = '#040915';
@@ -6850,6 +6858,49 @@ function switchAuthTab(tab) {
   });
   const alertEl = document.getElementById('auth-status-alert');
   if (alertEl) alertEl.style.display = 'none';
+}
+
+function abrirAccesoClaveCEO() {
+  showAuthModal('master');
+  setTimeout(() => {
+    const input = document.getElementById('master-key-input');
+    if (input) {
+      input.focus();
+      input.select();
+    }
+  }, 120);
+}
+
+function accesoMaestroFounder(clave) {
+  const k = (clave !== undefined && clave !== null ? String(clave) : (document.getElementById('master-key-input')?.value || '')).trim();
+  if (!k) {
+    return showAuthAlert("Por favor ingresa la clave de acceso de Fundador/CEO.");
+  }
+  
+  // Claves maestras autorizadas: 113714 (CEO Alí Zapata), 1234 (PIN Rápido), alizapata, diamax2026
+  if (k === '113714' || k === '1234' || k.toLowerCase() === 'alizapata' || k.toLowerCase() === 'diamax2026') {
+    currentUserSession = {
+      id: 'usr_ceo_ali',
+      name: 'Lic. Alí Zapata',
+      email: 'ceo@3treedigital.com',
+      role: 'FOUNDER_CEO',
+      tier: 'ENTERPRISE_UNLIMITED',
+      teamName: '3Tree Digital Sport IA Corp.',
+      isMaster: true
+    };
+    try {
+      localStorage.setItem('diamax_current_user', JSON.stringify(currentUserSession));
+    } catch(e) {}
+    
+    showAuthAlert("👑 ¡Bienvenido Fundador & CEO Lic. Alí Zapata! Acceso Maestro concedido.", false);
+    
+    setTimeout(() => {
+      cerrarAuthModal();
+      irAPagina(3); // Entra directo al Anotador Dugout
+    }, 450);
+  } else {
+    showAuthAlert("⛔ Clave de acceso maestro incorrecta. Verifique e intente nuevamente.");
+  }
 }
 
 function showAuthModal(defaultTab = 'register') {
