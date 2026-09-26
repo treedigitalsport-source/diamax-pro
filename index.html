@@ -3011,16 +3011,8 @@ body.daylight-mode .btn-keypad:hover {
   <div style="position:relative; z-index:10; width:100%; max-width:1100px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
     
     <!-- Logo DIAMAX PRO (Home Plate Diamond + Tipografía Metálica Unificada - ALTA DEFINICIÓN) -->
-    <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:14px; cursor:pointer; text-decoration:none; transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='scale(1.04)';" onmouseout="this.style.transform='scale(1)';" title="DIAMAX PRO — Sports Operating System">
-      <div style="position:relative; width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;">
-        <svg viewBox="0 0 100 100" width="54" height="54" style="overflow:visible; filter:drop-shadow(0 0 18px rgba(255,199,44,0.65)) drop-shadow(0 4px 14px rgba(0,0,0,0.9));">
-          <use href="#diamax-home-plate-symbol"/>
-        </svg>
-      </div>
-      <div style="display:inline-flex; align-items:baseline; gap:6px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:28px; letter-spacing:1.2px; line-height:1; text-transform:uppercase;">
-        <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
-        <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:23px;">PRO</span>
-      </div>
+    <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:12px; cursor:pointer;" title="DIAMAX PRO">
+      <img src="./assets/logo-Photoroom.png?v=2.4.2" alt="DIAMAX PRO" class="diamax-logo-p1" style="height:48px; width:auto; object-fit:contain; filter:drop-shadow(0 4px 15px rgba(0,210,255,0.4));">
     </div>
     
     <!-- Badges y Botón de Salida -->
@@ -3705,33 +3697,18 @@ body.daylight-mode .btn-keypad:hover {
 <div id="diamax-page-3" class="container" style="display:none;">
   <!-- Header Pro Stadium -->
   <div class="header" style="padding:14px 20px; margin-bottom:16px;">
-    <div class="header-logo-container" style="display:flex; align-items:center; gap:14px;">
-      <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:12px; cursor:pointer;" title="DIAMAX PRO — Volver a Portada">
-        <!-- Isotipo 3D Home Plate Diamante Option 2 (The Diamond Vault) - Integración Orgánica Fluida -->
-        <div style="position:relative; width:52px; height:52px; display:inline-flex; align-items:center; justify-content:center; background:transparent; border:none; box-shadow:none; flex-shrink:0; transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.08)';" onmouseout="this.style.transform='scale(1)';">
-          <svg viewBox="0 0 100 100" width="50" height="50" style="overflow:visible; filter:drop-shadow(0 0 14px rgba(255,199,44,0.55)) drop-shadow(0 2px 8px rgba(0,0,0,0.8));">
-            <use href="#diamax-home-plate-symbol"/>
-          </svg>
-        </div>
-        <!-- Bloque de Títulos y Alineación Tipográfica Perfecta -->
-        <div style="display:flex; flex-direction:column; justify-content:center;">
-          <div class="header-title-row" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <div style="display:inline-flex; align-items:baseline; gap:3px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:16px; letter-spacing:0.8px; line-height:1; text-transform:uppercase;">
-              <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 45%, #94A3B8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
-              <span style="color:#FFC72C; background:linear-gradient(180deg, #FFFBEB 0%, #FFC72C 50%, #F59E0B 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:13.5px;">PRO</span>
-            </div>
-            <span style="color:rgba(255,255,255,0.25); font-weight:300; font-size:14px;">|</span>
-            <h1 id="header-team-title" style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.5px; line-height:1; display:inline-flex; align-items:center; gap:8px;">
-              <span id="team-title-span">GUERREROS DE VENEZUELA +55</span>
-            </h1>
-            <span class="live-pulse-badge" style="margin:0;"><span class="pulse-red"></span> <span id="badge-live-text">EN VIVO REACTIVO</span></span>
-          </div>
-          <p id="header-subtitle" style="margin:3px 0 0 0; font-size:11px; color:#94A3B8; letter-spacing:0.3px;">
-            Sports Operating System · Motor Dugout Pitch-by-Pitch & Reglas 1-9 · Mánager: Leandro Chavez
-          </p>
-        </div>
+    <div class="header-logo-container">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <img src="./assets/logo-Photoroom.png?v=2.4.2" alt="DIAMAX PRO" class="diamax-logo-dugout" style="height:44px; width:auto; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7)); cursor:pointer;" title="DIAMAX PRO — Sports Operating System" onclick="irAPagina(1)">
+        <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="team-logo-display" class="team-logo-img" alt="Logo Equipo" onclick="toggleSettingsDrawer(true)" title="Haz clic para configurar equipo">
       </div>
-      <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="team-logo-display" class="team-logo-img" alt="Logo Equipo" onclick="toggleSettingsDrawer(true)" title="Haz clic para configurar equipo" style="display:none;">
+      <div>
+        <div class="header-title-row">
+          <h1 id="header-team-title"><span id="team-title-span">GUERREROS DE VENEZUELA +55</span></h1>
+          <span class="live-pulse-badge"><span class="pulse-red"></span> <span id="badge-live-text">EN VIVO REACTIVO</span></span>
+        </div>
+        <p id="header-subtitle">DIAMAX Pro · Motor Dugout Pitch-by-Pitch &amp; Reglas 1-9 · Mánager: Leandro Chavez</p>
+      </div>
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <div id="network-status-badge" style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.14); padding:5px 12px; border-radius:9999px; font-size:10.5px; font-family:var(--font-mono); display:inline-flex; align-items:center; backdrop-filter:blur(12px);">
