@@ -792,22 +792,67 @@ body { background:#070D1A; color:#EAEEF5; padding:12px; min-height:100vh; }
 .base { transition:fill 0.2s, filter 0.2s; cursor:pointer; fill:#1E293B; }
 .base:hover { fill:#334155; }
 
-/* Ficha del Bateador Activo */
+/* Ficha del Bateador Activo (Blindada contra desbordamiento en Móvil / Tablet / PC) */
 .batter-card-active {
-  display:flex; align-items:center; justify-content:space-between;
-  background:#131D31; border:2px solid #FFC72C; border-radius:10px;
-  padding:12px 16px; margin-bottom:10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(19, 29, 49, 0.96) 0%, rgba(10, 18, 34, 0.98) 100%);
+  border: 2px solid #FFC72C;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
-.batter-img { width:52px; height:52px; border-radius:50%; border:2px solid #FFC72C; object-fit:cover; }
+.batter-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #FFC72C;
+  object-fit: cover;
+  flex-shrink: 0;
+}
 .ondeck-card {
-  display:flex; align-items:center; gap:12px; background:#0F172A;
-  border:1px solid #1E293B; border-radius:8px; padding:10px 14px; font-size:12px; margin-bottom:14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 .btn-pinch-hitter {
-  background:#8B5CF6; color:#fff; border:none; padding:8px 12px;
-  border-radius:6px; font-weight:800; cursor:pointer; font-size:11px;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 900;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
-.btn-pinch-hitter:hover { background:#7C3AED; }
+.btn-pinch-hitter:hover {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.55);
+}
 
 /* Dugout Touch Grid (Botones de 48px - 54px) */
 .btn-section-title {
@@ -3048,23 +3093,31 @@ body.daylight-mode .btn-keypad:hover {
       Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría avanzada.
     </p>
 
-    <!-- Botones de Acción Cinemáticos Flotantes -->
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:20px;">
+    <!-- Botones de Acción Cinemáticos Flotantes (Diseño Original Aprobado) -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-bottom:20px;">
       
-      <!-- Botón 1: Entrar al Anotador Dugout (Acceso Directo con 36 Jugadas) -->
-      <button type="button" id="p1-btn-dugout" onclick="irAPagina(3)" style="padding:16px 28px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #FFFFFF);"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span id="p1-btn-dugout-text">ENTRAR AL ANOTADOR</span>
+      <!-- Botón 1: Ver Planes Oficiales (Modelo Híbrido) -->
+      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:16px 26px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">💎</span>
+        <span id="p1-btn-plans-text">6 PLANES OFICIALES</span>
       </button>
 
-      <!-- Botón 2: Registro & Planes -->
-      <button onclick="irAPagina(2, 'register')" style="padding:16px 28px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
-        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v2a2 2 0 0 0 0 4v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-2a2 2 0 0 0 0-4V9z" fill="#040814" stroke="#040814" stroke-width="1.5"/><line x1="9" y1="6" x2="9" y2="18" stroke="#FFB82E" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="15" cy="12" r="2" fill="#FFB82E"/></svg> <span id="p1-btn-register-text">REGISTRO &amp; PLANES</span>
+      <!-- Botón 2: Registro Gratuito -->
+      <button type="button" id="p1-btn-register" onclick="showAuthModal('register')" style="padding:16px 26px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">📝</span>
+        <span id="p1-btn-register-text">REGISTRO GRATUITO</span>
       </button>
 
-      <!-- Botón 3: Iniciar Sesión / Entrar -->
-      <button onclick="irAPagina(2, 'login')" style="padding:16px 28px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
-        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.7))" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="12" r="5" stroke="#18D8FF" stroke-width="2" fill="rgba(24,216,255,0.15)"/><circle cx="8" cy="12" r="1.8" fill="#18D8FF"/><path d="M13 12h8m-3 0v3m3-3v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> <span id="p1-btn-login-text">INICIAR SESIÓN</span>
+      <!-- Botón 3: Iniciar Sesión -->
+      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:16px 24px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">🔑</span>
+        <span id="p1-btn-login-text">INICIAR SESIÓN</span>
+      </button>
+
+      <!-- Botón 4: Acceso Maestro 3Tree (Fundador / Alí Zapata) -->
+      <button type="button" id="p1-btn-master" onclick="showAuthModal('master')" style="padding:16px 24px; background:rgba(255,199,44,0.12); color:#FFC72C; border:1.8px solid #FFC72C; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,199,44,0.25); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(255,199,44,0.25)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,199,44,0.5)';" onmouseout="this.style.background='rgba(255,199,44,0.12)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,199,44,0.25)';">
+        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">👑</span>
+        <span id="p1-btn-master-text">ACCESO MAESTRO 3TREE</span>
       </button>
 
     </div>
@@ -4023,15 +4076,15 @@ body.daylight-mode .btn-keypad:hover {
 
         <!-- Bateador Activo -->
         <div class="batter-card-active">
-          <div style="display:flex; align-items:center; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:180px;">
             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" id="current-batter-photo" class="batter-img" alt="Bateador">
-            <div>
+            <div style="min-width:0; flex:1;">
               <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;" id="current-batter-team-badge">Al Bate:</div>
-              <strong id="current-batter-name" style="color:#FFC72C; font-size:15px;">Bateador</strong> (<span id="current-batter-pos">CF - Pos 8</span>)
+              <strong id="current-batter-name" style="color:#FFC72C; font-size:15px; word-break:break-word;">Bateador</strong> (<span id="current-batter-pos">CF - Pos 8</span>)
               <div style="font-size:11.5px; color:#10B981; font-weight:bold; margin-top:2px;" id="current-batter-today-stats">Hoy: 0 VB, 0 H, .000 AVE</div>
             </div>
           </div>
-          <button onclick="cambiarBateadorEmergente()" class="btn-pinch-hitter">Emergente (PH)</button>
+          <button type="button" onclick="cambiarBateadorEmergente()" class="btn-pinch-hitter" title="Sustituir por un Bateador Emergente">Emergente (PH)</button>
         </div>
 
         <div class="ondeck-card">
@@ -15486,9 +15539,10 @@ const WORLD_LANG_DICT = {
     "sportsOS": "SPORTS OPERATING SYSTEM · BÉISBOL & SOFTBOL",
     "welcome": "BIENVENIDO A",
     "desc": "Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría avanzada.",
-    "btnDugout": "ENTRAR AL ANOTADOR",
-    "btnRegister": "REGISTRO & PLANES",
+    "btnPlans": "6 PLANES OFICIALES",
+    "btnRegister": "REGISTRO GRATUITO",
     "btnLogin": "INICIAR SESIÓN",
+    "btnMaster": "ACCESO MAESTRO 3TREE",
     "monthFree": "🎁 1 Mes Gratis",
     "zeroTrust": "Zero Trust v3.5",
     "offlinePwa": "PWA Offline",
@@ -15508,9 +15562,10 @@ const WORLD_LANG_DICT = {
     "sportsOS": "SPORTS OPERATING SYSTEM · BASEBALL & SOFTBALL",
     "welcome": "WELCOME TO",
     "desc": "Franchise management, official rosters, pitch-by-pitch dugout scorer & advanced sabermetrics.",
-    "btnDugout": "ENTER DUGOUT SCORER",
-    "btnRegister": "REGISTER & PLANS",
-    "btnLogin": "SIGN IN / ENTER",
+    "btnPlans": "6 OFFICIAL PLANS",
+    "btnRegister": "FREE SIGN UP",
+    "btnLogin": "SIGN IN",
+    "btnMaster": "3TREE MASTER ACCESS",
     "monthFree": "🎁 1 Month Free",
     "zeroTrust": "Zero Trust v3.5",
     "offlinePwa": "PWA Offline",
@@ -15521,7 +15576,7 @@ const WORLD_LANG_DICT = {
     "exitPrompt": "EXIT DIAMAX PRO?",
     "exitDesc": "Your game session and intelligence data are protected under SHA-256 and Zero Trust architecture.",
     "exitCancel": "↩ RETURN TO DUGOUT",
-    "exitConfirm": "⏻ CONFIRM SECURE EXIT"
+    "exitConfirm": "⏻ CONFIRMAR SALIDA SEGURA"
   }
 };
 
@@ -15569,14 +15624,17 @@ function cambiarIdiomaGlobal(code) {
   const desc = document.getElementById('p1-desc-text');
   if (desc) desc.innerText = l.desc;
 
-  const btnDugout = document.getElementById('p1-btn-dugout-text');
-  if (btnDugout) btnDugout.innerText = l.btnDugout;
+  const btnPlans = document.getElementById('p1-btn-plans-text');
+  if (btnPlans) btnPlans.innerText = l.btnPlans;
 
   const btnReg = document.getElementById('p1-btn-register-text');
   if (btnReg) btnReg.innerText = l.btnRegister;
 
   const btnLog = document.getElementById('p1-btn-login-text');
   if (btnLog) btnLog.innerText = l.btnLogin;
+
+  const btnMaster = document.getElementById('p1-btn-master-text');
+  if (btnMaster) btnMaster.innerText = l.btnMaster;
 
   const badgeFree = document.getElementById('p1-badge-month-free');
   if (badgeFree) badgeFree.innerText = l.monthFree;
