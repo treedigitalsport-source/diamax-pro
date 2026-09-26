@@ -4373,7 +4373,7 @@ body.daylight-mode .btn-keypad:hover {
   <!-- TAB 4: TARJETA OFICIAL -->
   
     <!-- PESTAÑA: MANUAL DE USO Y GUÍA MAESTRA DE OPERACIONES (10 MÓDULOS) -->
-  <div id="tab-manual" class="tab-pane">
+  <div id="tab-manual" style="display:none;">
     <div class="panel" style="border: 2px solid #FFC72C; background:linear-gradient(145deg, #091224 0%, #0F172A 100%);">
       
       <!-- Cabecera del Manual -->
@@ -13417,7 +13417,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedKey = localStorage.getItem('diamax_groq_key') || localStorage.getItem('gv_groq_key');
     if (savedKey && document.getElementById('diamax-ia-key')) document.getElementById('diamax-ia-key').value = savedKey;
   } catch(e) {}
-  toggleLanguage();
+  if (typeof applyLanguage === "function") applyLanguage(currentLang || "es");
   initSecurityPortal();
   initFirebaseFromStorage();
   renderAll();
