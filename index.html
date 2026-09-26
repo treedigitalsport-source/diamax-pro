@@ -3093,31 +3093,23 @@ body.daylight-mode .btn-keypad:hover {
       Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría avanzada.
     </p>
 
-    <!-- Botones de Acción Cinemáticos Flotantes (Diseño Original Aprobado) -->
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-bottom:20px;">
+    <!-- Botones de Acción Cinemáticos Flotantes -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:20px;">
       
-      <!-- Botón 1: Ver Planes Oficiales (Modelo Híbrido) -->
-      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:16px 26px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
-        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">💎</span>
-        <span id="p1-btn-plans-text">6 PLANES OFICIALES</span>
+      <!-- Botón 1: Entrar al Anotador Dugout (Acceso Directo con 36 Jugadas) -->
+      <button type="button" id="p1-btn-dugout" onclick="irAPagina(3)" style="padding:16px 28px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #FFFFFF);"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="p1-btn-dugout-text">ENTRAR AL ANOTADOR</span>
       </button>
 
-      <!-- Botón 2: Registro Gratuito -->
-      <button type="button" id="p1-btn-register" onclick="showAuthModal('register')" style="padding:16px 26px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
-        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">📝</span>
-        <span id="p1-btn-register-text">REGISTRO GRATUITO</span>
+      <!-- Botón 2: Registro & Planes -->
+      <button type="button" id="p1-btn-register" onclick="irAPagina(2, 'register')" style="padding:16px 28px; background:linear-gradient(135deg, #FFB82E 0%, #EA580C 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,184,46,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,184,46,0.45), 0 0 20px rgba(234,88,12,0.4)';">
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v2a2 2 0 0 0 0 4v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-2a2 2 0 0 0 0-4V9z" fill="#040814" stroke="#040814" stroke-width="1.5"/><line x1="9" y1="6" x2="9" y2="18" stroke="#FFB82E" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="15" cy="12" r="2" fill="#FFB82E"/></svg> <span id="p1-btn-register-text">REGISTRO &amp; PLANES</span>
       </button>
 
-      <!-- Botón 3: Iniciar Sesión -->
-      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:16px 24px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
-        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">🔑</span>
-        <span id="p1-btn-login-text">INICIAR SESIÓN</span>
-      </button>
-
-      <!-- Botón 4: Acceso Maestro 3Tree (Fundador / Alí Zapata) -->
-      <button type="button" id="p1-btn-master" onclick="showAuthModal('master')" style="padding:16px 24px; background:rgba(255,199,44,0.12); color:#FFC72C; border:1.8px solid #FFC72C; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,199,44,0.25); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(255,199,44,0.25)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,199,44,0.5)';" onmouseout="this.style.background='rgba(255,199,44,0.12)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,199,44,0.25)';">
-        <span style="font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">👑</span>
-        <span id="p1-btn-master-text">ACCESO MAESTRO 3TREE</span>
+      <!-- Botón 3: Iniciar Sesión / Entrar -->
+      <button type="button" id="p1-btn-login" onclick="irAPagina(2, 'login')" style="padding:16px 28px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:8px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
+        <svg style="display:inline-block;vertical-align:-2px;margin-right:8px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.7))" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="12" r="5" stroke="#18D8FF" stroke-width="2" fill="rgba(24,216,255,0.15)"/><circle cx="8" cy="12" r="1.8" fill="#18D8FF"/><path d="M13 12h8m-3 0v3m3-3v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> <span id="p1-btn-login-text">INICIAR SESIÓN</span>
       </button>
 
     </div>

@@ -50,11 +50,10 @@ check('Viewport fit=cover y prevent zoom no deseado configurado', html.includes(
 check('Botonera de 36 jugadas con auto-fit responsivo', html.includes('.action-grid') || html.includes('grid-template-columns'));
 
 // 3. AUDITORÍA DE PORTADA (PÁGINA 1) Y LOS 6 PLANES
-console.log('\n▶ 3. AUDITORÍA DE ACCESOS, PLANES Y MODALES (PÁGINA 1)...');
-check('Botón 6 Planes Oficiales (#p1-btn-plans)', html.includes('id="p1-btn-plans"'));
-check('Botón Registro Gratuito (#p1-btn-register)', html.includes('id="p1-btn-register"'));
+check('Botón Entrar al Anotador (#p1-btn-dugout)', html.includes('id="p1-btn-dugout"'));
+check('Botón Registro & Planes (#p1-btn-register)', html.includes('id="p1-btn-register"'));
 check('Botón Iniciar Sesión (#p1-btn-login)', html.includes('id="p1-btn-login"'));
-check('Botón Acceso Maestro 3Tree (#p1-btn-master)', html.includes('id="p1-btn-master"'));
+check('Navegación irAPagina(3) para entrada directa', html.includes('onclick="irAPagina(3)"'));
 check('Definición de 6 Planes Oficiales (TEAM, CLUB, LEAGUE, LEAGUE PRO, ORGANIZATION, ENTERPRISE)', 
   html.includes('DIAMAX TEAM') && 
   html.includes('DIAMAX CLUB') && 
