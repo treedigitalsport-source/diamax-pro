@@ -14891,6 +14891,13 @@ function limpiarMemoriaAgente() {
 }
 
 function switchTab(rawTabId) {
+  // ensurePage3Visible
+  if (typeof irAPagina === 'function') {
+    const p3 = document.getElementById('diamax-page-3');
+    if (!p3 || p3.style.display === 'none') {
+      irAPagina(3);
+    }
+  }
   const aliases = {
     'tarjeta': 'tarjeta-oficial',
     'card': 'tarjeta-oficial',
@@ -15097,7 +15104,16 @@ Enlace de Auditoría en Vivo: https://diamax-pro.vercel.app/#dashboard
   window.addEventListener('hashchange', () => {
     if (window.location.hash) {
       const h = window.location.hash.replace('#', '');
-      switchTab(h);
+      if (h === 'pagina1' || h === 'home') {
+        irAPagina(1);
+      } else if (h === 'pagina2' || h === 'registro') {
+        irAPagina(2, 'register');
+      } else if (h === 'login') {
+        irAPagina(2, 'login');
+      } else {
+        irAPagina(3);
+        switchTab(h);
+      }
     }
   });
 
@@ -15131,6 +15147,7 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (rawHash === 'pagina3' || rawHash === 'dugout') {
       irAPagina(3);
     } else {
+      irAPagina(3);
       setTimeout(() => {
         switchTab(rawHash);
       }, 60);
