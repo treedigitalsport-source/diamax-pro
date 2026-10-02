@@ -3639,12 +3639,12 @@ body.daylight-mode .btn-keypad:hover {
   
   
   /* =========================================================================
-     🌟 DIAMAX PRO — UNIFIED CYBER-CYAN TABS & BUTTONS WITH LASER HOVER GLOW
+     🌟 DIAMAX PRO — UNIFIED CYBER-CYAN TABS & BUTTONS WITH LASER HOVER GLOW (ALL WHITE TEXT #FFFFFF)
      ========================================================================= */
   .diamax-nav-unified, .nav button {
     background: rgba(11, 19, 43, 0.85) !important;
     border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
-    color: #E2E8F0 !important;
+    color: #FFFFFF !important;
     font-family: 'Montserrat', sans-serif !important;
     font-size: 11.5px !important;
     font-weight: 800 !important;
@@ -3675,25 +3675,25 @@ body.daylight-mode .btn-keypad:hover {
   }
 
   .diamax-nav-unified.active, .nav button.active {
-    background: linear-gradient(135deg, #00D2FF 0%, #0077FF 100%) !important;
-    border-color: #38BDF8 !important;
-    color: #020617 !important;
+    background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
+    border: 2px solid #00D2FF !important;
+    color: #FFFFFF !important;
     font-weight: 900 !important;
     box-shadow: 0 0 30px rgba(0, 210, 255, 0.9), 0 4px 18px rgba(0, 0, 0, 0.5) !important;
     transform: translateY(-2.5px) !important;
   }
 
   .diamax-nav-unified.active svg, .nav button.active svg {
-    fill: #020617 !important;
-    stroke: #020617 !important;
-    filter: none !important;
+    fill: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+    filter: drop-shadow(0 0 6px #00D2FF) !important;
   }
 
-  /* BOTONERAS DE ACCIÓN Y PRESETS UNIFICADOS (+55) */
-  .diamax-action-btn-unified, .btn-lang {
+  /* BOTONERAS DE ACCIÓN Y PRESETS UNIFICADOS (+55) - TEXTO BLANCO */
+  .diamax-action-btn-unified, .btn-lang, .btn-settings {
     background: rgba(11, 19, 43, 0.85) !important;
     border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
-    color: #F8FAFC !important;
+    color: #FFFFFF !important;
     font-family: 'Montserrat', sans-serif !important;
     font-size: 11px !important;
     font-weight: 800 !important;
@@ -3708,7 +3708,7 @@ body.daylight-mode .btn-keypad:hover {
     white-space: nowrap !important;
   }
 
-  .diamax-action-btn-unified:hover, .btn-lang:hover {
+  .diamax-action-btn-unified:hover, .btn-lang:hover, .btn-settings:hover {
     background: linear-gradient(135deg, rgba(0, 210, 255, 0.28) 0%, rgba(2, 132, 199, 0.45) 100%) !important;
     border-color: #00D2FF !important;
     color: #FFFFFF !important;
@@ -3716,29 +3716,41 @@ body.daylight-mode .btn-keypad:hover {
     transform: translateY(-2px) scale(1.02) !important;
   }
 
-  .diamax-action-btn-unified:active, .btn-lang:active {
+  .diamax-action-btn-unified:active, .btn-lang:active, .btn-settings:active {
     transform: translateY(0px) scale(0.98) !important;
   }
 
-  .diamax-action-btn-unified svg, .btn-lang svg {
+  .diamax-action-btn-unified svg, .btn-lang svg, .btn-settings svg {
     transition: all 0.2s ease !important;
   }
 
-  .diamax-action-btn-unified:hover svg, .btn-lang:hover svg {
+  .diamax-action-btn-unified:hover svg, .btn-lang:hover svg, .btn-settings:hover svg {
     filter: drop-shadow(0 0 8px #00D2FF) !important;
   }
 
-  /* Ribbon game status badge unificado en cyber-cyan */
+  /* Ribbon game status badge unificado en cyber-cyan con texto blanco */
   #game-status-badge {
     background: rgba(0, 210, 255, 0.15) !important;
     border: 1.5px solid #00D2FF !important;
-    color: #00D2FF !important;
+    color: #FFFFFF !important;
     font-size: 10.5px !important;
     font-weight: 900 !important;
     padding: 4px 10px !important;
     border-radius: 6px !important;
     box-shadow: 0 0 14px rgba(0, 210, 255, 0.4) !important;
     letter-spacing: 0.5px !important;
+  }
+
+  #network-status-badge span {
+    color: #FFFFFF !important;
+  }
+
+  #lbl-game-selected-ribbon {
+    color: #FFFFFF !important;
+  }
+
+  #badge-lineup-role-info {
+    color: #FFFFFF !important;
   }
 
   </style>
@@ -5077,7 +5089,7 @@ body.daylight-mode .btn-keypad:hover {
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <div id="network-status-badge" style="background:rgba(11,19,43,0.85); border:1.5px solid rgba(0,210,255,0.35); padding:6px 14px; border-radius:9999px; font-size:10.5px; font-family:var(--font-mono); display:inline-flex; align-items:center; backdrop-filter:blur(12px); box-shadow:0 0 12px rgba(0,210,255,0.2); transition:all 0.2s;">
         <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:5px;"></span>
-        <span style="color:#30D158; font-weight:800;">OFFLINE READY · <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; filter:drop-shadow(0 0 4px #30D158);"><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.48"/><circle cx="12" cy="12" r="2"/></svg> ONLINE</span>
+        <span style="color:#FFFFFF; font-weight:800;">OFFLINE READY · <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; filter:drop-shadow(0 0 4px #30D158);"><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.48"/><circle cx="12" cy="12" r="2"/></svg> ONLINE</span>
       </div>
       <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn" style="display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ESPAÑOL</button>
       <button id="btn-daylight" class="btn-settings diamax-action-btn-unified" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo" style="display:inline-flex; align-items:center; gap:6px;">
@@ -5117,7 +5129,7 @@ body.daylight-mode .btn-keypad:hover {
   <!-- Ribbon de Juego (Controles Individuales HOME CLUB / VISITANTE) -->
   <div class="game-ribbon" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:linear-gradient(135deg, #091224, #0B132B); border:1px solid #1E293B; border-radius:10px; padding:10px 16px; margin-bottom:12px;">
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; min-width:300px;">
-      <span id="lbl-game-selected-ribbon" style="font-size:12px; color:#00D2FF; font-weight:900; letter-spacing:0.5px; display:flex; align-items:center; gap:5px;">
+      <span id="lbl-game-selected-ribbon" style="font-size:12px; color:#FFFFFF; font-weight:900; letter-spacing:0.5px; display:flex; align-items:center; gap:5px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px; filter:drop-shadow(0 0 5px #00D2FF);"><polygon points="12,2 22,12 12,22 2,12"/></svg> PARTIDO SELECCIONADO:
       </span>
       <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="form-control" style="font-weight:bold; font-size:12px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF; min-width:280px; max-width:480px;"></select>
@@ -5134,11 +5146,11 @@ body.daylight-mode .btn-keypad:hover {
 
       <!-- Insignia Visual de Matchup con Equipos Individuales -->
       <div id="ribbon-matchup-badge" style="display:inline-flex; align-items:center; gap:6px; background:#070D1A; border:1px solid #334155; padding:4px 10px; border-radius:8px; font-size:11px;">
-        <span style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#00D2FF; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
+        <span style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#FFFFFF; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> <span id="ribbon-home-role-label">HOME:</span> <strong id="ribbon-home-team-name">GUERREROS</strong>
         </span>
-        <span style="color:#64748B; font-weight:900;">VS</span>
-        <span style="background:rgba(255,199,44,0.18); border:1px solid #FFC72C; color:#FFC72C; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
+        <span style="color:#FFFFFF; font-weight:900;">VS</span>
+        <span style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#FFFFFF; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> <span id="ribbon-away-role-label">VISIT:</span> <strong id="ribbon-away-team-name">DAYTONA BEACH</strong>
         </span>
       </div>
@@ -5622,7 +5634,7 @@ body.daylight-mode .btn-keypad:hover {
       <!-- 🌟 BARRA DE PRESETS (+55) E INTEGRACIÓN GOOGLE SHEETS -->
       <div style="background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.85)); border:1.5px solid rgba(0,210,255,0.3); border-radius:10px; padding:12px 14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span style="font-size:12px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF" style="filter:drop-shadow(0 0 4px #00D2FF);"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Presets +55:</span>
+          <span style="font-size:12px; font-weight:900; color:#FFFFFF; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF" style="filter:drop-shadow(0 0 4px #00D2FF);"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Presets +55:</span>
           <button type="button" onclick="cargarPresetLineup55('clasico')" class="diamax-action-btn-unified" title="Alineación Titular Estándar Balanceada"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 2.18l7 3.89v4.93c0 4.54-3.14 8.78-7 9.94-3.86-1.16-7-5.4-7-9.94V8.07l7-3.89z"/></svg> Titular A (Clásico)</button>
           <button type="button" onclick="cargarPresetLineup55('ofensivo')" class="diamax-action-btn-unified" title="Alineación de Máximo Poder y Producción"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Titular B (Ofensivo)</button>
           <button type="button" onclick="cargarPresetLineup55('sabermetrico')" class="diamax-action-btn-unified" title="Alineación Sabermétrica Platoon vs Mano del Abridor Rival"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-5.04z"/></svg> IA vs Abridor Rival</button>
@@ -5649,7 +5661,7 @@ body.daylight-mode .btn-keypad:hover {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ALINEACIÓN VISITANTE <span id="label-lineup-tab-away" style="opacity:0.85;">(RIVAL)</span>
           </button>
         </div>
-        <div id="badge-lineup-role-info" style="font-size:11px; font-weight:800; color:#00D2FF; background:rgba(0,210,255,0.12); border:1.5px solid rgba(0,210,255,0.4); box-shadow:0 0 15px rgba(0,210,255,0.25); padding:5px 12px; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
+        <div id="badge-lineup-role-info" style="font-size:11px; font-weight:800; color:#FFFFFF; background:rgba(0,210,255,0.12); border:1.5px solid rgba(0,210,255,0.4); box-shadow:0 0 15px rgba(0,210,255,0.25); padding:5px 12px; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,9 12,17 18,9"/></svg> CIERRA EL INNING (BAJA ▼)
         </div>
       </div>
@@ -11047,26 +11059,26 @@ function poblarSelectorPartidos() {
   const btnRibbonAway = document.getElementById('btn-ribbon-away');
   if (btnRibbonHome && btnRibbonAway) {
     if (isHome) {
-      btnRibbonHome.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
-      btnRibbonHome.style.color = '#020617';
+      btnRibbonHome.style.background = 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)';
+      btnRibbonHome.style.color = '#FFFFFF';
       btnRibbonHome.style.fontWeight = '900';
       btnRibbonHome.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
       btnRibbonHome.style.borderColor = '#38BDF8';
 
       btnRibbonAway.style.background = 'rgba(11, 19, 43, 0.85)';
-      btnRibbonAway.style.color = '#94A3B8';
+      btnRibbonAway.style.color = '#FFFFFF';
       btnRibbonAway.style.fontWeight = '700';
       btnRibbonAway.style.boxShadow = 'none';
       btnRibbonAway.style.borderColor = 'rgba(0, 210, 255, 0.35)';
     } else {
       btnRibbonHome.style.background = 'rgba(11, 19, 43, 0.85)';
-      btnRibbonHome.style.color = '#94A3B8';
+      btnRibbonHome.style.color = '#FFFFFF';
       btnRibbonHome.style.fontWeight = '700';
       btnRibbonHome.style.boxShadow = 'none';
       btnRibbonHome.style.borderColor = 'rgba(0, 210, 255, 0.35)';
 
-      btnRibbonAway.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
-      btnRibbonAway.style.color = '#020617';
+      btnRibbonAway.style.background = 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)';
+      btnRibbonAway.style.color = '#FFFFFF';
       btnRibbonAway.style.fontWeight = '900';
       btnRibbonAway.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
       btnRibbonAway.style.borderColor = '#38BDF8';
@@ -11943,41 +11955,41 @@ function renderLineupBuilder() {
   const isViewingHome = (currentLineupBuilderView === 'home');
   if (btnTabHome && btnTabAway) {
     if (isViewingHome) {
-      btnTabHome.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
-      btnTabHome.style.color = '#020617';
+      btnTabHome.style.background = 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)';
+      btnTabHome.style.color = '#FFFFFF';
       btnTabHome.style.fontWeight = '900';
       btnTabHome.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
       btnTabHome.style.borderColor = '#38BDF8';
 
       btnTabAway.style.background = 'rgba(11, 19, 43, 0.85)';
-      btnTabAway.style.color = '#94A3B8';
+      btnTabAway.style.color = '#FFFFFF';
       btnTabAway.style.fontWeight = '700';
       btnTabAway.style.boxShadow = 'none';
       btnTabAway.style.borderColor = 'rgba(0, 210, 255, 0.35)';
 
       if (badgeRole) {
         badgeRole.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,9 12,17 18,9"/></svg> CIERRA EL INNING (BAJA ▼)';
-        badgeRole.style.color = '#00D2FF';
+        badgeRole.style.color = '#FFFFFF';
         badgeRole.style.borderColor = 'rgba(0,210,255,0.5)';
         badgeRole.style.background = 'rgba(0,210,255,0.12)';
         badgeRole.style.boxShadow = '0 0 15px rgba(0,210,255,0.25)';
       }
     } else {
       btnTabHome.style.background = 'rgba(11, 19, 43, 0.85)';
-      btnTabHome.style.color = '#94A3B8';
+      btnTabHome.style.color = '#FFFFFF';
       btnTabHome.style.fontWeight = '700';
       btnTabHome.style.boxShadow = 'none';
       btnTabHome.style.borderColor = 'rgba(0, 210, 255, 0.35)';
 
-      btnTabAway.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
-      btnTabAway.style.color = '#020617';
+      btnTabAway.style.background = 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)';
+      btnTabAway.style.color = '#FFFFFF';
       btnTabAway.style.fontWeight = '900';
       btnTabAway.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
       btnTabAway.style.borderColor = '#38BDF8';
 
       if (badgeRole) {
         badgeRole.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,15 12,7 18,15"/></svg> ABRE EL INNING (ALTA ▲)';
-        badgeRole.style.color = '#00D2FF';
+        badgeRole.style.color = '#FFFFFF';
         badgeRole.style.borderColor = 'rgba(0,210,255,0.5)';
         badgeRole.style.background = 'rgba(0,210,255,0.12)';
         badgeRole.style.boxShadow = '0 0 15px rgba(0,210,255,0.25)';
