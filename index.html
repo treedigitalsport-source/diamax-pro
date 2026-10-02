@@ -3636,6 +3636,111 @@ body.daylight-mode .btn-keypad:hover {
     background: rgba(15, 23, 42, 0.4);
   }
 
+  
+  
+  /* =========================================================================
+     🌟 DIAMAX PRO — UNIFIED CYBER-CYAN TABS & BUTTONS WITH LASER HOVER GLOW
+     ========================================================================= */
+  .diamax-nav-unified, .nav button {
+    background: rgba(11, 19, 43, 0.85) !important;
+    border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
+    color: #E2E8F0 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 10px 18px !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+    position: relative !important;
+  }
+
+  .diamax-nav-unified:hover, .nav button:hover {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.28) 0%, rgba(2, 132, 199, 0.45) 100%) !important;
+    border-color: #00D2FF !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.8), inset 0 0 14px rgba(0, 210, 255, 0.35) !important;
+    transform: translateY(-2.5px) scale(1.02) !important;
+  }
+
+  .diamax-nav-unified:hover svg, .nav button:hover svg {
+    filter: drop-shadow(0 0 8px #00D2FF) !important;
+  }
+
+  .diamax-nav-unified.active, .nav button.active {
+    background: linear-gradient(135deg, #00D2FF 0%, #0077FF 100%) !important;
+    border-color: #38BDF8 !important;
+    color: #020617 !important;
+    font-weight: 900 !important;
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.9), 0 4px 18px rgba(0, 0, 0, 0.5) !important;
+    transform: translateY(-2.5px) !important;
+  }
+
+  .diamax-nav-unified.active svg, .nav button.active svg {
+    fill: #020617 !important;
+    stroke: #020617 !important;
+    filter: none !important;
+  }
+
+  /* BOTONERAS DE ACCIÓN Y PRESETS UNIFICADOS (+55) */
+  .diamax-action-btn-unified, .btn-lang {
+    background: rgba(11, 19, 43, 0.85) !important;
+    border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
+    color: #F8FAFC !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 8px 14px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+  }
+
+  .diamax-action-btn-unified:hover, .btn-lang:hover {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.28) 0%, rgba(2, 132, 199, 0.45) 100%) !important;
+    border-color: #00D2FF !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.8), inset 0 0 14px rgba(0, 210, 255, 0.35) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+  }
+
+  .diamax-action-btn-unified:active, .btn-lang:active {
+    transform: translateY(0px) scale(0.98) !important;
+  }
+
+  .diamax-action-btn-unified svg, .btn-lang svg {
+    transition: all 0.2s ease !important;
+  }
+
+  .diamax-action-btn-unified:hover svg, .btn-lang:hover svg {
+    filter: drop-shadow(0 0 8px #00D2FF) !important;
+  }
+
+  /* Ribbon game status badge unificado en cyber-cyan */
+  #game-status-badge {
+    background: rgba(0, 210, 255, 0.15) !important;
+    border: 1.5px solid #00D2FF !important;
+    color: #00D2FF !important;
+    font-size: 10.5px !important;
+    font-weight: 900 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 14px rgba(0, 210, 255, 0.4) !important;
+    letter-spacing: 0.5px !important;
+  }
+
   </style>
 
 
@@ -4970,19 +5075,19 @@ body.daylight-mode .btn-keypad:hover {
       </div>
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      <div id="network-status-badge" style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.14); padding:5px 12px; border-radius:9999px; font-size:10.5px; font-family:var(--font-mono); display:inline-flex; align-items:center; backdrop-filter:blur(12px);">
+      <div id="network-status-badge" style="background:rgba(11,19,43,0.85); border:1.5px solid rgba(0,210,255,0.35); padding:6px 14px; border-radius:9999px; font-size:10.5px; font-family:var(--font-mono); display:inline-flex; align-items:center; backdrop-filter:blur(12px); box-shadow:0 0 12px rgba(0,210,255,0.2); transition:all 0.2s;">
         <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:5px;"></span>
         <span style="color:#30D158; font-weight:800;">OFFLINE READY · <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; filter:drop-shadow(0 0 4px #30D158);"><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.48"/><circle cx="12" cy="12" r="2"/></svg> ONLINE</span>
       </div>
       <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn" style="display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ESPAÑOL</button>
-      <button id="btn-daylight" class="btn-settings" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo" style="display:inline-flex; align-items:center; gap:6px;">
+      <button id="btn-daylight" class="btn-settings diamax-action-btn-unified" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo" style="display:inline-flex; align-items:center; gap:6px;">
         <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> Sol / Noche
       </button>
-      <button id="btn-ai-agent" onclick="switchTab('skills')" class="btn-settings" style="background:linear-gradient(135deg, rgba(0,210,255,0.22), rgba(2,132,199,0.3)); border:1.5px solid #00D2FF; color:#00D2FF; font-weight:900; box-shadow:0 0 18px rgba(0,210,255,0.35); display:inline-flex; align-items:center; gap:7px; cursor:pointer;" title="Abrir DIAMAX TACTICAL AI (Consola Unificada)">
+      <button id="btn-ai-agent" onclick="switchTab('skills')" class="btn-settings diamax-action-btn-unified" title="Abrir DIAMAX TACTICAL AI (Consola Unificada)">
         <svg viewBox="0 0 24 24" width="16" height="16" style="filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg>
         <span>DIAMAX TACTICAL AI</span>
       </button>
-      <button id="btn-open-map-header" onclick="abrirMapaGlobal()" class="btn-settings" style="background:linear-gradient(135deg, rgba(0,242,254,0.18), rgba(2,132,199,0.18)); border:1.5px solid #00F2FE; color:#FFF; font-weight:900; box-shadow:0 0 16px rgba(0,242,254,0.35); display:inline-flex; align-items:center; gap:8px; cursor:pointer;" title="Abrir DIAMAX Global Intelligence Map en Tiempo Real">
+      <button id="btn-open-map-header" onclick="abrirMapaGlobal()" class="btn-settings diamax-action-btn-unified" title="Abrir DIAMAX Global Intelligence Map en Tiempo Real">
         <div class="diamax-global-map-icon-wrap" style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:6px; background:radial-gradient(circle, rgba(0,242,254,0.3) 0%, rgba(11,19,41,0.95) 100%); border:1px solid rgba(0,242,254,0.6); position:relative; overflow:hidden; flex-shrink:0;">
           <div class="diamax-radar-sweep"></div>
           <svg class="diamax-animated-globe-svg" width="16" height="16" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -4996,14 +5101,14 @@ body.daylight-mode .btn-keypad:hover {
         </div>
         <span id="header-map-btn-text">MAPA GLOBAL IA</span>
       </button>
-      <button class="btn-new-game" onclick="abrirModalNuevoJuego()" style="display:inline-flex; align-items:center; gap:6px;">
+      <button onclick="abrirModalNuevoJuego()" class="btn-settings diamax-action-btn-unified">
         <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-stadium-gate"/></svg> Cargar Nuevo Juego
       </button>
-      <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900; display:inline-flex; align-items:center; gap:6px;" title="Refrescar y limpiar base de datos a cero para el partido">
+      <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings diamax-action-btn-unified" title="Refrescar y limpiar base de datos a cero para el partido">
         <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-db-refresh"/></svg> Refrescar BD
       </button>
-      <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings" style="background:rgba(239,68,68,0.18); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:900; box-shadow:0 0 16px rgba(239,68,68,0.35); cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.35)'; this.style.boxShadow='0 0 24px rgba(239,68,68,0.6)';" onmouseout="this.style.background='rgba(239,68,68,0.18)'; this.style.boxShadow='0 0 16px rgba(239,68,68,0.35)';" title="Salir del Sistema Seguro y Cerrar Sesión"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> Salir del Sistema</button>
-      <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings" title="Configuración y Conexión IA" style="display:inline-flex; align-items:center; gap:6px;">
+      <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings diamax-action-btn-unified" title="Salir del Sistema Seguro y Cerrar Sesión"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> Salir del Sistema</button>
+      <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings diamax-action-btn-unified" title="Configuración y Conexión IA">
         <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-gear-precision"/></svg> Configuración
       </button>
     </div>
@@ -5019,10 +5124,10 @@ body.daylight-mode .btn-keypad:hover {
       
       <!-- Controles Individuales de Condición (Home Club vs Visitante) -->
       <div style="display:inline-flex; align-items:center; background:#070D1A; border:1.5px solid #334155; border-radius:8px; padding:2px; gap:2px;">
-        <button id="btn-ribbon-home" type="button" onclick="setCondicionJuego(true)" title="Fijar Guerreros como HOME CLUB (Local - Batea 2do ▼)" style="background:#00D2FF; color:#000; font-size:11px; padding:5px 10px; border-radius:6px; font-weight:900; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:4px; box-shadow:0 0 10px rgba(0,210,255,0.4); transition:all 0.2s;">
+        <button id="btn-ribbon-home" type="button" onclick="setCondicionJuego(true)" title="Fijar Guerreros como HOME CLUB (Local - Batea 2do ▼)" class="diamax-action-btn-unified">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> HOME CLUB
         </button>
-        <button id="btn-ribbon-away" type="button" onclick="setCondicionJuego(false)" title="Fijar Guerreros como VISITANTE (Away - Batea 1ro ▲)" style="background:transparent; color:#94A3B8; font-size:11px; padding:5px 10px; border-radius:6px; font-weight:700; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:4px; transition:all 0.2s;">
+        <button id="btn-ribbon-away" type="button" onclick="setCondicionJuego(false)" title="Fijar Guerreros como VISITANTE (Away - Batea 1ro ▲)" class="diamax-action-btn-unified">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> VISITANTE
         </button>
       </div>
@@ -5044,7 +5149,7 @@ body.daylight-mode .btn-keypad:hover {
       <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
       <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
     </div>
-    <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game" style="background:linear-gradient(135deg, #00D2FF, #0077FF); color:#000; font-weight:900; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; box-shadow:0 0 15px rgba(0,210,255,0.3);">+ Configurar Partido & Rival</button>
+    <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game diamax-action-btn-unified">+ Configurar Partido & Rival</button>
   </div>
 
   <!-- Navegación de Pestañas -->
@@ -5500,16 +5605,16 @@ body.daylight-mode .btn-keypad:hover {
     <div class="panel">
       <div style="background:#131D31; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <button onclick="cargarLineupOficialSabado()" style="background:#10B981; color:#000; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(16,185,129,0.3);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Cargar Lineup Oficial (+55)</button>
-          <button onclick="abrirModalVozLineup()" style="background:linear-gradient(135deg, #EC4899, #8B5CF6); color:#fff; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 15px rgba(236,72,153,0.4);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Dictar por Voz</button>
-          <button onclick="agregarBateadorManual()" style="background:#00D2FF; color:#000; border:none; padding:9px 14px; border-radius:6px; font-weight:900; cursor:pointer;" id="btn-add-player">+ Agregar Jugador</button>
-          <button onclick="ejecutarSimulacionMonteCarloLineup()" style="background:#8B5CF6; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;" id="btn-monte-carlo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg> Monte Carlo (10k)</button>
-          <button onclick="autoRellenarLineupIA()" style="background:#2563EB; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;" id="btn-optimize-ai"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Optimizar por IA</button>
-          <button onclick="vaciarLineupManual()" style="background:#EF4444; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;" id="btn-clear-lineup">Vaciar</button>
+          <button onclick="cargarLineupOficialSabado()" class="diamax-action-btn-unified" id="btn-load-official-lineup"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Cargar Lineup Oficial (+55)</button>
+          <button onclick="abrirModalVozLineup()" class="diamax-action-btn-unified" id="btn-voice-lineup"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Dictar por Voz</button>
+          <button onclick="agregarBateadorManual()" class="diamax-action-btn-unified" id="btn-add-player"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> + Agregar Jugador</button>
+          <button onclick="ejecutarSimulacionMonteCarloLineup()" class="diamax-action-btn-unified" id="btn-monte-carlo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg> Monte Carlo (10k)</button>
+          <button onclick="autoRellenarLineupIA()" class="diamax-action-btn-unified" id="btn-optimize-ai"><svg width="14" height="14" viewBox="0 0 24 24" fill="#00D2FF"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Optimizar por IA</button>
+          <button onclick="vaciarLineupManual()" class="diamax-action-btn-unified" id="btn-clear-lineup"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Vaciar</button>
         </div>
         <div style="display:flex; gap:8px;">
-          <button onclick="switchTab('envivo')" style="background:#FFC72C; color:#000; border:none; padding:9px 16px; border-radius:6px; font-weight:900; cursor:pointer;"> Ir al Anotador</button>
-          <button onclick="switchTab('campo')" style="background:#10B981; color:#fff; border:none; padding:9px 14px; border-radius:6px; font-weight:800; cursor:pointer;"> Ver Terreno</button>
+          <button onclick="switchTab('envivo')" class="diamax-action-btn-unified"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5"><polygon points="12,2 22,12 12,22 2,12"/></svg> Ir al Anotador</button>
+          <button onclick="switchTab('campo')" class="diamax-action-btn-unified"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.2"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Ver Terreno</button>
         </div>
       </div>
 
@@ -5517,15 +5622,15 @@ body.daylight-mode .btn-keypad:hover {
       <!-- 🌟 BARRA DE PRESETS (+55) E INTEGRACIÓN GOOGLE SHEETS -->
       <div style="background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.85)); border:1.5px solid rgba(0,210,255,0.3); border-radius:10px; padding:12px 14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span style="font-size:12px; font-weight:900; color:#FFC72C; text-transform:uppercase; letter-spacing:0.5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FFC72C" style="vertical-align:middle; margin-right:5px; filter:drop-shadow(0 0 4px rgba(255,199,44,0.5));"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Presets +55:</span>
-          <button type="button" onclick="cargarPresetLineup55('clasico')" style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-weight:800; font-size:11px; padding:6px 12px; border-radius:6px; cursor:pointer;" title="Alineación Titular Estándar Balanceada"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 2.18l7 3.89v4.93c0 4.54-3.14 8.78-7 9.94-3.86-1.16-7-5.4-7-9.94V8.07l7-3.89z"/></svg> Titular A (Clásico)</button>
-          <button type="button" onclick="cargarPresetLineup55('ofensivo')" style="background:rgba(255,199,44,0.15); border:1px solid #FFC72C; color:#FFC72C; font-weight:800; font-size:11px; padding:6px 12px; border-radius:6px; cursor:pointer;" title="Alineación de Máximo Poder y Producción"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FFC72C" style="vertical-align:middle; margin-right:5px; filter:drop-shadow(0 0 4px rgba(255,199,44,0.5));"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Titular B (Ofensivo)</button>
-          <button type="button" onclick="cargarPresetLineup55('sabermetrico')" style="background:linear-gradient(135deg, rgba(139,92,246,0.3), rgba(124,58,237,0.4)); border:1px solid #A78BFA; color:#DDD6FE; font-weight:900; font-size:11px; padding:6px 12px; border-radius:6px; cursor:pointer;" title="Alineación Sabermétrica Platoon vs Mano del Abridor Rival"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-5.04z"/></svg> IA vs Abridor Rival</button>
-          <button type="button" onclick="guardarPresetLineupCustom55()" style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; font-weight:800; font-size:11px; padding:6px 12px; border-radius:6px; cursor:pointer;" title="Guardar orden actual como mi preset personal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar Mi Preset</button>
-          <button type="button" onclick="restaurarPresetLineupCustom55()" style="background:rgba(148,163,184,0.15); border:1px solid #64748B; color:#CBD5E1; font-weight:800; font-size:11px; padding:6px 12px; border-radius:6px; cursor:pointer;" title="Restaurar mi preset guardado"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> Mi Preset</button>
+          <span style="font-size:12px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF" style="filter:drop-shadow(0 0 4px #00D2FF);"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Presets +55:</span>
+          <button type="button" onclick="cargarPresetLineup55('clasico')" class="diamax-action-btn-unified" title="Alineación Titular Estándar Balanceada"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 2.18l7 3.89v4.93c0 4.54-3.14 8.78-7 9.94-3.86-1.16-7-5.4-7-9.94V8.07l7-3.89z"/></svg> Titular A (Clásico)</button>
+          <button type="button" onclick="cargarPresetLineup55('ofensivo')" class="diamax-action-btn-unified" title="Alineación de Máximo Poder y Producción"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Titular B (Ofensivo)</button>
+          <button type="button" onclick="cargarPresetLineup55('sabermetrico')" class="diamax-action-btn-unified" title="Alineación Sabermétrica Platoon vs Mano del Abridor Rival"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-5.04z"/></svg> IA vs Abridor Rival</button>
+          <button type="button" onclick="guardarPresetLineupCustom55()" class="diamax-action-btn-unified" title="Guardar orden actual como mi preset personal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar Mi Preset</button>
+          <button type="button" onclick="restaurarPresetLineupCustom55()" class="diamax-action-btn-unified" title="Restaurar mi preset guardado"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> Mi Preset</button>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
-          <button type="button" onclick="abrirModalSheetsSync('import')" style="background:linear-gradient(135deg, #059669, #10B981); color:#000; border:none; font-weight:900; font-size:11.5px; padding:7px 14px; border-radius:6px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 10px rgba(16,185,129,0.35);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg> Google Sheets / CSV</button>
+          <button type="button" onclick="abrirModalSheetsSync('import')" class="diamax-action-btn-unified" style="border-color:#00D2FF !important;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg> Google Sheets / CSV</button>
         </div>
       </div>
 
@@ -5537,14 +5642,14 @@ body.daylight-mode .btn-keypad:hover {
       <!-- Selector de Alineación Home Club vs Visitante -->
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; background:#070D1A; border:1px solid #1E293B; border-radius:8px; padding:8px 12px;">
         <div style="display:inline-flex; align-items:center; background:#0B132B; border:1.5px solid #334155; border-radius:8px; padding:3px; gap:4px;">
-          <button id="btn-lineup-tab-home" type="button" onclick="cambiarPestanaLineup('home')" style="background:#00D2FF; color:#000; font-size:12px; padding:7px 14px; border-radius:6px; font-weight:900; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;">
+          <button id="btn-lineup-tab-home" type="button" onclick="cambiarPestanaLineup('home')" class="diamax-action-btn-unified">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> ALINEACIÓN HOME CLUB <span id="label-lineup-tab-home" style="opacity:0.85;">(GUERREROS)</span>
           </button>
-          <button id="btn-lineup-tab-away" type="button" onclick="cambiarPestanaLineup('away')" style="background:transparent; color:#94A3B8; font-size:12px; padding:7px 14px; border-radius:6px; font-weight:700; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s;">
+          <button id="btn-lineup-tab-away" type="button" onclick="cambiarPestanaLineup('away')" class="diamax-action-btn-unified">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ALINEACIÓN VISITANTE <span id="label-lineup-tab-away" style="opacity:0.85;">(RIVAL)</span>
           </button>
         </div>
-        <div id="badge-lineup-role-info" style="font-size:11px; font-weight:800; color:#10B981; background:rgba(16,185,129,0.15); border:1px solid #10B981; padding:5px 12px; border-radius:6px;">
+        <div id="badge-lineup-role-info" style="font-size:11px; font-weight:800; color:#00D2FF; background:rgba(0,210,255,0.12); border:1.5px solid rgba(0,210,255,0.4); box-shadow:0 0 15px rgba(0,210,255,0.25); padding:5px 12px; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,9 12,17 18,9"/></svg> CIERRA EL INNING (BAJA ▼)
         </div>
       </div>
@@ -10592,7 +10697,7 @@ function applyLanguage(lang) {
   // Actualizar Botón de Idioma con Indicador Visual
   const langBtn = document.getElementById('lang-btn');
   if (langBtn) {
-    langBtn.innerHTML = currentLang === 'en' ? '🇺🇸 ENGLISH' : '🇪🇸 ESPAÑOL';
+    langBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ' + (currentLang === 'en' ? 'ENGLISH' : 'ESPAÑOL');
   }
 
   // Actualizar Vistas Dinámicas
@@ -10713,7 +10818,9 @@ function setDiamaxLanguage(lang) {
   if (btnDaylight) btnDaylight.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> ' + (isEs ? 'Sol / Noche' : 'Sun / Night');
 
   const lblGameSelected = document.getElementById('lbl-game-selected-ribbon');
-  if (lblGameSelected) lblGameSelected.innerText = isEs ? '🏟️ PARTIDO SELECCIONADO:' : '🏟️ SELECTED GAME:';
+  if (lblGameSelected) {
+    lblGameSelected.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px; filter:drop-shadow(0 0 5px #00D2FF);"><polygon points="12,2 22,12 12,22 2,12"/></svg> ' + (isEs ? 'PARTIDO SELECCIONADO:' : 'SELECTED GAME:');
+  }
 
   const btnHome = document.getElementById('btn-ribbon-home');
   if (btnHome) btnHome.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> HOME CLUB';
@@ -10921,15 +11028,15 @@ function poblarSelectorPartidos() {
     const rivalName = g.rival || 'RIVAL';
     const rivalAbbr = g.rivalAbbr ? ` (${g.rivalAbbr})` : '';
     const fecha = g.fecha || '2026-09-08';
-    const hora = g.horaInicio ? ` · ⏰ ${typeof formatTime12h === 'function' ? formatTime12h(g.horaInicio) : g.horaInicio}` : '';
+    const hora = g.horaInicio ? ` · ${typeof formatTime12h === 'function' ? formatTime12h(g.horaInicio) : g.horaInicio}` : '';
     const estado = g.estado === 'Finalizado' ? ' [FINAL]' : '';
 
     const myShort = (typeof teamName !== 'undefined' && teamName) ? teamName.split(' ')[0] : 'MI EQUIPO';
     const matchupStr = isHome 
-      ? `🏠 [HOME] ${myShort} vs ✈️ [VISIT] ${rivalName}${rivalAbbr}` 
-      : `🏠 [HOME] ${rivalName}${rivalAbbr} vs ✈️ [VISIT] ${myShort}`;
+      ? `[HOME] ${myShort} vs [VISIT] ${rivalName}${rivalAbbr}` 
+      : `[HOME] ${rivalName}${rivalAbbr} vs [VISIT] ${myShort}`;
 
-    return `<option value="${g.id}" ${g.id === activeGameId ? 'selected' : ''}>${matchupStr} · 📅 ${fecha}${hora}${estado}</option>`;
+    return `<option value="${g.id}" ${g.id === activeGameId ? 'selected' : ''}>${matchupStr} · ${fecha}${hora}${estado}</option>`;
   }).join('');
 
   const activeG = getActiveGame();
@@ -10940,25 +11047,29 @@ function poblarSelectorPartidos() {
   const btnRibbonAway = document.getElementById('btn-ribbon-away');
   if (btnRibbonHome && btnRibbonAway) {
     if (isHome) {
-      btnRibbonHome.style.background = '#00D2FF';
-      btnRibbonHome.style.color = '#000';
+      btnRibbonHome.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
+      btnRibbonHome.style.color = '#020617';
       btnRibbonHome.style.fontWeight = '900';
-      btnRibbonHome.style.boxShadow = '0 0 10px rgba(0,210,255,0.4)';
+      btnRibbonHome.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
+      btnRibbonHome.style.borderColor = '#38BDF8';
 
-      btnRibbonAway.style.background = 'transparent';
+      btnRibbonAway.style.background = 'rgba(11, 19, 43, 0.85)';
       btnRibbonAway.style.color = '#94A3B8';
       btnRibbonAway.style.fontWeight = '700';
       btnRibbonAway.style.boxShadow = 'none';
+      btnRibbonAway.style.borderColor = 'rgba(0, 210, 255, 0.35)';
     } else {
-      btnRibbonHome.style.background = 'transparent';
+      btnRibbonHome.style.background = 'rgba(11, 19, 43, 0.85)';
       btnRibbonHome.style.color = '#94A3B8';
       btnRibbonHome.style.fontWeight = '700';
       btnRibbonHome.style.boxShadow = 'none';
+      btnRibbonHome.style.borderColor = 'rgba(0, 210, 255, 0.35)';
 
-      btnRibbonAway.style.background = '#FFC72C';
-      btnRibbonAway.style.color = '#000';
+      btnRibbonAway.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
+      btnRibbonAway.style.color = '#020617';
       btnRibbonAway.style.fontWeight = '900';
-      btnRibbonAway.style.boxShadow = '0 0 10px rgba(255,199,44,0.4)';
+      btnRibbonAway.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
+      btnRibbonAway.style.borderColor = '#38BDF8';
     }
   }
 
@@ -11832,38 +11943,44 @@ function renderLineupBuilder() {
   const isViewingHome = (currentLineupBuilderView === 'home');
   if (btnTabHome && btnTabAway) {
     if (isViewingHome) {
-      btnTabHome.style.background = '#00D2FF';
-      btnTabHome.style.color = '#000';
+      btnTabHome.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
+      btnTabHome.style.color = '#020617';
       btnTabHome.style.fontWeight = '900';
-      btnTabHome.style.boxShadow = '0 0 10px rgba(0,210,255,0.4)';
+      btnTabHome.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
+      btnTabHome.style.borderColor = '#38BDF8';
 
-      btnTabAway.style.background = 'transparent';
+      btnTabAway.style.background = 'rgba(11, 19, 43, 0.85)';
       btnTabAway.style.color = '#94A3B8';
       btnTabAway.style.fontWeight = '700';
       btnTabAway.style.boxShadow = 'none';
+      btnTabAway.style.borderColor = 'rgba(0, 210, 255, 0.35)';
 
       if (badgeRole) {
         badgeRole.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,9 12,17 18,9"/></svg> CIERRA EL INNING (BAJA ▼)';
-        badgeRole.style.color = '#10B981';
-        badgeRole.style.borderColor = '#10B981';
-        badgeRole.style.background = 'rgba(16,185,129,0.15)';
+        badgeRole.style.color = '#00D2FF';
+        badgeRole.style.borderColor = 'rgba(0,210,255,0.5)';
+        badgeRole.style.background = 'rgba(0,210,255,0.12)';
+        badgeRole.style.boxShadow = '0 0 15px rgba(0,210,255,0.25)';
       }
     } else {
-      btnTabHome.style.background = 'transparent';
+      btnTabHome.style.background = 'rgba(11, 19, 43, 0.85)';
       btnTabHome.style.color = '#94A3B8';
       btnTabHome.style.fontWeight = '700';
       btnTabHome.style.boxShadow = 'none';
+      btnTabHome.style.borderColor = 'rgba(0, 210, 255, 0.35)';
 
-      btnTabAway.style.background = '#FFC72C';
-      btnTabAway.style.color = '#000';
+      btnTabAway.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
+      btnTabAway.style.color = '#020617';
       btnTabAway.style.fontWeight = '900';
-      btnTabAway.style.boxShadow = '0 0 10px rgba(255,199,44,0.4)';
+      btnTabAway.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
+      btnTabAway.style.borderColor = '#38BDF8';
 
       if (badgeRole) {
         badgeRole.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,15 12,7 18,15"/></svg> ABRE EL INNING (ALTA ▲)';
-        badgeRole.style.color = '#FFC72C';
-        badgeRole.style.borderColor = '#FFC72C';
-        badgeRole.style.background = 'rgba(255,199,44,0.15)';
+        badgeRole.style.color = '#00D2FF';
+        badgeRole.style.borderColor = 'rgba(0,210,255,0.5)';
+        badgeRole.style.background = 'rgba(0,210,255,0.12)';
+        badgeRole.style.boxShadow = '0 0 15px rgba(0,210,255,0.25)';
       }
     }
   }
@@ -15995,9 +16112,16 @@ function actualizarGameHeaderUI() {
 
   const rivalObj = currentGame.rivalObj || RIVALS_DATABASE.find(r => (r.id === currentGame.rivalId) || (r.name && r.name.toUpperCase() === (currentGame.rival || '').toUpperCase())) || RIVALS_DATABASE[0];
 
-  if (bFecha) bFecha.innerText = `📅 ${currentGame.fecha || '2026-09-08'}`;
-  if (bHora) bHora.innerText = `⏰ Inicio: ${formatTime12h(currentGame.horaInicio)}`;
-  if (bSede) bSede.innerText = `🏟️ ${currentGame.estadio || 'Lutz Baseball Park'} (${currentGame.direccion || 'Lutz, FL'})`;
+  const calIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+  const clockIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+  const parkIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg>';
+  const homeIco = '<svg width="12" height="12" viewBox="0 0 24 24" fill="#00D2FF" style="vertical-align:middle; margin-right:3px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg>';
+  const awayIco = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.2" style="vertical-align:middle; margin-right:3px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+  const sunIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+
+  if (bFecha) bFecha.innerHTML = `${calIcon} ${currentGame.fecha || '2026-09-08'}`;
+  if (bHora) bHora.innerHTML = `${clockIcon} Inicio: ${formatTime12h(currentGame.horaInicio)}`;
+  if (bSede) bSede.innerHTML = `${parkIcon} ${currentGame.estadio || 'Lutz Baseball Park'} (${currentGame.direccion || 'Lutz, FL'})`;
   if (bRival) {
     const isHome = currentGame.isHomeClub !== false && currentGame.condicion !== 'AWAY';
     const rName = currentGame.rival || (rivalObj ? rivalObj.name : 'RIVAL');
@@ -16006,18 +16130,18 @@ function actualizarGameHeaderUI() {
 
     const myShort = (typeof teamName !== 'undefined' && teamName) ? teamName.split(' ')[0] : 'MI EQUIPO';
     bRival.innerHTML = isHome
-      ? `🏠 <strong>HOME:</strong> <span style="color:#00D2FF; font-weight:900;">${myShort}</span> vs ✈️ <strong>VISIT:</strong> <span style="color:#FFC72C; font-weight:900;">${rName}</span> <span style="background:${rColor}; color:#000; padding:1px 5px; border-radius:3px; font-size:9.5px; font-weight:900;">${rAbbr}</span>`
-      : `🏠 <strong>HOME:</strong> <span style="color:#00D2FF; font-weight:900;">${rName}</span> <span style="background:${rColor}; color:#000; padding:1px 5px; border-radius:3px; font-size:9.5px; font-weight:900;">${rAbbr}</span> vs ✈️ <strong>VISIT:</strong> <span style="color:#FFC72C; font-weight:900;">${myShort}</span>`;
+      ? `${homeIco} <strong>HOME:</strong> <span style="color:#00D2FF; font-weight:900;">${myShort}</span> vs ${awayIco} <strong>VISIT:</strong> <span style="color:#00D2FF; font-weight:900;">${rName}</span> <span style="background:${rColor}; color:#000; padding:1px 5px; border-radius:3px; font-size:9.5px; font-weight:900;">${rAbbr}</span>`
+      : `${homeIco} <strong>HOME:</strong> <span style="color:#00D2FF; font-weight:900;">${rName}</span> <span style="background:${rColor}; color:#000; padding:1px 5px; border-radius:3px; font-size:9.5px; font-weight:900;">${rAbbr}</span> vs ${awayIco} <strong>VISIT:</strong> <span style="color:#00D2FF; font-weight:900;">${myShort}</span>`;
   }
   if (bClima) {
     const clima = currentGame.clima || { tempF: 86, humedad: 68, viento: '7 mph -> CF' };
-    bClima.innerText = `☀️ ${clima.tempF}°F | Hum: ${clima.humedad}% | ${clima.viento}`;
+    bClima.innerHTML = `${sunIcon} ${clima.tempF}°F | Hum: ${clima.humedad}% | ${clima.viento}`;
   }
   
   if (bDur) {
     if (currentGame.duracion) {
       bDur.style.display = 'inline-flex';
-      bDur.innerText = `⏱️ Duración: ${currentGame.duracion}`;
+      bDur.innerHTML = `${clockIcon} Duración: ${currentGame.duracion}`;
     } else {
       bDur.style.display = 'none';
     }
@@ -16879,16 +17003,20 @@ function actualizarUIDefinicionLocalidad(forcedIsHome) {
       cardHome.style.borderColor = '#00D2FF';
       cardHome.style.borderWidth = '1.5px';
       cardHome.style.background = '#0F1E3A';
+      cardHome.style.boxShadow = '0 0 20px rgba(0,210,255,0.4)';
       cardAway.style.borderColor = '#334155';
       cardAway.style.borderWidth = '1px';
       cardAway.style.background = '#0B132B';
+      cardAway.style.boxShadow = 'none';
     } else {
       cardHome.style.borderColor = '#334155';
       cardHome.style.borderWidth = '1px';
       cardHome.style.background = '#0B132B';
-      cardAway.style.borderColor = '#FFC72C';
+      cardHome.style.boxShadow = 'none';
+      cardAway.style.borderColor = '#00D2FF';
       cardAway.style.borderWidth = '1.5px';
-      cardAway.style.background = '#1E1B0E';
+      cardAway.style.background = '#0F1E3A';
+      cardAway.style.boxShadow = '0 0 20px rgba(0,210,255,0.4)';
     }
   }
 
@@ -16993,25 +17121,29 @@ function setCondicionJuego(isHome) {
   const btnRibbonAway = document.getElementById('btn-ribbon-away');
   if (btnRibbonHome && btnRibbonAway) {
     if (isHome) {
-      btnRibbonHome.style.background = '#00D2FF';
-      btnRibbonHome.style.color = '#000';
+      btnRibbonHome.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
+      btnRibbonHome.style.color = '#020617';
       btnRibbonHome.style.fontWeight = '900';
-      btnRibbonHome.style.boxShadow = '0 0 12px rgba(0,210,255,0.5)';
+      btnRibbonHome.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
+      btnRibbonHome.style.borderColor = '#38BDF8';
 
-      btnRibbonAway.style.background = 'transparent';
+      btnRibbonAway.style.background = 'rgba(11, 19, 43, 0.85)';
       btnRibbonAway.style.color = '#94A3B8';
       btnRibbonAway.style.fontWeight = '700';
       btnRibbonAway.style.boxShadow = 'none';
+      btnRibbonAway.style.borderColor = 'rgba(0, 210, 255, 0.35)';
     } else {
-      btnRibbonHome.style.background = 'transparent';
+      btnRibbonHome.style.background = 'rgba(11, 19, 43, 0.85)';
       btnRibbonHome.style.color = '#94A3B8';
       btnRibbonHome.style.fontWeight = '700';
       btnRibbonHome.style.boxShadow = 'none';
+      btnRibbonHome.style.borderColor = 'rgba(0, 210, 255, 0.35)';
 
-      btnRibbonAway.style.background = '#FFC72C';
-      btnRibbonAway.style.color = '#000';
+      btnRibbonAway.style.background = 'linear-gradient(135deg, #00D2FF 0%, #0077FF 100%)';
+      btnRibbonAway.style.color = '#020617';
       btnRibbonAway.style.fontWeight = '900';
-      btnRibbonAway.style.boxShadow = '0 0 12px rgba(255,199,44,0.5)';
+      btnRibbonAway.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
+      btnRibbonAway.style.borderColor = '#38BDF8';
     }
   }
 
