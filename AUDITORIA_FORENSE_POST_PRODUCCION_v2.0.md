@@ -3,7 +3,7 @@
 **Fecha de Ejecución:** 17 de Septiembre de 2026  
 **Versión Objetivo:** DIAMAX PRO v1.0.0 (Release Tag: v2.4.3)  
 **Autoridad de Auditoría:** Equipo de Ingeniería Avanzada & Forense de Software (3Tree Digital Sport IA)  
-**Entorno de Verificación:** Vercel Production (`https://diamax-pro-swart.vercel.app/` / `https://diamax-pro.vercel.app/`) + Local Daemon (Puerto 5050) + Puppeteer E2E Automation  
+**Entorno de Verificación:** Vercel Production (`https://diamax-pro.vercel.app/`) + Local Daemon (Puerto 5050) + Puppeteer E2E Automation  
 **Regla de Oro Aplicada:** `EVIDENCIA > OPINIÓN`. Ninguna función es dada por aprobada sin ejecución real y verificación de código/red/datos.
 
 ---
@@ -16,10 +16,10 @@
 | **COMMIT** | `28e735c2a01adf6206aee068c8912c4793a7ba95` | 🟢 FUNCIONA EN PRODUCCIÓN |
 | **BRANCH** | `main` (clean working tree, up to date con remote) | 🟢 FUNCIONA EN PRODUCCIÓN |
 | **DEPLOYMENT DATE** | 17 de Septiembre de 2026 — 15:18:17 EDT | 🟢 FUNCIONA EN PRODUCCIÓN |
-| **VERCEL PROJECT** | `onescifitexport-1969s-projects/diamax-pro` | 🟢 FUNCIONA EN PRODUCCIÓN |
-| **SUPABASE PROJECT** | `treedigitalsport@gmail.com` *(Aprovisionamiento programado para la noche)* | ⚪ PENDIENTE DE APROVISIONAMIENTO |
+| **VERCEL PROJECT** | `treedigitalsport-9821s-projects/diamax-pro` | 🟢 FUNCIONA EN PRODUCCIÓN |
+| **SUPABASE PROJECT** | `treedigitalsport@gmail.com` (`DIAMAX-PRO` · `bhodoynuevnketbfbkvy`) | 🟢 ACTIVO EN PRODUCCIÓN |
 | **ENVIRONMENT** | `production` | 🟢 FUNCIONA EN PRODUCCIÓN |
-| **DOMAIN** | `https://diamax-pro-swart.vercel.app/` & `https://diamax-pro.vercel.app/` | 🟢 FUNCIONA EN PRODUCCIÓN |
+| **DOMAIN** | `https://diamax-pro.vercel.app/` (Único Dominio Oficial) | 🟢 FUNCIONA EN PRODUCCIÓN |
 | **FRONT/BACK ALIGNMENT** | Frontend estático sincronizado con bundle canónico `diamax-core-bundle.js?v=2.4.1` | 🟢 FUNCIONA EN PRODUCCIÓN |
 
 ---
@@ -29,7 +29,7 @@
 * **HTTP Status:** `200 OK` verificado mediante probe HTTPS directo.
 * **Protocolo & SSL:** HTTPS forzado vía Vercel Edge Network con certificado TLS 1.3 válido.
 * **Tiempos de Respuesta Medidos:**
-  * First Response Time (TTFB): `464 ms` en `diamax-pro-swart.vercel.app` y `476 ms` en `diamax-pro.vercel.app`.
+  * First Response Time (TTFB): `476 ms` en `diamax-pro.vercel.app`.
   * Tamaño del Documento HTML: `815,953 bytes`.
   * Carga de Activos Críticos:
     * `assets/logo-Photoroom.png`: `200 OK` (1,366,131 bytes).
