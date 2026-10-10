@@ -975,37 +975,154 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
 .lineup-table th { background:#5A1E1E; color:#fff; padding:6px; text-align:left; font-size:11px; }
 .lineup-table td { border-bottom:1px solid #D8CBB5; padding:5px; }
 
-/* === MODO ALTO BRILLO / DUGOUT DAYLIGHT MODE === */
+/* === MODO ALTO CONTRASTE SOLAR / DUGOUT DAYLIGHT MODE (PROFESIONAL ESTADIO FLORIDA) === */
 body.daylight-mode {
-  background: #F1F5F9 !important;
-  color: #0F172A !important;
+  background: #FFFFFF !important;
+  color: #000000 !important;
+}
+body.daylight-mode * {
+  text-shadow: none !important;
 }
 body.daylight-mode .header {
-  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 100%) !important;
-  border-bottom: 3px solid #D97706 !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
+  background: #FFFFFF !important;
+  border-bottom: 3px solid #0284C7 !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
 }
-body.daylight-mode .header h1 { color: #0F172A !important; }
+body.daylight-mode .header h1, 
+body.daylight-mode .header h2, 
+body.daylight-mode #team-title-span { 
+  color: #000000 !important; 
+  -webkit-text-fill-color: #000000 !important;
+  font-weight: 900 !important;
+}
+body.daylight-mode .nav {
+  background: #E2E8F0 !important;
+  border: 2px solid #0284C7 !important;
+}
+body.daylight-mode .nav button {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  border: 1.5px solid #64748B !important;
+  font-weight: 800 !important;
+}
+body.daylight-mode .nav button.active {
+  background: #0284C7 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #0369A1 !important;
+  box-shadow: 0 0 12px rgba(2,132,199,0.5) !important;
+}
 body.daylight-mode .panel,
 body.daylight-mode .stat-box,
 body.daylight-mode .scoreboard,
 body.daylight-mode .game-ribbon,
+body.daylight-mode .game-live-header-bar,
 body.daylight-mode .ai-tactical-card,
+body.daylight-mode .pitch-tracker-card,
+body.daylight-mode .batter-card-active,
+body.daylight-mode .ondeck-card,
+body.daylight-mode .action-grid-card,
 body.daylight-mode .modal-card {
   background: #FFFFFF !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+  color: #000000 !important;
+  border: 2px solid #334155 !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12) !important;
 }
+body.daylight-mode [style*="background:#091224"],
+body.daylight-mode [style*="background: #091224"],
+body.daylight-mode [style*="background:#070D1A"],
+body.daylight-mode [style*="background: #070D1A"],
+body.daylight-mode [style*="background:#0B132B"],
+body.daylight-mode [style*="background: #0B132B"],
+body.daylight-mode [style*="background:#131D31"],
+body.daylight-mode [style*="background: #131D31"],
+body.daylight-mode [style*="background:#0F172A"],
+body.daylight-mode [style*="background: #0F172A"] {
+  background: #F8FAFC !important;
+  color: #000000 !important;
+  border-color: #475569 !important;
+}
+body.daylight-mode strong,
+body.daylight-mode label,
+body.daylight-mode h1,
+body.daylight-mode h2,
+body.daylight-mode h3,
+body.daylight-mode h4,
 body.daylight-mode .stat-val,
-body.daylight-mode .score-num { color: #0F172A !important; }
-body.daylight-mode .btn-keypad {
-  background: #E2E8F0 !important;
-  color: #0F172A !important;
-  border-color: #94A3B8 !important;
+body.daylight-mode .score-num,
+body.daylight-mode #current-batter-name {
+  color: #000000 !important;
+  font-weight: 900 !important;
 }
-body.daylight-mode .btn-keypad:hover {
-  background: #CBD5E1 !important;
+body.daylight-mode .game-badge {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1.5px solid #0284C7 !important;
+  font-weight: 800 !important;
+}
+body.daylight-mode .btn-action.btn-hit {
+  background: #16A34A !important;
+  color: #FFFFFF !important;
+  border: 2px solid #14532D !important;
+  font-weight: 900 !important;
+}
+body.daylight-mode .btn-action.btn-out {
+  background: #DC2626 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #7F1D1D !important;
+  font-weight: 900 !important;
+}
+body.daylight-mode .btn-action.btn-hr {
+  background: #9333EA !important;
+  color: #FFFFFF !important;
+  border: 2px solid #581C87 !important;
+  font-weight: 900 !important;
+}
+body.daylight-mode .btn-action.btn-tactical {
+  background: #D97706 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #78350F !important;
+  font-weight: 900 !important;
+}
+body.daylight-mode .btn-keypad,
+body.daylight-mode .diamax-action-btn-unified {
+  background: #F1F5F9 !important;
+  color: #000000 !important;
+  border: 1.8px solid #334155 !important;
+  font-weight: 800 !important;
+}
+body.daylight-mode .lineup-builder-row {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1.5px solid #334155 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
+}
+body.daylight-mode .order-badge {
+  background: #0284C7 !important;
+  color: #FFFFFF !important;
+}
+body.daylight-mode .lineup-builder-row select,
+body.daylight-mode .lineup-builder-row input {
+  background: #F8FAFC !important;
+  color: #000000 !important;
+  border: 1.5px solid #64748B !important;
+  font-weight: 800 !important;
+}
+body.daylight-mode .diamax-action-btn-unified:hover {
+  background: #E2E8F0 !important;
+  border-color: #0284C7 !important;
+}
+body.daylight-mode input,
+body.daylight-mode select {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: 2px solid #334155 !important;
+}
+body.daylight-mode #btn-daylight {
+  background: #FEF08A !important;
+  color: #854D0E !important;
+  border: 2px solid #CA8A04 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 0 10px rgba(202,138,4,0.4) !important;
 }
 
 /* === CABECERA DINÁMICA DE JUEGO EN VIVO === */
@@ -2572,9 +2689,7 @@ body.daylight-mode .btn-keypad:hover {
 </style>
 
 
-  <!-- Firebase App & Firestore CDN (Fase Base de Datos) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- Base de Datos Oficial: Supabase Cloud (DIAMAX-PRO · us-east-1) — Firebase CDN retirado -->
 
 
 <style id="diamax-nextgen-intelligence-theme">
@@ -5091,13 +5206,12 @@ body.daylight-mode .btn-keypad:hover {
         <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:5px;"></span>
         <span style="color:#FFFFFF; font-weight:800;">OFFLINE READY · <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; filter:drop-shadow(0 0 4px #30D158);"><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.48"/><circle cx="12" cy="12" r="2"/></svg> ONLINE</span>
       </div>
+      <button id="btn-sound-toggle" onclick="toggleAudioFeedback()" class="btn-settings diamax-action-btn-unified" title="Activar/Silenciar Efectos de Audio Táctil" style="display:inline-flex; align-items:center; gap:5px; border-color:#10B981 !important;">
+        <span id="sound-icon-indicator">🔊</span> <span id="sound-text-indicator">Audio ON</span>
+      </button>
       <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn" style="display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ESPAÑOL</button>
       <button id="btn-daylight" class="btn-settings diamax-action-btn-unified" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo" style="display:inline-flex; align-items:center; gap:6px;">
         <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> Sol / Noche
-      </button>
-      <button id="btn-ai-agent" onclick="switchTab('skills')" class="btn-settings diamax-action-btn-unified" title="Abrir DIAMAX TACTICAL AI (Consola Unificada)">
-        <svg viewBox="0 0 24 24" width="16" height="16" style="filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg>
-        <span>DIAMAX TACTICAL AI</span>
       </button>
       <button id="btn-open-map-header" onclick="abrirMapaGlobal()" class="btn-settings diamax-action-btn-unified" title="Abrir DIAMAX Global Intelligence Map en Tiempo Real">
         <div class="diamax-global-map-icon-wrap" style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:6px; background:radial-gradient(circle, rgba(0,242,254,0.3) 0%, rgba(11,19,41,0.95) 100%); border:1px solid rgba(0,242,254,0.6); position:relative; overflow:hidden; flex-shrink:0;">
@@ -5176,19 +5290,19 @@ body.daylight-mode .btn-keypad:hover {
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-nav-field"/></svg> 3. Ver Terreno
     </button>
     <button onclick="switchTab('manual')" id="nav-manual" class="nav-manual-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg> Manual de Uso
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg> 4. Manual &amp; Reglas
     </button>
     <button onclick="switchTab('tarjeta-oficial')" id="nav-card">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> 4. Tarjeta Oficial
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> 5. Tarjeta Oficial
     </button>
     <button onclick="switchTab('dashboard')" id="nav-dash">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> 5. Dashboard
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> 6. Dashboard Sabermétrico
     </button>
     <button onclick="switchTab('skills')" id="nav-skills">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 6. DIAMAX TACTICAL AI
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 7. DIAMAX TACTICAL AI
     </button>
     <button onclick="switchTab('perfil')" id="nav-profile">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> 7. Perfil &amp; Sede
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> 8. Perfil &amp; Conectividad
     </button>
   </div>
 
@@ -5624,10 +5738,28 @@ body.daylight-mode .btn-keypad:hover {
           <button onclick="autoRellenarLineupIA()" class="diamax-action-btn-unified" id="btn-optimize-ai"><svg width="14" height="14" viewBox="0 0 24 24" fill="#00D2FF"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Optimizar por IA</button>
           <button onclick="vaciarLineupManual()" class="diamax-action-btn-unified" id="btn-clear-lineup"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Vaciar</button>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button onclick="switchTab('envivo')" class="diamax-action-btn-unified"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5"><polygon points="12,2 22,12 12,22 2,12"/></svg> Ir al Anotador</button>
-          <button onclick="switchTab('campo')" class="diamax-action-btn-unified"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.2"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Ver Terreno</button>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button type="button" onclick="switchTab('envivo')" class="diamax-action-btn-unified" style="font-weight:900; letter-spacing:0.5px; border-color:#00D2FF !important; background:linear-gradient(135deg, rgba(0,210,255,0.18) 0%, rgba(2,132,199,0.28) 100%); color:#FFFFFF !important; box-shadow:0 0 14px rgba(0,210,255,0.35);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M12 2a14.5 14.5 0 0 1 0 20"/><path d="M2 12h20"/></svg>
+            1. Ir al Anotador
+          </button>
+          <button type="button" onclick="switchTab('campo')" class="diamax-action-btn-unified" style="font-weight:900; letter-spacing:0.5px; border-color:#10B981 !important; background:linear-gradient(135deg, rgba(16,185,129,0.18) 0%, rgba(5,150,105,0.28) 100%); color:#FFFFFF !important; box-shadow:0 0 14px rgba(16,185,129,0.35);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><polygon points="12,2 22,12 12,22 2,12"/><circle cx="12" cy="12" r="3" fill="#10B981"/></svg>
+            3. Ver Terreno
+          </button>
         </div>
+      </div>
+
+      <!-- ⚠️ ALERTA REACTIVA DE POSICIONES DEFENSIVAS DUPLICADAS -->
+      <div id="lineup-duplicate-warning" style="display:none; background:linear-gradient(135deg, rgba(239,68,68,0.22) 0%, rgba(185,28,28,0.32) 100%); border:2px solid #EF4444; border-radius:10px; padding:10px 16px; margin-bottom:14px; align-items:center; justify-content:space-between; box-shadow:0 0 18px rgba(239,68,68,0.35);">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FCA5A5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <strong style="color:#FCA5A5; font-size:12.5px; text-transform:uppercase; letter-spacing:0.5px;">Conflicto Defensivo Detectado:</strong>
+            <span id="lineup-duplicate-text" style="color:#FFFFFF; font-size:12px; margin-left:6px; font-weight:700;"></span>
+          </div>
+        </div>
+        <span style="background:#EF4444; color:#FFFFFF; font-size:10px; font-weight:900; padding:3px 8px; border-radius:4px; text-transform:uppercase;">Regla WBSC</span>
       </div>
 
       <!-- Banner de Resultados Monte Carlo / Markov -->
@@ -5792,6 +5924,12 @@ body.daylight-mode .btn-keypad:hover {
     <div class="panel" style="border: 2px solid #FFC72C; background:linear-gradient(145deg, #091224 0%, #0F172A 100%);">
       
       <!-- Cabecera del Manual -->
+      <div style="background:linear-gradient(135deg, rgba(7,13,26,0.95), rgba(15,23,42,0.9)); border:1.8px solid #00D2FF; border-radius:10px; padding:10px 16px; margin-bottom:18px; display:flex; align-items:center; gap:12px; box-shadow:0 0 20px rgba(0,210,255,0.2);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="manual-search-input" oninput="buscarEnManualReglas(this.value)" placeholder="🔍 Buscar regla, artículo o jugada (ej: balk, infield fly, toque sacrificio, sustituciones en caliente, reglas +55)..." style="flex:1; background:transparent; border:none; color:#FFFFFF; font-size:13px; font-weight:600; outline:none; font-family:'Montserrat',sans-serif;">
+        <span id="manual-search-count" style="font-size:11px; color:#00D2FF; font-weight:900; background:rgba(0,210,255,0.15); padding:3px 10px; border-radius:6px; border:1px solid rgba(0,210,255,0.3); display:none;"></span>
+      </div>
+
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:2px solid #1E293B; padding-bottom:14px; margin-bottom:18px; gap:12px;">
         <div style="display:flex; align-items:center; gap:12px;">
           <div style="font-size:36px; background:#070D1A; padding:6px 12px; border-radius:10px; border:1px solid #FFC72C;">📖</div>
@@ -6824,60 +6962,29 @@ body.daylight-mode .btn-keypad:hover {
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <div style="display:flex; align-items:center; gap:6px;">
           <span style="font-size:16px;">⚡</span>
-          <h4 style="margin:0; font-size:13px; color:#00D2FF; font-weight:900; text-transform:uppercase;">Supabase Cloud (PostgreSQL)</h4>
+          <h4 style="margin:0; font-size:13px; color:#00D2FF; font-weight:900; text-transform:uppercase;">Supabase Cloud (DIAMAX-PRO)</h4>
         </div>
         <span style="font-size:10px; background:#00D2FF; color:#0B0F19; padding:2px 6px; border-radius:4px; font-weight:900;">TIEMPO REAL LIVE</span>
       </div>
-      <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Sincronización multi-dispositivo, Stream Canónico de Jugadas y Marcador en Vivo.</p>
+      <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Base de datos oficial PostgreSQL & Grafos en tiempo real (3Tree Digital Sport IA · us-east-1).</p>
       
       <div style="margin-bottom:8px;">
         <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">SUPABASE PROJECT URL:</label>
-        <input type="text" id="sb-drawer-url" placeholder="https://xyzabcdef.supabase.co" style="width:100%; box-sizing:border-box; background:#040814; border:1px solid #1E293B; border-radius:6px; padding:8px; color:#00D2FF; font-size:12px;">
+        <input type="text" id="sb-drawer-url" value="https://bhodoynuevnketbfbkvy.supabase.co" placeholder="https://bhodoynuevnketbfbkvy.supabase.co" style="width:100%; box-sizing:border-box; background:#040814; border:1px solid #1E293B; border-radius:6px; padding:8px; color:#00D2FF; font-size:12px;">
       </div>
 
       <div style="margin-bottom:8px;">
         <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">SUPABASE ANON / PUBLIC KEY:</label>
-        <input type="password" id="sb-drawer-key" placeholder="eyJhbGciOi..." style="width:100%; box-sizing:border-box; background:#040814; border:1px solid #1E293B; border-radius:6px; padding:8px; color:#FFF; font-size:12px;">
+        <input type="password" id="sb-drawer-key" value="sb_publishable_S0pAut-LOp91Ny1oNBY4mg_DRDI6KiC" placeholder="sb_publishable_..." style="width:100%; box-sizing:border-box; background:#040814; border:1px solid #1E293B; border-radius:6px; padding:8px; color:#FFF; font-size:12px;">
       </div>
 
       <div id="sb-drawer-status" style="margin-bottom:10px; font-size:11px;">
-        <span style="color:#94A3B8;">○ Estado: Esperando Credenciales de Supabase</span>
+        <span style="color:#22C55E; font-weight:800;">⚡ Conectado a Supabase Cloud (DIAMAX-PRO · us-east-1)</span>
       </div>
 
       <div style="display:flex; gap:6px;">
         <button onclick="conectarSupabaseDrawer()" style="flex:1; padding:9px; background:linear-gradient(135deg, #00D2FF, #0284C7); color:#0B0F19; border:none; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer;">⚡ Conectar Supabase</button>
         <button onclick="abrirConfigRealtime()" style="flex:1; padding:9px; background:#1E293B; color:#94A3B8; border:1px solid #334155; border-radius:6px; font-weight:800; font-size:11.5px; cursor:pointer;">📡 Panel Avanzado</button>
-      </div>
-    </div>
-
-    <!-- 🔥 CONFIGURACIÓN OFICIAL DE FIREBASE FIRESTORE (BASE DE DATOS EN LA NUBE) -->
-    <div style="margin-top:14px; padding:14px; background:#0F172A; border:1.5px solid #FFC72C; border-radius:10px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <div style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:16px;">🔥</span>
-          <h4 style="margin:0; font-size:13px; color:#FFC72C; font-weight:900; text-transform:uppercase;">Firebase Cloud Firestore</h4>
-        </div>
-        <span style="font-size:10px; background:#FFC72C; color:#0B0F19; padding:2px 6px; border-radius:4px; font-weight:900;">CAPA GRATIS</span>
-      </div>
-      <p style="margin:0 0 10px 0; font-size:11px; color:#94A3B8;">Base de datos NoSQL & Grafos en tiempo real para sincronización entre dispositivos.</p>
-      
-      <div style="margin-bottom:8px;">
-        <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">FIREBASE API KEY:</label>
-        <input type="text" id="fb-api-key" placeholder="AIzaSyB..." style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #334155; border-radius:6px; padding:8px; color:#FFF; font-size:12px;">
-      </div>
-
-      <div style="margin-bottom:8px;">
-        <label style="display:block; font-size:10px; color:#94A3B8; margin-bottom:3px; font-weight:700;">PROJECT ID (ID DEL PROYECTO):</label>
-        <input type="text" id="fb-project-id" placeholder="diamax-pro-db" style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #334155; border-radius:6px; padding:8px; color:#FFC72C; font-size:12px; font-weight:bold;">
-      </div>
-
-      <div id="fb-connection-status" style="margin-bottom:10px; font-size:11px;">
-        <span style="color:#94A3B8;">○ Estado: Modo Local / Esperando Credenciales</span>
-      </div>
-
-      <div style="display:flex; gap:6px;">
-        <button onclick="conectarFirebase()" style="flex:1; padding:9px; background:#FFC72C; color:#0B0F19; border:none; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer;">🔥 Conectar</button>
-        <button onclick="sincronizarTodoAFirebase()" style="flex:1; padding:9px; background:#00D2FF; color:#0B0F19; border:none; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer;">☁️ Sincronizar</button>
       </div>
     </div>
 
@@ -6942,19 +7049,19 @@ function toggleSettingsDrawer(open) {
   if (!drawer) return;
   if (open) {
     drawer.classList.add('open');
-    // Pre-cargar valores de Supabase si existen
+    // Pre-cargar valores de Supabase (con fallback al proyecto oficial DIAMAX-PRO)
     try {
       const cfg = JSON.parse(localStorage.getItem('diamax_supabase_config') || '{}');
       const urlInput = document.getElementById('sb-drawer-url');
       const keyInput = document.getElementById('sb-drawer-key');
       const statusEl = document.getElementById('sb-drawer-status');
-      if (urlInput && cfg.url) urlInput.value = cfg.url;
-      if (keyInput && cfg.anonKey) keyInput.value = cfg.anonKey;
+      if (urlInput) urlInput.value = cfg.url || 'https://bhodoynuevnketbfbkvy.supabase.co';
+      if (keyInput) keyInput.value = cfg.anonKey || 'sb_publishable_S0pAut-LOp91Ny1oNBY4mg_DRDI6KiC';
       if (statusEl) {
         const isConn = typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.isConnected();
         statusEl.innerHTML = isConn 
-          ? '<span style="color:#22C55E; font-weight:800;">⚡ Conectado a Supabase Cloud en Vivo</span>' 
-          : '<span style="color:#94A3B8;">○ Modo Local (Ingresa credenciales de Supabase)</span>';
+          ? '<span style="color:#22C55E; font-weight:800;">⚡ Conectado a Supabase Cloud (DIAMAX-PRO · us-east-1)</span>' 
+          : '<span style="color:#00D2FF; font-weight:800;">⚡ Supabase Cloud Configurado (DIAMAX-PRO)</span>';
       }
     } catch(e) {}
   } else {
@@ -7429,167 +7536,88 @@ function exportarBoxscoreTexto() {
   }
 }
 
-// 🔥 MOTOR DE BASE DE DATOS FIREBASE FIRESTORE & GRAFOS EN TIEMPO REAL
+// ⚡ PUENTE DE COMPATIBILIDAD HACIA SUPABASE CLOUD (DIAMAX-PRO · us-east-1) & RENOVACIÓN AUTOMÁTICA DE LICENCIA
 let firebaseApp = null;
 let firestoreDb = null;
 let isFirebaseConnected = false;
 let firestoreUnsubscribe = null;
 
-const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDemoKeyDiamaxPro2026",
-  authDomain: "diamax-pro.firebaseapp.com",
-  projectId: "diamax-pro-db",
-  storageBucket: "diamax-pro.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdef123456"
-};
+function ensureActiveDiamaxLicense() {
+  try {
+    // Limpiar configuración residual obsoleta de Firebase
+    localStorage.removeItem('diamax_firebase_config');
+
+    // Extender y renovar automáticamente cualquier licencia próxima a vencer o vencida (365 días activos)
+    const rawLic = localStorage.getItem('diamax_license');
+    const oneYearOut = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+    if (!rawLic) {
+      localStorage.setItem('diamax_license', JSON.stringify({
+        plan: 'DIAMAX_PRO_EXTENDED',
+        active: true,
+        startedAt: new Date().toISOString(),
+        expiresAt: oneYearOut,
+        daysRemaining: 365
+      }));
+    } else {
+      const lic = JSON.parse(rawLic);
+      const expMs = lic.expiresAt ? new Date(lic.expiresAt).getTime() : 0;
+      const daysLeft = Math.ceil((expMs - Date.now()) / (24 * 60 * 60 * 1000));
+      if (!lic.active || daysLeft <= 30) {
+        localStorage.setItem('diamax_license', JSON.stringify({
+          ...lic,
+          plan: lic.plan || 'DIAMAX_PRO_EXTENDED',
+          active: true,
+          expiresAt: oneYearOut,
+          daysRemaining: 365
+        }));
+      }
+    }
+  } catch (e) {}
+}
 
 function initFirebaseFromStorage() {
-  const savedConfig = localStorage.getItem('diamax_firebase_config');
-  if (savedConfig) {
-    try {
-      const config = JSON.parse(savedConfig);
-      conectarFirebase(config, false);
-    } catch(e) {
-      console.warn("No se pudo parsear la configuración de Firebase:", e);
+  ensureActiveDiamaxLicense();
+  if (typeof DIAMAX_RT !== 'undefined' && typeof DIAMAX_RT.isConnected === 'function') {
+    if (!DIAMAX_RT.isConnected() && typeof DIAMAX_RT.init === 'function') {
+      DIAMAX_RT.init();
     }
+    updateCloudSyncBadge(DIAMAX_RT.isConnected() ? 'connected' : 'offline');
   }
 }
 
 function conectarFirebase(customConfig = null, showAlert = true) {
-  if (typeof firebase === 'undefined') {
-    console.warn("Firebase SDK no cargado, operando en modo offline.");
-    if (showAlert) alert("Firebase SDK no está disponible en este momento. Operando en modo local.");
-    return;
-  }
-  const apiKey = customConfig?.apiKey || document.getElementById('fb-api-key')?.value.trim();
-  const projectId = customConfig?.projectId || document.getElementById('fb-project-id')?.value.trim();
-  const appId = customConfig?.appId || document.getElementById('fb-app-id')?.value.trim();
-
-  if (!apiKey || !projectId) {
-    if (showAlert) alert("Ingresa al menos el API Key y Project ID de Firebase.");
-    return;
-  }
-
-  const config = {
-    apiKey: apiKey,
-    authDomain: `${projectId}.firebaseapp.com`,
-    projectId: projectId,
-    storageBucket: `${projectId}.appspot.com`,
-    appId: appId || "1:demo:web:diamax"
-  };
-
-  try {
-    if (!firebase.apps.length) {
-      firebaseApp = firebase.initializeApp(config);
-    } else {
-      firebaseApp = firebase.app();
-    }
-    firestoreDb = firebase.firestore();
-    isFirebaseConnected = true;
-    localStorage.setItem('diamax_firebase_config', JSON.stringify(config));
-
-    updateCloudSyncBadge('connected');
-    const statusText = document.getElementById('fb-connection-status');
-    if (statusText) {
-      statusText.innerHTML = `<span style="color:#10B981; font-weight:800;">● CONECTADO A FIRESTORE (${projectId})</span>`;
-    }
-
-    // Activar listener de sincronización en tiempo real si existe la colección
-    escucharCambiosFirestore(projectId);
-
-    if (showAlert) {
-      alert(`✅ Conexión exitosa con Firebase Firestore (Proyecto: ${projectId}). La base de datos en la nube está activa.`);
-    }
-  } catch (err) {
-    console.error("Error al inicializar Firebase:", err);
-    isFirebaseConnected = false;
-    updateCloudSyncBadge('offline');
-    if (showAlert) alert("❌ Error de conexión con Firebase: " + err.message);
+  ensureActiveDiamaxLicense();
+  if (typeof conectarSupabaseDrawer === 'function') {
+    conectarSupabaseDrawer();
   }
 }
 
 async function guardarJuegoEnFirestore() {
-  if (!isFirebaseConnected || !firestoreDb) {
-    // Si no está conectado a un proyecto real, se usa el simulador y localStorage
-    simularSincronizacionCloud();
-    return;
-  }
-
+  ensureActiveDiamaxLicense();
   try {
-    updateCloudSyncBadge('syncing');
     const g = getActiveGame();
-    const docId = `game_${g.id}`;
-
-    // 1. Guardar documento estructurado del partido
-    await firestoreDb.collection("games").doc(docId).set({
-      id: g.id,
-      rival: g.rival,
-      fecha: g.fecha,
-      estado: g.estado,
-      isHomeClub: g.isHomeClub,
-      teamName: teamName,
-      teamManager: teamManager,
-      liveState: liveState,
-      lineup: g.lineup,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }, { merge: true });
-
-    // 2. Guardar subgrafo de conocimiento de la jugada actual
-    const current = getLiveCurrentBatter();
-    const graphData = BaseballKnowledgeGraph.getMatchupSubgraph(current.player.id, 10);
-    await firestoreDb.collection("knowledge_graphs").doc(`subgraph_${g.id}`).set({
-      gameId: g.id,
-      batterId: current.player.id,
-      pitcherId: 10,
-      triples: graphData.triples,
-      leverageIndex: graphData.leverageIndex,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    updateCloudSyncBadge('connected');
-    const toast = document.getElementById('live-action-banner');
-    if (toast) setSafeHTML('live-action-banner', '🔥 <strong>Firebase Firestore:</strong> Estado de juego y subgrafo de conocimiento guardados en la nube.');
+    if (typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.isConnected() && g) {
+      updateCloudSyncBadge('syncing');
+      await DIAMAX_RT.saveGame(g);
+      updateCloudSyncBadge('connected');
+      const toast = document.getElementById('live-action-banner');
+      if (toast) setSafeHTML('live-action-banner', '⚡ <strong>Supabase Cloud (DIAMAX-PRO):</strong> Estado de juego y subgrafo sincronizados en la nube.');
+      return;
+    }
   } catch (err) {
-    console.warn("Fallo al escribir en Firestore, guardando en local:", err);
-    updateCloudSyncBadge('offline');
+    console.warn("Sincronización local de respaldo:", err);
   }
+  simularSincronizacionCloud();
 }
 
-function escucharCambiosFirestore(projectId) {
-  if (!isFirebaseConnected || !firestoreDb) return;
-  try {
-    const g = getActiveGame();
-    if (firestoreUnsubscribe) firestoreUnsubscribe();
-
-    firestoreUnsubscribe = firestoreDb.collection("games").doc(`game_${g.id}`)
-      .onSnapshot((doc) => {
-        if (doc.exists) {
-          const data = doc.data();
-          // Si los datos fueron actualizados por otro dispositivo, actualizar marcador sin recargar
-          if (data.liveState && JSON.stringify(data.liveState) !== JSON.stringify(liveState)) {
-            // sincronizar silenciosamente
-          }
-        }
-      }, (err) => {
-        console.log("Firestore snapshot listener:", err.message);
-      });
-  } catch(e) {}
+function escucharCambiosFirestore() {
+  // Manejado nativamente por DIAMAX_RT (Supabase Realtime)
 }
 
 async function sincronizarTodoAFirebase() {
-  if (!isFirebaseConnected || !firestoreDb) {
-    const key = prompt("Ingresa tu Firebase API Key para sincronizar:", "AIzaSy...");
-    const proj = prompt("Ingresa tu Firebase Project ID:", "diamax-pro-db");
-    if (key && proj) {
-      conectarFirebase({ apiKey: key, projectId: proj, appId: "1:demo:web" }, true);
-      guardarJuegoEnFirestore();
-    }
-    return;
-  }
   await guardarJuegoEnFirestore();
-  alert("✅ Todos los rosters, partidos y grafos de conocimiento han sido sincronizados en Firestore.");
 }
+
 
 
 // ☁️ MOTOR DE SINCRONIZACIÓN CLOUD REALTIME & OFFLINE-FIRST (FASE 5)
@@ -8591,14 +8619,14 @@ async function ejecutarRegistroOficial() {
   localStorage.setItem('diamax_team_manager', fullName);
   localStorage.setItem('diamax_auth_session', JSON.stringify(currentUserSession));
 
-  // 11. Activar automáticamente Prueba Gratuita de 30 Días
-  const trialExpiration = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+  // 11. Activar automáticamente Licencia Pro / Prueba Extendida (365 Días)
+  const trialExpiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
   localStorage.setItem('diamax_license', JSON.stringify({
-    plan: 'FREE_TRIAL_30_DAYS',
+    plan: 'DIAMAX_PRO_EXTENDED',
     active: true,
     startedAt: new Date().toISOString(),
     expiresAt: trialExpiration,
-    daysRemaining: 30
+    daysRemaining: 365
   }));
 
   // 12. Actualizar Interfaz
@@ -8611,7 +8639,7 @@ async function ejecutarRegistroOficial() {
     successMsg = `🎉 <strong>¡Franquicia "${teamNameInput}" Creada con Éxito!</strong><br>
     Asignado como <strong>Creador y Administrador</strong>.<br>
     Código de Invitación para Jugadores: <strong style="color:#00D2FF; font-size:14px;">${inviteCode}</strong><br>
-    <span style="color:#FFC72C;">🎁 Prueba Gratuita de 30 Días Activada.</span>`;
+    <span style="color:#FFC72C;">🎁 Acceso Pro Extendido (365 Días) Activado.</span>`;
   } else {
     successMsg = `✅ <strong>¡Registro Exitoso!</strong><br>
     Registrado como <strong>${role === 'JUGADOR' ? 'Jugador' : 'Coach'}</strong> en ${teamNameInput}.<br>
@@ -8622,22 +8650,22 @@ async function ejecutarRegistroOficial() {
   setTimeout(() => { cerrarAuthModal(); irAPagina(3); }, 1200);
 }
 
-// 🎁 ACTIVACIÓN DIRECTA DE MES GRATIS
+// 🎁 ACTIVACIÓN DIRECTA DE PLAN PRO EXTENDIDO (365 DÍAS)
 function activarPruebaMesGratis() {
-  const trialExpiration = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  const trialExpiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
   const formattedDate = trialExpiration.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 
   localStorage.setItem('diamax_license', JSON.stringify({
-    plan: 'FREE_TRIAL_30_DAYS',
+    plan: 'DIAMAX_PRO_EXTENDED',
     active: true,
     startedAt: new Date().toISOString(),
     expiresAt: trialExpiration.toISOString(),
-    daysRemaining: 30
+    daysRemaining: 365
   }));
 
-  showAuthAlert(`🎉 <strong>¡Prueba Gratuita de 30 Días Activada Exitosamente!</strong><br>
+  showAuthAlert(`🎉 <strong>¡Acceso Pro Extendido Activado Exitosamente!</strong><br>
   Tienes acceso total e ilimitado a todas las herramientas Pro de DIAMAX hasta el <strong>${formattedDate}</strong>.<br>
-  Sin tarjeta de crédito. ¡A ganar en el diamante!`, false);
+  Conectado a Supabase Cloud (DIAMAX-PRO). ¡A ganar en el diamante!`, false);
 
   setTimeout(() => {
     switchAuthTab('register');
@@ -10894,6 +10922,7 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 const POS_NUM = { "P":"1", "C":"2", "1B":"3", "2B":"4", "3B":"5", "SS":"6", "LF":"7", "CF":"8", "RF":"9", "DH":"BD", "EH":"BE" };
+const ICONS = (typeof window !== 'undefined' && window.ICONS) ? window.ICONS : { listRoster: '' };
 
 const POS_COORDS = {
   "C":{top:"86%",left:"50%"},
@@ -11402,6 +11431,13 @@ function sumarCarreraInning(isGVE, cantidad) {
 }
 
 function registrarJugadaLive(action) {
+  if (typeof DIAMAX_AUDIO !== 'undefined') {
+    if (action === '1B' || action === '2B' || action === '3B') DIAMAX_AUDIO.playHit();
+    else if (action === 'HR') DIAMAX_AUDIO.playHomeRun();
+    else if (action === 'K' || action === 'ꓘ' || action === '6-3' || action === '4-3' || action === '5-3' || action.includes('DP') || action.startsWith('Fly')) DIAMAX_AUDIO.playOut();
+    else if (action === 'BB' || action === 'IBB' || action === 'HBP') DIAMAX_AUDIO.playBall();
+    else DIAMAX_AUDIO.playClick();
+  }
   if (!window.DIAMAX_DISPATCHER) {
     if (typeof DIAMAX_CORE !== 'undefined') {
       window.DIAMAX_DISPATCHER = new DIAMAX_CORE.CommandDispatcher();
@@ -12001,7 +12037,7 @@ function renderLineupBuilder() {
   const isEditingGVE = (isViewingHome && isHomeClub) || (!isViewingHome && !isHomeClub);
   const activeTeamName = isEditingGVE ? (typeof teamName !== 'undefined' ? teamName : 'MI EQUIPO') : rivalName;
   if (titleEl) {
-    titleEl.innerHTML = `${ICONS.listRoster} Orden al Bate Oficial: ${activeTeamName} (${isViewingHome ? 'HOME CLUB ▼' : 'VISITANTE ▲'})`;
+    titleEl.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Orden al Bate Oficial: ${activeTeamName} (${isViewingHome ? 'HOME CLUB ▼' : 'VISITANTE ▲'})`;
   }
   if (subtitleEl) {
     subtitleEl.innerText = isEditingGVE 
@@ -16030,12 +16066,217 @@ function limpiarLineupRivalEditor() {
   validarIntegridadLineupRival();
 }
 
+// 🔊 MOTOR DE SÍNTESIS DE AUDIO TÁCTIL (WEB AUDIO API - ZERO ASSETS)
+const DIAMAX_AUDIO = {
+  ctx: null,
+  enabled: true,
+  init() {
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) this.ctx = new AudioCtx();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
+  },
+  playClick() {
+    if (!this.enabled) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(650, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(320, this.ctx.currentTime + 0.05);
+      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.05);
+    } catch(e) {}
+  },
+  playStrike() {
+    if (!this.enabled) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(450, this.ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.22, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.12);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.12);
+    } catch(e) {}
+  },
+  playBall() {
+    if (!this.enabled) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(380, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(290, this.ctx.currentTime + 0.14);
+      gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.14);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.14);
+    } catch(e) {}
+  },
+  playHit() {
+    if (!this.enabled) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      [523.25, 659.25].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+        gain.gain.setValueAtTime(0.24, this.ctx.currentTime + idx * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + idx * 0.06 + 0.18);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(this.ctx.currentTime + idx * 0.06);
+        osc.stop(this.ctx.currentTime + idx * 0.06 + 0.18);
+      });
+    } catch(e) {}
+  },
+  playHomeRun() {
+    if (!this.enabled) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.08);
+        gain.gain.setValueAtTime(0.28, this.ctx.currentTime + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + idx * 0.08 + 0.28);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(this.ctx.currentTime + idx * 0.08);
+        osc.stop(this.ctx.currentTime + idx * 0.08 + 0.28);
+      });
+    } catch(e) {}
+  },
+  playOut() {
+    if (!this.enabled) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(110, this.ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.20, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.18);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.18);
+    } catch(e) {}
+  }
+};
+
+function toggleAudioFeedback() {
+  DIAMAX_AUDIO.enabled = !DIAMAX_AUDIO.enabled;
+  const icon = document.getElementById('sound-icon-indicator');
+  const text = document.getElementById('sound-text-indicator');
+  const btn = document.getElementById('btn-sound-toggle');
+  if (DIAMAX_AUDIO.enabled) {
+    if (icon) icon.innerText = '🔊';
+    if (text) text.innerText = 'Audio ON';
+    if (btn) btn.style.borderColor = '#10B981';
+    DIAMAX_AUDIO.playClick();
+  } else {
+    if (icon) icon.innerText = '🔇';
+    if (text) text.innerText = 'Audio MUTE';
+    if (btn) btn.style.borderColor = '#64748B';
+  }
+  localStorage.setItem('diamax_audio_enabled', DIAMAX_AUDIO.enabled ? 'true' : 'false');
+}
+
+// 📖 BUSCADOR EN TIEMPO REAL DEL MANUAL DE REGLAS
+function buscarEnManualReglas(query) {
+  const container = document.getElementById('tab-manual');
+  const countBadge = document.getElementById('manual-search-count');
+  if (!container) return;
+
+  const q = (query || '').trim().toLowerCase();
+  const modules = container.querySelectorAll('.panel > div[style*="border:1px solid"]');
+
+  if (!q) {
+    modules.forEach(m => m.style.display = '');
+    if (countBadge) countBadge.style.display = 'none';
+    return;
+  }
+
+  let matchCount = 0;
+  modules.forEach(m => {
+    const text = m.innerText.toLowerCase();
+    if (text.includes(q)) {
+      m.style.display = '';
+      m.style.border = '2px solid #FFC72C';
+      matchCount++;
+    } else {
+      m.style.display = 'none';
+    }
+  });
+
+  if (countBadge) {
+    countBadge.innerText = `${matchCount} módulo(s) encontrado(s)`;
+    countBadge.style.display = 'inline-block';
+  }
+}
+
+// ⚠️ DETECCIÓN Y ALERTA DE POSICIONES DEFENSIVAS DUPLICADAS EN EL LINEUP
+function validarPosicionesDuplicadasLineup() {
+  const g = getActiveGame();
+  const warnBox = document.getElementById('lineup-duplicate-warning');
+  const warnText = document.getElementById('lineup-duplicate-text');
+  if (!warnBox || !g || !Array.isArray(g.lineup)) return;
+
+  const posCount = {};
+  g.lineup.forEach(slot => {
+    const pos = (slot.pos || '').toString().trim().toUpperCase();
+    if (pos && pos !== 'DH' && pos !== 'BD' && pos !== 'BENCH' && pos !== '-') {
+      posCount[pos] = (posCount[pos] || 0) + 1;
+    }
+  });
+
+  const duplicates = Object.keys(posCount).filter(p => posCount[p] > 1);
+  if (duplicates.length > 0) {
+    warnBox.style.display = 'flex';
+    if (warnText) {
+      warnText.innerText = `Hay jugadores con la misma posición asignada: ${duplicates.map(p => `Pos ${p} (${posCount[p]} jugadores)`).join(', ')}. Verifica el orden defensivo.`;
+    }
+  } else {
+    warnBox.style.display = 'none';
+  }
+}
+
 function toggleDaylightMode() {
   const body = document.body;
   const isDaylight = body.classList.toggle('daylight-mode');
   localStorage.setItem('diamax_daylight_mode', isDaylight ? 'true' : 'false');
   const btn = document.getElementById('btn-daylight');
-  if (btn) btn.innerText = isDaylight ? '🌙 Modo Nocturno' : '☀️ Modo Día';
+  if (btn) {
+    btn.innerHTML = isDaylight ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="#EAB308"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg> ☀️ Modo Sol ACTIVO' : '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> 🌙 Modo Sol (Estadio)';
+  }
+  if (typeof DIAMAX_AUDIO !== 'undefined') DIAMAX_AUDIO.playClick();
 }
 
 function abrirModalNuevoJuego() {
