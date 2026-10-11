@@ -3126,6 +3126,8 @@ body.daylight-mode #btn-daylight {
   // ════════════════════════════════════════════════════════════════════════════
   const DIAMAX_RT = (function() {
     let _sb = null;          // Supabase client
+    let _lastUrl = null;
+    let _lastKey = null;
     let _channel = null;     // Canal de Realtime
     let _gameId = null;      // ID del juego activo
     let _tenantId = null;    // ID del tenant (liga)
@@ -3152,7 +3154,11 @@ body.daylight-mode #btn-daylight {
           console.info('[DIAMAX RT] Supabase no configurado o SDK ausente. Usando modo local.');
           return false;
         }
-        _sb = supabase.createClient(url, anonKey);
+        if (!_sb || _lastUrl !== url || _lastKey !== anonKey) {
+          _sb = supabase.createClient(url, anonKey);
+          _lastUrl = url;
+          _lastKey = anonKey;
+        }
         _connected = true;
         console.log('[DIAMAX RT] ✅ Supabase conectado a 3Tree Cloud.');
         mostrarIndicadorRealtime(true);
@@ -3277,14 +3283,15 @@ body.daylight-mode #btn-daylight {
 
     // ── Guardar juego en Supabase ─────────────────────────────────────────────
     async function upsertGame(gameData) {
-      if (!_sb || !_tenantId) return null;
+      if (!_sb || !_tenantId || !gameData) return null;
       try {
+        const validUuid = (gameData.id && typeof gameData.id === 'string' && gameData.id.length === 36) ? gameData.id : (_gameId || DEFAULT_CONFIG.gameId);
         const payload = {
-          id: gameData.id || ('game_' + Date.now()),
-          home_team_name: gameData.homeTeam || 'Nosotros',
+          id: validUuid,
+          home_team_name: gameData.homeTeam || gameData.rival || 'Nosotros',
           away_team_name: gameData.awayTeam || 'Rivales',
           game_date: new Date().toISOString(),
-          status: gameData.status || 'IN_PROGRESS',
+          status: gameData.status || gameData.estado || 'IN_PROGRESS',
           innings_us: gameData.inningsUs || [],
           innings_them: gameData.inningsThem || [],
           total_us: gameData.scoreUs || 0,
@@ -3294,13 +3301,14 @@ body.daylight-mode #btn-daylight {
           tenant_id: _tenantId
         };
         const { data, error } = await _sb.from('games').upsert(payload).select().single();
-        if (error) { console.error('[DIAMAX RT] upsertGame error:', error); return null; }
-        _gameId = data.id;
-        subscribeToGame(data.id);
-        localStorage.setItem('diamax_active_game_id', data.id);
+        if (error) { console.warn('[DIAMAX RT] upsertGame warn:', error.message); return null; }
+        if (data && data.id) {
+          _gameId = data.id;
+          localStorage.setItem('diamax_active_game_id', data.id);
+        }
         return data;
       } catch(e) {
-        console.error('[DIAMAX RT] upsertGame exception:', e);
+        console.warn('[DIAMAX RT] upsertGame exception:', e);
         return null;
       }
     }
@@ -3431,7 +3439,7 @@ body.daylight-mode #btn-daylight {
     // API pública
     return {
       init, configure, subscribeToGame,
-      upsertGame, savePitch, saveAtBat, syncScore,
+      upsertGame, saveGame: upsertGame, savePitch, saveAtBat, syncScore,
       saveCanonicalEvent,
       broadcast,
       isConnected: () => _connected,
@@ -5341,7 +5349,7 @@ body.daylight-mode #btn-daylight {
           <span id="memory-status-badge" style="background:rgba(16,185,129,0.15); color:#6EE7B7; border:1px solid rgba(16,185,129,0.3); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"/></svg> Memoria: Activa</span>
         </div>
         <div style="display:flex; gap:6px; align-items:center;">
-          <button onclick="switchTab('skills')" style="background:linear-gradient(135deg, rgba(0,210,255,0.2), rgba(2,132,199,0.3)); border:1.5px solid #00D2FF; color:#00D2FF; font-size:11px; font-weight:800; padding:5px 12px; border-radius:6px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 0 12px rgba(0,210,255,0.25);" title="Abrir Consola Táctica Completa con Chat y RAG">
+          <button id="btn-ai-agent" onclick="switchTab('skills')" style="background:linear-gradient(135deg, rgba(0,210,255,0.2), rgba(2,132,199,0.3)); border:1.5px solid #00D2FF; color:#00D2FF; font-size:11px; font-weight:800; padding:5px 12px; border-radius:6px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 0 12px rgba(0,210,255,0.25);" title="Abrir Consola Táctica Completa con Chat y RAG">
             <svg width="13" height="13" viewBox="0 0 24 24"><use href="#diamax-icon-ai-neural"/></svg> <span>Consola Unificada (Tab 6) ↗</span>
           </button>
           <button onclick="toggleSettingsDrawer(true)" style="background:transparent; border:1px solid #254070; color:#94A3B8; font-size:11px; padding:5px 8px; border-radius:6px; cursor:pointer;" style="display:inline-flex; align-items:center; gap:4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Clave API</button>
@@ -7401,6 +7409,24 @@ function renderSprayChart() {
 
   const dataToRender = realBattedBalls;
   const filtered = dataToRender.filter(d => currentSprayFilter === 'ALL' || d.type === currentSprayFilter);
+
+  if (dataToRender.length > 0) {
+    let pullCount = 0, centCount = 0, oppoCount = 0;
+    dataToRender.forEach(d => {
+      if (d.x < 210) pullCount++;
+      else if (d.x <= 290) centCount++;
+      else oppoCount++;
+    });
+    const totalBatted = dataToRender.length;
+    const pullPct = ((pullCount / totalBatted) * 100).toFixed(1);
+    const centPct = ((centCount / totalBatted) * 100).toFixed(1);
+    const oppoPct = ((oppoCount / totalBatted) * 100).toFixed(1);
+    setSafeText('stat-pull-pct', `${pullPct}%${Number(pullPct) >= 50 ? ' (Extremo)' : ''}`);
+    setSafeText('stat-cent-pct', `${centPct}%`);
+    setSafeText('stat-oppo-pct', `${oppoPct}%`);
+    const shiftRec = Number(pullPct) >= 50 ? 'SHIFT PROFUNDO 3B/SS' : (Number(oppoPct) >= 45 ? 'CARGAR BANDA 2B/RF' : 'DEFENSA ESTÁNDAR BALANCEADA');
+    setSafeText('stat-shift-rec', shiftRec);
+  }
 
   layer.innerHTML = filtered.map(d => {
     let color = '#10B981';
@@ -12279,12 +12305,30 @@ function autoRellenarLineupIA() {
   const isEditingGVE = (currentLineupBuilderView === 'home' && isHomeClub) || (currentLineupBuilderView === 'away' && !isHomeClub);
 
   if (isEditingGVE) {
-    const order = [MASTER_ROSTER[0], MASTER_ROSTER[2], MASTER_ROSTER[5], MASTER_ROSTER[6], MASTER_ROSTER[1], MASTER_ROSTER[3], MASTER_ROSTER[4], MASTER_ROSTER[7], MASTER_ROSTER[8]];
-    g.lineup = order.map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+    const currentIds = (g.lineup && g.lineup.length >= 9) ? g.lineup.slice(0, 9).map(s => s.playerId) : [];
+    const pool = (currentIds.length === 9)
+      ? currentIds.map(id => MASTER_ROSTER.find(pl => pl.id == id)).filter(Boolean)
+      : MASTER_ROSTER.slice(0, 9);
+    const available = pool.length === 9 ? [...pool] : MASTER_ROSTER.slice(0, 9);
+    const pickBest = (metricFn) => {
+      available.sort((a, b) => metricFn(b) - metricFn(a));
+      return available.shift();
+    };
+    const slot1 = pickBest(p => (p.obp || 0.330) + ((p.defaultPos === 'CF' || p.defaultPos === 'SS' || p.defaultPos === '2B') ? 0.015 : 0));
+    const slot2 = pickBest(p => (p.obp || 0.330) + (p.ave || 0.280) * 0.5);
+    const slot3 = pickBest(p => (p.obp || 0.330) + (p.slg || 0.420));
+    const slot4 = pickBest(p => (p.slg || 0.420) * 1.4 + (p.hr || 0) * 0.02);
+    const slot5 = pickBest(p => (p.slg || 0.420) + (p.obp || 0.330) * 0.6);
+    const rest = available.sort((a, b) => ((b.obp || 0.330) + (b.slg || 0.420)) - ((a.obp || 0.330) + (a.slg || 0.420)));
+    const order = [slot1, slot2, slot3, slot4, slot5, ...rest].filter(Boolean);
+    g.lineup = order.map((p, idx) => {
+      const prevSlot = (g.lineup || []).find(s => s.playerId == p.id);
+      return { order: idx + 1, playerId: p.id, pos: (prevSlot && prevSlot.pos) ? prevSlot.pos : p.defaultPos };
+    });
     saveGamesToStorage();
     simularSincronizacionCloud();
     guardarJuegoEnFirestore();
-    setSafeHTML('live-action-banner', ' Lineup de Guerreros optimizado por el motor de IA de DIAMAX.');
+    setSafeHTML('live-action-banner', ' Lineup de Guerreros optimizado dinámicamente por OBP/SLG/OPS (Motor IA DIAMAX).');
   } else {
     restaurarLineupRivalDefecto();
     setSafeHTML('live-action-banner', ' Lineup del Rival restaurado a su configuración predeterminada.');
@@ -14310,12 +14354,18 @@ function renderLineChart() {
   const scoreUsTotal = liveState.scoreUs || 0;
   const scoreThemTotal = liveState.scoreThem || 0;
 
-  // Generar datos acumulados de carreras por inning (Innings 1 a 9)
-  const runsUsPerInning = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const runsThemPerInning = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  // Leer datos reales de carreras por inning desde liveState.inningsUs / inningsThem
+  const hasRealUsInnings = Array.isArray(liveState.inningsUs) && liveState.inningsUs.reduce((a, b) => a + (b || 0), 0) > 0;
+  const hasRealThemInnings = Array.isArray(liveState.inningsThem) && liveState.inningsThem.reduce((a, b) => a + (b || 0), 0) > 0;
 
-  // Distribuir carreras registradas a lo largo de las entradas jugadas
-  if (scoreUsTotal > 0) {
+  const runsUsPerInning = hasRealUsInnings
+    ? Array.from({ length: 9 }, (_, i) => liveState.inningsUs[i] || 0)
+    : [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const runsThemPerInning = hasRealThemInnings
+    ? Array.from({ length: 9 }, (_, i) => liveState.inningsThem[i] || 0)
+    : [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  if (!hasRealUsInnings && scoreUsTotal > 0) {
     let rem = scoreUsTotal;
     for (let i = 0; i < currentInning && rem > 0; i++) {
       const take = (i === currentInning - 1) ? rem : Math.min(rem, Math.ceil(rem / (currentInning - i)));
@@ -14323,7 +14373,7 @@ function renderLineChart() {
       rem -= take;
     }
   }
-  if (scoreThemTotal > 0) {
+  if (!hasRealThemInnings && scoreThemTotal > 0) {
     let rem = scoreThemTotal;
     for (let i = 0; i < currentInning && rem > 0; i++) {
       const take = (i === currentInning - 1) ? rem : Math.min(rem, Math.ceil(rem / (currentInning - i)));
@@ -14593,11 +14643,17 @@ function renderInformeTecnico() {
   const runsUs = liveState.scoreUs || 0;
   const runsThem = liveState.scoreThem || 0;
 
-  // Distribuir carreras por inning
-  const usInnings = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const themInnings = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  // Leer carreras reales por inning desde liveState.inningsUs / inningsThem
+  const hasRealUs = Array.isArray(liveState.inningsUs) && liveState.inningsUs.reduce((a, b) => a + (b || 0), 0) > 0;
+  const hasRealThem = Array.isArray(liveState.inningsThem) && liveState.inningsThem.reduce((a, b) => a + (b || 0), 0) > 0;
+  const usInnings = hasRealUs
+    ? Array.from({ length: 9 }, (_, i) => liveState.inningsUs[i] || 0)
+    : [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const themInnings = hasRealThem
+    ? Array.from({ length: 9 }, (_, i) => liveState.inningsThem[i] || 0)
+    : [0, 0, 0, 0, 0, 0, 0, 0, 0];
   
-  if (runsUs > 0) {
+  if (!hasRealUs && runsUs > 0) {
     let rem = runsUs;
     for (let i = 0; i < currentInning && rem > 0; i++) {
       const take = (i === currentInning - 1) ? rem : Math.min(rem, Math.ceil(rem / (currentInning - i)));
@@ -14605,7 +14661,7 @@ function renderInformeTecnico() {
       rem -= take;
     }
   }
-  if (runsThem > 0) {
+  if (!hasRealThem && runsThem > 0) {
     let rem = runsThem;
     for (let i = 0; i < currentInning && rem > 0; i++) {
       const take = (i === currentInning - 1) ? rem : Math.min(rem, Math.ceil(rem / (currentInning - i)));
@@ -14634,6 +14690,9 @@ function renderInformeTecnico() {
   const slgColectivo = totalVB > 0 ? (stats.reduce((a,b) => a + b.tb, 0) / totalVB) : 0;
   const opsColectivo = (parseFloat(obpColectivo) + slgColectivo).toFixed(3);
 
+  const rivalBoxValues = Object.values(liveState.currentRivalBox || {});
+  const totalRivalH = rivalBoxValues.reduce((acc, r) => acc + ((r.h1||0) + (r.h2||0) + (r.h3||0) + (r.hr||0)), 0);
+
   // Determinar MVP
   let mvpCandidate = stats.slice().sort((a,b) => (b.h * 2 + b.ci * 3 + b.hr * 4) - (a.h * 2 + a.ci * 3 + a.hr * 4))[0];
   if (!mvpCandidate || (mvpCandidate.vb === 0 && mvpCandidate.h === 0)) {
@@ -14652,7 +14711,7 @@ function renderInformeTecnico() {
   const pTot = activePitcherStats.totalPitches || 0;
   const pStr = activePitcherStats.strikes || 0;
   const pStrPct = pTot > 0 ? Math.round((pStr / pTot) * 100) : 68;
-  setSafeText('inf-gve-pitching-stats', `Lanzador: #${activePitcherStats.number || 23} ${activePitcherStats.name || 'Pedro Chavez'} · IP: ${currentInning}.0 · H: 5 · CL: 2 · BB: 1 · K: 7 · Pitches: ${pTot || 84} (${pStrPct}% Strikes)`);
+  setSafeText('inf-gve-pitching-stats', `Lanzador: #${activePitcherStats.number || 23} ${activePitcherStats.name || 'Pedro Chavez'} · IP: ${currentInning}.0 · H: ${totalRivalH || 5} · CL: ${runsThem} · BB: 1 · K: 7 · Pitches: ${pTot || 84} (${pStrPct}% Strikes)`);
 
   // Boxscore Table HTML
   const linescoreTbody = document.getElementById('inf-linescore-tbody');
@@ -14676,7 +14735,7 @@ function renderInformeTecnico() {
     };
 
     const gveRow = renderRow(`🇻🇪 ${teamName}`, '#10B981', usInnings, runsUs, totalH || 10, 1, 5);
-    const rivalRow = renderRow(`⚔️ ${rivalRecord.name}`, '#00D2FF', themInnings, runsThem, 7, 2, 4);
+    const rivalRow = renderRow(`⚔️ ${rivalRecord.name}`, '#00D2FF', themInnings, runsThem, totalRivalH || 7, 2, 4);
 
     linescoreTbody.innerHTML = isHome ? (rivalRow + gveRow) : (gveRow + rivalRow);
   }
@@ -14693,6 +14752,33 @@ function copiarInformeTecnicoTexto() {
   const fecha = g.fecha || new Date().toISOString().split('T')[0];
   const isHome = g.isHomeClub !== false;
 
+  const stats = MASTER_ROSTER.map(p => {
+    const live = (liveState.currentLiveBox && liveState.currentLiveBox[p.id]) || { vb:0, ca:0, h1:0, h2:0, h3:0, hr:0, ci:0, bb:0, k:0 };
+    const h = (live.h1||0) + (live.h2||0) + (live.h3||0) + (live.hr||0);
+    const tb = (live.h1||0) + 2*(live.h2||0) + 3*(live.h3||0) + 4*(live.hr||0);
+    const ave = live.vb > 0 ? (h / live.vb) : 0;
+    return { ...p, vb: live.vb, ca: live.ca||0, h, hr: live.hr||0, ci: live.ci||0, bb: live.bb||0, tb, ave };
+  });
+  const totalVB = stats.reduce((a,b) => a + b.vb, 0);
+  const totalH = stats.reduce((a,b) => a + b.h, 0);
+  const totalBB = stats.reduce((a,b) => a + b.bb, 0);
+  const aveGve = totalVB > 0 ? (totalH / totalVB).toFixed(3) : ".357";
+  const obpGve = (totalVB + totalBB) > 0 ? ((totalH + totalBB) / (totalVB + totalBB)).toFixed(3) : ".425";
+  const slgGve = totalVB > 0 ? (stats.reduce((a,b) => a + b.tb, 0) / totalVB) : 0.500;
+  const opsGve = (parseFloat(obpGve) + slgGve).toFixed(3);
+
+  const rivalBoxValues = Object.values(liveState.currentRivalBox || {});
+  const totalRivalH = rivalBoxValues.reduce((acc, r) => acc + ((r.h1||0) + (r.h2||0) + (r.h3||0) + (r.hr||0)), 0);
+
+  let mvp = stats.slice().sort((a,b) => (b.h * 2 + b.ci * 3 + b.hr * 4) - (a.h * 2 + a.ci * 3 + a.hr * 4))[0];
+  if (!mvp || (mvp.vb === 0 && mvp.h === 0)) {
+    mvp = { name: "Carlos Santana", num: "3", defaultPos: "CF", vb: 4, h: 3, ca: 2, ci: 3, hr: 1, ave: 0.750 };
+  }
+  const pTot = activePitcherStats.totalPitches || 84;
+  const pStr = activePitcherStats.strikes || 58;
+  const pBalls = activePitcherStats.balls || 26;
+  const pStrPct = pTot > 0 ? Math.round((pStr / pTot) * 100) : 68;
+
   const text = `======================================================
 📋 INFORME TÉCNICO OFICIAL DE JUEGO & EVALUACIÓN DE EQUIPOS
 ======================================================
@@ -14705,26 +14791,26 @@ function copiarInformeTecnicoTexto() {
 ------------------------------------------------------
 🔢 PIZARRA OFICIAL (BOXSCORE):
 ------------------------------------------------------
-• ${teamName}: ${liveState.scoreUs || 0} Carreras | 10 Hits | 1 Error
-• ${rivalRecord.name}: ${liveState.scoreThem || 0} Carreras | 7 Hits | 2 Errores
+• ${teamName}: ${liveState.scoreUs || 0} Carreras | ${totalH || 10} Hits | 1 Error
+• ${rivalRecord.name}: ${liveState.scoreThem || 0} Carreras | ${totalRivalH || 7} Hits | 2 Errores
 
 ------------------------------------------------------
 📊 RENDIMIENTO OFENSIVO & SABERMETRÍA:
 ------------------------------------------------------
-• Guerreros: AVE: .357 | OBP: .425 | OPS: .925 | RISP: 4-10 (40%)
-• Rival:     AVE: .269 | OBP: .320 | OPS: .666 | RISP: 2-7 (28%)
+• ${teamName}: AVE: ${aveGve} | OBP: ${obpGve} | OPS: ${opsGve} | RISP: 4-10 (40%)
+• ${rivalRecord.name}: AVE: .269 | OBP: .320 | OPS: .666 | RISP: 2-7 (28%)
 
 ------------------------------------------------------
 ⚾ CONTROL DE PITCHEO & FATIGA (+55: LÍMITE 75):
 ------------------------------------------------------
 • Abridor GVE: #${activePitcherStats.number || 23} ${activePitcherStats.name || 'Pedro Chavez'}
-• Pitches: ${activePitcherStats.totalPitches || 84} (${activePitcherStats.strikes || 58} Strikes / ${activePitcherStats.balls || 26} Bolas)
-• Control en la Zona: 68% Strikes | Efectividad: 2.57 ERA
+• Pitches: ${pTot} (${pStr} Strikes / ${pBalls} Bolas)
+• Control en la Zona: ${pStrPct}% Strikes | Efectividad: 2.57 ERA
 
 ------------------------------------------------------
 🌟 JUGADOR MÁS VALIOSO (MVP):
 ------------------------------------------------------
-• Carlos Santana (#3 - CF) | 4-3, 2 R, 3 RBI, 1 HR (AVE: .750)
+• ${mvp.name} (#${mvp.num} - ${mvp.defaultPos}) | ${mvp.vb}-${mvp.h}, ${mvp.ca} R, ${mvp.ci} RBI, ${mvp.hr} HR (AVE: ${typeof mvp.ave === 'number' ? mvp.ave.toFixed(3) : mvp.ave})
 
 ------------------------------------------------------
 🔗 ENLACES DE ACCESO DIRECTO EN VIVO:
@@ -16578,6 +16664,10 @@ function guardarNuevoJuego() {
 }
 
 function abrirModalFinalizarJuego() {
+  const currentGame = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : ((typeof getActiveGame === 'function') ? getActiveGame() : {
+    horaInicio: '09:30',
+    rival: 'DAYTONA BEACH'
+  });
   const now = new Date();
   const finStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
   const fin12h = formatTime12h(finStr);
@@ -16587,12 +16677,16 @@ function abrirModalFinalizarJuego() {
   const elDur = document.getElementById('finish-game-duracion');
   const elSum = document.getElementById('finish-game-score-summary');
 
-  if (elIni) elIni.value = currentGame.horaInicio;
+  const hIni = currentGame.horaInicio || '09:30';
+  if (elIni) elIni.value = hIni;
   if (elFin) elFin.value = finStr;
 
-  const dur = calcularDuracionJuego(currentGame.horaInicio, fin12h);
+  const dur = calcularDuracionJuego(hIni, fin12h);
   if (elDur) elDur.value = dur;
-  if (elSum) elSum.innerText = `${teamName} (${scoreHome}) vs ${currentGame.rival} (${scoreAway})`;
+  const sUs = (typeof liveState !== 'undefined' && liveState.scoreUs !== undefined) ? liveState.scoreUs : 0;
+  const sThem = (typeof liveState !== 'undefined' && liveState.scoreThem !== undefined) ? liveState.scoreThem : 0;
+  const tName = (typeof teamName !== 'undefined' && teamName) ? teamName : 'GUERREROS DE VENEZUELA';
+  if (elSum) elSum.innerText = `${tName} (${sUs}) vs ${currentGame.rival || 'RIVAL'} (${sThem})`;
 
   const modal = document.getElementById('modal-finalizar-juego');
   if (modal) modal.classList.add('active');
@@ -16606,11 +16700,11 @@ function cerrarModalFinalizarJuego() {
 function calcularDuracionJuego(horaIni, horaFin) {
   try {
     const parse12 = (t) => {
-      const match = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
+      const match = String(t || '').match(/(\d+):(\d+)\s*(AM|PM)?/i);
       if (!match) return 9*60 + 30;
       let h = parseInt(match[1], 10);
       let m = parseInt(match[2], 10);
-      let ap = match[3].toUpperCase();
+      let ap = (match[3] || '').toUpperCase();
       if (ap === 'PM' && h < 12) h += 12;
       if (ap === 'AM' && h === 12) h = 0;
       return h * 60 + m;
@@ -16628,15 +16722,22 @@ function calcularDuracionJuego(horaIni, horaFin) {
 }
 
 function confirmarFinDeJuego() {
-  const elFin = document.getElementById('finish-game-hora-fin').value || '11:45';
+  const currentGame = (typeof GAME_ACTIVE !== 'undefined' && GAME_ACTIVE) ? GAME_ACTIVE : ((typeof getActiveGame === 'function') ? getActiveGame() : {
+    horaInicio: '09:30',
+    rival: 'DAYTONA BEACH'
+  });
+  const finInput = document.getElementById('finish-game-hora-fin');
+  const elFin = (finInput && finInput.value) ? finInput.value : '11:45';
   currentGame.horaFin = formatTime12h(elFin);
-  currentGame.duracion = calcularDuracionJuego(currentGame.horaInicio, currentGame.horaFin);
+  currentGame.duracion = calcularDuracionJuego(currentGame.horaInicio || '09:30', currentGame.horaFin);
   currentGame.estado = 'FINALIZADO';
 
   actualizarGameHeaderUI();
   sincronizarTarjetaOficialHeader();
   cerrarModalFinalizarJuego();
-  mostrarToast(`🏆 Partido Finalizado Oficialmente. Duración: ${currentGame.duracion}`);
+  if (typeof mostrarToast === 'function') {
+    mostrarToast(`🏆 Partido Finalizado Oficialmente. Duración: ${currentGame.duracion}`);
+  }
 }
 
 function sincronizarTarjetaOficialHeader() {
@@ -17579,6 +17680,7 @@ const DIAMAX_VOICE_LINEUP_AGENT = {
   },
 
   startListening: function() {
+    if (this.isListening) return;
     if (!this.recognition) {
       if (!this.init()) {
         const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
@@ -17598,9 +17700,12 @@ const DIAMAX_VOICE_LINEUP_AGENT = {
         '🎙️ Escuchando al Mánager... Di los números o nombres (Ej: "1 Johan Olivo CF, 2 Pablo Morales 1B, o di Oficial para cargar todo")';
     }
     try {
+      this.isListening = true;
+      this.updateUIState(true);
       this.recognition.start();
     } catch(e) {
-      console.warn(e);
+      this.isListening = false;
+      this.updateUIState(false);
     }
   },
 
@@ -19362,14 +19467,14 @@ document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e
 
 
 <!-- ════════════════════════════════════════════════════════════════════════════ -->
-<!-- 🗺️ DIAMAX GLOBAL MAP — MAPA MUNDIAL TIEMPO REAL DE LIGAS Y EQUIPOS       -->
+<!-- 🗺️ DIAMAX GLOBAL MAP v2.0 — MAPA MUNDIAL WBSC CON NOMBRES DE PAÍSES EN VIVO -->
 <!-- ════════════════════════════════════════════════════════════════════════════ -->
 <div id="diamax-map-modal" style="display:none;position:fixed;inset:0;z-index:999998;background:#020617;">
 
   <!-- Header del Mapa -->
-  <div style="position:absolute;top:0;left:0;right:0;z-index:999999;background:linear-gradient(180deg,rgba(2,6,23,0.98),rgba(2,6,23,0.85));border-bottom:1px solid rgba(0,242,254,0.2);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);">
+  <div style="position:absolute;top:0;left:0;right:0;z-index:999999;background:linear-gradient(180deg,rgba(2,6,23,0.98),rgba(4,10,28,0.92));border-bottom:1px solid rgba(0,242,254,0.28);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;backdrop-filter:blur(20px);">
     <div style="display:flex;align-items:center;gap:12px;">
-      <button onclick="cerrarMapaGlobal()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;">⬅</button>
+      <button onclick="cerrarMapaGlobal()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;" title="Volver al Dugout">⬅</button>
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="diamax-global-map-icon-wrap" style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:radial-gradient(circle, rgba(0,242,254,0.22) 0%, rgba(11,19,41,0.92) 100%); border:1px solid rgba(0,242,254,0.55); box-shadow:0 0 16px rgba(0,242,254,0.45), inset 0 0 8px rgba(0,242,254,0.25); position:relative; overflow:hidden; flex-shrink:0;">
           <div class="diamax-radar-sweep"></div>
@@ -19397,45 +19502,91 @@ document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e
           </svg>
         </div>
         <div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 0 12px rgba(0,242,254,0.5);">DIAMAX GLOBAL INTELLIGENCE MAP</div>
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:#64748B;font-weight:600;letter-spacing:0.5px;">LIGAS · EQUIPOS · JUGADORES — TIEMPO REAL MUNDIAL</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 0 12px rgba(0,242,254,0.5);">DIAMAX GLOBAL BASEBALL ATLAS v2.0</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:#94A3B8;font-weight:700;letter-spacing:0.5px;">28 PAÍSES WBSC · AMÉRICA · EUROPA · ASIA-PACÍFICO — NOMBRES Y SEDES EN TIEMPO REAL</div>
         </div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
+
+    <!-- Controles de Capas, Nombres de Países y KPIs -->
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <!-- Conmutador de Regiones / Continentes -->
+      <div style="display:inline-flex;background:rgba(15,23,42,0.9);border:1px solid rgba(0,242,254,0.25);border-radius:20px;padding:2px;gap:2px;">
+        <button type="button" onclick="filtrarContinenteMapa('all')" id="btn-map-reg-all" class="map-region-btn active-reg" style="background:rgba(0,242,254,0.2);color:#00F2FE;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🌍 MUNDO (28)</button>
+        <button type="button" onclick="filtrarContinenteMapa('Americas')" id="btn-map-reg-Americas" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">⚾ AMÉRICA (14)</button>
+        <button type="button" onclick="filtrarContinenteMapa('Europe')" id="btn-map-reg-Europe" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🇪🇺 EUROPA (8)</button>
+        <button type="button" onclick="filtrarContinenteMapa('AsiaOceania')" id="btn-map-reg-AsiaOceania" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🌏 ASIA & OCEANÍA (6)</button>
+      </div>
+
+      <!-- Conmutador de Estilo de Mapa Real -->
+      <div style="display:inline-flex;background:rgba(15,23,42,0.9);border:1px solid rgba(0,242,254,0.3);border-radius:20px;padding:2px;gap:2px;">
+        <button type="button" onclick="cambiarEstiloMapa('sat')" id="btn-map-style-sat" style="background:rgba(0,242,254,0.22);color:#00F2FE;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Tierra Real desde Satélite con Fronteras y Nombres Oficiales">🛰️ Tierra Real HD</button>
+        <button type="button" onclick="cambiarEstiloMapa('street')" id="btn-map-style-street" style="background:transparent;color:#E2E8F0;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Mapa Mundial Político Real con Océanos Azules y Países">🌍 Mapa Mundial Real</button>
+        <button type="button" onclick="cambiarEstiloMapa('topo')" id="btn-map-style-topo" style="background:transparent;color:#E2E8F0;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Mapa Físico y Relieve Natural del Mundo">🏔️ Relieve Natural</button>
+      </div>
+
+      <!-- Toggle Etiquetas de Nombres de Países -->
+      <button type="button" id="btn-toggle-country-labels" onclick="toggleEtiquetasPaisesMapa()" style="background:rgba(16,185,129,0.18);border:1px solid #10B981;color:#A7F3D0;padding:4px 10px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🏷️ NOMBRES DE PAÍSES: ON</button>
+
       <div id="map-rt-badge" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid rgba(34,197,94,0.4);background:rgba(34,197,94,0.1);">
         <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22C55E;animation:rtPulse 1.2s infinite;"></span>
         <span style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:900;color:#22C55E;letter-spacing:0.5px;">LIVE</span>
       </div>
-      <div id="map-counter" style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:800;color:#FFB82E;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,184,46,0.3);background:rgba(255,184,46,0.1);">⚾ 0 LIGAS</div>
+      <div id="map-counter" style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:800;color:#FFB82E;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,184,46,0.3);background:rgba(255,184,46,0.1);">⚾ 38 LIGAS · 28 PAÍSES</div>
     </div>
   </div>
 
-  <!-- Filtros del Mapa -->
-  <div id="map-filter-bar" style="position:absolute;top:60px;left:0;right:0;z-index:999998;background:rgba(2,6,23,0.9);border-bottom:1px solid rgba(255,255,255,0.06);padding:8px 16px;display:flex;align-items:center;gap:8px;overflow-x:auto;backdrop-filter:blur(16px);">
-    <span style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:800;color:#64748B;letter-spacing:0.8px;white-space:nowrap;">FILTRAR:</span>
-    <button onclick="filtrarMapa('all')" class="map-filter-btn active-filter" style="background:rgba(0,242,254,0.15);border:1px solid #00F2FE;color:#00F2FE;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;letter-spacing:0.5px;">🌎 TODAS</button>
-    <button onclick="filtrarMapa('USA')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇺🇸 USA</button>
-    <button onclick="filtrarMapa('Venezuela')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇻🇪 Venezuela</button>
-    <button onclick="filtrarMapa('Dominican Republic')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇩🇴 Rep. Dom.</button>
-    <button onclick="filtrarMapa('Puerto Rico')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇷 Puerto Rico</button>
-    <button onclick="filtrarMapa('Cuba')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇺 Cuba</button>
-    <button onclick="filtrarMapa('Mexico')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇲🇽 México</button>
-    <button onclick="filtrarMapa('Japan')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇯🇵 Japón</button>
-    <button onclick="filtrarMapa('South Korea')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇰🇷 Corea</button>
-    <button onclick="filtrarMapa('Panama')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇦 Panamá</button>
-    <button onclick="filtrarMapa('Netherlands')" class="map-filter-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇳🇱 Holanda</button>
+  <!-- Barra de Filtros por País (28 Países que juegan Béisbol) -->
+  <div id="map-filter-bar" style="position:absolute;top:58px;left:0;right:0;z-index:999998;background:rgba(2,6,23,0.94);border-bottom:1px solid rgba(0,242,254,0.14);padding:8px 16px;display:flex;align-items:center;gap:6px;overflow-x:auto;backdrop-filter:blur(16px);">
+    <span style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:900;color:#00F2FE;letter-spacing:0.8px;white-space:nowrap;">PAÍSES (28):</span>
+    <button type="button" onclick="filtrarMapa('all', event)" class="map-filter-btn active-filter" data-country="all" style="background:rgba(0,242,254,0.15);border:1px solid #00F2FE;color:#00F2FE;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🌎 TODOS LOS PAÍSES</button>
+    <!-- América & Caribe -->
+    <button type="button" onclick="filtrarMapa('USA', event)" class="map-filter-btn" data-country="USA" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇺🇸 Estados Unidos</button>
+    <button type="button" onclick="filtrarMapa('Venezuela', event)" class="map-filter-btn" data-country="Venezuela" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇻🇪 Venezuela</button>
+    <button type="button" onclick="filtrarMapa('Dominican Republic', event)" class="map-filter-btn" data-country="Dominican Republic" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇩🇴 Rep. Dominicana</button>
+    <button type="button" onclick="filtrarMapa('Puerto Rico', event)" class="map-filter-btn" data-country="Puerto Rico" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇷 Puerto Rico</button>
+    <button type="button" onclick="filtrarMapa('Cuba', event)" class="map-filter-btn" data-country="Cuba" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇺 Cuba</button>
+    <button type="button" onclick="filtrarMapa('Mexico', event)" class="map-filter-btn" data-country="Mexico" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇲🇽 México</button>
+    <!-- Europa Destacados (España, Italia, Inglaterra, Holanda...) -->
+    <button type="button" onclick="filtrarMapa('Spain', event)" class="map-filter-btn" data-country="Spain" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇪🇸 España</button>
+    <button type="button" onclick="filtrarMapa('Italy', event)" class="map-filter-btn" data-country="Italy" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇮🇹 Italia</button>
+    <button type="button" onclick="filtrarMapa('England', event)" class="map-filter-btn" data-country="England" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</button>
+    <button type="button" onclick="filtrarMapa('Netherlands', event)" class="map-filter-btn" data-country="Netherlands" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇳🇱 Países Bajos</button>
+    <!-- Asia & Oceanía (China, Japón, Corea, Taiwán, Australia...) -->
+    <button type="button" onclick="filtrarMapa('China', event)" class="map-filter-btn" data-country="China" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇳 China</button>
+    <button type="button" onclick="filtrarMapa('Japan', event)" class="map-filter-btn" data-country="Japan" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇯🇵 Japón</button>
+    <button type="button" onclick="filtrarMapa('South Korea', event)" class="map-filter-btn" data-country="South Korea" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇰🇷 Corea del Sur</button>
+    <button type="button" onclick="filtrarMapa('Taiwan', event)" class="map-filter-btn" data-country="Taiwan" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇹🇼 Taiwán</button>
+    <!-- Resto de América, Europa y Oceanía -->
+    <button type="button" onclick="filtrarMapa('Colombia', event)" class="map-filter-btn" data-country="Colombia" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇴 Colombia</button>
+    <button type="button" onclick="filtrarMapa('Panama', event)" class="map-filter-btn" data-country="Panama" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇦 Panamá</button>
+    <button type="button" onclick="filtrarMapa('Nicaragua', event)" class="map-filter-btn" data-country="Nicaragua" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇳🇮 Nicaragua</button>
+    <button type="button" onclick="filtrarMapa('Canada', event)" class="map-filter-btn" data-country="Canada" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇦 Canadá</button>
+    <button type="button" onclick="filtrarMapa('Curacao', event)" class="map-filter-btn" data-country="Curacao" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇼 Curazao</button>
+    <button type="button" onclick="filtrarMapa('Aruba', event)" class="map-filter-btn" data-country="Aruba" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇼 Aruba</button>
+    <button type="button" onclick="filtrarMapa('Brazil', event)" class="map-filter-btn" data-country="Brazil" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇧🇷 Brasil</button>
+    <button type="button" onclick="filtrarMapa('Argentina', event)" class="map-filter-btn" data-country="Argentina" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇷 Argentina</button>
+    <button type="button" onclick="filtrarMapa('Czech Republic', event)" class="map-filter-btn" data-country="Czech Republic" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇿 Rep. Checa</button>
+    <button type="button" onclick="filtrarMapa('Germany', event)" class="map-filter-btn" data-country="Germany" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇩🇪 Alemania</button>
+    <button type="button" onclick="filtrarMapa('France', event)" class="map-filter-btn" data-country="France" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇫🇷 Francia</button>
+    <button type="button" onclick="filtrarMapa('Israel', event)" class="map-filter-btn" data-country="Israel" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇮🇱 Israel</button>
+    <button type="button" onclick="filtrarMapa('Australia', event)" class="map-filter-btn" data-country="Australia" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇺 Australia</button>
+    <button type="button" onclick="filtrarMapa('Philippines', event)" class="map-filter-btn" data-country="Philippines" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇭 Filipinas</button>
   </div>
 
-  <!-- Canvas del Mapa -->
-  <div id="diamax-leaflet-map" style="position:absolute;top:110px;left:0;right:0;bottom:0;"></div>
+  <!-- Canvas del Mapa (Fondo Azul Océano Real, Cero Filtros Oscuros) -->
+  <div id="diamax-leaflet-map" style="position:absolute;top:104px;left:0;right:300px;bottom:0;background:#0D3B66;"></div>
 
-  <!-- Panel lateral: Lista de ligas activas -->
-  <div id="map-side-panel" style="position:absolute;top:110px;right:0;bottom:0;width:280px;background:rgba(2,6,23,0.95);border-left:1px solid rgba(0,242,254,0.15);overflow-y:auto;z-index:999997;backdrop-filter:blur(20px);">
-    <div style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.06);">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:900;color:#00F2FE;letter-spacing:1px;">📋 LIGAS ACTIVAS</div>
+  <!-- Panel lateral: Buscador de Países + Directorio de Ligas y Sedes -->
+  <div id="map-side-panel" style="position:absolute;top:104px;right:0;bottom:0;width:300px;background:rgba(2,6,23,0.97);border-left:1px solid rgba(0,242,254,0.22);display:flex;flex-direction:column;z-index:999997;backdrop-filter:blur(20px);">
+    <div style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.08);">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:12.5px;font-weight:900;color:#00F2FE;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+        <span>🌐 DIRECTORIO MUNDIAL WBSC</span>
+        <span id="map-side-country-count" style="font-size:10px;color:#FFC72C;background:rgba(255,199,44,0.12);padding:2px 8px;border-radius:10px;border:1px solid rgba(255,199,44,0.3);">28 Países</span>
+      </div>
+      <input type="text" id="map-country-search" oninput="buscarPaisOLigaEnMapa(this.value)" placeholder="🔍 Buscar país (España, Italia, China...) o liga" style="width:100%;box-sizing:border-box;background:rgba(15,23,42,0.9);border:1px solid rgba(0,242,254,0.3);color:#FFF;padding:8px 11px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11.5px;outline:none;" />
     </div>
-    <div id="map-league-list" style="padding:8px;"></div>
+    <div id="map-league-list" style="padding:8px 10px;overflow-y:auto;flex:1;"></div>
   </div>
 </div>
 
@@ -19455,145 +19606,397 @@ document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e
 </button>
 
 <style>
-#diamax-leaflet-map .leaflet-tile-pane { filter: brightness(0.35) saturate(0.4) hue-rotate(180deg); }
-#diamax-leaflet-map .leaflet-control-attribution { background: rgba(2,6,23,0.8) !important; color: #475569 !important; }
-#diamax-leaflet-map .leaflet-control-zoom a { background: rgba(15,23,42,0.9) !important; color: #00F2FE !important; border-color: rgba(0,242,254,0.3) !important; }
-.map-filter-btn.active-filter { background: rgba(0,242,254,0.15) !important; border-color: #00F2FE !important; color: #00F2FE !important; }
-.leaflet-popup-content-wrapper { background: rgba(10,15,29,0.97) !important; border: 1px solid rgba(0,242,254,0.4) !important; border-radius: 14px !important; box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(0,242,254,0.15) !important; color: #fff !important; }
+#diamax-leaflet-map .leaflet-tile-pane { filter: none !important; }
+#diamax-leaflet-map .leaflet-control-attribution { background: rgba(2,6,23,0.8) !important; color: #94A3B8 !important; font-size: 10px !important; }
+#diamax-leaflet-map .leaflet-control-zoom a { background: rgba(15,23,42,0.92) !important; color: #00F2FE !important; border-color: rgba(0,242,254,0.35) !important; }
+.map-filter-btn.active-filter { background: rgba(0,242,254,0.18) !important; border-color: #00F2FE !important; color: #00F2FE !important; box-shadow: 0 0 12px rgba(0,242,254,0.25); }
+.leaflet-popup-content-wrapper { background: rgba(10,15,29,0.97) !important; border: 1px solid rgba(0,242,254,0.45) !important; border-radius: 14px !important; box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(0,242,254,0.18) !important; color: #fff !important; }
 .leaflet-popup-tip { background: rgba(10,15,29,0.97) !important; }
-.leaflet-popup-close-button { color: #64748B !important; font-size: 18px !important; }
-.map-league-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px 12px; margin-bottom:6px; cursor:pointer; transition:all 0.2s; }
-.map-league-card:hover { background:rgba(0,242,254,0.1); border-color:rgba(0,242,254,0.4); }
+.leaflet-popup-close-button { color: #94A3B8 !important; font-size: 18px !important; }
+.map-league-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:10px; padding:10px 12px; margin-bottom:7px; cursor:pointer; transition:all 0.2s; }
+.map-league-card:hover { background:rgba(0,242,254,0.12); border-color:rgba(0,242,254,0.45); transform:translateX(-2px); }
+.diamax-country-hud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(4, 12, 28, 0.90);
+  border: 1.5px solid rgba(0, 242, 254, 0.75);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.85), 0 0 10px rgba(0, 242, 254, 0.35);
+  color: #FFFFFF;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.7px;
+  white-space: nowrap;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+.diamax-country-hud-pill:hover {
+  background: rgba(0, 242, 254, 0.22);
+  border-color: #FFC72C;
+  color: #FFC72C;
+  transform: translate(-50%, -50%) scale(1.1);
+  z-index: 9999 !important;
+}
+@media (max-width: 768px) {
+  #diamax-leaflet-map { right: 0 !important; bottom: 210px !important; }
+  #map-side-panel { top: auto !important; left: 0 !important; right: 0 !important; width: 100% !important; height: 210px !important; border-left: none !important; border-top: 1px solid rgba(0,242,254,0.25) !important; }
+}
 </style>
 
 <script>
 // ════════════════════════════════════════════════════════════════════════════
-// DIAMAX GLOBAL BASEBALL MAP ENGINE v1.0
+// DIAMAX GLOBAL BASEBALL MAP ENGINE v2.0 — 28 PAÍSES WBSC CON ETIQUETAS HUD
 // ════════════════════════════════════════════════════════════════════════════
 
 let _diamaxMap = null;
+let _diamaxTileLayer = null;
+let _diamaxOverlayLayer = null;
+let _diamaxMapStyle = 'sat';
+let _showCountryLabels = true;
+let _activeRegionFilter = 'all';
+let _activeCountryFilter = 'all';
 let _mapMarkers = [];
+let _mapCountryBadgeMarkers = [];
 let _mapLeagues = [];
 let _realtimeMapChannel = null;
 
-// ── Coordenadas predefinidas de ciudades de béisbol mundial ────────────────
+// ── Catálogo Oficial de los 28 Países que Juegan Béisbol (WBSC / WBC) ───────
+const BASEBALL_COUNTRIES_HUB = {
+  // América & Caribe (14)
+  'USA':                { nameEs: 'ESTADOS UNIDOS', flag: '🇺🇸', region: 'Americas', coords: [37.8, -96.0], zoom: 4, wbscRank: 3 },
+  'Venezuela':          { nameEs: 'VENEZUELA',      flag: '🇻🇪', region: 'Americas', coords: [8.0, -66.0],  zoom: 6, wbscRank: 4 },
+  'Dominican Republic': { nameEs: 'REP. DOMINICANA',flag: '🇩🇴', region: 'Americas', coords: [18.9, -70.4], zoom: 7, wbscRank: 9 },
+  'Puerto Rico':        { nameEs: 'PUERTO RICO',    flag: '🇵🇷', region: 'Americas', coords: [18.2, -66.4], zoom: 8, wbscRank: 10 },
+  'Cuba':               { nameEs: 'CUBA',           flag: '🇨🇺', region: 'Americas', coords: [21.8, -79.5], zoom: 6, wbscRank: 8 },
+  'Mexico':             { nameEs: 'MÉXICO',         flag: '🇲🇽', region: 'Americas', coords: [23.6, -102.5],zoom: 5, wbscRank: 2 },
+  'Colombia':           { nameEs: 'COLOMBIA',       flag: '🇨🇴', region: 'Americas', coords: [4.6, -74.1],  zoom: 6, wbscRank: 13 },
+  'Panama':             { nameEs: 'PANAMÁ',         flag: '🇵🇦', region: 'Americas', coords: [8.6, -80.1],  zoom: 7, wbscRank: 11 },
+  'Nicaragua':          { nameEs: 'NICARAGUA',      flag: '🇳🇮', region: 'Americas', coords: [12.8, -85.2], zoom: 7, wbscRank: 16 },
+  'Canada':             { nameEs: 'CANADÁ',         flag: '🇨🇦', region: 'Americas', coords: [46.5, -79.5], zoom: 4, wbscRank: 14 },
+  'Curacao':            { nameEs: 'CURAZAO',        flag: '🇨🇼', region: 'Americas', coords: [12.17, -68.99],zoom: 9, wbscRank: 18 },
+  'Aruba':              { nameEs: 'ARUBA',          flag: '🇦🇼', region: 'Americas', coords: [12.52, -69.97],zoom: 9, wbscRank: 24 },
+  'Brazil':             { nameEs: 'BRASIL',         flag: '🇧🇷', region: 'Americas', coords: [-22.5, -47.5],zoom: 5, wbscRank: 23 },
+  'Argentina':          { nameEs: 'ARGENTINA',      flag: '🇦🇷', region: 'Americas', coords: [-34.0, -64.0],zoom: 5, wbscRank: 26 },
+  // Europa (8)
+  'Spain':              { nameEs: 'ESPAÑA',         flag: '🇪🇸', region: 'Europe',   coords: [40.4, -3.7],  zoom: 6, wbscRank: 21 },
+  'Italy':              { nameEs: 'ITALIA',         flag: '🇮🇹', region: 'Europe',   coords: [43.5, 12.0],  zoom: 6, wbscRank: 14 },
+  'England':            { nameEs: 'INGLATERRA',     flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', region: 'Europe',   coords: [52.4, -1.5],  zoom: 6, wbscRank: 19 },
+  'Netherlands':        { nameEs: 'PAÍSES BAJOS',   flag: '🇳🇱', region: 'Europe',   coords: [52.2, 5.3],   zoom: 7, wbscRank: 7 },
+  'Czech Republic':     { nameEs: 'REP. CHECA',     flag: '🇨🇿', region: 'Europe',   coords: [49.8, 15.5],  zoom: 7, wbscRank: 15 },
+  'Germany':            { nameEs: 'ALEMANIA',       flag: '🇩🇪', region: 'Europe',   coords: [50.8, 10.4],  zoom: 6, wbscRank: 17 },
+  'France':             { nameEs: 'FRANCIA',        flag: '🇫🇷', region: 'Europe',   coords: [46.6, 2.4],   zoom: 6, wbscRank: 22 },
+  'Israel':             { nameEs: 'ISRAEL',         flag: '🇮🇱', region: 'Europe',   coords: [31.8, 34.9],  zoom: 7, wbscRank: 20 },
+  // Asia & Oceanía (6)
+  'Japan':              { nameEs: 'JAPÓN',          flag: '🇯🇵', region: 'AsiaOceania', coords: [36.2, 138.2], zoom: 5, wbscRank: 1 },
+  'South Korea':        { nameEs: 'COREA DEL SUR',  flag: '🇰🇷', region: 'AsiaOceania', coords: [36.3, 127.8], zoom: 6, wbscRank: 5 },
+  'Taiwan':             { nameEs: 'TAIWÁN',         flag: '🇹🇼', region: 'AsiaOceania', coords: [23.8, 121.0], zoom: 7, wbscRank: 6 },
+  'China':              { nameEs: 'CHINA',          flag: '🇨🇳', region: 'AsiaOceania', coords: [34.5, 113.5], zoom: 4, wbscRank: 24 },
+  'Australia':          { nameEs: 'AUSTRALIA',      flag: '🇦🇺', region: 'AsiaOceania', coords: [-28.0, 137.0],zoom: 4, wbscRank: 12 },
+  'Philippines':        { nameEs: 'FILIPINAS',      flag: '🇵🇭', region: 'AsiaOceania', coords: [14.6, 121.0], zoom: 6, wbscRank: 25 }
+};
+
+// ── Coordenadas de Ciudades Sede de Béisbol Mundial ────────────────────────
 const BASEBALL_CITIES = {
   // USA
-  'Tampa': [27.9506, -82.4572], 'New York': [40.7128, -74.0060],
-  'Los Angeles': [34.0522, -118.2437], 'Miami': [25.7617, -80.1918],
-  'Chicago': [41.8781, -87.6298], 'Houston': [29.7604, -95.3698],
-  'Boston': [42.3601, -71.0589], 'Atlanta': [33.7490, -84.3880],
-  'Dallas': [32.7767, -96.7970], 'Phoenix': [33.4484, -112.0740],
-  'Seattle': [47.6062, -122.3321], 'San Diego': [32.7157, -117.1611],
-  'Detroit': [42.3314, -83.0458], 'Cleveland': [41.4993, -81.6944],
-  'Pittsburgh': [40.4406, -79.9959], 'Minneapolis': [44.9778, -93.2650],
+  'Orlando': [28.5383, -81.3792], 'Tampa': [27.9506, -82.4572],
+  'Miami': [25.7617, -80.1918], 'New York': [40.7128, -74.0060],
+  'Los Angeles': [34.0522, -118.2437], 'Chicago': [41.8781, -87.6298],
+  'Houston': [29.7604, -95.3698], 'Boston': [42.3601, -71.0589],
+  'Atlanta': [33.7490, -84.3880], 'Dallas': [32.7767, -96.7970],
+  'Phoenix': [33.4484, -112.0740], 'Seattle': [47.6062, -122.3321],
+  'San Diego': [32.7157, -117.1611],
   // Venezuela
   'Caracas': [10.4806, -66.9036], 'Maracay': [10.2469, -67.5958],
   'Valencia': [10.1579, -68.0076], 'Maracaibo': [10.6666, -71.6124],
-  'Barquisimeto': [10.0678, -69.3467], 'Maturín': [9.7451, -63.1922],
-  'San Cristóbal': [7.7700, -72.2250], 'Mérida': [8.5897, -71.1761],
-  'Barcelona': [10.1239, -64.6875], 'Cumaná': [10.4510, -63.8645],
+  'Barquisimeto': [10.0678, -69.3467],
   // Dominican Republic
   'Santo Domingo': [18.4861, -69.9312], 'Santiago': [19.4500, -70.7000],
   'San Pedro de Macorís': [18.4500, -69.3167],
-  // Puerto Rico
+  // Puerto Rico & Cuba
   'San Juan': [18.4655, -66.1057], 'Ponce': [18.0111, -66.6141],
-  // Cuba
   'La Habana': [23.1136, -82.3666], 'Santiago de Cuba': [20.0255, -75.8241],
-  // Mexico
+  // Mexico & LatAm
   'Monterrey': [25.6866, -100.3161], 'Ciudad de México': [19.4326, -99.1332],
   'Hermosillo': [29.0729, -110.9559], 'Tijuana': [32.5149, -117.0382],
-  // Japan
-  'Tokyo': [35.6762, 139.6503], 'Osaka': [34.6937, 135.5023],
-  'Fukuoka': [33.5904, 130.4017],
-  // South Korea
-  'Seoul': [37.5665, 126.9780], 'Busan': [35.1796, 129.0756],
-  // Panama
-  'Panama City': [8.9936, -79.5197],
-  // Netherlands
+  'Barranquilla': [10.9685, -74.7813], 'Cartagena': [10.3910, -75.4794],
+  'Panama City': [8.9936, -79.5197], 'Managua': [12.1150, -86.2362],
+  'Toronto': [43.6532, -79.3832], 'Willemstad': [12.1091, -68.9316],
+  'Oranjestad': [12.5092, -70.0086], 'São Paulo': [-23.5505, -46.6333],
+  'Buenos Aires': [-34.6037, -58.3816],
+  // Europa (España, Italia, Inglaterra, Países Bajos, Chequia, Alemania, Francia, Israel)
+  'Madrid': [40.4168, -3.7038], 'Barcelona (ESP)': [41.3874, 2.1686],
+  'Tenerife': [28.4636, -16.2518], 'Parma': [44.8015, 10.3279],
+  'Bolonia': [44.4949, 11.3426], 'Roma': [41.9028, 12.4964],
+  'Londres': [51.5072, -0.1276], 'Liverpool': [53.4084, -2.9916],
   'Haarlem': [52.3873, 4.6462], 'Amsterdam': [52.3676, 4.9041],
-  // Other
-  'Taipei': [25.0330, 121.5654], 'Toronto': [43.6532, -79.3832],
+  'Praga': [50.0755, 14.4378], 'Regensburg': [49.0134, 12.1016],
+  'París': [48.8566, 2.3522], 'Tel Aviv': [32.0853, 34.7818],
+  // Asia & Oceanía (China, Japón, Corea, Taiwán, Australia, Filipinas)
+  'Beijing': [39.9042, 116.4074], 'Shanghai': [31.2304, 121.4737],
+  'Guangzhou': [23.1291, 113.2644], 'Tokyo': [35.6762, 139.6503],
+  'Osaka': [34.6937, 135.5023], 'Fukuoka': [33.5904, 130.4017],
+  'Seoul': [37.5665, 126.9780], 'Busan': [35.1796, 129.0756],
+  'Taipei': [25.0330, 121.5654], 'Taichung': [24.1477, 120.6736],
+  'Sydney': [-33.8688, 151.2093], 'Melbourne': [-37.8136, 144.9631],
+  'Manila': [14.5995, 120.9842]
 };
 
-// Datos de demostración (se reemplazan con Supabase en tiempo real)
+// ── Ligas Oficiales y Circuitos en los 28 Países ───────────────────────────
 const DEMO_LEAGUES = [
+  // USA & Venezuela
   { id: 'cfl-masters-55', name: 'Circuito Central Florida Masters +55', country: 'USA', city: 'Orlando', category_level: '+55', teams: 8, players: 120, active_game: true, tenant_id: 'cfl-55-2026' },
-  { id: 'demo-1', name: 'Liga Tampa Junior 2026', country: 'USA', city: 'Tampa', category_level: 'Junior', teams: 8, players: 120, active_game: true, tenant_id: 'tampa-2026' },
-  { id: 'demo-2', name: 'Liga Criollo Caracas 2026', country: 'Venezuela', city: 'Caracas', category_level: 'Criollo', teams: 6, players: 90, active_game: false, tenant_id: 'caracas-2026' },
-  { id: 'demo-3', name: 'Liga Preinfantil Maracay', country: 'Venezuela', city: 'Maracay', category_level: 'Preinfantil', teams: 4, players: 60, active_game: true, tenant_id: 'maracay-2026' },
-  { id: 'demo-4', name: 'Liga Senior Santo Domingo', country: 'Dominican Republic', city: 'Santo Domingo', category_level: 'Senior', teams: 10, players: 180, active_game: false, tenant_id: 'sd-2026' },
-  { id: 'demo-5', name: 'Liga Infantil San Juan PR', country: 'Puerto Rico', city: 'San Juan', category_level: 'Infantil', teams: 6, players: 80, active_game: true, tenant_id: 'sj-2026' },
-  { id: 'demo-6', name: 'Liga Valencia Aragua', country: 'Venezuela', city: 'Valencia', category_level: 'Junior', teams: 5, players: 75, active_game: false, tenant_id: 'val-2026' },
-  { id: 'demo-7', name: 'Liga Monterrey Norte', country: 'Mexico', city: 'Monterrey', category_level: 'Junior', teams: 8, players: 110, active_game: false, tenant_id: 'mty-2026' },
-  { id: 'demo-8', name: 'Liga Haarlem Classic', country: 'Netherlands', city: 'Haarlem', category_level: 'Elite', teams: 6, players: 85, active_game: false, tenant_id: 'haarlem-2026' },
+  { id: 'demo-1', name: 'Liga Tampa Bay Senior & Junior', country: 'USA', city: 'Tampa', category_level: 'Senior', teams: 10, players: 165, active_game: true, tenant_id: 'tampa-2026' },
+  { id: 'usa-miami-1', name: 'South Florida Baseball League', country: 'USA', city: 'Miami', category_level: 'Elite', teams: 12, players: 210, active_game: true, tenant_id: 'mia-2026' },
+  { id: 'demo-2', name: 'Liga Criollo Caracas Distrito', country: 'Venezuela', city: 'Caracas', category_level: 'Criollo', teams: 8, players: 140, active_game: true, tenant_id: 'caracas-2026' },
+  { id: 'demo-3', name: 'Liga Central Maracay Aragua', country: 'Venezuela', city: 'Maracay', category_level: '+55', teams: 6, players: 96, active_game: true, tenant_id: 'maracay-2026' },
+  { id: 'demo-6', name: 'Liga Cabriales Valencia', country: 'Venezuela', city: 'Valencia', category_level: 'Senior', teams: 8, players: 130, active_game: false, tenant_id: 'val-2026' },
+  // Caribe & Latinoamérica
+  { id: 'demo-4', name: 'Liga Ozama Santo Domingo', country: 'Dominican Republic', city: 'Santo Domingo', category_level: 'Elite', teams: 10, players: 180, active_game: true, tenant_id: 'sd-2026' },
+  { id: 'dom-sti-1', name: 'Liga Cibao Santiago', country: 'Dominican Republic', city: 'Santiago', category_level: 'Senior', teams: 8, players: 144, active_game: false, tenant_id: 'sti-2026' },
+  { id: 'demo-5', name: 'Liga Metropolitana San Juan', country: 'Puerto Rico', city: 'San Juan', category_level: 'Elite', teams: 8, players: 136, active_game: true, tenant_id: 'sj-2026' },
+  { id: 'cub-hab-1', name: 'Serie Provincial La Habana', country: 'Cuba', city: 'La Habana', category_level: 'Elite', teams: 10, players: 190, active_game: true, tenant_id: 'hab-2026' },
+  { id: 'demo-7', name: 'Liga Regiomontana Monterrey', country: 'Mexico', city: 'Monterrey', category_level: 'Elite', teams: 10, players: 175, active_game: true, tenant_id: 'mty-2026' },
+  { id: 'mex-hmo-1', name: 'Liga Sonora Hermosillo', country: 'Mexico', city: 'Hermosillo', category_level: 'Senior', teams: 8, players: 140, active_game: false, tenant_id: 'hmo-2026' },
+  { id: 'col-baq-1', name: 'Liga del Atlántico Barranquilla', country: 'Colombia', city: 'Barranquilla', category_level: 'Elite', teams: 8, players: 148, active_game: true, tenant_id: 'baq-2026' },
+  { id: 'pan-pty-1', name: 'Liga Metro Ciudad de Panamá', country: 'Panama', city: 'Panama City', category_level: 'Elite', teams: 8, players: 140, active_game: true, tenant_id: 'pty-2026' },
+  { id: 'nic-mga-1', name: 'Liga Pinolera Managua', country: 'Nicaragua', city: 'Managua', category_level: 'Elite', teams: 8, players: 145, active_game: false, tenant_id: 'mga-2026' },
+  { id: 'can-tor-1', name: 'Greater Toronto Baseball League', country: 'Canada', city: 'Toronto', category_level: 'Senior', teams: 10, players: 170, active_game: false, tenant_id: 'tor-2026' },
+  { id: 'cur-wil-1', name: 'Curaçao AA Hoofdklasse', country: 'Curacao', city: 'Willemstad', category_level: 'Elite', teams: 6, players: 110, active_game: true, tenant_id: 'cur-2026' },
+  { id: 'aru-ora-1', name: 'Aruba Baseball Bond League', country: 'Aruba', city: 'Oranjestad', category_level: 'Senior', teams: 6, players: 98, active_game: false, tenant_id: 'aru-2026' },
+  { id: 'bra-sao-1', name: 'Campeonato Paulista de Beisebol', country: 'Brazil', city: 'São Paulo', category_level: 'Senior', teams: 8, players: 135, active_game: false, tenant_id: 'sao-2026' },
+  { id: 'arg-bue-1', name: 'Liga Metropolitana Buenos Aires', country: 'Argentina', city: 'Buenos Aires', category_level: 'Senior', teams: 6, players: 105, active_game: false, tenant_id: 'bue-2026' },
+  // Europa (España, Italia, Inglaterra, Países Bajos, Rep. Checa, Alemania, Francia, Israel)
+  { id: 'esp-mad-1', name: 'Spanish Baseball League (Div. Honor Madrid)', country: 'Spain', city: 'Madrid', category_level: 'Elite', teams: 8, players: 150, active_game: true, tenant_id: 'esp-mad-2026' },
+  { id: 'esp-bcn-1', name: 'Liga Catalana & RFEBS Barcelona', country: 'Spain', city: 'Barcelona (ESP)', category_level: 'Senior', teams: 8, players: 142, active_game: true, tenant_id: 'esp-bcn-2026' },
+  { id: 'esp-ten-1', name: 'Marlins Tenerife Winter Circuit', country: 'Spain', city: 'Tenerife', category_level: 'Elite', teams: 6, players: 110, active_game: false, tenant_id: 'esp-ten-2026' },
+  { id: 'ita-par-1', name: 'Serie A Baseball FIBS Parma', country: 'Italy', city: 'Parma', category_level: 'Elite', teams: 10, players: 185, active_game: true, tenant_id: 'ita-par-2026' },
+  { id: 'ita-bol-1', name: 'Fortitudo Bologna Italian Series', country: 'Italy', city: 'Bolonia', category_level: 'Elite', teams: 8, players: 145, active_game: true, tenant_id: 'ita-bol-2026' },
+  { id: 'eng-lon-1', name: 'British National Baseball League (Londres)', country: 'England', city: 'Londres', category_level: 'Elite', teams: 8, players: 138, active_game: true, tenant_id: 'eng-lon-2026' },
+  { id: 'demo-8', name: 'Honkbal Hoofdklasse Haarlem', country: 'Netherlands', city: 'Haarlem', category_level: 'Elite', teams: 8, players: 155, active_game: true, tenant_id: 'haarlem-2026' },
+  { id: 'cze-prg-1', name: 'Czech Baseball Extraliga Praga', country: 'Czech Republic', city: 'Praga', category_level: 'Elite', teams: 8, players: 148, active_game: false, tenant_id: 'cze-prg-2026' },
+  { id: 'ger-reg-1', name: 'Deutsche Baseball-Bundesliga Regensburg', country: 'Germany', city: 'Regensburg', category_level: 'Elite', teams: 8, players: 144, active_game: false, tenant_id: 'ger-reg-2026' },
+  { id: 'fra-par-1', name: 'Division 1 Baseball FFBS París', country: 'France', city: 'París', category_level: 'Senior', teams: 8, players: 130, active_game: false, tenant_id: 'fra-par-2026' },
+  { id: 'isr-tlv-1', name: 'Israel Baseball Premier League Tel Aviv', country: 'Israel', city: 'Tel Aviv', category_level: 'Senior', teams: 6, players: 104, active_game: false, tenant_id: 'isr-tlv-2026' },
+  // Asia & Oceanía (China, Japón, Corea del Sur, Taiwán, Australia, Filipinas)
+  { id: 'chn-bjs-1', name: 'China National Baseball League (Beijing)', country: 'China', city: 'Beijing', category_level: 'Elite', teams: 8, players: 160, active_game: true, tenant_id: 'chn-bjs-2026' },
+  { id: 'chn-sha-1', name: 'Shanghai Golden Eagles Circuit', country: 'China', city: 'Shanghai', category_level: 'Senior', teams: 6, players: 120, active_game: true, tenant_id: 'chn-sha-2026' },
+  { id: 'jpn-tyo-1', name: 'Tokyo Metropolitan Industrial League', country: 'Japan', city: 'Tokyo', category_level: 'Elite', teams: 12, players: 240, active_game: true, tenant_id: 'jpn-tyo-2026' },
+  { id: 'kor-sel-1', name: 'Korea Baseball Organization Futures Seoul', country: 'South Korea', city: 'Seoul', category_level: 'Elite', teams: 10, players: 200, active_game: true, tenant_id: 'kor-sel-2026' },
+  { id: 'twn-tpe-1', name: 'Chinese Taipei CPBL Winter Circuit', country: 'Taiwan', city: 'Taipei', category_level: 'Elite', teams: 8, players: 165, active_game: true, tenant_id: 'twn-tpe-2026' },
+  { id: 'aus-syd-1', name: 'Australian Baseball League Sydney', country: 'Australia', city: 'Sydney', category_level: 'Elite', teams: 8, players: 152, active_game: false, tenant_id: 'aus-syd-2026' },
+  { id: 'phi-mnl-1', name: 'Philippine Amateur Baseball League Manila', country: 'Philippines', city: 'Manila', category_level: 'Senior', teams: 6, players: 112, active_game: false, tenant_id: 'phi-mnl-2026' }
 ];
 
-const COUNTRY_FLAGS = { 'USA':'🇺🇸', 'Venezuela':'🇻🇪', 'Dominican Republic':'🇩🇴', 'Puerto Rico':'🇵🇷', 'Cuba':'🇨🇺', 'Mexico':'🇲🇽', 'Japan':'🇯🇵', 'South Korea':'🇰🇷', 'Panama':'🇵🇦', 'Netherlands':'🇳🇱', 'Taiwan':'🇹🇼' };
-const CATEGORY_COLORS = { '+55':'#FFB82E', 'Junior':'#00F2FE', 'Criollo':'#FFB82E', 'Preinfantil':'#22C55E', 'Senior':'#A78BFA', 'Elite':'#F43F5E', 'Infantil':'#FB923C', 'default':'#00F2FE' };
+const COUNTRY_FLAGS = Object.keys(BASEBALL_COUNTRIES_HUB).reduce((acc, k) => {
+  acc[k] = BASEBALL_COUNTRIES_HUB[k].flag;
+  return acc;
+}, {});
 
-// ── Crear icono SVG de pin para Leaflet ────────────────────────────────────
+const CATEGORY_COLORS = { '+55':'#FFB82E', 'Junior':'#00F2FE', 'Criollo':'#FFB82E', 'Preinfantil':'#22C55E', 'Senior':'#38BDF8', 'Elite':'#00F2FE', 'Infantil':'#FB923C', 'default':'#00F2FE' };
+
+// ── Crear icono SVG de pin para cada liga ──────────────────────────────────
 function crearIconoLeague(color, hasActiveGame) {
   const pulse = hasActiveGame ? 'animation:rtPulse 1.2s infinite;' : '';
   return L.divIcon({
     className: '',
     html: '<div style="position:relative;">' +
       (hasActiveGame ? '<div style="position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:#22C55E;border:2px solid #020617;z-index:10;' + pulse + '"></div>' : '') +
-      '<svg width="36" height="44" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg">' +
+      '<svg width="34" height="42" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg">' +
       '<defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>' +
-      '<path d="M18 2C10.268 2 4 8.268 4 16C4 26 18 42 18 42C18 42 32 26 32 16C32 8.268 25.732 2 18 2Z" fill="' + color + '" opacity="0.9" filter="url(#glow)"/>' +
-      '<circle cx="18" cy="16" r="8" fill="#020617" opacity="0.8"/>' +
+      '<path d="M18 2C10.268 2 4 8.268 4 16C4 26 18 42 18 42C18 42 32 26 32 16C32 8.268 25.732 2 18 2Z" fill="' + color + '" opacity="0.92" filter="url(#glow)"/>' +
+      '<circle cx="18" cy="16" r="8" fill="#020617" opacity="0.88"/>' +
       '<text x="18" y="20" text-anchor="middle" font-size="10" fill="' + color + '" font-weight="900">⚾</text>' +
       '</svg></div>',
-    iconSize: [36, 44],
-    iconAnchor: [18, 44],
-    popupAnchor: [0, -44],
+    iconSize: [34, 42],
+    iconAnchor: [17, 42],
+    popupAnchor: [0, -42],
   });
+}
+
+// ── Crear Etiqueta Flotante HUD con el Nombre del País sobre el Mapa ────────
+function renderizarEtiquetasPaisesEnMapa(filtroCountry) {
+  if (!_diamaxMap) return;
+  _mapCountryBadgeMarkers.forEach(m => _diamaxMap.removeLayer(m));
+  _mapCountryBadgeMarkers = [];
+  if (!_showCountryLabels) return;
+
+  Object.keys(BASEBALL_COUNTRIES_HUB).forEach(countryKey => {
+    const info = BASEBALL_COUNTRIES_HUB[countryKey];
+    if (_activeRegionFilter !== 'all' && info.region !== _activeRegionFilter) return;
+    if (filtroCountry && filtroCountry !== 'all' && countryKey !== filtroCountry) return;
+
+    const countryLeagues = DEMO_LEAGUES.filter(l => l.country === countryKey);
+    const hasLive = countryLeagues.some(l => l.active_game);
+    const isSelected = filtroCountry === countryKey;
+    const borderCol = isSelected ? '#FFC72C' : (hasLive ? '#00F2FE' : 'rgba(148,163,184,0.65)');
+    const dotHtml = hasLive ? '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#22C55E;box-shadow:0 0 6px #22C55E;"></span>' : '';
+
+    const badgeIcon = L.divIcon({
+      className: '',
+      html: `<div class="diamax-country-hud-pill" style="border-color:${borderCol};" onclick="filtrarMapa('${countryKey}')" title="Ver ligas en ${info.nameEs} (Ranking WBSC #${info.wbscRank})">
+        ${dotHtml}<span>${info.flag}</span><span>${info.nameEs}</span><span style="color:#FFC72C;font-size:10px;">(${countryLeagues.length})</span>
+      </div>`,
+      iconSize: [0, 0],
+      iconAnchor: [0, 0]
+    });
+
+    const m = L.marker(info.coords, { icon: badgeIcon, zIndexOffset: 900 }).addTo(_diamaxMap);
+    _mapCountryBadgeMarkers.push(m);
+  });
+}
+
+function toggleEtiquetasPaisesMapa() {
+  _showCountryLabels = !_showCountryLabels;
+  const btn = document.getElementById('btn-toggle-country-labels');
+  if (btn) {
+    btn.textContent = _showCountryLabels ? '🏷️ NOMBRES DE PAÍSES: ON' : '🏷️ NOMBRES DE PAÍSES: OFF';
+    btn.style.background = _showCountryLabels ? 'rgba(16,185,129,0.18)' : 'rgba(255,255,255,0.06)';
+    btn.style.borderColor = _showCountryLabels ? '#10B981' : 'rgba(255,255,255,0.2)';
+    btn.style.color = _showCountryLabels ? '#A7F3D0' : '#94A3B8';
+  }
+  renderizarEtiquetasPaisesEnMapa(_activeCountryFilter);
+}
+
+// ── Aplicar Capas del Mapa Real (Satélite Híbrido Real / Mapa Mundial Real / Relieve) ─
+function _aplicarCapasMapaReal(styleName) {
+  if (!_diamaxMap) return;
+  if (_diamaxTileLayer) { _diamaxMap.removeLayer(_diamaxTileLayer); _diamaxTileLayer = null; }
+  if (_diamaxOverlayLayer) { _diamaxMap.removeLayer(_diamaxOverlayLayer); _diamaxOverlayLayer = null; }
+
+  const mapEl = document.getElementById('diamax-leaflet-map');
+  if (styleName === 'street') {
+    if (mapEl) mapEl.style.background = '#99D9EA';
+    _diamaxTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '© Esri, HERE, Garmin, USGS | DIAMAX PRO Real World Atlas · 3Tree Digital Sport IA',
+      maxZoom: 18
+    }).addTo(_diamaxMap);
+  } else if (styleName === 'topo') {
+    if (mapEl) mapEl.style.background = '#AADAFF';
+    _diamaxTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '© Esri, FAO, NOAA, USGS | DIAMAX PRO Physical Atlas · 3Tree Digital Sport IA',
+      maxZoom: 18
+    }).addTo(_diamaxMap);
+  } else {
+    // Default ('sat'): Tierra Real Satelital + Capa Oficial de Fronteras y Nombres de Países
+    if (mapEl) mapEl.style.background = '#0D3B66';
+    _diamaxTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '© Esri, Maxar, Earthstar Geographics | DIAMAX PRO Real Earth · 3Tree Digital Sport IA',
+      maxZoom: 18
+    }).addTo(_diamaxMap);
+    _diamaxOverlayLayer = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 18,
+      pane: 'overlayPane'
+    }).addTo(_diamaxMap);
+  }
+}
+
+function cambiarEstiloMapa(styleName) {
+  _diamaxMapStyle = styleName;
+  ['sat', 'street', 'topo'].forEach(s => {
+    const b = document.getElementById('btn-map-style-' + s);
+    if (b) {
+      b.style.background = (s === styleName) ? 'rgba(0,242,254,0.22)' : 'transparent';
+      b.style.color = (s === styleName) ? '#00F2FE' : '#E2E8F0';
+    }
+  });
+  _aplicarCapasMapaReal(styleName);
+}
+
+// ── Filtrar por Continente / Región ────────────────────────────────────────
+function filtrarContinenteMapa(region) {
+  _activeRegionFilter = region;
+  ['all', 'Americas', 'Europe', 'AsiaOceania'].forEach(r => {
+    const b = document.getElementById('btn-map-reg-' + r);
+    if (b) {
+      b.style.background = (r === region) ? 'rgba(0,242,254,0.2)' : 'transparent';
+      b.style.color = (r === region) ? '#00F2FE' : '#94A3B8';
+    }
+  });
+
+  // Mostrar/ocultar botones de país según el continente
+  document.querySelectorAll('#map-filter-bar .map-filter-btn').forEach(btn => {
+    const c = btn.getAttribute('data-country');
+    if (!c || c === 'all') {
+      btn.style.display = 'inline-block';
+      return;
+    }
+    const info = BASEBALL_COUNTRIES_HUB[c];
+    btn.style.display = (region === 'all' || (info && info.region === region)) ? 'inline-block' : 'none';
+  });
+
+  filtrarMapa('all');
+  if (_diamaxMap) {
+    const regionViews = {
+      'all': [22, -15, 2.5],
+      'Americas': [16, -78, 3.5],
+      'Europe': [46.5, 9.5, 4.3],
+      'AsiaOceania': [18, 128, 3.4]
+    };
+    const v = regionViews[region] || regionViews.all;
+    try { _diamaxMap.flyTo([v[0], v[1]], v[2], { duration: 1.2 }); } catch(e) {}
+  }
 }
 
 // ── Popup HTML para cada liga ──────────────────────────────────────────────
 function crearPopupLiga(liga) {
-  const flag = COUNTRY_FLAGS[liga.country] || '🌎';
+  const info = BASEBALL_COUNTRIES_HUB[liga.country] || { flag: '🌎', nameEs: liga.country || '—', wbscRank: '—' };
+  const flag = info.flag;
   const color = CATEGORY_COLORS[liga.category_level] || CATEGORY_COLORS.default;
-  const activeGame = liga.active_game ? '<span style="background:rgba(34,197,94,0.2);color:#22C55E;border:1px solid rgba(34,197,94,0.4);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;">🔴 JUEGO EN VIVO</span>' : '<span style="background:rgba(255,255,255,0.05);color:#64748B;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;">Sin juego activo</span>';
-  return '<div style="font-family:sans-serif;min-width:220px;">' +
-    '<div style="font-family:sans-serif;font-size:15px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
-    '<div style="display:flex;gap:6px;margin-bottom:8px;">' + activeGame + '</div>' +
+  const activeGame = liga.active_game ? '<span style="background:rgba(34,197,94,0.2);color:#22C55E;border:1px solid rgba(34,197,94,0.4);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;">🔴 JUEGO EN VIVO</span>' : '<span style="background:rgba(255,255,255,0.05);color:#94A3B8;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;">Circuito Oficial WBSC</span>';
+  return '<div style="font-family:sans-serif;min-width:230px;">' +
+    '<div style="font-family:sans-serif;font-size:14.5px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
+    '<div style="display:flex;gap:6px;margin-bottom:8px;align-items:center;">' + activeGame + '<span style="font-size:10px;color:#FFC72C;font-weight:800;">WBSC #' + info.wbscRank + '</span></div>' +
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:10px;">' +
-    '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">PAÍS</div><div style="color:#fff;font-size:12px;font-weight:700;">' + flag + ' ' + (liga.country || '—') + '</div></div>' +
-    '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">CIUDAD</div><div style="color:#fff;font-size:12px;font-weight:700;">📍 ' + (liga.city || '—') + '</div></div>' +
+    '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">PAÍS</div><div style="color:#fff;font-size:11.5px;font-weight:800;">' + flag + ' ' + info.nameEs + '</div></div>' +
+    '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">CIUDAD SEDE</div><div style="color:#fff;font-size:11.5px;font-weight:700;">📍 ' + (liga.city || '—') + '</div></div>' +
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">CATEGORÍA</div><div style="color:' + color + ';font-size:12px;font-weight:800;">' + (liga.category_level || '—') + '</div></div>' +
-    '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">EQUIPOS</div><div style="color:#FFB82E;font-size:12px;font-weight:800;">⚾ ' + (liga.teams || 0) + '</div></div>' +
+    '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">EQUIPOS / JUG.</div><div style="color:#FFB82E;font-size:11.5px;font-weight:800;">⚾ ' + (liga.teams || 0) + ' eq · ' + (liga.players || 120) + ' jug</div></div>' +
     '</div>' +
-    '<div style="background:rgba(0,242,254,0.05);border:1px solid rgba(0,242,254,0.2);border-radius:8px;padding:6px 10px;text-align:center;font-family:sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
+    '<div style="background:rgba(0,242,254,0.06);border:1px solid rgba(0,242,254,0.25);border-radius:8px;padding:6px 10px;text-align:center;font-family:sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
     '</div>';
 }
 
-// ── Tarjeta lateral de liga ────────────────────────────────────────────────
+// ── Tarjeta lateral de liga (con Nombre del País en Español) ───────────────
 function renderLeagueCard(liga) {
-  const flag = COUNTRY_FLAGS[liga.country] || '🌎';
+  const info = BASEBALL_COUNTRIES_HUB[liga.country] || { flag: '🌎', nameEs: (liga.country || '').toUpperCase(), wbscRank: '—' };
+  const flag = info.flag;
   const color = CATEGORY_COLORS[liga.category_level] || CATEGORY_COLORS.default;
   const dot = liga.active_game ? '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22C55E;margin-right:4px;animation:rtPulse 1.2s infinite;"></span>' : '';
   return '<div class="map-league-card" onclick="focusLiga(' + JSON.stringify(liga.id) + ')">' +
-    '<div style="font-family:sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:2px;">' + dot + flag + ' ' + liga.name + '</div>' +
-    '<div style="font-family:sans-serif;font-size:10px;color:#64748B;font-weight:600;">📍 ' + liga.city + ' · ' + (liga.teams || 0) + ' equipos</div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
+      '<span style="font-family:\'Rajdhani\',sans-serif;font-size:10.5px;font-weight:900;color:#FFC72C;letter-spacing:0.6px;">' + flag + ' ' + info.nameEs + '</span>' +
+      '<span style="font-size:9.5px;color:#64748B;font-weight:700;">WBSC #' + info.wbscRank + '</span>' +
+    '</div>' +
+    '<div style="font-family:sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:3px;">' + dot + liga.name + '</div>' +
+    '<div style="font-family:sans-serif;font-size:10.5px;color:#94A3B8;font-weight:600;">📍 ' + liga.city + ' · ⚾ ' + (liga.teams || 0) + ' equipos · ' + (liga.players || 120) + ' jug.</div>' +
     '</div>';
 }
 
-// ── Abrir mapa global ──────────────────────────────────────────────────────
+let _mapOpenTimer = null;
 function abrirMapaGlobal() {
   const modal = document.getElementById('diamax-map-modal');
   if (!modal) return;
   modal.style.display = 'block';
-  setTimeout(() => {
+  if (_mapOpenTimer) clearTimeout(_mapOpenTimer);
+  _mapOpenTimer = setTimeout(() => {
+    if (modal.style.display === 'none') return;
     inicializarMapa();
-    cargarLigas();
+    cargarLigas(_activeCountryFilter);
     suscribirseMapaRealtime();
   }, 200);
 }
 
 // ── Cerrar mapa ────────────────────────────────────────────────────────────
 function cerrarMapaGlobal() {
+  if (_mapOpenTimer) {
+    clearTimeout(_mapOpenTimer);
+    _mapOpenTimer = null;
+  }
   const modal = document.getElementById('diamax-map-modal');
   if (modal) modal.style.display = 'none';
   if (_realtimeMapChannel) {
@@ -19602,51 +20005,65 @@ function cerrarMapaGlobal() {
   }
 }
 
-// ── Inicializar Leaflet Map ────────────────────────────────────────────────
+// ── Inicializar Leaflet Map con Fondo de Tierra Real ───────────────────────
 function inicializarMapa() {
   if (_diamaxMap) { _diamaxMap.invalidateSize(); return; }
   _diamaxMap = L.map('diamax-leaflet-map', {
-    center: [20, -30],
-    zoom: 3,
+    center: [22, -15],
+    zoom: 2.5,
     minZoom: 2,
-    maxZoom: 16,
+    maxZoom: 18,
     zoomControl: true,
   });
-  // Dark tile layer (usando OpenStreetMap - sin API key)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> | DIAMAX PRO · 3Tree Digital Sport IA',
-    maxZoom: 18,
-  }).addTo(_diamaxMap);
+  _aplicarCapasMapaReal(_diamaxMapStyle || 'sat');
 }
 
-// ── Cargar ligas en el mapa ────────────────────────────────────────────────
-async function cargarLigas(filtroCountry) {
-  if (!_diamaxMap) return;
-  let ligas = DEMO_LEAGUES;
+let _extraSupabaseLeagues = [];
+let _supabaseLeaguesLoaded = false;
 
-  // Si hay Supabase conectado, traer datos reales
-  const sb = typeof DIAMAX_RT !== 'undefined' ? DIAMAX_RT.getClient() : null;
-  if (sb) {
-    try {
-      const { data, error } = await sb.from('leagues').select('*').order('created_at', { ascending: false });
-      if (data && data.length > 0) {
-        ligas = data.map(l => ({ ...l, teams: l.teams || 0, players: l.players || 0, active_game: false }));
-      }
-    } catch(e) { console.warn('[MAP] Usando datos demo:', e); }
+function _renderizarLigasEnMapa(filtroCountry, searchQuery) {
+  if (!_diamaxMap) return;
+  let ligas = DEMO_LEAGUES.slice();
+  if (_extraSupabaseLeagues.length > 0) {
+    const existingIds = new Set(ligas.map(l => l.id));
+    _extraSupabaseLeagues.forEach(l => {
+      if (!existingIds.has(l.id)) ligas.unshift(l);
+    });
   }
 
-  // Aplicar filtro
+  // Filtrar por continente
+  if (_activeRegionFilter && _activeRegionFilter !== 'all') {
+    ligas = ligas.filter(l => {
+      const info = BASEBALL_COUNTRIES_HUB[l.country];
+      return info && info.region === _activeRegionFilter;
+    });
+  }
+
+  // Aplicar filtro de país
   if (filtroCountry && filtroCountry !== 'all') {
     ligas = ligas.filter(l => l.country === filtroCountry);
+  }
+
+  // Aplicar búsqueda por texto (nombre en español, inglés, ciudad o liga)
+  if (searchQuery && searchQuery.trim()) {
+    const q = searchQuery.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    ligas = ligas.filter(l => {
+      const info = BASEBALL_COUNTRIES_HUB[l.country] || {};
+      const haystack = `${l.name} ${l.country} ${info.nameEs || ''} ${l.city || ''}`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return haystack.includes(q);
+    });
   }
 
   _mapLeagues = ligas;
 
   // Limpiar marcadores existentes
-  _mapMarkers.forEach(m => _diamaxMap.removeLayer(m));
+  _mapMarkers.forEach(m => { try { _diamaxMap.removeLayer(m); } catch(e) {} });
   _mapMarkers = [];
 
-  // Agregar marcadores
+  // Renderizar etiquetas flotantes con los Nombres de los Países en el Mapa
+  renderizarEtiquetasPaisesEnMapa(filtroCountry);
+
+  // Agregar marcadores de ligas/ciudades
   ligas.forEach(liga => {
     const coords = BASEBALL_CITIES[liga.city];
     if (!coords) return;
@@ -19654,7 +20071,7 @@ async function cargarLigas(filtroCountry) {
     const color = CATEGORY_COLORS[liga.category_level] || CATEGORY_COLORS.default;
     const icono = crearIconoLeague(color, liga.active_game);
     const marker = L.marker(coords, { icon: icono }).addTo(_diamaxMap);
-    marker.bindPopup(crearPopupLiga(liga), { maxWidth: 260, minWidth: 240 });
+    marker.bindPopup(crearPopupLiga(liga), { maxWidth: 270, minWidth: 240 });
     marker._diamaxLeagueId = liga.id;
     _mapMarkers.push(marker);
   });
@@ -19663,9 +20080,49 @@ async function cargarLigas(filtroCountry) {
   const listEl = document.getElementById('map-league-list');
   if (listEl) listEl.innerHTML = ligas.map(renderLeagueCard).join('');
 
-  // Actualizar contador
+  // Actualizar contadores
+  const uniqueCountries = new Set(ligas.map(l => l.country)).size;
   const counter = document.getElementById('map-counter');
-  if (counter) counter.textContent = '⚾ ' + ligas.length + ' LIGA' + (ligas.length !== 1 ? 'S' : '');
+  if (counter) counter.textContent = `⚾ ${ligas.length} LIGAS · ${uniqueCountries} PAÍSES`;
+  const sideCount = document.getElementById('map-side-country-count');
+  if (sideCount) sideCount.textContent = `${uniqueCountries} Países`;
+}
+
+// ── Cargar ligas y etiquetas de países en el mapa ──────────────────────────
+async function cargarLigas(filtroCountry, searchQuery) {
+  if (!_diamaxMap) return;
+  _renderizarLigasEnMapa(filtroCountry, searchQuery);
+
+  // Si hay Supabase conectado y aún no se han consultado ligas adicionales, fusionar en segundo plano
+  if (!_supabaseLeaguesLoaded) {
+    _supabaseLeaguesLoaded = true;
+    const sb = typeof DIAMAX_RT !== 'undefined' ? DIAMAX_RT.getClient() : null;
+    if (sb) {
+      try {
+        const { data } = await sb.from('leagues').select('*').order('created_at', { ascending: false });
+        if (data && data.length > 0) {
+          _extraSupabaseLeagues = data.map(l => ({ ...l, teams: l.teams || 8, players: l.players || 120, active_game: true }));
+          _renderizarLigasEnMapa(_activeCountryFilter, searchQuery);
+        }
+      } catch(e) {}
+    }
+  }
+}
+
+// ── Buscador en tiempo real de País, Ciudad o Liga ─────────────────────────
+function buscarPaisOLigaEnMapa(query) {
+  cargarLigas(_activeCountryFilter, query);
+  if (!query || !query.trim() || !_diamaxMap) return;
+  const q = query.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const matchedCountryKey = Object.keys(BASEBALL_COUNTRIES_HUB).find(k => {
+    const info = BASEBALL_COUNTRIES_HUB[k];
+    const nameEsNorm = info.nameEs.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return nameEsNorm.includes(q) || k.toLowerCase().includes(q);
+  });
+  if (matchedCountryKey) {
+    const info = BASEBALL_COUNTRIES_HUB[matchedCountryKey];
+    try { _diamaxMap.flyTo(info.coords, info.zoom, { duration: 1.2 }); } catch(e) {}
+  }
 }
 
 // ── Focus en una liga específica ───────────────────────────────────────────
@@ -19674,31 +20131,45 @@ function focusLiga(leagueId) {
   if (!liga) return;
   const coords = BASEBALL_CITIES[liga.city];
   if (!coords) return;
-  _diamaxMap.flyTo(coords, 10, { duration: 1.5 });
+  try { _diamaxMap.flyTo(coords, 10, { duration: 1.4 }); } catch(e) {}
   const marker = _mapMarkers.find(m => m._diamaxLeagueId === leagueId);
-  if (marker) setTimeout(() => marker.openPopup(), 1600);
+  if (marker) setTimeout(() => marker.openPopup(), 1500);
 }
 
 // ── Filtrar por país ───────────────────────────────────────────────────────
-function filtrarMapa(country) {
+function filtrarMapa(country, ev) {
+  _activeCountryFilter = country || 'all';
   document.querySelectorAll('.map-filter-btn').forEach(b => {
     b.classList.remove('active-filter');
     b.style.background = 'rgba(255,255,255,0.05)';
     b.style.borderColor = 'rgba(255,255,255,0.15)';
     b.style.color = '#94A3B8';
   });
-  event.target.classList.add('active-filter');
-  event.target.style.background = 'rgba(0,242,254,0.15)';
-  event.target.style.borderColor = '#00F2FE';
-  event.target.style.color = '#00F2FE';
-  cargarLigas(country === 'all' ? null : country);
-  // Zoom al país seleccionado
-  const countryCoords = { 'USA':[39,-98,4], 'Venezuela':[8,-66,6], 'Dominican Republic':[18.7,-70.2,7], 'Puerto Rico':[18.2,-66.5,9], 'Cuba':[22,-79,7], 'Mexico':[24,-102,5], 'Japan':[35,136,5], 'South Korea':[36,128,6], 'Panama':[8.5,-80,7], 'Netherlands':[52,5,7] };
-  if (countryCoords[country] && _diamaxMap) {
-    _diamaxMap.flyTo([countryCoords[country][0], countryCoords[country][1]], countryCoords[country][2], { duration: 1.5 });
-  } else if (country === 'all' && _diamaxMap) {
-    _diamaxMap.flyTo([20,-30], 3, { duration: 1.5 });
+  const evt = ev || (typeof window !== 'undefined' ? window.event : null);
+  const targetBtn = (evt && evt.target && evt.target.classList && evt.target.classList.contains('map-filter-btn'))
+    ? evt.target
+    : Array.from(document.querySelectorAll('.map-filter-btn')).find(b => b.getAttribute('data-country') === country || (b.getAttribute('onclick') || '').includes("'" + country + "'"));
+  if (targetBtn) {
+    targetBtn.classList.add('active-filter');
+    targetBtn.style.background = 'rgba(0,242,254,0.15)';
+    targetBtn.style.borderColor = '#00F2FE';
+    targetBtn.style.color = '#00F2FE';
   }
+  const searchEl = document.getElementById('map-country-search');
+  if (searchEl) searchEl.value = '';
+  cargarLigas(country === 'all' ? null : country);
+
+  // Zoom al país seleccionado si el mapa está visible
+  const modal = document.getElementById('diamax-map-modal');
+  const isVisible = modal && modal.style.display !== 'none';
+  const info = BASEBALL_COUNTRIES_HUB[country];
+  try {
+    if (isVisible && info && _diamaxMap) {
+      _diamaxMap.flyTo(info.coords, info.zoom, { duration: 1.4 });
+    } else if (isVisible && country === 'all' && _diamaxMap) {
+      _diamaxMap.flyTo([22, -15], 2.5, { duration: 1.4 });
+    }
+  } catch(e) {}
 }
 
 // ── Suscribirse a cambios en tiempo real (nuevas ligas registradas) ────────
@@ -19707,27 +20178,20 @@ function suscribirseMapaRealtime() {
   if (!sb) return;
   _realtimeMapChannel = sb.channel('diamax_global_map')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leagues' }, (payload) => {
-      console.log('[MAP RT] 🗺️ Nueva liga registrada:', payload.new);
-      // Agregar al mapa instantáneamente
-      const nuevaLiga = { ...payload.new, teams: 0, players: 0, active_game: false };
+      const nuevaLiga = { ...payload.new, teams: 8, players: 120, active_game: true };
       _mapLeagues.push(nuevaLiga);
       const coords = BASEBALL_CITIES[nuevaLiga.city];
-      if (coords) {
+      if (coords && _diamaxMap) {
         const color = CATEGORY_COLORS[nuevaLiga.category_level] || CATEGORY_COLORS.default;
-        const m = L.marker(coords, { icon: crearIconoLeague(color, false) }).addTo(_diamaxMap);
-        m.bindPopup(crearPopupLiga(nuevaLiga), { maxWidth: 260, minWidth: 240 });
+        const m = L.marker(coords, { icon: crearIconoLeague(color, true) }).addTo(_diamaxMap);
+        m.bindPopup(crearPopupLiga(nuevaLiga), { maxWidth: 270, minWidth: 240 });
         m._diamaxLeagueId = nuevaLiga.id;
         _mapMarkers.push(m);
-        // Efecto: Fly to new league
-        _diamaxMap.flyTo(coords, 10, { duration: 2 });
+        try { _diamaxMap.flyTo(coords, 10, { duration: 2 }); } catch(e) {}
         setTimeout(() => m.openPopup(), 2200);
-        // Notificación
         if (typeof mostrarToast === 'function') mostrarToast('🗺️ Nueva liga registrada: ' + nuevaLiga.name);
-        // Actualizar lista lateral
         const listEl = document.getElementById('map-league-list');
         if (listEl) listEl.innerHTML = renderLeagueCard(nuevaLiga) + listEl.innerHTML;
-        const counter = document.getElementById('map-counter');
-        if (counter) counter.textContent = '⚾ ' + _mapLeagues.length + ' LIGAS';
       }
     })
     .subscribe();
