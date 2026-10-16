@@ -7,7 +7,7 @@
  * Todos los derechos reservados 2026. CEO Alí Zapata.
  */
 
-const CACHE_NAME = 'diamax-pro-v9.2-clean-ui-corp';
+const CACHE_NAME = 'diamax-pro-v9.3-photos-gve55-oct2026';
 const OFFLINE_URL = 'index.html';
 
 const ASSETS_TO_CACHE = [
@@ -15,8 +15,22 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './manifest.json',
   './assets/diamax_diamond_isotipo.svg',
+  './assets/diamax_d_isotipo.svg',
   './favicon.svg',
-  './Baseball_bat_striking_ball_1080p_20260913144643.mp4'
+  './assets/players/gve55/johan_olivo.png',
+  './assets/players/gve55/pablo_morales.png',
+  './assets/players/gve55/raul_lozada.png',
+  './assets/players/gve55/jorge_mitchell.png',
+  './assets/players/gve55/oswaldo_grillo.png',
+  './assets/players/gve55/nestor_vera.png',
+  './assets/players/gve55/pedro_moreno.png',
+  './assets/players/gve55/juan_perez.png',
+  './assets/players/gve55/martin_rojas.png',
+  './assets/players/gve55/pedro_chavez.png',
+  './assets/players/gve55/luis_silva.png',
+  './assets/players/gve55/luis_barrios.png',
+  './assets/players/gve55/arquimedes_avancines.png',
+  './assets/players/gve55/luis_rodriguez.png'
 ];
 
 // 1. Instalación del Service Worker e Inmediata Toma de Control
