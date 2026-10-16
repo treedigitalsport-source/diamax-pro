@@ -5833,6 +5833,16 @@ body.daylight-mode #btn-daylight {
           </div>
         </div>
 
+        <!-- Barra de Estado Defensivo en el Terreno (Guerreros +55 vs Rival) -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:6px 12px; background:rgba(15,23,42,0.85); border:1px solid rgba(255,199,44,0.3); border-radius:8px; flex-wrap:wrap; gap:8px;">
+          <div id="field-defense-badge" style="font-size:12px; font-weight:800; color:#FFC72C; display:flex; align-items:center; gap:6px;">
+            <span>🛡️ En Terreno (Defensa):</span> <strong id="field-defense-team-name" style="color:#00D2FF;">GUERREROS (+55)</strong>
+          </div>
+          <button type="button" onclick="toggleFieldDefensiveTeam()" id="btn-toggle-field-team" class="btn-sm-action" style="background:#1E293B; border:1px solid #334155; color:#FFC72C; font-size:10.5px; padding:3px 10px; border-radius:6px; font-weight:800; cursor:pointer;" title="Alternar entre la defensa de Guerreros +55 y la del Rival">
+            🔄 Alternar Vista Defensiva
+          </button>
+        </div>
+
         <div style="position:relative; width:100%; max-width:540px; margin:0 auto; background:#0B0F19; border:2px solid #1E293B; border-radius:12px; overflow:hidden;">
           <svg viewBox="0 0 500 480" style="width:100%; height:auto; display:block; cursor:crosshair;" id="svg-campo-tactico" onclick="marcarUbicacionBatazoCampo(event)">
             <!-- Césped Exterior -->
@@ -13979,29 +13989,94 @@ function marcarUbicacionBatazoCampo(e) {
 }
 window.marcarUbicacionBatazoCampo = marcarUbicacionBatazoCampo;
 
+window.fieldViewForceTeam = null;
+
+function toggleFieldDefensiveTeam() {
+  const gveDefending = typeof isGuerrerosBattingNow === 'function' ? !isGuerrerosBattingNow() : true;
+  const currentView = window.fieldViewForceTeam || (gveDefending ? 'gve' : 'rival');
+  window.fieldViewForceTeam = (currentView === 'gve') ? 'rival' : 'gve';
+  renderField();
+}
+window.toggleFieldDefensiveTeam = toggleFieldDefensiveTeam;
+
 function renderField() {
   const g = getActiveGame(), layer = document.getElementById('field-players-layer');
   if (!layer) return;
-  
-  const lineup = (g && Array.isArray(g.lineup) && g.lineup.length > 0) 
-    ? g.lineup 
-    : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
 
-  layer.innerHTML = lineup.map(slot => {
-    const coords = POS_SVG_COORDS[slot.pos] || POS_SVG_COORDS["DH"];
-    const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { num: slot.order, name: `Jugador ${slot.order}` };
-    if (!coords) return '';
-    const lastName = p.name ? (p.name.split(' ')[1] || p.name) : `P${slot.order}`;
+  const gveDefending = typeof isGuerrerosBattingNow === 'function' ? !isGuerrerosBattingNow() : true;
+  const showGve = window.fieldViewForceTeam ? (window.fieldViewForceTeam === 'gve') : gveDefending;
 
-    return `
-      <g class="svg-fielder-node" transform="translate(${coords.x}, ${coords.y})" onclick="switchTab('lineup')" style="cursor:pointer;" title="#${p.num} ${p.name} (${slot.pos})">
-        <circle r="16" fill="#0B132B" stroke="#00D2FF" stroke-width="2.5" filter="drop-shadow(0 0 6px rgba(0,210,255,0.7))"/>
-        <text y="4" text-anchor="middle" fill="#FFC72C" font-size="11" font-weight="900" font-family="monospace">#${p.num}</text>
-        <rect x="-30" y="18" width="60" height="15" rx="4" fill="#070D1A" stroke="#334155" stroke-width="1"/>
-        <text y="29" text-anchor="middle" fill="#FFFFFF" font-size="8.5" font-weight="700">${lastName} (${slot.pos})</text>
-      </g>
-    `;
-  }).join('');
+  const badgeEl = document.getElementById('field-defense-team-name');
+  const badgeContainer = document.getElementById('field-defense-badge');
+  if (badgeEl) {
+    if (showGve) {
+      badgeEl.innerText = (teamName || 'GUERREROS (+55)').toUpperCase();
+      badgeEl.style.color = '#00D2FF';
+      if (badgeContainer) badgeContainer.style.borderColor = '#FFC72C';
+    } else {
+      badgeEl.innerText = ((g && g.rival) || 'RIVAL').toUpperCase() + ' (Guerreros al Bate)';
+      badgeEl.style.color = '#EF4444';
+      if (badgeContainer) badgeContainer.style.borderColor = '#EF4444';
+    }
+  }
+
+  if (showGve) {
+    // 🛡️ GUERREROS DE VENEZUELA (+55) EN EL TERRENO CON FOTOGRAFÍAS OFICIALES
+    const lineup = (g && Array.isArray(g.lineup) && g.lineup.length > 0) 
+      ? g.lineup 
+      : MASTER_ROSTER.slice(0, 9).map((p, idx) => ({ order: idx + 1, playerId: p.id, pos: p.defaultPos }));
+
+    const defs = lineup.map((slot, idx) => {
+      const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { id: idx, photo: DEFAULT_PHOTO };
+      const clipId = `fielder-clip-${p.id || idx}`;
+      return `<clipPath id="${clipId}"><circle cx="0" cy="0" r="16"/></clipPath>`;
+    }).join('');
+
+    const nodes = lineup.map((slot, idx) => {
+      const coords = POS_SVG_COORDS[slot.pos] || POS_SVG_COORDS["DH"];
+      const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { num: slot.order, name: `Jugador ${slot.order}`, photo: DEFAULT_PHOTO };
+      if (!coords) return '';
+      const lastName = p.name ? (p.name.split(' ')[1] || p.name) : `P${slot.order}`;
+      const photoUrl = p.photo || DEFAULT_PHOTO;
+      const clipId = `fielder-clip-${p.id || idx}`;
+
+      return `
+        <g class="svg-fielder-node" transform="translate(${coords.x}, ${coords.y})" onclick="switchTab('lineup')" style="cursor:pointer;" title="#${p.num} ${p.name} (${slot.pos})">
+          <circle r="17.5" fill="#0B132B" stroke="#FFC72C" stroke-width="2.5" filter="drop-shadow(0 0 6px rgba(255,199,44,0.85))"/>
+          <image href="${photoUrl}" xlink:href="${photoUrl}" x="-16" y="-16" width="32" height="32" clip-path="url(#${clipId})" preserveAspectRatio="xMidYMid slice" onerror="this.setAttribute('href', '${DEFAULT_PHOTO}'); this.setAttribute('xlink:href', '${DEFAULT_PHOTO}');"/>
+          <circle cx="12" cy="12" r="7.5" fill="#070D1A" stroke="#FFC72C" stroke-width="1.5"/>
+          <text x="12" y="15" text-anchor="middle" fill="#FFC72C" font-size="8" font-weight="900" font-family="monospace">${p.num}</text>
+          <rect x="-35" y="20" width="70" height="15" rx="4" fill="#070D1A" stroke="#00D2FF" stroke-width="1" opacity="0.95"/>
+          <text y="31" text-anchor="middle" fill="#FFFFFF" font-size="8.5" font-weight="800">${lastName} (${slot.pos})</text>
+        </g>
+      `;
+    }).join('');
+
+    layer.innerHTML = `<defs>${defs}</defs>${nodes}`;
+  } else {
+    // 🛡️ DEFENSA RIVAL EN EL TERRENO
+    const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase()));
+    const rLineup = (rivalRecord && Array.isArray(rivalRecord.lineup) && rivalRecord.lineup.length > 0)
+      ? rivalRecord.lineup
+      : ["C","P","1B","2B","3B","SS","LF","CF","RF"].map((pos, idx) => ({ order: idx + 1, name: `Defensa ${idx + 1}`, number: idx + 1, pos: pos }));
+
+    layer.innerHTML = rLineup.map((slot, idx) => {
+      const pos = slot.pos || "OF";
+      const coords = POS_SVG_COORDS[pos] || POS_SVG_COORDS["DH"];
+      if (!coords) return '';
+      const rNum = slot.number || slot.order || (idx + 1);
+      const rName = slot.name ? (slot.name.split(' ')[1] || slot.name) : `R${idx + 1}`;
+
+      return `
+        <g class="svg-fielder-node" transform="translate(${coords.x}, ${coords.y})" onclick="switchTab('rivales')" style="cursor:pointer;" title="#${rNum} ${slot.name || 'Rival'} (${pos})">
+          <circle r="16" fill="#0F172A" stroke="#EF4444" stroke-width="2.5" filter="drop-shadow(0 0 6px rgba(239,68,68,0.7))"/>
+          <text y="4" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="900" font-family="monospace">#${rNum}</text>
+          <rect x="-35" y="18" width="70" height="15" rx="4" fill="#070D1A" stroke="#EF4444" stroke-width="1"/>
+          <text y="29" text-anchor="middle" fill="#F87171" font-size="8.5" font-weight="700">${rName} (${pos})</text>
+        </g>
+      `;
+    }).join('');
+  }
 }
 
 function updateLiveBatterDisplay() {
