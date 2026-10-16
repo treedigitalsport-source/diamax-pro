@@ -5879,6 +5879,17 @@ body.daylight-mode #btn-daylight {
           <div><span style="display:inline-block; width:10px; height:10px; background:#FFC72C; border-radius:50%; margin-right:4px;"></span> Línea (LD)</div>
           <div><span style="display:inline-block; width:10px; height:10px; background:#EF4444; border-radius:50%; margin-right:4px;"></span> Jonrón (HR)</div>
         </div>
+
+        <!-- Carrusel / Franja VIP de Fildeadores en el Terreno con Fotos Reales -->
+        <div id="field-defenders-strip" style="margin-top:14px; background:rgba(4,8,20,0.85); border:1px solid rgba(255,199,44,0.3); border-radius:12px; padding:10px 12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <strong style="color:#FFC72C; font-size:12px; letter-spacing:0.5px; display:flex; align-items:center; gap:6px;">
+              <span>⚾</span> <span>Defensiva Titular en Terreno (Guerreros +55)</span>
+            </strong>
+            <span style="color:#00D2FF; font-size:10.5px; font-weight:800;">10 Jugadores con Foto Oficial</span>
+          </div>
+          <div id="field-defenders-chips-container" style="display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin;"></div>
+        </div>
       </div>
 
       <!-- Panel Mapa de Calor de Zona de Strike & Métricas Sabermétricas -->
@@ -14078,6 +14089,24 @@ function renderField() {
     }).join('');
 
     layer.innerHTML = `<defs>${defs}</defs>${nodes}`;
+
+    // Actualizar franja visual de fildeadores debajo del terreno
+    const stripContainer = document.getElementById('field-defenders-chips-container');
+    if (stripContainer) {
+      stripContainer.innerHTML = fieldSlots.map(slot => {
+        const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { num: slot.order, name: `Jugador ${slot.order}`, photo: DEFAULT_PHOTO };
+        const pos = (slot.pos || "OF").toUpperCase();
+        const lastName = p.name ? (p.name.split(' ')[1] || p.name) : `P${slot.order}`;
+        const photoUrl = p.photo || DEFAULT_PHOTO;
+        return `
+          <div style="display:flex; flex-direction:column; align-items:center; min-width:68px; background:rgba(15,23,42,0.9); border:1.5px solid rgba(255,199,44,0.4); border-radius:10px; padding:6px 4px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.5); cursor:pointer;" onclick="switchTab('lineup')" title="${p.name} (${pos})">
+            <img src="${photoUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_PHOTO}'" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #FFC72C; box-shadow:0 0 8px rgba(255,199,44,0.6);" />
+            <strong style="color:#FFFFFF; font-size:10px; margin-top:4px; font-weight:800; white-space:nowrap;">#${p.num} ${lastName}</strong>
+            <span style="color:#00D2FF; font-size:9.5px; font-weight:900; background:rgba(0,210,255,0.15); padding:1px 6px; border-radius:6px; margin-top:2px;">${pos}</span>
+          </div>
+        `;
+      }).join('');
+    }
   } else {
     // 🛡️ DEFENSA RIVAL EN EL TERRENO
     const rivalRecord = (typeof RIVALS_DATABASE !== 'undefined' ? RIVALS_DATABASE : []).find(r => (r.id === g.rivalId) || (r.name && r.name.toUpperCase() === (g.rival || '').toUpperCase()));
@@ -14101,6 +14130,22 @@ function renderField() {
         </g>
       `;
     }).join('');
+
+    const stripContainer = document.getElementById('field-defenders-chips-container');
+    if (stripContainer) {
+      stripContainer.innerHTML = rLineup.map((slot, idx) => {
+        const pos = (slot.pos || "OF").toUpperCase();
+        const rNum = slot.number || slot.order || (idx + 1);
+        const rName = slot.name ? (slot.name.split(' ')[1] || slot.name) : `R${idx + 1}`;
+        return `
+          <div style="display:flex; flex-direction:column; align-items:center; min-width:68px; background:rgba(15,23,42,0.9); border:1.5px solid rgba(239,68,68,0.4); border-radius:10px; padding:6px 4px; text-align:center;">
+            <div style="width:40px; height:40px; border-radius:50%; background:#0F172A; border:2px solid #EF4444; display:flex; align-items:center; justify-content:center; color:#EF4444; font-weight:900; font-size:12px;">#${rNum}</div>
+            <strong style="color:#FFFFFF; font-size:10px; margin-top:4px; font-weight:800; white-space:nowrap;">${rName}</strong>
+            <span style="color:#EF4444; font-size:9.5px; font-weight:900; background:rgba(239,68,68,0.15); padding:1px 6px; border-radius:6px; margin-top:2px;">${pos}</span>
+          </div>
+        `;
+      }).join('');
+    }
   }
 }
 
