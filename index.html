@@ -10260,14 +10260,14 @@ window.addEventListener('DOMContentLoaded', () => {
 // 🌐 MOTOR DE TRADUCCIÓN UNIVERSAL DOM TREEWALKER (DIAMAX BILINGUAL ENGINE)
 window.BILINGUAL_MAPS = {
   "ES_TO_EN": {
-    "1. Anotador Dugout": "1. Live Dugout",
-    "2. Lineup Builder": "2. Lineup Builder",
-    "3. Campo 2D": "3. 2D Field",
-    "📖 Manual de Uso": "📖 User Manual",
-    "4. Tarjeta Oficial": "4. Official Card",
-    "5. Dashboard": "5. Dashboard",
-    "6. DIAMAX TACTICAL AI": "6. DIAMAX TACTICAL AI",
-    "7. Perfil & Sede": "7. Profile & Venue",
+    "1. Anotador Dugout": "1. Dugout Scorer",
+    "2. Creador de Alineación": "2. Lineup Builder",
+    "3. Ver Terreno": "3. Field View",
+    "4. Manual & Reglas": "4. Rules & Manual",
+    "5. Tarjeta Oficial": "5. Official Scorecard",
+    "6. Tablero Sabermétrico": "6. Sabermetric Dashboard",
+    "7. IA Táctica DIAMAX": "7. DIAMAX Tactical AI",
+    "8. Perfil & Conectividad": "8. Profile & Connectivity",
     "EN VIVO REACTIVO": "LIVE REACTIVE",
     "ESPAÑOL": "ENGLISH",
     "☀️ Sol / Noche": "☀️ Sun / Night",
@@ -10704,14 +10704,14 @@ window.BILINGUAL_MAPS = {
     "Abridor Rival": "Opponent Pitcher"
   },
   "EN_TO_ES": {
-    "1. Live Dugout": "1. Anotador Dugout",
-    "2. Lineup Builder": "2. Lineup Builder",
-    "3. 2D Field": "3. Campo 2D",
-    "📖 User Manual": "📖 Manual de Uso",
-    "4. Official Card": "4. Tarjeta Oficial",
-    "5. Dashboard": "5. Dashboard",
-    "6. DIAMAX TACTICAL AI": "6. DIAMAX TACTICAL AI",
-    "7. Profile & Venue": "7. Perfil & Sede",
+    "1. Dugout Scorer": "1. Anotador Dugout",
+    "2. Lineup Builder": "2. Creador de Alineación",
+    "3. Field View": "3. Ver Terreno",
+    "4. Rules & Manual": "4. Manual & Reglas",
+    "5. Official Scorecard": "5. Tarjeta Oficial",
+    "6. Sabermetric Dashboard": "6. Tablero Sabermétrico",
+    "7. DIAMAX Tactical AI": "7. IA Táctica DIAMAX",
+    "8. Profile & Connectivity": "8. Perfil & Conectividad",
     "LIVE REACTIVE": "EN VIVO REACTIVO",
     "ENGLISH": "ESPAÑOL",
     "☀️ Sun / Night": "☀️ Sol / Noche",
@@ -11165,6 +11165,9 @@ function translateDOMTexts(targetLang) {
         if (!parent) return NodeFilter.FILTER_REJECT;
         const tag = parent.tagName;
         if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (parent.closest && parent.closest('#main-nav')) {
           return NodeFilter.FILTER_REJECT;
         }
         if (!node.nodeValue || !node.nodeValue.trim()) {
