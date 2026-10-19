@@ -5719,42 +5719,55 @@ html, body {
         </div>
       </div>
     </div>
-    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      <div id="network-status-badge" style="background:rgba(11,19,43,0.85); border:1.5px solid rgba(0,210,255,0.35); padding:6px 14px; border-radius:9999px; font-size:10.5px; font-family:var(--font-mono); display:inline-flex; align-items:center; backdrop-filter:blur(12px); box-shadow:0 0 12px rgba(0,210,255,0.2); transition:all 0.2s;">
-        <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:5px;"></span>
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <!-- 1. Telemetría de Red & Conexión -->
+      <div id="network-status-badge" style="background:rgba(11,19,43,0.85); border:1.5px solid rgba(0,210,255,0.35); padding:6px 14px; border-radius:9999px; font-size:10.5px; font-family:'Plus Jakarta Sans', sans-serif; display:inline-flex; align-items:center; backdrop-filter:blur(12px); box-shadow:0 0 12px rgba(0,210,255,0.2); transition:all 0.2s;">
+        <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:6px;"></span>
         <span style="color:#FFFFFF; font-weight:800;">OFFLINE READY · <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; filter:drop-shadow(0 0 4px #30D158);"><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.48"/><circle cx="12" cy="12" r="2"/></svg> ONLINE</span>
       </div>
-      <button id="btn-sound-toggle" onclick="toggleAudioFeedback()" class="btn-settings diamax-action-btn-unified" title="Activar/Silenciar Efectos de Audio Táctil" style="display:inline-flex; align-items:center; gap:5px; border-color:#10B981 !important;">
-        <span id="sound-icon-indicator">🔊</span> <span id="sound-text-indicator">Audio ON</span>
-      </button>
-      <button onclick="toggleLanguage()" class="btn-lang" id="lang-btn" style="display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ESPAÑOL</button>
-      <button id="btn-daylight" class="btn-settings diamax-action-btn-unified" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo" style="display:inline-flex; align-items:center; gap:6px;">
-        <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> Sol / Noche
-      </button>
-      <button id="btn-open-map-header" onclick="abrirMapaGlobal()" class="btn-settings diamax-action-btn-unified" title="Abrir DIAMAX Global Intelligence Map en Tiempo Real">
-        <div class="diamax-global-map-icon-wrap" style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:6px; background:radial-gradient(circle, rgba(0,242,254,0.3) 0%, rgba(11,19,41,0.95) 100%); border:1px solid rgba(0,242,254,0.6); position:relative; overflow:hidden; flex-shrink:0;">
-          <div class="diamax-radar-sweep"></div>
-          <svg class="diamax-animated-globe-svg" width="16" height="16" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="18" cy="18" r="13.5" stroke="#00F2FE" stroke-width="2" fill="rgba(2,132,199,0.2)"/>
-            <ellipse class="diamax-globe-meridian" cx="18" cy="18" rx="7.5" ry="13.5" stroke="#38BDF8" stroke-width="1.4" stroke-dasharray="3 2" fill="none"/>
-            <line x1="4.5" y1="18" x2="31.5" y2="18" stroke="#00F2FE" stroke-width="1.4"/>
-            <circle class="diamax-globe-beacon" cx="18" cy="18" r="3.5" fill="#00F2FE"/>
-            <ellipse class="diamax-globe-orbit" cx="18" cy="18" rx="15.5" ry="5.5" stroke="#FFC72C" stroke-width="1.6" fill="none" transform="rotate(-25 18 18)"/>
-            <circle class="diamax-satellite-dot" cx="31" cy="13" r="2.4" fill="#FFC72C" style="filter:drop-shadow(0 0 6px #FFC72C);"/>
-          </svg>
-        </div>
-        <span id="header-map-btn-text">MAPA GLOBAL IA</span>
-      </button>
-      <button onclick="abrirModalNuevoJuego()" class="btn-settings diamax-action-btn-unified">
-        <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-stadium-gate"/></svg> Cargar Nuevo Juego
-      </button>
-      <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings diamax-action-btn-unified" title="Refrescar y limpiar base de datos a cero para el partido">
-        <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-db-refresh"/></svg> Refrescar BD
-      </button>
-      <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings diamax-action-btn-unified" title="Salir del Sistema Seguro y Cerrar Sesión"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> Salir del Sistema</button>
-      <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings diamax-action-btn-unified" title="Configuración y Conexión IA">
-        <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-gear-precision"/></svg> Configuración
-      </button>
+
+      <!-- 2. Herramientas de Entorno (Audio, Idioma, Sol/Noche, Mapa) -->
+      <div class="header-toolstrip-environment" style="display:inline-flex; align-items:center; gap:4px; background:rgba(7,14,30,0.85); border:1px solid rgba(255,255,255,0.08); padding:3px 5px; border-radius:12px; backdrop-filter:blur(12px);">
+        <button id="btn-sound-toggle" onclick="toggleAudioFeedback()" class="btn-settings diamax-action-btn-unified" title="Activar/Silenciar Efectos de Audio Táctil" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px; border-color:rgba(16,185,129,0.4) !important;">
+          <span id="sound-icon-indicator">🔊</span> <span id="sound-text-indicator">Audio ON</span>
+        </button>
+        <button onclick="toggleLanguage()" class="btn-lang diamax-action-btn-unified" id="lang-btn" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span id="lang-btn-text">ESPAÑOL</span>
+        </button>
+        <button id="btn-daylight" class="btn-settings diamax-action-btn-unified" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo" style="display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px;">
+          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> <span id="btn-daylight-text">Sol / Noche</span>
+        </button>
+        <button id="btn-open-map-header" onclick="abrirMapaGlobal()" class="btn-settings diamax-action-btn-unified" title="Abrir DIAMAX Global Intelligence Map en Tiempo Real" style="display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px;">
+          <div class="diamax-global-map-icon-wrap" style="display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:5px; background:radial-gradient(circle, rgba(0,242,254,0.3) 0%, rgba(11,19,41,0.95) 100%); border:1px solid rgba(0,242,254,0.6); position:relative; overflow:hidden; flex-shrink:0;">
+            <div class="diamax-radar-sweep"></div>
+            <svg class="diamax-animated-globe-svg" width="14" height="14" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="13.5" stroke="#00F2FE" stroke-width="2" fill="rgba(2,132,199,0.2)"/>
+              <ellipse class="diamax-globe-meridian" cx="18" cy="18" rx="7.5" ry="13.5" stroke="#38BDF8" stroke-width="1.4" stroke-dasharray="3 2" fill="none"/>
+              <line x1="4.5" y1="18" x2="31.5" y2="18" stroke="#00F2FE" stroke-width="1.4"/>
+              <circle class="diamax-globe-beacon" cx="18" cy="18" r="3.5" fill="#00F2FE"/>
+              <ellipse class="diamax-globe-orbit" cx="18" cy="18" rx="15.5" ry="5.5" stroke="#FFC72C" stroke-width="1.6" fill="none" transform="rotate(-25 18 18)"/>
+              <circle class="diamax-satellite-dot" cx="31" cy="13" r="2.4" fill="#FFC72C" style="filter:drop-shadow(0 0 6px #FFC72C);"/>
+            </svg>
+          </div>
+          <span id="header-map-btn-text">MAPA GLOBAL IA</span>
+        </button>
+      </div>
+
+      <!-- 3. Operaciones de Sistema (Cargar Juego, Refrescar BD, Ajustes, Salir) -->
+      <div class="header-toolstrip-system" style="display:inline-flex; align-items:center; gap:4px; background:rgba(7,14,30,0.85); border:1px solid rgba(255,255,255,0.08); padding:3px 5px; border-radius:12px; backdrop-filter:blur(12px);">
+        <button id="btn-header-new-game" onclick="abrirModalNuevoJuego()" class="btn-settings diamax-action-btn-unified btn-new-game" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;" title="Cargar o crear un nuevo juego">
+          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-stadium-gate"/></svg> <span id="header-new-game-text">Cargar Nuevo Juego</span>
+        </button>
+        <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings diamax-action-btn-unified" title="Refrescar y limpiar base de datos a cero para el partido" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
+          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-db-refresh"/></svg> <span id="header-refresh-db-text">Refrescar BD</span>
+        </button>
+        <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings diamax-action-btn-unified" title="Configuración y Conexión IA" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
+          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-gear-precision"/></svg> <span id="header-settings-text">Configuración</span>
+        </button>
+        <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings diamax-action-btn-unified" title="Salir del Sistema Seguro y Cerrar Sesión" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px; border-color:rgba(239,68,68,0.4) !important;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> <span id="header-exit-text" style="color:#F87171;">Salir</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -5819,7 +5832,7 @@ html, body {
           animation: pulseGlow 1.2s infinite;
         "></span>
         <span style="font-size: 15px;">🎙️</span>
-        <span style="letter-spacing: 0.6px; text-transform: uppercase;">Entrada Cabina</span>
+        <span id="btn-entrada-cabina-text" style="letter-spacing: 0.6px; text-transform: uppercase;">Entrada Cabina</span>
         <span style="
           background: #EF4444;
           color: #FFF;
@@ -6235,7 +6248,7 @@ html, body {
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> 1. Anotador Dugout
     </button>
     <button onclick="switchTab('lineup')" id="nav-lineup">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> 2. Lineup Builder
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> 2. Creador de Alineación
     </button>
     <button onclick="switchTab('campo')" id="btn-view-field">
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-nav-field"/></svg> 3. Ver Terreno
@@ -6247,10 +6260,10 @@ html, body {
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> 5. Tarjeta Oficial
     </button>
     <button onclick="switchTab('dashboard')" id="nav-dash">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> 6. Dashboard Sabermétrico
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> 6. Tablero Sabermétrico
     </button>
     <button onclick="switchTab('skills')" id="nav-skills">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 7. DIAMAX TACTICAL AI
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 7. IA Táctica DIAMAX
     </button>
     <button onclick="switchTab('perfil')" id="nav-profile">
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> 8. Perfil &amp; Conectividad
@@ -6293,7 +6306,7 @@ html, body {
         </div>
         <div style="display:flex; gap:6px; align-items:center;">
           <button id="btn-ai-agent" onclick="switchTab('skills')" style="background:#0B132B; border:1px solid rgba(0,210,255,0.3); color:#00D2FF; font-size:11px; font-weight:800; padding:6px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:all 0.15s ease;" title="Abrir Consola Táctica Completa con Chat y RAG">
-            <svg width="13" height="13" viewBox="0 0 24 24"><use href="#diamax-icon-ai-neural"/></svg> <span>Consola Unificada (Tab 6) ↗</span>
+            <svg width="13" height="13" viewBox="0 0 24 24"><use href="#diamax-icon-ai-neural"/></svg> <span>Consola Unificada (Tab 7) ↗</span>
           </button>
           <button onclick="toggleSettingsDrawer(true)" style="background:transparent; border:1px solid rgba(255,255,255,0.1); color:#94A3B8; font-size:11px; padding:6px 10px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Clave API</button>
         </div>
@@ -11233,14 +11246,14 @@ window.translateDOMTexts = translateDOMTexts;
 
 const TRANSLATIONS = {
   "es": {
-    "nav-live": " 1. Anotador Dugout",
-    "nav-lineup": " 2. Lineup Builder",
-    "nav-field": " 3. Campo 2D",
-    "nav-manual": "Manual de Uso",
-    "nav-card": " 4. Tarjeta Oficial",
-    "nav-dash": " 5. Dashboard",
-    "nav-skills": " 6. DIAMAX TACTICAL AI",
-    "nav-profile": " 7. Perfil & Sede",
+    "nav-live": "1. Anotador Dugout",
+    "nav-lineup": "2. Creador de Alineación",
+    "nav-field": "3. Ver Terreno",
+    "nav-manual": "4. Manual & Reglas",
+    "nav-card": "5. Tarjeta Oficial",
+    "nav-dash": "6. Tablero Sabermétrico",
+    "nav-skills": "7. IA Táctica DIAMAX",
+    "nav-profile": "8. Perfil & Conectividad",
     "badge-live": "EN VIVO REACTIVO",
     "lang-btn": " ESPAÑOL",
     "btn-daylight": "☀️ Sol / Noche",
@@ -11318,8 +11331,8 @@ const TRANSLATIONS = {
     "btn-monte-carlo": "🎲 Monte Carlo (10k)",
     "btn-optimize-ai": "⚡ Optimizar por IA",
     "btn-clear-lineup": "Vaciar",
-    "btn-go-scorer": "Ir al Anotador",
-    "btn-view-field": "Ver Terreno",
+    "btn-go-scorer": "1. Anotador Dugout",
+    "btn-view-field": "3. Ver Terreno",
     "lineup-title": "Orden al Bate Oficial (Posiciones 1 al 9 + Reservas)",
     "lineup-sim-title": "📊 Resultados de Simulación Estocástica de Markov (N = 10,000 Innings)",
     "th-order": "ORD",
@@ -11463,14 +11476,14 @@ const TRANSLATIONS = {
     "voice-alert-done": "Alineación oficial aplicada con éxito."
   },
   "en": {
-    "nav-live": " 1. Live Dugout",
-    "nav-lineup": " 2. Lineup Builder",
-    "nav-field": " 3. 2D Field",
-    "nav-manual": "📖 User Manual",
-    "nav-card": " 4. Official Card",
-    "nav-dash": " 5. Dashboard",
-    "nav-skills": " 6. DIAMAX TACTICAL AI",
-    "nav-profile": " 7. Profile & Venue",
+    "nav-live": "1. Dugout Scorer",
+    "nav-lineup": "2. Lineup Builder",
+    "nav-field": "3. Field View",
+    "nav-manual": "4. Rules & Manual",
+    "nav-card": "5. Official Scorecard",
+    "nav-dash": "6. Sabermetric Dashboard",
+    "nav-skills": "7. DIAMAX Tactical AI",
+    "nav-profile": "8. Profile & Connectivity",
     "badge-live": "LIVE REACTIVE",
     "lang-btn": " ENGLISH",
     "btn-daylight": "☀️ Sun / Night",
@@ -11548,8 +11561,8 @@ const TRANSLATIONS = {
     "btn-monte-carlo": "🎲 Monte Carlo (10k)",
     "btn-optimize-ai": "⚡ Optimize with AI",
     "btn-clear-lineup": "Clear",
-    "btn-go-scorer": "Go to Scorer",
-    "btn-view-field": "View Field",
+    "btn-go-scorer": "1. Dugout Scorer",
+    "btn-view-field": "3. Field View",
     "lineup-title": "Official Batting Order (Positions 1 to 9 + Reserves)",
     "lineup-sim-title": "📊 Markov Stochastic Simulation Results (N = 10,000 Innings)",
     "th-order": "ORD",
@@ -11747,9 +11760,12 @@ function applyLanguage(lang) {
     if (el && dict[key] !== undefined) el.placeholder = dict[key];
   };
 
-  // 5. Mapeo Exhaustivo por IDs para Retrocompatibilidad Total
+  // 5. Mapeo Exhaustivo por IDs para Retrocompatibilidad Total (Excluyendo pestañas canónicas y elementos con SVG estructurado)
+  const protectedIds = ['btn-go-scorer', 'nav-lineup', 'btn-view-field', 'nav-manual', 'nav-card', 'nav-dash', 'nav-skills', 'nav-profile', 'btn-header-new-game', 'btn-refresh-db', 'btn-settings', 'btn-header-exit', 'btn-daylight', 'btn-sound-toggle', 'lang-btn', 'btn-open-map-header', 'btn-entrada-cabina-broadcast'];
   Object.keys(dict).forEach(key => {
-    updateText(key, key);
+    if (!protectedIds.includes(key)) {
+      updateText(key, key);
+    }
   });
 
   // Estado en juego
@@ -11779,16 +11795,42 @@ function applyLanguage(lang) {
   }
 
   // Botones New Game y Finish Game
+  const isEsLocale = currentLang !== 'en';
   document.querySelectorAll('.btn-new-game').forEach(b => {
-    if (b.id !== 'btn-config-game-header' && b.id !== 'btn-new-game-submit') {
-      b.textContent = dict['btn-new-game'];
+    if (b.id !== 'btn-config-game-header' && b.id !== 'btn-new-game-submit' && b.id !== 'btn-header-new-game') {
+      b.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-stadium-gate"/></svg> ' + (isEsLocale ? 'Cargar Nuevo Juego' : 'Load New Game');
     }
   });
   document.querySelectorAll('.btn-finish-game').forEach(b => {
     if (b.id !== 'btn-confirm-finish-game') {
-      b.textContent = dict['modal-finish-title'];
+      b.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle; margin-right:4px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> ' + (isEsLocale ? 'Finalizar Partido' : 'Finish Game');
     }
   });
+
+  // Garantía de Sincronización Canónica de las 8 Pestañas en applyLanguage
+  const tabScorer = document.getElementById('btn-go-scorer');
+  if (tabScorer) tabScorer.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> ' + (isEsLocale ? '1. Anotador Dugout' : '1. Dugout Scorer');
+
+  const tabLineup = document.getElementById('nav-lineup');
+  if (tabLineup) tabLineup.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> ' + (isEsLocale ? '2. Creador de Alineación' : '2. Lineup Builder');
+
+  const tabField = document.getElementById('btn-view-field');
+  if (tabField) tabField.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-nav-field"/></svg> ' + (isEsLocale ? '3. Ver Terreno' : '3. Field View');
+
+  const tabManual = document.getElementById('nav-manual');
+  if (tabManual) tabManual.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg> ' + (isEsLocale ? '4. Manual & Reglas' : '4. Rules & Manual');
+
+  const tabCard = document.getElementById('nav-card');
+  if (tabCard) tabCard.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> ' + (isEsLocale ? '5. Tarjeta Oficial' : '5. Official Scorecard');
+
+  const tabDash = document.getElementById('nav-dash');
+  if (tabDash) tabDash.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> ' + (isEsLocale ? '6. Tablero Sabermétrico' : '6. Sabermetric Dashboard');
+
+  const tabSkills = document.getElementById('nav-skills');
+  if (tabSkills) tabSkills.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> ' + (isEsLocale ? '7. IA Táctica DIAMAX' : '7. DIAMAX Tactical AI');
+
+  const tabProfile = document.getElementById('nav-profile');
+  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEsLocale ? '8. Perfil & Conectividad' : '8. Profile & Connectivity');
 
   // Botones de Lineup y Voz
   document.querySelectorAll('button').forEach(b => {
@@ -11902,41 +11944,47 @@ function setDiamaxLanguage(lang) {
   if (tabScorer) tabScorer.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> ' + (isEs ? '1. Anotador Dugout' : '1. Dugout Scorer');
 
   const tabLineup = document.getElementById('nav-lineup');
-  if (tabLineup) tabLineup.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> ' + (isEs ? '2. Lineup Builder' : '2. Lineup Builder');
+  if (tabLineup) tabLineup.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> ' + (isEs ? '2. Creador de Alineación' : '2. Lineup Builder');
 
   const tabField = document.getElementById('btn-view-field');
   if (tabField) tabField.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-nav-field"/></svg> ' + (isEs ? '3. Ver Terreno' : '3. Field View');
 
   const tabManual = document.getElementById('nav-manual');
-  if (tabManual) tabManual.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-roster-sheet"/></svg> ' + (isEs ? '📖 Manual de Uso' : '📖 User Manual');
+  if (tabManual) tabManual.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg> ' + (isEs ? '4. Manual & Reglas' : '4. Rules & Manual');
 
   const tabCard = document.getElementById('nav-card');
-  if (tabCard) tabCard.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> ' + (isEs ? '4. Tarjeta Oficial' : '4. Official Scorecard');
+  if (tabCard) tabCard.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> ' + (isEs ? '5. Tarjeta Oficial' : '5. Official Scorecard');
 
   const tabDash = document.getElementById('nav-dash');
-  if (tabDash) tabDash.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> ' + (isEs ? '5. Dashboard' : '5. Dashboard');
+  if (tabDash) tabDash.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> ' + (isEs ? '6. Tablero Sabermétrico' : '6. Sabermetric Dashboard');
 
   const tabSkills = document.getElementById('nav-skills');
-  if (tabSkills) tabSkills.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 6. DIAMAX TACTICAL AI';
+  if (tabSkills) tabSkills.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> ' + (isEs ? '7. IA Táctica DIAMAX' : '7. DIAMAX Tactical AI');
 
   const tabProfile = document.getElementById('nav-profile');
-  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEs ? '7. Perfil & Sede' : '7. Profile & Venue');
+  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEs ? '8. Perfil & Conectividad' : '8. Profile & Connectivity');
 
   // 4. Traducir Controles de Cabecera y Ribbon
   const btnNewGame = document.querySelector('.btn-new-game');
   if (btnNewGame) btnNewGame.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-stadium-gate"/></svg> ' + (isEs ? 'Cargar Nuevo Juego' : 'Load New Game');
 
+  const headerNewGameTxt = document.getElementById('header-new-game-text');
+  if (headerNewGameTxt) headerNewGameTxt.innerText = isEs ? 'Cargar Nuevo Juego' : 'Load New Game';
+
   const btnRefreshDb = document.getElementById('btn-refresh-db');
-  if (btnRefreshDb) btnRefreshDb.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-db-refresh"/></svg> ' + (isEs ? 'Refrescar BD' : 'Reset DB');
+  if (btnRefreshDb) btnRefreshDb.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-db-refresh"/></svg> <span id="header-refresh-db-text">' + (isEs ? 'Refrescar BD' : 'Refresh DB') + '</span>';
 
   const btnHeaderExit = document.getElementById('btn-header-exit');
-  if (btnHeaderExit) btnHeaderExit.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> ' + (isEs ? 'Salir del Sistema' : 'Exit System');
+  if (btnHeaderExit) btnHeaderExit.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> <span id="header-exit-text" style="color:#F87171;">' + (isEs ? 'Salir' : 'Exit') + '</span>';
 
   const btnSettings = document.getElementById('btn-settings');
-  if (btnSettings) btnSettings.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-gear-precision"/></svg> ' + (isEs ? 'Configuración' : 'Settings');
+  if (btnSettings) btnSettings.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-gear-precision"/></svg> <span id="header-settings-text">' + (isEs ? 'Configuración' : 'Settings') + '</span>';
 
   const btnDaylight = document.getElementById('btn-daylight');
-  if (btnDaylight) btnDaylight.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> ' + (isEs ? 'Sol / Noche' : 'Sun / Night');
+  if (btnDaylight) btnDaylight.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> <span id="btn-daylight-text">' + (isEs ? 'Sol / Noche' : 'Sun / Night') + '</span>';
+
+  const headerMapTxt = document.getElementById('header-map-btn-text');
+  if (headerMapTxt) headerMapTxt.innerText = isEs ? 'MAPA GLOBAL IA' : 'GLOBAL AI MAP';
 
   const lblGameSelected = document.getElementById('lbl-game-selected-ribbon');
   if (lblGameSelected) {
@@ -11947,10 +11995,13 @@ function setDiamaxLanguage(lang) {
   if (btnHome) btnHome.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> HOME CLUB';
 
   const btnAway = document.getElementById('btn-ribbon-away');
-  if (btnAway) btnAway.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ' + (isEs ? 'VISITANTE' : 'AWAY');
+  if (btnAway) btnAway.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ' + (isEs ? 'VISITANTE' : 'VISITOR');
 
   const btnConfigGame = document.getElementById('btn-config-game-header');
-  if (btnConfigGame) btnConfigGame.innerText = isEs ? '+ Configurar Partido & Rival' : '+ Configure Game & Rival';
+  if (btnConfigGame) btnConfigGame.innerText = isEs ? '+ Configurar Partido & Rival' : '+ Configure Game & Opponent';
+
+  const btnCabinaTxt = document.getElementById('btn-entrada-cabina-text');
+  if (btnCabinaTxt) btnCabinaTxt.innerText = isEs ? 'Entrada Cabina' : 'Booth Access';
 
   // 5. Traducir Botonera Táctil (36 Jugadas Canónicas)
   const undoBtn = document.getElementById('btn-undo-keypad');
