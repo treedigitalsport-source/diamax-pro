@@ -5,15 +5,16 @@ import {
   Send,
   Volume2,
   Trash2,
-  Activity,
-  Eye,
   Compass,
   Zap,
-  Target
+  Target,
+  Radio,
+  Mic,
+  Copy,
+  Check
 } from 'lucide-react';
 import { GameState } from '../../types/baseball';
 import { soundSystem } from '../../utils/soundSystem';
-import { BiomechanicsHUD } from '../vision/BiomechanicsHUD';
 
 interface DiamaxTacticalAIProps {
   gameState: GameState;
@@ -27,22 +28,119 @@ interface ChatMessage {
   category?: string;
 }
 
+interface BroadcastPill {
+  id: string;
+  category: string;
+  title: string;
+  badge: string;
+  badgeColor: string;
+  headline: string;
+  narrationScript: string;
+  statLabel: string;
+  statValue: string;
+}
+
 export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState }) => {
-  const [activeSubView, setActiveSubView] = useState<'console' | 'biomechanics'>('console');
+  const [activeSubView, setActiveSubView] = useState<'console' | 'broadcast'>('console');
   const [inputQuery, setInputQuery] = useState<string>('');
   const [isThinking, setIsThinking] = useState<boolean>(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const currentBatter = gameState.lineup[gameState.currentBatterIndex]?.player;
+  const currentPitcher = gameState.currentPitcher;
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
       sender: 'agent',
-      text: `DIAMAX TACTICAL AGENT v2.5 en línea. Marcador en vivo: ${gameState.scoreHome} - ${gameState.scoreAway}. Inning ${gameState.currentInning} (${gameState.isTopInning ? 'Alta' : 'Baja'}), ${gameState.outs} out(s). Sistema conectado a la matriz sabermétrica y biomecánica. ¿Cuál es su consulta táctica, Head Coach?`,
+      text: `DIAMAX TACTICAL AGENT v2.5 en línea. Marcador en vivo: ${gameState.scoreHome} - ${gameState.scoreAway}. Inning ${gameState.currentInning} (${gameState.isTopInning ? 'Alta' : 'Baja'}), ${gameState.outs} out(s). Sistema conectado a la matriz sabermétrica y cabina de transmisión oficial. ¿Cuál es su consulta táctica, Head Coach?`,
       timestamp: 'Ahora',
       category: 'SYSTEM'
     }
   ]);
 
-  const winProbability = Math.min(95, Math.max(15, Math.round(50 + (gameState.scoreHome - gameState.scoreAway) * 8.5 - gameState.outs * 2.2)));
+  const winProbability = Math.min(
+    95,
+    Math.max(15, Math.round(50 + (gameState.scoreHome - gameState.scoreAway) * 8.5 - gameState.outs * 2.2))
+  );
+
+  // Dynamic Broadcast Pills for Narrators & Media
+  const pitchCount = gameState.pitchCount;
+  const maxLimit = 75;
+  const fatiguePct = Math.round((pitchCount / maxLimit) * 100);
+  const fatigueZone = pitchCount >= 70 ? 'Alarma Médica' : pitchCount >= 50 ? 'Precaución' : 'Óptima';
+
+  const runnersCount = (gameState.runners.first ? 1 : 0) + (gameState.runners.second ? 1 : 0) + (gameState.runners.third ? 1 : 0);
+  const basesDesc = runnersCount === 3
+    ? 'bases llenas'
+    : runnersCount === 2
+    ? 'dos corredores en circulación'
+    : runnersCount === 1
+    ? 'corredor en base'
+    : 'bases limpias';
+
+  const estimatedRallyProb = Math.min(
+    92,
+    Math.max(14, Math.round(22 + runnersCount * 18 - gameState.outs * 9))
+  );
+
+  const broadcastPills: BroadcastPill[] = [
+    {
+      id: 'fatigue-pill',
+      category: 'CONTROL DE PITCHEO',
+      title: 'Fatiga Médica del Lanzador (+55)',
+      badge: `${pitchCount}/${maxLimit} Envíos (${fatiguePct}%)`,
+      badgeColor: pitchCount >= 70 ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' : 'bg-[#F26522]/20 text-[#F26522] border-[#F26522]/40',
+      headline: `Abridor ${currentPitcher.name}: ${pitchCount} lanzamientos efectuados.`,
+      narrationScript: `Atención en la lomita: ${currentPitcher.name} suma ${pitchCount} envíos oficiales de su cuota reglamentaria de 75 pitcheos en la categoría Máster +55. Su índice de fatiga médica entra en zona de ${fatigueZone}, con el bullpen calentando de emergencia.`,
+      statLabel: 'Límite Canónico',
+      statValue: `${maxLimit} Pitcheos`
+    },
+    {
+      id: 'batter-pill',
+      category: 'SABERMETRÍA AL BATE',
+      title: 'Perfil Ofensivo & wOBA del Bateador',
+      badge: `wOBA .${Math.round((currentBatter?.woba || 0.365) * 1000)}`,
+      badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+      headline: `Al bate #${currentBatter?.num || 10} ${currentBatter?.name || 'Bateador'}: OPS de .${Math.round((currentBatter?.ops || 0.880) * 1000)}.`,
+      narrationScript: `Se cuadra en la caja de bateo el número ${currentBatter?.num || 10}, ${currentBatter?.name || 'Bateador'}. Presenta un wOBA de punto ${Math.round((currentBatter?.woba || 0.365) * 1000)} y un OPS temible de punto ${Math.round((currentBatter?.ops || 0.880) * 1000)}. Peligroso jalando hacia su banda en conteo favorable.`,
+      statLabel: 'Promedio AVG',
+      statValue: `.${Math.round((currentBatter?.avg || 0.310) * 1000)}`
+    },
+    {
+      id: 'rally-pill',
+      category: 'MODELO ESTOCÁSTICO MARKOV',
+      title: 'Probabilidad de Rally en el Inning',
+      badge: `${estimatedRallyProb}% Probabilidad`,
+      badgeColor: 'bg-[#FFC72C]/20 text-[#FFC72C] border-[#FFC72C]/40',
+      headline: `Situación con ${basesDesc} y ${gameState.outs} out(s).`,
+      narrationScript: `Momento cumbre del episodio: con ${basesDesc} y ${gameState.outs} out registrado, la matriz estocástica de Markov proyecta un ${estimatedRallyProb} por ciento de probabilidad de fabricar carreras para este inning.`,
+      statLabel: 'Rally Markov',
+      statValue: `${estimatedRallyProb}%`
+    },
+    {
+      id: 'clutch-pill',
+      category: 'LEVERAGE & MOMENTUM',
+      title: 'Presión en el Marcador & Situación Clutch',
+      badge: `${gameState.scoreHome} - ${gameState.scoreAway} Pizarra`,
+      badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+      headline: `Diferencial de ${Math.abs(gameState.scoreHome - gameState.scoreAway)} carreras en el Inning ${gameState.currentInning}.`,
+      narrationScript: `Tensión total en el diamante: pizarra ${gameState.scoreHome} por ${gameState.scoreAway} en la ${gameState.isTopInning ? 'alta' : 'baja'} del inning ${gameState.currentInning}. Cada lanzamiento en este duelo redefine el índice de apalancamiento del cotejo.`,
+      statLabel: 'Win Prob Local',
+      statValue: `${winProbability}%`
+    },
+    {
+      id: 'wind-pill',
+      category: 'AERODINÁMICA ZAPATA',
+      title: 'Condición Ambiental & Resistencia del Aire',
+      badge: 'Viento 12 km/h CF',
+      badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+      headline: 'Sustentación positiva para batazos al jardín central.',
+      narrationScript: `Telemetría ambiental en la sede: viento sostenido de 12 km/h hacia los jardines con presión barométrica estable. La bola gana entre 8 y 10 pies de trayectoria adicional en batazos elevados con ángulo de salida superior a 26 grados.`,
+      statLabel: 'Vuelo Proyectado',
+      statValue: '+8 a 10 ft'
+    }
+  ];
 
   const handleSendMessage = (textToSend?: string) => {
     const query = (textToSend || inputQuery).trim();
@@ -103,17 +201,29 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
     ]);
   };
 
+  const handleCopyScript = (id: string, scriptText: string) => {
+    soundSystem.playClick();
+    navigator.clipboard.writeText(scriptText);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const handleNarrateScript = (scriptText: string) => {
+    soundSystem.playClick();
+    soundSystem.speak(scriptText);
+  };
+
   return (
     <div className="space-y-6 pb-12 animate-in fade-in duration-200">
       {/* Top Banner & Sub-View Switcher */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 p-5 rounded-2xl border border-cyan-500/30 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#020617] via-[#060D1F] to-[#020617] p-5 rounded-2xl border border-cyan-500/30 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">
             <BrainCircuit className="w-4 h-4 text-cyan-400" />
-            <span>Pestaña Canónica 07 • Inteligencia Táctica Artificial</span>
+            <span>Pestaña Canónica 07 • Inteligencia Táctica & Media</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-            <span>DIAMAX TACTICAL AI & BIOMECHANICS HUD</span>
+            <span>DIAMAX TACTICAL AI & BROADCAST HUB</span>
           </h2>
           <div className="flex items-center gap-2 flex-wrap mt-2">
             <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] font-mono font-bold flex items-center gap-1">
@@ -123,17 +233,17 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
             <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-[10px] font-mono font-bold">
               🏆 Win Prob: {winProbability}%
             </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-300 text-[10px] font-mono font-bold">
-              🧠 RAG 16 Documentos
+            <span className="px-2.5 py-0.5 rounded-full bg-[#F26522]/15 border border-[#F26522]/30 text-[#F26522] text-[10px] font-mono font-bold">
+              🎙️ Cabina de Medios Activa
             </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-mono font-bold">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#FFC72C]/15 border border-[#FFC72C]/30 text-[#FFC72C] text-[10px] font-mono font-bold">
               ⚡ Inferencia &lt; 1.5s
             </span>
           </div>
         </div>
 
         {/* View Toggle */}
-        <div className="flex items-center gap-2 bg-slate-950 p-1 rounded-xl border border-slate-800">
+        <div className="flex items-center gap-2 bg-[#020617] p-1 rounded-xl border border-slate-800">
           <button
             type="button"
             onClick={() => {
@@ -153,16 +263,16 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
             type="button"
             onClick={() => {
               soundSystem.playClick();
-              setActiveSubView('biomechanics');
+              setActiveSubView('broadcast');
             }}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-              activeSubView === 'biomechanics'
-                ? 'bg-emerald-500 text-slate-950 font-black shadow-md'
+              activeSubView === 'broadcast'
+                ? 'bg-[#F26522] text-slate-950 font-black shadow-md shadow-[#F26522]/30'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Activity className="w-3.5 h-3.5" />
-            <span>Biomechanics HUD</span>
+            <Radio className="w-3.5 h-3.5" />
+            <span>🎙️ Cabina de Transmisión</span>
           </button>
         </div>
       </div>
@@ -171,7 +281,7 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
       {activeSubView === 'console' ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column: Chat Conversation Stream */}
-          <div className="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col h-[650px]">
+          <div className="lg:col-span-2 bg-[#060D1F]/95 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col h-[650px]">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-cyan-400" />
@@ -199,7 +309,7 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
                     className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed ${
                       m.sender === 'user'
                         ? 'bg-cyan-600 text-white font-medium rounded-br-none shadow-md'
-                        : 'bg-slate-950 text-slate-200 border border-slate-800 rounded-bl-none shadow-inner'
+                        : 'bg-[#020617] text-slate-200 border border-slate-800 rounded-bl-none shadow-inner'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-4 mb-1 text-[10px] opacity-70 font-mono">
@@ -244,7 +354,7 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
                   value={inputQuery}
                   onChange={(e) => setInputQuery(e.target.value)}
                   placeholder="Pregunte al Agente: pitcheo, shift, emergente, corrido de bases..."
-                  className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-400"
+                  className="flex-1 bg-[#020617] border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-400"
                 />
                 <button
                   type="submit"
@@ -260,7 +370,7 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
 
           {/* Right Column: Quick Tactical Triggers */}
           <div className="space-y-4">
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-3">
+            <div className="bg-[#060D1F]/95 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-3">
               <h3 className="text-xs font-bold text-cyan-400 uppercase font-mono flex items-center gap-1.5">
                 <Target className="w-4 h-4 text-cyan-400" />
                 <span>Consultas Tácticas Inmediatas</span>
@@ -271,13 +381,13 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
                   { id: 'PITCH_CALL', label: 'Pitcheo / Selección', desc: 'Lanzamiento óptimo para la cuenta', color: 'border-cyan-500/30 text-cyan-300' },
                   { id: 'DEFENSIVE_SHIFT', label: 'Shift / Ubicación', desc: 'Ajuste posicional de praderas e infield', color: 'border-cyan-500/30 text-cyan-300' },
                   { id: 'BASERUNNING', label: 'Robo / Toque / Corrido', desc: 'Análisis de pop-time y riesgo de out', color: 'border-cyan-500/30 text-cyan-300' },
-                  { id: 'PINCH_HITTER', label: 'Emergente Sabermétrico', desc: 'Cálculo de wOBA vs brazo rival', color: 'border-purple-500/30 text-purple-300' }
+                  { id: 'PINCH_HITTER', label: 'Emergente Sabermétrico', desc: 'Cálculo de wOBA vs brazo rival', color: 'border-[#F26522]/40 text-[#F26522]' }
                 ].map((btn) => (
                   <button
                     key={btn.id}
                     type="button"
                     onClick={() => handleSendMessage(btn.id)}
-                    className={`p-3 rounded-xl bg-slate-950 border ${btn.color} text-left hover:border-cyan-400 hover:scale-[1.01] transition-all`}
+                    className={`p-3 rounded-xl bg-[#020617] border ${btn.color} text-left hover:border-cyan-400 hover:scale-[1.01] transition-all`}
                   >
                     <div className="text-xs font-bold flex items-center justify-between">
                       <span>{btn.label}</span>
@@ -290,9 +400,9 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
             </div>
 
             {/* Quick Strategic Questions */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-2.5">
-              <h3 className="text-xs font-bold text-amber-400 uppercase font-mono flex items-center gap-1.5">
-                <Compass className="w-4 h-4 text-amber-400" />
+            <div className="bg-[#060D1F]/95 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-2.5">
+              <h3 className="text-xs font-bold text-[#FFC72C] uppercase font-mono flex items-center gap-1.5">
+                <Compass className="w-4 h-4 text-[#FFC72C]" />
                 <span>Preguntas Clave del Partido</span>
               </h3>
 
@@ -306,10 +416,10 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
                     key={idx}
                     type="button"
                     onClick={() => handleSendMessage(q)}
-                    className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 text-left text-[11px] text-slate-300 hover:text-white transition-all flex items-center justify-between"
+                    className="w-full p-2.5 rounded-xl bg-[#020617] border border-slate-800 hover:border-slate-700 text-left text-[11px] text-slate-300 hover:text-white transition-all flex items-center justify-between"
                   >
                     <span>{q}</span>
-                    <Sparkles className="w-3 h-3 text-amber-400 shrink-0 ml-1.5" />
+                    <Sparkles className="w-3 h-3 text-[#FFC72C] shrink-0 ml-1.5" />
                   </button>
                 ))}
               </div>
@@ -317,18 +427,100 @@ export const DiamaxTacticalAI: React.FC<DiamaxTacticalAIProps> = ({ gameState })
           </div>
         </div>
       ) : (
-        /* Biomechanics HUD View */
-        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-            <h3 className="text-sm font-bold text-emerald-400 flex items-center gap-2">
-              <Eye className="w-4 h-4 text-emerald-400" />
-              <span>ScoutAI Biomechanics Vision HUD (Computer Vision Telemetry)</span>
-            </h3>
-            <span className="text-xs font-mono text-slate-400">
-              33 Puntos Anatómicos Marcados en Video 1080p
-            </span>
+        /* Broadcast Hub / Cabina de Transmisión View */
+        <div className="space-y-5 animate-in fade-in duration-150">
+          <div className="bg-[#060D1F] border border-[#F26522]/30 rounded-2xl p-5 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 text-[#F26522] font-mono text-xs font-bold uppercase mb-1">
+                <Radio className="w-4 h-4 text-[#F26522] animate-pulse" />
+                <span>Media & Broadcast Live Studio • Modo Cabina de Transmisión</span>
+              </div>
+              <h3 className="text-lg font-black text-white">
+                Píldoras Tácticas Automáticas para Narradores de Béisbol
+              </h3>
+              <p className="text-xs text-slate-300 mt-0.5">
+                Frases sabermétricas listas para locución al micrófono entre pitcheos. Formato de alto contraste y gran legibilidad para comentaristas.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-300 font-bold flex items-center gap-2">
+                <Mic className="w-3.5 h-3.5 text-[#F26522]" />
+                <span>Cabina al Aire</span>
+              </span>
+            </div>
           </div>
-          <BiomechanicsHUD player={gameState.lineup[gameState.currentBatterIndex]?.player} />
+
+          {/* Cards Grid: Modo Pantalla Gigante para Locutores */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {broadcastPills.map((pill) => (
+              <div
+                key={pill.id}
+                className="bg-[#060D1F] border border-slate-800 hover:border-[#F26522]/50 rounded-2xl p-5 shadow-xl flex flex-col justify-between transition-all group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                      {pill.category}
+                    </span>
+                    <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-mono font-bold ${pill.badgeColor}`}>
+                      {pill.badge}
+                    </span>
+                  </div>
+
+                  <h4 className="text-sm font-bold text-white mb-2 group-hover:text-[#F26522] transition-colors">
+                    {pill.headline}
+                  </h4>
+
+                  {/* Teleprompter Style Script */}
+                  <div className="bg-[#020617] border border-slate-800/80 rounded-xl p-3.5 my-2.5 text-xs text-slate-200 leading-relaxed font-sans shadow-inner">
+                    <span className="text-[#FFC72C] font-mono text-[10px] font-bold block mb-1">
+                      🗣️ GUIÓN PARA LOCUCIÓN:
+                    </span>
+                    "{pill.narrationScript}"
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2 mt-2">
+                  <div className="text-[11px] font-mono">
+                    <span className="text-slate-500 block text-[9px] uppercase">{pill.statLabel}</span>
+                    <span className="text-white font-bold">{pill.statValue}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleCopyScript(pill.id, pill.narrationScript)}
+                      className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold border border-slate-700 flex items-center gap-1 transition-all"
+                      title="Copiar guión al portapapeles"
+                    >
+                      {copiedId === pill.id ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-emerald-400 text-[11px]">Copiado</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                          <span className="text-[11px]">Copiar</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleNarrateScript(pill.narrationScript)}
+                      className="px-3 py-1.5 rounded-lg bg-[#F26522] hover:bg-[#d95318] text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-[#F26522]/20 transition-all"
+                      title="Narrar frase mediante voz sintetizada"
+                    >
+                      <Volume2 className="w-3.5 h-3.5 text-slate-950" />
+                      <span>Narrar Voz</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

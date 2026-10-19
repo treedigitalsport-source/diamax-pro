@@ -607,7 +607,7 @@ export const RegistrationWizardModal: React.FC<RegistrationWizardModalProps> = (
                       </div>
                     </div>
 
-                    {/* Plan 2: MANAGER PRO */}
+                    {/* Plan 2: COMENTARISTA & MEDIA */}
                     <div
                       onClick={() => {
                         soundSystem.playClick();
@@ -615,28 +615,28 @@ export const RegistrationWizardModal: React.FC<RegistrationWizardModalProps> = (
                       }}
                       className={`relative p-4 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between ${
                         selectedPlan === 'MANAGER'
-                          ? 'bg-slate-950 border-cyan-400 shadow-xl shadow-cyan-500/10 ring-2 ring-cyan-400/30'
+                          ? 'bg-slate-950 border-[#F26522] shadow-xl shadow-[#F26522]/20 ring-2 ring-[#F26522]/30'
                           : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
                       }`}
                     >
                       <div>
-                        <div className="text-xs font-mono font-bold text-cyan-400 uppercase">PLAN 2 • MANAGER PRO</div>
-                        <h5 className="text-base font-black text-white mt-1">Franquicia Competitiva</h5>
+                        <div className="text-xs font-mono font-bold text-[#F26522] uppercase">PLAN 2 • COMENTARISTA & MEDIA</div>
+                        <h5 className="text-base font-black text-white mt-1">Cabina de Transmisión & Media Pro</h5>
                         <div className="text-2xl font-black text-white font-mono mt-2 mb-3">
-                          {billingPeriod === 'monthly' ? '$9.99' : '$89.00'} <span className="text-xs text-slate-400 font-normal">/{billingPeriod === 'monthly' ? 'mes' : 'año'}</span>
+                          {billingPeriod === 'monthly' ? '$14.99' : '$129.00'} <span className="text-xs text-slate-400 font-normal">/{billingPeriod === 'monthly' ? 'mes' : 'año'}</span>
                         </div>
 
                         <ul className="text-xs text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> Todo lo del Plan Mes Gratis</li>
-                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> ScoutAI Biomechanics HUD</li>
-                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> Spray Chart Vectorial & Heatmap</li>
-                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> Roster oficial ilimitado</li>
+                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#F26522]" /> Telemetría en cabina en vivo</li>
+                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#F26522]" /> Píldoras tácticas automáticas al aire</li>
+                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#F26522]" /> Tendencias de bateo y wOBA al instante</li>
+                          <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#F26522]" /> Modo pantalla gigante sin fatiga visual</li>
                         </ul>
                       </div>
 
                       <div className="mt-4 pt-2">
                         <span className={`block w-full text-center py-2 rounded-xl text-xs font-bold ${
-                          selectedPlan === 'MANAGER' ? 'bg-cyan-500 text-slate-950 font-black' : 'bg-slate-800 text-slate-300'
+                          selectedPlan === 'MANAGER' ? 'bg-[#F26522] text-slate-950 font-black' : 'bg-slate-800 text-slate-300'
                         }`}>
                           {selectedPlan === 'MANAGER' ? 'Plan Seleccionado' : 'Seleccionar'}
                         </span>

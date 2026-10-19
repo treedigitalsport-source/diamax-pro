@@ -9,13 +9,15 @@ export default {
     extend: {
       colors: {
         diamax: {
-          dark: '#030712',
-          card: 'rgba(15, 23, 42, 0.85)',
-          neon: '#00F59B',
+          dark: '#020617',
+          night: '#060D1F',
+          orange: '#F26522',
+          gold: '#FFC72C',
           cyan: '#00D2FF',
+          card: 'rgba(6, 13, 31, 0.85)',
+          neon: '#00F59B',
           amber: '#F59E0B',
           crimson: '#EF4444',
-          gold: '#FFD700',
           border: 'rgba(255, 255, 255, 0.12)'
         }
       },
