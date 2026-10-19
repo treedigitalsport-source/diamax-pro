@@ -116,7 +116,7 @@ function generarPildorasTransmision() {
           '<button type="button" onclick="narrarPildoraTexto(' + i + ')" style="background:rgba(242,101,34,0.25); border:1px solid #F26522; color:#FFC72C; font-size:11px; padding:3px 9px; border-radius:4px; cursor:pointer;" title="Escuchar por sintetizador">🔊 Al Aire</button>' +
         '</div>' +
       '</div>' +
-      '<div id="pildora-txt-' + i + '" style="color:#FFFFFF; font-size:13px; line-height:1.5; font-family:\'Montserrat\', sans-serif;">' + p.texto + '</div>' +
+      '<div id="pildora-txt-' + i + '" style="color:#FFFFFF; font-size:13px; line-height:1.5; font-family:\'Plus Jakarta Sans\', sans-serif;">' + p.texto + '</div>' +
     '</div>';
   }).join('');
 }
@@ -162,10 +162,10 @@ window.narrarPildoraTexto = narrarPildoraTexto;
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-<!-- 🌟 TIPOGRAFÍAS CINEMÁTICAS PROFESIONALES (MONTSERRAT + RAJDHANI + PLUS JAKARTA SANS) -->
+<!-- 🌟 TIPOGRAFÍA MAESTRA OFICIAL UNIFICADA: PLUS JAKARTA SANS (400, 500, 600, 700, 800, 900) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <title>DIAMAX Pro | Score & Tactics Engine</title>
 <link rel="icon" type="image/svg+xml" href="./assets/diamax_d_isotipo.svg">
@@ -182,6 +182,41 @@ window.narrarPildoraTexto = narrarPildoraTexto;
 <meta name="author" content="3Tree Digital Sport IA">
 <meta name="security-architecture" content="3Tree Advanced Zero Trust Defense-in-Depth v2.5">
 <style>
+
+  /* =========================================================================
+     🌟 TIPOGRAFÍA MAESTRA OFICIAL UNIFICADA: PLUS JAKARTA SANS (400-900)
+     DIAMAX PRO OS · 3TREE DIGITAL SPORT IA CORP
+     ========================================================================= */
+  :root {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* Unificación total de tipografía en todos los elementos del sistema */
+  *, *::before, *::after {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  }
+
+  html, body, button, input, select, textarea,
+  h1, h2, h3, h4, h5, h6, p, span, div, a, label,
+  table, thead, tbody, tfoot, tr, th, td, b, strong, em, small {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  }
+
+  /* 🎯 ALINEACIÓN NUMÉRICA TABULAR PERFECTA (TABULAR-NUMS / TNUM) */
+  *, body, button, input, select, textarea, table, th, td,
+  .scoreboard, .led-number, .stat-value, .stat-val, .score, .score-num, .badge, [data-number],
+  .dugout-score, .led-display, .pitch-count, .table-sabermetrics,
+  #cabina-hud-inning, #cabina-hud-outs, #cabina-hud-score, #cabina-hud-pitches, #cabina-hud-winp,
+  #header-outs, #header-strikes, #header-balls, #header-inning,
+  .p3-stat-num, .p2-plan-price, .p2-plan-annual,
+  #header-outs-num, #header-strikes-num, #header-balls-num,
+  .clock-num, .timer-num, .telemetry-val {
+    font-variant-numeric: tabular-nums !important;
+    -webkit-font-feature-settings: "tnum" 1 !important;
+    -moz-font-feature-settings: "tnum" 1 !important;
+    font-feature-settings: "tnum" 1 !important;
+  }
 
   :root {
     --bg-main: #020617;
@@ -202,8 +237,8 @@ window.narrarPildoraTexto = narrarPildoraTexto;
     --text-primary: #F8FAFC;
     --text-secondary: #94A3B8;
     --text-muted: #64748B;
-    --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
 
   * {
@@ -751,7 +786,7 @@ window.narrarPildoraTexto = narrarPildoraTexto;
 
 /* === COMPONENT SPECIFIC STYLES === */
 
-* { margin:0; padding:0; box-sizing:border-box; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
 body { background:#070D1A; color:#EAEEF5; padding:12px; min-height:100vh; }
 .container { max-width:1320px; margin:0 auto; }
 
@@ -840,7 +875,7 @@ body { background:#070D1A; color:#EAEEF5; padding:12px; min-height:100vh; }
 .grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:14px; }
 .stat-box { background:#131D31; border:1px solid #1E293B; border-radius:10px; padding:14px; }
 .stat-label { font-size:11px; color:#94A3B8; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
-.stat-val { font-size:26px; font-weight:900; font-family:monospace; margin-top:4px; }
+.stat-val { font-size:26px; font-weight:900; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; -webkit-font-feature-settings:'tnum' 1; font-feature-settings:'tnum' 1; margin-top:4px; }
 
 /* Banner de Acción en Vivo */
 .live-action-banner {
@@ -890,7 +925,7 @@ body { background:#070D1A; color:#EAEEF5; padding:12px; min-height:100vh; }
   padding:14px; text-align:center; margin-bottom:14px;
 }
 .score-flex { display:flex; justify-content:space-around; align-items:center; margin:8px 0; }
-.score-num { font-size:36px; font-weight:900; font-family:monospace; }
+.score-num { font-size:36px; font-weight:900; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; -webkit-font-feature-settings:'tnum' 1; font-feature-settings:'tnum' 1; }
 .btn-score-adjust {
   width:32px; height:32px; background:#1E293B; border:1px solid #334155;
   color:#fff; border-radius:6px; cursor:pointer; font-weight:900; font-size:14px;
@@ -1576,8 +1611,8 @@ body.daylight-mode #btn-daylight {
     --text-primary: #F8FAFC;
     --text-secondary: rgba(255, 255, 255, 0.72);
     --text-muted: rgba(255, 255, 255, 0.45);
-    --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', ui-monospace, Menlo, Monaco, Consolas, monospace;
-    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+    --font-mono: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     
     /* Apple Specular Highlights & Glass Blur */
     --apple-blur: blur(28px) saturate(190%);
@@ -2075,15 +2110,7 @@ body.daylight-mode #btn-daylight {
   border-color: #FFFFFF !important;
 }
 
-.score-pill-counter .score-num {
-  font-size: 24px !important;
-  font-weight: 900 !important;
-  font-family: 'Montserrat', monospace !important;
-  min-width: 26px !important;
-  text-align: center !important;
-  line-height: 1 !important;
-  display: inline-block !important;
-}
+.score-pill-counter .score-num { font-size:36px; font-weight:900; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; -webkit-font-feature-settings:'tnum' 1; font-feature-settings:'tnum' 1; }
 
 .scoreboard-vs-badge {
   background: rgba(255, 199, 44, 0.15) !important;
@@ -3014,7 +3041,7 @@ html, body {
 #diamax-page-2 button[type="button"],
 #diamax-page-2 button[type="submit"] {
   border-radius: 12px !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
   letter-spacing: 0.8px !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -3808,7 +3835,7 @@ html, body {
 
   /* 1. TEXTO: «DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA» */
   .diamax-cinema-welcome {
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 800;
     font-size: clamp(16px, 2.5vw, 28px);
     text-transform: uppercase;
@@ -3854,7 +3881,7 @@ html, body {
   /* 3. PALABRA: «DIAMAX» (CROMO PURO MULTI-STOP + BEVEL 3D UNIFICADO) */
   .diamax-cinema-word-diamax {
     display: inline-block;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 900;
     font-size: 1em;
     letter-spacing: clamp(1.5px, 0.4vw, 4px);
@@ -3871,7 +3898,7 @@ html, body {
   /* 5. PALABRA: «PRO» (ORO METÁLICO + LUZ CINEMATOGRÁFICA) */
   .diamax-cinema-word-pro {
     display: inline-block;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 900;
     font-size: 1em;
     letter-spacing: clamp(1px, 0.3vw, 3px);
@@ -3969,7 +3996,7 @@ html, body {
     background: rgba(11, 19, 43, 0.85) !important;
     border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
     color: #FFFFFF !important;
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 11.5px !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
@@ -4018,7 +4045,7 @@ html, body {
     background: rgba(11, 19, 43, 0.85) !important;
     border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
     color: #FFFFFF !important;
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 11px !important;
     font-weight: 800 !important;
     padding: 8px 14px !important;
@@ -4682,7 +4709,7 @@ html, body {
       <line x1="18" y1="18" x2="18" y2="33" stroke="rgba(255,255,255,0.9)" stroke-width="1"/>
     </svg>
   </div>
-  <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:26px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+  <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:26px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
     <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
     <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:21px;">PRO</span>
   </div>
@@ -4690,14 +4717,14 @@ html, body {
     
     <!-- Badges y Selector de Idioma -->
     <div style="display:flex; align-items:center; gap:10px;">
-      <span style="background:rgba(24,201,149,0.15); border:1px solid rgba(24,201,149,0.4); color:#A7F3D0; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:inline-flex; align-items:center; gap:6px;">
+      <span style="background:rgba(24,201,149,0.15); border:1px solid rgba(24,201,149,0.4); color:#A7F3D0; font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:inline-flex; align-items:center; gap:6px;">
         <span style="width:7px; height:7px; border-radius:50%; background:#18C995; box-shadow:0 0 8px #18C995;"></span> Zero Trust v3.5
       </span>
-      <span id="p1-badge-month-free" onclick="showAuthModal('pricing')" style="background:linear-gradient(135deg, rgba(255,184,46,0.25), rgba(242,101,34,0.25)); border:1px solid #FFB82E; color:#FFF; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 0 15px rgba(255,184,46,0.3); display:inline-flex; align-items:center; gap:6px; cursor:pointer; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px) scale(1.02)'; this.style.boxShadow='0 0 22px rgba(255,184,46,0.55)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 0 15px rgba(255,184,46,0.3)';">
+      <span id="p1-badge-month-free" onclick="showAuthModal('pricing')" style="background:linear-gradient(135deg, rgba(255,184,46,0.25), rgba(242,101,34,0.25)); border:1px solid #FFB82E; color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.8px; padding:6px 14px; border-radius:20px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 0 15px rgba(255,184,46,0.3); display:inline-flex; align-items:center; gap:6px; cursor:pointer; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px) scale(1.02)'; this.style.boxShadow='0 0 22px rgba(255,184,46,0.55)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 0 15px rgba(255,184,46,0.3)';">
         <svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:2px;filter:drop-shadow(0 0 6px #FFB82E);"><use href="#diamax-icon-trial-ticket"/></svg> <span id="p1-badge-month-free-text">Prueba Diamax Pro gratis</span>
       </span>
       <div style="position:relative; display:inline-block;">
-        <button id="p1-lang-btn" onclick="toggleIdiomaDiamax()" style="background:rgba(15,23,42,0.75); border:1px solid rgba(255,255,255,0.2); color:#FFF; font-family:'Montserrat', sans-serif; font-size:12px; font-weight:800; padding:6px 12px; border-radius:20px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; backdrop-filter:blur(12px); transition:all 0.2s ease;">
+        <button id="p1-lang-btn" onclick="toggleIdiomaDiamax()" style="background:rgba(15,23,42,0.75); border:1px solid rgba(255,255,255,0.2); color:#FFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:800; padding:6px 12px; border-radius:20px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; backdrop-filter:blur(12px); transition:all 0.2s ease;">
           <span id="p1-lang-flag">🇺🇸</span> <span id="p1-lang-code">EN</span> <span style="font-size:9px; opacity:0.7;">▼</span>
         </button>
       </div>
@@ -4710,7 +4737,7 @@ html, body {
     
     <!-- Tagline Deportes con Píldora de Cristal -->
     <div style="display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-      <span style="background:rgba(2,132,199,0.18); border:1px solid rgba(24,216,255,0.45); color:#7DD3FC; font-family:'Rajdhani', sans-serif; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; padding:6px 18px; border-radius:30px; box-shadow:0 0 20px rgba(24,216,255,0.25); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); display:inline-flex; align-items:center; gap:8px;">
+      <span style="background:rgba(2,132,199,0.18); border:1px solid rgba(24,216,255,0.45); color:#7DD3FC; font-family:'Plus Jakarta Sans', sans-serif; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; padding:6px 18px; border-radius:30px; box-shadow:0 0 20px rgba(24,216,255,0.25); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); display:inline-flex; align-items:center; gap:8px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #18D8FF);"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-10z" fill="url(#p1-bolt-grad)"/><defs><linearGradient id="p1-bolt-grad" x1="3" y1="2" x2="21" y2="22"><stop stop-color="#18D8FF"/><stop offset="1" stop-color="#0284C7"/></linearGradient></defs></svg> <span id="p1-sub-pill-text">SPORTS OPERATING SYSTEM · BASEBALL &amp; SOFTBALL</span>
       </span>
     </div>
@@ -4719,14 +4746,14 @@ html, body {
     <div id="p1-title-welcome-block" style="margin:0 0 16px 0;">
       
       <!-- 1. TEXTO SUPERIOR: «DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA» -->
-      <div class="diamax-cinema-welcome" id="p1-title-welcome" style="font-family:'Montserrat', sans-serif; font-weight:800; font-size:clamp(16px, 2.5vw, 28px); text-transform:uppercase; letter-spacing:1.5px; line-height:1.25; margin:0 0 8px 0; color:#FFFFFF; text-shadow:0 4px 20px rgba(0,0,0,0.95), 0 0 25px rgba(24,216,255,0.5);">
+      <div class="diamax-cinema-welcome" id="p1-title-welcome" style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:clamp(16px, 2.5vw, 28px); text-transform:uppercase; letter-spacing:1.5px; line-height:1.25; margin:0 0 8px 0; color:#FFFFFF; text-shadow:0 4px 20px rgba(0,0,0,0.95), 0 0 25px rgba(24,216,255,0.5);">
         DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA
       </div>
 
       <!-- 2. MARCA CINEMÁTICA: DIAMAX PRO (CROMO Y ORO - SIN ICONO EN EL MEDIO) -->
       <div class="diamax-cinema-brand-title" style="display:inline-flex; align-items:center; justify-content:center; flex-wrap:nowrap; gap:10px; margin:0 auto; line-height:1;">
-        <span class="diamax-cinema-word-diamax" style="display:inline-block; font-family:'Montserrat', sans-serif; font-weight:900; font-size:clamp(46px, 7vw, 84px); letter-spacing:3px; line-height:1; text-transform:uppercase; color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:1px rgba(216,226,234,0.85); filter:drop-shadow(0 4px 0 #475569) drop-shadow(0 12px 28px rgba(0,0,0,0.9)) drop-shadow(0 0 25px rgba(0,175,255,0.28));">DIAMAX</span>
-        <span class="diamax-cinema-word-pro" style="display:inline-block; font-family:'Montserrat', sans-serif; font-weight:900; font-size:clamp(46px, 7vw, 84px); letter-spacing:2px; line-height:1; text-transform:uppercase; color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:1px #FFCC55; filter:drop-shadow(0 4px 0 #92400E) drop-shadow(0 10px 22px rgba(0,0,0,0.8)) drop-shadow(0 0 35px rgba(255,179,0,0.55)); margin-left:8px;">PRO</span>
+        <span class="diamax-cinema-word-diamax" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(46px, 7vw, 84px); letter-spacing:3px; line-height:1; text-transform:uppercase; color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:1px rgba(216,226,234,0.85); filter:drop-shadow(0 4px 0 #475569) drop-shadow(0 12px 28px rgba(0,0,0,0.9)) drop-shadow(0 0 25px rgba(0,175,255,0.28));">DIAMAX</span>
+        <span class="diamax-cinema-word-pro" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(46px, 7vw, 84px); letter-spacing:2px; line-height:1; text-transform:uppercase; color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:1px #FFCC55; filter:drop-shadow(0 4px 0 #92400E) drop-shadow(0 10px 22px rgba(0,0,0,0.8)) drop-shadow(0 0 35px rgba(255,179,0,0.55)); margin-left:8px;">PRO</span>
       </div>
 
     </div>
@@ -4740,19 +4767,19 @@ html, body {
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:24px;">
       
       <!-- Botón 1: VER PLANES -->
-      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:16px 28px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
+      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:16px 28px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
         <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 8px rgba(0,210,255,0.8));"><use href="#diamax-icon-plans-gem"/></svg>
         <span id="p1-btn-plans-text">VER PLANES</span>
       </button>
 
       <!-- Botón 2: INICIAR SESIÓN -->
-      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:16px 28px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
+      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:16px 28px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
         <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.8));"><use href="#diamax-icon-key-recovery"/></svg>
         <span id="p1-btn-login-text">INICIAR SESIÓN</span>
       </button>
 
       <!-- Botón 3: ACCESO MASTER -->
-      <button type="button" id="p1-btn-ceo-key" data-test-id="p1-btn-master" onclick="abrirAccesoClaveCEO()" style="padding:16px 28px; background:rgba(255,199,44,0.12); color:#FFC72C; border:1.8px solid #FFC72C; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,199,44,0.25); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(255,199,44,0.25)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,199,44,0.5)';" onmouseout="this.style.background='rgba(255,199,44,0.12)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,199,44,0.25)';">
+      <button type="button" id="p1-btn-ceo-key" data-test-id="p1-btn-master" onclick="abrirAccesoClaveCEO()" style="padding:16px 28px; background:rgba(255,199,44,0.12); color:#FFC72C; border:1.8px solid #FFC72C; border-radius:14px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,199,44,0.25); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(255,199,44,0.25)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,199,44,0.5)';" onmouseout="this.style.background='rgba(255,199,44,0.12)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,199,44,0.25)';">
         <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 8px rgba(255,199,44,0.8));"><use href="#diamax-icon-founder-crown"/></svg>
         <span id="p1-btn-master-text">ACCESO MASTER</span>
       </button>
@@ -4760,7 +4787,7 @@ html, body {
     </div>
 
     <!-- Micro Footer de Certificación y Seguridad Flotante -->
-    <div style="display:flex; justify-content:center; align-items:center; gap:20px; font-family:'Rajdhani', sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; color:#E2E8F0; text-shadow:0 2px 10px rgba(0,0,0,0.95); flex-wrap:wrap;">
+    <div style="display:flex; justify-content:center; align-items:center; gap:20px; font-family:'Plus Jakarta Sans', sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; color:#E2E8F0; text-shadow:0 2px 10px rgba(0,0,0,0.95); flex-wrap:wrap;">
       <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(24,201,149,0.7))" width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="3" fill="rgba(24,201,149,0.2)" stroke="#18C995" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#18C995" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.5" fill="#18C995"/></svg> <span id="p1-footer-sec">SHA-256</span></span>
       <span style="color:#18D8FF; opacity:0.6;">·</span>
       <span style="display:inline-flex; align-items:center;"><svg style="display:inline-block;vertical-align:-2px;margin-right:5px;filter:drop-shadow(0 0 6px rgba(24,216,255,0.6))" width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="16" width="3.5" height="5" rx="1" fill="#18D8FF" opacity="0.4"/><rect x="8" y="11" width="3.5" height="10" rx="1" fill="#18D8FF" opacity="0.7"/><rect x="14" y="6" width="3.5" height="15" rx="1" fill="#18D8FF" opacity="0.9"/><rect x="20" y="2" width="3.5" height="19" rx="1" fill="#18D8FF"/></svg> <span id="p1-footer-pwa">PWA Offline</span></span>
@@ -4786,7 +4813,7 @@ html, body {
     <!-- Barra Superior de la Página 2 (Apple Sports Luxury Bar) -->
     <div style="background:linear-gradient(135deg, rgba(10,22,46,0.98), rgba(4,8,20,0.98)); padding:18px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); flex-wrap:wrap; gap:14px;">
       <div style="display:flex; align-items:center; gap:14px;">
-        <button onclick="irAPagina(1)" style="background:rgba(255,255,255,0.05); border:1px solid rgba(24,216,255,0.3); color:#18D8FF; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:800; letter-spacing:0.8px; padding:8px 16px; border-radius:20px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.25s;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateX(-2px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateX(0)';">
+        <button onclick="irAPagina(1)" style="background:rgba(255,255,255,0.05); border:1px solid rgba(24,216,255,0.3); color:#18D8FF; font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:800; letter-spacing:0.8px; padding:8px 16px; border-radius:20px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.25s;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateX(-2px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateX(0)';">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="#18D8FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>PORTADA</span>
         </button>
         <div style="display:flex; align-items:center; gap:12px;">
@@ -4794,24 +4821,24 @@ html, body {
             <svg viewBox="0 0 100 100" width="28" height="28" style="overflow:visible; flex-shrink:0;">
               <use href="#diamax-home-plate-symbol"/>
             </svg>
-            <div style="display:inline-flex; align-items:baseline; gap:4px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:18px; letter-spacing:0.8px; line-height:1; text-transform:uppercase;">
+            <div style="display:inline-flex; align-items:baseline; gap:4px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:18px; letter-spacing:0.8px; line-height:1; text-transform:uppercase;">
               <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
               <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:15px;">PRO</span>
             </div>
           </div>
           <div class="p2-header-title-box">
-            <h2 class="p2-header-title" style="margin:0; font-family:'Montserrat', sans-serif; font-size:15px; font-weight:900; color:#FFFFFF; letter-spacing:1px; text-transform:uppercase;">REGISTRO &amp; PLANES DE FRANQUICIA</h2>
-            <span class="p2-header-sub" style="font-family:'Rajdhani', sans-serif; font-size:11px; color:#18D8FF; font-weight:700; letter-spacing:0.8px; text-transform:uppercase;">DIAMAX INTELLIGENCE SUITE · 3TREE DIGITAL SPORT IA</span>
+            <h2 class="p2-header-title" style="margin:0; font-family:'Plus Jakarta Sans', sans-serif; font-size:15px; font-weight:900; color:#FFFFFF; letter-spacing:1px; text-transform:uppercase;">REGISTRO &amp; PLANES DE FRANQUICIA</h2>
+            <span class="p2-header-sub" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; color:#18D8FF; font-weight:700; letter-spacing:0.8px; text-transform:uppercase;">DIAMAX INTELLIGENCE SUITE · 3TREE DIGITAL SPORT IA</span>
           </div>
         </div>
       </div>
       
       <!-- Segmented Switch Pill (Registro vs Sign In) -->
       <div style="display:flex; background:rgba(2,6,23,0.9); border:1px solid rgba(255,255,255,0.12); border-radius:24px; padding:3px; gap:4px;">
-        <button id="p2-tab-reg-btn" onclick="mostrarSubPasoP2('registro')" style="padding:8px 18px; font-family:'Montserrat', sans-serif; font-size:11.5px; font-weight:900; letter-spacing:0.6px; border-radius:20px; border:none; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; cursor:pointer; box-shadow:0 0 18px rgba(24,216,255,0.4); transition:all 0.25s;">
+        <button id="p2-tab-reg-btn" onclick="mostrarSubPasoP2('registro')" style="padding:8px 18px; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:900; letter-spacing:0.6px; border-radius:20px; border:none; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; cursor:pointer; box-shadow:0 0 18px rgba(24,216,255,0.4); transition:all 0.25s;">
           🎟️ Registro (Mes Gratis)
         </button>
-        <button id="p2-tab-login-btn" onclick="mostrarSubPasoP2('login')" style="padding:8px 18px; font-family:'Montserrat', sans-serif; font-size:11.5px; font-weight:800; letter-spacing:0.6px; border-radius:20px; border:none; background:transparent; color:#94A3B8; cursor:pointer; transition:all 0.25s;" onmouseover="this.style.color='#FFF'" onmouseout="this.style.color='#94A3B8'">
+        <button id="p2-tab-login-btn" onclick="mostrarSubPasoP2('login')" style="padding:8px 18px; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:800; letter-spacing:0.6px; border-radius:20px; border:none; background:transparent; color:#94A3B8; cursor:pointer; transition:all 0.25s;" onmouseover="this.style.color='#FFF'" onmouseout="this.style.color='#94A3B8'">
           🔑 Sign In
         </button>
       </div>
@@ -4826,25 +4853,25 @@ html, body {
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#18D8FF; box-shadow:0 0 10px #18D8FF;"></span>
-            <span style="font-family:'Rajdhani', sans-serif; font-size:12.5px; font-weight:800; color:#FFFFFF; text-transform:uppercase; letter-spacing:1.5px;">FLUJO TELEMÉTRICO DE REGISTRO OFICIAL</span>
+            <span style="font-family:'Plus Jakarta Sans', sans-serif; font-size:12.5px; font-weight:800; color:#FFFFFF; text-transform:uppercase; letter-spacing:1.5px;">FLUJO TELEMÉTRICO DE REGISTRO OFICIAL</span>
           </div>
-          <span id="p2-stepper-text" style="font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:800; color:#18D8FF; background:rgba(24,216,255,0.1); padding:4px 14px; border-radius:14px; border:1px solid rgba(24,216,255,0.35); letter-spacing:1px;">
+          <span id="p2-stepper-text" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:800; color:#18D8FF; background:rgba(24,216,255,0.1); padding:4px 14px; border-radius:14px; border:1px solid rgba(24,216,255,0.35); letter-spacing:1px;">
             PASO 01 / 04: DATOS DEL USUARIO
           </span>
         </div>
         
         <!-- Indicadores de los 4 Pasos -->
         <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; position:relative;">
-          <div id="p2-step-indicator-1" style="background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Montserrat', sans-serif; font-size:11px; font-weight:900; box-shadow:0 0 20px rgba(24,216,255,0.45); transition:all 0.3s; letter-spacing:0.5px;">
+          <div id="p2-step-indicator-1" style="background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; font-weight:900; box-shadow:0 0 20px rgba(24,216,255,0.45); transition:all 0.3s; letter-spacing:0.5px;">
             1. Perfil / Manager
           </div>
-          <div id="p2-step-indicator-2" style="background:rgba(255,255,255,0.03); color:#64748B; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Montserrat', sans-serif; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.06); transition:all 0.3s;">
+          <div id="p2-step-indicator-2" style="background:rgba(255,255,255,0.03); color:#64748B; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.06); transition:all 0.3s;">
             2. Liga / Franquicia
           </div>
-          <div id="p2-step-indicator-3" style="background:rgba(255,255,255,0.03); color:#64748B; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Montserrat', sans-serif; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.06); transition:all 0.3s;">
+          <div id="p2-step-indicator-3" style="background:rgba(255,255,255,0.03); color:#64748B; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.06); transition:all 0.3s;">
             3. Planes &amp; Mes Gratis
           </div>
-          <div id="p2-step-indicator-4" style="background:rgba(255,255,255,0.03); color:#64748B; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Montserrat', sans-serif; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.06); transition:all 0.3s;">
+          <div id="p2-step-indicator-4" style="background:rgba(255,255,255,0.03); color:#64748B; padding:12px 8px; border-radius:12px; text-align:center; font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; font-weight:800; border:1px solid rgba(255,255,255,0.06); transition:all 0.3s;">
             4. Activación Zero-Trust
           </div>
         </div>
@@ -4862,15 +4889,15 @@ html, body {
             <!-- Encabezado de la Sección 1 -->
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:16px; flex-wrap:wrap; gap:10px;">
               <div style="display:flex; align-items:center; gap:14px;">
-                <div style="width:38px; height:38px; border-radius:12px; background:linear-gradient(135deg, #18D8FF, #0284C7); display:flex; align-items:center; justify-content:center; font-family:'Montserrat', sans-serif; font-size:16px; color:#040814; font-weight:900; box-shadow:0 0 18px rgba(24,216,255,0.5);">
+                <div style="width:38px; height:38px; border-radius:12px; background:linear-gradient(135deg, #18D8FF, #0284C7); display:flex; align-items:center; justify-content:center; font-family:'Plus Jakarta Sans', sans-serif; font-size:16px; color:#040814; font-weight:900; box-shadow:0 0 18px rgba(24,216,255,0.5);">
                   1
                 </div>
                 <div>
-                  <h3 style="margin:0 0 2px 0; font-family:'Montserrat', sans-serif; font-size:15px; font-weight:900; color:#FFFFFF; text-transform:uppercase; letter-spacing:0.8px;">Datos del Usuario / Manager</h3>
+                  <h3 style="margin:0 0 2px 0; font-family:'Plus Jakarta Sans', sans-serif; font-size:15px; font-weight:900; color:#FFFFFF; text-transform:uppercase; letter-spacing:0.8px;">Datos del Usuario / Manager</h3>
                   <span style="font-size:12px; color:#94A3B8;">Ingresa tus datos personales y credenciales para el vault seguro Zero Trust</span>
                 </div>
               </div>
-              <span style="font-family:'Rajdhani', sans-serif; font-size:11.5px; color:#18C995; background:rgba(24,201,149,0.12); border:1px solid rgba(24,201,149,0.4); padding:5px 14px; border-radius:20px; font-weight:800; letter-spacing:1px; display:inline-flex; align-items:center; gap:6px;">
+              <span style="font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; color:#18C995; background:rgba(24,201,149,0.12); border:1px solid rgba(24,201,149,0.4); padding:5px 14px; border-radius:20px; font-weight:800; letter-spacing:1px; display:inline-flex; align-items:center; gap:6px;">
                 <span style="width:6px; height:6px; border-radius:50%; background:#18C995; box-shadow:0 0 6px #18C995;"></span> ZERO-TRUST-SEC
               </span>
             </div>
@@ -4882,7 +4909,7 @@ html, body {
               
               <!-- Nombre y Apellido -->
               <div>
-                <label style="display:block; font-family:'Rajdhani', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
+                <label style="display:block; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:-2px;margin-right:6px;opacity:0.6;"><circle cx="12" cy="8" r="4" stroke="#18D8FF" stroke-width="2"/><path d="M5 20v-1a7 7 0 0 1 14 0v1" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> NOMBRE Y APELLIDO <span style="color:#EF4444;">*</span>
                 </label>
                 <input type="text" id="p2-reg-fullname" placeholder="ej. Orlando Sánchez" style="width:100%; box-sizing:border-box; background:rgba(2,6,23,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 16px; color:#FFFFFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:600; box-shadow:inset 0 2px 5px rgba(0,0,0,0.6); outline:none; transition:all 0.25s;" onfocus="this.style.borderColor='#18D8FF'; this.style.boxShadow='0 0 15px rgba(24,216,255,0.25), inset 0 2px 5px rgba(0,0,0,0.6)';" onblur="this.style.borderColor='rgba(255,255,255,0.12)'; this.style.boxShadow='inset 0 2px 5px rgba(0,0,0,0.6)';">
@@ -4890,7 +4917,7 @@ html, body {
 
               <!-- Correo Electrónico -->
               <div>
-                <label style="display:block; font-family:'Rajdhani', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
+                <label style="display:block; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:-2px;margin-right:6px;opacity:0.6;"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#18D8FF" stroke-width="2"/><path d="M3 7l9 6 9-6" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> CORREO ELECTRÓNICO <span style="color:#EF4444;">*</span>
                 </label>
                 <input type="email" id="p2-reg-email" placeholder="ej. manager@equipo.com" style="width:100%; box-sizing:border-box; background:rgba(2,6,23,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 16px; color:#FFFFFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:600; box-shadow:inset 0 2px 5px rgba(0,0,0,0.6); outline:none; transition:all 0.25s;" onfocus="this.style.borderColor='#18D8FF'; this.style.boxShadow='0 0 15px rgba(24,216,255,0.25), inset 0 2px 5px rgba(0,0,0,0.6)';" onblur="this.style.borderColor='rgba(255,255,255,0.12)'; this.style.boxShadow='inset 0 2px 5px rgba(0,0,0,0.6)';">
@@ -4898,7 +4925,7 @@ html, body {
 
               <!-- Contraseña -->
               <div>
-                <label style="display:block; font-family:'Rajdhani', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
+                <label style="display:block; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:-2px;margin-right:6px;opacity:0.6;"><rect x="4" y="10" width="16" height="11" rx="2" stroke="#18D8FF" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> CONTRASEÑA (MÍN. 8 CARACTERES) <span style="color:#EF4444;">*</span>
                 </label>
                 <input type="password" id="p2-reg-pass" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:rgba(2,6,23,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 16px; color:#FFFFFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:600; box-shadow:inset 0 2px 5px rgba(0,0,0,0.6); outline:none; transition:all 0.25s;" onfocus="this.style.borderColor='#18D8FF'; this.style.boxShadow='0 0 15px rgba(24,216,255,0.25), inset 0 2px 5px rgba(0,0,0,0.6)';" onblur="this.style.borderColor='rgba(255,255,255,0.12)'; this.style.boxShadow='inset 0 2px 5px rgba(0,0,0,0.6)';">
@@ -4906,7 +4933,7 @@ html, body {
 
               <!-- Confirmar Contraseña -->
               <div>
-                <label style="display:block; font-family:'Rajdhani', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
+                <label style="display:block; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:-2px;margin-right:6px;opacity:0.6;"><rect x="4" y="10" width="16" height="11" rx="2" stroke="#18D8FF" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#18D8FF" stroke-width="2" stroke-linecap="round"/></svg> CONFIRMAR CONTRASEÑA <span style="color:#EF4444;">*</span>
                 </label>
                 <input type="password" id="p2-reg-pass-confirm" placeholder="••••••••" style="width:100%; box-sizing:border-box; background:rgba(2,6,23,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 16px; color:#FFFFFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:600; box-shadow:inset 0 2px 5px rgba(0,0,0,0.6); outline:none; transition:all 0.25s;" onfocus="this.style.borderColor='#18D8FF'; this.style.boxShadow='0 0 15px rgba(24,216,255,0.25), inset 0 2px 5px rgba(0,0,0,0.6)';" onblur="this.style.borderColor='rgba(255,255,255,0.12)'; this.style.boxShadow='inset 0 2px 5px rgba(0,0,0,0.6)';">
@@ -4914,7 +4941,7 @@ html, body {
 
               <!-- Teléfono / WhatsApp -->
               <div style="grid-column: 1 / -1;">
-                <label style="display:block; font-family:'Rajdhani', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
+                <label style="display:block; font-family:'Plus Jakarta Sans', sans-serif; font-size:11.5px; font-weight:800; color:#94A3B8; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:-2px;margin-right:6px;opacity:0.6;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="#18D8FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> TELÉFONO / WHATSAPP <span style="color:#EF4444;">*</span>
                 </label>
                 <input type="tel" id="p2-reg-phone" placeholder="ej. +58 412 1234567" style="width:100%; box-sizing:border-box; background:rgba(2,6,23,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 16px; color:#FFFFFF; font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:600; box-shadow:inset 0 2px 5px rgba(0,0,0,0.6); outline:none; transition:all 0.25s;" onfocus="this.style.borderColor='#18D8FF'; this.style.boxShadow='0 0 15px rgba(24,216,255,0.25), inset 0 2px 5px rgba(0,0,0,0.6)';" onblur="this.style.borderColor='rgba(255,255,255,0.12)'; this.style.boxShadow='inset 0 2px 5px rgba(0,0,0,0.6)';">
@@ -4923,7 +4950,7 @@ html, body {
 
             <!-- Selector de Rol del Usuario (Manager / Coach / Admin Liga / Jugador) -->
             <div style="margin-top:22px; padding-top:18px; border-top:1px solid rgba(255,255,255,0.06);">
-              <label style="display:block; font-family:'Rajdhani', sans-serif; font-size:12px; font-weight:800; color:#CBD5E1; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:12px;">
+              <label style="display:block; font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:800; color:#CBD5E1; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:12px;">
                 ROL DEL USUARIO EN LA FRANQUICIA <span style="color:#EF4444;">*</span>
               </label>
               <input type="hidden" id="p2-user-role" value="MANAGER">
@@ -4932,36 +4959,36 @@ html, body {
                 <!-- 1. MANAGER -->
                 <div id="p2-card-role-MANAGER" onclick="seleccionarRolP2('MANAGER')" style="cursor:pointer; background:linear-gradient(145deg, rgba(24,216,255,0.15), rgba(2,132,199,0.08)); border:2px solid #18D8FF; box-shadow:0 0 25px rgba(24,216,255,0.25); border-radius:16px; padding:18px 12px; text-align:center; transition:all 0.25s;">
                   <div style="margin-bottom:8px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 8px rgba(255,184,46,0.6))"><path d="M5 18h14M5 14l3-7 4 4 4-4 3 7H5z" stroke="#FFB82E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="5" r="1.5" fill="#FFB82E"/><circle cx="5" cy="13" r="1.2" fill="#FFB82E"/><circle cx="19" cy="13" r="1.2" fill="#FFB82E"/></svg></div>
-                  <div style="font-family:'Montserrat', sans-serif; font-size:13.5px; font-weight:900; color:#FFFFFF; letter-spacing:0.5px;">Manager</div>
-                  <div style="font-family:'Rajdhani', sans-serif; font-size:10.5px; color:#18D8FF; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Dueño Franquicia</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:900; color:#FFFFFF; letter-spacing:0.5px;">Manager</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:10.5px; color:#18D8FF; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Dueño Franquicia</div>
                 </div>
 
                 <!-- 2. COACH -->
                 <div id="p2-card-role-COACH" onclick="seleccionarRolP2('COACH')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px 12px; text-align:center; transition:all 0.25s;" onmouseover="this.style.background='rgba(24,216,255,0.08)'; this.style.borderColor='rgba(24,216,255,0.3)';" onmouseout="if(document.getElementById('p2-user-role').value!=='COACH'){this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.1)';}">
                   <div style="margin-bottom:8px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 8px rgba(24,216,255,0.6))"><path d="M4 15a8 8 0 0 1 16 0v2H4v-2z" stroke="#18D8FF" stroke-width="1.8"/><path d="M12 7V4m-4 1h8" stroke="#18D8FF" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="11" r="2" fill="#18D8FF" opacity="0.4"/></svg></div>
-                  <div style="font-family:'Montserrat', sans-serif; font-size:13.5px; font-weight:900; color:#CBD5E1; letter-spacing:0.5px;">Coach</div>
-                  <div style="font-family:'Rajdhani', sans-serif; font-size:10.5px; color:#94A3B8; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Asistente Técnico</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:900; color:#CBD5E1; letter-spacing:0.5px;">Coach</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:10.5px; color:#94A3B8; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Asistente Técnico</div>
                 </div>
 
                 <!-- 3. ADMIN LIGA -->
                 <div id="p2-card-role-ADMIN_LIGA" onclick="seleccionarRolP2('ADMIN_LIGA')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px 12px; text-align:center; transition:all 0.25s;" onmouseover="this.style.background='rgba(167,139,250,0.08)'; this.style.borderColor='rgba(167,139,250,0.3)';" onmouseout="if(document.getElementById('p2-user-role').value!=='ADMIN_LIGA'){this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.1)';}">
                   <div style="margin-bottom:8px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 8px rgba(167,139,250,0.6))"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6" stroke="#A78BFA" stroke-width="1.8" stroke-linecap="round"/><path d="M9 10h.01M15 10h.01M9 13h.01M15 13h.01" stroke="#A78BFA" stroke-width="2" stroke-linecap="round"/></svg></div>
-                  <div style="font-family:'Montserrat', sans-serif; font-size:13.5px; font-weight:900; color:#CBD5E1; letter-spacing:0.5px;">Admin Liga</div>
-                  <div style="font-family:'Rajdhani', sans-serif; font-size:10.5px; color:#94A3B8; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Comisionado</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:900; color:#CBD5E1; letter-spacing:0.5px;">Admin Liga</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:10.5px; color:#94A3B8; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Comisionado</div>
                 </div>
 
                 <!-- 4. JUGADOR -->
                 <div id="p2-card-role-JUGADOR" onclick="seleccionarRolP2('JUGADOR')" style="cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px 12px; text-align:center; transition:all 0.25s;" onmouseover="this.style.background='rgba(24,201,149,0.08)'; this.style.borderColor='rgba(24,201,149,0.3)';" onmouseout="if(document.getElementById('p2-user-role').value!=='JUGADOR'){this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.1)';}">
                   <div style="margin-bottom:8px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 8px rgba(24,201,149,0.6))"><circle cx="12" cy="7" r="4" stroke="#18C995" stroke-width="1.8"/><path d="M5 21v-2a7 7 0 0 1 14 0v2" stroke="#18C995" stroke-width="1.8" stroke-linecap="round"/><path d="M16 3l3 3" stroke="#18C995" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                  <div style="font-family:'Montserrat', sans-serif; font-size:13.5px; font-weight:900; color:#CBD5E1; letter-spacing:0.5px;">Jugador</div>
-                  <div style="font-family:'Rajdhani', sans-serif; font-size:10.5px; color:#94A3B8; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Atleta Oficial</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:13.5px; font-weight:900; color:#CBD5E1; letter-spacing:0.5px;">Jugador</div>
+                  <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:10.5px; color:#94A3B8; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;">Atleta Oficial</div>
                 </div>
               </div>
             </div>
 
             <!-- Botón de Avance Paso 1 -> Paso 2 con Validación -->
             <div style="margin-top:26px; display:flex; justify-content:flex-end;">
-              <button type="button" onclick="validarYAvanzarPaso1()" style="padding:16px 32px; background:linear-gradient(135deg, #18D8FF 0%, #0284C7 100%); color:#040814; border:none; border-radius:14px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(24,216,255,0.45); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.45)';">
+              <button type="button" onclick="validarYAvanzarPaso1()" style="padding:16px 32px; background:linear-gradient(135deg, #18D8FF 0%, #0284C7 100%); color:#040814; border:none; border-radius:14px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 8px 30px rgba(24,216,255,0.45); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.65)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.45)';">
                 <span>Validar y Continuar a Paso 2 (Configuración de Equipo)</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#040814" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
             </div>
@@ -5152,7 +5179,7 @@ html, body {
                   <span style="font-size:11px; color:#94A3B8;">Elige tu modalidad de activación oficial para tu franquicia</span>
                 </div>
               </div>
-              <span style="font-size:11px; color:#FFB82E; background:rgba(255,184,46,0.15); border:1px solid rgba(255,184,46,0.4); padding:4px 12px; border-radius:20px; font-weight:800; font-family:monospace;">
+              <span style="font-size:11px; color:#FFB82E; background:rgba(255,184,46,0.15); border:1px solid rgba(255,184,46,0.4); padding:4px 12px; border-radius:20px; font-weight:800; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums;">
                 🎁 30 DÍAS BONIFICADOS · SIN TARJETA
               </span>
             </div>
@@ -5288,7 +5315,7 @@ html, body {
                   🎁 PLAN: MES GRATIS ($0.00)
                 </span>
               </div>
-              <div id="p2-verif-target-email" style="font-size:15px; font-weight:900; color:#FFF; margin-bottom:10px; font-family:monospace; letter-spacing:0.5px;">
+              <div id="p2-verif-target-email" style="font-size:15px; font-weight:900; color:#FFF; margin-bottom:10px; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; letter-spacing:0.5px;">
                 manager@equipo.com
               </div>
               <p style="margin:0; font-size:11.5px; color:#CBD5E1; line-height:1.5;">
@@ -5303,10 +5330,10 @@ html, body {
               <label style="display:block; font-size:11px; font-weight:800; color:#94A3B8; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px;">
                 Código de 6 Dígitos
               </label>
-              <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="000000" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.9); border:2px solid #18D8FF; border-radius:14px; padding:16px; font-size:26px; font-weight:900; text-align:center; letter-spacing:12px; color:#18D8FF; outline:none; box-shadow:0 0 25px rgba(24,216,255,0.3), inset 0 2px 5px rgba(0,0,0,0.6); font-family:monospace;">
+              <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="000000" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.9); border:2px solid #18D8FF; border-radius:14px; padding:16px; font-size:26px; font-weight:900; text-align:center; letter-spacing:12px; color:#18D8FF; outline:none; box-shadow:0 0 25px rgba(24,216,255,0.3), inset 0 2px 5px rgba(0,0,0,0.6); font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums;">
               
               <!-- Botón Ayudante para Pruebas del CEO (Oculto en Producción Pública) -->
-              <button type="button" id="p2-qa-verif-btn" onclick="autoLlenarCodigoVerif()" style="display:inline-flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; background:linear-gradient(135deg, rgba(255,199,44,0.18), rgba(242,101,34,0.18)); border:1.8px solid #FFC72C; color:#FFC72C; font-size:12.5px; padding:12px 20px; border-radius:12px; cursor:pointer; font-weight:900; box-shadow:0 0 20px rgba(255,199,44,0.28); font-family:'Montserrat',sans-serif;">
+              <button type="button" id="p2-qa-verif-btn" onclick="autoLlenarCodigoVerif()" style="display:inline-flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; background:linear-gradient(135deg, rgba(255,199,44,0.18), rgba(242,101,34,0.18)); border:1.8px solid #FFC72C; color:#FFC72C; font-size:12.5px; padding:12px 20px; border-radius:12px; cursor:pointer; font-weight:900; box-shadow:0 0 20px rgba(255,199,44,0.28); font-family:'Plus Jakarta Sans',sans-serif;">
                 <svg width="20" height="20" viewBox="0 0 24 24" style="vertical-align:middle; filter:drop-shadow(0 0 8px #FFC72C);"><use href="#diamax-icon-founder-crown"/></svg>
                 <span>Acceso Maestro Lic. Alí Zapata (OTP: 852914)</span>
               </button>
@@ -5418,7 +5445,7 @@ html, body {
       <line x1="18" y1="18" x2="18" y2="33" stroke="rgba(255,255,255,0.9)" stroke-width="1"/>
     </svg>
   </div>
-  <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:22px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+  <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:22px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
     <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
     <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:18px;">PRO</span>
   </div>
@@ -5784,11 +5811,11 @@ html, body {
 
           <!-- ⌫ BOTÓN DE BORRAR / DESHACER EN EL TABLERO (SI EL ANOTADOR SE EQUIVOCA) -->
           <div style="margin-top:10px; display:flex; justify-content:center;">
-            <button type="button" id="btn-hot-sub-scoreboard" onclick="abrirModalHotDugoutSub()" style="padding:8px 16px; background:linear-gradient(135deg, rgba(139,92,246,0.3) 0%, rgba(109,40,217,0.4) 100%); color:#E9D5FF; border:1.8px solid #8B5CF6; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 14px rgba(139,92,246,0.35); transition:all 0.15s;" title="Sustituciones tácticas inmediatas en vivo">
+            <button type="button" id="btn-hot-sub-scoreboard" onclick="abrirModalHotDugoutSub()" style="padding:8px 16px; background:linear-gradient(135deg, rgba(139,92,246,0.3) 0%, rgba(109,40,217,0.4) 100%); color:#E9D5FF; border:1.8px solid #8B5CF6; border-radius:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:12px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 14px rgba(139,92,246,0.35); transition:all 0.15s;" title="Sustituciones tácticas inmediatas en vivo">
               <span style="font-size:14px;">🔄</span>
               <span>SUSTITUCIÓN RÁPIDA (DUGOUT)</span>
             </button>
-            <button type="button" id="btn-undo-scoreboard" onclick="deshacerJugadaLive()" style="padding:8px 16px; background:linear-gradient(135deg, rgba(239,68,68,0.22) 0%, rgba(185,28,28,0.3) 100%); color:#FCA5A5; border:1.8px solid #EF4444; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 14px rgba(239,68,68,0.35); transition:all 0.15s;" title="¿Te equivocaste anotando? Toca aquí para borrar/deshacer la última jugada de inmediato">
+            <button type="button" id="btn-undo-scoreboard" onclick="deshacerJugadaLive()" style="padding:8px 16px; background:linear-gradient(135deg, rgba(239,68,68,0.22) 0%, rgba(185,28,28,0.3) 100%); color:#FCA5A5; border:1.8px solid #EF4444; border-radius:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:12px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 14px rgba(239,68,68,0.35); transition:all 0.15s;" title="¿Te equivocaste anotando? Toca aquí para borrar/deshacer la última jugada de inmediato">
               <span style="font-size:14px;">⌫</span>
               <span>BORRAR / CORREGIR JUGADA (DESHACER)</span>
             </button>
@@ -5857,7 +5884,7 @@ html, body {
 
         <!-- ⌫ BOTÓN PRINCIPAL DE CORREGIR ERROR / BORRAR EN LA BOTONERA -->
         <div style="margin-bottom:12px;">
-          <button type="button" id="btn-undo-keypad" onclick="deshacerJugadaLive()" style="width:100%; min-height:46px; padding:10px 16px; background:linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%); color:#FFFFFF; border:2px solid #FCA5A5; border-radius:10px; font-family:'Montserrat',sans-serif; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 16px rgba(239,68,68,0.45); text-transform:uppercase; letter-spacing:0.5px; transition:transform 0.15s;" title="¿Te equivocaste? Pulsa para borrar la última jugada y restaurar el juego">
+          <button type="button" id="btn-undo-keypad" onclick="deshacerJugadaLive()" style="width:100%; min-height:46px; padding:10px 16px; background:linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%); color:#FFFFFF; border:2px solid #FCA5A5; border-radius:10px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 16px rgba(239,68,68,0.45); text-transform:uppercase; letter-spacing:0.5px; transition:transform 0.15s;" title="¿Te equivocaste? Pulsa para borrar la última jugada y restaurar el juego">
             <span style="font-size:16px;">⌫</span>
             <span>CORREGIR ERROR: DESHACER / BORRAR ÚLTIMA JUGADA</span>
           </button>
@@ -6191,7 +6218,7 @@ html, body {
       <!-- Cabecera del Manual -->
       <div style="background:linear-gradient(135deg, rgba(7,13,26,0.95), rgba(15,23,42,0.9)); border:1.8px solid #00D2FF; border-radius:10px; padding:10px 16px; margin-bottom:18px; display:flex; align-items:center; gap:12px; box-shadow:0 0 20px rgba(0,210,255,0.2);">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="manual-search-input" oninput="buscarEnManualReglas(this.value)" placeholder="🔍 Buscar regla, artículo o jugada (ej: balk, infield fly, toque sacrificio, sustituciones en caliente, reglas +55)..." style="flex:1; background:transparent; border:none; color:#FFFFFF; font-size:13px; font-weight:600; outline:none; font-family:'Montserrat',sans-serif;">
+        <input type="text" id="manual-search-input" oninput="buscarEnManualReglas(this.value)" placeholder="🔍 Buscar regla, artículo o jugada (ej: balk, infield fly, toque sacrificio, sustituciones en caliente, reglas +55)..." style="flex:1; background:transparent; border:none; color:#FFFFFF; font-size:13px; font-weight:600; outline:none; font-family:'Plus Jakarta Sans',sans-serif;">
         <span id="manual-search-count" style="font-size:11px; color:#00D2FF; font-weight:900; background:rgba(0,210,255,0.15); padding:3px 10px; border-radius:6px; border:1px solid rgba(0,210,255,0.3); display:none;"></span>
       </div>
 
@@ -7076,7 +7103,7 @@ html, body {
             <div style="display:flex; align-items:center; gap:10px;">
               <span style="font-size:26px;">🎙️</span>
               <div>
-                <h3 style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.8px; font-family:'Montserrat',sans-serif;">
+                <h3 style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.8px; font-family:'Plus Jakarta Sans',sans-serif;">
                   CABINA DE TRANSMISIÓN & MEDIA PRO
                 </h3>
                 <span style="font-size:11.5px; color:#F26522; font-weight:800; text-transform:uppercase; letter-spacing:1px;">
@@ -7095,23 +7122,23 @@ html, body {
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
             <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
               <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">INNING & PARTE</div>
-              <div id="cabina-hud-inning" style="font-size:24px; font-weight:900; color:#00D2FF; font-family:'Rajdhani',sans-serif; margin-top:4px;">1 ▲ ALTA</div>
+              <div id="cabina-hud-inning" style="font-size:24px; font-weight:900; color:#00D2FF; font-family:'Plus Jakarta Sans',sans-serif; margin-top:4px;">1 ▲ ALTA</div>
             </div>
             <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
               <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">OUTS</div>
-              <div id="cabina-hud-outs" style="font-size:24px; font-weight:900; color:#FFC72C; font-family:'Rajdhani',sans-serif; margin-top:4px;">0 OUTS</div>
+              <div id="cabina-hud-outs" style="font-size:24px; font-weight:900; color:#FFC72C; font-family:'Plus Jakarta Sans',sans-serif; margin-top:4px;">0 OUTS</div>
             </div>
             <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
               <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">MARCADOR</div>
-              <div id="cabina-hud-score" style="font-size:24px; font-weight:900; color:#FFFFFF; font-family:'Rajdhani',sans-serif; margin-top:4px;">GVE 0 - 0 RIV</div>
+              <div id="cabina-hud-score" style="font-size:24px; font-weight:900; color:#FFFFFF; font-family:'Plus Jakarta Sans',sans-serif; margin-top:4px;">GVE 0 - 0 RIV</div>
             </div>
             <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
               <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">PEDRO CHÁVEZ (+55)</div>
-              <div id="cabina-hud-pitches" style="font-size:24px; font-weight:900; color:#10B981; font-family:'Rajdhani',sans-serif; margin-top:4px;">28 / 75 PITCH</div>
+              <div id="cabina-hud-pitches" style="font-size:24px; font-weight:900; color:#10B981; font-family:'Plus Jakarta Sans',sans-serif; margin-top:4px;">28 / 75 PITCH</div>
             </div>
             <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
               <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">WIN PROBABILITY</div>
-              <div id="cabina-hud-winp" style="font-size:24px; font-weight:900; color:#00D2FF; font-family:'Rajdhani',sans-serif; margin-top:4px;">56.4%</div>
+              <div id="cabina-hud-winp" style="font-size:24px; font-weight:900; color:#00D2FF; font-family:'Plus Jakarta Sans',sans-serif; margin-top:4px;">56.4%</div>
             </div>
           </div>
 
@@ -12232,7 +12259,7 @@ function renderLiveBoxscoreTable() {
         <td style="text-align:right;">${live.ci || 0}</td>
         <td style="text-align:right;">${live.bb || 0}</td>
         <td style="text-align:right;">${live.k || 0}</td>
-        <td style="text-align:right; font-weight:bold; font-family:monospace; color:#FFC72C;">${ave}</td>
+        <td style="text-align:right; font-weight:bold; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; color:#FFC72C;">${ave}</td>
       </tr>
     `;
   }).join('');
@@ -14429,7 +14456,7 @@ function renderField() {
           <circle r="19" fill="url(#${patId})" stroke="#FFC72C" stroke-width="2.5" filter="drop-shadow(0 0 8px rgba(255,199,44,0.9))"/>
           <image href="${photoUrl}" xlink:href="${photoUrl}" x="-18" y="-18" width="36" height="36" clip-path="url(#${clipId})" preserveAspectRatio="xMidYMid slice" onerror="this.setAttribute('href', '${DEFAULT_PHOTO}'); this.setAttribute('xlink:href', '${DEFAULT_PHOTO}');"/>
           <circle cx="13" cy="13" r="8" fill="#070D1A" stroke="#FFC72C" stroke-width="1.8"/>
-          <text x="13" y="16.5" text-anchor="middle" fill="#FFC72C" font-size="9" font-weight="900" font-family="monospace">${p.num}</text>
+          <text x="13" y="16.5" text-anchor="middle" fill="#FFC72C" font-size="9" font-weight="900" font-family="'Plus Jakarta Sans', sans-serif">${p.num}</text>
           <rect x="-36" y="22" width="72" height="16" rx="4" fill="#070D1A" stroke="#00D2FF" stroke-width="1.2" opacity="0.95"/>
           <text y="34" text-anchor="middle" fill="#FFFFFF" font-size="9" font-weight="800">${lastName} (${pos})</text>
         </g>
@@ -14472,7 +14499,7 @@ function renderField() {
       return `
         <g class="svg-fielder-node" transform="translate(${coords.x}, ${coords.y})" onclick="switchTab('rivales')" style="cursor:pointer;" title="#${rNum} ${slot.name || 'Rival'} (${pos})">
           <circle r="17" fill="#0F172A" stroke="#EF4444" stroke-width="2.5" filter="drop-shadow(0 0 6px rgba(239,68,68,0.7))"/>
-          <text y="5" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="900" font-family="monospace">#${rNum}</text>
+          <text y="5" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="900" font-family="'Plus Jakarta Sans', sans-serif">#${rNum}</text>
           <rect x="-35" y="20" width="70" height="15" rx="4" fill="#070D1A" stroke="#EF4444" stroke-width="1"/>
           <text y="31" text-anchor="middle" fill="#F87171" font-size="8.5" font-weight="700">${rName} (${pos})</text>
         </g>
@@ -14807,7 +14834,7 @@ function renderBarChart() {
         <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="6" fill="${fillGrad}" stroke="${isLeader ? '#FFC72C' : '#00D2FF'}" stroke-width="1.5" />
         
         <!-- Valor Arriba -->
-        <text x="${x + barWidth/2}" y="${y - 6}" text-anchor="middle" fill="${isLeader ? '#FFC72C' : '#F8FAFC'}" font-size="11" font-weight="900" font-family="system-ui">${p.label}</text>
+        <text x="${x + barWidth/2}" y="${y - 6}" text-anchor="middle" fill="${isLeader ? '#FFC72C' : '#F8FAFC'}" font-size="11" font-weight="900" font-family="'Plus Jakarta Sans', sans-serif">${p.label}</text>
         
         <!-- Orden & Número Abajo -->
         <text x="${x + barWidth/2}" y="${chartBottom + 16}" text-anchor="middle" fill="#00D2FF" font-size="10.5" font-weight="bold">${p.order}º #${p.num}</text>
@@ -15071,9 +15098,9 @@ function renderTables() {
         <td style="text-align:right; font-weight:bold; color:#FFC72C;">${p.hr}</td>
         <td style="text-align:right; font-weight:bold; color:#10B981;">${p.ci}</td>
         <td style="text-align:right;">${p.bb}</td>
-        <td style="text-align:right; font-weight:bold; font-family:monospace; color:#FFC72C;">${p.ave}</td>
-        <td style="text-align:right; font-family:monospace; color:#60A5FA;">${p.obp}</td>
-        <td style="text-align:right; font-weight:bold; font-family:monospace; color:#34D399;">${p.ops}</td>
+        <td style="text-align:right; font-weight:bold; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; color:#FFC72C;">${p.ave}</td>
+        <td style="text-align:right; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; color:#60A5FA;">${p.obp}</td>
+        <td style="text-align:right; font-weight:bold; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; color:#34D399;">${p.ops}</td>
       </tr>
     `).join('');
   }
@@ -18607,7 +18634,7 @@ document.addEventListener('keydown', function(e) {
 </script>
 
 <!-- 🎙️ MODAL AGENTE DE DICTADO POR VOZ DEL LINEUP -->
-<div id="modal-voice-lineup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(7,13,26,0.92); z-index:999999; backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:20px; font-family:'Segoe UI',system-ui,-apple-system,sans-serif;">
+<div id="modal-voice-lineup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(7,13,26,0.92); z-index:999999; backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:20px; font-family:'Plus Jakarta Sans',sans-serif;">
   <div style="background:#0F172A; border:2px solid #EC4899; border-radius:16px; width:100%; max-width:540px; box-shadow:0 0 50px rgba(236,72,153,0.35); color:#F8FAFC; overflow:hidden;">
     <div style="background:linear-gradient(135deg, #1E1B4B, #0F172A); padding:18px 20px; border-bottom:1px solid rgba(236,72,153,0.3); display:flex; justify-content:space-between; align-items:center;">
       <div style="display:flex; align-items:center; gap:10px;">
@@ -18649,7 +18676,7 @@ document.addEventListener('keydown', function(e) {
 
 <!-- 🛡️ PORTAL DE AUTENTICACIÓN, HOJA DE REGISTRO & PLANES DE SUSCRIPCIÓN (DIAMAX PRO) -->
 <div id="auth-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.94); z-index:99999; backdrop-filter:blur(16px); overflow-y:auto; padding:16px; align-items:center; justify-content:center; box-sizing:border-box;">
-  <div style="background:linear-gradient(145deg, #091329, #050b18); border:2px solid rgba(0,210,255,0.5); border-radius:22px; width:100%; max-width:880px; box-shadow:0 0 50px rgba(0,210,255,0.25), 0 20px 40px rgba(0,0,0,0.8); color:#F8FAFC; overflow:hidden; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; margin:auto; position:relative;">
+  <div style="background:linear-gradient(145deg, #091329, #050b18); border:2px solid rgba(0,210,255,0.5); border-radius:22px; width:100%; max-width:880px; box-shadow:0 0 50px rgba(0,210,255,0.25), 0 20px 40px rgba(0,0,0,0.8); color:#F8FAFC; overflow:hidden; font-family:'Plus Jakarta Sans',sans-serif; margin:auto; position:relative;">
     
     <!-- Modal Top Header -->
     <div style="background:linear-gradient(135deg, #070e1e, #0d1a38); padding:18px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1);">
@@ -18686,11 +18713,11 @@ document.addEventListener('keydown', function(e) {
         </div>
         <div>
           <div style="display:flex; align-items:center; gap:10px;">
-            <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:20px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+            <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:20px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
               <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
               <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:17px;">PRO</span>
             </div>
-            <span style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:900; padding:2px 8px; border-radius:6px; letter-spacing:0.5px; font-family:'Rajdhani', sans-serif;">SPORTS OS · 2026</span>
+            <span style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:900; padding:2px 8px; border-radius:6px; letter-spacing:0.5px; font-family:'Plus Jakarta Sans', sans-serif;">SPORTS OS · 2026</span>
           </div>
           <p style="margin:3px 0 0 0; font-size:11.5px; color:#94A3B8;">Portal de Acceso, Registro de Franquicia &amp; Planes Oficiales por Temporada</p>
         </div>
@@ -19156,7 +19183,7 @@ document.addEventListener('keydown', function(e) {
           </div>
           <div style="margin-bottom:12px;">
             <label style="display:block; font-size:11px; font-weight:800; color:#94A3B8; margin-bottom:6px; text-transform:uppercase;">Código de 6 Dígitos</label>
-            <input type="text" id="recovery-code-modal" maxlength="6" placeholder="000000" style="width:100%; box-sizing:border-box; background:#040914; border:2px solid #00D2FF; border-radius:8px; padding:12px; color:#00D2FF; font-size:20px; font-weight:900; text-align:center; letter-spacing:8px; outline:none; font-family:monospace;">
+            <input type="text" id="recovery-code-modal" maxlength="6" placeholder="000000" style="width:100%; box-sizing:border-box; background:#040914; border:2px solid #00D2FF; border-radius:8px; padding:12px; color:#00D2FF; font-size:20px; font-weight:900; text-align:center; letter-spacing:8px; outline:none; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums;">
           </div>
           <div style="margin-bottom:16px;">
             <label style="display:block; font-size:11px; font-weight:800; color:#94A3B8; margin-bottom:6px; text-transform:uppercase;">Nueva Contraseña</label>
@@ -19745,7 +19772,7 @@ document.addEventListener('keydown', function(e) {
       </div>
 
       <div style="margin-bottom:12px;">
-        <textarea id="sheets-sync-textarea-input" rows="7" style="width:100%; box-sizing:border-box; background:#070D1A; border:1.5px solid #334155; border-radius:8px; color:#F8FAFC; font-family:monospace; font-size:12px; padding:10px; resize:vertical;" placeholder="1	Johan Olivo	CF	L	R&#10;2	Pablo Morales	1B	R	R&#10;3	Raul Lozada	SS	R	R&#10;4	Jorge Mitchell	2B	R	R&#10;5	Oswaldo Grillo	3B	R	R&#10;6	Nestor Vera	LF	L	R&#10;7	Pedro Moreno	RF	L	R&#10;8	Juan Perez	C	R	R&#10;9	Martin Rojas	DH	R	R"></textarea>
+        <textarea id="sheets-sync-textarea-input" rows="7" style="width:100%; box-sizing:border-box; background:#070D1A; border:1.5px solid #334155; border-radius:8px; color:#F8FAFC; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; font-size:12px; padding:10px; resize:vertical;" placeholder="1	Johan Olivo	CF	L	R&#10;2	Pablo Morales	1B	R	R&#10;3	Raul Lozada	SS	R	R&#10;4	Jorge Mitchell	2B	R	R&#10;5	Oswaldo Grillo	3B	R	R&#10;6	Nestor Vera	LF	L	R&#10;7	Pedro Moreno	RF	L	R&#10;8	Juan Perez	C	R	R&#10;9	Martin Rojas	DH	R	R"></textarea>
       </div>
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -19775,7 +19802,7 @@ document.addEventListener('keydown', function(e) {
         </button>
       </div>
 
-      <textarea id="sheets-sync-export-preview" rows="9" readonly style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #1E293B; border-radius:8px; color:#94A3B8; font-family:monospace; font-size:11px; padding:10px; resize:vertical;"></textarea>
+      <textarea id="sheets-sync-export-preview" rows="9" readonly style="width:100%; box-sizing:border-box; background:#070D1A; border:1px solid #1E293B; border-radius:8px; color:#94A3B8; font-family:'Plus Jakarta Sans', sans-serif; font-variant-numeric:tabular-nums; font-size:11px; padding:10px; resize:vertical;"></textarea>
     </div>
 
     <!-- Footer Modal -->
@@ -19843,7 +19870,7 @@ document.addEventListener('keydown', function(e) {
         <svg viewBox="0 0 100 100" width="34" height="34" style="overflow:visible; flex-shrink:0;">
           <use href="#diamax-home-plate-symbol"/>
         </svg>
-        <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:22px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+        <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:22px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
           <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">DIAMAX</span>
           <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:18px;">PRO</span>
         </div>
@@ -19856,7 +19883,7 @@ document.addEventListener('keydown', function(e) {
     </div>
 
     <!-- Título y Mensaje -->
-    <h2 style="margin:0 0 8px 0; font-family:'Montserrat', sans-serif; font-size:22px; font-weight:900; color:#FFFFFF; letter-spacing:1px; text-transform:uppercase;">
+    <h2 style="margin:0 0 8px 0; font-family:'Plus Jakarta Sans', sans-serif; font-size:22px; font-weight:900; color:#FFFFFF; letter-spacing:1px; text-transform:uppercase;">
       ¿SALIR DE DIAMAX PRO?
     </h2>
     <p style="margin:0 0 24px 0; font-size:13px; color:#94A3B8; line-height:1.5;">
@@ -19867,18 +19894,18 @@ document.addEventListener('keydown', function(e) {
     <div style="display:flex; flex-direction:column; gap:10px;">
       
       <!-- Botón Cancelar y Regresar -->
-      <button onclick="cerrarModalSalida()" style="padding:15px; background:linear-gradient(135deg, #18D8FF 0%, #0284C7 100%); color:#040814; border:none; border-radius:12px; font-family:'Montserrat', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 6px 20px rgba(24,216,255,0.35); transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
+      <button onclick="cerrarModalSalida()" style="padding:15px; background:linear-gradient(135deg, #18D8FF 0%, #0284C7 100%); color:#040814; border:none; border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 6px 20px rgba(24,216,255,0.35); transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
         ↩ CONTINUAR EN EL SISTEMA
       </button>
 
       <!-- Botón Confirmar Salida -->
-      <button onclick="ejecutarSalida()" style="padding:13px; background:rgba(239,68,68,0.1); color:#FCA5A5; border:1px solid rgba(239,68,68,0.35); border-radius:12px; font-family:'Montserrat', sans-serif; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.22)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(239,68,68,0.1)'; this.style.borderColor='rgba(239,68,68,0.35)';">
+      <button onclick="ejecutarSalida()" style="padding:13px; background:rgba(239,68,68,0.1); color:#FCA5A5; border:1px solid rgba(239,68,68,0.35); border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.22)'; this.style.borderColor='#EF4444';" onmouseout="this.style.background='rgba(239,68,68,0.1)'; this.style.borderColor='rgba(239,68,68,0.35)';">
         ⏻ CONFIRMAR SALIDA SEGURA
       </button>
 
     </div>
 
-    <div style="margin-top:16px; font-family:'Rajdhani', sans-serif; font-size:11px; color:#64748B; letter-spacing:0.8px;">
+    <div style="margin-top:16px; font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; color:#64748B; letter-spacing:0.8px;">
       3Tree Digital Sport IA · Lutz, Florida USA
     </div>
 
@@ -19892,7 +19919,7 @@ document.addEventListener('keydown', function(e) {
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(15,23,42,0.98),rgba(4,8,20,0.99));border:1px solid rgba(0,242,254,0.4);border-radius:20px;padding:28px;width:min(90vw,440px);box-shadow:0 30px 80px rgba(0,0,0,0.9),0 0 40px rgba(0,242,254,0.15);">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1px;">⚡ DIAMAX LIVE — TIEMPO REAL</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1px;">⚡ DIAMAX LIVE — TIEMPO REAL</div>
         <div style="font-size:11px;color:#64748B;font-weight:600;letter-spacing:0.5px;">Conectar marcador en vivo a la nube</div>
       </div>
       <button onclick="cerrarConfigRealtime()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">✕</button>
@@ -19902,17 +19929,17 @@ document.addEventListener('keydown', function(e) {
       📡 Estado: Verificando conexión...
     </div>
 
-    <label style="display:block;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">SUPABASE URL</label>
+    <label style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">SUPABASE URL</label>
     <input id="rt-supabase-url" placeholder="https://xyzabc.supabase.co" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
 
-    <label style="display:block;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ANON / PUBLIC KEY</label>
+    <label style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ANON / PUBLIC KEY</label>
     <input id="rt-supabase-key" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
 
-    <label style="display:block;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ID DE LIGA / TENANT (UUID)</label>
+    <label style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ID DE LIGA / TENANT (UUID)</label>
     <input id="rt-tenant-id" placeholder="Ej: liga-tampa-junior-2026 (opcional)" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:18px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
 
-    <button onclick="activarRealtime()" style="width:100%;background:linear-gradient(135deg,#00F2FE,#0284C7);color:#000;border:none;padding:14px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;margin-bottom:8px;">⚡ ACTIVAR TIEMPO REAL</button>
-    <button onclick="cerrarConfigRealtime()" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#94A3B8;padding:10px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">Cancelar</button>
+    <button onclick="activarRealtime()" style="width:100%;background:linear-gradient(135deg,#00F2FE,#0284C7);color:#000;border:none;padding:14px;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;margin-bottom:8px;">⚡ ACTIVAR TIEMPO REAL</button>
+    <button onclick="cerrarConfigRealtime()" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#94A3B8;padding:10px;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">Cancelar</button>
     
     <p style="text-align:center;font-size:10px;color:#475569;margin:12px 0 0;font-family:'Plus Jakarta Sans',sans-serif;">Obtén las credenciales en supabase.com → Settings → API · <strong style="color:#00F2FE;">$0/mes</strong></p>
   </div>
@@ -20006,7 +20033,7 @@ document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e
           </svg>
         </div>
         <div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 0 12px rgba(0,242,254,0.5);">DIAMAX GLOBAL BASEBALL ATLAS v2.0</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 0 12px rgba(0,242,254,0.5);">DIAMAX GLOBAL BASEBALL ATLAS v2.0</div>
           <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:#94A3B8;font-weight:700;letter-spacing:0.5px;">28 PAÍSES WBSC · AMÉRICA · EUROPA · ASIA-PACÍFICO — NOMBRES Y SEDES EN TIEMPO REAL</div>
         </div>
       </div>
@@ -20016,66 +20043,66 @@ document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <!-- Conmutador de Regiones / Continentes -->
       <div style="display:inline-flex;background:rgba(15,23,42,0.9);border:1px solid rgba(0,242,254,0.25);border-radius:20px;padding:2px;gap:2px;">
-        <button type="button" onclick="filtrarContinenteMapa('all')" id="btn-map-reg-all" class="map-region-btn active-reg" style="background:rgba(0,242,254,0.2);color:#00F2FE;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🌍 MUNDO (28)</button>
-        <button type="button" onclick="filtrarContinenteMapa('Americas')" id="btn-map-reg-Americas" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">⚾ AMÉRICA (14)</button>
-        <button type="button" onclick="filtrarContinenteMapa('Europe')" id="btn-map-reg-Europe" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🇪🇺 EUROPA (8)</button>
-        <button type="button" onclick="filtrarContinenteMapa('AsiaOceania')" id="btn-map-reg-AsiaOceania" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🌏 ASIA & OCEANÍA (6)</button>
+        <button type="button" onclick="filtrarContinenteMapa('all')" id="btn-map-reg-all" class="map-region-btn active-reg" style="background:rgba(0,242,254,0.2);color:#00F2FE;border:none;padding:4px 10px;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🌍 MUNDO (28)</button>
+        <button type="button" onclick="filtrarContinenteMapa('Americas')" id="btn-map-reg-Americas" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">⚾ AMÉRICA (14)</button>
+        <button type="button" onclick="filtrarContinenteMapa('Europe')" id="btn-map-reg-Europe" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🇪🇺 EUROPA (8)</button>
+        <button type="button" onclick="filtrarContinenteMapa('AsiaOceania')" id="btn-map-reg-AsiaOceania" class="map-region-btn" style="background:transparent;color:#94A3B8;border:none;padding:4px 10px;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🌏 ASIA & OCEANÍA (6)</button>
       </div>
 
       <!-- Conmutador de Estilo de Mapa Real -->
       <div style="display:inline-flex;background:rgba(15,23,42,0.9);border:1px solid rgba(0,242,254,0.3);border-radius:20px;padding:2px;gap:2px;">
-        <button type="button" onclick="cambiarEstiloMapa('sat')" id="btn-map-style-sat" style="background:rgba(0,242,254,0.22);color:#00F2FE;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Tierra Real desde Satélite con Fronteras y Nombres Oficiales">🛰️ Tierra Real HD</button>
-        <button type="button" onclick="cambiarEstiloMapa('street')" id="btn-map-style-street" style="background:transparent;color:#E2E8F0;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Mapa Mundial Político Real con Océanos Azules y Países">🌍 Mapa Mundial Real</button>
-        <button type="button" onclick="cambiarEstiloMapa('topo')" id="btn-map-style-topo" style="background:transparent;color:#E2E8F0;border:none;padding:4px 10px;border-radius:16px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Mapa Físico y Relieve Natural del Mundo">🏔️ Relieve Natural</button>
+        <button type="button" onclick="cambiarEstiloMapa('sat')" id="btn-map-style-sat" style="background:rgba(0,242,254,0.22);color:#00F2FE;border:none;padding:4px 10px;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Tierra Real desde Satélite con Fronteras y Nombres Oficiales">🛰️ Tierra Real HD</button>
+        <button type="button" onclick="cambiarEstiloMapa('street')" id="btn-map-style-street" style="background:transparent;color:#E2E8F0;border:none;padding:4px 10px;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Mapa Mundial Político Real con Océanos Azules y Países">🌍 Mapa Mundial Real</button>
+        <button type="button" onclick="cambiarEstiloMapa('topo')" id="btn-map-style-topo" style="background:transparent;color:#E2E8F0;border:none;padding:4px 10px;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;" title="Mapa Físico y Relieve Natural del Mundo">🏔️ Relieve Natural</button>
       </div>
 
       <!-- Toggle Etiquetas de Nombres de Países -->
-      <button type="button" id="btn-toggle-country-labels" onclick="toggleEtiquetasPaisesMapa()" style="background:rgba(16,185,129,0.18);border:1px solid #10B981;color:#A7F3D0;padding:4px 10px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🏷️ NOMBRES DE PAÍSES: ON</button>
+      <button type="button" id="btn-toggle-country-labels" onclick="toggleEtiquetasPaisesMapa()" style="background:rgba(16,185,129,0.18);border:1px solid #10B981;color:#A7F3D0;padding:4px 10px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">🏷️ NOMBRES DE PAÍSES: ON</button>
 
       <div id="map-rt-badge" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid rgba(34,197,94,0.4);background:rgba(34,197,94,0.1);">
         <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22C55E;animation:rtPulse 1.2s infinite;"></span>
-        <span style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:900;color:#22C55E;letter-spacing:0.5px;">LIVE</span>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:900;color:#22C55E;letter-spacing:0.5px;">LIVE</span>
       </div>
-      <div id="map-counter" style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:800;color:#FFB82E;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,184,46,0.3);background:rgba(255,184,46,0.1);">⚾ 38 LIGAS · 28 PAÍSES</div>
+      <div id="map-counter" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800;color:#FFB82E;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,184,46,0.3);background:rgba(255,184,46,0.1);">⚾ 38 LIGAS · 28 PAÍSES</div>
     </div>
   </div>
 
   <!-- Barra de Filtros por País (28 Países que juegan Béisbol) -->
   <div id="map-filter-bar" style="position:absolute;top:58px;left:0;right:0;z-index:999998;background:rgba(2,6,23,0.94);border-bottom:1px solid rgba(0,242,254,0.14);padding:8px 16px;display:flex;align-items:center;gap:6px;overflow-x:auto;backdrop-filter:blur(16px);">
-    <span style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:900;color:#00F2FE;letter-spacing:0.8px;white-space:nowrap;">PAÍSES (28):</span>
-    <button type="button" onclick="filtrarMapa('all', event)" class="map-filter-btn active-filter" data-country="all" style="background:rgba(0,242,254,0.15);border:1px solid #00F2FE;color:#00F2FE;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🌎 TODOS LOS PAÍSES</button>
+    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:900;color:#00F2FE;letter-spacing:0.8px;white-space:nowrap;">PAÍSES (28):</span>
+    <button type="button" onclick="filtrarMapa('all', event)" class="map-filter-btn active-filter" data-country="all" style="background:rgba(0,242,254,0.15);border:1px solid #00F2FE;color:#00F2FE;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🌎 TODOS LOS PAÍSES</button>
     <!-- América & Caribe -->
-    <button type="button" onclick="filtrarMapa('USA', event)" class="map-filter-btn" data-country="USA" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇺🇸 Estados Unidos</button>
-    <button type="button" onclick="filtrarMapa('Venezuela', event)" class="map-filter-btn" data-country="Venezuela" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇻🇪 Venezuela</button>
-    <button type="button" onclick="filtrarMapa('Dominican Republic', event)" class="map-filter-btn" data-country="Dominican Republic" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇩🇴 Rep. Dominicana</button>
-    <button type="button" onclick="filtrarMapa('Puerto Rico', event)" class="map-filter-btn" data-country="Puerto Rico" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇷 Puerto Rico</button>
-    <button type="button" onclick="filtrarMapa('Cuba', event)" class="map-filter-btn" data-country="Cuba" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇺 Cuba</button>
-    <button type="button" onclick="filtrarMapa('Mexico', event)" class="map-filter-btn" data-country="Mexico" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇲🇽 México</button>
+    <button type="button" onclick="filtrarMapa('USA', event)" class="map-filter-btn" data-country="USA" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇺🇸 Estados Unidos</button>
+    <button type="button" onclick="filtrarMapa('Venezuela', event)" class="map-filter-btn" data-country="Venezuela" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇻🇪 Venezuela</button>
+    <button type="button" onclick="filtrarMapa('Dominican Republic', event)" class="map-filter-btn" data-country="Dominican Republic" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇩🇴 Rep. Dominicana</button>
+    <button type="button" onclick="filtrarMapa('Puerto Rico', event)" class="map-filter-btn" data-country="Puerto Rico" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇷 Puerto Rico</button>
+    <button type="button" onclick="filtrarMapa('Cuba', event)" class="map-filter-btn" data-country="Cuba" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇺 Cuba</button>
+    <button type="button" onclick="filtrarMapa('Mexico', event)" class="map-filter-btn" data-country="Mexico" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇲🇽 México</button>
     <!-- Europa Destacados (España, Italia, Inglaterra, Holanda...) -->
-    <button type="button" onclick="filtrarMapa('Spain', event)" class="map-filter-btn" data-country="Spain" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇪🇸 España</button>
-    <button type="button" onclick="filtrarMapa('Italy', event)" class="map-filter-btn" data-country="Italy" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇮🇹 Italia</button>
-    <button type="button" onclick="filtrarMapa('England', event)" class="map-filter-btn" data-country="England" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</button>
-    <button type="button" onclick="filtrarMapa('Netherlands', event)" class="map-filter-btn" data-country="Netherlands" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇳🇱 Países Bajos</button>
+    <button type="button" onclick="filtrarMapa('Spain', event)" class="map-filter-btn" data-country="Spain" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇪🇸 España</button>
+    <button type="button" onclick="filtrarMapa('Italy', event)" class="map-filter-btn" data-country="Italy" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇮🇹 Italia</button>
+    <button type="button" onclick="filtrarMapa('England', event)" class="map-filter-btn" data-country="England" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</button>
+    <button type="button" onclick="filtrarMapa('Netherlands', event)" class="map-filter-btn" data-country="Netherlands" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇳🇱 Países Bajos</button>
     <!-- Asia & Oceanía (China, Japón, Corea, Taiwán, Australia...) -->
-    <button type="button" onclick="filtrarMapa('China', event)" class="map-filter-btn" data-country="China" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇳 China</button>
-    <button type="button" onclick="filtrarMapa('Japan', event)" class="map-filter-btn" data-country="Japan" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇯🇵 Japón</button>
-    <button type="button" onclick="filtrarMapa('South Korea', event)" class="map-filter-btn" data-country="South Korea" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇰🇷 Corea del Sur</button>
-    <button type="button" onclick="filtrarMapa('Taiwan', event)" class="map-filter-btn" data-country="Taiwan" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇹🇼 Taiwán</button>
+    <button type="button" onclick="filtrarMapa('China', event)" class="map-filter-btn" data-country="China" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇳 China</button>
+    <button type="button" onclick="filtrarMapa('Japan', event)" class="map-filter-btn" data-country="Japan" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇯🇵 Japón</button>
+    <button type="button" onclick="filtrarMapa('South Korea', event)" class="map-filter-btn" data-country="South Korea" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇰🇷 Corea del Sur</button>
+    <button type="button" onclick="filtrarMapa('Taiwan', event)" class="map-filter-btn" data-country="Taiwan" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇹🇼 Taiwán</button>
     <!-- Resto de América, Europa y Oceanía -->
-    <button type="button" onclick="filtrarMapa('Colombia', event)" class="map-filter-btn" data-country="Colombia" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇴 Colombia</button>
-    <button type="button" onclick="filtrarMapa('Panama', event)" class="map-filter-btn" data-country="Panama" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇦 Panamá</button>
-    <button type="button" onclick="filtrarMapa('Nicaragua', event)" class="map-filter-btn" data-country="Nicaragua" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇳🇮 Nicaragua</button>
-    <button type="button" onclick="filtrarMapa('Canada', event)" class="map-filter-btn" data-country="Canada" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇦 Canadá</button>
-    <button type="button" onclick="filtrarMapa('Curacao', event)" class="map-filter-btn" data-country="Curacao" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇼 Curazao</button>
-    <button type="button" onclick="filtrarMapa('Aruba', event)" class="map-filter-btn" data-country="Aruba" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇼 Aruba</button>
-    <button type="button" onclick="filtrarMapa('Brazil', event)" class="map-filter-btn" data-country="Brazil" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇧🇷 Brasil</button>
-    <button type="button" onclick="filtrarMapa('Argentina', event)" class="map-filter-btn" data-country="Argentina" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇷 Argentina</button>
-    <button type="button" onclick="filtrarMapa('Czech Republic', event)" class="map-filter-btn" data-country="Czech Republic" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇿 Rep. Checa</button>
-    <button type="button" onclick="filtrarMapa('Germany', event)" class="map-filter-btn" data-country="Germany" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇩🇪 Alemania</button>
-    <button type="button" onclick="filtrarMapa('France', event)" class="map-filter-btn" data-country="France" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇫🇷 Francia</button>
-    <button type="button" onclick="filtrarMapa('Israel', event)" class="map-filter-btn" data-country="Israel" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇮🇱 Israel</button>
-    <button type="button" onclick="filtrarMapa('Australia', event)" class="map-filter-btn" data-country="Australia" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇺 Australia</button>
-    <button type="button" onclick="filtrarMapa('Philippines', event)" class="map-filter-btn" data-country="Philippines" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇭 Filipinas</button>
+    <button type="button" onclick="filtrarMapa('Colombia', event)" class="map-filter-btn" data-country="Colombia" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇴 Colombia</button>
+    <button type="button" onclick="filtrarMapa('Panama', event)" class="map-filter-btn" data-country="Panama" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇦 Panamá</button>
+    <button type="button" onclick="filtrarMapa('Nicaragua', event)" class="map-filter-btn" data-country="Nicaragua" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇳🇮 Nicaragua</button>
+    <button type="button" onclick="filtrarMapa('Canada', event)" class="map-filter-btn" data-country="Canada" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇦 Canadá</button>
+    <button type="button" onclick="filtrarMapa('Curacao', event)" class="map-filter-btn" data-country="Curacao" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇼 Curazao</button>
+    <button type="button" onclick="filtrarMapa('Aruba', event)" class="map-filter-btn" data-country="Aruba" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇼 Aruba</button>
+    <button type="button" onclick="filtrarMapa('Brazil', event)" class="map-filter-btn" data-country="Brazil" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇧🇷 Brasil</button>
+    <button type="button" onclick="filtrarMapa('Argentina', event)" class="map-filter-btn" data-country="Argentina" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇷 Argentina</button>
+    <button type="button" onclick="filtrarMapa('Czech Republic', event)" class="map-filter-btn" data-country="Czech Republic" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇨🇿 Rep. Checa</button>
+    <button type="button" onclick="filtrarMapa('Germany', event)" class="map-filter-btn" data-country="Germany" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇩🇪 Alemania</button>
+    <button type="button" onclick="filtrarMapa('France', event)" class="map-filter-btn" data-country="France" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇫🇷 Francia</button>
+    <button type="button" onclick="filtrarMapa('Israel', event)" class="map-filter-btn" data-country="Israel" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇮🇱 Israel</button>
+    <button type="button" onclick="filtrarMapa('Australia', event)" class="map-filter-btn" data-country="Australia" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇦🇺 Australia</button>
+    <button type="button" onclick="filtrarMapa('Philippines', event)" class="map-filter-btn" data-country="Philippines" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94A3B8;padding:4px 12px;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;">🇵🇭 Filipinas</button>
   </div>
 
   <!-- Canvas del Mapa (Fondo Azul Océano Real, Cero Filtros Oscuros) -->
@@ -20084,7 +20111,7 @@ document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e
   <!-- Panel lateral: Buscador de Países + Directorio de Ligas y Sedes -->
   <div id="map-side-panel" style="position:absolute;top:104px;right:0;bottom:0;width:300px;background:rgba(2,6,23,0.97);border-left:1px solid rgba(0,242,254,0.22);display:flex;flex-direction:column;z-index:999997;backdrop-filter:blur(20px);">
     <div style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.08);">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:12.5px;font-weight:900;color:#00F2FE;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:900;color:#00F2FE;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
         <span>🌐 DIRECTORIO MUNDIAL WBSC</span>
         <span id="map-side-country-count" style="font-size:10px;color:#FFC72C;background:rgba(255,199,44,0.12);padding:2px 8px;border-radius:10px;border:1px solid rgba(255,199,44,0.3);">28 Países</span>
       </div>
@@ -20129,7 +20156,7 @@ document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e
   border: 1.5px solid rgba(0, 242, 254, 0.75);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.85), 0 0 10px rgba(0, 242, 254, 0.35);
   color: #FFFFFF;
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 11.5px;
   font-weight: 900;
   letter-spacing: 0.7px;
@@ -20452,8 +20479,8 @@ function crearPopupLiga(liga) {
   const flag = info.flag;
   const color = CATEGORY_COLORS[liga.category_level] || CATEGORY_COLORS.default;
   const activeGame = liga.active_game ? '<span style="background:rgba(34,197,94,0.2);color:#22C55E;border:1px solid rgba(34,197,94,0.4);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;">🔴 JUEGO EN VIVO</span>' : '<span style="background:rgba(255,255,255,0.05);color:#94A3B8;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;">Circuito Oficial WBSC</span>';
-  return '<div style="font-family:sans-serif;min-width:230px;">' +
-    '<div style="font-family:sans-serif;font-size:14.5px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
+  return '<div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:230px;">' +
+    '<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
     '<div style="display:flex;gap:6px;margin-bottom:8px;align-items:center;">' + activeGame + '<span style="font-size:10px;color:#FFC72C;font-weight:800;">WBSC #' + info.wbscRank + '</span></div>' +
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:10px;">' +
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">PAÍS</div><div style="color:#fff;font-size:11.5px;font-weight:800;">' + flag + ' ' + info.nameEs + '</div></div>' +
@@ -20461,7 +20488,7 @@ function crearPopupLiga(liga) {
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">CATEGORÍA</div><div style="color:' + color + ';font-size:12px;font-weight:800;">' + (liga.category_level || '—') + '</div></div>' +
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">EQUIPOS / JUG.</div><div style="color:#FFB82E;font-size:11.5px;font-weight:800;">⚾ ' + (liga.teams || 0) + ' eq · ' + (liga.players || 120) + ' jug</div></div>' +
     '</div>' +
-    '<div style="background:rgba(0,242,254,0.06);border:1px solid rgba(0,242,254,0.25);border-radius:8px;padding:6px 10px;text-align:center;font-family:sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
+    '<div style="background:rgba(0,242,254,0.06);border:1px solid rgba(0,242,254,0.25);border-radius:8px;padding:6px 10px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
     '</div>';
 }
 
@@ -20473,11 +20500,11 @@ function renderLeagueCard(liga) {
   const dot = liga.active_game ? '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22C55E;margin-right:4px;animation:rtPulse 1.2s infinite;"></span>' : '';
   return '<div class="map-league-card" onclick="focusLiga(' + JSON.stringify(liga.id) + ')">' +
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
-      '<span style="font-family:\'Rajdhani\',sans-serif;font-size:10.5px;font-weight:900;color:#FFC72C;letter-spacing:0.6px;">' + flag + ' ' + info.nameEs + '</span>' +
+      '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:10.5px;font-weight:900;color:#FFC72C;letter-spacing:0.6px;">' + flag + ' ' + info.nameEs + '</span>' +
       '<span style="font-size:9.5px;color:#64748B;font-weight:700;">WBSC #' + info.wbscRank + '</span>' +
     '</div>' +
-    '<div style="font-family:sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:3px;">' + dot + liga.name + '</div>' +
-    '<div style="font-family:sans-serif;font-size:10.5px;color:#94A3B8;font-weight:600;">📍 ' + liga.city + ' · ⚾ ' + (liga.teams || 0) + ' equipos · ' + (liga.players || 120) + ' jug.</div>' +
+    '<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:3px;">' + dot + liga.name + '</div>' +
+    '<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10.5px;color:#94A3B8;font-weight:600;">📍 ' + liga.city + ' · ⚾ ' + (liga.teams || 0) + ' equipos · ' + (liga.players || 120) + ' jug.</div>' +
     '</div>';
 }
 
@@ -20740,8 +20767,8 @@ window.addEventListener('DOMContentLoaded', function() {
         </div>
         <div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <h3 style="margin:0; font-family:'Montserrat', sans-serif; font-size:16px; font-weight:900; color:#FFFFFF; letter-spacing:0.5px;">DIAMAX AI COPILOT</h3>
-            <span id="ai-voice-status-badge" style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:800; color:#10B981; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); padding:2px 8px; border-radius:12px;">● LISTO</span>
+            <h3 style="margin:0; font-family:'Plus Jakarta Sans', sans-serif; font-size:16px; font-weight:900; color:#FFFFFF; letter-spacing:0.5px;">DIAMAX AI COPILOT</h3>
+            <span id="ai-voice-status-badge" style="font-family:'Plus Jakarta Sans', sans-serif; font-size:11px; font-weight:800; color:#10B981; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); padding:2px 8px; border-radius:12px;">● LISTO</span>
           </div>
           <span style="font-size:11.5px; color:#94A3B8;">Asistente Sabermétrico Autónomo · Dictado de Alineaciones &amp; Análisis de Datos</span>
         </div>
@@ -20771,7 +20798,7 @@ window.addEventListener('DOMContentLoaded', function() {
     <!-- Live Conversation & Results Display -->
     <div id="diamax-ai-results-container" style="padding:20px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:16px; min-height:260px;">
       <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:18px; color:#E2E8F0; font-size:13px; line-height:1.6;">
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; color:#00D2FF; font-weight:900; font-family:'Montserrat', sans-serif;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; color:#00D2FF; font-weight:900; font-family:'Plus Jakarta Sans', sans-serif;">
           <svg viewBox="0 0 24 24" width="16" height="16"><use href="#diamax-icon-ai-core"/></svg> BIENVENIDO AL AGENTE IA SABERMÉTRICO
         </div>
         <p style="margin:0 0 10px 0; color:#94A3B8;">
@@ -20797,7 +20824,7 @@ window.addEventListener('DOMContentLoaded', function() {
         <svg viewBox="0 0 24 24" width="20" height="20"><use href="#diamax-icon-mic-cyber"/></svg>
       </button>
       <input type="text" id="ai-query-input" placeholder="Escribe o dicta tu consulta (ej: 'Alineación Visitante: 1. Altuve 2B, 2. Acuña RF...')" style="flex:1; background:rgba(4,9,20,0.9); border:1.5px solid rgba(0,210,255,0.3); border-radius:14px; padding:12px 16px; color:#FFF; font-size:13px; outline:none; font-family:'Plus Jakarta Sans', sans-serif;" onkeydown="if(event.key==='Enter') ejecutarConsultaDesdeInput();">
-      <button onclick="ejecutarConsultaDesdeInput()" style="background:linear-gradient(135deg, #F26522, #EA580C); border:none; color:#FFF; padding:12px 20px; border-radius:14px; font-weight:900; font-family:'Montserrat', sans-serif; font-size:12.5px; cursor:pointer; box-shadow:0 0 16px rgba(242,101,34,0.4); transition:all 0.2s; flex-shrink:0; display:inline-flex; align-items:center; gap:6px;">
+      <button onclick="ejecutarConsultaDesdeInput()" style="background:linear-gradient(135deg, #F26522, #EA580C); border:none; color:#FFF; padding:12px 20px; border-radius:14px; font-weight:900; font-family:'Plus Jakarta Sans', sans-serif; font-size:12.5px; cursor:pointer; box-shadow:0 0 16px rgba(242,101,34,0.4); transition:all 0.2s; flex-shrink:0; display:inline-flex; align-items:center; gap:6px;">
         <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-energy-bolt"/></svg> Procesar
       </button>
     </div>
@@ -20905,7 +20932,7 @@ async function ejecutarConsultaIA(queryText) {
   else if (result.type === 'TACTICAL_ADVICE') headerIcon = '#diamax-icon-tactical-crosshair';
 
   let html = '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">';
-  html += '<div style="display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" width="16" height="16"><use href="' + headerIcon + '"/></svg><strong style="color:#00D2FF; font-size:14px; font-family:\'Montserrat\', sans-serif;">' + escapeHTML(result.title || 'Respuesta IA') + '</strong></div>';
+  html += '<div style="display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" width="16" height="16"><use href="' + headerIcon + '"/></svg><strong style="color:#00D2FF; font-size:14px; font-family:\'Plus Jakarta Sans\', sans-serif;">' + escapeHTML(result.title || 'Respuesta IA') + '</strong></div>';
   html += '<span style="font-size:10.5px; color:#94A3B8; font-family:var(--font-mono);">' + new Date().toLocaleTimeString() + '</span></div>';
 
   if (result.type === 'LINEUP_CREATED') {
