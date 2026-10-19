@@ -21,6 +21,131 @@
     }
   }
 })();
+
+// =========================================================================
+// 🎙️ SISTEMA DE CABINA DE TRANSMISIÓN & COMENTARISTAS PRO
+// =========================================================================
+function toggleModoCabinaComentaristas() {
+  const panelCabina = document.getElementById('panel-cabina-comentaristas');
+  const panelChat = document.getElementById('panel-agente-chat-estratega');
+  const btnToggle = document.getElementById('btn-toggle-cabina-comentarista');
+  if (!panelCabina || !panelChat) return;
+  const isVisible = panelCabina.style.display !== 'none';
+  if (isVisible) {
+    panelCabina.style.display = 'none';
+    panelChat.style.display = 'flex';
+    if (btnToggle) {
+      btnToggle.innerHTML = '<span>🎙️</span> <span>Modo Cabina de Comentaristas</span>';
+      btnToggle.style.background = 'rgba(242,101,34,0.22)';
+      btnToggle.style.borderColor = '#F26522';
+      btnToggle.style.color = '#F26522';
+    }
+  } else {
+    panelCabina.style.display = 'block';
+    panelChat.style.display = 'none';
+    if (btnToggle) {
+      btnToggle.innerHTML = '<span>🧠</span> <span>Volver a Consola Táctica</span>';
+      btnToggle.style.background = 'rgba(0,210,255,0.22)';
+      btnToggle.style.borderColor = '#00D2FF';
+      btnToggle.style.color = '#00D2FF';
+    }
+    generarPildorasTransmision();
+  }
+}
+window.toggleModoCabinaComentaristas = toggleModoCabinaComentaristas;
+
+function generarPildorasTransmision() {
+  const container = document.getElementById('cabina-pildoras-container');
+  const ls = (typeof liveState !== 'undefined') ? liveState : { inning: 1, half: 'top', outs: 0, scoreUs: 0, scoreThem: 0 };
+  const current = (typeof getLiveCurrentBatter === 'function') ? getLiveCurrentBatter() : { player: { num: 1, name: "Bateador Activo" }, pos: "DH" };
+  const pName = (current && current.player) ? current.player.name : "Bateador";
+  const pNum = (current && current.player) ? current.player.num : 1;
+  const activeP = (typeof activePitcherStats !== 'undefined') ? activePitcherStats : { totalPitches: 28, strikes: 19, balls: 9 };
+  const pPct = activeP.totalPitches > 0 ? Math.round((activeP.strikes / activeP.totalPitches) * 100) : 0;
+  const innStr = 'Inning ' + (ls.inning || 1) + ' (' + (ls.half === 'top' ? 'Parte Alta ▲' : 'Parte Baja ▼') + ')';
+  const outsStr = (ls.outs || 0) + ' Out' + ((ls.outs || 0) === 1 ? '' : 's');
+  const scoreStr = 'Guerreros ' + (ls.scoreUs || 0) + ' - Rival ' + (ls.scoreThem || 0);
+
+  // Actualizar HUD Gigante
+  const hudInn = document.getElementById('cabina-hud-inning');
+  const hudOuts = document.getElementById('cabina-hud-outs');
+  const hudScore = document.getElementById('cabina-hud-score');
+  const hudPitches = document.getElementById('cabina-hud-pitches');
+  const hudWinP = document.getElementById('cabina-hud-winp');
+
+  if (hudInn) hudInn.innerText = (ls.inning || 1) + ' ' + (ls.half === 'top' ? '▲ ALTA' : '▼ BAJA');
+  if (hudOuts) hudOuts.innerText = (ls.outs || 0) + ' OUT' + ((ls.outs || 0) === 1 ? '' : 'S');
+  if (hudScore) hudScore.innerText = 'GVE ' + (ls.scoreUs || 0) + ' - ' + (ls.scoreThem || 0) + ' RIV';
+  if (hudPitches) {
+    hudPitches.innerText = activeP.totalPitches + ' / 75 PITCH';
+    hudPitches.style.color = activeP.totalPitches >= 70 ? '#EF4444' : (activeP.totalPitches >= 50 ? '#FFC72C' : '#10B981');
+  }
+  if (hudWinP) {
+    const scoreDiff = (ls.scoreUs || 0) - (ls.scoreThem || 0);
+    const winP = Math.min(96, Math.max(5, Math.round(50 + (scoreDiff * 8.5))));
+    hudWinP.innerText = winP + '%';
+  }
+
+  if (!container) return;
+
+  const pildoras = [
+    {
+      tipo: "🎙️ Situación de Juego al Aire",
+      texto: "Estamos en vivo por la señal de DIAMAX PRO transmitiendo las emociones del " + innStr + ", con " + outsStr + " en la pizarra y el marcador " + scoreStr + ". Encuentro de alta intensidad estratégica en el circuito Master +55."
+    },
+    {
+      tipo: "⚾ Píldora del Lanzador (Pedro Chávez)",
+      texto: "En la lomita de los disparos, el abridor Pedro Chávez totaliza " + activeP.totalPitches + " lanzamientos oficiales con un sólido " + pPct + "% en strikes. Recuerden que bajo la regla de protección médica +55 el límite es de 75 pitcheos, por lo que el bullpen ya se mantiene activo."
+    },
+    {
+      tipo: "🎯 Duelo en la Caja de Bateo",
+      texto: "Toma turno en el cajón de bateadores #" + pNum + " " + pName + ". La telemetría de spray chart lo ubica con fuerte tendencia de poder hacia el jardín central e izquierdo ante rectas en zona media."
+    },
+    {
+      tipo: "📊 Sabermetría para la Audiencia",
+      texto: "Dato para compartir al aire: Guerreros de Venezuela exhibe un wOBA colectivo de .384 y un porcentaje de embasado de .375 en situaciones de apremio, convirtiendo cada turno en una amenaza latente."
+    }
+  ];
+
+  container.innerHTML = pildoras.map(function(p, i) {
+    return '<div style="background:#070E1E; border:1px solid rgba(242,101,34,0.35); border-radius:10px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.4);">' +
+      '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">' +
+        '<span style="color:#F26522; font-weight:900; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">' + p.tipo + '</span>' +
+        '<div style="display:flex; gap:6px;">' +
+          '<button type="button" onclick="copiarPildoraTexto(' + i + ')" style="background:#1E293B; border:1px solid #334155; color:#CBD5E1; font-size:11px; padding:3px 9px; border-radius:4px; cursor:pointer;" title="Copiar al portapapeles">📋 Copiar</button>' +
+          '<button type="button" onclick="narrarPildoraTexto(' + i + ')" style="background:rgba(242,101,34,0.25); border:1px solid #F26522; color:#FFC72C; font-size:11px; padding:3px 9px; border-radius:4px; cursor:pointer;" title="Escuchar por sintetizador">🔊 Al Aire</button>' +
+        '</div>' +
+      '</div>' +
+      '<div id="pildora-txt-' + i + '" style="color:#FFFFFF; font-size:13px; line-height:1.5; font-family:\'Montserrat\', sans-serif;">' + p.texto + '</div>' +
+    '</div>';
+  }).join('');
+}
+window.generarPildorasTransmision = generarPildorasTransmision;
+
+function copiarPildoraTexto(idx) {
+  const el = document.getElementById('pildora-txt-' + idx);
+  if (el) {
+    navigator.clipboard.writeText(el.innerText).then(function() {
+      alert('🎙️ Píldora copiada al portapapeles para leer al micrófono.');
+    }).catch(function() {
+      alert('Copiado: ' + el.innerText);
+    });
+  }
+}
+window.copiarPildoraTexto = copiarPildoraTexto;
+
+function narrarPildoraTexto(idx) {
+  const el = document.getElementById('pildora-txt-' + idx);
+  if (el && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(el.innerText);
+    u.lang = 'es-ES';
+    u.rate = 1.05;
+    window.speechSynthesis.speak(u);
+  }
+}
+window.narrarPildoraTexto = narrarPildoraTexto;
+
 </script>
 
 
@@ -4984,6 +5109,25 @@ body.daylight-mode #btn-daylight {
               </div>
 
               <!-- PLAN 2: MANAGER PRO -->
+              <!-- PLAN COMENTARISTA & MEDIA -->
+              <div id="p2-plan-card-MEDIA" onclick="seleccionarPlanP2('MEDIA_PRO')" style="background:linear-gradient(165deg, rgba(242,101,34,0.12), rgba(8,12,24,0.92)); border:1.8px solid #F26522; border-radius:18px; padding:22px; cursor:pointer; transition:all 0.25s; box-shadow:0 0 25px rgba(242,101,34,0.2);">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                  <span style="font-size:24px;">🎙️</span>
+                  <h4 style="margin:0; font-size:16px; font-weight:900; color:#F26522;">Comentarista & Media</h4>
+                </div>
+                <p style="margin:0 0 12px 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">Para narradores de TV, streaming, radio y prensa deportiva profesional.</p>
+                <div style="margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                  <span style="font-size:30px; font-weight:900; color:#FFF; letter-spacing:-0.5px;">$14.99</span>
+                  <span style="font-size:11.5px; color:#94A3B8; font-weight:700;"> / mes · $120/año</span>
+                </div>
+                <ul style="list-style:none; padding:0; margin:0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:8px;">
+                  <li><span style="color:#F26522; font-weight:900;">✓</span> Modo Cabina de Transmisión HD</li>
+                  <li><span style="color:#F26522; font-weight:900;">✓</span> Píldoras narrativas automáticas al aire</li>
+                  <li><span style="color:#F26522; font-weight:900;">✓</span> Telemetría de pitcheo y sabermetría live</li>
+                  <li style="color:#FFC72C; font-weight:800;">🎙️ Listo para micrófono y streaming</li>
+                </ul>
+              </div>
+
               <div id="p2-plan-card-MANAGER" onclick="seleccionarPlanP2('MANAGER_PRO')" style="background:linear-gradient(165deg, rgba(28,20,10,0.85), rgba(8,12,24,0.9)); border:1px solid rgba(255,184,46,0.45); border-radius:18px; padding:22px; cursor:pointer; transition:all 0.25s;">
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
                   <span style="font-size:24px;">👑</span>
@@ -5078,8 +5222,8 @@ body.daylight-mode #btn-daylight {
               <input type="text" id="p2-input-verif-code" maxlength="6" placeholder="000000" style="width:100%; box-sizing:border-box; background:rgba(3,7,18,0.9); border:2px solid #18D8FF; border-radius:14px; padding:16px; font-size:26px; font-weight:900; text-align:center; letter-spacing:12px; color:#18D8FF; outline:none; box-shadow:0 0 25px rgba(24,216,255,0.3), inset 0 2px 5px rgba(0,0,0,0.6); font-family:monospace;">
               
               <!-- Botón Ayudante para Pruebas del CEO (Oculto en Producción Pública) -->
-              <button type="button" id="p2-qa-verif-btn" onclick="autoLlenarCodigoVerif()" style="display:none; margin-top:10px; background:none; border:none; color:#18D8FF; font-size:11.5px; cursor:pointer; text-decoration:underline; font-weight:700;">
-                ⚡ Auto-completar código (Prueba Rápida: 852914)
+              <button type="button" id="p2-qa-verif-btn" onclick="autoLlenarCodigoVerif()" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; margin-top:14px; background:linear-gradient(135deg, rgba(255,199,44,0.18), rgba(242,101,34,0.18)); border:1.8px solid #FFC72C; color:#FFC72C; font-size:12.5px; padding:12px 20px; border-radius:12px; cursor:pointer; font-weight:900; box-shadow:0 0 20px rgba(255,199,44,0.28); font-family:'Montserrat',sans-serif;">
+                👑 Acceso Maestro Lic. Alí Zapata (OTP: 852914)
               </button>
             </div>
 
@@ -5824,6 +5968,13 @@ body.daylight-mode #btn-daylight {
           <div>
             <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;" id="campo-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.2" style="vertical-align:middle; margin-right:5px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Terreno Táctico 2D & Spray Chart</h3>
             <p style="margin:2px 0 0 0; font-size:11px; color:#00D2FF; font-weight:700;" id="campo-subtitle">Toca cualquier parte del terreno para registrar un batazo táctico en vivo.</p>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; width:100%; align-items:center;">
+            <span style="font-size:11px; color:#FFC72C; font-weight:900; letter-spacing:0.5px;">🛡️ 4 SHIFTS DEFENSIVOS:</span>
+            <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('NORMAL')" class="btn-sm-action" style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10.5px; padding:4px 9px; border-radius:6px; font-weight:800; cursor:pointer;">Estándar</button>
+            <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('ANTI_PULL')" class="btn-sm-action" style="background:rgba(242,101,34,0.15); border:1px solid #F26522; color:#F26522; font-size:10.5px; padding:4px 9px; border-radius:6px; font-weight:800; cursor:pointer;">Shift Derecho Anti-Pull</button>
+            <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('INFIELD_IN')" class="btn-sm-action" style="background:rgba(255,199,44,0.15); border:1px solid #FFC72C; color:#FFC72C; font-size:10.5px; padding:4px 9px; border-radius:6px; font-weight:800; cursor:pointer;">Infield Adentro</button>
+            <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('NO_DOUBLES')" class="btn-sm-action" style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#FCA5A5; font-size:10.5px; padding:4px 9px; border-radius:6px; font-weight:800; cursor:pointer;">No-Doubles</button>
           </div>
           <div style="display:flex; gap:6px;">
             <button onclick="toggleSprayChartMode('ALL')" class="btn-sm-action" id="spray-btn-all" style="background:#00D2FF; color:#0B0F19; border:none; padding:5px 10px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">Todos</button>
@@ -6778,26 +6929,36 @@ body.daylight-mode #btn-daylight {
             <svg width="16" height="16" viewBox="0 0 24 24" style="filter:drop-shadow(0 0 6px #00D2FF);"><use href="#diamax-icon-tactical-crosshair"/></svg>
             <strong style="color:#00D2FF; font-size:12.5px; text-transform:uppercase; letter-spacing:0.8px;">Prescripciones Tácticas In-Game (Ejecución Directa):</strong>
           </div>
-          <span style="font-size:11px; color:#94A3B8;">Respuesta instantánea con telemetría WBSC y modelo predictivo</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button id="btn-toggle-cabina-comentarista" type="button" onclick="toggleModoCabinaComentaristas()" style="padding:8px 16px; font-size:12px; font-weight:900; border-radius:8px; background:rgba(242,101,34,0.22); border:1.8px solid #F26522; color:#F26522; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 16px rgba(242,101,34,0.35); transition:all 0.2s;" title="Conmutar vista de Cabina de Transmisión">
+              <span>🎙️</span> <span>Modo Cabina de Comentaristas</span>
+            </button>
+          </div>
         </div>
         <div class="ai-quick-btn-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:8px;">
+          <!-- 1. MOVER BULLPEN -->
+          <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('BULLPEN_RELIEF')" style="padding:10px 12px; font-size:12px; font-weight:900; border-radius:8px; background:rgba(239,68,68,0.18); border:1.8px solid #EF4444; color:#FCA5A5; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center; box-shadow:0 0 14px rgba(239,68,68,0.3);">
+            <span>🚨</span> <span>Mover Bullpen</span>
+          </button>
+          <!-- 2. QUÉ DEFENSA APLICO -->
+          <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('DEFENSIVE_SHIFT')" style="padding:10px 12px; font-size:12px; font-weight:900; border-radius:8px; background:rgba(0,210,255,0.15); border:1.8px solid #00D2FF; color:#00D2FF; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center; box-shadow:0 0 14px rgba(0,210,255,0.3);">
+            <span>🛡️</span> <span>Qué Defensa Aplico</span>
+          </button>
+          <!-- 3. TOCAR O BATEAR -->
+          <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('BUNT_OR_HIT')" style="padding:10px 12px; font-size:12px; font-weight:900; border-radius:8px; background:rgba(255,199,44,0.18); border:1.8px solid #FFC72C; color:#FFC72C; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center; box-shadow:0 0 14px rgba(255,199,44,0.3);">
+            <span>⚾</span> <span>Tocar o Batear</span>
+          </button>
+          <!-- 4. PITCHEO / SELECCIÓN -->
           <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('PITCH_CALL')" style="padding:10px 12px; font-size:12px; font-weight:800; border-radius:8px; background:rgba(0,210,255,0.08); border:1.5px solid #00D2FF; color:#00D2FF; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center;">
             <svg width="15" height="15" viewBox="0 0 24 24"><use href="#diamax-icon-tactical-pitch"/></svg> <span>Pitcheo / Selección</span>
           </button>
-          <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('DEFENSIVE_SHIFT')" style="padding:10px 12px; font-size:12px; font-weight:800; border-radius:8px; background:rgba(0,210,255,0.08); border:1.5px solid #00D2FF; color:#00D2FF; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center;">
-            <svg width="15" height="15" viewBox="0 0 24 24"><use href="#diamax-icon-tactical-shift"/></svg> <span>Shift / Ubicación</span>
-          </button>
-          <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('BASERUNNING')" style="padding:10px 12px; font-size:12px; font-weight:800; border-radius:8px; background:rgba(0,210,255,0.08); border:1.5px solid #00D2FF; color:#00D2FF; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center;">
-            <svg width="15" height="15" viewBox="0 0 24 24"><use href="#diamax-icon-tactical-base"/></svg> <span>Robo / Toque / Corrido</span>
-          </button>
+          <!-- 5. BATEADOR EMERGENTE -->
           <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('PINCH_HITTER')" style="padding:10px 12px; font-size:12px; font-weight:800; border-radius:8px; background:rgba(139,92,246,0.1); border:1.5px solid #8B5CF6; color:#C4B5FD; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center;">
-            <svg width="15" height="15" viewBox="0 0 24 24"><use href="#diamax-icon-tactical-pinch"/></svg> <span>Emergente Sabermétrico</span>
+            <svg width="15" height="15" viewBox="0 0 24 24"><use href="#diamax-icon-tactical-pinch"/></svg> <span>Emergente (+55)</span>
           </button>
+          <!-- 6. SCOUTING RIVAL -->
           <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('RIVAL_SCOUTING')" style="padding:10px 12px; font-size:12px; font-weight:800; border-radius:8px; background:rgba(255,199,44,0.1); border:1.5px solid #FFC72C; color:#FFC72C; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center;">
             <svg width="15" height="15" viewBox="0 0 24 24"><use href="#diamax-icon-tactical-scout"/></svg> <span>Scouting Rival</span>
-          </button>
-          <button class="btn-ai-quick" onclick="consultarAgenteDesdeConsola('PITCHER_MATCHUP')" style="padding:10px 12px; font-size:12px; font-weight:800; border-radius:8px; background:rgba(0,210,255,0.1); border:1.5px solid #00D2FF; color:#00D2FF; cursor:pointer; display:flex; align-items:center; gap:6px; justify-content:center;">
-            <svg width="15" height="15" viewBox="0 0 24 24"><use href="#diamax-icon-tactical-matchup"/></svg> <span>Duelo vs Pitcher Rival</span>
           </button>
         </div>
       </div>
@@ -6819,8 +6980,70 @@ body.daylight-mode #btn-daylight {
         </div>
       </div>
 
+      <!-- CONTENEDOR MODO CABINA DE COMENTARISTAS -->
+      <div id="panel-cabina-comentaristas" style="display:none; margin-bottom:20px;">
+        <!-- PIZARRA GIGANTE DE TRANSMISIÓN (BROADCAST HUD) -->
+        <div style="background:linear-gradient(135deg, #020617 0%, #060D1F 50%, #0A162B 100%); border:2px solid #F26522; border-radius:16px; padding:20px; box-shadow:0 10px 40px rgba(0,0,0,0.8), 0 0 35px rgba(242,101,34,0.25); margin-bottom:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px; border-bottom:1.5px solid rgba(242,101,34,0.3); padding-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:26px;">🎙️</span>
+              <div>
+                <h3 style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.8px; font-family:'Montserrat',sans-serif;">
+                  CABINA DE TRANSMISIÓN & MEDIA PRO
+                </h3>
+                <span style="font-size:11.5px; color:#F26522; font-weight:800; text-transform:uppercase; letter-spacing:1px;">
+                  Pizarra de Telemetría Gigante & Píldoras al Aire en Vivo
+                </span>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" onclick="generarPildorasTransmision()" style="background:linear-gradient(135deg, #F26522, #D84D0E); color:#FFF; border:none; padding:8px 16px; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 15px rgba(242,101,34,0.4);">
+                <span>🔄</span> <span>Actualizar Píldoras</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PANTALLA GIGANTE LCD CON TELEMETRÍA DE JUEGO -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
+            <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">INNING & PARTE</div>
+              <div id="cabina-hud-inning" style="font-size:24px; font-weight:900; color:#00D2FF; font-family:'Rajdhani',sans-serif; margin-top:4px;">1 ▲ ALTA</div>
+            </div>
+            <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">OUTS</div>
+              <div id="cabina-hud-outs" style="font-size:24px; font-weight:900; color:#FFC72C; font-family:'Rajdhani',sans-serif; margin-top:4px;">0 OUTS</div>
+            </div>
+            <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">MARCADOR</div>
+              <div id="cabina-hud-score" style="font-size:24px; font-weight:900; color:#FFFFFF; font-family:'Rajdhani',sans-serif; margin-top:4px;">GVE 0 - 0 RIV</div>
+            </div>
+            <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">PEDRO CHÁVEZ (+55)</div>
+              <div id="cabina-hud-pitches" style="font-size:24px; font-weight:900; color:#10B981; font-family:'Rajdhani',sans-serif; margin-top:4px;">28 / 75 PITCH</div>
+            </div>
+            <div style="background:#030712; border:1.5px solid #1E293B; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;">WIN PROBABILITY</div>
+              <div id="cabina-hud-winp" style="font-size:24px; font-weight:900; color:#00D2FF; font-family:'Rajdhani',sans-serif; margin-top:4px;">56.4%</div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN DE PÍLDORAS AL AIRE LISTAS PARA EL MICRÓFONO -->
+          <div style="background:#040915; border:1.5px solid rgba(242,101,34,0.3); border-radius:14px; padding:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <div style="font-size:13.5px; font-weight:900; color:#FFC72C; display:flex; align-items:center; gap:8px;">
+                <span>🎙️</span> <span>Píldoras Narrativas para Leer al Micrófono entre Pitcheos:</span>
+              </div>
+              <span style="font-size:11px; color:#94A3B8;">Haz clic en 'Copiar' o 'Al Aire' para reproducir</span>
+            </div>
+            <div id="cabina-pildoras-container">
+              <!-- Rellenado dinámicamente por generarPildorasTransmision() -->
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- GRID PRINCIPAL: CONSOLA DE DIÁLOGO (IZQUIERDA) + SKILLS & MEMORIA (DERECHA) -->
-      <div class="responsive-grid-agent">
+      <div id="panel-agente-chat-estratega" class="responsive-grid-agent">
         
         <!-- COLUMNA 1: TERMINAL & CHAT CONVERSACIONAL CON RAG -->
         <div style="display:flex; flex-direction:column; background:#040814; border:1px solid #1E293B; border-radius:12px; padding:16px; min-height:500px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
@@ -12839,10 +13062,12 @@ function ejecutarRelevoRapido(relieverId) {
 
 function aplicarShiftDefensivoDesdeAlerta(shiftType) {
   const shiftNames = {
-    'DP_DEPTH': 'Profundidad de Doble Play (Cuadro Intermedio)',
+    'NORMAL': 'Posicionamiento Defensivo Estándar',
+    'ANTI_PULL': 'Shift Derecho Anti-Pull (Sobrecarga Lado Derecho)',
     'INFIELD_IN': 'Infield Adentro (Cortar Carrera en Home)',
-    'BUNT_DEFENSE': 'Bunt Defense (1B y 3B Adelantados)',
-    'NORMAL': 'Posicionamiento Defensivo Estándar'
+    'NO_DOUBLES': 'Formación No-Doubles (Jardineros Profundos contra la Pared)',
+    'DP_DEPTH': 'Profundidad de Doble Play (Cuadro Intermedio)',
+    'BUNT_DEFENSE': 'Bunt Defense (1B y 3B Adelantados)'
   };
   const desc = shiftNames[shiftType] || shiftType;
   if (typeof mostrarToast === 'function') {
@@ -13176,6 +13401,41 @@ function generarRespuestaTacticoNativo(query, ctx) {
     topChunks.map(function(item) {
       return '<span style="background:rgba(139,92,246,0.15); padding:1px 5px; border-radius:3px; margin-right:4px;">[' + item.doc.id + ': ' + item.doc.titulo + ' (' + item.confidencePct + '% match)]</span>';
     }).join(' ') + '</div>';
+
+  // CONSULTA TÁCTICA 1: MOVER BULLPEN & RELEVO
+  if (q.includes('bullpen') || q.includes('relevo') || q.includes('mover bullpen') || q === 'bullpen_relief') {
+    const activeP = (typeof activePitcherStats !== 'undefined') ? activePitcherStats : { totalPitches: 28, strikes: 19, balls: 9 };
+    const pLimit = 75;
+    const pWarning = 70;
+    const remaining = Math.max(0, pLimit - activeP.totalPitches);
+    const urgency = activeP.totalPitches >= pWarning ? '🚨 ALERTA MÉDICA +55' : (activeP.totalPitches >= 50 ? '⚠️ MONITOREO' : '🟢 ESTABLE');
+    return '<strong>🚨 [DIAMAX DUGOUT AI: EVALUACIÓN DE BULLPEN & RELEVO]</strong><br>' +
+      '• <strong>Lanzador Activo (Pedro Chávez):</strong> ' + activeP.totalPitches + ' / ' + pLimit + ' pitcheos permitidos (' + remaining + ' restantes). Estado: <span style="font-weight:900; color:' + (activeP.totalPitches >= pWarning ? '#EF4444' : '#10B981') + ';">' + urgency + '</span>.<br>' +
+      '• <strong>Recomendación Táctica:</strong> ' + (activeP.totalPitches >= pWarning ? '¡INICIAR CALENTAMIENTO DE INMEDIATO! Activar a <strong>Raúl Lozada</strong> o <strong>Luis Rodríguez</strong> en el bullpen para relevo programado.' : 'Mantener a Pedro Chávez en la lomita. Su comando de rompientes sigue efectivo (.210 BAA).') + '<br>' +
+      '• <strong>Relevistas Listos en Banca:</strong> Raúl Lozada (RHP, sinker pesado), Luis Rodríguez (LHP, matchup zurdo), Arquímedes Avancines (Cerrador).' +
+      ragCitation;
+  }
+
+  // CONSULTA TÁCTICA 2: TOCAR O BATEAR (BUNT OR HIT)
+  if (q.includes('tocar') || q.includes('batear') || q.includes('tocar o batear') || q === 'bunt_or_hit') {
+    let rec = '';
+    if (isGuerrerosBatting) {
+      if (outs === 0 && (isRunnerOn1B || isRunnerOn2B) && scoreDiff <= 1) {
+        rec = '<strong>RECOMENDACIÓN: TOCAR (SACRIFICIO TÁCTICO)</strong>. Con 0 outs y corredor en base en juego cerrado, adelantar a posición anotadora maximiza el xRuns en +0.34.';
+      } else if (outs === 1 && isRunnerOn2B) {
+        rec = '<strong>RECOMENDACIÓN: BATEAR HACIA LA BANDA CONTRARIA</strong>. Hacer contacto hacia el lado derecho para mover el corredor a 3B o impulsar carrera.';
+      } else {
+        rec = '<strong>RECOMENDACIÓN: BATEO LIBRE (SWING AGRESIVO)</strong>. La probabilidad de éxito en swing completo supera al sacrificio en esta situación (wOBA proyectado: .375).';
+      }
+    } else {
+      rec = '<strong>DEFENSA: ESPERAR TOQUE</strong>. Acercar a 3B y 1B para cortar toque de sorpresa; short stop cubre segunda base.';
+    }
+    return '<strong>⚾ [DIAMAX DUGOUT AI: DECISIÓN TOCAR O BATEAR]</strong><br>' +
+      '• <strong>Situación:</strong> Inning ' + inn + ' (' + halfText + ') | ' + outs + ' Out(s) | Corredores: ' + (isRunnerOn1B ? '1B ' : '') + (isRunnerOn2B ? '2B ' : '') + (isRunnerOn3B ? '3B' : 'Bases limpias') + '.<br>' +
+      '• <strong>Directiva Sabermétrica:</strong> ' + rec + '<br>' +
+      '• <strong>Expectativa de Carreras (RE24):</strong> Tocar genera 0.62 carreras esperadas vs 0.58 en swing fallido.' +
+      ragCitation;
+  }
 
   // 0. CONSULTAS A LA MEMORIA CONVERSACIONAL Y EPISÓDICA
   if (q.includes('acuerdas') || q.includes('te acuerdas') || q.includes('recuerdas') || q.includes('que me dijiste') || q.includes('qué me dijiste') || q.includes('que recomendaste') || q.includes('historial') || q.includes('memoria') || q.includes('anterior')) {
@@ -15108,6 +15368,11 @@ async function consultarAgenteDesdeConsola(queryType) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
   }
 
+    if (queryType === 'BULLPEN_RELIEF') {
+    titles['BULLPEN_RELIEF'] = '🚨 Mover Bullpen & Relevo Táctico (+55)';
+  } else if (queryType === 'BUNT_OR_HIT') {
+    titles['BUNT_OR_HIT'] = '⚾ Tocar o Batear (Estrategia Situacional)';
+  }
   // Actualizar también el display del Dugout para paridad total
   const dugoutDisplay = document.getElementById('ai-response-display');
   if (dugoutDisplay) {
