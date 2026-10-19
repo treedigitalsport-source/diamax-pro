@@ -2016,7 +2016,10 @@ body.daylight-mode #btn-daylight {
   padding: 8px !important;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 210, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
   display: flex !important;
-  flex-wrap: wrap !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin !important;
   gap: 8px !important;
   margin-bottom: 16px !important;
 }
@@ -3433,7 +3436,7 @@ html, body {
   padding: 12px 18px !important;
 }
 
-/* Apple Sports Floating Navigation Dock */
+/* Apple Sports Floating Navigation Dock (8 Tabs Canónicas en Fila Única) */
 #main-nav.nav {
   background: rgba(5, 10, 22, 0.94) !important;
   backdrop-filter: blur(28px) !important;
@@ -3442,7 +3445,10 @@ html, body {
   padding: 6px !important;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   display: flex !important;
-  flex-wrap: wrap !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin !important;
   gap: 6px !important;
   margin-bottom: 16px !important;
 }
@@ -3453,8 +3459,10 @@ html, body {
   border-radius: 14px !important;
   color: #94A3B8 !important;
   font-weight: 800 !important;
-  font-size: 11.5px !important;
-  padding: 9px 18px !important;
+  font-size: 11px !important;
+  padding: 7px 11px !important;
+  white-space: nowrap !important;
+  flex: 1 1 auto !important;
   letter-spacing: 0.4px !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -5759,10 +5767,10 @@ html, body {
           <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-stadium-gate"/></svg> <span id="header-new-game-text">Cargar Nuevo Juego</span>
         </button>
         <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings diamax-action-btn-unified" title="Refrescar y limpiar base de datos a cero para el partido" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
-          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-db-refresh"/></svg> <span id="header-refresh-db-text">Refrescar BD</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><polyline points="21 3 21 8 16 8"/></svg> <span id="header-refresh-db-text">Refrescar BD</span>
         </button>
         <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings diamax-action-btn-unified" title="Configuración y Conexión IA" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
-          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-gear-precision"/></svg> <span id="header-settings-text">Configuración</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> <span id="header-settings-text">Configuración</span>
         </button>
         <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings diamax-action-btn-unified" title="Salir del Sistema Seguro y Cerrar Sesión" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px; border-color:rgba(239,68,68,0.4) !important;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> <span id="header-exit-text" style="color:#F87171;">Salir</span>
@@ -6373,7 +6381,7 @@ html, body {
         <div class="lineup-chips-container" id="live-lineup-chips"></div>
       </div>
       <div style="display:flex; gap:6px;">
-        <button type="button" onclick="abrirModalHotDugoutSub()" style="background:linear-gradient(135deg, #8B5CF6, #6D28D9); color:#fff; border:none; padding:6px 13px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 0 10px rgba(139,92,246,0.4);">🔄 Sustitución Rápida</button>
+        <button type="button" onclick="abrirModalHotDugoutSub()" style="background:linear-gradient(135deg, #8B5CF6, #6D28D9); color:#fff; border:none; padding:6px 13px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 0 10px rgba(139,92,246,0.4);"><span id="btn-hot-dugout-sub-text">🔄 Sustitución Rápida</span></button>
         <button onclick="cargarLineupPredeterminado()" style="background:#10B981; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer;"> Recargar Lineup</button>
         <button onclick="switchTab('lineup')" style="background:#FFC72C; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;"> Editar</button>
       </div>
@@ -8287,20 +8295,20 @@ function actualizarPitcherUI() {
     if (fatiguePct < 55) {
       fatBar.style.background = '#10B981';
       if (fatLabel) {
-        fatLabel.style.color = '#10B981';
-        fatLabel.innerText = `Óptimo (${fatiguePct}%)`;
+      const isEnFatigue = (typeof currentLang !== "undefined" && currentLang === "en");
+        fatLabel.innerText = isEnFatigue ? `Optimal (${fatiguePct}%)` : `Óptimo (${fatiguePct}%)`;
       }
     } else if (fatiguePct < 80) {
       fatBar.style.background = '#FFC72C';
       if (fatLabel) {
         fatLabel.style.color = '#FFC72C';
-        fatLabel.innerText = `Precaución (${fatiguePct}%)`;
+        fatLabel.innerText = isEnFatigue ? `Caution (${fatiguePct}%)` : `Precaución (${fatiguePct}%)`;
       }
     } else {
       fatBar.style.background = '#EF4444';
       if (fatLabel) {
         fatLabel.style.color = '#EF4444';
-        fatLabel.innerText = `⚠️ Límite Cercano (${fatiguePct}%)`;
+        fatLabel.innerText = isEnFatigue ? `⚠️ Near Limit (${fatiguePct}%)` : `⚠️ Límite Cercano (${fatiguePct}%)`;
       }
     }
   }
@@ -8353,8 +8361,16 @@ function renderBullpenList() {
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="background:${badgeBg}; color:${badgeColor}; border:1px solid ${badgeBorder}; font-size:10px; padding:3px 8px; border-radius:6px; font-weight:800; letter-spacing:0.4px;">${r.status}</span>
-          <button type="button" onclick="traerRelevista(${r.id})" style="background:linear-gradient(135deg, #00D2FF, #0077FF); color:#020617; border:none; padding:5px 10px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 0 10px rgba(0,210,255,0.3);">Traer a Lanzar</button>
+          <span style="background:${badgeBg}; color:${badgeColor}; border:1px solid ${badgeBorder}; font-size:10px; padding:3px 8px; border-radius:6px; font-weight:800; letter-spacing:0.4px;">${(function(){
+            if (typeof currentLang !== 'undefined' && currentLang === 'en') {
+              if (r.status === 'Calentando') return 'Warming Up';
+              if (r.status === 'Listo') return 'Ready';
+              if (r.status === 'Descansando') return 'Resting';
+              if (r.status === 'En Juego') return 'In Game';
+            }
+            return r.status;
+          })()}</span>
+          <button type="button" onclick="traerRelevista(${r.id})" style="background:linear-gradient(135deg, #00D2FF, #0077FF); color:#020617; border:none; padding:5px 10px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 0 10px rgba(0,210,255,0.3);">${(typeof currentLang !== 'undefined' && currentLang === 'en') ? 'Bring in to Pitch' : 'Traer a Lanzar'}</button>
         </div>
       </div>
     `;
@@ -11764,7 +11780,7 @@ function applyLanguage(lang) {
   };
 
   // 5. Mapeo Exhaustivo por IDs para Retrocompatibilidad Total (Excluyendo pestañas canónicas y elementos con SVG estructurado)
-  const protectedIds = ['btn-go-scorer', 'nav-lineup', 'btn-view-field', 'nav-manual', 'nav-card', 'nav-dash', 'nav-skills', 'nav-profile', 'btn-header-new-game', 'btn-refresh-db', 'btn-settings', 'btn-header-exit', 'btn-daylight', 'btn-sound-toggle', 'lang-btn', 'btn-open-map-header', 'btn-entrada-cabina-broadcast'];
+  const protectedIds = ['btn-go-scorer', 'nav-lineup', 'btn-view-field', 'nav-manual', 'nav-card', 'nav-dash', 'nav-skills', 'nav-profile', 'btn-header-new-game', 'btn-refresh-db', 'btn-settings', 'btn-header-exit', 'btn-daylight', 'btn-sound-toggle', 'lang-btn', 'btn-open-map-header', 'btn-entrada-cabina-broadcast', 'btn-ai-pitch-call', 'btn-ai-shift-call', 'btn-ai-base-call', 'btn-ai-pinch-hitter', 'btn-ai-rival-scout', 'btn-ai-pitcher-matchup'];
   Object.keys(dict).forEach(key => {
     if (!protectedIds.includes(key)) {
       updateText(key, key);
@@ -11975,13 +11991,13 @@ function setDiamaxLanguage(lang) {
   if (headerNewGameTxt) headerNewGameTxt.innerText = isEs ? 'Cargar Nuevo Juego' : 'Load New Game';
 
   const btnRefreshDb = document.getElementById('btn-refresh-db');
-  if (btnRefreshDb) btnRefreshDb.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-db-refresh"/></svg> <span id="header-refresh-db-text">' + (isEs ? 'Refrescar BD' : 'Refresh DB') + '</span>';
+  if (btnRefreshDb) btnRefreshDb.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><polyline points="21 3 21 8 16 8"/></svg> <span id="header-refresh-db-text">' + (isEs ? 'Refrescar BD' : 'Refresh DB') + '</span>';
 
   const btnHeaderExit = document.getElementById('btn-header-exit');
   if (btnHeaderExit) btnHeaderExit.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> <span id="header-exit-text" style="color:#F87171;">' + (isEs ? 'Salir' : 'Exit') + '</span>';
 
   const btnSettings = document.getElementById('btn-settings');
-  if (btnSettings) btnSettings.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-gear-precision"/></svg> <span id="header-settings-text">' + (isEs ? 'Configuración' : 'Settings') + '</span>';
+  if (btnSettings) btnSettings.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> <span id="header-settings-text">' + (isEs ? 'Configuración' : 'Settings') + '</span>';
 
   const btnDaylight = document.getElementById('btn-daylight');
   if (btnDaylight) btnDaylight.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> <span id="btn-daylight-text">' + (isEs ? 'Sol / Noche' : 'Sun / Night') + '</span>';
@@ -12031,6 +12047,97 @@ function setDiamaxLanguage(lang) {
 
   const btnSaveSkills = document.getElementById('btn-skills-save');
   if (btnSaveSkills) btnSaveSkills.innerText = isEs ? 'Guardar en Expediente' : 'Save to Dossier';
+
+  // 6.b Sincronización Bilingüe de Badges y Botones Tácticos de Tab 1
+  const bHora = document.getElementById('badge-live-hora');
+  if (bHora) {
+    const clockIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+    const g = typeof getActiveGame === 'function' ? getActiveGame() : null;
+    const h = g && g.horaInicio ? (typeof formatTime12h === 'function' ? formatTime12h(g.horaInicio) : g.horaInicio) : '09:30 AM';
+    bHora.innerHTML = clockIcon + (isEs ? ' Inicio: ' : ' Start: ') + h;
+  }
+
+  const liveActionBanner = document.getElementById('live-action-banner');
+  if (liveActionBanner) {
+    liveActionBanner.innerText = isEs
+      ? 'Anotador listo. Registra el turno al bate con los controles de alto impacto.'
+      : 'Scorer ready. Record plate appearances using high-impact controls.';
+  }
+
+  const aiEngineTitle = document.getElementById('ai-engine-title');
+  if (aiEngineTitle) {
+    aiEngineTitle.innerText = isEs ? 'DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)' : 'DIAMAX TACTICAL AI (3Tree Sabermetric Engine)';
+  }
+
+  const badgePhase = document.getElementById('ai-phase-badge');
+  if (badgePhase) {
+    const g = typeof getActiveGame === 'function' ? getActiveGame() : { isHomeClub: true };
+    const isLocal = g && g.isHomeClub !== undefined ? g.isHomeClub : true;
+    const isGuerrerosBatting = isLocal ? (liveState.half === 'bot') : (liveState.half === 'top');
+    if (isGuerrerosBatting) {
+      badgePhase.innerText = isEs ? "⚔️ GUERREROS AL BATE (MODO OFENSIVO)" : "⚔️ GUERREROS AT BAT (OFFENSIVE MODE)";
+    } else {
+      badgePhase.innerText = isEs ? "🛡️ GUERREROS AL CAMPO (MODO DEFENSIVO)" : "🛡️ GUERREROS ON FIELD (DEFENSIVE MODE)";
+    }
+  }
+
+  const ragBadge = document.getElementById('rag-status-badge');
+  if (ragBadge) {
+    ragBadge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg> ' + (isEs ? 'RAG Vectorial: Activo (16 Docs)' : 'Vector RAG: Active (16 Docs)');
+  }
+
+  const memBadge = document.getElementById('memory-status-badge');
+  if (memBadge) {
+    memBadge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"/></svg> ' + (isEs ? 'Memoria: Activa' : 'Memory: Active');
+  }
+
+  const btnAiAgent = document.getElementById('btn-ai-agent');
+  if (btnAiAgent) {
+    btnAiAgent.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24"><use href="#diamax-icon-ai-neural"/></svg> <span>' + (isEs ? 'Consola Unificada (Tab 7) ↗' : 'Unified Console (Tab 7) ↗') + '</span>';
+  }
+
+  // Los 6 Botones Tácticos Rápidos
+  const btnPitchCall = document.getElementById('btn-ai-pitch-call');
+  if (btnPitchCall) btnPitchCall.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-pitch"/></svg> <span>' + (isEs ? 'Pitcheo / Selección' : 'Pitch Calling / Selection') + '</span>';
+
+  const btnShiftCall = document.getElementById('btn-ai-shift-call');
+  if (btnShiftCall) btnShiftCall.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-shift"/></svg> <span>' + (isEs ? 'Shift / Ubicación' : 'Defensive Shift / Positioning') + '</span>';
+
+  const btnBaseCall = document.getElementById('btn-ai-base-call');
+  if (btnBaseCall) btnBaseCall.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-base"/></svg> <span>' + (isEs ? 'Robo / Toque / Corrido' : 'Steal / Bunt / Baserunning') + '</span>';
+
+  const btnPinchHitter = document.getElementById('btn-ai-pinch-hitter');
+  if (btnPinchHitter) btnPinchHitter.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-pinch"/></svg> <span>' + (isEs ? 'Emergente Sabermétrico' : 'Sabermetric Pinch Hitter') + '</span>';
+
+  const btnRivalScout = document.getElementById('btn-ai-rival-scout');
+  if (btnRivalScout) btnRivalScout.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-scout"/></svg> <span>' + (isEs ? 'Scouting & Predicción Rival' : 'Opponent Scouting') + '</span>';
+
+  const btnPitcherMatchup = document.getElementById('btn-ai-pitcher-matchup');
+  if (btnPitcherMatchup) btnPitcherMatchup.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-matchup"/></svg> <span>' + (isEs ? 'Duelo vs Pitcher Rival' : 'Batter vs Pitcher Matchup') + '</span>';
+
+  const btnHotSub = document.getElementById('btn-hot-dugout-sub-text');
+  if (btnHotSub) btnHotSub.innerText = isEs ? '🔄 Sustitución Rápida' : '🔄 Quick Substitution';
+
+  const statusBadge = document.getElementById('game-status-badge');
+  if (statusBadge) {
+    const g = typeof getActiveGame === 'function' ? getActiveGame() : null;
+    const isFinal = g && g.estado === 'Finalizado';
+    statusBadge.innerText = isFinal ? (isEs ? 'FINALIZADO' : 'FINAL') : (isEs ? 'EN JUEGO' : 'IN PLAY');
+  }
+
+  const condBadge = document.getElementById('game-condition-badge');
+  if (condBadge) {
+    const g = typeof getActiveGame === 'function' ? getActiveGame() : { isHomeClub: true };
+    const isHome = g && g.isHomeClub !== undefined ? g.isHomeClub : true;
+    condBadge.innerText = isHome ? (isEs ? 'HOME CLUB (LOCAL)' : 'HOME CLUB') : (isEs ? 'VISITANTE' : 'VISITOR');
+  }
+
+  if (typeof renderBullpenList === 'function') {
+    try { renderBullpenList(); } catch(e) {}
+  }
+  if (typeof actualizarPitcherUI === 'function') {
+    try { actualizarPitcherUI(); } catch(e) {}
+  }
 
   // 7. Ejecutar Diccionario Exhaustivo Dinámico
   if (typeof applyLanguage === 'function') {
@@ -12267,13 +12374,14 @@ function poblarSelectorPartidos() {
   }
 
   const condBadge = document.getElementById('game-condition-badge');
-  if (condBadge) {
-    condBadge.innerText = isHome ? "HOME CLUB (LOCAL)" : "VISITANTE";
+  const isEnLiveHeader = (typeof currentLang !== 'undefined' && currentLang === 'en');
+  const condBadge = document.getElementById('game-condition-badge');
+    condBadge.innerText = isHome ? (isEnLiveHeader ? "HOME CLUB" : "HOME CLUB (LOCAL)") : (isEnLiveHeader ? "VISITOR" : "VISITANTE");
     condBadge.style.background = isHome ? "#00D2FF" : "#FFC72C";
   }
   const statusBadge = document.getElementById('game-status-badge');
   if (statusBadge) {
-    statusBadge.innerText = activeG.estado === "Finalizado" ? "FINALIZADO" : "EN JUEGO";
+    statusBadge.innerText = activeG.estado === "Finalizado" ? (isEnLiveHeader ? "FINAL" : "FINALIZADO") : (isEnLiveHeader ? "IN PLAY" : "EN JUEGO");
     statusBadge.style.background = activeG.estado === "Finalizado" ? "#10B981" : "#FFC72C";
   }
 }
@@ -13727,12 +13835,13 @@ function actualizarFaseTacticoIA() {
   const badgeWin = document.getElementById('ai-win-prob-badge');
 
   if (badgePhase) {
+    const isEnPhaseLive = (typeof currentLang !== 'undefined' && currentLang === 'en');
     if (isGuerrerosBatting) {
-      badgePhase.innerText = "⚔️ GUERREROS AL BATE (MODO OFENSIVO)";
+      badgePhase.innerText = isEnPhaseLive ? "⚔️ GUERREROS AT BAT (OFFENSIVE MODE)" : "⚔️ GUERREROS AL BATE (MODO OFENSIVO)";
       badgePhase.style.background = "#10B981";
       badgePhase.style.color = "#000";
     } else {
-      badgePhase.innerText = "🛡️ GUERREROS AL CAMPO (MODO DEFENSIVO)";
+      badgePhase.innerText = isEnPhaseLive ? "🛡️ GUERREROS ON FIELD (DEFENSIVE MODE)" : "🛡️ GUERREROS AL CAMPO (MODO DEFENSIVO)";
       badgePhase.style.background = "#3B82F6";
       badgePhase.style.color = "#FFF";
     }
@@ -17740,7 +17849,8 @@ function actualizarGameHeaderUI() {
   const sunIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
 
   if (bFecha) bFecha.innerHTML = `${calIcon} ${currentGame.fecha || '2026-09-08'}`;
-  if (bHora) bHora.innerHTML = `${clockIcon} Inicio: ${formatTime12h(currentGame.horaInicio)}`;
+  const isEnLive = (typeof currentLang !== 'undefined' && currentLang === 'en');
+  if (bHora) bHora.innerHTML = `${clockIcon} ${isEnLive ? 'Start:' : 'Inicio:'} ${formatTime12h(currentGame.horaInicio)}`;
   if (bSede) bSede.innerHTML = `${parkIcon} ${currentGame.estadio || 'Lutz Baseball Park'} (${currentGame.direccion || 'Lutz, FL'})`;
   if (bRival) {
     const isHome = currentGame.isHomeClub !== false && currentGame.condicion !== 'AWAY';
