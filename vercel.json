@@ -1,7 +1,7 @@
 {
   "version": 2,
   "cleanUrls": true,
-  "outputDirectory": ".",
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/(.*)",
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "source": "/diamax-core-bundle.js",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

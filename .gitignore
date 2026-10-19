@@ -20,3 +20,4 @@ secrets/
 credentials/
 *.pem
 *.key
+*.bak_*
