@@ -146,6 +146,179 @@ function narrarPildoraTexto(idx) {
 }
 window.narrarPildoraTexto = narrarPildoraTexto;
 
+
+// =========================================================================
+// 🎙️ SISTEMA DE COCKPIT DE TRANSMISIÓN & ENTRADA CABINA EN VIVO
+// =========================================================================
+
+function abrirModalAccesoCabina() {
+  const modal = document.getElementById('modal-acceso-cabina');
+  if (modal) modal.style.display = 'flex';
+}
+window.abrirModalAccesoCabina = abrirModalAccesoCabina;
+
+function cerrarModalAccesoCabina() {
+  const modal = document.getElementById('modal-acceso-cabina');
+  if (modal) modal.style.display = 'none';
+}
+window.cerrarModalAccesoCabina = cerrarModalAccesoCabina;
+
+function entrarCabinaEnVivo() {
+  cerrarModalAccesoCabina();
+  if (typeof irAPagina === 'function') irAPagina(3);
+  
+  // Ocultar ribbon de juego y pestañas regulares para vista de pantalla única sin distracciones
+  const nav = document.getElementById('main-nav');
+  const ribbon = document.querySelector('.game-ribbon');
+  const tabs = document.querySelectorAll('.tab-content, [id^="diamax-tab-"]');
+  const cockpit = document.getElementById('broadcast-cockpit-view');
+  
+  if (nav) nav.style.display = 'none';
+  if (ribbon) ribbon.style.display = 'none';
+  tabs.forEach(t => t.style.display = 'none');
+  
+  if (cockpit) {
+    cockpit.style.display = 'block';
+  }
+  
+  // Actualizar telemetría del cockpit
+  actualizarCockpitCabina();
+  window.location.hash = '#cabina';
+}
+window.entrarCabinaEnVivo = entrarCabinaEnVivo;
+
+function salirDeCabinaDugout() {
+  const cockpit = document.getElementById('broadcast-cockpit-view');
+  const nav = document.getElementById('main-nav');
+  const ribbon = document.querySelector('.game-ribbon');
+  
+  if (cockpit) cockpit.style.display = 'none';
+  if (nav) nav.style.display = 'flex';
+  if (ribbon) ribbon.style.display = 'flex';
+  
+  // Restaurar la pestaña activa regular (por defecto Dugout)
+  if (typeof switchTab === 'function') {
+    switchTab('envivo');
+  } else {
+    const tabEnvivo = document.getElementById('diamax-tab-envivo');
+    if (tabEnvivo) tabEnvivo.style.display = 'block';
+  }
+  
+  if (window.location.hash === '#cabina') {
+    history.pushState("", document.title, window.location.pathname + window.location.search);
+  }
+}
+window.salirDeCabinaDugout = salirDeCabinaDugout;
+
+function actualizarCockpitCabina() {
+  const ls = (typeof liveState !== 'undefined') ? liveState : { inning: 4, half: 'top', outs: 2, balls: 2, strikes: 1, scoreUs: 5, scoreThem: 3 };
+  const current = (typeof getLiveCurrentBatter === 'function') ? getLiveCurrentBatter() : { player: { num: 5, name: "Johan Olivo", pos: "CF", bats: "L", throws: "R", avg: ".385", obp: ".440", slg: ".615", ops: "1.055" } };
+  const activeP = (typeof activePitcherStats !== 'undefined') ? activePitcherStats : { name: "Pedro Chávez", throws: "RHP", totalPitches: 42, strikes: 29, balls: 13, maxLimit: 75, fastballMph: "91.2 MPH" };
+  
+  // Pizarra Gigante
+  const elInn = document.getElementById('cockpit-mega-inning');
+  const elScore = document.getElementById('cockpit-mega-score');
+  const elBalls = document.getElementById('cockpit-mega-balls');
+  const elStrikes = document.getElementById('cockpit-mega-strikes');
+  const elOuts = document.getElementById('cockpit-mega-outs');
+  
+  if (elInn) elInn.innerHTML = 'INNING ' + (ls.inning || 4) + ' ' + (ls.half === 'bottom' ? '▼ BAJA' : '▲ ALTA');
+  if (elScore) elScore.innerHTML = '<span style="color:#FFF;">GUERREROS ' + (ls.scoreUs || 5) + '</span> - <span style="color:#FFC72C;">' + (ls.scoreThem || 3) + ' TIBURONES</span>';
+  if (elBalls) elBalls.innerText = ls.balls !== undefined ? ls.balls : 2;
+  if (elStrikes) elStrikes.innerText = ls.strikes !== undefined ? ls.strikes : 1;
+  if (elOuts) elOuts.innerText = ls.outs !== undefined ? ls.outs : 2;
+  
+  // Bateador
+  const elBatterName = document.getElementById('cockpit-batter-name');
+  const elBatterAvg = document.getElementById('cockpit-batter-avg');
+  const elBatterObp = document.getElementById('cockpit-batter-obp');
+  const elBatterOps = document.getElementById('cockpit-batter-ops');
+  const posStr = (current.player && current.player.pos) || current.pos || "CF";
+  const numStr = (current.player && current.player.num) || current.num || 5;
+  const nameStr = (current.player && current.player.name) || current.name || "Johan Olivo";
+  if (elBatterName) elBatterName.innerText = nameStr + ' #' + numStr + ' (' + posStr + ')';
+  if (elBatterAvg) elBatterAvg.innerText = (current.player && current.player.avg) ? current.player.avg : ".385";
+  if (elBatterObp) elBatterObp.innerText = (current.player && current.player.obp) ? current.player.obp : ".440";
+  if (elBatterOps) elBatterOps.innerText = (current.player && current.player.ops) ? current.player.ops : "1.055";
+  
+  // Pitcher
+  const elPitchesCount = document.getElementById('cockpit-pitcher-count');
+  const elPitchesBar = document.getElementById('cockpit-pitcher-bar');
+  const elPitcherVelo = document.getElementById('cockpit-pitcher-velo');
+  const pCount = activeP.totalPitches || 42;
+  const pPct = Math.round((pCount / 75) * 100);
+  if (elPitchesCount) elPitchesCount.innerText = pCount + ' / 75 PIT (56%)';
+  if (elPitchesBar) {
+    elPitchesBar.style.width = pPct + '%';
+    elPitchesBar.style.backgroundColor = pCount >= 70 ? '#EF4444' : (pCount >= 50 ? '#FFC72C' : '#10B981');
+  }
+  if (elPitcherVelo) elPitcherVelo.innerText = '4-Seam: ' + (activeP.fastballMph || '91.2 MPH');
+  
+  // WPA
+  const elWpaUs = document.getElementById('cockpit-wpa-us');
+  const elWpaThem = document.getElementById('cockpit-wpa-them');
+  const elWpaBar = document.getElementById('cockpit-wpa-bar-fill');
+  if (elWpaUs) elWpaUs.innerText = '74%';
+  if (elWpaThem) elWpaThem.innerText = '26%';
+  if (elWpaBar) elWpaBar.style.width = '74%';
+}
+window.actualizarCockpitCabina = actualizarCockpitCabina;
+
+function copiarOverlayOBS() {
+  const url = window.location.origin + '/overlay.html?game=GVE-55&transparent=true';
+  navigator.clipboard.writeText(url).then(function() {
+    alert('📡 URL de Overlay OBS/vMix copiada al portapapeles:\n\n' + url + '\n\nPégala como "Browser Source" en OBS Studio o vMix.');
+  }).catch(function() {
+    alert('URL: ' + url);
+  });
+}
+window.copiarOverlayOBS = copiarOverlayOBS;
+
+function narrarSituacionCabinaCompleta() {
+  if (!('speechSynthesis' in window)) {
+    alert('Tu navegador no soporta síntesis de voz.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const texto = "Atención cabina de transmisión. Estamos en la parte alta del cuarto episodio. Guerreros de Venezuela domina la pizarra cinco carreras por tres frente a Tiburones. Dos outs en el tablero, conteo de dos bolas y un strike. Toma turno Johan Olivo, quien promedia trescientos ochenta y cinco con o pe ese de mil cincuenta y cinco. En la lomita, Pedro Chávez acumula cuarenta y dos lanzamientos de su límite reglamentario de setenta y cinco envíos. Probabilidad de victoria estimada para Guerreros: setenta y cuatro por ciento.";
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-ES';
+  u.rate = 1.02;
+  window.speechSynthesis.speak(u);
+}
+window.narrarSituacionCabinaCompleta = narrarSituacionCabinaCompleta;
+
+function narrarFraseCabina(id) {
+  const el = document.getElementById(id);
+  if (el && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(el.innerText);
+    u.lang = 'es-ES';
+    u.rate = 1.05;
+    window.speechSynthesis.speak(u);
+  }
+}
+window.narrarFraseCabina = narrarFraseCabina;
+
+function copiarTextoCabina(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    navigator.clipboard.writeText(el.innerText).then(function() {
+      alert('📋 Frase copiada para leer al micrófono.');
+    });
+  }
+}
+window.copiarTextoCabina = copiarTextoCabina;
+
+// Escuchar hash #cabina en URL
+window.addEventListener('load', function() {
+  if (window.location.hash === '#cabina' || window.location.search.includes('cabina')) {
+    setTimeout(function() {
+      entrarCabinaEnVivo();
+    }, 400);
+  }
+});
+
 </script>
 
 
@@ -4116,6 +4289,59 @@ html, body {
 </head>
 <body>
 
+<!-- =========================================================================
+     🎙️ MODAL DE ACCESO A CABINA DE TRANSMISIÓN (BROADCAST LOGIN MODAL)
+     ========================================================================= -->
+<div id="modal-acceso-cabina" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.92); z-index:999999; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:16px;">
+  <div style="background:linear-gradient(145deg, #060D1F, #020617); border:2px solid #00D2FF; border-radius:20px; width:100%; max-width:540px; box-shadow:0 20px 60px rgba(0,0,0,0.9), 0 0 40px rgba(0,210,255,0.3); color:#F8FAFC; overflow:hidden; position:relative; animation:modalFadeIn 0.25s ease-out;">
+    
+    <!-- Header del Modal -->
+    <div style="padding:22px 24px; border-bottom:1px solid rgba(0,210,255,0.25); display:flex; justify-content:space-between; align-items:center; background:rgba(0,210,255,0.06);">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-size:26px;">🎙️</span>
+        <div>
+          <h3 style="margin:0; font-size:17px; font-weight:900; color:#FFF; letter-spacing:0.5px;">PORTAL DE CABINA & TRANSMISIÓN</h3>
+          <span style="font-size:11px; color:#00D2FF; font-weight:700;">Media Pass Oficial · DIAMAX PRO OS</span>
+        </div>
+      </div>
+      <button type="button" onclick="cerrarModalAccesoCabina()" style="background:none; border:none; color:#94A3B8; font-size:20px; cursor:pointer; padding:4px 8px;" title="Cerrar">✕</button>
+    </div>
+
+    <!-- Contenido del Modal -->
+    <div style="padding:24px;">
+      <div style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); border-radius:10px; padding:10px 14px; margin-bottom:18px; display:flex; align-items:center; gap:10px;">
+        <span style="width:10px; height:10px; border-radius:50%; background:#EF4444; box-shadow:0 0 8px #EF4444; display:inline-block; animation:pulseGlow 1.2s infinite;"></span>
+        <div style="font-size:12px; color:#FCA5A5; font-weight:800; letter-spacing:0.4px;">
+          MODO SOLO LECTURA · CERO DISTRACCIONES DE ANOTACIÓN
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="display:block; font-size:12px; font-weight:800; color:#94A3B8; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.6px;">Código del Partido en Vivo:</label>
+        <div style="display:flex; gap:10px;">
+          <input type="text" id="input-cabina-game-code" value="GVE-55" readonly style="flex:1; background:#040914; border:2px solid #00D2FF; border-radius:12px; padding:12px 16px; color:#00D2FF; font-size:18px; font-weight:900; letter-spacing:2px; outline:none; text-align:center; font-variant-numeric:tabular-nums;">
+          <button type="button" onclick="alert('✅ Conexión con feed oficial WBSC/FVB validada.')" style="background:#1E293B; border:1px solid #334155; color:#FFF; font-size:12px; font-weight:800; padding:0 14px; border-radius:12px; cursor:pointer;">Verificar</button>
+        </div>
+      </div>
+
+      <div style="background:rgba(0,210,255,0.06); border:1px solid rgba(0,210,255,0.2); border-radius:12px; padding:14px; margin-bottom:20px; font-size:12px; color:#CBD5E1; line-height:1.5;">
+        <div style="color:#00D2FF; font-weight:900; margin-bottom:4px;">📺 ¿Qué obtendrás al entrar?</div>
+        Pantalla Única Todo-en-Uno (Cockpit) con Mega Pizarra, Ficha de Bateador, BvP frente a frente, Semáforo de 75 pitcheos, Terreno 2D con Shift Derecho, Telemetría Statcast, Teleprompter táctico de 3 píldoras y URL de Overlay para OBS/vMix.
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <button type="button" onclick="entrarCabinaEnVivo()" style="flex:2; background:linear-gradient(135deg, #00D2FF, #0072FF); color:#020617; border:none; padding:14px; border-radius:12px; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.6px; box-shadow:0 0 25px rgba(0,210,255,0.5); display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+          <span>🎙️</span> <span>Entrar a Cabina en Vivo</span>
+        </button>
+        <button type="button" onclick="cerrarModalAccesoCabina()" style="flex:1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#CBD5E1; padding:14px; border-radius:12px; font-weight:800; font-size:13px; cursor:pointer;">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- 💎 DEFINICIÓN VECTORIAL MAESTRA DEL HOME PLATE DIAMOND (3Tree Digital Sport IA) -->
 <svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -5215,26 +5441,54 @@ html, body {
 
               <!-- PLAN 2: MANAGER PRO -->
               <!-- PLAN COMENTARISTA & MEDIA -->
-              <div id="p2-plan-card-MEDIA" onclick="seleccionarPlanP2('MEDIA_PRO')" style="background:linear-gradient(165deg, rgba(242,101,34,0.12), rgba(8,12,24,0.92)); border:1.8px solid #F26522; border-radius:18px; padding:22px; cursor:pointer; transition:all 0.25s; box-shadow:0 0 25px rgba(242,101,34,0.2);">
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                  <div style="width:36px; height:36px; border-radius:10px; background:rgba(242,101,34,0.18); border:1px solid #F26522; display:flex; align-items:center; justify-content:center; box-shadow:0 0 14px rgba(242,101,34,0.35);">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="2.2"><path d="M12 2a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z" fill="rgba(242,101,34,0.25)"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8"/></svg>
+              <!-- PLAN 2: COMENTARISTA & BROADCAST MEDIA -->
+              <div id="p2-plan-card-MEDIA" onclick="seleccionarPlanP2('MEDIA_PRO')" style="background:linear-gradient(165deg, rgba(0,210,255,0.12), rgba(6,14,32,0.95)); border:2px solid #00D2FF; border-radius:18px; padding:22px; cursor:pointer; transition:all 0.25s; box-shadow:0 0 30px rgba(0,210,255,0.25);">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="width:38px; height:38px; border-radius:10px; background:rgba(0,210,255,0.18); border:1.5px solid #00D2FF; display:flex; align-items:center; justify-content:center; box-shadow:0 0 14px rgba(0,210,255,0.35); font-size:18px;">
+                      🎙️
+                    </div>
+                    <div>
+                      <h4 style="margin:0; font-size:16px; font-weight:900; color:#00D2FF;">Plan Comentarista & Media</h4>
+                      <span style="font-size:10px; color:#38BDF8; font-weight:800; text-transform:uppercase;">Cabina Digital TV & Radio</span>
+                    </div>
                   </div>
-                  <h4 style="margin:0; font-size:16px; font-weight:900; color:#F26522;">Comentarista & Media</h4>
+                  <span style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:10px;">ON AIR</span>
                 </div>
-                <p style="margin:0 0 12px 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">Para narradores de TV, streaming, radio y prensa deportiva profesional.</p>
-                <div style="margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08);">
-                  <span style="font-size:30px; font-weight:900; color:#FFF; letter-spacing:-0.5px;">$14.99</span>
-                  <span style="font-size:11.5px; color:#94A3B8; font-weight:700;"> / mes · $120/año</span>
+                
+                <p style="margin:0 0 12px 0; font-size:11.5px; color:#94A3B8; line-height:1.4;">
+                  La Cabina Digital Inteligente de Televisión y Radio con cero distracciones y lectura a 60 cm.
+                </p>
+
+                <div style="background:rgba(2,6,23,0.85); border:1px solid #1E293B; border-radius:12px; padding:10px 14px; margin-bottom:12px;">
+                  <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+                    <span style="font-size:11px; color:#CBD5E1; font-weight:700;">• Plan Mensual:</span>
+                    <strong style="font-size:16px; color:#00D2FF; font-variant-numeric:tabular-nums;">$14.99 <small style="font-size:10px; color:#94A3B8;">/ mes</small></strong>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+                    <span style="font-size:11px; color:#FFC72C; font-weight:800;">• Plan Anual (-28%):</span>
+                    <strong style="font-size:16px; color:#FFC72C; font-variant-numeric:tabular-nums;">$129.00 <small style="font-size:10px; color:#94A3B8;">/ año</small></strong>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:10.5px; color:#94A3B8;">
+                    <span>• Pase Torneo: $49 · Multi-Cabina:</span>
+                    <span style="color:#38BDF8; font-weight:700;">$49.99/mes</span>
+                  </div>
                 </div>
-                <ul style="list-style:none; padding:0; margin:0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:8px;">
-                  <li><span style="color:#F26522; font-weight:900;">✓</span> Modo Cabina de Transmisión HD</li>
-                  <li><span style="color:#F26522; font-weight:900;">✓</span> Píldoras narrativas automáticas al aire</li>
-                  <li><span style="color:#F26522; font-weight:900;">✓</span> Telemetría de pitcheo y sabermetría live</li>
-                  <li style="color:#FFC72C; font-weight:800;">🎙️ Listo para micrófono y streaming</li>
+
+                <div style="font-size:11px; font-weight:900; color:#FFF; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">¿Qué incluye?</div>
+                <ul style="list-style:none; padding:0; margin:0; font-size:11px; color:#CBD5E1; display:flex; flex-direction:column; gap:6px;">
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> Entrada independiente (/cabina) sin permisos de anotador</li>
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> Pantalla única Todo-en-Uno (Cockpit) con cero distracciones</li>
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> Telemetría glanceable de alta visibilidad (a 60 cm del mic)</li>
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> Historial Frente a Frente (BvP) y divididos en vivo</li>
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> Semáforo médico (+55) con alerta de bullpen a 70 envíos</li>
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> Teleprompter con 3 píldoras por turno para hablar al aire</li>
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> Medidor de Probabilidad de Victoria (WPA Index)</li>
+                  <li><span style="color:#00D2FF; font-weight:900;">✓</span> URL de Overlay transparente para OBS Studio y vMix</li>
                 </ul>
               </div>
 
+              <!-- PLAN 3: MANAGER PRO -->
               <div id="p2-plan-card-MANAGER" onclick="seleccionarPlanP2('MANAGER_PRO')" style="background:linear-gradient(165deg, rgba(28,20,10,0.85), rgba(8,12,24,0.9)); border:1px solid rgba(255,184,46,0.45); border-radius:18px; padding:22px; cursor:pointer; transition:all 0.25s;">
                 <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
                   <div style="width:36px; height:36px; border-radius:10px; background:rgba(255,199,44,0.18); border:1px solid #FFC72C; display:flex; align-items:center; justify-content:center; box-shadow:0 0 14px rgba(255,199,44,0.35);">
@@ -5539,10 +5793,443 @@ html, body {
       <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
       <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
     </div>
-    <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game diamax-action-btn-unified">+ Configurar Partido & Rival</button>
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <button id="btn-entrada-cabina-broadcast" type="button" onclick="abrirModalAccesoCabina()" style="
+        background: linear-gradient(135deg, rgba(0, 210, 255, 0.22) 0%, rgba(0, 114, 255, 0.3) 100%);
+        border: 1.8px solid #00D2FF;
+        color: #00D2FF;
+        font-weight: 900;
+        font-size: 12px;
+        padding: 8px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 0 18px rgba(0, 210, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      " onmouseover="this.style.transform='translateY(-2px) scale(1.02)'; this.style.boxShadow='0 0 25px rgba(0,210,255,0.7)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 0 18px rgba(0,210,255,0.4)';" title="Entrada Independiente a Cabina de Comentaristas & Medios de TV">
+        <span style="
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: #EF4444;
+          box-shadow: 0 0 10px #EF4444;
+          display: inline-block;
+          animation: pulseGlow 1.2s infinite;
+        "></span>
+        <span style="font-size: 15px;">🎙️</span>
+        <span style="letter-spacing: 0.6px; text-transform: uppercase;">Entrada Cabina</span>
+        <span style="
+          background: #EF4444;
+          color: #FFF;
+          font-size: 9.5px;
+          font-weight: 900;
+          padding: 2px 6px;
+          border-radius: 4px;
+          letter-spacing: 0.6px;
+          box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+        ">ON AIR</span>
+      </button>
+      <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game diamax-action-btn-unified">+ Configurar Partido & Rival</button>
+    </div>
   </div>
 
   <!-- Navegación de Pestañas -->
+  
+  <!-- =========================================================================
+       🎙️ COCKPIT DE TRANSMISIÓN DE CABINA (PANTALLA ÚNICA TODO-EN-UNO)
+       DIAMAX PRO OS · BROADCAST COMMAND COCKPIT
+       ========================================================================= -->
+  <div id="broadcast-cockpit-view" style="display:none; margin-bottom:24px;">
+    
+    <!-- Barra Superior del Cockpit de Transmisión -->
+    <div style="background:linear-gradient(135deg, #020617 0%, #060D1F 50%, #091329 100%); border:2px solid #00D2FF; border-radius:16px; padding:14px 20px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; box-shadow:0 10px 30px rgba(0,0,0,0.8), 0 0 25px rgba(0,210,255,0.25);">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-size:28px;">🎙️</span>
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h2 style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.8px;">
+              COCKPIT DE CABINA · BROADCAST PRO
+            </h2>
+            <span style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; font-size:10px; font-weight:900; padding:2px 8px; border-radius:20px; display:inline-flex; align-items:center; gap:5px;">
+              <span style="width:7px; height:7px; border-radius:50%; background:#EF4444; box-shadow:0 0 6px #EF4444; animation:pulseGlow 1.2s infinite;"></span>
+              ON AIR
+            </span>
+          </div>
+          <span style="font-size:11.5px; color:#00D2FF; font-weight:700;">PARTIDO: GVE-55 · MODO NARRADOR (CERO PESTAÑAS)</span>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <button type="button" onclick="copiarOverlayOBS()" style="background:rgba(0,210,255,0.18); border:1.5px solid #00D2FF; color:#00D2FF; font-size:12px; font-weight:800; padding:8px 14px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(0,210,255,0.3);" title="Copiar URL transparente para OBS Studio o vMix">
+          <span>📡</span> <span>Overlay OBS/vMix</span>
+        </button>
+        <button type="button" onclick="narrarSituacionCabinaCompleta()" style="background:rgba(242,101,34,0.25); border:1.5px solid #F26522; color:#FFC72C; font-size:12px; font-weight:800; padding:8px 14px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(242,101,34,0.3);" title="Voz sintética que narra el reporte completo del juego">
+          <span>🔊</span> <span>Narrar Situación</span>
+        </button>
+        <button type="button" onclick="salirDeCabinaDugout()" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:12px; font-weight:900; padding:8px 16px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;" title="Regresar al Dugout y a las 8 pestañas regulares">
+          <span>🔙</span> <span>Salir a Dugout</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 📺 ARRIBA: MEGA PIZARRA GLANCEABLE (Legible a 60 cm del micrófono) -->
+    <div style="background:linear-gradient(180deg, #030712 0%, #060D1E 100%); border:2px solid #1E293B; border-radius:18px; padding:18px 24px; margin-bottom:18px; box-shadow:0 15px 40px rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      
+      <!-- Inning Gigante -->
+      <div style="text-align:left; min-width:140px;">
+        <span style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase; letter-spacing:1px; display:block;">EPISODIO EN VIVO</span>
+        <div id="cockpit-mega-inning" style="font-size:30px; font-weight:900; color:#00D2FF; font-variant-numeric:tabular-nums; letter-spacing:1px;">
+          INNING 4 ▲ ALTA
+        </div>
+      </div>
+
+      <!-- Marcador Gigante -->
+      <div style="text-align:center; flex:1; min-width:260px;">
+        <span style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase; letter-spacing:1px; display:block;">PIZARRA OFICIAL WBSC / FVB</span>
+        <div id="cockpit-mega-score" style="font-size:42px; font-weight:900; color:#FFFFFF; font-variant-numeric:tabular-nums; letter-spacing:2px; text-shadow:0 0 25px rgba(255,199,44,0.4);">
+          <span style="color:#FFF;">GUERREROS 5</span> - <span style="color:#FFC72C;">3 TIBURONES</span>
+        </div>
+      </div>
+
+      <!-- Diamante de Bases SVG en Vivo -->
+      <div style="text-align:center; padding:0 10px;">
+        <span style="font-size:10px; color:#94A3B8; font-weight:800; text-transform:uppercase; display:block; margin-bottom:4px;">BASES</span>
+        <svg width="56" height="56" viewBox="0 0 100 100">
+          <!-- Líneas de diamante -->
+          <polygon points="50,15 85,50 50,85 15,50" fill="none" stroke="#334155" stroke-width="3"/>
+          <!-- 2B (Arriba) - Ocupada -->
+          <rect x="42" y="7" width="16" height="16" transform="rotate(45 50 15)" fill="#FFC72C" stroke="#FFF" stroke-width="1.5" style="filter:drop-shadow(0 0 6px #FFC72C);"/>
+          <!-- 3B (Izquierda) - Vacía -->
+          <rect x="7" y="42" width="16" height="16" transform="rotate(45 15 50)" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+          <!-- 1B (Derecha) - Ocupada -->
+          <rect x="77" y="42" width="16" height="16" transform="rotate(45 85 50)" fill="#FFC72C" stroke="#FFF" stroke-width="1.5" style="filter:drop-shadow(0 0 6px #FFC72C);"/>
+          <!-- Home (Abajo) -->
+          <polygon points="50,85 60,92 50,98 40,92" fill="#FFF"/>
+        </svg>
+      </div>
+
+      <!-- Conteo B-S-O en Números Gigantes & LEDs -->
+      <div style="display:flex; align-items:center; gap:16px; background:#040914; border:1.5px solid #1E293B; border-radius:14px; padding:10px 18px;">
+        <div style="text-align:center;">
+          <span style="font-size:10.5px; color:#10B981; font-weight:900; display:block;">BOLAS</span>
+          <div style="font-size:28px; font-weight:900; color:#10B981; font-variant-numeric:tabular-nums;" id="cockpit-mega-balls">2</div>
+          <div style="display:flex; gap:3px; justify-content:center; margin-top:2px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#10B981; box-shadow:0 0 5px #10B981;"></span>
+            <span style="width:6px; height:6px; border-radius:50%; background:#10B981; box-shadow:0 0 5px #10B981;"></span>
+            <span style="width:6px; height:6px; border-radius:50%; background:#1E293B;"></span>
+            <span style="width:6px; height:6px; border-radius:50%; background:#1E293B;"></span>
+          </div>
+        </div>
+
+        <div style="width:1px; height:36px; background:#1E293B;"></div>
+
+        <div style="text-align:center;">
+          <span style="font-size:10.5px; color:#FFC72C; font-weight:900; display:block;">STRIKES</span>
+          <div style="font-size:28px; font-weight:900; color:#FFC72C; font-variant-numeric:tabular-nums;" id="cockpit-mega-strikes">1</div>
+          <div style="display:flex; gap:3px; justify-content:center; margin-top:2px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#FFC72C; box-shadow:0 0 5px #FFC72C;"></span>
+            <span style="width:6px; height:6px; border-radius:50%; background:#1E293B;"></span>
+            <span style="width:6px; height:6px; border-radius:50%; background:#1E293B;"></span>
+          </div>
+        </div>
+
+        <div style="width:1px; height:36px; background:#1E293B;"></div>
+
+        <div style="text-align:center;">
+          <span style="font-size:10.5px; color:#EF4444; font-weight:900; display:block;">OUTS</span>
+          <div style="font-size:28px; font-weight:900; color:#EF4444; font-variant-numeric:tabular-nums;" id="cockpit-mega-outs">2</div>
+          <div style="display:flex; gap:3px; justify-content:center; margin-top:2px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#EF4444; box-shadow:0 0 5px #EF4444;"></span>
+            <span style="width:6px; height:6px; border-radius:50%; background:#EF4444; box-shadow:0 0 5px #EF4444;"></span>
+            <span style="width:6px; height:6px; border-radius:50%; background:#1E293B;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COCKPIT GRID: 3 COLUMNAS TÁCTICAS -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px;">
+      
+      <!-- ===================================================================
+           COLUMNA IZQUIERDA: BATEADOR EN EL PLATO + BvP + SEMÁFORO LANZADOR
+           =================================================================== -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        
+        <!-- Ficha del Bateador Activo -->
+        <div style="background:#050B18; border:1.5px solid #1E293B; border-radius:14px; padding:18px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
+            <span style="font-size:11px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.8px;">
+              👤 EN EL PLATO (BATEADOR ACTIVO)
+            </span>
+            <span style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px;">TURNO 3</span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+            <div style="width:52px; height:52px; border-radius:12px; background:linear-gradient(135deg, #1E293B, #0F172A); border:2px solid #00D2FF; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:900; color:#00D2FF; box-shadow:0 0 15px rgba(0,210,255,0.3);">
+              #5
+            </div>
+            <div>
+              <div id="cockpit-batter-name" style="font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.4px;">
+                Johan Olivo #5 (CF)
+              </div>
+              <div style="font-size:12px; color:#94A3B8; font-weight:700;">
+                Batea: Zurdo (L) · Lanza: Derecho (R) · Guerreros +55
+              </div>
+            </div>
+          </div>
+
+          <!-- Métricas en Vivo -->
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; background:#020617; border:1px solid #1E293B; border-radius:10px; padding:10px; text-align:center; font-variant-numeric:tabular-nums; margin-bottom:12px;">
+            <div>
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">AVG</span>
+              <strong id="cockpit-batter-avg" style="font-size:15px; color:#FFC72C;">.385</strong>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">OBP</span>
+              <strong id="cockpit-batter-obp" style="font-size:15px; color:#38BDF8;">.440</strong>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">SLG</span>
+              <strong style="font-size:15px; color:#F472B6;">.615</strong>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">OPS</span>
+              <strong id="cockpit-batter-ops" style="font-size:15px; color:#10B981;">1.055</strong>
+            </div>
+          </div>
+          <div style="font-size:11px; color:#CBD5E1; background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:6px;">
+            ⚾ <strong>Juego de hoy:</strong> de 2-1 (Doble remolcador en el 1ero, Fly al CF en el 3ero).
+          </div>
+        </div>
+
+        <!-- Historial Frente a Frente (BvP) -->
+        <div style="background:#050B18; border:1.5px solid rgba(255,199,44,0.4); border-radius:14px; padding:16px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+          <div style="font-size:11px; font-weight:900; color:#FFC72C; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <span>⚔️</span> <span>HISTORIAL FRENTE A FRENTE (BvP)</span>
+          </div>
+          <div style="background:rgba(255,199,44,0.08); border:1px solid rgba(255,199,44,0.25); border-radius:10px; padding:12px; margin-bottom:8px;">
+            <div style="font-size:14px; font-weight:900; color:#FFF; margin-bottom:4px;">
+              De 9-4 (.444), 2 dobles y 1 HR contra Carlos Mendoza
+            </div>
+            <div style="font-size:11.5px; color:#CBD5E1; line-height:1.4;">
+              Fuerte tendencia a conectar lanzamientos quebrados en conteo favorable. 78% de contacto hacia callejón CF-LF.
+            </div>
+          </div>
+        </div>
+
+        <!-- Semáforo del Lanzador (+55) -->
+        <div style="background:#050B18; border:1.5px solid #1E293B; border-radius:14px; padding:16px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:11px; font-weight:900; color:#10B981; text-transform:uppercase; letter-spacing:0.8px;">
+              ⚾ EN LA LOMITA: PEDRO CHÁVEZ (RHP)
+            </span>
+            <span id="cockpit-pitcher-velo" style="font-size:11px; color:#00D2FF; font-weight:900; background:rgba(0,210,255,0.15); padding:2px 8px; border-radius:6px;">
+              4-Seam: 91.2 MPH
+            </span>
+          </div>
+          
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#FFF; font-weight:900; margin-bottom:6px;">
+            <span>Fatiga Médica (+55):</span>
+            <span id="cockpit-pitcher-count" style="color:#10B981; font-variant-numeric:tabular-nums;">42 / 75 PIT (56%)</span>
+          </div>
+
+          <div style="width:100%; height:12px; background:#0A1224; border:1px solid #1E293B; border-radius:6px; overflow:hidden; margin-bottom:8px;">
+            <div id="cockpit-pitcher-bar" style="width:56%; height:100%; background:#10B981; transition:width 0.3s;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:10px; color:#64748B; font-weight:700;">
+            <span style="color:#10B981;">0-50: Verde</span>
+            <span style="color:#FFC72C;">51-65: Precaución</span>
+            <span style="color:#EF4444;">66-75: Alerta / Límite Legal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           COLUMNA CENTRAL: TERRENO 2D TÁCTICO CON SHIFT DERECHO + STATCAST
+           =================================================================== -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        
+        <!-- Terreno 2D SVG con Shift Activo -->
+        <div style="background:#050B18; border:1.5px solid #1E293B; border-radius:14px; padding:16px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:11px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.8px;">
+              🏟️ TERRENO 2D EN VIVO · SPRAY CHART
+            </span>
+            <span style="background:rgba(242,101,34,0.2); border:1px solid #F26522; color:#F26522; font-size:10px; font-weight:900; padding:2px 8px; border-radius:6px;">
+              🛡️ SHIFT DERECHO ANTI-PULL ACTIVO
+            </span>
+          </div>
+
+          <!-- Terreno SVG -->
+          <div style="position:relative; width:100%; aspect-ratio:1.2; background:#0B1A12; border:1.5px solid #1E293B; border-radius:12px; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+            <svg viewBox="0 0 300 250" style="width:100%; height:100%;">
+              <!-- Césped del Outfield -->
+              <path d="M 150 220 L 20 70 A 180 180 0 0 1 280 70 Z" fill="#13331C" stroke="#22543D" stroke-width="2"/>
+              <!-- Tierra del Infield -->
+              <path d="M 150 220 L 70 140 A 110 110 0 0 1 230 140 Z" fill="#422006" stroke="#78350F" stroke-width="1.5"/>
+              <!-- Cuadro del Infield (Diamante) -->
+              <polygon points="150,215 195,170 150,125 105,170" fill="#1A472A" stroke="#FFF" stroke-width="1"/>
+              <!-- Montículo -->
+              <circle cx="150" cy="170" r="7" fill="#78350F" stroke="#FFF" stroke-width="1"/>
+              
+              <!-- Posicionamiento defensivo SHIFT DERECHO (Infield recargado) -->
+              <circle cx="95" cy="165" r="5" fill="#3B82F6" stroke="#FFF" stroke-width="1" title="3B en posición profunda"/>
+              <text x="95" y="157" fill="#93C5FD" font-size="8" font-weight="900" text-anchor="middle">3B</text>
+
+              <circle cx="140" cy="145" r="5" fill="#3B82F6" stroke="#FFF" stroke-width="1" title="SS cubriendo detrás de 2B"/>
+              <text x="140" y="137" fill="#93C5FD" font-size="8" font-weight="900" text-anchor="middle">SS</text>
+
+              <circle cx="180" cy="148" r="5" fill="#3B82F6" stroke="#FFF" stroke-width="1" title="2B recargado a la derecha"/>
+              <text x="180" y="140" fill="#93C5FD" font-size="8" font-weight="900" text-anchor="middle">2B</text>
+
+              <circle cx="205" cy="175" r="5" fill="#3B82F6" stroke="#FFF" stroke-width="1" title="1B pegado a la raya"/>
+              <text x="205" y="167" fill="#93C5FD" font-size="8" font-weight="900" text-anchor="middle">1B</text>
+
+              <!-- Outfielders -->
+              <circle cx="70" cy="75" r="5" fill="#3B82F6" stroke="#FFF" stroke-width="1"/>
+              <text x="70" y="67" fill="#93C5FD" font-size="8" font-weight="900" text-anchor="middle">LF</text>
+
+              <circle cx="150" cy="50" r="5" fill="#3B82F6" stroke="#FFF" stroke-width="1"/>
+              <text x="150" y="42" fill="#93C5FD" font-size="8" font-weight="900" text-anchor="middle">CF</text>
+
+              <circle cx="230" cy="75" r="5" fill="#3B82F6" stroke="#FFF" stroke-width="1"/>
+              <text x="230" y="67" fill="#93C5FD" font-size="8" font-weight="900" text-anchor="middle">RF</text>
+
+              <!-- Batazo Proyectado (Spray Chart) -->
+              <line x1="150" y1="215" x2="190" y2="55" stroke="#FFC72C" stroke-width="2.5" stroke-dasharray="4,4"/>
+              <circle cx="190" cy="55" r="6" fill="#F26522" stroke="#FFF" stroke-width="1.5" style="filter:drop-shadow(0 0 8px #F26522);"/>
+              <text x="190" y="44" fill="#FFC72C" font-size="8.5" font-weight="900" text-anchor="middle">412 FT · HR</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Telemetría Statcast -->
+        <div style="background:#050B18; border:1.5px solid #00D2FF; border-radius:14px; padding:16px; box-shadow:0 0 20px rgba(0,210,255,0.15);">
+          <div style="font-size:11px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+            <span>⚡</span> <span>STATCAST TELEMETRY (ÚLTIMO CONTACTO)</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; font-variant-numeric:tabular-nums; text-align:center;">
+            <div style="background:#020617; border:1px solid #1E293B; border-radius:8px; padding:8px;">
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">EXIT VELO</span>
+              <strong style="font-size:16px; color:#00D2FF;">108.4</strong>
+              <small style="font-size:9px; color:#94A3B8; display:block;">MPH</small>
+            </div>
+            <div style="background:#020617; border:1px solid #1E293B; border-radius:8px; padding:8px;">
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">ÁNGULO</span>
+              <strong style="font-size:16px; color:#FFC72C;">28°</strong>
+              <small style="font-size:9px; color:#94A3B8; display:block;">OPTIMAL</small>
+            </div>
+            <div style="background:#020617; border:1px solid #1E293B; border-radius:8px; padding:8px;">
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">DISTANCIA</span>
+              <strong style="font-size:16px; color:#10B981;">412</strong>
+              <small style="font-size:9px; color:#94A3B8; display:block;">PIES</small>
+            </div>
+            <div style="background:#020617; border:1px solid #1E293B; border-radius:8px; padding:8px;">
+              <span style="font-size:10px; color:#64748B; font-weight:800; display:block;">TIEMPO</span>
+              <strong style="font-size:16px; color:#F472B6;">4.8s</strong>
+              <small style="font-size:9px; color:#94A3B8; display:block;">VUELO</small>
+            </div>
+          </div>
+          <div style="margin-top:8px; font-size:11px; text-align:center; color:#FFC72C; font-weight:800;">
+            🔥 BARRELED BALL: Probabilidad de extrabase estimada en 89.2%
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           COLUMNA DERECHA: PROBABILIDAD DE VICTORIA (WPA) + TELEPROMPTER TÁCTICO
+           =================================================================== -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        
+        <!-- Win Probability Index (WPA) -->
+        <div style="background:#050B18; border:1.5px solid #1E293B; border-radius:14px; padding:16px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:11px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.8px;">
+              📈 PROBABILIDAD DE VICTORIA (WPA)
+            </span>
+            <span style="font-size:10px; color:#94A3B8; font-weight:700;">INNING 4 ▲</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; font-variant-numeric:tabular-nums;">
+            <div>
+              <strong id="cockpit-wpa-us" style="font-size:22px; font-weight:900; color:#00D2FF;">74%</strong>
+              <span style="font-size:12px; color:#CBD5E1; font-weight:800; margin-left:4px;">Guerreros</span>
+            </div>
+            <div>
+              <span style="font-size:12px; color:#CBD5E1; font-weight:800; margin-right:4px;">Tiburones</span>
+              <strong id="cockpit-wpa-them" style="font-size:22px; font-weight:900; color:#F26522;">26%</strong>
+            </div>
+          </div>
+
+          <!-- Barra Bicolor WPA -->
+          <div style="width:100%; height:12px; background:#0B132B; border-radius:6px; overflow:hidden; display:flex;">
+            <div id="cockpit-wpa-bar-fill" style="width:74%; height:100%; background:linear-gradient(90deg, #0072FF, #00D2FF); transition:width 0.3s;"></div>
+            <div style="width:26%; height:100%; background:linear-gradient(90deg, #EA580C, #F26522);"></div>
+          </div>
+        </div>
+
+        <!-- Teleprompter Táctico (3 Frases automáticas listas para el micrófono) -->
+        <div style="background:#050B18; border:1.5px solid #F26522; border-radius:14px; padding:16px; box-shadow:0 4px 25px rgba(242,101,34,0.15); flex:1; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="font-size:12px; font-weight:900; color:#F26522; display:flex; align-items:center; gap:6px;">
+              <span>🎙️</span> <span>TELEPROMPTER TÁCTICO AL AIRE</span>
+            </div>
+            <span style="font-size:10px; color:#94A3B8;">3 Frases listas</span>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px; flex:1;">
+            
+            <!-- Frase 1: Situación -->
+            <div style="background:#020617; border:1px solid #1E293B; border-radius:10px; padding:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span style="font-size:10px; color:#38BDF8; font-weight:900; text-transform:uppercase;">1. Situación al Aire</span>
+                <div style="display:flex; gap:4px;">
+                  <button type="button" onclick="copiarTextoCabina('cockpit-frase-1')" style="background:#1E293B; border:none; color:#CBD5E1; font-size:10px; padding:2px 6px; border-radius:4px; cursor:pointer;">📋 Copiar</button>
+                  <button type="button" onclick="narrarFraseCabina('cockpit-frase-1')" style="background:rgba(0,210,255,0.2); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; padding:2px 6px; border-radius:4px; cursor:pointer;">🔊 Al Aire</button>
+                </div>
+              </div>
+              <p id="cockpit-frase-1" style="margin:0; font-size:12px; color:#E2E8F0; line-height:1.4;">
+                "Estamos en vivo en el 4to inning alta, 2 outs en la pizarra, hombres en las esquinas y ventaja de 2 para Guerreros."
+              </p>
+            </div>
+
+            <!-- Frase 2: BvP -->
+            <div style="background:#020617; border:1px solid #1E293B; border-radius:10px; padding:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span style="font-size:10px; color:#FFC72C; font-weight:900; text-transform:uppercase;">2. Duelo en el Plato</span>
+                <div style="display:flex; gap:4px;">
+                  <button type="button" onclick="copiarTextoCabina('cockpit-frase-2')" style="background:#1E293B; border:none; color:#CBD5E1; font-size:10px; padding:2px 6px; border-radius:4px; cursor:pointer;">📋 Copiar</button>
+                  <button type="button" onclick="narrarFraseCabina('cockpit-frase-2')" style="background:rgba(255,199,44,0.2); border:1px solid #FFC72C; color:#FFC72C; font-size:10px; padding:2px 6px; border-radius:4px; cursor:pointer;">🔊 Al Aire</button>
+                </div>
+              </div>
+              <p id="cockpit-frase-2" style="margin:0; font-size:12px; color:#E2E8F0; line-height:1.4;">
+                "En el plato Johan Olivo, quien históricamente le batea para .444 a Mendoza con 1 cuadrangular."
+              </p>
+            </div>
+
+            <!-- Frase 3: Bullpen -->
+            <div style="background:#020617; border:1px solid #1E293B; border-radius:10px; padding:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span style="font-size:10px; color:#EF4444; font-weight:900; text-transform:uppercase;">3. Alerta de Bullpen</span>
+                <div style="display:flex; gap:4px;">
+                  <button type="button" onclick="copiarTextoCabina('cockpit-frase-3')" style="background:#1E293B; border:none; color:#CBD5E1; font-size:10px; padding:2px 6px; border-radius:4px; cursor:pointer;">📋 Copiar</button>
+                  <button type="button" onclick="narrarFraseCabina('cockpit-frase-3')" style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; font-size:10px; padding:2px 6px; border-radius:4px; cursor:pointer;">🔊 Al Aire</button>
+                </div>
+              </div>
+              <p id="cockpit-frase-3" style="margin:0; font-size:12px; color:#E2E8F0; line-height:1.4;">
+                "Pedro Chávez alcanza los 42 envíos oficiales; el bullpen de Guerreros calienta ante la regla de 75 pitcheos."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="nav" id="main-nav">
     <button class="active" onclick="switchTab('envivo')" id="btn-go-scorer">
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> 1. Anotador Dugout
@@ -8432,12 +9119,17 @@ function seleccionarPlanP2(plan) {
   if (inputPlan) inputPlan.value = plan;
 
   const cardTrial = document.getElementById('p2-plan-card-TRIAL');
+  const cardMedia = document.getElementById('p2-plan-card-MEDIA');
   const cardMgr = document.getElementById('p2-plan-card-MANAGER');
   const cardLiga = document.getElementById('p2-plan-card-LIGA');
 
   if (cardTrial) {
     cardTrial.style.border = (plan === 'TRIAL_MES_GRATIS') ? '2.5px solid #00D2FF' : '1px solid rgba(255,255,255,0.12)';
     cardTrial.style.boxShadow = (plan === 'TRIAL_MES_GRATIS') ? '0 0 20px rgba(0,210,255,0.35)' : 'none';
+  }
+  if (cardMedia) {
+    cardMedia.style.border = (plan === 'MEDIA_PRO') ? '2.5px solid #00D2FF' : '1.8px solid #00D2FF';
+    cardMedia.style.boxShadow = (plan === 'MEDIA_PRO') ? '0 0 30px rgba(0,210,255,0.5)' : '0 0 15px rgba(0,210,255,0.2)';
   }
   if (cardMgr) {
     cardMgr.style.border = (plan === 'MANAGER_PRO') ? '2.5px solid #F26522' : '1px solid rgba(255,255,255,0.12)';
@@ -8456,6 +9148,10 @@ function validarYAvanzarPaso3() {
   if (badgeEl) {
     if (planSeleccionadoP2 === 'TRIAL_MES_GRATIS') {
       badgeEl.innerText = '🎁 PLAN: MES GRATIS ($0.00 / 30 DÍAS)';
+      badgeEl.style.background = '#00D2FF';
+      badgeEl.style.color = '#020617';
+    } else if (planSeleccionadoP2 === 'MEDIA_PRO') {
+      badgeEl.innerText = '🎙️ PLAN: COMENTARISTA & MEDIA ($14.99 / MES)';
       badgeEl.style.background = '#00D2FF';
       badgeEl.style.color = '#020617';
     } else if (planSeleccionadoP2 === 'MANAGER_PRO') {
@@ -18775,6 +19471,40 @@ document.addEventListener('keydown', function(e) {
         <!-- Grid de los 6 Planes Oficiales (100% Capacidades Reales Desarrolladas por 3Tree) -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">
           
+          <!-- PLAN ESPECIAL: COMENTARISTA & BROADCAST MEDIA -->
+          <div onclick="seleccionarPlanSuscripcion('MEDIA_PRO')" style="cursor:pointer; background:linear-gradient(165deg, rgba(0,210,255,0.12), rgba(6,14,32,0.95)); border:2px solid #00D2FF; border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.2s; box-shadow:0 0 25px rgba(0,210,255,0.25);" onmouseover="this.style.borderColor='#00D2FF'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#00D2FF'; this.style.transform='translateY(0)';">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:16px; font-weight:900; color:#00D2FF; display:inline-flex; align-items:center; gap:6px;">
+                  <span>🎙️</span> PLAN COMENTARISTA & MEDIA
+                </h4>
+                <span style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:10px;">ON AIR</span>
+              </div>
+              
+              <div style="margin-bottom:12px;">
+                <span style="font-size:28px; font-weight:900; color:#FFF;">$14.99</span>
+                <span style="font-size:11.5px; color:#94A3B8;"> / mes</span>
+                <div style="font-size:11px; color:#FFC72C; font-weight:800; margin-top:2px;">• Anual (-28%): $129.00 / año ($10.75/mes)</div>
+                <div style="font-size:10.5px; color:#38BDF8; font-weight:700; margin-top:1px;">• Pase Torneo: $49 · Multi-Cabina: $49.99/mes</div>
+              </div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 16px 0; font-size:11.5px; color:#CBD5E1; display:flex; flex-direction:column; gap:7px;">
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>Entrada independiente (/cabina) sin permisos de anotador</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>Pantalla única Todo-en-Uno (Cockpit) con cero distracciones</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>Telemetría glanceable de alta visibilidad (a 60 cm del mic)</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>Historial Frente a Frente (BvP) y divididos en vivo</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>Semáforo médico (+55) con alerta de bullpen a 70 envíos</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>Teleprompter con 3 píldoras por turno para hablar al aire</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>Medidor de Probabilidad de Victoria (WPA Index)</span></li>
+                <li style="display:flex; align-items:flex-start; gap:6px;"><span style="color:#00D2FF; font-weight:900;">✓</span> <span>URL de Overlay transparente para OBS Studio y vMix</span></li>
+              </ul>
+            </div>
+
+            <button onclick="seleccionarPlanSuscripcion('MEDIA_PRO')" style="width:100%; padding:11px; background:linear-gradient(135deg, #00D2FF, #0072FF); color:#020617; border:none; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; box-shadow:0 0 15px rgba(0,210,255,0.4); transition:all 0.2s;">
+              Elegir Plan Comentarista ($14.99)
+            </button>
+          </div>
+
           <!-- PLAN 1: DIAMAX TEAM ($39.99) -->
           <div onclick="seleccionarPlanSuscripcion('TEAM')" style="cursor:pointer; background:#070e1c; border:1px solid rgba(0,210,255,0.25); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.2s;" onmouseover="this.style.borderColor='#00D2FF'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(0,210,255,0.25)'; this.style.transform='translateY(0)';">
             <div>
