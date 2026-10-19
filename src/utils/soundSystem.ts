@@ -200,6 +200,31 @@ class DiamaxSoundSystem {
       osc.stop(ctx.currentTime + 0.08);
     } catch {}
   }
+
+  // Voice Speech Synthesizer (Narración Táctica Web Speech API)
+  public speak(text: string): void {
+    if (this.isMuted || typeof window === 'undefined' || !window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      const cleanText = (text || '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\[[^\]]*\]/g, ' ')
+        .replace(/[•*#_]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const sentences = cleanText.split('.');
+      const spokenSummary = (sentences.slice(0, 2).join('.') + '.').substring(0, 220);
+
+      const utterance = new SpeechSynthesisUtterance(spokenSummary);
+      utterance.lang = 'es-ES';
+      utterance.rate = 1.08;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } catch {
+      // Ignored for unsupported speech synthesis engines
+    }
+  }
 }
 
 export const soundSystem = new DiamaxSoundSystem();

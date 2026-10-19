@@ -106,16 +106,17 @@ export const RegistrationWizardModal: React.FC<RegistrationWizardModalProps> = (
     soundSystem.playClick();
     setIsVerifying(true);
     setOtpError('');
-    const code = codeToTest || otpCode;
+    const code = (codeToTest || otpCode).replace(/\D/g, '');
     setTimeout(() => {
       setIsVerifying(false);
-      if (code === '777000' || code === '123456' || code === '777-000' || codeToTest) {
+      if (code === '852914' || code === '777000' || code === '123456' || codeToTest) {
         soundSystem.playHomeRun();
+        soundSystem.speak('Cuenta y franquicia activadas con éxito bajo arquitectura Zero Trust');
         setCurrentStep(5);
       } else {
-        setOtpError('Código de verificación incorrecto. Use el código 777-000 o presione el botón de bypass QA.');
+        setOtpError('Código de verificación incorrecto. Utilice el código 852914 o presione el botón de auto-completar.');
       }
-    }, 600);
+    }, 500);
   };
 
   const handleCompleteAndEnter = () => {
@@ -721,33 +722,36 @@ export const RegistrationWizardModal: React.FC<RegistrationWizardModalProps> = (
                       type="text"
                       value={otpCode}
                       onChange={(e) => setOtpCode(e.target.value)}
-                      placeholder="777-000"
-                      maxLength={7}
-                      className="w-48 mx-auto text-center font-mono text-xl tracking-widest bg-slate-900 border-2 border-cyan-400 text-white rounded-xl py-2 focus:outline-none"
+                      placeholder="852914"
+                      maxLength={6}
+                      className="w-48 mx-auto text-center font-mono text-2xl tracking-[6px] bg-slate-900 border-2 border-cyan-400 text-cyan-400 rounded-xl py-2.5 focus:outline-none shadow-lg shadow-cyan-500/20"
                     />
 
                     {otpError && (
                       <p className="text-xs text-rose-400 font-medium">{otpError}</p>
                     )}
 
-                    <div className="flex items-center justify-center gap-3 pt-2">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                       <button
                         type="button"
                         onClick={() => handleVerifyOtp()}
                         disabled={isVerifying}
-                        className="px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider transition-all"
+                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-500/20"
                       >
-                        {isVerifying ? 'Verificando...' : 'Verificar y Activar Cuenta'}
+                        {isVerifying ? 'Verificando...' : '🛡️ Activar Mes Gratis & Entrar al Dugout'}
                       </button>
 
-                      {/* QA Bypass Button */}
+                      {/* Monolith QA Bypass Button with 852914 */}
                       <button
                         type="button"
-                        onClick={() => handleVerifyOtp('777000')}
-                        className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-mono border border-slate-700"
-                        title="Bypass rápido para pruebas"
+                        onClick={() => {
+                          setOtpCode('852914');
+                          handleVerifyOtp('852914');
+                        }}
+                        className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[11px] font-mono border border-cyan-500/30 underline font-bold"
+                        title="Auto-completar código de prueba rápida"
                       >
-                        ⚡ Bypass QA (777-000)
+                        ⚡ Auto-completar código (Prueba Rápida: 852914)
                       </button>
                     </div>
                   </div>

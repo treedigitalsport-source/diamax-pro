@@ -14,7 +14,8 @@ import {
   Volume2,
   VolumeX,
   Sparkles,
-  Calendar
+  Calendar,
+  Building2
 } from 'lucide-react';
 import { soundSystem } from '../../utils/soundSystem';
 
@@ -22,10 +23,11 @@ export type ActiveTab =
   | 'envivo'
   | 'lineup'
   | 'campo'
-  | 'dashboard'
+  | 'manual'
+  | 'scorecard'
+  | 'sabermetrics'
   | 'skills'
-  | 'tarjeta'
-  | 'manual';
+  | 'perfil';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -51,15 +53,21 @@ export const Header: React.FC<HeaderProps> = ({
   const handleToggleSound = () => {
     const next = soundSystem.toggleMuted();
     setIsAudioMuted(next);
+    if (!next) {
+      soundSystem.playClick();
+      soundSystem.speak('Audio activado');
+    }
   };
+
   const tabs = [
-    { id: 'envivo' as ActiveTab, label: 'En Vivo (Dugout)', icon: Activity },
-    { id: 'lineup' as ActiveTab, label: 'Lineup & Markov', icon: Users },
-    { id: 'campo' as ActiveTab, label: 'Terreno 2D & Spray', icon: Crosshair },
-    { id: 'dashboard' as ActiveTab, label: 'Sabermetría', icon: BarChart3 },
-    { id: 'skills' as ActiveTab, label: 'ScoutAI HUD', icon: Cpu },
-    { id: 'tarjeta' as ActiveTab, label: 'Tarjeta Oficial', icon: FileSpreadsheet },
-    { id: 'manual' as ActiveTab, label: 'Reglamento +55', icon: BookOpen }
+    { id: 'envivo' as ActiveTab, label: '1. Anotador Dugout', icon: Activity },
+    { id: 'lineup' as ActiveTab, label: '2. Lineup Builder', icon: Users },
+    { id: 'campo' as ActiveTab, label: '3. Terreno 2D', icon: Crosshair },
+    { id: 'manual' as ActiveTab, label: '4. Manual & Reglas', icon: BookOpen },
+    { id: 'scorecard' as ActiveTab, label: '5. Tarjeta Oficial', icon: FileSpreadsheet },
+    { id: 'sabermetrics' as ActiveTab, label: '6. Tablero Sabermétrico', icon: BarChart3 },
+    { id: 'skills' as ActiveTab, label: '7. DIAMAX Tactical AI', icon: Cpu },
+    { id: 'perfil' as ActiveTab, label: '8. Perfil & Conectividad', icon: Building2 }
   ];
 
   return (
@@ -147,17 +155,18 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* Audio Acoustic Synthesizer Toggle */}
+            {/* Audio Acoustic & Voice Synthesizer Toggle */}
             <button
               onClick={handleToggleSound}
-              className={`p-1.5 rounded-full border text-xs transition-all flex items-center gap-1 ${
+              className={`px-2.5 py-1 rounded-full border text-[10px] font-bold transition-all flex items-center gap-1.5 ${
                 isAudioMuted
                   ? 'bg-slate-900 border-slate-700 text-slate-500 hover:text-slate-300'
                   : 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-md shadow-emerald-500/20'
               }`}
-              title={isAudioMuted ? 'Activar Efectos de Sonido' : 'Silenciar Audio'}
+              title={isAudioMuted ? 'Activar Efectos de Audio y Voz' : 'Silenciar Audio y Voz'}
             >
               {isAudioMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+              <span>{isAudioMuted ? 'Audio OFF' : 'Audio ON'}</span>
             </button>
 
             {/* Cinematic Video CTA */}

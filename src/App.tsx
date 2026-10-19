@@ -26,15 +26,16 @@ import { StrikeZoneHeatmap } from './components/tactics/StrikeZoneHeatmap';
 import { LineupBuilder } from './components/lineup/LineupBuilder';
 import { OptimalLineupAdvisor } from './components/lineup/OptimalLineupAdvisor';
 
-// Sabermetrics & Vision Components
+// Sabermetrics & Tactical AI Components
 import { SabermetricsDashboard } from './components/sabermetrics/SabermetricsDashboard';
-import { BiomechanicsHUD } from './components/vision/BiomechanicsHUD';
+import { DiamaxTacticalAI } from './components/ai/DiamaxTacticalAI';
 
 // Scorecard & Rules Components
 import { OfficialScorecard } from './components/scorecard/OfficialScorecard';
 import { OperationalManualFull } from './components/rules/OperationalManualFull';
 
-// Modals & Wizard Components
+// Profile & Modals Components
+import { ProfileConnectivityTab } from './components/profile/ProfileConnectivityTab';
 import { RegistrationWizardModal } from './components/wizard/RegistrationWizardModal';
 import { NewGameModal } from './components/modals/NewGameModal';
 
@@ -516,6 +517,26 @@ export const App: React.FC = () => {
     }));
   }, []);
 
+  // Update Game and Club Configuration from Tab 8
+  const handleUpdateGameConfig = useCallback((config: {
+    homeTeam?: string;
+    awayTeam?: string;
+    venue?: string;
+    isHomeClub?: boolean;
+    currentPitcher?: Player;
+    date?: string;
+  }) => {
+    setGameState(prev => ({
+      ...prev,
+      homeTeam: config.homeTeam !== undefined ? config.homeTeam : prev.homeTeam,
+      awayTeam: config.awayTeam !== undefined ? config.awayTeam : prev.awayTeam,
+      venue: config.venue !== undefined ? config.venue : prev.venue,
+      isHomeClub: config.isHomeClub !== undefined ? config.isHomeClub : prev.isHomeClub,
+      currentPitcher: config.currentPitcher !== undefined ? config.currentPitcher : prev.currentPitcher,
+      date: config.date !== undefined ? config.date : prev.date
+    }));
+  }, []);
+
   const currentBatter = gameState.lineup[gameState.currentBatterIndex]?.player;
   const teamPitchers = useMemo(() => {
     return ROSTER_GUERREROS_55.filter(p => p.defaultPos === 'P' || p.era !== undefined);
@@ -643,22 +664,15 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 4: SABERMETRÍA */}
-        {activeTab === 'dashboard' && (
+        {/* Tab 4: MANUAL OFICIAL DE OPERACIONES (TODOS LOS PROTOCOLOS Y TEXTOS ÍNTEGROS) */}
+        {activeTab === 'manual' && (
           <div className="animate-in fade-in duration-200">
-            <SabermetricsDashboard roster={ROSTER_GUERREROS_55} />
+            <OperationalManualFull />
           </div>
         )}
 
-        {/* Tab 5: SCOUTAI BIOMECHANICS HUD */}
-        {activeTab === 'skills' && (
-          <div className="animate-in fade-in duration-200">
-            <BiomechanicsHUD player={currentBatter} />
-          </div>
-        )}
-
-        {/* Tab 6: TARJETA OFICIAL */}
-        {activeTab === 'tarjeta' && (
+        {/* Tab 5: TARJETA OFICIAL DUAL (CUADERNO DE PUNTUACIONES TRADICIONAL COMPLETO) */}
+        {activeTab === 'scorecard' && (
           <div className="animate-in fade-in duration-200">
             <OfficialScorecard
               lineup={gameState.lineup}
@@ -671,10 +685,28 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 7: MANUAL DE OPERACIONES & REGLAMENTO (+55) */}
-        {activeTab === 'manual' && (
+        {/* Tab 6: TABLERO SABERMÉTRICO */}
+        {activeTab === 'sabermetrics' && (
           <div className="animate-in fade-in duration-200">
-            <OperationalManualFull />
+            <SabermetricsDashboard roster={ROSTER_GUERREROS_55} />
+          </div>
+        )}
+
+        {/* Tab 7: IA TÁCTICA DIAMAX & BIOMECHANICS HUD */}
+        {activeTab === 'skills' && (
+          <div className="animate-in fade-in duration-200">
+            <DiamaxTacticalAI gameState={gameState} />
+          </div>
+        )}
+
+        {/* Tab 8: PERFIL & CONECTIVIDAD (MULTI-TENANT, RIVALES, CONFIGURACIÓN) */}
+        {activeTab === 'perfil' && (
+          <div className="animate-in fade-in duration-200">
+            <ProfileConnectivityTab
+              gameState={gameState}
+              pitchers={teamPitchers}
+              onUpdateGameConfig={handleUpdateGameConfig}
+            />
           </div>
         )}
       </main>
