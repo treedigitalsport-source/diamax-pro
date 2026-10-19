@@ -1,6 +1,7 @@
 import React from 'react';
 import { PlayAction } from '../../types/baseball';
 import { RotateCcw, Zap, Target, Crosshair, Sparkles } from 'lucide-react';
+import { soundSystem } from '../../utils/soundSystem';
 
 interface CanonicalKeypadProps {
   onPlay: (action: PlayAction) => void;
@@ -9,6 +10,46 @@ interface CanonicalKeypadProps {
 }
 
 export const CanonicalKeypad: React.FC<CanonicalKeypadProps> = ({ onPlay, onUndo, canUndo }) => {
+  const handlePlayWithSound = (action: PlayAction) => {
+    switch (action) {
+      case 'BALL':
+        soundSystem.playBall();
+        break;
+      case 'CALLED_STRIKE':
+      case 'SWINGING_STRIKE':
+      case 'FOUL':
+        soundSystem.playStrike();
+        break;
+      case 'SINGLE':
+      case 'DOUBLE':
+      case 'TRIPLE':
+        soundSystem.playHit();
+        break;
+      case 'HOME_RUN':
+        soundSystem.playHomeRun();
+        break;
+      case 'GROUND_OUT':
+      case 'FLY_OUT':
+      case 'LINE_OUT':
+      case 'POP_OUT':
+      case 'DOUBLE_PLAY':
+      case 'TRIPLE_PLAY':
+      case 'STRIKEOUT_SWINGING':
+      case 'STRIKEOUT_LOOKING':
+        soundSystem.playOut();
+        break;
+      default:
+        soundSystem.playClick();
+        break;
+    }
+    onPlay(action);
+  };
+
+  const handleUndoWithSound = () => {
+    soundSystem.playUndo();
+    onUndo();
+  };
+
   return (
     <div className="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 shadow-2xl backdrop-blur-md">
       {/* Top Action Bar with Category Tabs and Undo Button */}
@@ -22,7 +63,7 @@ export const CanonicalKeypad: React.FC<CanonicalKeypadProps> = ({ onPlay, onUndo
 
         {/* Undo / Deshacer Button */}
         <button
-          onClick={onUndo}
+          onClick={handleUndoWithSound}
           disabled={!canUndo}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all border ${
             canUndo
@@ -45,25 +86,25 @@ export const CanonicalKeypad: React.FC<CanonicalKeypadProps> = ({ onPlay, onUndo
           </span>
           <div className="grid grid-cols-2 gap-1.5">
             <button
-              onClick={() => onPlay('BALL')}
+              onClick={() => handlePlayWithSound('BALL')}
               className="py-2.5 px-2 rounded-lg bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-900/50 text-emerald-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Bola (B)
             </button>
             <button
-              onClick={() => onPlay('CALLED_STRIKE')}
+              onClick={() => handlePlayWithSound('CALLED_STRIKE')}
               className="py-2.5 px-2 rounded-lg bg-amber-950/40 border border-amber-500/40 hover:bg-amber-900/50 text-amber-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Strike C (ꓘ)
             </button>
             <button
-              onClick={() => onPlay('SWINGING_STRIKE')}
+              onClick={() => handlePlayWithSound('SWINGING_STRIKE')}
               className="py-2.5 px-2 rounded-lg bg-amber-950/40 border border-amber-500/40 hover:bg-amber-900/50 text-amber-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Strike Tirando
             </button>
             <button
-              onClick={() => onPlay('FOUL')}
+              onClick={() => handlePlayWithSound('FOUL')}
               className="py-2.5 px-2 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Foul Ball
@@ -78,25 +119,25 @@ export const CanonicalKeypad: React.FC<CanonicalKeypadProps> = ({ onPlay, onUndo
           </span>
           <div className="grid grid-cols-2 gap-1.5">
             <button
-              onClick={() => onPlay('SINGLE')}
+              onClick={() => handlePlayWithSound('SINGLE')}
               className="py-2.5 px-2 rounded-lg bg-cyan-950/40 border border-cyan-500/50 hover:bg-cyan-900/50 text-cyan-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Sencillo (1B)
             </button>
             <button
-              onClick={() => onPlay('DOUBLE')}
+              onClick={() => handlePlayWithSound('DOUBLE')}
               className="py-2.5 px-2 rounded-lg bg-blue-950/40 border border-blue-500/50 hover:bg-blue-900/50 text-blue-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Doble (2B)
             </button>
             <button
-              onClick={() => onPlay('TRIPLE')}
+              onClick={() => handlePlayWithSound('TRIPLE')}
               className="py-2.5 px-2 rounded-lg bg-purple-950/40 border border-purple-500/50 hover:bg-purple-900/50 text-purple-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Triple (3B)
             </button>
             <button
-              onClick={() => onPlay('HOME_RUN')}
+              onClick={() => handlePlayWithSound('HOME_RUN')}
               className="py-2.5 px-2 rounded-lg bg-amber-500/30 border border-amber-400 text-amber-200 text-xs font-mono font-black active:scale-95 transition shadow-[0_0_15px_rgba(245,158,11,0.3)] hover:bg-amber-500/40"
             >
               ★ JONRÓN (HR)
@@ -111,37 +152,37 @@ export const CanonicalKeypad: React.FC<CanonicalKeypadProps> = ({ onPlay, onUndo
           </span>
           <div className="grid grid-cols-2 gap-1.5">
             <button
-              onClick={() => onPlay('STRIKEOUT_SWINGING')}
+              onClick={() => handlePlayWithSound('STRIKEOUT_SWINGING')}
               className="py-2.5 px-2 rounded-lg bg-red-950/40 border border-red-500/40 hover:bg-red-900/50 text-red-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Ponche (K)
             </button>
             <button
-              onClick={() => onPlay('STRIKEOUT_LOOKING')}
+              onClick={() => handlePlayWithSound('STRIKEOUT_LOOKING')}
               className="py-2.5 px-2 rounded-lg bg-red-950/40 border border-red-500/40 hover:bg-red-900/50 text-red-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Ponche (ꓘ)
             </button>
             <button
-              onClick={() => onPlay('GROUND_OUT')}
+              onClick={() => handlePlayWithSound('GROUND_OUT')}
               className="py-2.5 px-2 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Rolata (GO)
             </button>
             <button
-              onClick={() => onPlay('FLY_OUT')}
+              onClick={() => handlePlayWithSound('FLY_OUT')}
               className="py-2.5 px-2 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Elevado (FO)
             </button>
             <button
-              onClick={() => onPlay('LINE_OUT')}
+              onClick={() => handlePlayWithSound('LINE_OUT')}
               className="py-2.5 px-2 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Línea (LO)
             </button>
             <button
-              onClick={() => onPlay('DOUBLE_PLAY')}
+              onClick={() => handlePlayWithSound('DOUBLE_PLAY')}
               className="py-2.5 px-2 rounded-lg bg-red-900/40 border border-red-500/50 hover:bg-red-800/50 text-red-200 text-xs font-mono font-bold active:scale-95 transition"
             >
               Doble Play (DP)
@@ -156,37 +197,37 @@ export const CanonicalKeypad: React.FC<CanonicalKeypadProps> = ({ onPlay, onUndo
           </span>
           <div className="grid grid-cols-2 gap-1.5">
             <button
-              onClick={() => onPlay('WALK')}
+              onClick={() => handlePlayWithSound('WALK')}
               className="py-2.5 px-2 rounded-lg bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-900/50 text-emerald-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Boleto (BB)
             </button>
             <button
-              onClick={() => onPlay('HIT_BY_PITCH')}
+              onClick={() => handlePlayWithSound('HIT_BY_PITCH')}
               className="py-2.5 px-2 rounded-lg bg-purple-950/40 border border-purple-500/40 hover:bg-purple-900/50 text-purple-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Golpeado (HBP)
             </button>
             <button
-              onClick={() => onPlay('STOLEN_BASE')}
+              onClick={() => handlePlayWithSound('STOLEN_BASE')}
               className="py-2.5 px-2 rounded-lg bg-cyan-950/40 border border-cyan-500/40 hover:bg-cyan-900/50 text-cyan-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Robo (SB)
             </button>
             <button
-              onClick={() => onPlay('ERROR')}
+              onClick={() => handlePlayWithSound('ERROR')}
               className="py-2.5 px-2 rounded-lg bg-red-950/30 border border-red-500/30 hover:bg-red-900/40 text-red-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Error (E)
             </button>
             <button
-              onClick={() => onPlay('SACRIFICE_FLY')}
+              onClick={() => handlePlayWithSound('SACRIFICE_FLY')}
               className="py-2.5 px-2 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Sac Fly (SF)
             </button>
             <button
-              onClick={() => onPlay('WILD_PITCH')}
+              onClick={() => handlePlayWithSound('WILD_PITCH')}
               className="py-2.5 px-2 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-xs font-mono font-bold active:scale-95 transition"
             >
               Wild Pitch (WP)

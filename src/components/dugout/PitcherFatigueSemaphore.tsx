@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Player } from '../../types/baseball';
 import { ShieldAlert, HeartPulse } from 'lucide-react';
+import { soundSystem } from '../../utils/soundSystem';
 
 interface PitcherFatigueSemaphoreProps {
   pitcher: Player;
@@ -15,6 +16,17 @@ export const PitcherFatigueSemaphore: React.FC<PitcherFatigueSemaphoreProps> = (
   balls,
   strikes
 }) => {
+  const alertedRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (pitchCount >= 70 && !alertedRef.current) {
+      soundSystem.playBullpenAlert();
+      alertedRef.current = true;
+    } else if (pitchCount < 70) {
+      alertedRef.current = false;
+    }
+  }, [pitchCount]);
+
   const maxLimit = 75;
   const pct = Math.min(100, Math.round((pitchCount / maxLimit) * 100));
 

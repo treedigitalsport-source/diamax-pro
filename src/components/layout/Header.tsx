@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Activity,
   Users,
@@ -10,8 +10,13 @@ import {
   Sun,
   Moon,
   ShieldCheck,
-  Video
+  Video,
+  Volume2,
+  VolumeX,
+  Sparkles,
+  Calendar
 } from 'lucide-react';
+import { soundSystem } from '../../utils/soundSystem';
 
 export type ActiveTab =
   | 'envivo'
@@ -28,6 +33,8 @@ interface HeaderProps {
   daylightMode: boolean;
   onToggleDaylight: () => void;
   onOpenIntro?: () => void;
+  onOpenWizard?: () => void;
+  onOpenNewGame?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -35,8 +42,16 @@ export const Header: React.FC<HeaderProps> = ({
   onTabChange,
   daylightMode,
   onToggleDaylight,
-  onOpenIntro
+  onOpenIntro,
+  onOpenWizard,
+  onOpenNewGame
 }) => {
+  const [isAudioMuted, setIsAudioMuted] = useState<boolean>(soundSystem.getMuted());
+
+  const handleToggleSound = () => {
+    const next = soundSystem.toggleMuted();
+    setIsAudioMuted(next);
+  };
   const tabs = [
     { id: 'envivo' as ActiveTab, label: 'En Vivo (Dugout)', icon: Activity },
     { id: 'lineup' as ActiveTab, label: 'Lineup & Markov', icon: Users },
@@ -107,6 +122,43 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Zero-Trust 256-bit</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </div>
+
+            {/* New Game Button */}
+            {onOpenNewGame && (
+              <button
+                onClick={onOpenNewGame}
+                className="px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/40 text-[10px] text-cyan-300 font-bold hover:bg-cyan-500/20 transition-all flex items-center gap-1.5"
+                title="Configurar Nuevo Partido y Rival"
+              >
+                <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+                <span>+ Partido</span>
+              </button>
+            )}
+
+            {/* Franchise / Plans Wizard Button */}
+            {onOpenWizard && (
+              <button
+                onClick={onOpenWizard}
+                className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-400/40 text-[10px] text-amber-300 font-bold hover:bg-amber-500/20 transition-all flex items-center gap-1.5"
+                title="Planes de Franquicia, Registro y Acceso Maestro"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <span>Planes & Franquicia</span>
+              </button>
+            )}
+
+            {/* Audio Acoustic Synthesizer Toggle */}
+            <button
+              onClick={handleToggleSound}
+              className={`p-1.5 rounded-full border text-xs transition-all flex items-center gap-1 ${
+                isAudioMuted
+                  ? 'bg-slate-900 border-slate-700 text-slate-500 hover:text-slate-300'
+                  : 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-md shadow-emerald-500/20'
+              }`}
+              title={isAudioMuted ? 'Activar Efectos de Sonido' : 'Silenciar Audio'}
+            >
+              {isAudioMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+            </button>
 
             {/* Cinematic Video CTA */}
             {onOpenIntro && (

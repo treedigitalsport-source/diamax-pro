@@ -32,7 +32,11 @@ import { BiomechanicsHUD } from './components/vision/BiomechanicsHUD';
 
 // Scorecard & Rules Components
 import { OfficialScorecard } from './components/scorecard/OfficialScorecard';
-import { RulebookManual } from './components/rules/RulebookManual';
+import { OperationalManualFull } from './components/rules/OperationalManualFull';
+
+// Modals & Wizard Components
+import { RegistrationWizardModal } from './components/wizard/RegistrationWizardModal';
+import { NewGameModal } from './components/modals/NewGameModal';
 
 // Initial Batted Balls Sample
 const INITIAL_BATTED_BALLS: BattedBall[] = [
@@ -127,6 +131,8 @@ export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('envivo');
   const [daylightMode, setDaylightMode] = useState<boolean>(false);
   const [showIntro, setShowIntro] = useState<boolean>(false);
+  const [isWizardOpen, setIsWizardOpen] = useState<boolean>(false);
+  const [isNewGameOpen, setIsNewGameOpen] = useState<boolean>(false);
 
   // Initialize Lineup & Bench
   const initialLineup: LineupSlot[] = useMemo(() => {
@@ -472,7 +478,48 @@ export const App: React.FC = () => {
     });
   }, []);
 
+  // Start New Game Handler
+  const handleStartNewGame = useCallback((config: {
+    venue: string;
+    awayTeam: string;
+    isHomeClub: boolean;
+    startingPitcher: Player;
+    date: string;
+  }) => {
+    setGameState(prev => ({
+      ...prev,
+      venue: config.venue,
+      awayTeam: config.awayTeam,
+      isHomeClub: config.isHomeClub,
+      currentPitcher: config.startingPitcher,
+      date: config.date,
+      scoreHome: 0,
+      scoreAway: 0,
+      currentInning: 1,
+      isTopInning: true,
+      outs: 0,
+      balls: 0,
+      strikes: 0,
+      pitchCount: 0,
+      runners: { first: null, second: null, third: null },
+      currentBatterIndex: 0,
+      battedBalls: [],
+      history: []
+    }));
+  }, []);
+
+  // Complete Franchise Registration Handler
+  const handleRegistrationComplete = useCallback((data: { teamName: string; managerName: string; plan: string }) => {
+    setGameState(prev => ({
+      ...prev,
+      homeTeam: data.teamName || prev.homeTeam
+    }));
+  }, []);
+
   const currentBatter = gameState.lineup[gameState.currentBatterIndex]?.player;
+  const teamPitchers = useMemo(() => {
+    return ROSTER_GUERREROS_55.filter(p => p.defaultPos === 'P' || p.era !== undefined);
+  }, []);
 
   return (
     <div className={`min-h-screen bg-[#030712] text-slate-100 flex flex-col ${daylightMode ? 'daylight-mode' : ''}`}>
@@ -483,6 +530,21 @@ export const App: React.FC = () => {
         />
       )}
 
+      {/* Registration & Plans Wizard Modal */}
+      <RegistrationWizardModal
+        isOpen={isWizardOpen}
+        onClose={() => setIsWizardOpen(false)}
+        onCompleteRegistration={handleRegistrationComplete}
+      />
+
+      {/* New Game & Rival Configuration Modal */}
+      <NewGameModal
+        isOpen={isNewGameOpen}
+        onClose={() => setIsNewGameOpen(false)}
+        pitchers={teamPitchers}
+        onStartNewGame={handleStartNewGame}
+      />
+
       {/* Main OS Header */}
       <Header
         activeTab={activeTab}
@@ -490,6 +552,8 @@ export const App: React.FC = () => {
         daylightMode={daylightMode}
         onToggleDaylight={toggleDaylight}
         onOpenIntro={() => setShowIntro(true)}
+        onOpenWizard={() => setIsWizardOpen(true)}
+        onOpenNewGame={() => setIsNewGameOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -607,10 +671,10 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 7: REGLAMENTO +55 */}
+        {/* Tab 7: MANUAL DE OPERACIONES & REGLAMENTO (+55) */}
         {activeTab === 'manual' && (
           <div className="animate-in fade-in duration-200">
-            <RulebookManual />
+            <OperationalManualFull />
           </div>
         )}
       </main>
