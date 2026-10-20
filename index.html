@@ -1256,22 +1256,83 @@ tr:nth-child(even) { background:rgba(255,255,255,0.02); }
   padding:16px; text-align:center; margin-top:20px; font-size:12px; color:#94A3B8;
 }
 
-/* Lineup Builder */
+/* Lineup Builder (Master Design System v3.0) */
 .lineup-builder-row {
-  display:flex; align-items:center; gap:8px; background:#131D31;
-  padding:10px 14px; border-radius:8px; margin-bottom:6px; border:1px solid #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #060D1E;
+  padding: 10px 16px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lineup-builder-row:hover {
+  background: #0A142A;
+  border-color: rgba(0, 210, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
 }
 .order-badge {
-  width:28px; height:28px; border-radius:50%; background:#FFC72C; color:#000;
-  display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFC72C, #F59E0B);
+  color: #030712;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 8px rgba(255, 199, 44, 0.35);
+  flex-shrink: 0;
 }
 .btn-order-move {
-  background:#0F172A; border:1px solid #1E293B; color:#fff;
-  width:32px; height:32px; border-radius:6px; cursor:pointer; font-weight:900; font-size:12px;
+  background: #081022;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94A3B8;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+.btn-order-move:hover:not(:disabled) {
+  background: rgba(0, 210, 255, 0.15);
+  border-color: #00D2FF;
+  color: #00D2FF;
+  transform: translateY(-1px);
 }
 .btn-slot-delete {
-  background:rgba(239, 68, 68, 0.15); border:1px solid #EF4444; color:#EF4444;
-  width:32px; height:32px; border-radius:6px; cursor:pointer; font-size:12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #F87171;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+.btn-slot-delete:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #EF4444;
+  color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
 /* Campo 2D */
@@ -6707,8 +6768,8 @@ html, body {
 
   <!-- TAB 2: LINEUP BUILDER & MONTE CARLO SIMULATOR -->
   <div id="tab-lineup" style="display:none;">
-    <div class="panel">
-      <div style="background:#131D31; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+    <div class="panel" style="background:#020617; border:1.5px solid #1E293B; border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
+      <div style="background:#040915; border:1.5px solid #1E293B; border-radius:12px; padding:14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <button onclick="cargarLineupOficialSabado()" class="diamax-action-btn-unified" id="btn-load-official-lineup"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Cargar Lineup Oficial (+55)</button>
           <button onclick="abrirModalVozLineup()" class="diamax-action-btn-unified" id="btn-voice-lineup"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Dictar por Voz</button>
@@ -6743,7 +6804,7 @@ html, body {
 
       <!-- Banner de Resultados Monte Carlo / Markov -->
       <!-- 🌟 BARRA DE PRESETS (+55) E INTEGRACIÓN GOOGLE SHEETS -->
-      <div style="background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.85)); border:1.5px solid rgba(0,210,255,0.3); border-radius:10px; padding:12px 14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div style="background:#060D1E; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:0 4px 16px rgba(0,0,0,0.35);">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <span style="font-size:12px; font-weight:900; color:#FFFFFF; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF" style="filter:drop-shadow(0 0 4px #00D2FF);"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Presets +55:</span>
           <button type="button" onclick="cargarPresetLineup55('clasico')" class="diamax-action-btn-unified" title="Alineación Titular Estándar Balanceada"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 2.18l7 3.89v4.93c0 4.54-3.14 8.78-7 9.94-3.86-1.16-7-5.4-7-9.94V8.07l7-3.89z"/></svg> Titular A (Clásico)</button>
@@ -6763,8 +6824,8 @@ html, body {
       </div>
 
       <!-- Selector de Alineación Home Club vs Visitante -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; background:#070D1A; border:1px solid #1E293B; border-radius:8px; padding:8px 12px;">
-        <div style="display:inline-flex; align-items:center; background:#0B132B; border:1.5px solid #334155; border-radius:8px; padding:3px; gap:4px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; background:#040814; border:1.5px solid #1E293B; border-radius:12px; padding:10px 14px; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+        <div style="display:inline-flex; align-items:center; background:#020617; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:3px; gap:4px;">
           <button id="btn-lineup-tab-home" type="button" onclick="cambiarPestanaLineup('home')" class="diamax-action-btn-unified">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> ALINEACIÓN HOME CLUB <span id="label-lineup-tab-home" style="opacity:0.85;">(GUERREROS)</span>
           </button>
@@ -6790,7 +6851,7 @@ html, body {
     <div class="dugout-main-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; width:100%; margin-top:20px; margin-bottom:24px; align-items:start; box-sizing:border-box;">
       
       <!-- Panel Campo 2D & Spray Chart -->
-      <div class="panel">
+      <div class="panel" style="background:#020617; border:1.5px solid #1E293B; border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
           <div>
             <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;" id="campo-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.2" style="vertical-align:middle; margin-right:5px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Terreno Táctico 2D & Spray Chart</h3>
@@ -6812,7 +6873,7 @@ html, body {
         </div>
 
         <!-- Barra de Estado Defensivo en el Terreno (Guerreros +55 vs Rival) -->
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:6px 12px; background:rgba(15,23,42,0.85); border:1px solid rgba(255,199,44,0.3); border-radius:8px; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:8px 14px; background:#040915; border:1.5px solid #1E293B; border-radius:10px; flex-wrap:wrap; gap:8px;">
           <div id="field-defense-badge" style="font-size:12px; font-weight:800; color:#FFC72C; display:flex; align-items:center; gap:6px;">
             <span>🛡️ En Terreno (Defensa):</span> <strong id="field-defense-team-name" style="color:#00D2FF;">GUERREROS (+55)</strong>
           </div>
@@ -6859,7 +6920,7 @@ html, body {
         </div>
 
         <!-- Carrusel / Franja VIP de Fildeadores en el Terreno con Fotos Reales -->
-        <div id="field-defenders-strip" style="margin-top:14px; background:rgba(4,8,20,0.85); border:1px solid rgba(255,199,44,0.3); border-radius:12px; padding:10px 12px;">
+        <div id="field-defenders-strip" style="margin-top:14px; background:#060D1E; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 12px; box-shadow:0 4px 14px rgba(0,0,0,0.35);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <strong style="color:#FFC72C; font-size:12px; letter-spacing:0.5px; display:flex; align-items:center; gap:6px;">
               <span>⚾</span> <span>Defensiva Titular en Terreno (Guerreros +55)</span>
@@ -6871,7 +6932,7 @@ html, body {
       </div>
 
       <!-- Panel Mapa de Calor de Zona de Strike & Métricas Sabermétricas -->
-      <div class="panel">
+      <div class="panel" style="background:#020617; border:1.5px solid #1E293B; border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
         <div style="margin-bottom:12px;">
           <h3 style="margin:0; font-size:16px; color:#00D2FF; font-weight:900;">🎯 Mapa de Calor (Zona de Strike)</h3>
           <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Zonas de impacto y Whiff% para formulación del plan de pitcheo.</p>
@@ -6880,12 +6941,12 @@ html, body {
         <!-- Selector de Bateador -->
         <div style="margin-bottom:14px;">
           <label style="display:block; font-size:10px; font-weight:700; color:#94A3B8; margin-bottom:4px; text-transform:uppercase;">Seleccionar Jugador a Analizar:</label>
-          <select id="heatmap-player-select" onchange="actualizarHeatmapJugador(this.value)" style="width:100%; background:#0B0F19; border:1px solid #334155; border-radius:6px; padding:8px 10px; color:#FFC72C; font-weight:700; font-size:12px; outline:none;">
+          <select id="heatmap-player-select" onchange="actualizarHeatmapJugador(this.value)" style="width:100%; background:#040814; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:10px 12px; color:#FFC72C; font-weight:700; font-size:12.5px; outline:none; font-family:'Plus Jakarta Sans',sans-serif;">
           </select>
         </div>
 
         <!-- Matriz de Zona de Strike 3x3 -->
-        <div style="background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:14px;">
+        <div style="background:#040814; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; margin-bottom:14px;">
           <div style="text-align:center; font-size:10px; color:#94A3B8; margin-bottom:8px; font-weight:700;">PERSPECTIVA DEL CÁTCHER (ZONAS 1-9)</div>
           
           <div class="strike-zone-grid" id="strike-zone-matrix">
@@ -6899,7 +6960,7 @@ html, body {
         </div>
 
         <!-- Métricas de Tendencia de Bateo -->
-        <div style="background:#0F172A; border:1px solid #1E293B; border-radius:8px; padding:12px; font-size:11.5px;">
+        <div style="background:#060D1E; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px; font-size:11.5px; box-shadow:0 4px 14px rgba(0,0,0,0.35);">
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
             <span style="color:#94A3B8;" id="lbl-pull-tendency">Tendencia Hacia la Banda (Pull%):</span>
             <strong style="color:#FFC72C;" id="stat-pull-pct">64.2% (Extremo)</strong>
@@ -7192,7 +7253,7 @@ html, body {
   <div id="tab-tarjeta-oficial" style="display:none;">
 
     <!-- Banner Oficial del Encuentro y Matchup -->
-    <div class="panel" style="margin-bottom:14px; background:linear-gradient(135deg, #091224 0%, #0F172A 100%); border:1px solid #1E293B;">
+    <div class="panel" style="margin-bottom:14px; background:#040915; border:1.5px solid #1E293B; border-radius:14px; padding:16px 20px; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div style="display:flex; align-items:center; gap:14px;">
           <div style="font-size:32px;">⚾</div>
@@ -7216,7 +7277,7 @@ html, body {
       </div>
     </div>
 
-    <div class="panel">
+    <div class="panel" style="background:#020617; border:1.5px solid #1E293B; border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
       
       <!-- Toolbar de Exportación y Selector de Tarjeta -->
       <div class="btn-print-hide" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
@@ -7225,7 +7286,7 @@ html, body {
           <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">Documento oficial reglamentario para árbitros, mánagers y anotador oficial.</p>
         </div>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <div style="display:flex; background:#0B132B; border:1px solid #1E293B; border-radius:6px; padding:2px;">
+          <div style="display:flex; background:#040814; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:3px; gap:4px;">
             <button type="button" id="btn-card-view-dual" onclick="setCardViewMode('dual')" style="background:#FFC72C; color:#000; border:none; padding:6px 12px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;" id="btn-card-dual-view">👑 Vista Dual</button>
             <button type="button" id="btn-card-view-gve" onclick="setCardViewMode('gve')" style="background:transparent; color:#94A3B8; border:none; padding:6px 12px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">🇻🇪 Guerreros</button>
             <button type="button" id="btn-card-view-rival" onclick="setCardViewMode('rival')" style="background:transparent; color:#94A3B8; border:none; padding:6px 12px; border-radius:4px; font-weight:800; font-size:11px; cursor:pointer;">⚔️ Rival (<span id="card-btn-rival-abbr">DAY</span>)</button>
@@ -13244,14 +13305,14 @@ function renderLineupBuilder() {
       btnTabHome.style.background = 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)';
       btnTabHome.style.color = '#FFFFFF';
       btnTabHome.style.fontWeight = '900';
-      btnTabHome.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
-      btnTabHome.style.borderColor = '#38BDF8';
+      btnTabHome.style.boxShadow = '0 2px 10px rgba(0,210,255,0.35)';
+      btnTabHome.style.borderColor = '#00D2FF';
 
-      btnTabAway.style.background = 'rgba(11, 19, 43, 0.85)';
-      btnTabAway.style.color = '#FFFFFF';
+      btnTabAway.style.background = 'transparent';
+      btnTabAway.style.color = '#94A3B8';
       btnTabAway.style.fontWeight = '700';
       btnTabAway.style.boxShadow = 'none';
-      btnTabAway.style.borderColor = 'rgba(0, 210, 255, 0.35)';
+      btnTabAway.style.borderColor = 'transparent';
 
       if (badgeRole) {
         badgeRole.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,9 12,17 18,9"/></svg> CIERRA EL INNING (BAJA ▼)';
@@ -13261,17 +13322,17 @@ function renderLineupBuilder() {
         badgeRole.style.boxShadow = '0 0 15px rgba(0,210,255,0.25)';
       }
     } else {
-      btnTabHome.style.background = 'rgba(11, 19, 43, 0.85)';
-      btnTabHome.style.color = '#FFFFFF';
+      btnTabHome.style.background = 'transparent';
+      btnTabHome.style.color = '#94A3B8';
       btnTabHome.style.fontWeight = '700';
       btnTabHome.style.boxShadow = 'none';
-      btnTabHome.style.borderColor = 'rgba(0, 210, 255, 0.35)';
+      btnTabHome.style.borderColor = 'transparent';
 
       btnTabAway.style.background = 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)';
       btnTabAway.style.color = '#FFFFFF';
       btnTabAway.style.fontWeight = '900';
-      btnTabAway.style.boxShadow = '0 0 25px rgba(0,210,255,0.85)';
-      btnTabAway.style.borderColor = '#38BDF8';
+      btnTabAway.style.boxShadow = '0 2px 10px rgba(0,210,255,0.35)';
+      btnTabAway.style.borderColor = '#00D2FF';
 
       if (badgeRole) {
         badgeRole.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><polygon points="6,15 12,7 18,15"/></svg> ABRE EL INNING (ALTA ▲)';
@@ -13291,7 +13352,7 @@ function renderLineupBuilder() {
   }
   if (subtitleEl) {
     subtitleEl.innerText = isEditingGVE 
-      ? 'Ajusta el orden táctico de Guerreros con los controles 🔼 / 🔽 o selecciona del Roster Master.'
+      ? 'Ajusta el orden táctico de Guerreros con los controles ▲ / ▼ o selecciona del Roster Master.'
       : `Ajusta el orden al bate del rival (${rivalName}) con nombres, números, posiciones y orden táctico.`;
   }
 
@@ -13306,15 +13367,15 @@ function renderLineupBuilder() {
     c.innerHTML = g.lineup.map((slot, i) => `
       <div class="lineup-builder-row">
         <div class="order-badge">${slot.order}</div>
-        <select onchange="updateLineupSlot(${i}, 'playerId', this.value)" style="flex:2; background:#070D1A; color:#fff; border:1px solid #1E293B; padding:8px; border-radius:6px; font-weight:700;">
+        <select onchange="updateLineupSlot(${i}, 'playerId', this.value)" style="flex:2; background:#030712; color:#fff; border:1px solid rgba(255,255,255,0.12); padding:10px 14px; border-radius:8px; font-weight:800; font-size:13px; font-family:'Plus Jakarta Sans',sans-serif;">
           ${MASTER_ROSTER.map(p => `<option value="${p.id}" ${p.id == slot.playerId ? 'selected' : ''}>#${p.num} ${p.name} (${p.bats||'R'})</option>`).join('')}
         </select>
-        <select onchange="updateLineupSlot(${i}, 'pos', this.value)" style="width:110px; background:#070D1A; color:#FFC72C; font-weight:800; border:1px solid #1E293B; padding:8px; border-radius:6px;">
+        <select onchange="updateLineupSlot(${i}, 'pos', this.value)" style="width:125px; background:#030712; color:#FFC72C; font-weight:900; border:1px solid rgba(255,199,44,0.3); padding:10px 14px; border-radius:8px; font-size:13px; font-family:'Plus Jakarta Sans',sans-serif;">
           ${opts.map(pos => `<option value="${pos}" ${pos === slot.pos ? 'selected' : ''}>${pos} (${POS_NUM[pos]||pos})</option>`).join('')}
         </select>
-        <button onclick="moverBateadorManual(${i}, -1)" class="btn-order-move" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>🔼</button>
-        <button onclick="moverBateadorManual(${i}, 1)" class="btn-order-move" ${i === g.lineup.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>🔽</button>
-        <button onclick="eliminarBateadorManual(${i})" class="btn-slot-delete">✖</button>
+        <button onclick="moverBateadorManual(${i}, -1)" class="btn-order-move" ${i === 0 ? 'disabled style="opacity:0.25; cursor:not-allowed;"' : ''} title="Subir en el orden">▲</button>
+        <button onclick="moverBateadorManual(${i}, 1)" class="btn-order-move" ${i === g.lineup.length - 1 ? 'disabled style="opacity:0.25; cursor:not-allowed;"' : ''} title="Bajar en el orden">▼</button>
+        <button onclick="eliminarBateadorManual(${i})" class="btn-slot-delete" title="Eliminar del lineup">✕</button>
       </div>
     `).join('');
   } else {
@@ -13338,25 +13399,25 @@ function renderLineupBuilder() {
       ];
     }
     const rivalHeader = `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:#0B132B; padding:8px 12px; border-radius:6px; border:1px solid #1E293B;">
-        <span style="font-size:12px; color:#FFC72C; font-weight:800;">⚔️ Alineación de ${rivalRecord.name || rivalName} (${rivalRecord.lineup.length} Bateadores)</span>
-        <div style="display:flex; gap:6px;">
-          <button type="button" onclick="agregarBateadorRival()" style="background:#00D2FF; color:#000; border:none; padding:4px 10px; border-radius:4px; font-weight:900; font-size:11px; cursor:pointer;">+ Agregar Bateador</button>
-          <button type="button" onclick="restaurarLineupRivalDefecto()" style="background:#334155; color:#FFF; border:none; padding:4px 10px; border-radius:4px; font-weight:700; font-size:11px; cursor:pointer;">↺ Restaurar</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; background:#060D1E; padding:10px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+        <span style="font-size:12.5px; color:#FFC72C; font-weight:900; text-transform:uppercase; letter-spacing:0.5px;">⚔️ Alineación de ${rivalRecord.name || rivalName} (${rivalRecord.lineup.length} Bateadores)</span>
+        <div style="display:flex; gap:8px;">
+          <button type="button" onclick="agregarBateadorRival()" style="background:linear-gradient(135deg, #00D2FF, #0284C7); color:#000; border:none; padding:6px 14px; border-radius:8px; font-weight:900; font-size:11.5px; cursor:pointer; box-shadow:0 0 12px rgba(0,210,255,0.35);">+ Agregar Bateador</button>
+          <button type="button" onclick="restaurarLineupRivalDefecto()" style="background:#1E293B; border:1px solid rgba(255,255,255,0.12); color:#CBD5E1; padding:6px 14px; border-radius:8px; font-weight:800; font-size:11.5px; cursor:pointer;">↺ Restaurar</button>
         </div>
       </div>
     `;
     const rivalRows = rivalRecord.lineup.map((slot, i) => `
       <div class="lineup-builder-row">
-        <div class="order-badge" style="background:#FFC72C; color:#000;">${slot.order}</div>
-        <input type="text" value="${slot.name || ''}" onchange="updateRivalLineupSlot(${i}, 'name', this.value)" style="flex:2; background:#070D1A; color:#FFC72C; border:1px solid #1E293B; padding:8px; border-radius:6px; font-weight:700; font-size:12px;" placeholder="Nombre del Bateador">
-        <input type="text" value="${slot.number || ''}" onchange="updateRivalLineupSlot(${i}, 'number', this.value)" style="width:50px; background:#070D1A; color:#FFF; border:1px solid #1E293B; padding:8px; border-radius:6px; font-weight:800; font-size:12px; text-align:center;" placeholder="#">
-        <select onchange="updateRivalLineupSlot(${i}, 'pos', this.value)" style="width:110px; background:#070D1A; color:#00D2FF; font-weight:800; border:1px solid #1E293B; padding:8px; border-radius:6px;">
+        <div class="order-badge">${slot.order}</div>
+        <input type="text" value="${slot.name || ''}" onchange="updateRivalLineupSlot(${i}, 'name', this.value)" style="flex:2; background:#030712; color:#FFFFFF; border:1px solid rgba(255,255,255,0.12); padding:10px 14px; border-radius:8px; font-weight:700; font-size:13px; font-family:'Plus Jakarta Sans',sans-serif;" placeholder="Nombre del Bateador">
+        <input type="text" value="${slot.number || ''}" onchange="updateRivalLineupSlot(${i}, 'number', this.value)" style="width:60px; background:#030712; color:#00D2FF; border:1px solid rgba(0,210,255,0.3); padding:10px 10px; border-radius:8px; font-weight:900; font-size:13px; text-align:center; font-family:'Plus Jakarta Sans',sans-serif;" placeholder="#">
+        <select onchange="updateRivalLineupSlot(${i}, 'pos', this.value)" style="width:125px; background:#030712; color:#FFC72C; font-weight:900; border:1px solid rgba(255,199,44,0.3); padding:10px 14px; border-radius:8px; font-size:13px; font-family:'Plus Jakarta Sans',sans-serif;">
           ${opts.map(pos => `<option value="${pos}" ${pos === slot.pos ? 'selected' : ''}>${pos} (${POS_NUM[pos]||pos})</option>`).join('')}
         </select>
-        <button onclick="moverBateadorRival(${i}, -1)" class="btn-order-move" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>🔼</button>
-        <button onclick="moverBateadorRival(${i}, 1)" class="btn-order-move" ${i === rivalRecord.lineup.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>🔽</button>
-        <button onclick="eliminarBateadorRival(${i})" class="btn-slot-delete">✖</button>
+        <button onclick="moverBateadorRival(${i}, -1)" class="btn-order-move" ${i === 0 ? 'disabled style="opacity:0.25; cursor:not-allowed;"' : ''} title="Subir en el orden">▲</button>
+        <button onclick="moverBateadorRival(${i}, 1)" class="btn-order-move" ${i === rivalRecord.lineup.length - 1 ? 'disabled style="opacity:0.25; cursor:not-allowed;"' : ''} title="Bajar en el orden">▼</button>
+        <button onclick="eliminarBateadorRival(${i})" class="btn-slot-delete" title="Eliminar del lineup">✕</button>
       </div>
     `).join('');
     c.innerHTML = rivalHeader + rivalRows;
