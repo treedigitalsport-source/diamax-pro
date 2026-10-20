@@ -3098,432 +3098,424 @@ html, body {
 
 <style id="diamax-nextgen-intelligence-theme">
 /* ==========================================================================
-   💎 DIAMAX PRO · NEXT-GENERATION SPORTS INTELLIGENCE PLATFORM (DESIGN SYSTEM)
-   Propiedad Intelectual: 3Tree Digital Sport IA · CEO Alí Zapata
-   Aesthetic: Obsidian Glassmorphism · Apple Sports Luxury · Broadcast Command
+   💎 DIAMAX PRO · MASTER DESIGN SYSTEM v3.0 (AWWWARDS / APPLE SPORTS GRADE)
+   3Tree Digital Sport IA Corp. · Lic. Alí José Zapata Mendoza, Founder & CEO
+   Philosophy: "Silent Surfaces, Vibrant Data" (Rule 60-30-10)
    ========================================================================== */
 
 :root {
-  --bg-obsidian: #040814;
-  --bg-obsidian-surface: rgba(7, 13, 26, 0.82);
-  --bg-glass-card: rgba(11, 20, 40, 0.75);
-  --bg-glass-floating: rgba(13, 24, 48, 0.85);
-  --bg-glass-input: rgba(3, 7, 18, 0.82);
+  /* 60% Silent Stadium Canvas & Deep Obsidian */
+  --canvas-deep: #020617;
+  --surface-card: #070E1E;
+  --surface-elevated: #0C1833;
+  --surface-input: #030712;
   
-  --accent-cyan: #18D8FF;
-  --accent-cyan-dim: rgba(24, 216, 255, 0.15);
-  --accent-cyan-glow: rgba(24, 216, 255, 0.32);
+  /* 30% Structural Borders, Elevators & Typography */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(255, 255, 255, 0.2);
+  --border-cyan-subtle: rgba(0, 210, 255, 0.25);
+  --border-gold-subtle: rgba(255, 199, 44, 0.3);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.55);
+  --shadow-elevated: 0 12px 36px rgba(0, 0, 0, 0.7);
+
+  /* 10% Purposeful Semantic Accents */
+  --brand-orange: #F26522;
+  --brand-gold: #FFC72C;
+  --tech-cyan: #00D2FF;
+  --status-success: #10B981;
+  --status-danger: #EF4444;
+
+  /* Typography Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
   
-  --accent-gold: #FFB82E;
-  --accent-gold-dim: rgba(255, 184, 46, 0.14);
-  --accent-gold-glow: rgba(255, 184, 46, 0.35);
-  
-  --accent-violet: #8B5CF6;
-  --accent-violet-dim: rgba(139, 92, 246, 0.16);
-  --accent-violet-glow: rgba(139, 92, 246, 0.35);
-  
-  --status-emerald: #18C995;
-  --status-emerald-dim: rgba(24, 201, 149, 0.16);
-  --status-emerald-glow: rgba(24, 201, 149, 0.35);
-  
-  --glass-border-subtle: rgba(255, 255, 255, 0.09);
-  --glass-border-glow-cyan: rgba(24, 216, 255, 0.35);
-  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4);
-  
-  --shadow-ambient-lg: 0 30px 80px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(0, 0, 0, 0.7);
-  --shadow-volumetric-cyan: 0 0 60px -10px rgba(24, 216, 255, 0.22);
+  /* Fonts */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Plus Jakarta Sans', monospace;
 }
 
-/* Page 2 Global & Outer Frame */
+/* ══════════════════════════════════════════════════════════════════════════
+   1. MAIN NAVIGATION DOCK (8 CANONICAL TABS) — ZERO SCROLLBAR, PURE STREAMLINE
+   ══════════════════════════════════════════════════════════════════════════ */
+#main-nav.nav, .nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
+  background: rgba(7, 13, 26, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 6px 8px !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  flex-wrap: nowrap !important;
+  margin-bottom: 16px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45) !important;
+}
+
+#main-nav.nav::-webkit-scrollbar, .nav::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+#main-nav.nav button, .nav button, .diamax-nav-unified {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  padding: 8px 14px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  color: #94A3B8 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: none !important;
+}
+
+#main-nav.nav button:hover:not(.active), .nav button:hover:not(.active), .diamax-nav-unified:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+  box-shadow: none !important;
+}
+
+#main-nav.nav button.active, .nav button.active, .diamax-nav-unified.active {
+  background: linear-gradient(135deg, rgba(255, 199, 44, 0.16) 0%, rgba(242, 101, 34, 0.16) 100%) !important;
+  border: 1px solid rgba(255, 199, 44, 0.5) !important;
+  color: #FFC72C !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+#main-nav.nav button.active svg, .nav button.active svg, .diamax-nav-unified.active svg {
+  filter: drop-shadow(0 0 6px rgba(255, 199, 44, 0.6)) !important;
+  fill: #FFC72C !important;
+  stroke: #FFC72C !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   2. PAGE 3 HEADER TOOLSTRIP & DUGOUT COMMAND BAR
+   ══════════════════════════════════════════════════════════════════════════ */
+.header, #header-container {
+  background: rgba(7, 13, 26, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.diamax-action-btn-unified, .btn-lang, .btn-settings, .header-toolstrip-environment button {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #CBD5E1 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  box-shadow: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  white-space: nowrap !important;
+}
+
+.diamax-action-btn-unified:hover, .btn-lang:hover, .btn-settings:hover, .header-toolstrip-environment button:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.header button.btn-new-game {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2)) !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  color: #A7F3D0 !important;
+}
+.header button.btn-new-game:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.3)) !important;
+  border-color: #10B981 !important;
+  color: #FFFFFF !important;
+}
+
+#btn-refresh-db {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #CBD5E1 !important;
+}
+#btn-refresh-db:hover {
+  background: rgba(242, 101, 34, 0.15) !important;
+  border-color: rgba(242, 101, 34, 0.4) !important;
+  color: #FF9F68 !important;
+}
+
+/* Game Ribbon Bar */
+.game-live-header-bar, .game-ribbon {
+  background: rgba(6, 12, 24, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+.game-badge {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #CBD5E1 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 5px 10px !important;
+  border-radius: 8px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   3. DUGOUT SCORER (TAB 1) — SCOREBOARD, DIAMOND & 36 PLAYS KEYPAD
+   ══════════════════════════════════════════════════════════════════════════ */
+.panel, .tactical-ia-banner, .pitch-tracker-card {
+  background: #070E1E !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.scoreboard {
+  background: #040814 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+}
+
+#scoreboard-away-box, #scoreboard-home-box {
+  background: rgba(11, 20, 40, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 10px !important;
+  padding: 8px 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-score-adjust {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #FFFFFF !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+.btn-score-adjust:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Base Diamond */
+.base {
+  fill: #0B132B !important;
+  stroke: #1E293B !important;
+  stroke-width: 2 !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer !important;
+}
+.base.active, .base[data-active="true"] {
+  fill: #FFC72C !important;
+  stroke: #FFA000 !important;
+  filter: drop-shadow(0 0 8px rgba(255, 199, 44, 0.8)) !important;
+}
+
+/* 36 Plays Keypad */
+#panel-36-plays {
+  background: #070E1E !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 14px !important;
+}
+
+.play-category-tabs button.play-tab {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #94A3B8 !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 6px 12px !important;
+  transition: all 0.15s ease !important;
+}
+.play-category-tabs button.play-tab:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
+}
+.play-category-tabs button.play-tab.active {
+  background: rgba(0, 210, 255, 0.15) !important;
+  border-color: #00D2FF !important;
+  color: #00D2FF !important;
+}
+
+.btn-action {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  border-radius: 8px !important;
+  font-weight: 800 !important;
+  font-size: 11.5px !important;
+  cursor: pointer !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: none !important;
+}
+.btn-action.btn-hit {
+  background: #071913 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  color: #FFFFFF !important;
+}
+.btn-action.btn-hit:hover {
+  background: #0E2B21 !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.25) !important;
+  transform: translateY(-1px) !important;
+}
+.btn-action.btn-hr {
+  background: #1C1504 !important;
+  border: 1px solid rgba(255, 199, 44, 0.5) !important;
+  color: #FFD700 !important;
+}
+.btn-action.btn-hr:hover {
+  background: #2C2106 !important;
+  border-color: #FFC72C !important;
+  box-shadow: 0 2px 10px rgba(255, 199, 44, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+.btn-action.btn-out {
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #E2E8F0 !important;
+}
+.btn-action.btn-out:hover {
+  background: #1E293B !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+.btn-action.btn-tactical {
+  background: #0B1328 !important;
+  border: 1px solid rgba(0, 210, 255, 0.22) !important;
+  color: #E0E7FF !important;
+}
+.btn-action.btn-tactical:hover {
+  background: #121F40 !important;
+  border-color: #00D2FF !important;
+  box-shadow: 0 2px 10px rgba(0, 210, 255, 0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Undo Action Buttons */
+#btn-undo-scoreboard, #btn-undo-keypad {
+  background: #DC2626 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.35) !important;
+  transition: all 0.15s ease !important;
+}
+#btn-undo-scoreboard:hover, #btn-undo-keypad:hover {
+  background: #B91C1C !important;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Tactical AI Card */
+.ai-quick-btn-grid button.btn-ai-quick {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #CBD5E1 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  transition: all 0.15s ease !important;
+  box-shadow: none !important;
+}
+.ai-quick-btn-grid button.btn-ai-quick:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(0, 210, 255, 0.4) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+.ai-response-box {
+  background: #030712 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-left: 3px solid #00D2FF !important;
+  border-radius: 8px !important;
+  color: #E2E8F0 !important;
+  padding: 10px 14px !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   4. PAGE 2 (FRANCHISE REGISTRATION & SUBSCRIPTION TIERS)
+   ══════════════════════════════════════════════════════════════════════════ */
 #diamax-page-2 {
-  background: radial-gradient(circle at 50% 0%, rgba(24, 216, 255, 0.1) 0%, transparent 60%),
-              radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-              #030712 !important;
-  backdrop-filter: blur(28px) !important;
+  background: #020617 !important;
 }
 
 #diamax-page-2 > div {
-  background: rgba(7, 13, 26, 0.88) !important;
-  backdrop-filter: blur(32px) !important;
-  -webkit-backdrop-filter: blur(32px) !important;
-  border: 1px solid rgba(24, 216, 255, 0.28) !important;
-  border-radius: 24px !important;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(24, 216, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  background: rgba(7, 14, 30, 0.95) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75) !important;
 }
 
-/* Stepper Container in Page 2 */
-#p2-stepper-container {
-  background: rgba(5, 11, 24, 0.75) !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
-  border-radius: 18px !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
-}
-
-/* Cards inside Page 2 */
-#p2-wizard-paso-1 > div,
-#p2-wizard-paso-2 > div,
-#p2-wizard-paso-3 > div,
-#p2-wizard-paso-4 > div,
-#p2-wizard-paso-5 > div {
-  background: rgba(8, 16, 34, 0.76) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 18px !important;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-}
-
-/* Input Fields inside Page 2 */
 #diamax-page-2 input[type="text"],
 #diamax-page-2 input[type="email"],
 #diamax-page-2 input[type="password"],
 #diamax-page-2 input[type="tel"],
 #diamax-page-2 select {
-  background: rgba(3, 7, 18, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  border-radius: 12px !important;
+  background: #030712 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px !important;
   color: #FFFFFF !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  padding: 10px 14px !important;
+  font-size: 12.5px !important;
+  transition: all 0.2s ease !important;
 }
 
 #diamax-page-2 input:focus,
 #diamax-page-2 select:focus {
-  border-color: #18D8FF !important;
-  box-shadow: 0 0 18px rgba(24, 216, 255, 0.32), inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+  border-color: #F26522 !important;
+  box-shadow: 0 0 0 2px rgba(242, 101, 34, 0.2) !important;
   outline: none !important;
 }
 
-/* Plan Cards inside Step 3 */
-#p2-plan-card-TRIAL {
-  background: linear-gradient(165deg, rgba(14, 30, 60, 0.95), rgba(6, 14, 32, 0.98)) !important;
-  border: 2px solid #18D8FF !important;
-  border-radius: 18px !important;
-  box-shadow: 0 0 35px rgba(24, 216, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
-  transform: translateY(-2px);
-}
-
-#p2-plan-card-MANAGER {
-  background: linear-gradient(165deg, rgba(28, 20, 10, 0.85), rgba(8, 12, 24, 0.9)) !important;
-  border: 1px solid rgba(255, 184, 46, 0.45) !important;
-  border-radius: 18px !important;
-}
-
-#p2-plan-card-LIGA {
-  background: linear-gradient(165deg, rgba(24, 12, 40, 0.85), rgba(8, 12, 24, 0.9)) !important;
-  border: 1px solid rgba(139, 92, 246, 0.45) !important;
-  border-radius: 18px !important;
-}
-
-/* Buttons in Page 2 */
-#diamax-page-2 button[type="button"],
-#diamax-page-2 button[type="submit"] {
-  border-radius: 12px !important;
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-  letter-spacing: 0.8px !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* PAGE 3: APPLE SPORTS COCKPIT & BROADCAST COMMAND */
-.header,
-#header-container {
-  background: rgba(6, 12, 24, 0.88) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
-}
-
-/* Page 3 Team Avatar Halo */
-.header-team-avatar,
-.avatar {
-  border: 2px solid #FFB82E !important;
-  box-shadow: 0 0 20px rgba(255, 184, 46, 0.35) !important;
-}
-
-/* Page 3 Header Buttons */
-.header button.btn-settings,
-.header button.btn-lang {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #E2E8F0 !important;
-  border-radius: 20px !important;
-  padding: 6px 14px !important;
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  backdrop-filter: blur(12px) !important;
-  transition: all 0.2s !important;
-}
-
-.header button.btn-settings:hover,
-.header button.btn-lang:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: #18D8FF !important;
-  color: #FFF !important;
-  box-shadow: 0 0 14px rgba(24, 216, 255, 0.3) !important;
-}
-
-/* Titanium Gold Membership Button in Header */
-#btn-membership-header {
-  background: linear-gradient(135deg, rgba(255, 184, 46, 0.3), rgba(242, 101, 34, 0.25)) !important;
-  border: 1.5px solid #FFB82E !important;
-  color: #FFFFFF !important;
-  font-weight: 900 !important;
-  border-radius: 20px !important;
-  box-shadow: 0 0 22px rgba(255, 184, 46, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-}
-
-#btn-membership-header:hover {
-  background: linear-gradient(135deg, #FFB82E, #EA580C) !important;
-  color: #050912 !important;
-  box-shadow: 0 0 30px rgba(255, 184, 46, 0.6) !important;
-  transform: translateY(-1px) scale(1.02) !important;
-}
-
-/* Game Ribbon */
-.game-ribbon {
-  background: rgba(7, 14, 28, 0.85) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(24, 216, 255, 0.22) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-}
-
-/* Main Navigation Dock */
-#main-nav.nav {
-  background: rgba(5, 10, 22, 0.9) !important;
-  backdrop-filter: blur(24px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 18px !important;
-  padding: 6px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
-  display: flex !important;
-  gap: 6px !important;
-}
-
-#main-nav.nav button {
-  background: transparent !important;
-  border: 1px solid transparent !important;
-  border-radius: 12px !important;
-  color: #94A3B8 !important;
-  font-weight: 700 !important;
-  font-size: 12px !important;
-  padding: 8px 16px !important;
-  transition: all 0.2s !important;
-}
-
-#main-nav.nav button.active {
-  background: linear-gradient(135deg, rgba(24, 216, 255, 0.2), rgba(2, 132, 199, 0.25)) !important;
-  border: 1px solid #18D8FF !important;
-  color: #FFFFFF !important;
-  font-weight: 900 !important;
-  box-shadow: 0 0 18px rgba(24, 216, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
-
-#main-nav.nav button:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.06) !important;
-  color: #F1F5F9 !important;
-}
-
-/* Tactical AI Section */
-#ai-scout-card,
-.tactical-ai-card,
-#tactical-ai-engine {
-  border: 1.5px solid rgba(139, 92, 246, 0.45) !important;
-  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 70%), rgba(8, 14, 30, 0.85) !important;
-  box-shadow: 0 0 35px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-}
-
-
-/* ==========================================================================
-   🏟️ PÁGINA 3: APPLE SPORTS & BROADCAST COMMAND CENTER LUXURY OVERRIDES
-   ========================================================================== */
-
-/* Main Header Container */
-.header,
-#header-container {
-  background: rgba(6, 12, 24, 0.92) !important;
-  backdrop-filter: blur(28px) !important;
-  -webkit-backdrop-filter: blur(28px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7) !important;
-  padding: 14px 20px !important;
-}
-
-/* Header Avatar */
-.header-team-avatar,
-.avatar {
-  border: 2px solid #FFB82E !important;
-  box-shadow: 0 0 20px rgba(255, 184, 46, 0.4) !important;
-  background: radial-gradient(circle, #0F172A 0%, #030712 100%) !important;
-}
-
-/* Header Buttons System */
-.header button.btn-settings,
-.header button.btn-lang {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #E2E8F0 !important;
-  border-radius: 20px !important;
-  padding: 7px 14px !important;
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-}
-
-.header button.btn-settings:hover,
-.header button.btn-lang:hover {
-  background: rgba(24, 216, 255, 0.15) !important;
-  border-color: #18D8FF !important;
-  color: #FFF !important;
-  box-shadow: 0 0 16px rgba(24, 216, 255, 0.35) !important;
-  transform: translateY(-1px) !important;
-}
-
-/* Specific Action Buttons in Header */
-.header button.btn-new-game {
-  background: linear-gradient(135deg, #10B981, #059669) !important;
-  color: #FFF !important;
-  font-weight: 900 !important;
-  border: none !important;
-  border-radius: 20px !important;
-  padding: 8px 18px !important;
-  font-size: 12px !important;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
-  transition: all 0.2s !important;
-}
-
-.header button.btn-new-game:hover {
-  transform: translateY(-1px) scale(1.02) !important;
-  box-shadow: 0 0 26px rgba(16, 185, 129, 0.6) !important;
-}
-
-#btn-refresh-db {
-  background: rgba(239, 68, 68, 0.12) !important;
-  border: 1px solid rgba(239, 68, 68, 0.4) !important;
-  color: #FCA5A5 !important;
-  border-radius: 20px !important;
-  padding: 7px 14px !important;
-}
-
-#btn-refresh-db:hover {
-  background: rgba(239, 68, 68, 0.25) !important;
-  box-shadow: 0 0 16px rgba(239, 68, 68, 0.4) !important;
-}
-
-#btn-membership-header {
-  background: linear-gradient(135deg, #FFB82E, #EA580C) !important;
-  border: none !important;
-  color: #040814 !important;
-  font-weight: 900 !important;
-  border-radius: 20px !important;
-  padding: 8px 18px !important;
-  box-shadow: 0 0 25px rgba(255, 184, 46, 0.5) !important;
-  letter-spacing: 0.5px !important;
-}
-
-#btn-membership-header:hover {
-  transform: translateY(-1px) scale(1.03) !important;
-  box-shadow: 0 0 35px rgba(255, 184, 46, 0.75) !important;
-}
-
-/* Game Ribbon */
-.game-ribbon {
-  background: rgba(7, 14, 28, 0.88) !important;
-  backdrop-filter: blur(24px) !important;
-  border: 1px solid rgba(24, 216, 255, 0.25) !important;
-  border-radius: 18px !important;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-  padding: 12px 18px !important;
-}
-
-/* Apple Sports Floating Navigation Dock (8 Tabs Canónicas en Fila Única) */
-#main-nav.nav {
-  background: rgba(5, 10, 22, 0.94) !important;
-  backdrop-filter: blur(28px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
-  border-radius: 20px !important;
-  padding: 6px !important;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  scrollbar-width: thin !important;
-  gap: 6px !important;
-  margin-bottom: 16px !important;
-}
-
-#main-nav.nav button {
-  background: rgba(255, 255, 255, 0.02) !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
-  border-radius: 14px !important;
-  color: #94A3B8 !important;
-  font-weight: 800 !important;
-  font-size: 11px !important;
-  padding: 7px 11px !important;
-  white-space: nowrap !important;
-  flex: 1 1 auto !important;
-  letter-spacing: 0.4px !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-#main-nav.nav button:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #F8FAFC !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-#main-nav.nav button.active {
-  background: linear-gradient(135deg, rgba(24, 216, 255, 0.22), rgba(2, 132, 199, 0.3)) !important;
-  border: 1.5px solid #18D8FF !important;
-  color: #FFFFFF !important;
-  font-weight: 900 !important;
-  box-shadow: 0 0 20px rgba(24, 216, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
-}
-
-/* Tactical AI Card (Command Center) - Awwwards Titanium Obsidian */
-.ai-tactical-card,
-#tactical-ai-engine {
-  background: #070E1E !important;
-  backdrop-filter: blur(16px) !important;
+.p2-plan-card-item {
+  background: rgba(11, 20, 40, 0.6) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 16px !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
-  padding: 18px 20px !important;
+  padding: 18px !important;
+  transition: all 0.25s ease !important;
 }
-
-/* AI Quick Action Buttons */
-.ai-quick-btn-grid button.btn-ai-quick {
-  background: #0B132B !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 8px !important;
-  color: #CBD5E1 !important;
-  font-size: 11.5px !important;
-  font-weight: 800 !important;
-  padding: 9px 12px !important;
-  transition: all 0.15s ease !important;
+.p2-plan-card-item:hover {
+  background: rgba(15, 26, 52, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5) !important;
 }
-
-.ai-quick-btn-grid button.btn-ai-quick:hover {
-  background: #101E42 !important;
-  border-color: #00D2FF !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 4px 14px rgba(0, 210, 255, 0.18) !important;
-  transform: translateY(-1px) !important;
-}
-
-/* Live Action Banner */
-.live-action-banner {
-  background: #050B18 !important;
-  border: 1px solid rgba(0, 210, 255, 0.25) !important;
-  border-radius: 10px !important;
-  color: #00D2FF !important;
-  font-weight: 800 !important;
-  font-size: 12.5px !important;
-  letter-spacing: 0.5px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
-}
-
 </style>
 
   <!-- ⚡ DIAMAX PRO — SUPABASE REALTIME SDK v5.3 -->
@@ -4171,81 +4163,82 @@ html, body {
   
   
   /* =========================================================================
-     🌟 DIAMAX PRO — UNIFIED CYBER-CYAN TABS & BUTTONS WITH LASER HOVER GLOW (ALL WHITE TEXT #FFFFFF)
+     🌟 DIAMAX PRO — MASTER REFINED DOCK & ACTION BUTTONS (AWWWARDS GRADE)
      ========================================================================= */
   .diamax-nav-unified, .nav button {
-    background: rgba(11, 19, 43, 0.85) !important;
-    border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
-    color: #FFFFFF !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #94A3B8 !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 11.5px !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    padding: 10px 18px !important;
+    letter-spacing: 0.04em !important;
+    padding: 8px 14px !important;
     border-radius: 10px !important;
     cursor: pointer !important;
     white-space: nowrap !important;
-    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     display: inline-flex !important;
     align-items: center !important;
-    gap: 8px !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+    gap: 7px !important;
+    box-shadow: none !important;
     position: relative !important;
+    flex-shrink: 0 !important;
   }
 
   .diamax-nav-unified:hover, .nav button:hover {
-    background: linear-gradient(135deg, rgba(0, 210, 255, 0.28) 0%, rgba(2, 132, 199, 0.45) 100%) !important;
-    border-color: #00D2FF !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
     color: #FFFFFF !important;
-    box-shadow: 0 0 25px rgba(0, 210, 255, 0.8), inset 0 0 14px rgba(0, 210, 255, 0.35) !important;
-    transform: translateY(-2.5px) scale(1.02) !important;
+    box-shadow: none !important;
+    transform: translateY(-1px) !important;
   }
 
   .diamax-nav-unified:hover svg, .nav button:hover svg {
-    filter: drop-shadow(0 0 8px #00D2FF) !important;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4)) !important;
   }
 
   .diamax-nav-unified.active, .nav button.active {
-    background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
-    border: 2px solid #00D2FF !important;
-    color: #FFFFFF !important;
+    background: linear-gradient(135deg, rgba(255, 199, 44, 0.16) 0%, rgba(242, 101, 34, 0.16) 100%) !important;
+    border: 1px solid rgba(255, 199, 44, 0.5) !important;
+    color: #FFC72C !important;
     font-weight: 900 !important;
-    box-shadow: 0 0 30px rgba(0, 210, 255, 0.9), 0 4px 18px rgba(0, 0, 0, 0.5) !important;
-    transform: translateY(-2.5px) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-1px) !important;
   }
 
   .diamax-nav-unified.active svg, .nav button.active svg {
-    fill: #FFFFFF !important;
-    stroke: #FFFFFF !important;
-    filter: drop-shadow(0 0 6px #00D2FF) !important;
+    fill: #FFC72C !important;
+    stroke: #FFC72C !important;
+    filter: drop-shadow(0 0 6px rgba(255, 199, 44, 0.6)) !important;
   }
 
   /* BOTONERAS DE ACCIÓN Y PRESETS UNIFICADOS (+55) - TEXTO BLANCO */
   .diamax-action-btn-unified, .btn-lang, .btn-settings {
-    background: rgba(11, 19, 43, 0.85) !important;
-    border: 1.5px solid rgba(0, 210, 255, 0.35) !important;
-    color: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #CBD5E1 !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 11px !important;
     font-weight: 800 !important;
-    padding: 8px 14px !important;
+    padding: 6px 12px !important;
     border-radius: 8px !important;
     cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
-    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: none !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     white-space: nowrap !important;
   }
 
   .diamax-action-btn-unified:hover, .btn-lang:hover, .btn-settings:hover {
-    background: linear-gradient(135deg, rgba(0, 210, 255, 0.28) 0%, rgba(2, 132, 199, 0.45) 100%) !important;
-    border-color: #00D2FF !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
     color: #FFFFFF !important;
-    box-shadow: 0 0 25px rgba(0, 210, 255, 0.8), inset 0 0 14px rgba(0, 210, 255, 0.35) !important;
-    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(-1px) !important;
   }
 
   .diamax-action-btn-unified:active, .btn-lang:active, .btn-settings:active {
@@ -4257,7 +4250,7 @@ html, body {
   }
 
   .diamax-action-btn-unified:hover svg, .btn-lang:hover svg, .btn-settings:hover svg {
-    filter: drop-shadow(0 0 8px #00D2FF) !important;
+    filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.4)) !important;
   }
 
   /* Ribbon game status badge unificado en cyber-cyan con texto blanco */
@@ -4382,7 +4375,7 @@ html, body {
     </filter>
   
     <!-- ══════════════════════════════════════════════════════════════════════ -->
-  <!-- 💎 SKEUOMORPHIC 3D METALLIC & LIQUID GLASS ICON SUITE (DIAMAX PRO)    -->
+  <!--  SKEUOMORPHIC 3D METALLIC & LIQUID GLASS ICON SUITE (DIAMAX PRO)    -->
   <!-- ══════════════════════════════════════════════════════════════════════ -->
     <!-- Gradientes Metálicos y de Cristal Líquido -->
     <linearGradient id="skeuo-gold-24k" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -4442,7 +4435,7 @@ html, body {
       <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#EF4444" flood-opacity="0.5"/>
     </filter>
 
-    <!-- 🔑 1. RESTABLECIMIENTO & RECUPERACIÓN DE CLAVE / CREDENCIALES (SKEUOMORPHIC 3D) -->
+    <!--  1. RESTABLECIMIENTO & RECUPERACIÓN DE CLAVE / CREDENCIALES (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-key-recovery" viewBox="0 0 24 24">
       <path d="M12 2.2L4 5.8V11.2C4 16.2 7.4 20.8 12 22C16.6 20.8 20 16.2 20 11.2V5.8L12 2.2Z" fill="rgba(2,132,199,0.25)" stroke="url(#skeuo-cyan-neon)" stroke-width="1.6" filter="url(#skeuo-3d-drop)"/>
       <path d="M12 4.2L5.8 7V11.2C5.8 15.2 8.5 18.8 12 19.8C15.5 18.8 18.2 15.2 18.2 11.2V7L12 4.2Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
@@ -4452,7 +4445,7 @@ html, body {
       <circle cx="17.2" cy="7.2" r="1" fill="#38BDF8" filter="url(#skeuo-3d-drop)"/>
     </symbol>
 
-    <!-- 👑 2. ACCESO MAESTRO 3TREE (CORONA IMPERIAL SKEUOMORPHIC 3D) -->
+    <!--  2. ACCESO MAESTRO 3TREE (CORONA IMPERIAL SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-founder-crown" viewBox="0 0 24 24">
       <path d="M3 18L4.5 9L9 13.5L12 5L15 13.5L19.5 9L21 18H3Z" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="0.9" stroke-linejoin="round" filter="url(#skeuo-gold-glow)"/>
       <rect x="3" y="18" width="18" height="3" rx="1.5" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="0.7"/>
@@ -4462,7 +4455,7 @@ html, body {
       <line x1="5" y1="19.5" x2="19" y2="19.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.8"/>
     </symbol>
 
-    <!-- 🎯 3. ANOTADOR DUGOUT (MIRA TÁCTICA SKEUOMORPHIC 3D) -->
+    <!--  3. ANOTADOR DUGOUT (MIRA TÁCTICA SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-tactical-crosshair" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="9.5" fill="rgba(0,210,255,0.12)" stroke="url(#skeuo-cyan-neon)" stroke-width="1.6" filter="url(#skeuo-3d-drop)"/>
       <circle cx="12" cy="12" r="5.5" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
@@ -4473,7 +4466,7 @@ html, body {
       <line x1="17.5" y1="12" x2="23" y2="12" stroke="url(#skeuo-cyan-neon)" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
-    <!-- 📋 4. LINEUP BUILDER & DICTADO (SKEUOMORPHIC 3D) -->
+    <!--  4. LINEUP BUILDER & DICTADO (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-lineup-dictate" viewBox="0 0 24 24">
       <rect x="4" y="4" width="16" height="17" rx="3" fill="rgba(15,23,42,0.9)" stroke="url(#skeuo-cyan-neon)" stroke-width="1.6" filter="url(#skeuo-3d-drop)"/>
       <path d="M8.5 2.5H15.5C16 2.5 16.5 3 16.5 3.5V5.5H7.5V3.5C7.5 3 8 2.5 8.5 2.5Z" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="0.8"/>
@@ -4482,7 +4475,7 @@ html, body {
       <line x1="7.5" y1="17.5" x2="11.5" y2="17.5" stroke="url(#skeuo-gold-24k)" stroke-width="1.5" stroke-linecap="round"/>
     </symbol>
 
-    <!-- 🏟️ 5. CAMPO DE BÉISBOL 3D (SKEUOMORPHIC) -->
+    <!--  5. CAMPO DE BÉISBOL 3D (SKEUOMORPHIC) -->
     <symbol id="diamax-icon-nav-field" viewBox="0 0 24 24">
       <path d="M12 2L2 12C7 19 12 22 12 22C12 22 17 19 22 12L12 2Z" fill="url(#skeuo-emerald-gem)" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round" filter="url(#skeuo-3d-drop)"/>
       <polygon points="12,18 7,13 12,8 17,13" fill="rgba(180,83,9,0.85)" stroke="url(#skeuo-gold-24k)" stroke-width="1"/>
@@ -4493,7 +4486,7 @@ html, body {
       <circle cx="12" cy="8" r="1" fill="#FFFFFF"/>
     </symbol>
 
-    <!-- 📜 6. HOJA DE ROSTER & MANUAL (SKEUOMORPHIC 3D) -->
+    <!--  6. HOJA DE ROSTER & MANUAL (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-roster-sheet" viewBox="0 0 24 24">
       <path d="M5 3C4.4 3 4 3.4 4 4V20C4 20.6 4.4 21 5 21H19C19.6 21 20 20.6 20 20V8L15 3H5Z" fill="rgba(15,23,42,0.95)" stroke="url(#skeuo-cyan-neon)" stroke-width="1.6" filter="url(#skeuo-3d-drop)"/>
       <polygon points="15,3 20,8 15,8" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="0.8"/>
@@ -4502,7 +4495,7 @@ html, body {
       <line x1="7" y1="18" x2="12" y2="18" stroke="url(#skeuo-gold-24k)" stroke-width="1.3" stroke-linecap="round"/>
     </symbol>
 
-    <!-- 📊 7. TARJETA OFICIAL WBSC / BOXSCORE MATRIX (SKEUOMORPHIC 3D) -->
+    <!--  7. TARJETA OFICIAL WBSC / BOXSCORE MATRIX (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-boxscore-matrix" viewBox="0 0 24 24">
       <rect x="3" y="4" width="18" height="16" rx="3" fill="rgba(8,16,34,0.95)" stroke="url(#skeuo-gold-24k)" stroke-width="1.6" filter="url(#skeuo-gold-glow)"/>
       <line x1="3" y1="9.5" x2="21" y2="9.5" stroke="url(#skeuo-gold-24k)" stroke-width="1.2"/>
@@ -4536,33 +4529,33 @@ html, body {
       <line x1="21" y1="7" x2="18" y2="9.5" stroke="#FFFFFF" stroke-width="1.2"/>
     </symbol>
 
-    <!-- 👑 10. INSIGNIA MANAGER / PERFIL & SEDE (SKEUOMORPHIC 3D) -->
+    <!--  10. INSIGNIA MANAGER / PERFIL & SEDE (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-manager-badge" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="9.5" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="1.2" filter="url(#skeuo-gold-glow)"/>
       <circle cx="12" cy="12" r="7.5" fill="rgba(6,12,28,0.92)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
       <polygon points="12,7 13.5,10.5 17.5,11 14.5,13.8 15.2,17.5 12,15.5 8.8,17.5 9.5,13.8 6.5,11 10.5,10.5" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="0.6"/>
     </symbol>
 
-    <!-- ⚙️ 11. ENGRANAJE DE PRECISIÓN CONFIGURACIÓN (SKEUOMORPHIC 3D) -->
+    <!--  11. ENGRANAJE DE PRECISIÓN CONFIGURACIÓN (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-gear-precision" viewBox="0 0 24 24">
       <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="0.8"/>
       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" fill="url(#skeuo-chrome-silver)" stroke="#FFFFFF" stroke-width="1" filter="url(#skeuo-3d-drop)"/>
     </symbol>
 
-    <!-- 🔄 12. REFRESCAR BASE DE DATOS (SKEUOMORPHIC 3D) -->
+    <!--  12. REFRESCAR BASE DE DATOS (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-db-refresh" viewBox="0 0 24 24">
       <path d="M21.5 2v6h-6M2.5 22v-6h6" stroke="url(#skeuo-crimson-ruby)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M3.5 12a8.5 8.5 0 0 1 14.5-6l3.5 2M20.5 12a8.5 8.5 0 0 1-14.5 6l-3.5-2" fill="none" stroke="url(#skeuo-crimson-ruby)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#skeuo-red-glow)"/>
     </symbol>
 
-    <!-- ☀️ 13. SOL / NOCHE ALTO CONTRASTE (SKEUOMORPHIC 3D) -->
+    <!--  13. SOL / NOCHE ALTO CONTRASTE (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-sun-moon" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="5" fill="url(#skeuo-gold-24k)" stroke="#FFFFFF" stroke-width="1" filter="url(#skeuo-gold-glow)"/>
       <path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="url(#skeuo-gold-24k)" stroke-width="2" stroke-linecap="round"/>
       <path d="M12 7a5 5 0 0 0 5 5 5 5 0 0 1-5-5Z" fill="#040914" opacity="0.75"/>
     </symbol>
 
-    <!-- 🏟️ 14. ESTADIO CARGAR NUEVO JUEGO (SKEUOMORPHIC 3D) -->
+    <!--  14. ESTADIO CARGAR NUEVO JUEGO (SKEUOMORPHIC 3D) -->
     <symbol id="diamax-icon-stadium-gate" viewBox="0 0 24 24">
       <ellipse cx="12" cy="12" rx="9.5" ry="6.5" fill="rgba(6,12,28,0.95)" stroke="url(#skeuo-cyan-neon)" stroke-width="1.6" filter="url(#skeuo-3d-drop)"/>
       <polygon points="12,15 9,12 12,9 15,12" fill="url(#skeuo-emerald-gem)" stroke="url(#skeuo-gold-24k)" stroke-width="0.8"/>
@@ -4980,20 +4973,20 @@ html, body {
     <div id="p1-title-welcome-block" style="margin:0 0 16px 0;">
       
       <!-- 1. TEXTO SUPERIOR: «DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA» -->
-      <div class="diamax-cinema-welcome" id="p1-title-welcome" style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:clamp(16px, 2.5vw, 28px); text-transform:uppercase; letter-spacing:1.5px; line-height:1.25; margin:0 0 8px 0; color:#FFFFFF; text-shadow:0 4px 20px rgba(0,0,0,0.95), 0 0 25px rgba(24,216,255,0.5);">
+      <div class="diamax-cinema-welcome" id="p1-title-welcome" style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:clamp(15px, 2.2vw, 24px); text-transform:uppercase; letter-spacing:2px; line-height:1.3; margin:0 0 8px 0; color:#FFFFFF; text-shadow:0 2px 12px rgba(0,0,0,0.9);">
         DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA
       </div>
 
-      <!-- 2. MARCA CINEMÁTICA: DIAMAX PRO (CROMO Y ORO - SIN ICONO EN EL MEDIO) -->
+      <!-- 2. MARCA CINEMÁTICA: DIAMAX PRO (TITANIO Y ORO - AWWWARDS GRADE) -->
       <div class="diamax-cinema-brand-title" style="display:inline-flex; align-items:center; justify-content:center; flex-wrap:nowrap; gap:10px; margin:0 auto; line-height:1;">
-        <span class="diamax-cinema-word-diamax" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(46px, 7vw, 84px); letter-spacing:3px; line-height:1; text-transform:uppercase; color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:1px rgba(216,226,234,0.85); filter:drop-shadow(0 4px 0 #475569) drop-shadow(0 12px 28px rgba(0,0,0,0.9)) drop-shadow(0 0 25px rgba(0,175,255,0.28));">DIAMAX</span>
-        <span class="diamax-cinema-word-pro" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(46px, 7vw, 84px); letter-spacing:2px; line-height:1; text-transform:uppercase; color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:1px #FFCC55; filter:drop-shadow(0 4px 0 #92400E) drop-shadow(0 10px 22px rgba(0,0,0,0.8)) drop-shadow(0 0 35px rgba(255,179,0,0.55)); margin-left:8px;">PRO</span>
+        <span class="diamax-cinema-word-diamax" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(48px, 7.5vw, 86px); letter-spacing:3px; line-height:1; text-transform:uppercase; color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 55%, #94A3B8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 4px 14px rgba(0,0,0,0.85));">DIAMAX</span>
+        <span class="diamax-cinema-word-pro" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(48px, 7.5vw, 86px); letter-spacing:2px; line-height:1; text-transform:uppercase; color:#FFC72C; background:linear-gradient(180deg, #FFE082 0%, #FFC72C 50%, #F59E0B 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 4px 14px rgba(0,0,0,0.85)); margin-left:8px;">PRO</span>
       </div>
 
     </div>
 
     <!-- Descripción Sabermétrica con Sombra Nítida -->
-    <p id="p1-desc-text" style="margin:0 auto 24px auto; max-width:680px; font-family:'Plus Jakarta Sans', sans-serif; font-size:15px; font-weight:500; color:#F1F5F9; line-height:1.6; text-shadow:0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9);">
+    <p id="p1-desc-text" style="margin:0 auto 24px auto; max-width:680px; font-family:'Plus Jakarta Sans', sans-serif; font-size:15px; font-weight:500; color:#E2E8F0; line-height:1.6; text-shadow:0 2px 10px rgba(0,0,0,0.9);">
       Gestiona equipos, anota cada lanzamiento en vivo y convierte los datos del juego en reportes y métricas con decisiones tácticas.
     </p>
 
@@ -5001,20 +4994,20 @@ html, body {
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:24px;">
       
       <!-- Botón 1: VER PLANES -->
-      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:16px 28px; background:linear-gradient(135deg, #00D2FF 0%, #0072FF 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); border-radius:14px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,210,255,0.75)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,210,255,0.45), 0 0 25px rgba(0,114,255,0.35)';">
-        <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 8px rgba(0,210,255,0.8));"><use href="#diamax-icon-plans-gem"/></svg>
+      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:14px 28px; min-height:50px; background:linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.25); border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; box-shadow:0 4px 18px rgba(2,132,199,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(2,132,199,0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 18px rgba(2,132,199,0.4)';">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 6px rgba(255,255,255,0.5));"><use href="#diamax-icon-plans-gem"/></svg>
         <span id="p1-btn-plans-text">VER PLANES</span>
       </button>
 
       <!-- Botón 2: INICIAR SESIÓN -->
-      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:16px 28px; background:rgba(4,8,20,0.75); color:#18D8FF; border:1.8px solid #18D8FF; border-radius:14px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(24,216,255,0.18)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(24,216,255,0.45)';" onmouseout="this.style.background='rgba(4,8,20,0.75)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(24,216,255,0.25), inset 0 0 15px rgba(24,216,255,0.1)';">
-        <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 8px rgba(24,216,255,0.8));"><use href="#diamax-icon-key-recovery"/></svg>
+      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:14px 28px; min-height:50px; background:rgba(11,20,40,0.75); color:#F8FAFC; border:1px solid rgba(255,255,255,0.14); border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 16px rgba(0,0,0,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='rgba(15,26,52,0.9)'; this.style.borderColor='rgba(0,210,255,0.45)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(11,20,40,0.75)'; this.style.borderColor='rgba(255,255,255,0.14)'; this.style.transform='translateY(0)';">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 6px rgba(0,210,255,0.6));"><use href="#diamax-icon-key-recovery"/></svg>
         <span id="p1-btn-login-text">INICIAR SESIÓN</span>
       </button>
 
       <!-- Botón 3: ACCESO MASTER -->
-      <button type="button" id="p1-btn-ceo-key" data-test-id="p1-btn-master" onclick="abrirAccesoClaveCEO()" style="padding:16px 28px; background:rgba(255,199,44,0.12); color:#FFC72C; border:1.8px solid #FFC72C; border-radius:14px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 8px 30px rgba(255,199,44,0.25); display:inline-flex; align-items:center; gap:10px; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(255,199,44,0.25)'; this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(255,199,44,0.5)';" onmouseout="this.style.background='rgba(255,199,44,0.12)'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 30px rgba(255,199,44,0.25)';">
-        <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 8px rgba(255,199,44,0.8));"><use href="#diamax-icon-founder-crown"/></svg>
+      <button type="button" id="p1-btn-ceo-key" data-test-id="p1-btn-master" onclick="abrirAccesoClaveCEO()" style="padding:14px 28px; min-height:50px; background:rgba(25,20,10,0.75); color:#FFC72C; border:1px solid rgba(255,199,44,0.4); border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 16px rgba(0,0,0,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='rgba(35,28,14,0.9)'; this.style.borderColor='#FFC72C'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(25,20,10,0.75)'; this.style.borderColor='rgba(255,199,44,0.4)'; this.style.transform='translateY(0)';">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:-3px;filter:drop-shadow(0 0 6px rgba(255,199,44,0.8));"><use href="#diamax-icon-founder-crown"/></svg>
         <span id="p1-btn-master-text">ACCESO MASTER</span>
       </button>
 
@@ -6364,6 +6357,20 @@ html, body {
       <!-- RESPUESTA TÁCTICA INSTANTÁNEA EN DUGOUT -->
       <div class="ai-response-box" id="ai-response-display" style="margin-bottom:8px;">
         [DIAMAX TACTICAL AI SINCRONIZADO] Pulsa cualquiera de los 6 botones tácticos superiores para recibir prescripción sabermétrica instantánea (&lt;1.5s).
+      </div>
+
+      <!-- BARRA DE CONSULTA TÁCTICA + CONTROL POR VOZ DUGOUT -->
+      <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico o pulsar el micrófono..." style="flex:1; min-width:240px; background:#060C18; border:1px solid rgba(255,255,255,0.1); color:#FFF; padding:8px 12px; border-radius:8px; font-size:12px; outline:none;" onkeydown="if(event.key==='Enter') consultarAgenteIA('CUSTOM')">
+        <button id="btn-ai-voice-mic" type="button" onclick="toggleDictadoVozAgente('ai-custom-prompt')" style="background:rgba(0,210,255,0.12); border:1px solid rgba(0,210,255,0.4); color:#00D2FF; padding:8px 12px; border-radius:8px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:all 0.2s;" title="Hablarle al Agente por Voz">
+          <span id="ai-voice-mic-icon">🎤</span> <span id="ai-voice-mic-label">Voz</span>
+        </button>
+        <button id="btn-ai-voice-speaker" type="button" onclick="toggleVozAudioAgente()" style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.4); color:#10B981; padding:8px 10px; border-radius:8px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Activar/Desactivar Respuesta de Audio Hablada">
+          <span id="ai-voice-speaker-icon">🔊</span>
+        </button>
+        <button id="btn-ai-custom-query" type="button" onclick="consultarAgenteIA('CUSTOM')" style="background:linear-gradient(135deg, #00D2FF, #0284C7); color:#020617; border:none; padding:8px 14px; border-radius:8px; font-weight:900; font-size:11.5px; cursor:pointer; box-shadow:0 2px 10px rgba(0,210,255,0.3);">
+          ⚡ Consultar
+        </button>
       </div>
       
       <!-- ENLACE DIRECTO A LA CONSOLA MAESTRA -->
@@ -12375,7 +12382,7 @@ function poblarSelectorPartidos() {
 
   const condBadge = document.getElementById('game-condition-badge');
   const isEnLiveHeader = (typeof currentLang !== 'undefined' && currentLang === 'en');
-  const condBadge = document.getElementById('game-condition-badge');
+  if (condBadge) {
     condBadge.innerText = isHome ? (isEnLiveHeader ? "HOME CLUB" : "HOME CLUB (LOCAL)") : (isEnLiveHeader ? "VISITOR" : "VISITANTE");
     condBadge.style.background = isHome ? "#00D2FF" : "#FFC72C";
   }
@@ -21375,8 +21382,8 @@ function crearPopupLiga(liga) {
   const flag = info.flag;
   const color = CATEGORY_COLORS[liga.category_level] || CATEGORY_COLORS.default;
   const activeGame = liga.active_game ? '<span style="background:rgba(34,197,94,0.2);color:#22C55E;border:1px solid rgba(34,197,94,0.4);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;">🔴 JUEGO EN VIVO</span>' : '<span style="background:rgba(255,255,255,0.05);color:#94A3B8;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;">Circuito Oficial WBSC</span>';
-  return '<div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:230px;">' +
-    '<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
+  return '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;min-width:230px;">' +
+    '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:14.5px;font-weight:900;color:' + color + ';margin-bottom:4px;">' + flag + ' ' + liga.name + '</div>' +
     '<div style="display:flex;gap:6px;margin-bottom:8px;align-items:center;">' + activeGame + '<span style="font-size:10px;color:#FFC72C;font-weight:800;">WBSC #' + info.wbscRank + '</span></div>' +
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:10px;">' +
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">PAÍS</div><div style="color:#fff;font-size:11.5px;font-weight:800;">' + flag + ' ' + info.nameEs + '</div></div>' +
@@ -21384,7 +21391,7 @@ function crearPopupLiga(liga) {
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">CATEGORÍA</div><div style="color:' + color + ';font-size:12px;font-weight:800;">' + (liga.category_level || '—') + '</div></div>' +
     '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 8px;"><div style="color:#64748B;font-size:9px;font-weight:700;letter-spacing:0.5px;">EQUIPOS / JUG.</div><div style="color:#FFB82E;font-size:11.5px;font-weight:800;">⚾ ' + (liga.teams || 0) + ' eq · ' + (liga.players || 120) + ' jug</div></div>' +
     '</div>' +
-    '<div style="background:rgba(0,242,254,0.06);border:1px solid rgba(0,242,254,0.25);border-radius:8px;padding:6px 10px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
+    '<div style="background:rgba(0,242,254,0.06);border:1px solid rgba(0,242,254,0.25);border-radius:8px;padding:6px 10px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:10px;font-weight:800;color:#00F2FE;letter-spacing:0.5px;">🔒 TENANT ID: ' + (liga.tenant_id || liga.id) + '</div>' +
     '</div>';
 }
 
@@ -21399,8 +21406,8 @@ function renderLeagueCard(liga) {
       '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:10.5px;font-weight:900;color:#FFC72C;letter-spacing:0.6px;">' + flag + ' ' + info.nameEs + '</span>' +
       '<span style="font-size:9.5px;color:#64748B;font-weight:700;">WBSC #' + info.wbscRank + '</span>' +
     '</div>' +
-    '<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:3px;">' + dot + liga.name + '</div>' +
-    '<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10.5px;color:#94A3B8;font-weight:600;">📍 ' + liga.city + ' · ⚾ ' + (liga.teams || 0) + ' equipos · ' + (liga.players || 120) + ' jug.</div>' +
+    '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:12px;font-weight:900;color:' + color + ';margin-bottom:3px;">' + dot + liga.name + '</div>' +
+    '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:10.5px;color:#94A3B8;font-weight:600;">📍 ' + liga.city + ' · ⚾ ' + (liga.teams || 0) + ' equipos · ' + (liga.players || 120) + ' jug.</div>' +
     '</div>';
 }
 
