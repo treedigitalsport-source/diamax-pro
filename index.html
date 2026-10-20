@@ -16680,6 +16680,10 @@ function renderAll() {
     renderLiveLineupChips();
     updateLiveBatterDisplay();
     actualizarGameHeaderUI();
+    const panelCabina = document.getElementById('panel-cabina-comentaristas');
+    if (panelCabina && panelCabina.style.display !== 'none' && typeof generarPildorasTransmision === 'function') {
+      generarPildorasTransmision();
+    }
   } catch(err) {
     console.error("Render recovered:", err);
   }
