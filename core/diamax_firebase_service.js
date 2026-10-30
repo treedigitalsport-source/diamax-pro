@@ -2,18 +2,18 @@
  * DIAMAX PRO - Google Firebase Sovereign Connector (Spark Plan $0 Tier)
  * Entity: 3Tree Digital Sport IA Corp.
  * Authority: Lic. Ali Jose Zapata Mendoza (Founder & Board Chairman - N6_OVERRIDE)
- * Project ID: tree-digital-sport (Google Cloud 955378850789)
+ * Project ID: diamax-pro-f6f16 (Google Cloud Project Number: 992672374575)
  * Security: Aegis (AG-023) & Orion (AG-006) - Zero Vulnerability Encrypted Gateway
  */
 
 export const DIAMAX_DEFAULT_CONFIG = {
-  apiKey: "AIzaSyBXVvOa0zT4YnRJ8wMBO4ty8ieOvtdzZtw",
-  authDomain: "tree-digital-sport.firebaseapp.com",
-  projectId: "tree-digital-sport",
-  storageBucket: "tree-digital-sport.firebasestorage.app",
-  messagingSenderId: "955378850789",
-  appId: "1:955378850789:web:a2fd07ccab38f67e576d0c",
-  measurementId: "G-3XGXE48BPL"
+  apiKey: "AIzaSyByTX2D9d8gbXIEJW2yVRZ3Yr1mB5rl5aQ",
+  authDomain: "diamax-pro-f6f16.firebaseapp.com",
+  projectId: "diamax-pro-f6f16",
+  storageBucket: "diamax-pro-f6f16.firebasestorage.app",
+  messagingSenderId: "992672374575",
+  appId: "1:992672374575:web:b95f8b8c267eb55dff0bda",
+  measurementId: "G-00SQ358X5H"
 };
 
 export class DiamaxFirebaseService {
@@ -28,7 +28,7 @@ export class DiamaxFirebaseService {
   }
 
   /**
-   * Inicializa la conexión segura con el proyecto oficial de Google Firebase
+   * Inicializa la conexión segura con el proyecto oficial de DIAMAX PRO en Google Firebase
    */
   init(customConfig = null) {
     const config = customConfig || DIAMAX_DEFAULT_CONFIG;
@@ -58,7 +58,7 @@ export class DiamaxFirebaseService {
         });
 
         this.isConnected = true;
-        console.log('[DIAMAX FIREBASE] 🟢 Conectado exitosamente a tree-digital-sport ($0 Spark Tier).');
+        console.log('[DIAMAX FIREBASE] 🟢 Conectado exitosamente a diamax-pro-f6f16 ($0 Spark Tier).');
         return true;
       }
     } catch (e) {
