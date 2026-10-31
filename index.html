@@ -1168,6 +1168,37 @@ function imprimirTarjetaEmergenciaDugout() {
 }
 window.imprimirTarjetaEmergenciaDugout = imprimirTarjetaEmergenciaDugout;
 
+// =========================================================================
+// 🗄️ CONTROL DE CAJONES COLAPSABLES (DRAWERS) & SELECTOR DE ROLES
+// =========================================================================
+function toggleDrawer(drawerId) {
+  const body = document.getElementById(`body-${drawerId}`);
+  const arrow = document.getElementById(`arrow-${drawerId}`);
+  if (body) {
+    const isHidden = (body.style.display === 'none' || body.style.display === '');
+    body.style.display = isHidden ? 'block' : 'none';
+    if (arrow) {
+      arrow.textContent = isHidden ? '▴ Plegar' : '▾ Desplegar';
+    }
+  }
+}
+window.toggleDrawer = toggleDrawer;
+
+function activarModoRol(rol) {
+  document.querySelectorAll('.role-mode-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(`role-mode-${rol}`);
+  if (btn) btn.classList.add('active');
+  
+  if (rol === 'anotador') {
+    if (typeof switchTab === 'function') switchTab('envivo');
+  } else if (rol === 'manager') {
+    if (typeof switchTab === 'function') switchTab('campo');
+  } else if (rol === 'narrador') {
+    if (typeof switchTab === 'function') switchTab('cabina');
+  }
+}
+window.activarModoRol = activarModoRol;
+
 
 // =========================================================================
 // 🔒 SEPARACIÓN ESTRICTA DE DOMINIOS: ANOTADOR vs CABINA vs SEGURIDAD
@@ -2083,8 +2114,618 @@ window.mostrarTerminalSeguridad4Capas = mostrarTerminalSeguridad4Capas;
 /* === COMPONENT SPECIFIC STYLES === */
 
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
-body { background:#070D1A; color:#EAEEF5; padding:12px; min-height:100vh; }
+body { background:#0B0F19; color:#EAEEF5; padding:12px; min-height:100vh; }
 .container { max-width:1320px; margin:0 auto; }
+
+/* =========================================================================
+   DIAMAX PRO SOLEDAD & LIMPIEZA ENTERPRISE (PLAN DE DESINTOXICACIÓN)
+   Paleta: Fondo #0B0F19 · Acento Deportivo #2563EB / #0284C7
+   Alertas Funcionales: Verde #10B981 (Safe), Amarillo #F59E0B (Avisos), Rojo #EF4444/#DC2626 (Outs/Deshacer)
+   ========================================================================= */
+
+/* Barra de Selector Maestro de Modos por Rol */
+.diamax-role-mode-selector {
+  display: flex;
+  gap: 8px;
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.role-mode-btn {
+  flex: 1;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #94A3B8;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.role-mode-btn:hover {
+  background: #1E293B;
+  color: #F8FAFC;
+}
+.role-mode-btn.active {
+  background: #2563EB;
+  color: #FFFFFF;
+  border-color: #3B82F6;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* BLOQUE 1: MARCADOR LIMPIO */
+.dugout-block-scoreboard {
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.dugout-inn-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.dugout-inn-badge {
+  font-size: 13px;
+  font-weight: 900;
+  color: #F59E0B;
+  letter-spacing: 1px;
+  background: #0B0F19;
+  border: 1px solid #334155;
+  padding: 6px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.btn-score-adjust-clean {
+  width: 32px;
+  height: 32px;
+  background: #1E293B;
+  border: 1px solid #334155;
+  color: #F8FAFC;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.btn-score-adjust-clean:hover {
+  background: #334155;
+  border-color: #2563EB;
+}
+.dugout-scores-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.dugout-team-box {
+  flex: 1;
+  background: #0B0F19;
+  border: 1px solid #1E293B;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.dugout-team-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.dugout-team-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #334155;
+  object-fit: cover;
+}
+.dugout-team-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #F8FAFC;
+  letter-spacing: 0.5px;
+}
+.dugout-team-status {
+  min-height: 18px;
+  margin-bottom: 6px;
+}
+.dugout-score-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.dugout-score-val {
+  font-size: 32px;
+  font-weight: 900;
+  color: #F8FAFC;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-variant-numeric: tabular-nums;
+  min-width: 36px;
+  text-align: center;
+}
+.dugout-center-diamond {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+.dugout-vs-label {
+  font-size: 12px;
+  font-weight: 900;
+  color: #64748B;
+  margin-bottom: 2px;
+}
+.mini-diamond-box {
+  width: 68px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dugout-count-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #1E293B;
+  flex-wrap: wrap;
+}
+.count-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #0B0F19;
+  border: 1px solid #1E293B;
+  padding: 5px 12px;
+  border-radius: 8px;
+}
+.count-pill-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #94A3B8;
+  letter-spacing: 0.5px;
+}
+.count-pill-val {
+  font-size: 14px;
+  font-weight: 900;
+  color: #F8FAFC;
+}
+.outs-container-clean {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #0B0F19;
+  border: 1px solid #1E293B;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-clean-mode-toggle {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #F59E0B;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* BLOQUE 2: EL DUELO ACTIVO */
+.dugout-block-duel {
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 768px) {
+  .dugout-block-duel {
+    grid-template-columns: 1fr;
+  }
+}
+.duel-player-card {
+  background: #0B0F19;
+  border: 1px solid #1E293B;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.duel-player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.duel-role-tag {
+  font-size: 10.5px;
+  font-weight: 900;
+  color: #0284C7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.duel-role-tag.pitcher-tag {
+  color: #F59E0B;
+}
+.btn-duel-sub {
+  background: #1E293B;
+  border: 1px solid #334155;
+  color: #CBD5E1;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-duel-sub:hover {
+  background: #334155;
+  color: #FFFFFF;
+}
+.duel-player-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.duel-player-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid #334155;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.duel-pitcher-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid #334155;
+  background: #1E293B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.duel-player-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.duel-player-name {
+  font-size: 15px;
+  font-weight: 900;
+  color: #F8FAFC;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.duel-player-pos {
+  font-size: 11.5px;
+  color: #94A3B8;
+  font-weight: 700;
+  margin-top: 1px;
+}
+.duel-player-stats {
+  font-size: 11.5px;
+  color: #10B981;
+  font-weight: 800;
+  margin-top: 2px;
+}
+.duel-pitch-count-highlight {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+}
+.pitch-total-num {
+  font-size: 18px;
+  font-weight: 900;
+  color: #F8FAFC;
+}
+.pitch-total-label {
+  font-size: 11px;
+  color: #94A3B8;
+  font-weight: 700;
+}
+.pitch-sub-counts {
+  font-size: 11px;
+  color: #64748B;
+  font-weight: 700;
+}
+.duel-fatigue-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.duel-fatigue-status {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #10B981;
+}
+.fatigue-bar-bg-clean {
+  flex: 1;
+  height: 6px;
+  background: #1E293B;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.duel-ondeck-subtext {
+  font-size: 11px;
+  color: #64748B;
+  padding-top: 6px;
+  border-top: 1px dashed #1E293B;
+}
+.duel-ondeck-subtext strong {
+  color: #94A3B8;
+}
+.duel-divider {
+  font-size: 13px;
+  font-weight: 900;
+  color: #475569;
+  text-align: center;
+}
+
+/* BLOQUE 3: BOTONES DE ACCIÓN INMEDIATA (GRANDES 54PX+) */
+.dugout-block-actions {
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.immediate-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+@media (max-width: 640px) {
+  .immediate-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .immediate-actions-grid .btn-undo {
+    grid-column: 1 / -1;
+  }
+}
+.btn-immediate {
+  min-height: 54px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.btn-immediate:active {
+  transform: scale(0.97);
+}
+.btn-im-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+.btn-im-label {
+  font-size: 13.5px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+.btn-im-sub {
+  font-size: 10px;
+  opacity: 0.8;
+  font-weight: 700;
+}
+
+/* 1. Strike */
+.btn-immediate.btn-strike {
+  background: #1E3A8A;
+  border-color: #2563EB;
+  color: #DBEAFE;
+}
+.btn-immediate.btn-strike:hover {
+  background: #1D4ED8;
+  color: #FFFFFF;
+}
+
+/* 2. Bola */
+.btn-immediate.btn-ball {
+  background: #1E293B;
+  border-color: #334155;
+  color: #E2E8F0;
+}
+.btn-immediate.btn-ball:hover {
+  background: #334155;
+  color: #FFFFFF;
+}
+
+/* 3. Hit (Safe) */
+.btn-immediate.btn-hit {
+  background: #064E3B;
+  border-color: #10B981;
+  color: #A7F3D0;
+}
+.btn-immediate.btn-hit:hover {
+  background: #047857;
+  color: #FFFFFF;
+}
+
+/* 4. Out */
+.btn-immediate.btn-out {
+  background: #450A0A;
+  border-color: #991B1B;
+  color: #FECACA;
+}
+.btn-immediate.btn-out:hover {
+  background: #7F1D1D;
+  border-color: #DC2626;
+  color: #FFFFFF;
+}
+
+/* 5. Deshacer (Crítico) */
+.btn-immediate.btn-undo {
+  background: #DC2626;
+  border-color: #B91C1C;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+.btn-immediate.btn-undo:hover {
+  background: #B91C1C;
+}
+
+/* Barra secundaria de jugadas rápidas */
+.sub-actions-quick-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #1E293B;
+  flex-wrap: wrap;
+}
+.quick-chips-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.quick-chips-label {
+  font-size: 11px;
+  color: #64748B;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.chip-action-btn {
+  background: #1E293B;
+  border: 1px solid #334155;
+  color: #E2E8F0;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.chip-action-btn:hover {
+  background: #334155;
+  color: #FFFFFF;
+}
+.chip-action-btn.hr-chip {
+  background: #78350F;
+  border-color: #B45309;
+  color: #FEF3C7;
+}
+.btn-toggle-drawer-link {
+  background: transparent;
+  border: none;
+  color: #0284C7;
+  font-size: 11.5px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 4px;
+}
+
+/* CAJONES COLAPSABLES (DRAWERS / ACORDEONES) */
+.dugout-drawers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+.dugout-drawer {
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.dugout-drawer-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #0B0F19;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+.dugout-drawer-header:hover {
+  background: #131D31;
+}
+.drawer-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.drawer-header-icon {
+  font-size: 15px;
+}
+.drawer-header-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #E2E8F0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.drawer-header-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #64748B;
+  background: #1E293B;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.drawer-toggle-arrow {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #0284C7;
+}
+.dugout-drawer-body {
+  padding: 14px 16px;
+  border-top: 1px solid #1E293B;
+}
 
 /* Header Pro Stadium */
 .header {
@@ -7336,6 +7977,24 @@ html, body {
        🎙️ COCKPIT DIGITAL PARA EL NARRADOR HUMANO (CABINA DE RADIO Y TV)
        PLAN COMENTARISTA & MEDIA — DIAMAX PRO OS
        ========================================================================= -->
+  <!-- =========================================================================
+       SELECTOR MAESTRO DE ROL (PASO 4: ANOTADOR vs MÁNAGER vs NARRADOR)
+       ========================================================================= -->
+  <div class="diamax-role-mode-selector" id="diamax-role-mode-selector">
+    <button type="button" class="role-mode-btn active" id="role-mode-anotador" onclick="activarModoRol('anotador')" title="Modo Anotador: Pantalla limpia con regla de 3 bloques">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span>1. MODO ANOTADOR (DUGOUT)</span>
+    </button>
+    <button type="button" class="role-mode-btn" id="role-mode-manager" onclick="activarModoRol('manager')" title="Modo Mánager: Terreno táctico 2D, Bullpen y Shifts">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg>
+      <span>2. MODO MÁNAGER (TERRENO & TÁCTICA)</span>
+    </button>
+    <button type="button" class="role-mode-btn" id="role-mode-narrador" onclick="activarModoRol('narrador')" title="Modo Narrador: Cabina de Radio/TV, Spotting Board y Guiones">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      <span>3. MODO NARRADOR (CABINA MEDIOS)</span>
+    </button>
+  </div>
+
   <div class="nav" id="main-nav">
     <button class="active" onclick="switchTab('envivo')" id="btn-go-scorer">
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> 1. Anotador Dugout
@@ -7923,540 +8582,509 @@ html, body {
     </div>
   </div>
 
-  <!-- TAB 1: ANOTADOR EN VIVO (DUGOUT OPTIMIZED + GROQ AI) -->
+  <!-- =========================================================================
+       TAB 1: ANOTADOR EN VIVO (DUGOUT OPTIMIZED · REGLA DE LOS 3 BLOQUES)
+       ARRIBA: El Marcador limpio (Inning, Carreras, Outs, Bolas y Strikes).
+       AL CENTRO: El Duelo Activo (Bateador vs Lanzador con número de pitcheos).
+       ABAJO: Los Botones de Acción Inmediata (54px+: Strike, Bola, Hit, Out, Deshacer).
+       ========================================================================= -->
   <div id="tab-envivo">
 
-    <!-- CABECERA DINÁMICA DE JUEGO EN VIVO Y DATOS DE SEDE -->
-    <div class="game-live-header-bar" id="live-game-header-bar">
-      <div class="game-info-badge-group">
-        <div class="game-badge" id="badge-live-fecha"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 2026-09-08</div>
-        <div class="game-badge" id="badge-live-hora">⏰ Inicio: 09:30 AM</div>
-        <div class="game-badge stadium" id="badge-live-sede"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Lutz Baseball Park (5709 Kingfish Drive, Lutz, FL)</div>
-        <div class="game-badge" id="badge-live-rival"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> vs TIGRES DE TAMPA [LOCAL]</div>
-        <div class="game-badge weather" id="badge-live-clima"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg> 86°F | Hum: 68% | Viento: 7mph CF</div>
+    <!-- CABECERA SOBRIA DE JUEGO EN VIVO -->
+    <div class="game-live-header-bar" id="live-game-header-bar" style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div class="game-info-badge-group" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <div class="game-badge" id="badge-live-fecha" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 2026-09-08</div>
+        <div class="game-badge" id="badge-live-hora" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;">⏰ Inicio: 09:30 AM</div>
+        <div class="game-badge stadium" id="badge-live-sede" style="background:#0B0F19; border:1px solid #1E293B; color:#0284C7; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Lutz Baseball Park</div>
+        <div class="game-badge" id="badge-live-rival" style="background:#0B0F19; border:1px solid #1E293B; color:#F59E0B; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800;">vs TIGRES DE TAMPA [LOCAL]</div>
+        <div class="game-badge weather" id="badge-live-clima" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;">☀️ 86°F | Viento: 7mph CF</div>
         <div class="game-badge duration" id="badge-live-duracion" style="display:none;">⏱️ Duración: 2h 15m</div>
       </div>
       <div>
-        <button type="button" class="btn-finish-game" onclick="abrirModalFinalizarJuego()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle; margin-right:4px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Finalizar Partido</button>
+        <button type="button" class="btn-finish-game" onclick="abrirModalFinalizarJuego()" style="background:#1E293B; border:1px solid #334155; color:#F8FAFC; padding:6px 14px; border-radius:8px; font-size:11.5px; font-weight:800; cursor:pointer;">Finalizar Partido</button>
       </div>
     </div>
 
-    <div class="live-action-banner" id="live-action-banner">
-      Anotador listo. Registra el turno al bate con los controles de alto impacto.
+    <!-- BANNER DE ACCIÓN DISCRETO -->
+    <div class="live-action-banner" id="live-action-banner" style="background:#0F172A; border:1px solid #1E293B; color:#94A3B8; padding:8px 14px; border-radius:8px; font-size:12px; margin-bottom:12px; text-align:center;">
+      Anotador listo. Registra el turno al bate con la botonera inmediata inferior.
     </div>
 
-    <!-- PANEL TÁCTICO DE INTELIGENCIA ARTIFICIAL (DIAMAX NEURAL TACTICS) -->
-    <div class="ai-tactical-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <svg width="22" height="22" viewBox="0 0 24 24" style="vertical-align:middle;filter:drop-shadow(0 0 6px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg>
-          <strong id="ai-engine-title" style="color:#00D2FF; font-size:14px; letter-spacing:0.5px;">DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)</strong>
-          <span id="ai-engine-status" style="display:none;">MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL</span>
-          <span id="ai-phase-badge" style="background:rgba(16,185,129,0.15); color:#6EE7B7; border:1px solid rgba(16,185,129,0.3); font-size:10.5px; padding:3px 10px; border-radius:12px; font-weight:800;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" style="vertical-align:middle; margin-right:4px;"><polygon points="5,3 19,12 5,21"/></svg> OFENSIVA (BATEANDO)</span>
-          <span id="ai-win-prob-badge" style="background:rgba(0,210,255,0.12); color:#00D2FF; border:1px solid rgba(0,210,255,0.25); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2"/><path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Win Prob: 56.4%</span>
-          <span id="rag-status-badge" style="background:rgba(255,255,255,0.04); color:#94A3B8; border:1px solid rgba(255,255,255,0.08); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:700;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg> RAG Vectorial: Activo (16 Docs)</span>
-          <span id="memory-status-badge" style="background:rgba(255,255,255,0.04); color:#94A3B8; border:1px solid rgba(255,255,255,0.08); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:700;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04z"/></svg> Memoria: Activa</span>
+    <!-- =========================================================================
+         PASO 1: BLOQUE 1 (ARRIBA): EL MARCADOR LIMPIO
+         (Inning, Carreras de ambos equipos, Outs, Bolas y Strikes)
+         ========================================================================= -->
+    <div class="dugout-block-scoreboard" id="dugout-block-scoreboard">
+      <!-- Fila de Inning -->
+      <div class="dugout-inn-row">
+        <button type="button" onclick="cambiarInningManual(-1)" class="btn-score-adjust-clean" title="Inning Anterior">◀</button>
+        <div class="dugout-inn-badge" id="scoreboard-inn" onclick="toggleHalfInningManual()" title="Toca para alternar Alta ▲ / Baja ▼">
+          INNING 1 (ALTA ▲)
         </div>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <button id="btn-ai-agent" onclick="switchTab('skills')" style="background:#0B132B; border:1px solid rgba(0,210,255,0.3); color:#00D2FF; font-size:11px; font-weight:800; padding:6px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:all 0.15s ease;" title="Abrir Consola Táctica Completa con Chat y RAG">
-            <svg width="13" height="13" viewBox="0 0 24 24"><use href="#diamax-icon-ai-neural"/></svg> <span>Consola Unificada (Tab 7) ↗</span>
-          </button>
-          <button onclick="toggleSettingsDrawer(true)" style="background:transparent; border:1px solid rgba(255,255,255,0.1); color:#94A3B8; font-size:11px; padding:6px 10px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Clave API</button>
+        <button type="button" onclick="cambiarInningManual(1)" class="btn-score-adjust-clean" title="Siguiente Inning">▶</button>
+      </div>
+
+      <!-- Pizarra de Carreras (Away vs Home) -->
+      <div class="dugout-scores-grid">
+        <!-- Equipo Visitante -->
+        <div class="dugout-team-box" id="scoreboard-away-box">
+          <div class="dugout-team-meta">
+            <img src="" id="score-away-logo" class="dugout-team-logo" alt="Away">
+            <span class="dugout-team-name" id="label-away-team">VISITANTE</span>
+          </div>
+          <div id="status-away-team" class="dugout-team-status"></div>
+          <div class="dugout-score-controls">
+            <button type="button" onclick="ajustarCarrerasManual('away', -1)" class="btn-score-adjust-clean">-</button>
+            <span class="dugout-score-val" id="score-away">0</span>
+            <button type="button" onclick="ajustarCarrerasManual('away', 1)" class="btn-score-adjust-clean">+</button>
+          </div>
+        </div>
+
+        <!-- Centro: VS y Mini Diamante de Corredores en Base -->
+        <div class="dugout-center-diamond">
+          <div class="dugout-vs-label">VS</div>
+          <div class="mini-diamond-box" title="Bases Ocupadas (Toca 1B, 2B o 3B para alternar corredores)">
+            <svg width="68" height="58" viewBox="0 0 200 160">
+              <polygon points="100,10 170,70 100,130 30,70" fill="none" stroke="#1E293B" stroke-width="4"/>
+              <polygon points="100,140 108,148 108,155 92,155 92,148" fill="#FFF"/>
+              <rect id="base-1" x="160" y="60" width="24" height="24" transform="rotate(45 170 70)" class="base" onclick="toggleBaseManual(1)"/>
+              <rect id="base-2" x="90" y="0" width="24" height="24" transform="rotate(45 100 10)" class="base" onclick="toggleBaseManual(2)"/>
+              <rect id="base-3" x="20" y="60" width="24" height="24" transform="rotate(45 30 70)" class="base" onclick="toggleBaseManual(3)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Equipo Home Club -->
+        <div class="dugout-team-box" id="scoreboard-home-box">
+          <div class="dugout-team-meta">
+            <img src="" id="score-home-logo" class="dugout-team-logo" alt="Home">
+            <span class="dugout-team-name" id="label-home-team">HOME CLUB</span>
+          </div>
+          <div id="status-home-team" class="dugout-team-status"></div>
+          <div class="dugout-score-controls">
+            <button type="button" onclick="ajustarCarrerasManual('home', -1)" class="btn-score-adjust-clean">-</button>
+            <span class="dugout-score-val" id="score-home">0</span>
+            <button type="button" onclick="ajustarCarrerasManual('home', 1)" class="btn-score-adjust-clean">+</button>
+          </div>
         </div>
       </div>
 
-      <div class="ai-quick-btn-grid">
-        <button class="btn-ai-quick" id="btn-ai-pitch-call" onclick="consultarAgenteIA('PITCH_CALL')">
-          <svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-pitch"/></svg> <span>Pitcheo / Selección</span>
-        </button>
-        <button class="btn-ai-quick" id="btn-ai-shift-call" onclick="consultarAgenteIA('DEFENSIVE_SHIFT')">
-          <svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-shift"/></svg> <span>Shift / Ubicación</span>
-        </button>
-        <button class="btn-ai-quick" id="btn-ai-base-call" onclick="consultarAgenteIA('BASERUNNING')">
-          <svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-base"/></svg> <span>Robo / Toque / Corrido</span>
-        </button>
-        <button class="btn-ai-quick" id="btn-ai-pinch-hitter" onclick="consultarAgenteIA('PINCH_HITTER')" style="border-color:rgba(139,92,246,0.3); color:#C4B5FD;">
-          <svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-pinch"/></svg> <span>Emergente Sabermétrico</span>
-        </button>
-        <button class="btn-ai-quick" id="btn-ai-rival-scout" onclick="consultarAgenteIA('RIVAL_SCOUTING')" style="border-color:rgba(255,199,44,0.3); color:#FFC72C;">
-          <svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-scout"/></svg> <span>Scouting & Predicción Rival</span>
-        </button>
-        <button class="btn-ai-quick" id="btn-ai-pitcher-matchup" onclick="consultarAgenteIA('PITCHER_MATCHUP')" style="border-color:rgba(0,210,255,0.3); color:#00D2FF;">
-          <svg width="15" height="15" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px;"><use href="#diamax-icon-tactical-matchup"/></svg> <span>Duelo vs Pitcher Rival</span>
+      <!-- Fila de Conteo Oficial: Bolas (B), Strikes (S), Outs (O) -->
+      <div class="dugout-count-row">
+        <!-- Bolas -->
+        <div class="count-pill">
+          <span class="count-pill-label">BOLAS (B):</span>
+          <span class="count-pill-val" id="count-balls-val">0</span>
+        </div>
+        <!-- Strikes -->
+        <div class="count-pill">
+          <span class="count-pill-label">STRIKES (S):</span>
+          <span class="count-pill-val" id="count-strikes-val">0</span>
+        </div>
+        <!-- Outs LEDs -->
+        <div class="outs-container-clean" onclick="ciclarOutsManual()" title="Clic para avanzar outs (0, 1, 2, 3)">
+          <span class="count-pill-label">OUTS:</span>
+          <div class="out-led-lamp" id="led-out-1"></div>
+          <div class="out-led-lamp" id="led-out-2"></div>
+          <div class="out-led-lamp" id="led-out-3"></div>
+        </div>
+        <!-- Modo Luz Solar -->
+        <button type="button" id="btn-sunlight-dugout" onclick="toggleModoLuzSolar()" class="btn-clean-mode-toggle" title="Alternar Modo Luz Solar">
+          <span>☀️</span> <span>Luz Solar</span>
         </button>
       </div>
 
-      <!-- 🔴 RADAR DE ALERTAS PROACTIVAS EN TIEMPO REAL (+55 & RISP) -->
-      <div id="diamax-ai-radar-banner" style="background:#070E1F; border:1px solid rgba(255,199,44,0.3); border-radius:10px; padding:12px 14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
-        <div style="display:flex; align-items:flex-start; gap:10px; flex:1; min-width:280px;">
-          <span id="ai-radar-pulse-icon" style="font-size:22px; line-height:1;">⚡</span>
-          <div style="flex:1;">
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-              <span id="ai-radar-title" style="color:#FFC72C; font-weight:900; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">RADAR TÁCTICO PROACTIVO</span>
-              <span id="ai-radar-urgency-badge" style="background:#10B981; color:#000; font-size:10px; font-weight:900; padding:2px 8px; border-radius:10px;">🟢 SITUACIÓN BAJO CONTROL</span>
-              <span id="ai-radar-fatigue-metric" style="color:#94A3B8; font-size:10.5px; font-weight:700;">Pitcheos: 0 / 75 (0%)</span>
+      <!-- Diagrama táctico de flujo sutil integrado para compatibilidad -->
+      <div id="tactical-flow-diagram" class="tactical-flow-diagram-container" style="display:none;"></div>
+    </div>
+
+    <!-- =========================================================================
+         PASO 1: BLOQUE 2 (AL CENTRO): EL DUELO ACTIVO
+         (Nombre y foto del Bateador vs Nombre del Lanzador con su número de pitcheos)
+         ========================================================================= -->
+    <div class="dugout-block-duel" id="dugout-block-duel">
+      <!-- Bateador Activo -->
+      <div class="duel-player-card batter-side">
+        <div class="duel-player-header">
+          <span class="duel-role-tag" id="current-batter-team-badge">👑 AL BATE</span>
+          <button type="button" onclick="abrirModalHotDugoutSub('PH')" class="btn-duel-sub" title="Sustituir por Bateador Emergente (PH)">🔄 Emergente</button>
+        </div>
+        <div class="duel-player-body">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" id="current-batter-photo" class="duel-player-photo" alt="Bateador">
+          <div class="duel-player-info">
+            <strong id="current-batter-name" class="duel-player-name">Bateador</strong>
+            <span id="current-batter-pos" class="duel-player-pos">CF - Pos 8</span>
+            <div id="current-batter-today-stats" class="duel-player-stats">Hoy: 0 VB, 0 H, .000 AVE</div>
+          </div>
+        </div>
+        <!-- Prevenido (On-Deck) -->
+        <div class="duel-ondeck-subtext">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop" id="ondeck-batter-photo" style="display:none;" alt="">
+          <span id="lbl-ondeck-title">Prevenido:</span> <strong id="ondeck-batter-name">Siguiente Bateador</strong>
+        </div>
+      </div>
+
+      <div class="duel-divider">VS</div>
+
+      <!-- Lanzador Activo -->
+      <div class="duel-player-card pitcher-side">
+        <div class="duel-player-header">
+          <span class="duel-role-tag pitcher-tag">⚾ LANZADOR EN MONTÍCULO</span>
+          <button type="button" onclick="cambiarEstadoBullpenModal()" class="btn-duel-sub" title="Gestionar Relevo o Bullpen">🔄 Relevo</button>
+        </div>
+        <div class="duel-player-body">
+          <div class="duel-pitcher-icon">⚾</div>
+          <div class="duel-player-info">
+            <strong id="pitcher-active-name" class="duel-player-name">#10 Pedro Chavez (RHP)</strong>
+            <div class="duel-pitch-count-highlight">
+              <span class="pitch-total-num" id="pitcher-total-count">28</span>
+              <span class="pitch-total-label">pitcheos</span>
+              <span class="pitch-sub-counts">(S: <strong id="pitcher-strikes-count" style="color:#10B981;">19</strong> / B: <strong id="pitcher-balls-count" style="color:#EF4444;">9</strong> · <span id="pitcher-strike-pct">67.8%</span>)</span>
             </div>
-            <div id="ai-radar-message" style="color:#EAEEF5; font-size:12px; line-height:1.5; margin-top:3px;">
-              Monitoreando estado del juego, fatiga del lanzador (+55) y situaciones de alto leverage en tiempo real...
+            <!-- Barra de Fatiga Médica (+50 Pitcheos / Aviso Amarillo) -->
+            <div class="duel-fatigue-row">
+              <span id="lbl-fatigue" style="display:none;">Índice:</span>
+              <span id="pitcher-fatigue-label" class="duel-fatigue-status">Óptimo (37%)</span>
+              <div class="fatigue-bar-bg-clean">
+                <div class="fatigue-bar-fill" id="pitcher-fatigue-bar" style="width:37%; background:#10B981; height:100%;"></div>
+              </div>
             </div>
           </div>
         </div>
-        <div id="ai-radar-actions-container" style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-          <!-- Botones de acción rápida inyectados dinámicamente -->
+        <!-- Botones de compatibilidad para conteo rápido -->
+        <div style="display:none;">
+          <button id="btn-strike-quick" onclick="registrarPitcheoRapido('4-Seam', true)">+1 Strike</button>
+          <button id="btn-ball-quick" onclick="registrarPitcheoRapido('Bola', false)">+1 Bola</button>
+          <button id="btn-reset-count" onclick="reiniciarConteoPitcher()">Reiniciar Conteo</button>
         </div>
       </div>
+    </div>
 
-      <!-- RESPUESTA TÁCTICA INSTANTÁNEA EN DUGOUT -->
-      <div class="ai-response-box" id="ai-response-display" style="margin-bottom:8px;">
-        [DIAMAX TACTICAL AI SINCRONIZADO] Pulsa cualquiera de los 6 botones tácticos superiores para recibir prescripción sabermétrica instantánea (&lt;1.5s).
+    <!-- =========================================================================
+         PASO 1: BLOQUE 3 (ABAJO): LOS BOTONES DE ACCIÓN INMEDIATA
+         (Grandes, de mínimo 48px de alto: Strike, Bola, Hit, Out, Deshacer)
+         ========================================================================= -->
+    <div class="dugout-block-actions" id="dugout-block-actions">
+      <div class="immediate-actions-grid">
+        <!-- 1. STRIKE -->
+        <button type="button" class="btn-immediate btn-strike" id="btn-action-strike" onclick="registrarPitcheoRapido('4-Seam', true)">
+          <span class="btn-im-icon">⚡</span>
+          <span class="btn-im-label">STRIKE</span>
+          <span class="btn-im-sub">+1 Strike</span>
+        </button>
+
+        <!-- 2. BOLA -->
+        <button type="button" class="btn-immediate btn-ball" id="btn-action-ball" onclick="registrarPitcheoRapido('Bola', false)">
+          <span class="btn-im-icon">⚾</span>
+          <span class="btn-im-label">BOLA</span>
+          <span class="btn-im-sub">+1 Bola</span>
+        </button>
+
+        <!-- 3. HIT -->
+        <button type="button" class="btn-immediate btn-hit" id="btn-action-hit" onclick="registrarJugadaLive('1B')">
+          <span class="btn-im-icon">🟢</span>
+          <span class="btn-im-label">HIT</span>
+          <span class="btn-im-sub">1B Sencillo</span>
+        </button>
+
+        <!-- 4. OUT -->
+        <button type="button" class="btn-immediate btn-out" id="btn-action-out" onclick="registrarJugadaLive('K')">
+          <span class="btn-im-icon">🔴</span>
+          <span class="btn-im-label">OUT</span>
+          <span class="btn-im-sub">Ponche / Rolata</span>
+        </button>
+
+        <!-- 5. DESHACER (CRÍTICO) -->
+        <button type="button" class="btn-immediate btn-undo" id="btn-undo-scoreboard" onclick="deshacerJugadaLive()" title="¿Te equivocaste? Toca para deshacer la última jugada">
+          <span class="btn-im-icon">⌫</span>
+          <span class="btn-im-label">DESHACER</span>
+          <span class="btn-im-sub">Borrar Jugada</span>
+        </button>
       </div>
 
-      <!-- BARRA DE CONSULTA TÁCTICA + CONTROL POR VOZ DUGOUT -->
-      <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center; flex-wrap:wrap;">
-        <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico o pulsar el micrófono..." style="flex:1; min-width:240px; background:#060C18; border:1px solid rgba(255,255,255,0.1); color:#FFF; padding:8px 12px; border-radius:8px; font-size:12px; outline:none;" onkeydown="if(event.key==='Enter') consultarAgenteIA('CUSTOM')">
-        <button id="btn-ai-voice-mic" type="button" onclick="toggleDictadoVozAgente('ai-custom-prompt')" style="background:rgba(0,210,255,0.12); border:1px solid rgba(0,210,255,0.4); color:#00D2FF; padding:8px 12px; border-radius:8px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:all 0.2s;" title="Hablarle al Agente por Voz">
-          <span id="ai-voice-mic-icon">🎤</span> <span id="ai-voice-mic-label">Voz</span>
-        </button>
-        <button id="btn-ai-voice-speaker" type="button" onclick="toggleVozAudioAgente()" style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.4); color:#10B981; padding:8px 10px; border-radius:8px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Activar/Desactivar Respuesta de Audio Hablada">
-          <span id="ai-voice-speaker-icon">🔊</span>
-        </button>
-        <button id="btn-ai-custom-query" type="button" onclick="consultarAgenteIA('CUSTOM')" style="background:linear-gradient(135deg, #00D2FF, #0284C7); color:#020617; border:none; padding:8px 14px; border-radius:8px; font-weight:900; font-size:11.5px; cursor:pointer; box-shadow:0 2px 10px rgba(0,210,255,0.3);">
-          ⚡ Consultar
-        </button>
-      </div>
-      
-      <!-- ENLACE DIRECTO A LA CONSOLA MAESTRA -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-top:6px; border-top:1px dashed #1E293B;">
-        <span style="font-size:11.5px; color:#94A3B8;">Para consultas libres por voz, optimizador Markov y análisis con RAG:</span>
-        <button type="button" onclick="switchTab('skills')" style="background:linear-gradient(135deg, rgba(0,210,255,0.2), rgba(2,132,199,0.3)); border:1.5px solid #00D2FF; color:#00D2FF; font-size:11.5px; font-weight:800; padding:6px 14px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 15px rgba(0,210,255,0.25);" title="Abrir Consola Táctica Completa">
-          <svg width="14" height="14" viewBox="0 0 24 24"><use href="#diamax-icon-ai-neural"/></svg> <span>Abrir Consola Completa DIAMAX TACTICAL AI (Tab 6) ↗</span>
+      <!-- Barra Secundaria de Jugadas Rápidas -->
+      <div class="sub-actions-quick-bar">
+        <div class="quick-chips-group">
+          <span class="quick-chips-label">Batazos:</span>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('2B')">2B</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('3B')">3B</button>
+          <button type="button" class="chip-action-btn hr-chip" onclick="registrarJugadaLive('HR')">👑 HR</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('BB')">BB</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-3')">6-3</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-4-3 DP')">DP</button>
+        </div>
+        <button type="button" class="btn-toggle-drawer-link" onclick="toggleDrawer('drawer-36-plays')">
+          📋 36 Jugadas Canónicas ▾
         </button>
       </div>
     </div>
 
-    <div class="live-lineup-bar">
+    <!-- Barra de Orden al Bate Sutil -->
+    <div class="live-lineup-bar" style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
       <div style="display:flex; align-items:center; gap:8px;">
-        <strong style="color:#00D2FF; font-size:12px;"> Orden al Bate:</strong>
+        <strong style="color:#0284C7; font-size:11.5px;">Orden al Bate:</strong>
         <div class="lineup-chips-container" id="live-lineup-chips"></div>
       </div>
       <div style="display:flex; gap:6px;">
-        <button type="button" onclick="abrirModalHotDugoutSub()" style="background:linear-gradient(135deg, #8B5CF6, #6D28D9); color:#fff; border:none; padding:6px 13px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 0 10px rgba(139,92,246,0.4);"><span id="btn-hot-dugout-sub-text">🔄 Sustitución Rápida</span></button>
-        <button onclick="cargarLineupPredeterminado()" style="background:#10B981; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-weight:800; font-size:11px; cursor:pointer;"> Recargar Lineup</button>
-        <button onclick="switchTab('lineup')" style="background:#FFC72C; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;"> Editar</button>
+        <button type="button" onclick="abrirModalHotDugoutSub()" style="background:#1E293B; color:#CBD5E1; border:1px solid #334155; padding:5px 10px; border-radius:6px; font-weight:800; font-size:10.5px; cursor:pointer;" id="btn-hot-dugout-sub-text">🔄 Sustitución Rápida</button>
+        <button onclick="switchTab('lineup')" style="background:#1E293B; color:#F59E0B; border:1px solid #334155; padding:5px 10px; border-radius:6px; font-weight:800; font-size:10.5px; cursor:pointer;">Editar Lineup</button>
       </div>
     </div>
 
-    
-    <!-- ⚾ MÓDULO DE BULLPEN & CONTEO DE PITCHEO EN VIVO (FASE 8) -->
-    <div class="pitch-tracker-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:16px;">⚾</span>
-          <strong id="lbl-active-pitcher" style="color:#00D2FF; font-size:13px; text-transform:uppercase;">Monitor de Lanzador & Bullpen</strong>
-          <span style="background:#1E293B; color:#FFC72C; font-size:11px; padding:2px 8px; border-radius:10px; font-weight:800;" id="pitcher-active-name">#10 Pedro Chavez (RHP)</span>
-        </div>
-        <div style="font-size:12px; font-weight:900;">
-          <span style="color:#94A3B8;">Lanzamientos:</span> <span style="color:#00D2FF; font-size:15px;" id="pitcher-total-count">28</span>
-          <span style="color:#94A3B8; font-size:11px; margin-left:6px;">(S: <strong style="color:#10B981;" id="pitcher-strikes-count">19</strong> / B: <strong style="color:#EF4444;" id="pitcher-balls-count">9</strong> · <span id="lbl-strikes-pct" style="color:#94A3B8;">Strikes:</span> <span style="color:#FFC72C;" id="pitcher-strike-pct">67.8%</span>)</span>
-          <button id="btn-strike-quick" onclick="registrarPitcheoRapido('4-Seam', true)" style="display:none;">+1 Strike</button>
-          <button id="btn-ball-quick" onclick="registrarPitcheoRapido('Bola', false)" style="display:none;">+1 Bola</button>
-          <button id="btn-reset-count" onclick="reiniciarConteoPitcher()" style="display:none;">Reiniciar Conteo</button>
+    <!-- =========================================================================
+         PASO 2: CAJONES COLAPSABLES (DRAWERS / ACORDEONES)
+         Mantiene la pantalla 100% despejada. Se abren únicamente a petición.
+         ========================================================================= -->
+    <div class="dugout-drawers-container">
+
+      <!-- DRAWER 1: ⚡ SUGERENCIA TÁCTICA DIAMAX IA (Colapsado por defecto) -->
+      <div class="dugout-drawer" id="drawer-ai-tactical">
+        <button type="button" class="dugout-drawer-header" onclick="toggleDrawer('drawer-ai-tactical')">
+          <div class="drawer-header-left">
+            <span class="drawer-header-icon">⚡</span>
+            <span class="drawer-header-title">Sugerencia Táctica DIAMAX IA</span>
+            <span class="drawer-header-badge">Opcional</span>
+          </div>
+          <span class="drawer-toggle-arrow" id="arrow-drawer-ai-tactical">▾ Desplegar</span>
+        </button>
+        <div class="dugout-drawer-body" style="display:none;" id="body-drawer-ai-tactical">
+          <div class="ai-tactical-card" style="margin:0; border:none; background:transparent; padding:0; box-shadow:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <strong id="ai-engine-title" style="color:#0284C7; font-size:13px;">DIAMAX TACTICAL IA (Motor Sabermétrico 3Tree)</strong>
+                <span id="ai-engine-status" style="display:none;">MOTOR: DIAMAX TACTICAL IA™ · TIEMPO REAL</span>
+                <span id="ai-phase-badge" style="background:rgba(16,185,129,0.15); color:#6EE7B7; border:1px solid rgba(16,185,129,0.3); font-size:10.5px; padding:3px 10px; border-radius:12px; font-weight:800;">OFENSIVA</span>
+                <span id="ai-win-prob-badge" style="background:rgba(2,132,199,0.12); color:#0284C7; border:1px solid rgba(2,132,199,0.25); font-size:10.5px; padding:3px 8px; border-radius:12px; font-weight:800;">Win Prob: 56.4%</span>
+                <span id="rag-status-badge" style="display:none;">RAG Vectorial</span>
+                <span id="memory-status-badge" style="display:none;">Memoria: Activa</span>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <button id="btn-ai-agent" onclick="switchTab('skills')" style="background:#1E293B; border:1px solid #334155; color:#0284C7; font-size:11px; font-weight:800; padding:5px 10px; border-radius:6px; cursor:pointer;" title="Abrir Consola Táctica Completa">
+                  <span>Consola Completa (Tab 6) ↗</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="ai-quick-btn-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:6px; margin:10px 0;">
+              <button class="btn-ai-quick" id="btn-ai-pitch-call" onclick="consultarAgenteIA('PITCH_CALL')">Pitcheo / Selección</button>
+              <button class="btn-ai-quick" id="btn-ai-shift-call" onclick="consultarAgenteIA('DEFENSIVE_SHIFT')">Shift / Ubicación</button>
+              <button class="btn-ai-quick" id="btn-ai-base-call" onclick="consultarAgenteIA('BASERUNNING')">Robo / Corrido</button>
+              <button class="btn-ai-quick" id="btn-ai-pinch-hitter" onclick="consultarAgenteIA('PINCH_HITTER')">Emergente</button>
+              <button class="btn-ai-quick" id="btn-ai-rival-scout" onclick="consultarAgenteIA('RIVAL_SCOUTING')">Scouting Rival</button>
+              <button class="btn-ai-quick" id="btn-ai-pitcher-matchup" onclick="consultarAgenteIA('PITCHER_MATCHUP')">Duelo vs Pitcher</button>
+            </div>
+
+            <!-- Radar proactivo -->
+            <div id="diamax-ai-radar-banner" style="background:#0B0F19; border:1px solid #1E293B; border-radius:8px; padding:10px; margin-bottom:10px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span id="ai-radar-pulse-icon">⚡</span>
+                <span id="ai-radar-title" style="color:#F59E0B; font-weight:800; font-size:11px;">RADAR TÁCTICO:</span>
+                <span id="ai-radar-urgency-badge" style="background:#10B981; color:#000; font-size:9.5px; font-weight:900; padding:1px 6px; border-radius:6px;">BAJO CONTROL</span>
+                <span id="ai-radar-fatigue-metric" style="color:#94A3B8; font-size:10.5px;">0 / 75 Pitches</span>
+              </div>
+              <div id="ai-radar-message" style="color:#CBD5E1; font-size:11.5px; margin-top:4px;">Monitoreando situación del juego...</div>
+              <div id="ai-radar-actions-container"></div>
+            </div>
+
+            <div class="ai-response-box" id="ai-response-display" style="background:#0B0F19; border:1px solid #1E293B; border-radius:6px; padding:10px; font-size:12px; color:#E2E8F0; margin-bottom:8px;">
+              [DIAMAX TACTICAL AI SINCRONIZADO] Pulsa cualquiera de los botones tácticos superiores para recibir prescripción sabermétrica instantánea.
+            </div>
+
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+              <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico..." style="flex:1; min-width:200px; background:#0B0F19; border:1px solid #1E293B; color:#FFF; padding:6px 10px; border-radius:6px; font-size:11.5px;" onkeydown="if(event.key==='Enter') consultarAgenteIA('CUSTOM')">
+              <button id="btn-ai-voice-mic" type="button" onclick="toggleDictadoVozAgente('ai-custom-prompt')" style="background:#1E293B; border:1px solid #334155; color:#0284C7; padding:6px 10px; border-radius:6px; font-size:11px; cursor:pointer;">🎤 Voz</button>
+              <button id="btn-ai-voice-speaker" type="button" onclick="toggleVozAudioAgente()" style="display:none;"><span id="ai-voice-speaker-icon">🔊</span></button>
+              <button id="btn-ai-custom-query" type="button" onclick="consultarAgenteIA('CUSTOM')" style="background:#2563EB; color:#FFF; border:none; padding:6px 12px; border-radius:6px; font-weight:800; font-size:11.5px; cursor:pointer;">Consultar</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Barra de Fatiga / Regla de Descanso -->
-      <div style="margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; font-size:10.5px; color:#94A3B8; font-weight:700;">
-          <span id="lbl-fatigue">ÍNDICE DE FATIGA (+55 LÍMITE: 75 PITCHES)</span>
-          <span id="pitcher-fatigue-label" style="color:#10B981;">Óptimo (37%)</span>
-        </div>
-        <div class="fatigue-bar-bg">
-          <div class="fatigue-bar-fill" id="pitcher-fatigue-bar" style="width:37%; background:#10B981;"></div>
+      <!-- DRAWER 2: ⚾ MONITOR AVANZADO DE PITCHEOS & BULLPEN (Colapsado por defecto) -->
+      <div class="dugout-drawer" id="drawer-bullpen-tracker">
+        <button type="button" class="dugout-drawer-header" onclick="toggleDrawer('drawer-bullpen-tracker')">
+          <div class="drawer-header-left">
+            <span class="drawer-header-icon">⚾</span>
+            <span class="drawer-header-title">Monitor Avanzado de Pitcheos & Bullpen</span>
+          </div>
+          <span class="drawer-toggle-arrow" id="arrow-drawer-bullpen-tracker">▾ Desplegar</span>
+        </button>
+        <div class="dugout-drawer-body" style="display:none;" id="body-drawer-bullpen-tracker">
+          <div class="pitch-tracker-card" style="border:none; background:transparent; padding:0; margin:0; box-shadow:none;">
+            <!-- Tipos de Pitcheo Avanzados -->
+            <div style="font-size:11px; font-weight:800; color:#94A3B8; text-transform:uppercase; margin-bottom:8px;">
+              Registro por Tipo de Lanzamiento:
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(85px, 1fr)); gap:6px; margin-bottom:12px;">
+              <button onclick="registrarPitcheoRapido('4-Seam', true)" class="pitch-type-btn" style="background:#0B0F19; border:1px solid #1E293B; padding:6px; border-radius:6px; color:#F8FAFC; cursor:pointer; text-align:center;">
+                <span style="font-weight:900; font-size:12px; display:block;">4-Seam</span>
+                <span style="font-size:9px; color:#10B981;">Strike / 91mph</span>
+              </button>
+              <button onclick="registrarPitcheoRapido('Slider', true)" class="pitch-type-btn" style="background:#0B0F19; border:1px solid #1E293B; padding:6px; border-radius:6px; color:#F8FAFC; cursor:pointer; text-align:center;">
+                <span style="font-weight:900; font-size:12px; display:block;">Slider</span>
+                <span style="font-size:9px; color:#10B981;">Quebrado / 82mph</span>
+              </button>
+              <button onclick="registrarPitcheoRapido('Changeup', true)" class="pitch-type-btn" style="background:#0B0F19; border:1px solid #1E293B; padding:6px; border-radius:6px; color:#F8FAFC; cursor:pointer; text-align:center;">
+                <span style="font-weight:900; font-size:12px; display:block;">Changeup</span>
+                <span style="font-size:9px; color:#10B981;">Cambio / 80mph</span>
+              </button>
+              <button onclick="registrarPitcheoRapido('Curve', true)" class="pitch-type-btn" style="background:#0B0F19; border:1px solid #1E293B; padding:6px; border-radius:6px; color:#F8FAFC; cursor:pointer; text-align:center;">
+                <span style="font-weight:900; font-size:12px; display:block;">Curva</span>
+                <span style="font-size:9px; color:#10B981;">Strike / 76mph</span>
+              </button>
+              <button onclick="registrarPitcheoRapido('Bola', false)" class="pitch-type-btn" style="background:#0B0F19; border:1px solid #991B1B; padding:6px; border-radius:6px; color:#FCA5A5; cursor:pointer; text-align:center;">
+                <span style="font-weight:900; font-size:12px; display:block;">Bola</span>
+                <span style="font-size:9px; color:#EF4444;">Fuera de Zona</span>
+              </button>
+              <button onclick="registrarPitcheoRapido('Foul', true)" class="pitch-type-btn" style="background:#0B0F19; border:1px solid #B45309; padding:6px; border-radius:6px; color:#FDE047; cursor:pointer; text-align:center;">
+                <span style="font-weight:900; font-size:12px; display:block;">Foul</span>
+                <span style="font-size:9px; color:#F59E0B;">Contacto</span>
+              </button>
+            </div>
+
+            <!-- Bullpen Activo -->
+            <div style="background:#0B0F19; border:1px solid #1E293B; border-radius:8px; padding:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span id="lbl-bullpen" style="font-size:11px; font-weight:800; color:#F59E0B; text-transform:uppercase;">Bullpen Activo:</span>
+                <button onclick="cambiarEstadoBullpenModal()" style="background:transparent; border:none; color:#0284C7; font-size:11px; font-weight:700; cursor:pointer;" id="btn-manage-bullpen">+ Gestionar Relevo</button>
+              </div>
+              <div id="bullpen-relievers-container"></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Botones de Registro Rápido de Pitcheo -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(85px, 1fr)); gap:6px; margin-bottom:12px;">
-        <button onclick="registrarPitcheoRapido('4-Seam', true)" class="pitch-type-btn">
-          <span>4-Seam</span>
-          <span style="font-size:9px; color:#10B981;">Strike / 91mph</span>
+      <!-- DRAWER 3: 📋 TECLADO COMPLETO EN 2 PASOS & 36 JUGADAS (Colapsado por defecto) -->
+      <div class="dugout-drawer" id="drawer-36-plays">
+        <button type="button" class="dugout-drawer-header" onclick="toggleDrawer('drawer-36-plays')">
+          <div class="drawer-header-left">
+            <span class="drawer-header-icon">📋</span>
+            <span class="drawer-header-title">Teclado Táctil en 2 Pasos & 36 Jugadas Canónicas</span>
+          </div>
+          <span class="drawer-toggle-arrow" id="arrow-drawer-36-plays">▾ Desplegar</span>
         </button>
-        <button onclick="registrarPitcheoRapido('Slider', true)" class="pitch-type-btn">
-          <span>Slider</span>
-          <span style="font-size:9px; color:#10B981;">Quebrado / 82mph</span>
-        </button>
-        <button onclick="registrarPitcheoRapido('Changeup', true)" class="pitch-type-btn">
-          <span>Changeup</span>
-          <span style="font-size:9px; color:#10B981;">Cambio / 80mph</span>
-        </button>
-        <button onclick="registrarPitcheoRapido('Curve', true)" class="pitch-type-btn">
-          <span>Curva</span>
-          <span style="font-size:9px; color:#10B981;">Strike / 76mph</span>
-        </button>
-        <button onclick="registrarPitcheoRapido('Bola', false)" class="pitch-type-btn" style="border-color:#EF4444; color:#FCA5A5;">
-          <span>Bola</span>
-          <span style="font-size:9px; color:#EF4444;">Fuera de Zona</span>
-        </button>
-        <button onclick="registrarPitcheoRapido('Foul', true)" class="pitch-type-btn" style="border-color:#FFC72C; color:#FDE047;">
-          <span>Foul</span>
-          <span style="font-size:9px; color:#FFC72C;">Contacto</span>
-        </button>
+        <div class="dugout-drawer-body" style="display:none;" id="body-drawer-36-plays">
+          <!-- Teclado en 2 pasos -->
+          <div class="panel" id="dugout-2step-keypad" style="margin-bottom:12px; background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+              <h4 style="margin:0; font-size:13px; font-weight:900; color:#0284C7;">Teclado Táctil en 2 Pasos</h4>
+              <button type="button" id="btn-toggle-keypad-mode" onclick="toggleVistaTecladoDugout()" style="background:#1E293B; border:1px solid #334155; color:#94A3B8; padding:4px 8px; border-radius:6px; font-size:10.5px; font-weight:800; cursor:pointer;">
+                Alternar 36 Jugadas
+              </button>
+            </div>
+            <!-- Paso 1 -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:6px; margin-bottom:10px;">
+              <button type="button" class="dugout-step1-btn active" id="btn-step1-hits" onclick="seleccionarCategoria2Paso('hits', this)" style="min-height:44px; background:#064E3B; border:1px solid #10B981; color:#A7F3D0; border-radius:8px; font-weight:800; font-size:12px; cursor:pointer;">BATAZO / HIT</button>
+              <button type="button" class="dugout-step1-btn" id="btn-step1-outs" onclick="seleccionarCategoria2Paso('outs', this)" style="min-height:44px; background:#450A0A; border:1px solid #EF4444; color:#FECACA; border-radius:8px; font-weight:800; font-size:12px; cursor:pointer;">OUT / DEF</button>
+              <button type="button" class="dugout-step1-btn" id="btn-step1-pitch" onclick="seleccionarCategoria2Paso('pitch', this)" style="min-height:44px; background:#1E3A8A; border:1px solid #2563EB; color:#DBEAFE; border-radius:8px; font-weight:800; font-size:12px; cursor:pointer;">PITCHEO / BB</button>
+              <button type="button" class="dugout-step1-btn" id="btn-step1-extra" onclick="seleccionarCategoria2Paso('extra', this)" style="min-height:44px; background:#581C87; border:1px solid #A855F7; color:#E9D5FF; border-radius:8px; font-weight:800; font-size:12px; cursor:pointer;">BASES / ROBO</button>
+            </div>
+            <!-- Paso 2 -->
+            <div id="container-step2-options" style="background:#020617; border:1px solid #1E293B; border-radius:8px; padding:10px;">
+              <div id="subgroup-hits" class="step2-subgroup" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(90px, 1fr)); gap:6px;">
+                <button type="button" onclick="ejecutarJugada2Pasos('1B')" class="btn-action btn-hit dugout-step2-btn" style="min-height:44px; font-size:12px; font-weight:800;">1B Sencillo</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('2B')" class="btn-action btn-hit dugout-step2-btn" style="min-height:44px; font-size:12px; font-weight:800;">2B Doble</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('3B')" class="btn-action btn-hit dugout-step2-btn" style="min-height:44px; font-size:12px; font-weight:800;">3B Triple</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('HR')" class="btn-action btn-hr dugout-step2-btn" style="min-height:44px; font-size:12px; font-weight:800;">👑 JONRÓN</button>
+              </div>
+              <div id="subgroup-outs" class="step2-subgroup" style="display:none; grid-template-columns:repeat(auto-fit, minmax(85px, 1fr)); gap:6px;">
+                <button type="button" onclick="ejecutarJugada2Pasos('K')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">K Tirando</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('Kc')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">Kc Cantado</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('6-3')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">6-3 Rolata</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('4-3')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">4-3 Rolata</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('5-3')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">5-3 Rolata</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('6-4-3 DP')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px; background:#7F1D1D;">6-4-3 DP</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('F8')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">F8 Central</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('F7')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">F7 Izquierdo</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('F9')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">F9 Derecho</button>
+              </div>
+              <div id="subgroup-pitch" class="step2-subgroup" style="display:none; grid-template-columns:repeat(auto-fit, minmax(90px, 1fr)); gap:6px;">
+                <button type="button" onclick="registrarPitcheoRapido('4-Seam', true)" class="btn-action btn-hit dugout-step2-btn" style="min-height:42px; font-size:12px; background:#1D4ED8;">+1 Strike</button>
+                <button type="button" onclick="registrarPitcheoRapido('Bola', false)" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px; background:#991B1B;">+1 Bola</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('BB')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:42px; font-size:12px;">BB Boleto</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('HBP')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:42px; font-size:12px;">HBP Golpe</button>
+              </div>
+              <div id="subgroup-extra" class="step2-subgroup" style="display:none; grid-template-columns:repeat(auto-fit, minmax(85px, 1fr)); gap:6px;">
+                <button type="button" onclick="ejecutarJugada2Pasos('SB')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:42px; font-size:12px;">SB Robo</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('CS')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">CS Out Rob</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('WP')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:42px; font-size:12px;">WP Wild</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('PB')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:42px; font-size:12px;">PB Pass</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('BK')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">BK Balk</button>
+                <button type="button" onclick="ejecutarJugada2Pasos('E')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">E Error</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel 36 Jugadas Canónicas -->
+          <div class="panel" id="panel-36-plays" style="display:none; background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:12px;">
+            <div style="font-size:12px; font-weight:800; color:#F59E0B; margin-bottom:8px;">Botonera Oficial de 36 Jugadas Canónicas</div>
+            <div class="action-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(90px, 1fr)); gap:6px;">
+              <button type="button" id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')">1B</button>
+              <button type="button" id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')">2B</button>
+              <button type="button" id="act-3b" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')">3B</button>
+              <button type="button" id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')">HR</button>
+              <button type="button" id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')">K</button>
+              <button type="button" id="act-kl" class="btn-action btn-out" onclick="registrarJugadaLive('K_LOOKING')">ꓘ</button>
+              <button type="button" id="act-bb" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')">BB</button>
+              <button type="button" id="act-ibb" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')">IBB</button>
+              <button type="button" id="act-hbp" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')">HBP</button>
+              <button type="button" id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')">SF</button>
+              <button type="button" id="act-sh" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')">SH</button>
+              <button type="button" id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')">6-3</button>
+              <button type="button" id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')">4-3</button>
+              <button type="button" id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')">5-3</button>
+              <button type="button" id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')">1-3</button>
+              <button type="button" id="act-31" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')">3-1</button>
+              <button type="button" id="act-dp-643" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')">6-4-3 DP</button>
+              <button type="button" id="act-dp-463" class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')">4-6-3 DP</button>
+              <button type="button" id="act-dp-543" class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')">5-4-3 DP</button>
+              <button type="button" id="act-roe" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')">ROE</button>
+              <button type="button" id="act-fc" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')">FC</button>
+              <button type="button" id="act-ifr" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')">IFR</button>
+              <button type="button" id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')">SB</button>
+              <button type="button" id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')">CS</button>
+              <button type="button" id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')">WP</button>
+              <button type="button" id="act-pb" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')">PB</button>
+              <button type="button" id="act-bk" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')">BK</button>
+            </div>
+            <!-- Botón Deshacer duplicado para compatibilidad -->
+            <button type="button" id="btn-undo-keypad" onclick="deshacerJugadaLive()" style="display:none;">Deshacer</button>
+          </div>
+        </div>
       </div>
 
-      <!-- Estado de Relevistas en Bullpen -->
-      <div style="background:#070D1A; border:1px solid #1E293B; border-radius:8px; padding:12px; margin-bottom:6px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <span id="lbl-bullpen" style="font-size:11px; font-weight:800; color:#FFC72C; text-transform:uppercase;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FFC72C" style="vertical-align:middle; margin-right:4px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Bullpen Activo:</span>
-          <button onclick="cambiarEstadoBullpenModal()" style="background:transparent; border:none; color:#00D2FF; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;" id="btn-manage-bullpen">+ Gestionar Relevo</button>
-        </div>
-        <div id="bullpen-relievers-container">
-          <!-- Renderizado dinámicamente -->
+      <!-- DRAWER 4: 📊 HISTORIAL & BOXSCORE (Colapsado por defecto) -->
+      <div class="dugout-drawer" id="drawer-boxscore-history">
+        <button type="button" class="dugout-drawer-header" onclick="toggleDrawer('drawer-boxscore-history')">
+          <div class="drawer-header-left">
+            <span class="drawer-header-icon">📊</span>
+            <span class="drawer-header-title">Historial Jugada a Jugada & Boxscore en Vivo</span>
+          </div>
+          <span class="drawer-toggle-arrow" id="arrow-drawer-boxscore-history">▾ Desplegar</span>
+        </button>
+        <div class="dugout-drawer-body" style="display:none;" id="body-drawer-boxscore-history">
+          <!-- Historial -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:11.5px; font-weight:800; color:#94A3B8; margin-bottom:6px;">Historial Play-by-Play:</div>
+            <div id="play-log" style="max-height:120px; overflow-y:auto; display:flex; flex-direction:column; gap:4px; background:#0B0F19; border:1px solid #1E293B; border-radius:6px; padding:8px;"></div>
+          </div>
+          <!-- Boxscore Table -->
+          <div>
+            <div style="font-size:11.5px; font-weight:800; color:#F59E0B; margin-bottom:6px;">Boxscore del Partido en Vivo:</div>
+            <div class="table-container" style="overflow-x:auto;">
+              <table style="width:100%; font-size:11.5px; border-collapse:collapse;">
+                <thead>
+                  <tr style="border-bottom:1px solid #1E293B; color:#94A3B8;"><th>#</th><th>Bateador</th><th>Pos</th><th style="text-align:right">VB</th><th style="text-align:right">C</th><th style="text-align:right">H</th><th style="text-align:right">HR</th><th style="text-align:right">CI</th><th style="text-align:right">BB</th><th style="text-align:right">K</th><th style="text-align:right; color:#F59E0B">AVE</th></tr>
+                </thead>
+                <tbody id="live-boxscore-tbody"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
 
-
-    <div class="dugout-main-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; width:100%; margin-top:20px; margin-bottom:24px; align-items:start; box-sizing:border-box;">
-      <!-- Marcador y Diamante -->
-      <div class="panel">
-        <!-- DIAGRAMA VISUAL DE FLUJO TÁCTICO ALTA/BAJA (HOME CLUB VS VISITANTE) -->
-        <div id="tactical-flow-diagram" class="tactical-flow-diagram-container">
-          <!-- Renderizado dinámicamente -->
-        </div>
-
-        <div class="scoreboard">
-          <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-bottom:6px;">
-            <button onclick="cambiarInningManual(-1)" class="btn-score-adjust">◀</button>
-            <div style="font-size:12px; color:#FFC72C; font-weight:900; letter-spacing:1px; cursor:pointer;" id="scoreboard-inn" onclick="toggleHalfInningManual()">INNING 1 (ALTA ▲)</div>
-            <button onclick="cambiarInningManual(1)" class="btn-score-adjust">▶</button>
-          </div>
-          <div class="score-flex" style="gap:8px; align-items:stretch;">
-            <!-- CAJA EQUIPO VISITANTE (BATEA EN LA ALTA ▲) -->
-            <div id="scoreboard-away-box" style="flex:1; text-align:center; padding:8px 6px; border-radius:10px; background:rgba(15,23,42,0.6); border:1.5px solid rgba(255,255,255,0.1); transition:all 0.25s;">
-              <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:2px;">
-                <img src="" id="score-away-logo" style="width:22px; height:22px; border-radius:50%; border:1px solid #FFC72C; object-fit:cover;">
-                <span style="font-size:11.5px; color:#F8FAFC; font-weight:800;" id="label-away-team">VISITANTE</span>
-              </div>
-              <div id="status-away-team" style="margin-bottom:6px; min-height:18px;">
-                <!-- Renderizado dinámicamente: 👑 AL BATE (ALTA ▲) vs 🛡️ AL CAMPO -->
-              </div>
-              <div style="display:flex; align-items:center; justify-content:center; gap:6px;">
-                <button type="button" onclick="ajustarCarrerasManual('away', -1)" class="btn-score-adjust">-</button>
-                <span class="score-num" style="color:#00D2FF; font-size:26px; font-weight:900;" id="score-away">0</span>
-                <button type="button" onclick="ajustarCarrerasManual('away', 1)" class="btn-score-adjust">+</button>
-              </div>
-            </div>
-
-            <div style="display:flex; align-items:center; justify-content:center; font-size:15px; color:#FFC72C; font-weight:900; padding:0 2px;">VS</div>
-
-            <!-- CAJA EQUIPO HOME CLUB (BATEA EN LA BAJA ▼) -->
-            <div id="scoreboard-home-box" style="flex:1; text-align:center; padding:8px 6px; border-radius:10px; background:rgba(15,23,42,0.6); border:1.5px solid rgba(255,255,255,0.1); transition:all 0.25s;">
-              <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:2px;">
-                <img src="" id="score-home-logo" style="width:22px; height:22px; border-radius:50%; border:1px solid #FFC72C; object-fit:cover;">
-                <span style="font-size:11.5px; color:#F8FAFC; font-weight:800;" id="label-home-team">HOME CLUB</span>
-              </div>
-              <div id="status-home-team" style="margin-bottom:6px; min-height:18px;">
-                <!-- Renderizado dinámicamente: 👑 AL BATE (BAJA ▼) vs 🛡️ AL CAMPO -->
-              </div>
-              <div style="display:flex; align-items:center; justify-content:center; gap:6px;">
-                <button type="button" onclick="ajustarCarrerasManual('home', -1)" class="btn-score-adjust">-</button>
-                <span class="score-num" style="color:#10B981; font-size:26px; font-weight:900;" id="score-home">0</span>
-                <button type="button" onclick="ajustarCarrerasManual('home', 1)" class="btn-score-adjust">+</button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Outs LED Stadium Indicator -->
-          <div class="outs-container" onclick="ciclarOutsManual()" title="Clic para avanzar outs">
-            <span style="font-size:11px; font-weight:800; color:#94A3B8;">OUTS:</span>
-            <div class="out-led-lamp" id="led-out-1"></div>
-            <div class="out-led-lamp" id="led-out-2"></div>
-            <div class="out-led-lamp" id="led-out-3"></div>
-            <span style="font-size:10px; color:#64748B; margin-left:4px;">(Tocar)</span>
-          </div>
-
-          <!-- ⌫ BOTÓN DE BORRAR / DESHACER EN EL TABLERO (SI EL ANOTADOR SE EQUIVOCA) -->
-          <div style="margin-top:10px; display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-            
-            <button type="button" id="btn-sunlight-dugout" onclick="toggleModoLuzSolar()" style="padding:8px 14px; background:#0F172A; color:#FFC72C; border:1.5px solid #FFC72C; border-radius:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:11.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;" title="Alternar entre Modo Sol y Modo Noche">
-              <span>☀️</span> <span>MODO SOL</span>
-            </button>
-            <button type="button" id="btn-hot-sub-scoreboard" onclick="abrirModalHotDugoutSub()" style="padding:8px 16px; background:#0E172E; color:#E2E8F0; border:1px solid rgba(255,255,255,0.12); border-radius:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:11.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.15s ease;" title="Sustituciones tácticas inmediatas en vivo">
-              <span style="font-size:13px;">🔄</span>
-              <span>SUSTITUCIÓN RÁPIDA (DUGOUT)</span>
-            </button>
-            <button type="button" id="btn-undo-scoreboard" onclick="deshacerJugadaLive()" style="padding:8px 16px; background:linear-gradient(135deg, #DC2626 0%, #991B1B 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.2); border-radius:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:11.5px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(0,0,0,0.4); transition:all 0.15s ease;" title="¿Te equivocaste anotando? Toca aquí para borrar/deshacer la última jugada de inmediato">
-              <span style="font-size:13px;">⌫</span>
-              <span>BORRAR / CORREGIR JUGADA (DESHACER)</span>
-            </button>
-          </div>
-
-          <!-- JUGADAS RÁPIDAS DIRECTAMENTE EN EL TABLERO -->
-          <div style="margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:10.5px; color:#00D2FF; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#00D2FF" style="vertical-align:middle; margin-right:4px;"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg> JUGADAS EN EL TABLERO:</span>
-              <button type="button" onclick="document.getElementById('panel-36-plays').scrollIntoView({behavior:'smooth'})" style="background:transparent; border:none; color:#FFC72C; font-size:10.5px; font-weight:800; cursor:pointer; text-decoration:underline;">Ver las 36 jugadas ▾</button>
-            </div>
-            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
-              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">1B</button>
-              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">2B</button>
-              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">3B</button>
-              <button type="button" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">HR</button>
-              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('K')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">K</button>
-              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">BB</button>
-              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">6-3</button>
-              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')" style="min-height:36px; padding:4px; font-size:12px; font-weight:900;">DP</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Diamante SVG Interactivo -->
-        <div style="display:flex; flex-direction:column; align-items:center; padding:6px 0;">
-          <svg width="180" height="150" viewBox="0 0 200 160">
-            <polygon points="100,10 170,70 100,130 30,70" fill="none" stroke="#1E293B" stroke-width="4"/>
-            <polygon points="100,140 108,148 108,155 92,155 92,148" fill="#FFF"/>
-            <rect id="base-1" x="160" y="60" width="22" height="22" transform="rotate(45 170 70)" class="base" onclick="toggleBaseManual(1)"/>
-            <rect id="base-2" x="90" y="0" width="22" height="22" transform="rotate(45 100 10)" class="base" onclick="toggleBaseManual(2)"/>
-            <rect id="base-3" x="20" y="60" width="22" height="22" transform="rotate(45 30 70)" class="base" onclick="toggleBaseManual(3)"/>
-          </svg>
-          <div style="font-size:10.5px; color:#94A3B8; margin-top:2px;" id="lbl-diamond-caption">Toca 1B, 2B o 3B para alternar corredores en base</div>
-        </div>
-
-        <!-- Bateador Activo -->
-        <div class="batter-card-active">
-          <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:180px;">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" id="current-batter-photo" class="batter-img" alt="Bateador">
-            <div style="min-width:0; flex:1;">
-              <div style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase;" id="current-batter-team-badge">Al Bate:</div>
-              <strong id="current-batter-name" style="color:#FFC72C; font-size:15px; word-break:break-word;">Bateador</strong> (<span id="current-batter-pos">CF - Pos 8</span>)
-              <div style="font-size:11.5px; color:#10B981; font-weight:bold; margin-top:2px;" id="current-batter-today-stats">Hoy: 0 VB, 0 H, .000 AVE</div>
-            </div>
-          </div>
-          <button type="button" onclick="abrirModalHotDugoutSub('PH')" class="btn-pinch-hitter" title="Sustituir por un Bateador Emergente (PH) o Corredor (PR)">🔄 Emergente / Sub</button>
-        </div>
-
-        <div class="ondeck-card">
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" id="ondeck-batter-photo" style="width:34px; height:34px; border-radius:50%; object-fit:cover;">
-          <div> <span id="lbl-ondeck-title">Prevenido:</span> <strong id="ondeck-batter-name" style="color:#10B981;">Siguiente Bateador</strong></div>
-        </div>
-      </div>
-
-      <!-- Botonera Táctil Dugout Oficial (36 JUGADAS CANÓNICAS COMPLETAS) -->
-      
-      <!-- =========================================================================
-           ⚡ TECLADO TÁCTIL EN 2 PASOS (ERGONOMÍA DUGOUT WCAG AAA)
-           No tapa la pizarra ni los corredores. Botones táctiles 48px+.
-           ========================================================================= -->
-      <div class="panel" id="dugout-2step-keypad" style="margin-bottom:14px; background:#070D1A; border:1.5px solid #00D2FF; border-radius:14px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,0.5);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:18px;">⚡</span>
-            <h4 style="margin:0; font-size:15px; font-weight:900; color:#00D2FF;">Teclado Táctil en 2 Pasos (Dugout Rápido)</h4>
-          </div>
-          <div style="display:flex; gap:6px;">
-            <button type="button" id="btn-toggle-keypad-mode" onclick="toggleVistaTecladoDugout()" style="background:#0F172A; border:1px solid #334155; color:#94A3B8; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;">
-              📋 Alternar 36 Jugadas Clásicas
-            </button>
-          </div>
-        </div>
-
-        <!-- PASO 1: SELECCIONA EL TIPO DE JUGADA (MACRO-BOTONES 48PX) -->
-        <div style="margin-bottom:12px;">
-          <div style="font-size:11px; font-weight:900; color:#FFC72C; text-transform:uppercase; margin-bottom:6px; letter-spacing:0.5px;">
-            Paso 1: Selecciona el Tipo de Acción
-          </div>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:8px;">
-            <button type="button" class="dugout-step1-btn active" id="btn-step1-hits" onclick="seleccionarCategoria2Paso('hits', this)" style="min-height:50px; background:linear-gradient(135deg, rgba(16,185,129,0.25), rgba(6,78,59,0.3)); border:2px solid #10B981; color:#A7F3D0; border-radius:10px; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 8px rgba(16,185,129,0.2);">
-              <span>🟢</span> <span>BATAZO / HIT</span>
-            </button>
-            <button type="button" class="dugout-step1-btn" id="btn-step1-outs" onclick="seleccionarCategoria2Paso('outs', this)" style="min-height:50px; background:linear-gradient(135deg, rgba(239,68,68,0.2), rgba(127,29,29,0.3)); border:1.5px solid #EF4444; color:#FECACA; border-radius:10px; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-              <span>🔴</span> <span>OUT / DEF</span>
-            </button>
-            <button type="button" class="dugout-step1-btn" id="btn-step1-pitch" onclick="seleccionarCategoria2Paso('pitch', this)" style="min-height:50px; background:linear-gradient(135deg, rgba(0,210,255,0.2), rgba(30,58,138,0.3)); border:1.5px solid #00D2FF; color:#BAE6FD; border-radius:10px; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-              <span>🔵</span> <span>PITCHEO / BB</span>
-            </button>
-            <button type="button" class="dugout-step1-btn" id="btn-step1-extra" onclick="seleccionarCategoria2Paso('extra', this)" style="min-height:50px; background:linear-gradient(135deg, rgba(168,85,247,0.2), rgba(88,28,135,0.3)); border:1.5px solid #A855F7; color:#E9D5FF; border-radius:10px; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-              <span>🟣</span> <span>BASES / ROBO</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- PASO 2: BOTONES ESPECÍFICOS DE ALTO TAMAÑO TÁCTIL (MÍNIMO 48PX) -->
-        <div id="container-step2-options" style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:12px;">
-          
-          <!-- SUBGRUPO HITS -->
-          <div id="subgroup-hits" class="step2-subgroup" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:8px;">
-            <button type="button" onclick="ejecutarJugada2Pasos('1B')" class="btn-action btn-hit dugout-step2-btn" style="min-height:50px; font-size:13.5px; font-weight:900;">1B Sencillo</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('2B')" class="btn-action btn-hit dugout-step2-btn" style="min-height:50px; font-size:13.5px; font-weight:900;">2B Doble</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('3B')" class="btn-action btn-hit dugout-step2-btn" style="min-height:50px; font-size:13.5px; font-weight:900;">3B Triple</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('HR')" class="btn-action btn-hr dugout-step2-btn" style="min-height:50px; font-size:13.5px; font-weight:900;">👑 JONRÓN (HR)</button>
-          </div>
-
-          <!-- SUBGRUPO OUTS (OCULTO POR DEFECTO) -->
-          <div id="subgroup-outs" class="step2-subgroup" style="display:none; grid-template-columns:repeat(auto-fit, minmax(95px, 1fr)); gap:8px;">
-            <button type="button" onclick="ejecutarJugada2Pasos('K')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">K Tirando</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('Kc')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">Kc Cantado</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('6-3')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">6-3 Rolata</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('4-3')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">4-3 Rolata</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('5-3')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">5-3 Rolata</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('1-3')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">1-3 Rolata</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('6-4-3 DP')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900; background:#7F1D1D;">6-4-3 DP</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('4-6-3 DP')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900; background:#7F1D1D;">4-6-3 DP</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('F7')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">F7 Jardín Izq</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('F8')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">F8 Central</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('F9')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">F9 Derecho</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('F4')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">F4/F6 Infield</button>
-          </div>
-
-          <!-- SUBGRUPO PITCHEO (OCULTO POR DEFECTO) -->
-          <div id="subgroup-pitch" class="step2-subgroup" style="display:none; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:8px;">
-            <button type="button" onclick="registrarPitcheoRapido('4-Seam', true)" class="btn-action btn-hit dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900; background:#0284C7; border-color:#0369A1;">+1 Strike</button>
-            <button type="button" onclick="registrarPitcheoRapido('Bola', false)" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900; background:#DC2626; border-color:#991B1B;">+1 Bola</button>
-            <button type="button" onclick="registrarPitcheoRapido('Foul', true)" class="btn-action dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900; background:#D97706; color:#FFF; border:1px solid #B45309;">Foul Ball</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('BB')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">BB Boleto</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('HBP')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">HBP Golpeado</button>
-          </div>
-
-          <!-- SUBGRUPO EXTRA / BASES / ROBO (OCULTO POR DEFECTO) -->
-          <div id="subgroup-extra" class="step2-subgroup" style="display:none; grid-template-columns:repeat(auto-fit, minmax(95px, 1fr)); gap:8px;">
-            <button type="button" onclick="ejecutarJugada2Pasos('SB')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">SB Robo Base</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('CS')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">CS Out Robando</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('WP')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">WP Wild Pitch</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('PB')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">PB Passed Ball</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('BK')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">BK Balk</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('E')" class="btn-action btn-out dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">E Error</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('FC')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">FC Fielder's Choice</button>
-            <button type="button" onclick="ejecutarJugada2Pasos('SH')" class="btn-action btn-tactical dugout-step2-btn" style="min-height:48px; font-size:13px; font-weight:900;">SF / SH Sacrificio</button>
-          </div>
-
-        </div>
-
-        <!-- BOTÓN DESHACER DESTACADO EN EL TECLADO 2 PASOS -->
-        <div style="margin-top:10px;">
-          <button type="button" onclick="deshacerJugadaLive()" class="btn-undo-large" style="width:100%; min-height:48px; background:linear-gradient(135deg, #DC2626 0%, #991B1B 100%); color:#FFFFFF; border:1.5px solid rgba(255,255,255,0.25); border-radius:10px; font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(220,38,38,0.35);">
-            <span style="font-size:16px;">⌫</span>
-            <span>CORREGIR ERROR: DESHACER / BORRAR ÚLTIMA JUGADA</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="panel" id="panel-36-plays" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-          <h4 style="color:#FFC72C; margin:0; font-size:14.5px; font-weight:900; display:flex; align-items:center; gap:8px;">
-            <span>⚾</span> <span>Botonera Táctil Oficial (36 Jugadas Canónicas)</span>
-          </h4>
-          <span style="font-size:11px; background:rgba(24,201,149,0.2); border:1.5px solid #18C995; color:#A7F3D0; padding:4px 12px; border-radius:14px; font-weight:900; letter-spacing:0.5px; box-shadow:0 0 10px rgba(24,201,149,0.3);">
-            ✓ 36 / 36 JUGADAS ACTIVAS
-          </span>
-        </div>
-
-        <!-- ⌫ BOTÓN PRINCIPAL DE CORREGIR ERROR / BORRAR EN LA BOTONERA -->
-        <div style="margin-bottom:12px;">
-          <button type="button" id="btn-undo-keypad" onclick="deshacerJugadaLive()" style="width:100%; min-height:46px; padding:10px 16px; background:linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.2); border-radius:10px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:900; font-size:12.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 14px rgba(0,0,0,0.4); text-transform:uppercase; letter-spacing:0.5px; transition:all 0.15s ease;" title="¿Te equivocaste? Pulsa para borrar la última jugada y restaurar el juego">
-            <span style="font-size:15px;">⌫</span>
-            <span>CORREGIR ERROR: DESHACER / BORRAR ÚLTIMA JUGADA</span>
-          </button>
-        </div>
-
-        <!-- PESTAÑAS / FILTROS DE CATEGORÍA -->
-        <div class="play-category-tabs" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
-          <button type="button" class="play-tab active" onclick="filtrarCategoriaJugadas('all', this)" style="padding:7px 14px; background:#00D2FF; color:#020617; border:none; border-radius:8px; font-size:11px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M12 2a14.5 14.5 0 0 1 0 20"/></svg> TODAS (36)</button>
-          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('hits', this)" style="padding:7px 14px; background:#0B1328; color:#A7F3D0; border:1px solid rgba(16,185,129,0.3); border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">🟢 HITS (4)</button>
-          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('flies', this)" style="padding:7px 14px; background:#0B1328; color:#FFC72C; border:1px solid rgba(255,199,44,0.3); border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="#FFC72C"><circle cx="12" cy="12" r="6"/></svg> ELEVADOS (9)</button>
-          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('grounders', this)" style="padding:7px 14px; background:#0B1328; color:#FECACA; border:1px solid rgba(239,68,68,0.25); border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="#EF4444"><polygon points="12,2 22,22 2,22"/></svg> ROLATAS & DP (8)</button>
-          <button type="button" class="play-tab" onclick="filtrarCategoriaJugadas('tactical', this)" style="padding:7px 14px; background:#0B1328; color:#E0E7FF; border:1px solid rgba(0,210,255,0.2); border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">🟣 PITCHEO & BASES (15)</button>
-        </div>
-        
-        <!-- GRUPO 1: BATAZOS DE HIT & JONRÓN (4 JUGADAS) -->
-        <div class="play-section-group" data-category="hits" style="margin-bottom:10px;">
-          <div class="btn-section-title" style="margin:0 0 6px 0; color:#10B981; font-weight:900;">🟢 Batazos de Hit & Jonrón (4 Jugadas):</div>
-          <div class="action-grid" style="grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap:6px;">
-            <button type="button" id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')" style="min-height:42px;"> 1B (Sencillo)</button>
-            <button type="button" id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')" style="min-height:42px;"> 2B (Doblete)</button>
-            <button type="button" id="act-3b" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')" style="min-height:42px;"> 3B (Triplete)</button>
-            <button type="button" id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')" style="min-height:42px;"> JONRÓN (HR)</button>
-          </div>
-        </div>
-
-        <!-- GRUPO 2: ELEVADOS POR POSICIÓN DEFENSIVA (9 JUGADAS) -->
-        <div class="play-section-group" data-category="flies" style="margin-bottom:10px;">
-          <div class="btn-section-title" style="margin:0 0 6px 0; color:#00D2FF; font-weight:900;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00D2FF" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="6"/></svg> Elevados por Posición Defensiva (9 Putouts):</div>
-          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px;">
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(7)" style="min-height:38px;">Fly 7 (LF)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(8)" style="min-height:38px;">Fly 8 (CF)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(9)" style="min-height:38px;">Fly 9 (RF)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(5)" style="min-height:38px;">Fly 5 (3B)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(6)" style="min-height:38px;">Fly 6 (SS)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(4)" style="min-height:38px;">Fly 4 (2B)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(3)" style="min-height:38px;">Fly 3 (1B)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(1)" style="min-height:38px;">Fly 1 (P)</button>
-            <button type="button" class="btn-fly-pos" onclick="procesarFlyPosicion(2)" style="min-height:38px;">Fly 2 (C)</button>
-          </div>
-        </div>
-
-        <!-- GRUPO 3: ROLATAS & DOBLES PLAYS (8 JUGADAS) -->
-        <div class="play-section-group" data-category="grounders" style="margin-bottom:10px;">
-          <div class="btn-section-title" style="margin:0 0 6px 0; color:#F87171; font-weight:900;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#F87171" style="vertical-align:middle; margin-right:4px;"><polygon points="12,2 22,22 2,22"/></svg> Rolatas & Dobles Plays (8 Jugadas):</div>
-          <div class="action-grid" style="grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap:6px;">
-            <button type="button" id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')" style="min-height:40px;"> 6-3 (SS a 1B)</button>
-            <button type="button" id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')" style="min-height:40px;"> 4-3 (2B a 1B)</button>
-            <button type="button" id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')" style="min-height:40px;"> 5-3 (3B a 1B)</button>
-            <button type="button" id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')" style="min-height:40px;"> 1-3 (P a 1B)</button>
-            <button type="button" id="act-31" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')" style="min-height:40px;"> 3-1 (1B a P)</button>
-            <button type="button" id="act-dp-643" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')" style="min-height:40px;"> 6-4-3 DP</button>
-            <button type="button" id="act-dp-463" class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')" style="min-height:40px;"> 4-6-3 DP</button>
-            <button type="button" id="act-dp-543" class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')" style="min-height:40px;"> 5-4-3 DP</button>
-          </div>
-        </div>
-
-        <!-- GRUPO 4: PITCHEO, SACRIFICIOS, AVANCES & CORREDORES (15 JUGADAS) -->
-        <div class="play-section-group" data-category="tactical" style="margin-bottom:10px;">
-          <div class="btn-section-title" style="margin:0 0 6px 0; color:#A5B4FC; font-weight:900;">🟣 Pitcheo, Sacrificios, Avances & Corredores (15 Jugadas):</div>
-          <div class="action-grid" style="grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap:6px;">
-            <button type="button" id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')" style="min-height:40px;"> Fly Sacrificio (SF)</button>
-            <button type="button" id="act-sh" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')" style="min-height:40px;"> Toque Sacrificio (SH)</button>
-            <button type="button" id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')" style="min-height:40px;"> Ponche (K)</button>
-            <button type="button" id="act-kl" class="btn-action btn-out" onclick="registrarJugadaLive('K_LOOKING')" style="min-height:40px;"> Ponche Cantado (ꓘ)</button>
-            <button type="button" id="act-bb" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')" style="min-height:40px;"> Boleto (BB)</button>
-            <button type="button" id="act-ibb" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')" style="min-height:40px;"> Boleto Int. (IBB)</button>
-            <button type="button" id="act-hbp" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')" style="min-height:40px;"> Golpeado (HBP)</button>
-            <button type="button" id="act-roe" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')" style="min-height:40px;"> Por Error (ROE)</button>
-            <button type="button" id="act-fc" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')" style="min-height:40px;"> Bola Ocupada (FC)</button>
-            <button type="button" id="act-ifr" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')" style="min-height:40px;"> Infield Fly (IFR)</button>
-            <button type="button" id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')" style="min-height:40px;"> Base Robada (SB)</button>
-            <button type="button" id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')" style="min-height:40px;"> Out Robando (CS)</button>
-            <button type="button" id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')" style="min-height:40px;"> Wild Pitch (WP)</button>
-            <button type="button" id="act-pb" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')" style="min-height:40px;"> Passed Ball (PB)</button>
-            <button type="button" id="act-bk" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')" style="min-height:40px;"> Balk (BK)</button>
-          </div>
-        </div>
-
-        <button type="button" onclick="finalizarYGuardarJuegoLive()" style="width:100%; min-height:46px; margin-top:10px; background:#10B981; color:#fff; border:none; border-radius:8px; font-weight:900; font-size:13px; cursor:pointer; box-shadow:0 0 15px rgba(16,185,129,0.3);"> Finalizar Juego & Archivar en Base de Datos</button>
-      </div>
-
-      <!-- Historial de Jugadas Play-by-Play -->
-      <div class="panel" style="grid-column:1 / -1;">
-        <h4 style="color:#94A3B8; margin-bottom:8px; font-size:12px; font-weight:800;">Historial Jugada a Jugada (Live Play Log)</h4>
-        <div id="play-log" style="max-height:130px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;"></div>
-      </div>
-
-      <!-- TABLA DE BOXSCORE EN VIVO DIRECTA -->
-      <div class="panel" style="grid-column:1 / -1;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <h4 style="color:#FFC72C; font-size:14px; font-weight:800;"> Boxscore del Partido en Vivo</h4>
-          <span style="font-size:11px; color:#10B981; font-weight:bold;">● Sincronizado en Vivo</span>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr><th>#</th><th>Bateador</th><th>Pos</th><th style="text-align:right">VB</th><th style="text-align:right">C</th><th style="text-align:right">H</th><th style="text-align:right">HR</th><th style="text-align:right">CI</th><th style="text-align:right">BB</th><th style="text-align:right">K</th><th style="text-align:right; color:#FFC72C">AVE</th></tr>
-            </thead>
-            <tbody id="live-boxscore-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- TAB 2: LINEUP BUILDER & MONTE CARLO SIMULATOR -->
@@ -10165,6 +10793,25 @@ function registrarPitcheoRapido(tipo, esStrike) {
     activePitcherStats.balls++;
   }
 
+  // Actualizar conteo de turno en vivo (Bolas y Strikes)
+  if (typeof liveState !== 'undefined') {
+    if (esStrike) {
+      liveState.strikes = (liveState.strikes || 0) + 1;
+      if (liveState.strikes >= 3) {
+        liveState.strikes = 0;
+        liveState.balls = 0;
+        if (typeof registrarJugadaLive === 'function') registrarJugadaLive('K');
+      }
+    } else {
+      liveState.balls = (liveState.balls || 0) + 1;
+      if (liveState.balls >= 4) {
+        liveState.strikes = 0;
+        liveState.balls = 0;
+        if (typeof registrarJugadaLive === 'function') registrarJugadaLive('BB');
+      }
+    }
+  }
+
   const toast = document.getElementById('live-action-banner');
   if (toast) {
     setSafeHTML('live-action-banner', `⚾ <strong>Pitcheo registrado:</strong> ${tipo} (${esStrike ? 'Strike' : 'Bola'}) · Total: ${activePitcherStats.totalPitches} lanzamientos.`);
@@ -10194,6 +10841,11 @@ function actualizarPitcherUI() {
   if (tot) tot.innerText = activePitcherStats.totalPitches;
   if (str) str.innerText = activePitcherStats.strikes;
   if (bal) bal.innerText = activePitcherStats.balls;
+  
+  const bVal = document.getElementById('count-balls-val');
+  const sVal = document.getElementById('count-strikes-val');
+  if (bVal && typeof liveState !== 'undefined') bVal.innerText = (liveState.balls || 0);
+  if (sVal && typeof liveState !== 'undefined') sVal.innerText = (liveState.strikes || 0);
   
   const strikePct = activePitcherStats.totalPitches > 0 
     ? ((activePitcherStats.strikes / activePitcherStats.totalPitches) * 100).toFixed(1)
@@ -18622,6 +19274,16 @@ function switchTab(rawTabId) {
   document.querySelectorAll('.diamax-bottom-nav-btn').forEach(btn => btn.classList.remove('active'));
   const bnavBtn = document.getElementById('bnav-' + tabId);
   if (bnavBtn) bnavBtn.classList.add('active');
+
+  // Sincronizar Selector Maestro de Modos por Rol
+  const btnAnotador = document.getElementById('role-mode-anotador');
+  const btnManager = document.getElementById('role-mode-manager');
+  const btnNarrador = document.getElementById('role-mode-narrador');
+  if (btnAnotador && btnManager && btnNarrador) {
+    btnAnotador.classList.toggle('active', tabId === 'envivo');
+    btnManager.classList.toggle('active', tabId === 'campo');
+    btnNarrador.classList.toggle('active', tabId === 'cabina');
+  }
 
   if (typeof actualizarNombreNarradorEnUI === 'function') {
     actualizarNombreNarradorEnUI();
