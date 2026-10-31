@@ -26,3 +26,7 @@ AUDIT_REPORT_*.json
 index.html.bak*
 *.bak_*
 
+
+*-adminsdk-*.json
+firebase-service-account.json
+
