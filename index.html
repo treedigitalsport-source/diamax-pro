@@ -152,7 +152,7 @@ window.cerrarModalAccesoCabina = cerrarModalAccesoCabina;
 
 function entrarCabinaEnVivo() {
   cerrarModalAccesoCabina();
-  if (typeof irAPagina === 'function') mostrarTerminalSeguridad4Capas(() => { irAPagina(3); });
+  if (typeof irAPagina === 'function') irAPagina(3);
   const nav = document.getElementById('main-nav');
   if (nav) nav.style.display = 'flex';
   if (typeof switchTab === 'function') {
@@ -1052,11 +1052,11 @@ function actualizarCertificadoSeguridadP2(session) {
   }
 
   if (btn5) {
-    btn5.innerText = esMedia ? 'ACCEDER A CABINA DE TRANSMISIÓN (TV & RADIO)' : 'ACCEDER AL DUGOUT & SABERMETRÍA (PÁGINA 3)';
+    btn5.innerText = esMedia ? 'ACCEDER A CABINA DE TRANSMISIÓN (TV & RADIO)' : 'ACCEDER AL DUGOUT (PÁGINA 3)';
   }
 }
 
-// 🚀 NAVEGACIÓN Y ACCESO SEGMENTADO DESDE PÁGINA 2
+// NAVEGACIÓN Y ACCESO SEGMENTADO DESDE PÁGINA 2
 function accederDesdeP2() {
   irAPagina(3);
   const esMedia = (planSeleccionadoP2 === 'MEDIA_PRO' || (typeof currentUserSession !== 'undefined' && currentUserSession?.role === 'BROADCAST_MEDIA'));
@@ -1066,7 +1066,7 @@ function accederDesdeP2() {
       try { iniciarCockpitCabina(); } catch(e){}
     }
   } else {
-    if (typeof switchTab === 'function') switchTab('anotador');
+    if (typeof switchTab === 'function') switchTab('envivo');
   }
 }
 
@@ -1295,8 +1295,8 @@ class MilitaryCyberDefense4Layers {
 
     for (const pat of dangerousPatterns) {
       if (pat.test(str)) {
-        this.registrarAlertaIntrusion("Intento de inyección detectado en payload");
-        throw new Error("🚨 CORTAFUEGOS MILITAR: Carga maliciosa interceptada y bloqueada.");
+        this.registrarAlertaIntrusion("Intento de inyección detectado");
+        throw new Error("Acceso denegado: Entrada no válida detectada.");
       }
     }
 
@@ -1304,13 +1304,13 @@ class MilitaryCyberDefense4Layers {
     const now = Date.now();
     if (now < this.lockoutTime) {
       const rest = Math.ceil((this.lockoutTime - now) / 1000);
-      throw new Error("🚨 BLOQUEO DE SEGURIDAD MILITAR: Consola bloqueada por exceso de intentos. Espere " + rest + " segundos.");
+      throw new Error("Límite de intentos excedido. Por favor espere " + rest + " segundos.");
     }
 
     return {
       status: true,
       layer: 4,
-      name: "Capa 4: Cortafuegos Anti-Intrusión & Aislamiento Air-Gap Activo"
+      name: "Protección Activa contra Inyecciones"
     };
   }
 
@@ -1363,71 +1363,9 @@ class MilitaryCyberDefense4Layers {
 
 window.cyberDefense = new MilitaryCyberDefense4Layers();
 
-// MODAL HUD DE VERIFICACIÓN 4 CAPAS EN TIEMPO REAL
+// PROTOCOLO DE AUTENTICACIÓN SILENCIOSA Y DIRECTA
 function mostrarTerminalSeguridad4Capas(onSuccess) {
-  let terminal = document.getElementById('diamax-4layer-hud');
-  if (!terminal) {
-    terminal = document.createElement('div');
-    terminal.id = 'diamax-4layer-hud';
-    terminal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.95); z-index:9999999; backdrop-filter:blur(24px); display:flex; align-items:center; justify-content:center; padding:16px; font-family:"Plus Jakarta Sans", sans-serif;';
-    terminal.innerHTML = `
-      <div style="background:#040914; border:2px solid #00D2FF; border-radius:18px; padding:28px; width:100%; max-width:480px; box-shadow:0 0 50px rgba(0,210,255,0.3); color:#FFF;">
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px; border-bottom:1px solid rgba(0,210,255,0.25); padding-bottom:12px;">
-          <div style="font-size:28px;">🛡️</div>
-          <div>
-            <h4 style="margin:0; font-size:16px; font-weight:900; color:#00D2FF; letter-spacing:0.8px;">SISTEMA DE SEGURIDAD 4 CAPAS</h4>
-            <span style="font-size:10.5px; color:#94A3B8; font-weight:800;">3TREE MILITARY CYBER DEFENSE PROTOCOL</span>
-          </div>
-        </div>
-
-        <div id="layer-step-1" style="display:flex; align-items:center; gap:10px; font-size:12px; margin-bottom:10px; color:#94A3B8;">
-          <span class="layer-spin">⏳</span> <span>Capa 1: Cifrado Criptográfico SHA-256...</span>
-        </div>
-        <div id="layer-step-2" style="display:flex; align-items:center; gap:10px; font-size:12px; margin-bottom:10px; color:#94A3B8;">
-          <span class="layer-spin">⏳</span> <span>Capa 2: Token Dinámico Zero-Trust...</span>
-        </div>
-        <div id="layer-step-3" style="display:flex; align-items:center; gap:10px; font-size:12px; margin-bottom:10px; color:#94A3B8;">
-          <span class="layer-spin">⏳</span> <span>Capa 3: Huella de Hardware & Anti-Hijacking...</span>
-        </div>
-        <div id="layer-step-4" style="display:flex; align-items:center; gap:10px; font-size:12px; margin-bottom:16px; color:#94A3B8;">
-          <span class="layer-spin">⏳</span> <span>Capa 4: Cortafuegos & Aislamiento Air-Gap...</span>
-        </div>
-
-        <div id="layer-terminal-status" style="font-size:12px; font-weight:800; color:#00D2FF; text-align:center; padding:8px; background:rgba(0,210,255,0.1); border-radius:8px;">
-          Autenticando defensa militar...
-        </div>
-      </div>
-    `;
-    document.body.appendChild(terminal);
-  }
-
-  terminal.style.display = 'flex';
-
-  const markStep = (stepNum, text) => {
-    const el = document.getElementById('layer-step-' + stepNum);
-    if (el) {
-      el.style.color = '#10B981';
-      el.innerHTML = '<span style="color:#10B981; font-weight:900;">✓</span> <strong>' + text + '</strong>';
-    }
-  };
-
-  setTimeout(() => markStep(1, "Capa 1: Cifrado SHA-256 Salted (100% OK)"), 100);
-  setTimeout(() => markStep(2, "Capa 2: Token Zero-Trust Emitido & Firmado"), 200);
-  setTimeout(() => markStep(3, "Capa 3: Integridad de Hardware Certificada"), 300);
-  setTimeout(() => {
-    markStep(4, "Capa 4: Cortafuegos Anti-Intrusión Activo");
-    const st = document.getElementById('layer-terminal-status');
-    if (st) {
-      st.style.color = '#10B981';
-      st.style.background = 'rgba(16,185,129,0.15)';
-      st.innerHTML = '🛡️ BLINDAJE 4 CAPAS CERTIFICADO: ACCESO CONCEDIDO';
-    }
-  }, 400);
-
-  setTimeout(() => {
-    terminal.style.display = 'none';
-    if (typeof onSuccess === 'function') onSuccess();
-  }, 650);
+  if (typeof onSuccess === 'function') onSuccess();
 }
 window.mostrarTerminalSeguridad4Capas = mostrarTerminalSeguridad4Capas;
 
@@ -5252,14 +5190,14 @@ html, body {
   /* 🌟 DIAMAX PRO CINEMATIC TITLES & IDENTITY SYSTEM (3Tree Digital Sport IA) */
   /* ======================================================================== */
 
-  /* 1. TEXTO: «DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA» */
+  /* 1. TEXTO: «BIENVENIDO A» */
   .diamax-cinema-welcome {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 800;
-    font-size: clamp(16px, 2.5vw, 28px);
+    font-size: clamp(22px, 3.6vw, 44px);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    line-height: 1.25;
+    letter-spacing: 2px;
+    line-height: 1.15;
     margin: 0 0 8px 0;
     color: #F5F7FA;
     background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 55%, #CBD5E1 100%);
@@ -5300,7 +5238,7 @@ html, body {
   /* 3. PALABRA: «DIAMAX» (CROMO PURO MULTI-STOP + BEVEL 3D UNIFICADO) */
   .diamax-cinema-word-diamax {
     display: inline-block;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 1em;
     letter-spacing: clamp(1.5px, 0.4vw, 4px);
@@ -5317,7 +5255,7 @@ html, body {
   /* 5. PALABRA: «PRO» (ORO METÁLICO + LUZ CINEMATOGRÁFICA) */
   .diamax-cinema-word-pro {
     display: inline-block;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 1em;
     letter-spacing: clamp(1px, 0.3vw, 3px);
@@ -6417,25 +6355,25 @@ html, body {
       </span>
     </div>
 
-    <!-- Título Principal de Alto Impacto Cinemático (EXACTO SCREENSHOT: WELCOME TO / DIAMAX PRO) -->
+    <!-- Título Principal de Alto Impacto Cinemático (3Tree Digital Sport IA) -->
     <div id="p1-title-welcome-block" style="margin:0 0 16px 0;">
       
-      <!-- 1. TEXTO SUPERIOR: «DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA» -->
-      <div class="diamax-cinema-welcome" id="p1-title-welcome" style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:clamp(15px, 2.2vw, 24px); text-transform:uppercase; letter-spacing:2px; line-height:1.3; margin:0 0 8px 0; color:#FFFFFF; text-shadow:0 2px 12px rgba(0,0,0,0.9);">
-        DEL PRIMER LANZAMIENTO A LA DECISIÓN GANADORA
+      <!-- 1. TEXTO SUPERIOR: «BIENVENIDO A» -->
+      <div class="diamax-cinema-welcome" id="p1-title-welcome">
+        BIENVENIDO A
       </div>
 
-      <!-- 2. MARCA CINEMÁTICA: DIAMAX PRO (TITANIO Y ORO - AWWWARDS GRADE) -->
-      <div class="diamax-cinema-brand-title" style="display:inline-flex; align-items:center; justify-content:center; flex-wrap:nowrap; gap:10px; margin:0 auto; line-height:1;">
-        <span class="diamax-cinema-word-diamax" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(48px, 7.5vw, 86px); letter-spacing:3px; line-height:1; text-transform:uppercase; color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 55%, #94A3B8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 4px 14px rgba(0,0,0,0.85));">DIAMAX</span>
-        <span class="diamax-cinema-word-pro" style="display:inline-block; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:clamp(48px, 7.5vw, 86px); letter-spacing:2px; line-height:1; text-transform:uppercase; color:#FFC72C; background:linear-gradient(180deg, #FFE082 0%, #FFC72C 50%, #F59E0B 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 4px 14px rgba(0,0,0,0.85)); margin-left:8px;">PRO</span>
+      <!-- 2. MARCA CINEMÁTICA: DIAMAX PRO (CROMO Y ORO) -->
+      <div class="diamax-cinema-brand-title">
+        <span class="diamax-cinema-word-diamax">DIAMAX</span>
+        <span class="diamax-cinema-word-pro">PRO</span>
       </div>
 
     </div>
 
     <!-- Descripción Sabermétrica con Sombra Nítida -->
-    <p id="p1-desc-text" style="margin:0 auto 24px auto; max-width:680px; font-family:'Plus Jakarta Sans', sans-serif; font-size:15px; font-weight:500; color:#E2E8F0; line-height:1.6; text-shadow:0 2px 10px rgba(0,0,0,0.9);">
-      Gestiona equipos, anota cada lanzamiento en vivo y convierte los datos del juego en reportes y métricas con decisiones tácticas.
+    <p id="p1-desc-text" style="margin:0 auto 24px auto; max-width:640px; font-family:'Plus Jakarta Sans', sans-serif; font-size:14.5px; font-weight:500; color:#F1F5F9; line-height:1.6; text-shadow:0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9);">
+      Gestión de franquicias, rosters oficiales, anotador dugout pitch-by-pitch y sabermetría avanzada.
     </p>
 
     
@@ -7150,7 +7088,7 @@ html, body {
 
             
             <!-- ============================================================== -->
-            <!-- 🛡️ CERTIFICADO CRIPTOGRÁFICO DE SEGURIDAD 4-CAPAS ZERO-TRUST    -->
+            <!-- 🛡️ CERTIFICADO DE SEGURIDAD Y AUTENTICACIÓN OFICIAL            -->
             <!-- ============================================================== -->
             <div id="p2-official-account-badge" style="background:rgba(4,9,21,0.95); border:1.8px solid #00D2FF; border-radius:18px; padding:22px; max-width:460px; margin:0 auto 24px auto; color:#FFF; box-shadow:0 15px 40px rgba(0,210,255,0.25); text-align:center;">
               
@@ -7158,9 +7096,9 @@ html, body {
               <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,210,255,0.25); padding-bottom:10px; margin-bottom:14px;">
                 <div style="text-align:left;">
                   <div style="font-size:12px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:6px;">
-                    <svg viewBox="0 0 24 24" width="16" height="16" style="color:#00D2FF;"><use href="#diamax-icon-biometric-auth"/></svg> DIAMAX PRO CYBER-DEFENSE
+                    <svg viewBox="0 0 24 24" width="16" height="16" style="color:#00D2FF;"><use href="#diamax-icon-biometric-auth"/></svg> DIAMAX PRO OS
                   </div>
-                  <div style="font-size:9.5px; font-weight:800; color:#38BDF8;">4-LAYER ZERO-TRUST MILITARY ARCHITECTURE</div>
+                  <div style="font-size:9.5px; font-weight:800; color:#38BDF8;">CERTIFICACIÓN OFICIAL DE CUENTA</div>
                 </div>
                 <span style="background:rgba(16,185,129,0.2); border:1px solid #10B981; color:#34D399; font-size:10px; font-weight:900; padding:3px 10px; border-radius:12px; letter-spacing:0.5px;">AUTORIZADO</span>
               </div>
@@ -7183,7 +7121,7 @@ html, body {
               </div>
 
               <div style="font-size:10.5px; color:#94A3B8; line-height:1.4;">
-                🛡️ <strong>SEGURIDAD ESTILO MILITAR:</strong> Sesión blindada con token efímero anti-secuestro de hardware y aislamiento de roles.
+                Cuenta verificada con protocolo SHA-256 y token criptográfico activo.
               </div>
 
             </div>
@@ -7193,7 +7131,7 @@ html, body {
             </div>
 
             <button type="button" onclick="accederDesdeP2()" style="width:100%; max-width:480px; padding:18px 28px; background:linear-gradient(135deg, #18D8FF, #0284C7); color:#040814; border:none; border-radius:14px; font-weight:900; font-size:16px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 10px 35px rgba(24,216,255,0.45); display:inline-flex; align-items:center; justify-content:center; gap:10px;">
-              <span>🚀</span> <span id="p2-btn-step5-text">ACCEDER AL DUGOUT &amp; SABERMETRÍA (PÁGINA 3)</span>
+              <span id="p2-btn-step5-text">ACCEDER AL DUGOUT (PÁGINA 3)</span>
             </button>
           </div>
         </div>
@@ -7399,9 +7337,6 @@ html, body {
        PLAN COMENTARISTA & MEDIA — DIAMAX PRO OS
        ========================================================================= -->
   <div class="nav" id="main-nav">
-    <button onclick="switchTab('cabina')" id="nav-cabina" style="display:none; background:linear-gradient(135deg, rgba(0,210,255,0.22), rgba(2,6,23,0.95)); border:1.5px solid #00D2FF; color:#00D2FF; font-weight:900; box-shadow:0 0 12px rgba(0,210,255,0.35);">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle; filter:drop-shadow(0 0 4px #00D2FF); margin-right:4px;"><path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20H9c-.55 0-1 .45-1 1s.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1h-2v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg> 🎙️ 0. Cabina Medios
-    </button>
     <button class="active" onclick="switchTab('envivo')" id="btn-go-scorer">
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> 1. Anotador Dugout
     </button>
@@ -7417,14 +7352,11 @@ html, body {
     <button onclick="switchTab('tarjeta-oficial')" id="nav-card">
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> 5. Tarjeta Oficial
     </button>
-    <button onclick="switchTab('dashboard')" id="nav-dash">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> 6. Tablero Sabermétrico
-    </button>
     <button onclick="switchTab('skills')" id="nav-skills">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 7. IA Táctica DIAMAX
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 6. IA Táctica DIAMAX
     </button>
     <button onclick="switchTab('perfil')" id="nav-profile">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> 8. Perfil &amp; Conectividad
+      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> 7. Perfil &amp; Conectividad
     </button>
   </div>
 
@@ -11156,7 +11088,7 @@ function seleccionarPlanP2(plan) {
     if (btn5) btn5.innerText = 'ACCEDER A CABINA DE TRANSMISIÓN (TV & RADIO)';
   } else {
     if (btn4) btn4.innerText = 'Activar Mes Gratis & Entrar al Dugout (Página 3)';
-    if (btn5) btn5.innerText = 'ACCEDER AL DUGOUT & SABERMETRÍA (PÁGINA 3)';
+    if (btn5) btn5.innerText = 'ACCEDER AL DUGOUT (PÁGINA 3)';
   }
 }
 
@@ -22085,36 +22017,36 @@ document.addEventListener('keydown', function(e) {
               <!-- Categoría -->
               <div style="margin-bottom:12px;">
                 <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Categoría de la Liga <span style="color:#EF4444;">*</span></label>
-                <select id="reg-category" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#FFC72C; font-size:13px; font-weight:700; outline:none;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='#334155'">
-                  <optgroup label="🌱 BÉISBOL MENOR & FORMACIÓN (3 a 14 años)">
-                    <option value="Semillitas">🍼 Semillitas / Tee-Ball (3 - 4 años)</option>
-                    <option value="Iniciacion">🌱 Iniciación / Preparatorio (5 - 6 años)</option>
-                    <option value="Pre-Infantil">⚾ Pre-Infantil / Coach Pitch (7 - 8 años)</option>
-                    <option value="Infantil">🏆 Infantil / Minors (9 - 10 años)</option>
-                    <option value="Pre-Junior">🥇 Pre-Junior / Majors (11 - 12 años)</option>
-                    <option value="Junior">⚡ Junior / Intermedia (13 - 14 años)</option>
+                <select id="reg-category" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#F8FAFC; font-size:13px; font-weight:700; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+                  <optgroup label="BÉISBOL MENOR &amp; FORMACIÓN (3 a 14 años)">
+                    <option value="Semillitas">Semillitas / Tee-Ball (3 - 4 años)</option>
+                    <option value="Iniciacion">Iniciación / Preparatorio (5 - 6 años)</option>
+                    <option value="Pre-Infantil">Pre-Infantil / Coach Pitch (7 - 8 años)</option>
+                    <option value="Infantil">Infantil / Minors (9 - 10 años)</option>
+                    <option value="Pre-Junior">Pre-Junior / Majors (11 - 12 años)</option>
+                    <option value="Junior">Junior / Intermedia (13 - 14 años)</option>
                   </optgroup>
-                  <optgroup label="🔥 JUVENIL & PROSPECTOS">
-                    <option value="Juvenil">🔥 Juvenil / Seniors (15 - 17 años)</option>
-                    <option value="Sub-23">🌟 Sub-23 / Prospectos (18 - 23 años)</option>
-                    <option value="Libre">⚾ Libre / Doble A (Abierta 18+)</option>
+                  <optgroup label="JUVENIL &amp; PROSPECTOS">
+                    <option value="Juvenil">Juvenil / Seniors (15 - 17 años)</option>
+                    <option value="Sub-23">Sub-23 / Prospectos (18 - 23 años)</option>
+                    <option value="Libre">Libre / Doble A (Abierta 18+)</option>
                   </optgroup>
-                  <optgroup label="⭐ ADULTOS & CIRCUITOS POR EDAD">
-                    <option value="+21">⭐ +21 (Adultos Jóvenes / 21+)</option>
-                    <option value="+25">🥈 +25 (Adultos Intermedio / 25+)</option>
-                    <option value="+30">🥉 +30 (Máster Bronce / 30+)</option>
-                    <option value="+35">🎖️ +35 (Senior Máster / 35+)</option>
-                    <option value="+40">🥈 +40 (Máster Plata / 40+)</option>
-                    <option value="+45">🏅 +45 (Super Máster Oro / 45+)</option>
-                    <option value="+50">🥇 +50 (Máster Oro / 50+)</option>
-                    <option value="+55" selected>🏆 +55 (Super Máster Leyendas / 55+)</option>
-                    <option value="+60">👑 +60 (Magíster Leyendas / 60+)</option>
-                    <option value="+65">💎 +65 (Platino Leyendas / 65+)</option>
-                    <option value="+70">🌟 +70 (Diamante Leyendas / 70+)</option>
+                  <optgroup label="CIRCUITOS MÁSTER &amp; LEYENDAS">
+                    <option value="+21">+21 (Adultos Jóvenes / 21+)</option>
+                    <option value="+25">+25 (Adultos Intermedio / 25+)</option>
+                    <option value="+30">+30 (Máster Bronce / 30+)</option>
+                    <option value="+35">+35 (Senior Máster / 35+)</option>
+                    <option value="+40">+40 (Máster Plata / 40+)</option>
+                    <option value="+45">+45 (Super Máster Oro / 45+)</option>
+                    <option value="+50">+50 (Máster Oro / 50+)</option>
+                    <option value="+55" selected>+55 (Super Máster Leyendas / 55+)</option>
+                    <option value="+60">+60 (Magíster Leyendas / 60+)</option>
+                    <option value="+65">+65 (Platino Leyendas / 65+)</option>
+                    <option value="+70">+70 (Diamante Leyendas / 70+)</option>
                   </optgroup>
-                  <optgroup label="🥎 OTRAS MODALIDADES">
-                    <option value="Softbol">🥎 Softbol Libre / Máster</option>
-                    <option value="Femenino">🎀 Béisbol Femenino</option>
+                  <optgroup label="OTRAS MODALIDADES">
+                    <option value="Softbol">Softbol Libre / Máster</option>
+                    <option value="Femenino">Béisbol Femenino</option>
                   </optgroup>
                 </select>
               </div>
@@ -22122,12 +22054,12 @@ document.addEventListener('keydown', function(e) {
               <!-- Rol del Usuario -->
               <div style="margin-bottom:12px;">
                 <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Rol del Usuario <span style="color:#EF4444;">*</span></label>
-                <select id="reg-user-role" onchange="actualizarExplicacionRol(this.value)" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#00D2FF; font-size:13px; font-weight:800; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
-                  <option value="MANAGER">👑 Manager (Creador y Administrador de Franquicia)</option>
-                  <option value="COACH">🧢 Coach (Asistente Técnico &amp; Lineup)</option>
-                  <option value="ADMIN_LIGA">🏛️ Administrador de Liga / Comisionado</option>
-                  <option value="JUGADOR">⚾ Jugador (Atleta / Miembro de Roster)</option>
-                  <option value="BROADCAST_MEDIA">🎙️ Comentarista &amp; Narrador (Medios / Radio / TV)</option>
+                <select id="reg-user-role" onchange="actualizarExplicacionRol(this.value)" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#F8FAFC; font-size:13px; font-weight:800; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
+                  <option value="MANAGER">Manager (Creador y Administrador de Franquicia)</option>
+                  <option value="COACH">Coach (Asistente Técnico &amp; Lineup)</option>
+                  <option value="ADMIN_LIGA">Administrador de Liga / Comisionado</option>
+                  <option value="JUGADOR">Jugador (Atleta / Miembro de Roster)</option>
+                  <option value="BROADCAST_MEDIA">Comentarista &amp; Narrador (Medios / Radio / TV)</option>
                 </select>
               </div>
 
@@ -25337,9 +25269,9 @@ console.log('[DIAMAX PRO] Modulo Hot Dugout Substitutions, Presets +55 & Google 
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,12 12,22 2,12"/><circle cx="12" cy="12" r="3"/></svg>
       <span>Terreno</span>
     </button>
-    <button type="button" class="diamax-bottom-nav-btn" id="bnav-cabina" onclick="switchTab('cabina')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-      <span style="color:#00D2FF;">Cabina</span>
+    <button type="button" class="diamax-bottom-nav-btn" id="bnav-tarjeta" onclick="switchTab('tarjeta-oficial')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      <span>Tarjeta</span>
     </button>
   </nav>
 

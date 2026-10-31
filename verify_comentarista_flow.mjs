@@ -19,9 +19,9 @@ if (hasQrBadgeGimmick) {
   throw new Error("FAIL: Residual QR badge gimmick still present in Step 5");
 }
 
-// Test 3: Check for cert-titular-domain and 4-layer certificate elements
-const hasSecurityCert = html.includes('id="p2-official-account-badge"') && html.includes('id="cert-titular-domain"') && html.includes('DIAMAX PRO CYBER-DEFENSE');
-console.log(`[TEST 3] Military-grade 4-layer security certificate present: ${hasSecurityCert ? 'PASS ✅' : 'FAIL ❌'}`);
+// Test 3: Check for cert-titular-domain and certificate elements
+const hasSecurityCert = html.includes('id="p2-official-account-badge"') && html.includes('id="cert-titular-domain"');
+console.log(`[TEST 3] Security certificate present: ${hasSecurityCert ? 'PASS ✅' : 'FAIL ❌'}`);
 if (!hasSecurityCert) {
   throw new Error("FAIL: Security certificate elements missing");
 }
