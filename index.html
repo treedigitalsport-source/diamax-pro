@@ -1758,6 +1758,27 @@ window.autenticarConTokenQR = autenticarConTokenQR;
   }
 })();
 
+
+// =========================================================================
+// 🔒 SEPARACIÓN ESTRICTA DE DOMINIOS: ANOTADOR vs CABINA vs SEGURIDAD
+// =========================================================================
+function aplicarSeparacionRolesUI() {
+  const rol = localStorage.getItem('diamax_current_role') || (currentUserSession ? currentUserSession.role : 'MANAGER');
+  const navCabina = document.getElementById('nav-cabina');
+  
+  // Si el usuario es locutor/comentarista (BROADCAST_MEDIA), solo ve Cabina
+  if (rol === 'BROADCAST_MEDIA') {
+    if (navCabina) navCabina.style.display = 'inline-flex';
+  } else {
+    // Si es mánager o anotador de Dugout, NO ve la pestaña de Cabina ni puertas de seguridad
+    if (navCabina) navCabina.style.display = 'none';
+  }
+}
+
+// Ejecutar al cargar la aplicación y en cada cambio de sesión
+window.aplicarSeparacionRolesUI = aplicarSeparacionRolesUI;
+window.addEventListener('DOMContentLoaded', aplicarSeparacionRolesUI);
+
 </script>
 
 
@@ -6765,6 +6786,21 @@ html, body {
       Gestiona equipos, anota cada lanzamiento en vivo y convierte los datos del juego en reportes y métricas con decisiones tácticas.
     </p>
 
+    
+    <!-- PORTAL DE ENTRADAS EXCLUSIVAS DE SEGURIDAD (PORTADA PÁGINA 1) -->
+    <div style="display:flex; justify-content:center; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap;">
+      <button type="button" onclick="abrirModalAccesoCabina()" style="background:rgba(0,210,255,0.12); border:1.5px solid #00D2FF; color:#00D2FF; padding:8px 16px; border-radius:20px; font-weight:800; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+        <span>🎙️</span> <span>Entrada a Cabina (Pase de Prensa)</span>
+      </button>
+      <button type="button" onclick="abrirModalAccesoMilitar()" style="background:rgba(16,185,129,0.12); border:1.5px solid #10B981; color:#A7F3D0; padding:8px 16px; border-radius:20px; font-weight:800; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+        <span>🛡️</span> <span>Canjear Pase Táctico Militar</span>
+      </button>
+      <button type="button" onclick="abrirModalEscanearQRLogin()" style="background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.2); color:#FFF; padding:8px 16px; border-radius:20px; font-weight:800; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+        <span>📷</span> <span>Entrar Escaneando QR</span>
+      </button>
+    </div>
+
+
     <!-- 3. Botones de Acción Cinemáticos Flotantes (3 BOTONES OFICIALES AUTORIZADOS POR EL CEO) -->
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:24px;">
       
@@ -7722,48 +7758,7 @@ html, body {
       <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      <button id="btn-entrada-cabina-broadcast" type="button" onclick="abrirModalAccesoCabina()" style="
-        background: linear-gradient(135deg, rgba(0, 210, 255, 0.22) 0%, rgba(0, 114, 255, 0.3) 100%);
-        border: 1.8px solid #00D2FF;
-        color: #00D2FF;
-        font-weight: 900;
-        font-size: 12px;
-        padding: 8px 16px;
-        border-radius: 10px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 0 18px rgba(0, 210, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      " onmouseover="this.style.transform='translateY(-2px) scale(1.02)'; this.style.boxShadow='0 0 25px rgba(0,210,255,0.7)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 0 18px rgba(0,210,255,0.4)';" title="Entrada Independiente a Cabina de Comentaristas & Medios de TV">
-        <span style="
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          background: #EF4444;
-          box-shadow: 0 0 10px #EF4444;
-          display: inline-block;
-          animation: pulseGlow 1.2s infinite;
-        "></span>
-        <span style="font-size: 15px;">🎙️</span>
-        <span id="btn-entrada-cabina-text" style="letter-spacing: 0.6px; text-transform: uppercase;">Entrada Cabina</span>
-        <span style="
-          background: #EF4444;
-          color: #FFF;
-          font-size: 9.5px;
-          font-weight: 900;
-          padding: 2px 6px;
-          border-radius: 4px;
-          letter-spacing: 0.6px;
-          box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
-        ">ON AIR</span>
-      </button>
-      
-      
-      <button id="btn-toggle-milspec-header" type="button" onclick="abrirModalAccesoMilitar()" style="background:#070D1A; border:1.5px solid #10B981; color:#A7F3D0; padding:7px 12px; border-radius:10px; font-weight:900; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 10px rgba(16,185,129,0.25);" title="Canjear Pase Táctico Militar de Prueba">
-        <span>🛡️</span> <span>Pase Militar</span>
-      </button>
+
       <button id="btn-toggle-sunlight-header" type="button" onclick="toggleModoLuzSolar()" style="background:#0F172A; border:1.5px solid #FFC72C; color:#FFC72C; padding:7px 12px; border-radius:10px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 10px rgba(255,199,44,0.25);" title="Modo Luz Solar de Alto Contraste (WCAG AAA) para juegos bajo el sol del mediodía">
         <span id="btn-sunlight-icon">☀️</span> <span id="btn-sunlight-label">Luz Solar</span>
       </button>
@@ -7783,7 +7778,7 @@ html, body {
        PLAN COMENTARISTA & MEDIA — DIAMAX PRO OS
        ========================================================================= -->
   <div class="nav" id="main-nav">
-    <button onclick="switchTab('cabina')" id="nav-cabina" style="background:linear-gradient(135deg, rgba(0,210,255,0.22), rgba(2,6,23,0.95)); border:1.5px solid #00D2FF; color:#00D2FF; font-weight:900; box-shadow:0 0 12px rgba(0,210,255,0.35);">
+    <button onclick="switchTab('cabina')" id="nav-cabina" style="display:none; background:linear-gradient(135deg, rgba(0,210,255,0.22), rgba(2,6,23,0.95)); border:1.5px solid #00D2FF; color:#00D2FF; font-weight:900; box-shadow:0 0 12px rgba(0,210,255,0.35);">
       <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle; filter:drop-shadow(0 0 4px #00D2FF); margin-right:4px;"><path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20H9c-.55 0-1 .45-1 1s.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1h-2v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg> 🎙️ 0. Cabina Medios
     </button>
     <button class="active" onclick="switchTab('envivo')" id="btn-go-scorer">
@@ -25633,10 +25628,7 @@ console.log('[DIAMAX PRO] Modulo Hot Dugout Substitutions, Presets +55 & Google 
       <span class="mob-icon">🏟️</span>
       <span class="mob-lbl">Terreno</span>
     </button>
-    <button type="button" class="mobile-nav-btn" onclick="switchTab('cabina')" id="mob-nav-cabina">
-      <span class="mob-icon">🎙️</span>
-      <span class="mob-lbl">Cabina</span>
-    </button>
+    
     <button type="button" class="mobile-nav-btn" onclick="switchTab('tarjeta-oficial')" id="mob-nav-tarjeta">
       <span class="mob-icon">📄</span>
       <span class="mob-lbl">Tarjeta</span>
