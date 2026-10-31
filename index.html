@@ -6822,7 +6822,7 @@ html, body {
             <!-- ============================================================== -->
             <!-- 📱 BANNER OFICIAL: REGISTRO RÁPIDO CON CÓDIGO QR & CREACIÓN DE PASE -->
             <!-- ============================================================== -->
-            <div id="p2-qr-registration-banner" style="background:linear-gradient(135deg, rgba(16,185,129,0.18) 0%, rgba(6,78,59,0.3) 100%); border:2px solid #10B981; border-radius:18px; padding:20px 22px; margin-bottom:22px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; box-shadow:0 10px 30px rgba(16,185,129,0.25);">
+            <div id="p2-plans-header-banner" style="background:linear-gradient(135deg, rgba(16,185,129,0.18) 0%, rgba(6,78,59,0.3) 100%); border:2px solid #10B981; border-radius:18px; padding:20px 22px; margin-bottom:22px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; box-shadow:0 10px 30px rgba(16,185,129,0.25);">
               <div style="flex:1; min-width:260px;">
                 <div style="display:inline-flex; align-items:center; gap:6px; background:#10B981; color:#020617; padding:4px 12px; border-radius:20px; font-weight:900; font-size:10.5px; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px;">
                   <span>📱</span> <span>REGISTRO CON CÓDIGO QR · PRUEBA GRATIS</span>
@@ -6837,7 +6837,7 @@ html, body {
                   <button type="button" onclick="irAPasoWizardP2(1)" style="padding:11px 20px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:12.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.6px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 20px rgba(16,185,129,0.45);">
                     <span>✍️</span> <span>Registrarme y Generar Mi Pase QR</span>
                   </button>
-                  <button type="button" onclick="abrirModalEscanearQRLogin()" style="padding:11px 18px; background:#0F172A; border:1.5px solid #10B981; color:#A7F3D0; border-radius:10px; font-weight:800; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+                  <button type="button" onclick="showAuthModal('login')" style="padding:11px 18px; background:#0F172A; border:1.5px solid #10B981; color:#A7F3D0; border-radius:10px; font-weight:800; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
                     <span>📷</span> <span>Ya tengo mi QR: Entrar Aquí</span>
                   </button>
                 </div>
@@ -7104,7 +7104,7 @@ html, body {
             <!-- ============================================================== -->
             <!-- 🛡️ CREDENCIAL DIGITAL QR PERSONALIZADA DE SEGURIDAD EMITIDA    -->
             <!-- ============================================================== -->
-            <div id="p2-personalized-qr-badge" style="background:#FFFFFF; border:3px solid #000; border-radius:20px; padding:22px; max-width:440px; margin:0 auto 24px auto; color:#020617; box-shadow:0 15px 40px rgba(0,0,0,0.6); text-align:center;">
+            <div id="p2-official-account-badge" style="background:#FFFFFF; border:3px solid #000; border-radius:20px; padding:22px; max-width:440px; margin:0 auto 24px auto; color:#020617; box-shadow:0 15px 40px rgba(0,0,0,0.6); text-align:center;">
               
               <!-- Cabecera de la Credencial -->
               <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #E2E8F0; padding-bottom:10px; margin-bottom:12px;">
@@ -7139,7 +7139,7 @@ html, body {
 
               <!-- Botones de Acción de la Credencial -->
               <div style="display:flex; gap:8px; margin-top:14px; justify-content:center; flex-wrap:wrap;">
-                <button type="button" onclick="compartirPaseWhatsApp()" style="flex:1; min-width:130px; background:#25D366; color:#FFF; border:none; padding:9px 12px; border-radius:8px; font-weight:900; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+                <button type="button" onclick="window.print()" style="flex:1; min-width:130px; background:#25D366; color:#FFF; border:none; padding:9px 12px; border-radius:8px; font-weight:900; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
                   <span>📲</span> <span>Mi WhatsApp</span>
                 </button>
                 <button type="button" onclick="window.print()" style="flex:1; min-width:120px; background:#0F172A; color:#FFF; border:none; padding:9px 12px; border-radius:8px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
@@ -11192,7 +11192,7 @@ async function confirmarYVerificarCuentaP2() {
     return;
   }
 
-  const passHash = await hashSHA256(datosUsuarioTempP2.pass || '123456');
+  const passHash = await hashSHA256(datosUsuarioTempP2.pass || Math.random().toString(36).substring(2, 10));
   const prefix = (datosUsuarioTempP2.teamName || 'TEAM').substring(0, 4).toUpperCase().replace(/[^A-Z0-9]/g, '') || 'TEAM';
   const inviteCode = 'DMX-' + prefix + '-' + (datosUsuarioTempP2.category || '55').replace(/[^A-Za-z0-9]/g, '');
 
@@ -11211,7 +11211,7 @@ async function confirmarYVerificarCuentaP2() {
     emblem: datosUsuarioTempP2.emblem,
     inviteCode: inviteCode,
     verified: true,
-    pinHash: await hashSHA256('1234'),
+    pinHash: await hashSHA256(Math.floor(100000 + Math.random() * 900000).toString()),
     token: passHash.substring(0, 32),
     brand: '3Tree Digital Sport IA © 2026'
   };
@@ -11362,7 +11362,7 @@ function initSecurityPortal() {
     name: teamManager || 'Mánager General',
     role: 'MANAGER',
     team: teamName || 'Guerreros de Venezuela +55',
-    pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4' // PIN: 1234
+    pinHash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' // Blindado contra bypass
   };
   updateHeaderUserBadge();
 }
@@ -11445,8 +11445,8 @@ function accesoMaestroFounder(clave) {
     return showAuthAlert("⚠️ Por favor ingresa la clave de acceso de Fundador/CEO.");
   }
   
-  // Claves maestras autorizadas: 113714 (CEO Alí Zapata), 1234 (PIN Rápido), alizapata, diamax2026
-  if (k === '113714' || k === '1234' || k.toLowerCase() === 'alizapata' || k.toLowerCase() === 'diamax2026') {
+  // Credencial Maestra Exclusiva del Fundador & CEO (Lic. Alí Zapata)
+  if (k === '113714') {
     currentUserSession = {
       id: 'usr_ceo_ali',
       name: 'Lic. Alí Zapata',
@@ -11602,7 +11602,7 @@ async function ejecutarRegistroOficial() {
 
   // 5. Cifrado criptográfico de credencial
   const passHash = await hashSHA256(pass);
-  const defaultPin = '1234';
+  const defaultPin = Math.floor(100000 + Math.random() * 900000).toString();
   const pinHash = await hashSHA256(defaultPin);
 
   // 6. Generación de Código de Invitación Deportivo
@@ -11798,7 +11798,7 @@ async function ejecutarLogin() {
     name: name,
     role: role,
     team: team,
-    pinHash: await hashSHA256('1234'),
+    pinHash: await hashSHA256(Math.floor(100000 + Math.random() * 900000).toString()),
     token: pHash.substring(0, 32)
   };
 
@@ -11846,7 +11846,7 @@ async function validarPinDugout() {
   const defaultPinHash = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
   const expectedHash = currentUserSession?.pinHash || defaultPinHash;
 
-  if (hashedInput === expectedHash || pinBuffer === '1234') {
+  if (hashedInput === expectedHash && pinBuffer.length > 0) {
     showAuthAlert("🔓 PIN correcto. Dugout desbloqueado.", false);
     pinBuffer = '';
     const disp = document.getElementById('pin-display');
