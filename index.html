@@ -8808,11 +8808,15 @@ html, body {
     <div class="dugout-block-scoreboard" id="dugout-block-scoreboard">
       <!-- Fila de Inning -->
       <div class="dugout-inn-row">
-        <button type="button" onclick="cambiarInningManual(-1)" class="btn-score-adjust-clean" title="Inning Anterior">◀</button>
+        <button type="button" onclick="cambiarInningManual(-1)" class="btn-score-adjust-clean" title="Inning Anterior">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
         <div class="dugout-inn-badge" id="scoreboard-inn" onclick="toggleHalfInningManual()" title="Toca para alternar Alta ▲ / Baja ▼">
           INNING 1 (ALTA ▲)
         </div>
-        <button type="button" onclick="cambiarInningManual(1)" class="btn-score-adjust-clean" title="Siguiente Inning">▶</button>
+        <button type="button" onclick="cambiarInningManual(1)" class="btn-score-adjust-clean" title="Siguiente Inning">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
 
       <!-- Pizarra de Carreras (Away vs Home) -->
@@ -8881,7 +8885,8 @@ html, body {
         </div>
         <!-- Modo Luz Solar -->
         <button type="button" id="btn-sunlight-dugout" onclick="toggleModoLuzSolar()" class="btn-clean-mode-toggle" title="Alternar Modo Luz Solar">
-          <span>☀️</span> <span>Luz Solar</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <span>Luz Solar</span>
         </button>
       </div>
 
@@ -8897,7 +8902,10 @@ html, body {
       <!-- Bateador Activo -->
       <div class="duel-player-card batter-side">
         <div class="duel-player-header">
-          <span class="duel-role-tag" id="current-batter-team-badge">👑 AL BATE</span>
+          <span class="duel-role-tag" id="current-batter-team-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            AL BATE
+          </span>
           <button type="button" onclick="abrirModalHotDugoutSub('PH')" class="btn-duel-sub" title="Sustituir por Bateador Emergente (PH)">🔄 Emergente</button>
         </div>
         <div class="duel-player-body">
@@ -8920,11 +8928,16 @@ html, body {
       <!-- Lanzador Activo -->
       <div class="duel-player-card pitcher-side">
         <div class="duel-player-header">
-          <span class="duel-role-tag pitcher-tag">⚾ LANZADOR EN MONTÍCULO</span>
+          <span class="duel-role-tag pitcher-tag">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93c4.24 4.24 4.24 10.9 0 15.14"/><path d="M19.07 4.93c-4.24 4.24-4.24 10.9 0 15.14"/></svg>
+            LANZADOR EN MONTÍCULO
+          </span>
           <button type="button" onclick="cambiarEstadoBullpenModal()" class="btn-duel-sub" title="Gestionar Relevo o Bullpen">🔄 Relevo</button>
         </div>
         <div class="duel-player-body">
-          <div class="duel-pitcher-icon">⚾</div>
+          <div class="duel-pitcher-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93c4.24 4.24 4.24 10.9 0 15.14" stroke="#EF4444"/><path d="M19.07 4.93c-4.24 4.24-4.24 10.9 0 15.14" stroke="#EF4444"/></svg>
+          </div>
           <div class="duel-player-info">
             <strong id="pitcher-active-name" class="duel-player-name">#10 Pedro Chavez (RHP)</strong>
             <div class="duel-pitch-count-highlight">
@@ -8959,35 +8972,45 @@ html, body {
       <div class="immediate-actions-grid">
         <!-- 1. STRIKE -->
         <button type="button" class="btn-immediate btn-strike" id="btn-action-strike" onclick="registrarPitcheoRapido('4-Seam', true)">
-          <span class="btn-im-icon">⚡</span>
+          <span class="btn-im-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#38BDF8" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </span>
           <span class="btn-im-label">STRIKE</span>
           <span class="btn-im-sub">+1 Strike</span>
         </button>
 
         <!-- 2. BOLA -->
         <button type="button" class="btn-immediate btn-ball" id="btn-action-ball" onclick="registrarPitcheoRapido('Bola', false)">
-          <span class="btn-im-icon">⚾</span>
+          <span class="btn-im-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93c4.24 4.24 4.24 10.9 0 15.14" stroke="#EF4444"/><path d="M19.07 4.93c-4.24 4.24-4.24 10.9 0 15.14" stroke="#EF4444"/></svg>
+          </span>
           <span class="btn-im-label">BOLA</span>
           <span class="btn-im-sub">+1 Bola</span>
         </button>
 
         <!-- 3. HIT -->
         <button type="button" class="btn-immediate btn-hit" id="btn-action-hit" onclick="registrarJugadaLive('1B')">
-          <span class="btn-im-icon">🟢</span>
+          <span class="btn-im-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L22 12L12 22L2 12Z" fill="rgba(16, 185, 129, 0.25)"/><polyline points="9 12 11 14 15 10"/></svg>
+          </span>
           <span class="btn-im-label">HIT</span>
           <span class="btn-im-sub">1B Sencillo</span>
         </button>
 
         <!-- 4. OUT -->
         <button type="button" class="btn-immediate btn-out" id="btn-action-out" onclick="registrarJugadaLive('K')">
-          <span class="btn-im-icon">🔴</span>
+          <span class="btn-im-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </span>
           <span class="btn-im-label">OUT</span>
           <span class="btn-im-sub">Ponche / Rolata</span>
         </button>
 
         <!-- 5. DESHACER (CRÍTICO) -->
         <button type="button" class="btn-immediate btn-undo" id="btn-undo-scoreboard" onclick="deshacerJugadaLive()" title="¿Te equivocaste? Toca para deshacer la última jugada">
-          <span class="btn-im-icon">⌫</span>
+          <span class="btn-im-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          </span>
           <span class="btn-im-label">DESHACER</span>
           <span class="btn-im-sub">Borrar Jugada</span>
         </button>
@@ -8999,13 +9022,14 @@ html, body {
           <span class="quick-chips-label">Batazos:</span>
           <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('2B')">2B</button>
           <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('3B')">3B</button>
-          <button type="button" class="chip-action-btn hr-chip" onclick="registrarJugadaLive('HR')">👑 HR</button>
+          <button type="button" class="chip-action-btn hr-chip" onclick="registrarJugadaLive('HR')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.5" style="vertical-align:middle; margin-right:2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> HR</button>
           <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('BB')">BB</button>
           <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-3')">6-3</button>
           <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-4-3 DP')">DP</button>
         </div>
         <button type="button" class="btn-toggle-drawer-link" onclick="toggleDrawer('drawer-36-plays')">
-          📋 36 Jugadas Canónicas ▾
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          36 Jugadas Canónicas ▾
         </button>
       </div>
     </div>
@@ -9421,7 +9445,49 @@ html, body {
 
             <!-- Capa de Posicionamiento Defensivo -->
             <g id="field-players-layer"></g>
+
+            <!-- Capa de Marcador Pendiente / Punto de Impacto Activo -->
+            <g id="field-pending-marker-layer"></g>
           </svg>
+        </div>
+
+        <!-- Selector Deluxe de Jugada Directo en el Terreno (Fase Táctica Dinámica) -->
+        <div id="field-play-action-card" style="display:none; margin-top:12px; background:rgba(18, 24, 38, 0.9); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(0, 210, 255, 0.4); border-radius:14px; padding:14px 16px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#00D2FF; box-shadow:0 0 10px #00D2FF;"></span>
+              <strong id="field-play-coord-label" style="color:#F8FAFC; font-size:12px; font-weight:800; letter-spacing:0.5px; font-family:'Plus Jakarta Sans',sans-serif;">📍 BATAZO MARCADO EN TERRENO</strong>
+            </div>
+            <button type="button" onclick="cancelarJugadaTerreno()" style="background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); color:#FCA5A5; font-size:11px; font-weight:800; padding:4px 10px; border-radius:6px; cursor:pointer;" title="Cancelar selección de ubicación">
+              ✕ Cancelar
+            </button>
+          </div>
+          <div style="font-size:11px; color:#94A3B8; margin-bottom:10px;">
+            Selecciona el resultado oficial para registrar la jugada inmediatamente en el juego activo:
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:8px;">
+            <button type="button" onclick="ejecutarJugadaDesdeTerreno('1B')" style="background:rgba(16,185,129,0.15); border:1.5px solid #10B981; color:#34D399; font-weight:800; font-size:11px; padding:9px 6px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M12 2L22 12L12 22L2 12Z"/></svg> 1B Sencillo
+            </button>
+            <button type="button" onclick="ejecutarJugadaDesdeTerreno('2B')" style="background:rgba(16,185,129,0.15); border:1.5px solid #10B981; color:#34D399; font-weight:800; font-size:11px; padding:9px 6px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M12 2L22 12L12 22L2 12Z"/></svg> 2B Doble
+            </button>
+            <button type="button" onclick="ejecutarJugadaDesdeTerreno('3B')" style="background:rgba(16,185,129,0.15); border:1.5px solid #10B981; color:#34D399; font-weight:800; font-size:11px; padding:9px 6px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M12 2L22 12L12 22L2 12Z"/></svg> 3B Triple
+            </button>
+            <button type="button" onclick="ejecutarJugadaDesdeTerreno('HR')" style="background:rgba(255,199,44,0.15); border:1.5px solid #FFC72C; color:#FDE047; font-weight:900; font-size:11px; padding:9px 6px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Jonrón
+            </button>
+            <button type="button" onclick="ejecutarJugadaDesdeTerreno('GO')" style="background:rgba(239,68,68,0.15); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:800; font-size:11px; padding:9px 6px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/></svg> Rolata Out
+            </button>
+            <button type="button" onclick="ejecutarJugadaDesdeTerreno('FO')" style="background:rgba(239,68,68,0.15); border:1.5px solid #EF4444; color:#FCA5A5; font-weight:800; font-size:11px; padding:9px 6px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5"><path d="M12 2a10 10 0 0 0-10 10c0 5 10 10 10 10s10-5 10-10a10 10 0 0 0-10-10z"/></svg> Elevado Out
+            </button>
+            <button type="button" onclick="ejecutarJugadaDesdeTerreno('ROE')" style="background:rgba(245,158,11,0.15); border:1.5px solid #F59E0B; color:#FCD34D; font-weight:800; font-size:11px; padding:9px 6px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Error (ROE)
+            </button>
+          </div>
         </div>
 
         <div style="display:flex; justify-content:space-around; margin-top:10px; font-size:11px; color:#94A3B8; text-align:center;">
@@ -16903,7 +16969,10 @@ function ejecutarRelevoRapido(relieverId) {
   evaluarAlertasProactivasAgente();
 }
 
+window.activeDefensiveShift = 'NORMAL';
+
 function aplicarShiftDefensivoDesdeAlerta(shiftType) {
+  window.activeDefensiveShift = shiftType;
   const shiftNames = {
     'NORMAL': 'Posicionamiento Defensivo Estándar',
     'ANTI_PULL': 'Shift Derecho Anti-Pull (Sobrecarga Lado Derecho)',
@@ -16918,7 +16987,10 @@ function aplicarShiftDefensivoDesdeAlerta(shiftType) {
   }
   const display = document.getElementById('ai-response-display');
   if (display) {
-    display.innerHTML = `<strong>🛡️ [AJUSTE DEFENSIVO EN TIEMPO REAL]</strong><br>• <strong>Formación:</strong> ${desc}.<br>• <strong>Objetivo Táctico:</strong> Maximizar la probabilidad de éxito ante la situación actual de corredores.<br>• <strong>Ejecución:</strong> Cuadro y jardines reposicionados según prescripción sabermétrica.`;
+    display.innerHTML = `<strong>🛡️ [AJUSTE DEFENSIVO EN TIEMPO REAL]</strong><br>• <strong>Formación:</strong> ${desc}.<br>• <strong>Objetivo Táctico:</strong> Maximizar la probabilidad de éxito ante la situación actual de corredores.<br>• <strong>Ejecución:</strong> Cuadro y jardines reposicionados visualmente en el terreno 2D.`;
+  }
+  if (typeof renderField === 'function') {
+    renderField();
   }
   evaluarAlertasProactivasAgente();
 }
@@ -18086,16 +18158,16 @@ function marcarUbicacionBatazoCampo(e) {
   }
 
   let type = 'GB';
-  let desc = 'Rodado';
+  let desc = 'Rodado Infield';
   if (y < 160) {
     type = 'HR';
-    desc = 'Jonrón / Profundo';
+    desc = 'Jonrón / Zona Profunda';
   } else if (y < 265) {
     type = (x > 170 && x < 330) ? 'FB' : 'LD';
-    desc = type === 'FB' ? 'Elevado (Fly)' : 'Línea (Line Drive)';
+    desc = type === 'FB' ? 'Elevado (Fly Outfield)' : 'Línea (Line Drive)';
   } else {
     type = 'GB';
-    desc = 'Rodado Infield';
+    desc = 'Rodado (Infield Grounder)';
   }
 
   const current = (typeof getLiveCurrentBatter === 'function') ? getLiveCurrentBatter() : { player: { name: 'Bateador' } };
@@ -18103,10 +18175,60 @@ function marcarUbicacionBatazoCampo(e) {
 
   window.DIAMAX_PENDING_HIT_COORDS = { x, y, type, desc };
 
+  // Dibujar pin táctico animado en la capa de marcador pendiente
+  const markerLayer = document.getElementById('field-pending-marker-layer');
+  if (markerLayer) {
+    markerLayer.innerHTML = `
+      <g id="active-field-target" class="field-target-pulse">
+        <circle cx="${x}" cy="${y}" r="22" fill="none" stroke="#00D2FF" stroke-width="2.5" opacity="0.8">
+          <animate attributeName="r" values="12;24;12" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="${x}" cy="${y}" r="6" fill="#00D2FF" stroke="#FFFFFF" stroke-width="2"/>
+        <line x1="${x - 16}" y1="${y}" x2="${x + 16}" y2="${y}" stroke="#00D2FF" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <line x1="${x}" y1="${y - 16}" x2="${x}" y2="${y + 16}" stroke="#00D2FF" stroke-width="1.5" stroke-dasharray="2,2"/>
+      </g>
+    `;
+  }
+
+  // Desplegar selector de jugada directo en terreno
+  const card = document.getElementById('field-play-action-card');
+  const label = document.getElementById('field-play-coord-label');
+  if (card) {
+    card.style.display = 'block';
+    if (label) {
+      label.innerText = `📍 ${pName}: ${desc} en (${x}, ${y})`;
+    }
+  }
+
   if (typeof renderSprayChart === 'function') renderSprayChart();
-  mostrarToast(`📍 Terreno: Ubicación fijada en (${x}, ${y}) - Selecciona la jugada en Dugout`, 3000);
+  mostrarToast(`📍 Ubicación táctica fijada en (${x}, ${y}) - Selecciona la jugada abajo o en Dugout`, 3000);
 }
 window.marcarUbicacionBatazoCampo = marcarUbicacionBatazoCampo;
+
+function ejecutarJugadaDesdeTerreno(actionCode) {
+  if (!window.DIAMAX_PENDING_HIT_COORDS) {
+    mostrarToast('⚠️ Toca primero una ubicación en el terreno táctico');
+    return;
+  }
+  const coords = { ...window.DIAMAX_PENDING_HIT_COORDS };
+  if (typeof registrarJugadaLive === 'function') {
+    registrarJugadaLive(actionCode);
+  }
+  cancelarJugadaTerreno();
+  if (typeof renderSprayChart === 'function') renderSprayChart();
+  mostrarToast(`✅ Jugada '${actionCode}' registrada con éxito en el terreno (${coords.x}, ${coords.y})`, 3500);
+}
+window.ejecutarJugadaDesdeTerreno = ejecutarJugadaDesdeTerreno;
+
+function cancelarJugadaTerreno() {
+  window.DIAMAX_PENDING_HIT_COORDS = null;
+  const card = document.getElementById('field-play-action-card');
+  if (card) card.style.display = 'none';
+  const markerLayer = document.getElementById('field-pending-marker-layer');
+  if (markerLayer) markerLayer.innerHTML = '';
+}
+window.cancelarJugadaTerreno = cancelarJugadaTerreno;
 
 window.fieldViewForceTeam = null;
 
@@ -18169,9 +18291,31 @@ function renderField() {
       `;
     }).join('');
 
+    const shift = window.activeDefensiveShift || 'NORMAL';
     const nodes = fieldSlots.map((slot, idx) => {
       const pos = (slot.pos || "OF").toUpperCase();
-      const coords = POS_SVG_COORDS[pos] || POS_SVG_COORDS["DH"];
+      let coords = POS_SVG_COORDS[pos] ? { ...POS_SVG_COORDS[pos] } : (POS_SVG_COORDS["DH"] ? { ...POS_SVG_COORDS["DH"] } : null);
+      if (coords) {
+        if (shift === 'ANTI_PULL') {
+          if (pos === 'SS') { coords.x = 250; coords.y = 305; }
+          else if (pos === '2B') { coords.x = 325; coords.y = 295; }
+          else if (pos === '3B') { coords.x = 195; coords.y = 310; }
+          else if (pos === 'CF') { coords.x = 280; coords.y = 170; }
+          else if (pos === 'RF') { coords.x = 390; coords.y = 210; }
+        } else if (shift === 'INFIELD_IN') {
+          if (pos === '1B') { coords.x = 315; coords.y = 340; }
+          else if (pos === '2B') { coords.x = 275; coords.y = 330; }
+          else if (pos === 'SS') { coords.x = 225; coords.y = 330; }
+          else if (pos === '3B') { coords.x = 185; coords.y = 340; }
+        } else if (shift === 'NO_DOUBLES') {
+          if (pos === 'LF') { coords.x = 115; coords.y = 170; }
+          else if (pos === 'CF') { coords.x = 250; coords.y = 130; }
+          else if (pos === 'RF') { coords.x = 385; coords.y = 170; }
+        } else if (shift === 'BUNT_DEFENSE') {
+          if (pos === '1B') { coords.x = 300; coords.y = 360; }
+          else if (pos === '3B') { coords.x = 200; coords.y = 360; }
+        }
+      }
       const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || { num: slot.order, name: `Jugador ${slot.order}`, photo: DEFAULT_PHOTO };
       if (!coords) return '';
       const lastName = p.name ? (p.name.split(' ')[1] || p.name) : `P${slot.order}`;

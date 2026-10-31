@@ -190,4 +190,36 @@ if (typeof cambiarInningFn === 'function' && currentLiveState) {
   console.log(`   Inning avanzado de ${innBefore} a ${currentLiveState.inning}: ${currentLiveState.inning === innBefore + 1 ? 'PASS ✅' : 'FAIL ❌'}`);
 }
 
+// 6. Probar Marcado y Ejecución Directa de Jugadas en el Terreno 2D
+console.log('6. Probando Jugadas Tácticas en Terreno 2D...');
+const marcarCampoFn = context.marcarUbicacionBatazoCampo || mockWindow.marcarUbicacionBatazoCampo;
+const ejecutarCampoFn = context.ejecutarJugadaDesdeTerreno || mockWindow.ejecutarJugadaDesdeTerreno;
+const cancelarCampoFn = context.cancelarJugadaTerreno || mockWindow.cancelarJugadaTerreno;
+const shiftFn = context.aplicarShiftDefensivoDesdeAlerta || mockWindow.aplicarShiftDefensivoDesdeAlerta;
+
+if (typeof marcarCampoFn === 'function' && typeof ejecutarCampoFn === 'function') {
+  // Test click
+  const mockClick = { clientX: 250, clientY: 220, touches: null };
+  marcarCampoFn(mockClick);
+  const pending = mockWindow.DIAMAX_PENDING_HIT_COORDS;
+  console.log(`   Batazo marcado en coordenadas (${pending ? pending.x : 0}, ${pending ? pending.y : 0}): ${pending ? 'PASS ✅' : 'FAIL ❌'}`);
+  
+  const card = getEl('field-play-action-card');
+  console.log(`   Selector de jugadas en terreno desplegado: ${card.style.display === 'block' ? 'PASS ✅' : 'FAIL ❌'}`);
+  
+  // Test execution
+  ejecutarCampoFn('2B');
+  console.log(`   Jugada '2B' ejecutada desde terreno: ${mockWindow.DIAMAX_PENDING_HIT_COORDS === null ? 'PASS ✅' : 'FAIL ❌'}`);
+  console.log(`   Selector de jugadas cerrado tras ejecución: ${card.style.display === 'none' ? 'PASS ✅' : 'FAIL ❌'}`);
+}
+
+// 7. Probar Shifts Defensivos Dinámicos
+console.log('7. Probando Shifts Defensivos Dinámicos...');
+if (typeof shiftFn === 'function') {
+  shiftFn('ANTI_PULL');
+  console.log(`   Shift ANTI_PULL aplicado: ${mockWindow.activeDefensiveShift === 'ANTI_PULL' ? 'PASS ✅' : 'FAIL ❌'}`);
+  shiftFn('INFIELD_IN');
+  console.log(`   Shift INFIELD_IN aplicado: ${mockWindow.activeDefensiveShift === 'INFIELD_IN' ? 'PASS ✅' : 'FAIL ❌'}`);
+}
+
 console.log('\n🏆 TODAS LAS SIMULACIONES EN VIVO OPERARON PERFECTAMENTE CON CERO ERRORES DE EJECUCIÓN.');
