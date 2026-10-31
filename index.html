@@ -2186,49 +2186,56 @@ body {
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
 }
 
-/* BLOQUE 1: MARCADOR LIMPIO (VIDRIO LÍQUIDO ESMERILADO) */
+/* BLOQUE 1: MARCADOR LIMPIO (VIDRIO LÍQUIDO ESMERILADO DELUXE) */
 .dugout-block-scoreboard {
   background: rgba(18, 24, 38, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 16px 20px;
+  border-radius: 18px;
+  padding: 18px 22px;
   margin-bottom: 14px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 .dugout-inn-row {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .dugout-inn-badge {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 900;
   color: #F59E0B;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  background: rgba(10, 13, 20, 0.8);
+  background: linear-gradient(180deg, rgba(20, 28, 48, 0.8) 0%, rgba(10, 15, 26, 0.95) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 6px 18px;
-  border-radius: 10px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  padding: 7px 20px;
+  border-radius: 12px;
   cursor: pointer;
   user-select: none;
   font-variant-numeric: tabular-nums !important;
   -webkit-font-feature-settings: "tnum" 1 !important;
   font-feature-settings: "tnum" 1 !important;
+  transition: all 0.2s ease;
+}
+.dugout-inn-badge:hover {
+  border-color: #F59E0B;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 .btn-score-adjust-clean {
   width: 32px;
   height: 32px;
-  background: rgba(10, 13, 20, 0.8);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   color: #F8FAFC;
   border-radius: 8px;
   font-size: 14px;
@@ -2240,25 +2247,27 @@ body {
   transition: all 0.15s ease;
 }
 .btn-score-adjust-clean:hover {
-  background: rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.35);
   border-color: #2563EB;
+  color: #FFFFFF;
 }
 .dugout-scores-grid {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 .dugout-team-box {
   flex: 1;
   background: rgba(10, 13, 20, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
   text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transition: all 0.2s ease;
 }
 .dugout-team-meta {
@@ -2269,17 +2278,19 @@ body {
   margin-bottom: 4px;
 }
 .dugout-team-logo {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 .dugout-team-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   color: #F8FAFC;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 .dugout-team-status {
   min-height: 18px;
@@ -2294,17 +2305,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 .dugout-score-val {
-  font-size: 34px;
+  font-size: 38px;
   font-weight: 900;
-  color: #F8FAFC;
+  color: #FFFFFF;
+  background: linear-gradient(180deg, #FFFFFF 40%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', monospace, sans-serif !important;
   font-variant-numeric: tabular-nums !important;
   -webkit-font-feature-settings: "tnum" 1 !important;
   font-feature-settings: "tnum" 1 !important;
-  min-width: 40px;
+  min-width: 44px;
   text-align: center;
   line-height: 1;
 }
@@ -2335,8 +2350,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 14px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   flex-wrap: wrap;
 }
 .count-pill {
@@ -2346,9 +2361,10 @@ body {
   background: rgba(10, 13, 20, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   padding: 6px 14px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 .count-pill-label {
   font-size: 10px !important;
@@ -2358,7 +2374,7 @@ body {
   text-transform: uppercase !important;
 }
 .count-pill-val {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 900;
   color: #F8FAFC;
   font-variant-numeric: tabular-nums !important;
@@ -2368,14 +2384,19 @@ body {
 .outs-container-clean {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: rgba(10, 13, 20, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 6px 14px;
-  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 6px 16px;
+  border-radius: 12px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+.outs-container-clean:hover {
+  border-color: rgba(255, 255, 255, 0.18);
 }
 .btn-clean-mode-toggle {
   background: transparent;
@@ -2579,22 +2600,22 @@ body {
   text-align: center;
 }
 
-/* BLOQUE 3: BOTONES DE ACCIÓN INMEDIATA (VIDRIO LÍQUIDO ESMERILADO 54PX+) */
+/* BLOQUE 3: BOTONES DE ACCIÓN INMEDIATA (VIDRIO LÍQUIDO ESMERILADO 54PX+ DELUXE) */
 .dugout-block-actions {
   background: rgba(18, 24, 38, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 16px 20px;
+  border-radius: 18px;
+  padding: 18px 22px;
   margin-bottom: 14px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 .immediate-actions-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 @media (max-width: 640px) {
   .immediate-actions-grid {
@@ -2605,94 +2626,103 @@ body {
   }
 }
 .btn-immediate {
-  min-height: 54px;
-  padding: 8px 10px;
-  border-radius: 12px;
+  min-height: 56px;
+  padding: 10px 12px;
+  border-radius: 14px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.15s ease;
+  gap: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.btn-immediate:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
 }
 .btn-immediate:active {
-  transform: scale(0.97);
+  transform: translateY(1px) scale(0.98);
 }
 .btn-im-icon {
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1;
 }
 .btn-im-label {
   font-size: 13.5px;
   font-weight: 900;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 .btn-im-sub {
   font-size: 10px;
-  opacity: 0.8;
+  opacity: 0.85;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
 
-/* 1. Strike */
+/* 1. Strike (Zafiro Deportivo Profundo) */
 .btn-immediate.btn-strike {
-  background: rgba(30, 58, 138, 0.85);
-  border-color: #2563EB;
-  color: #DBEAFE;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.9) 0%, rgba(29, 78, 216, 0.95) 100%);
+  border-color: rgba(96, 165, 250, 0.45);
+  color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .btn-immediate.btn-strike:hover {
-  background: #1D4ED8;
-  color: #FFFFFF;
+  background: linear-gradient(180deg, #2563EB 0%, #1D4ED8 100%);
+  border-color: #60A5FA;
 }
 
-/* 2. Bola */
+/* 2. Bola (Titanio Satinado) */
 .btn-immediate.btn-ball {
-  background: rgba(10, 13, 20, 0.85);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #E2E8F0;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #F8FAFC;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 .btn-immediate.btn-ball:hover {
-  background: rgba(30, 41, 59, 0.9);
-  color: #FFFFFF;
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.9) 0%, rgba(30, 41, 59, 0.95) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* 3. Hit (Safe) */
+/* 3. Hit (Esmeralda Deluxe) */
 .btn-immediate.btn-hit {
-  background: rgba(6, 78, 59, 0.85);
-  border-color: #10B981;
-  color: #A7F3D0;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.95) 100%);
+  border-color: rgba(52, 211, 153, 0.45);
+  color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .btn-immediate.btn-hit:hover {
-  background: #047857;
-  color: #FFFFFF;
+  background: linear-gradient(180deg, #10B981 0%, #059669 100%);
+  border-color: #6EE7B7;
 }
 
-/* 4. Out */
+/* 4. Out (Rubí Clásico de Estadio) */
 .btn-immediate.btn-out {
-  background: rgba(69, 10, 10, 0.85);
-  border-color: #991B1B;
-  color: #FECACA;
+  background: linear-gradient(180deg, rgba(185, 28, 28, 0.9) 0%, rgba(127, 29, 29, 0.95) 100%);
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(185, 28, 28, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .btn-immediate.btn-out:hover {
-  background: #7F1D1D;
-  border-color: #DC2626;
-  color: #FFFFFF;
+  background: linear-gradient(180deg, #DC2626 0%, #991B1B 100%);
+  border-color: #FCA5A5;
 }
 
-/* 5. Deshacer (Crítico) */
+/* 5. Deshacer (Carmesí de Precisión) */
 .btn-immediate.btn-undo {
-  background: #DC2626;
-  border-color: #B91C1C;
+  background: linear-gradient(180deg, #DC2626 0%, #991B1B 100%);
+  border-color: rgba(252, 165, 165, 0.4);
   color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+  box-shadow: 0 6px 22px rgba(220, 38, 38, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 .btn-immediate.btn-undo:hover {
-  background: #B91C1C;
+  background: linear-gradient(180deg, #EF4444 0%, #B91C1C 100%);
+  border-color: #FCA5A5;
 }
 
 /* Barra secundaria de jugadas rápidas */
@@ -3020,17 +3050,30 @@ body {
   cursor:pointer;
 }
 .out-led-lamp {
-  width:14px; height:14px; border-radius:50%; background:#1E293B;
-  border:1px solid #334155; transition:0.2s;
+  width:14px; height:14px; border-radius:50%;
+  background: radial-gradient(circle at 35% 35%, #1E293B 0%, #0B0F19 100%);
+  border:1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8), 0 1px 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .out-led-lamp.on {
-  background:#EF4444; border-color:#EF4444;
-  box-shadow:0 0 10px #EF4444;
+  background: radial-gradient(circle at 35% 35%, #FCA5A5 0%, #EF4444 55%, #991B1B 100%);
+  border-color:#F87171;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.85), 0 0 4px #EF4444, inset 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 /* Diamante SVG */
-.base { transition:fill 0.2s, filter 0.2s; cursor:pointer; fill:#1E293B; }
-.base:hover { fill:#334155; }
+.base {
+  transition: fill 0.25s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.25s, filter 0.25s;
+  cursor:pointer;
+  fill: rgba(18, 24, 38, 0.85);
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.5;
+}
+.base:hover {
+  fill: rgba(37, 99, 235, 0.4);
+  stroke: #60A5FA;
+}
 
 /* Ficha del Bateador Activo (Blindada contra desbordamiento en Móvil / Tablet / PC) */
 .batter-card-active {
@@ -8753,8 +8796,8 @@ html, body {
       </div>
     </div>
 
-    <!-- BANNER DE ACCIÓN DISCRETO -->
-    <div class="live-action-banner" id="live-action-banner" style="background:#0F172A; border:1px solid #1E293B; color:#94A3B8; padding:8px 14px; border-radius:8px; font-size:12px; margin-bottom:12px; text-align:center;">
+    <!-- BANNER DE ACCIÓN DISCRETO DELUXE -->
+    <div class="live-action-banner" id="live-action-banner" style="background:rgba(10, 13, 20, 0.75); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255, 255, 255, 0.08); color:#94A3B8; padding:10px 18px; border-radius:12px; font-size:11.5px; font-weight:700; margin-bottom:14px; text-align:center; box-shadow:0 4px 16px rgba(0, 0, 0, 0.35);">
       Anotador listo. Registra el turno al bate con la botonera inmediata inferior.
     </div>
 
