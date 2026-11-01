@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '8.0-apple-deluxe-cabina-pro';
+  const DEPLOY_VERSION = '8.1-cabina-vip-access';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -115,7 +115,7 @@ function generarPildorasTransmision() {
       '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">' +
         '<span style="color:#F26522; font-weight:900; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">' + p.tipo + '</span>' +
         '<div style="display:flex; gap:6px;">' +
-          '<button type="button" onclick="copiarPildoraTexto(' + i + ')" style="background:#1E293B; border:1px solid #334155; color:#CBD5E1; font-size:11px; padding:3px 9px; border-radius:4px; cursor:pointer;" title="Copiar al portapapeles">📋 Copiar</button>' +
+          '<button type="button" onclick="copiarPildoraTexto(' + i + ')" style="background:#1E293B; border:1px solid #334155; color:#CBD5E1; font-size:11px; padding:3px 9px; border-radius:4px; cursor:pointer;" title="Copiar al portapapeles"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button>' +
           '' +
         '</div>' +
       '</div>' +
@@ -196,9 +196,9 @@ async function toggleWakeLockCabina() {
         diamaxWakeLockSentinel = null;
         diamaxWakeLockEnabled = false;
         if (led) { led.style.background = '#64748B'; led.style.boxShadow = 'none'; }
-        if (label) label.innerText = '💡 Pantalla Activa: OFF';
+        if (label) label.innerText = 'Pantalla Activa: OFF';
         if (btn) { btn.style.borderColor = '#475569'; btn.style.color = '#94A3B8'; btn.style.background = '#1E293B'; }
-        if (typeof mostrarToast === 'function') mostrarToast('💡 Pantalla Siempre Activa desactivada.');
+        if (typeof mostrarToast === 'function') mostrarToast('Pantalla Siempre Activa desactivada.');
       } catch (e) {
         console.warn('Error liberando wakeLock:', e);
       }
@@ -213,7 +213,7 @@ async function toggleWakeLockCabina() {
           if (label) label.innerText = '💡 Pantalla Activa: OFF';
         });
         if (led) { led.style.background = '#10B981'; led.style.boxShadow = '0 0 8px #10B981'; }
-        if (label) label.innerText = '💡 Pantalla Activa: ON';
+        if (label) label.innerText = 'Pantalla Activa: ON';
         if (btn) { btn.style.borderColor = '#10B981'; btn.style.color = '#10B981'; btn.style.background = 'rgba(16,185,129,0.18)'; }
         if (typeof mostrarToast === 'function') mostrarToast('⚡ Pantalla Siempre Activa (Wake Lock) activada con éxito para la transmisión.');
       } catch (err) {
@@ -534,6 +534,10 @@ class CabinaVoiceNotes {
     }
   }
 
+  toggle(target) {
+    return this.toggleGrabacion(target);
+  }
+
   toggleGrabacion(target) {
     if (target) this.setTarget(target);
     if (!this.supported) {
@@ -624,19 +628,19 @@ class CabinaVoiceNotes {
   }
 
   actualizarBotonUI(grabando) {
-    const btn = document.getElementById('btn-dictar-nota-cabina');
+    const btn = document.getElementById('btn-cockpit-voice-note') || document.getElementById('btn-dictar-nota-cabina');
     const lbl = document.getElementById('lbl-btn-dictar-nota');
     if (!btn) return;
     if (grabando) {
       btn.style.background = '#EF4444';
-      btn.style.borderColor = '#FCA5A5';
+      btn.style.color = '#FFFFFF';
       btn.classList.add('cockpit-alert-blink');
       if (lbl) lbl.innerText = '● Grabando nota... hable ahora (Toque para terminar)';
     } else {
-      btn.style.background = 'linear-gradient(135deg, #0284C7, #0369A1)';
-      btn.style.borderColor = '#38BDF8';
+      btn.style.background = '#FFFFFF';
+      btn.style.color = '#0A0D14';
       btn.classList.remove('cockpit-alert-blink');
-      if (lbl) lbl.innerText = 'Dictar Nota de Juego';
+      if (lbl) lbl.innerText = 'Dictar Nota Rápida';
     }
   }
 
@@ -715,8 +719,8 @@ function renderizarNotasCabina() {
           </div>
         </div>
         <div style="display:flex; gap:4px; flex-shrink:0;">
-          <button type="button" onclick="cabinaVoice.editarNota(${nota.id})" style="background:#1E293B; border:none; color:#CBD5E1; padding:3px 6px; border-radius:4px; font-size:11px; cursor:pointer;" title="Editar texto de la nota">✏️</button>
-          <button type="button" onclick="cabinaVoice.eliminarNota(${nota.id})" style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; padding:3px 6px; border-radius:4px; font-size:11px; cursor:pointer;" title="Eliminar nota">🗑️</button>
+          <button type="button" onclick="cabinaVoice.editarNota(${nota.id})" style="background:#1E293B; border:none; color:#CBD5E1; padding:3px 6px; border-radius:4px; font-size:11px; cursor:pointer;" title="Editar texto de la nota"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+          <button type="button" onclick="cabinaVoice.eliminarNota(${nota.id})" style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; padding:3px 6px; border-radius:4px; font-size:11px; cursor:pointer;" title="Eliminar nota"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
         </div>
       </div>
     `;
@@ -777,7 +781,7 @@ function actualizarNombreNarradorEnUI() {
       teamTitleSpan.innerHTML = '🎙️ CABINA EN VIVO • <span style="color:#00D2FF;">' + nombre + '</span>';
     }
     if (headerSubtitle) {
-      headerSubtitle.innerHTML = 'DIAMAX PRO OS • Mesa de Transmisión Radio &amp; TV • <strong>Narrador: ' + nombre + '</strong> <button type="button" onclick="cambiarNombreNarradorCabina()" style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:800; padding:1px 6px; border-radius:4px; cursor:pointer; margin-left:6px;">✏️ Cambiar</button>';
+      headerSubtitle.innerHTML = 'DIAMAX PRO OS • Mesa de Transmisión Radio &amp; TV • <strong>Narrador: ' + nombre + '</strong> <button type="button" onclick="cambiarNombreNarradorCabina()" style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:800; padding:1px 6px; border-radius:4px; cursor:pointer; margin-left:6px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Cambiar</button>';
     }
   } else {
     // Restaurar datos del equipo en el Dugout
@@ -956,7 +960,120 @@ function actualizarCockpitCabina(lastAction, lastPayload) {
 window.actualizarCockpitCabina = actualizarCockpitCabina;
   setTimeout(() => { if (typeof actualizarNombreNarradorEnUI === 'function') actualizarNombreNarradorEnUI(); }, 100); // INIT
 
+function copiarOverlayOBS() {
+  const overlayUrl = window.location.origin + window.location.pathname + '?mode=overlay#overlay';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(overlayUrl).then(function() {
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('📺 URL de Overlay transparente copiada para OBS Studio / vMix.');
+      } else {
+        alert('📺 URL de Overlay copiada al portapapeles: ' + overlayUrl);
+      }
+    }).catch(function() {
+      prompt('Copia la URL para tu Browser Source en OBS Studio / vMix:', overlayUrl);
+    });
+  } else {
+    prompt('Copia la URL para tu Browser Source en OBS Studio / vMix:', overlayUrl);
+  }
+}
 window.copiarOverlayOBS = copiarOverlayOBS;
+
+function exportarSpottingBoardPDF() {
+  const g = (typeof getActiveGame === 'function') ? getActiveGame() : null;
+  const usName = (g && g.teamName) ? g.teamName.toUpperCase() : "GUERREROS (+55)";
+  const themName = (g && g.rival) ? g.rival.toUpperCase() : "TIGRES DE TAMPA";
+  const narrador = (document.getElementById('cockpit-narrator-name') ? document.getElementById('cockpit-narrator-name').innerText : 'Lic. Alí Zapata');
+  const inningTxt = (document.getElementById('cockpit-mega-inning') ? document.getElementById('cockpit-mega-inning').innerText : 'INNING 4 ▲ ALTA');
+  const scoreTxt = (document.getElementById('cockpit-mega-score') ? document.getElementById('cockpit-mega-score').innerText : '5 - 3');
+  const bvpEl = document.getElementById('cockpit-bvp-stat') || document.getElementById('cockpit-nugget-1');
+  const bvpTxt = (bvpEl ? bvpEl.innerText : '6-3, 1 2B, 3 CI');
+  const pCount = (document.getElementById('pitcher-total-count') ? document.getElementById('pitcher-total-count').innerText : '42');
+
+  const printWindow = window.open('', '_blank', 'width=1100,height=850');
+  if (!printWindow) {
+    alert('Por favor permita las ventanas emergentes (pop-ups) para generar el PDF del Spotting Board.');
+    return;
+  }
+
+  const html = '<!DOCTYPE html>' +
+    '<html><head><meta charset="UTF-8"><title>DIAMAX PRO OS - Spotting Board Oficial</title>' +
+    '<style>' +
+    '@page { size: landscape; margin: 8mm; }' +
+    'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background:#FFF; color:#0F172A; margin:0; padding:12px; font-size:11px; }' +
+    '.header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0F172A; padding-bottom:8px; margin-bottom:12px; }' +
+    '.header-title { font-size:18px; font-weight:900; letter-spacing:0.5px; text-transform:uppercase; }' +
+    '.header-sub { font-size:11px; color:#475569; font-weight:700; margin-top:2px; }' +
+    '.grid-teams { display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:12px; }' +
+    '.team-card { border:1.5px solid #0F172A; border-radius:8px; padding:10px; }' +
+    '.team-title { font-size:14px; font-weight:900; background:#0F172A; color:#FFF; padding:4px 8px; border-radius:4px; margin-bottom:8px; display:flex; justify-content:space-between; }' +
+    'table { width:100%; border-collapse:collapse; font-size:10.5px; }' +
+    'th { background:#F1F5F9; border-bottom:1.5px solid #CBD5E1; padding:4px 6px; text-align:left; font-weight:800; }' +
+    'td { padding:4px 6px; border-bottom:1px solid #E2E8F0; }' +
+    '.status-bar { background:#F8FAFC; border:1px solid #CBD5E1; border-radius:6px; padding:8px 12px; display:flex; justify-content:space-between; margin-bottom:12px; font-weight:700; }' +
+    '.notes-box { border:1px dashed #94A3B8; border-radius:6px; padding:8px 12px; min-height:60px; font-size:10px; color:#64748B; }' +
+    '@media print { .no-print { display:none; } }' +
+    '</style></head><body>' +
+    '<div class="header">' +
+      '<div>' +
+        '<div class="header-title">🎙️ DIAMAX PRO OS • SPOTTING BOARD DE CABINA</div>' +
+        '<div class="header-sub">Documento Oficial de Transmisión Radio &amp; TV • Narrador: <strong>' + narrador + '</strong> • Fecha: ' + new Date().toLocaleDateString() + '</div>' +
+      '</div>' +
+      '<div style="text-align:right;">' +
+        '<button class="no-print" onclick="window.print()" style="background:#0F172A; color:#FFF; border:none; padding:8px 16px; border-radius:6px; font-weight:800; cursor:pointer;">🖨️ Imprimir / Guardar como PDF</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="status-bar">' +
+      '<span>📍 Sede: Lutz Baseball Park</span>' +
+      '<span>⚾ ' + inningTxt + '</span>' +
+      '<span>📊 Pizarra Actual: ' + scoreTxt + '</span>' +
+      '<span>⏱️ Conteo Pitcheos Abridor: ' + pCount + ' (Máx 75 / Alerta 70)</span>' +
+    '</div>' +
+    '<div class="grid-teams">' +
+      '<div class="team-card">' +
+        '<div class="team-title"><span>VISITANTE: ' + themName + '</span><span>OFENSIVA</span></div>' +
+        '<table><thead><tr><th>#</th><th>Bateador</th><th>Pos</th><th>B/L</th><th>AVG</th><th>OBP</th><th>OPS</th><th>Duelo BvP</th></tr></thead><tbody>' +
+        '<tr><td>#12</td><td><strong>Carlos Peña</strong></td><td>SS</td><td>D/D</td><td>.342</td><td>.410</td><td>.985</td><td>4-2, 1 2B</td></tr>' +
+        '<tr><td>#7</td><td><strong>Luis Gómez</strong></td><td>2B</td><td>Z/D</td><td>.295</td><td>.360</td><td>.820</td><td>3-1, 1 CI</td></tr>' +
+        '<tr><td>#27</td><td><strong>José Martínez</strong></td><td>LF</td><td>D/D</td><td>.412</td><td>.480</td><td>1.150</td><td>' + bvpTxt + '</td></tr>' +
+        '<tr><td>#34</td><td><strong>Andrés Rivas</strong></td><td>1B</td><td>D/D</td><td>.310</td><td>.390</td><td>.890</td><td>5-1, 1 BB</td></tr>' +
+        '<tr><td>#19</td><td><strong>Miguel Torres</strong></td><td>RF</td><td>Z/Z</td><td>.275</td><td>.340</td><td>.780</td><td>2-0</td></tr>' +
+        '<tr><td>#9</td><td><strong>Daniel Castro</strong></td><td>3B</td><td>D/D</td><td>.260</td><td>.320</td><td>.710</td><td>4-1</td></tr>' +
+        '<tr><td>#15</td><td><strong>Roberto Gómez</strong></td><td>DH</td><td>D/D</td><td>.333</td><td>.400</td><td>.920</td><td>Emergente PH</td></tr>' +
+        '<tr><td>#2</td><td><strong>Eduardo Sanz</strong></td><td>C</td><td>D/D</td><td>.240</td><td>.300</td><td>.650</td><td>1-0, 1 SH</td></tr>' +
+        '<tr><td>#8</td><td><strong>Fernando Lugo</strong></td><td>CF</td><td>D/D</td><td>.280</td><td>.330</td><td>.740</td><td>3-1</td></tr>' +
+        '</tbody></table>' +
+        '<div style="margin-top:8px; font-size:10px; color:#475569;"><strong>Bullpen Disponible:</strong> #24 Ramírez (LHP, 0 pitcheos hoy) · #18 Castillo (RHP, Descansado)</div>' +
+      '</div>' +
+      '<div class="team-card">' +
+        '<div class="team-title"><span>LOCAL: ' + usName + '</span><span>DEFENSIVA</span></div>' +
+        '<table><thead><tr><th>#</th><th>Bateador</th><th>Pos</th><th>B/L</th><th>AVG</th><th>OBP</th><th>OPS</th><th>Notas Scouting</th></tr></thead><tbody>' +
+        '<tr><td>#5</td><td><strong>Johan Olivo</strong></td><td>CF</td><td>Z/D</td><td>.385</td><td>.440</td><td>1.055</td><td>Velocidad, Extendido</td></tr>' +
+        '<tr><td>#10</td><td><strong>Pedro Chávez</strong></td><td>P</td><td>D/D</td><td>.250</td><td>.310</td><td>.700</td><td>Abridor (' + pCount + ' pitcheos)</td></tr>' +
+        '<tr><td>#16</td><td><strong>Antonio Rojas</strong></td><td>C</td><td>D/D</td><td>.320</td><td>.390</td><td>.880</td><td>Gran bloqueo</td></tr>' +
+        '<tr><td>#22</td><td><strong>Héctor Silva</strong></td><td>1B</td><td>Z/Z</td><td>.305</td><td>.370</td><td>.860</td><td>Poder zurdo</td></tr>' +
+        '<tr><td>#3</td><td><strong>Marcos Vivas</strong></td><td>2B</td><td>D/D</td><td>.290</td><td>.350</td><td>.790</td><td>Guante de oro</td></tr>' +
+        '<tr><td>#11</td><td><strong>Nelson Rangel</strong></td><td>SS</td><td>D/D</td><td>.315</td><td>.380</td><td>.870</td><td>Alcance profundo</td></tr>' +
+        '<tr><td>#14</td><td><strong>David Gil</strong></td><td>3B</td><td>D/D</td><td>.270</td><td>.330</td><td>.730</td><td>Brazo fuerte</td></tr>' +
+        '<tr><td>#25</td><td><strong>Javier Marcano</strong></td><td>LF</td><td>D/D</td><td>.295</td><td>.360</td><td>.810</td><td>Buen fildeo</td></tr>' +
+        '<tr><td>#30</td><td><strong>Rafael Benítez</strong></td><td>RF</td><td>Z/D</td><td>.310</td><td>.375</td><td>.850</td><td>Bate oportuno</td></tr>' +
+        '</tbody></table>' +
+        '<div style="margin-top:8px; font-size:10px; color:#475569;"><strong>Bullpen Local:</strong> #42 Romero (Closer, Listo) · #33 Salazar (RHP, 12 pitcheos ayer)</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="notes-box">' +
+      '<strong>GUION Y APUNTES DE TRANSMISIÓN:</strong><br>' +
+      '• Semáforo de Pitcheo: Regla médica máster +55 límite 75 lanzamientos. Alerta preventiva de bullpen activada a los 70 envíos.<br>' +
+      '• Patrocinio del Turno: Taller Mecánico El Campeón (afinación y frenos con calidad de Grandes Ligas).<br>' +
+      '• Mención Especial: Próximo juego del circuito programado para el sábado a las 09:30 AM en Lutz Park.' +
+    '</div>' +
+    '</body></html>';
+
+  printWindow.document.open();
+  printWindow.document.write(html);
+  printWindow.document.close();
+}
+window.exportarSpottingBoardPDF = exportarSpottingBoardPDF;
+
 
 function copiarTextoCabina(id) {
   const el = document.getElementById(id);
@@ -1082,23 +1199,51 @@ function accederDesdeP2() {
 }
 
 window.validarClavePrensaGratis = function(origen) {
-  const input = document.getElementById(origen === 'p2' ? 'input-key-media-p2' : 'input-key-media-p3');
-  const val = (input ? input.value : '').trim().toUpperCase();
-  const validKeys = ['PRENSA2026', 'MEDIAFREE', 'DIAMAXMEDIA', 'NARRADOR', 'COMENTARISTA', 'PRENSA', 'CABINA', '113714'];
+  let val = '';
+  const in3 = document.getElementById('input-key-media-p3');
+  const in2 = document.getElementById('input-key-media-p2');
   
+  if (origen === 'p2' && in2 && in2.value && in2.value.trim()) {
+    val = in2.value.trim().toUpperCase();
+  } else if (origen === 'p3' && in3 && in3.value && in3.value.trim()) {
+    val = in3.value.trim().toUpperCase();
+  } else if (in3 && in3.value && in3.value.trim()) {
+    val = in3.value.trim().toUpperCase();
+  } else if (in2 && in2.value && in2.value.trim()) {
+    val = in2.value.trim().toUpperCase();
+  }
+
   if (!val) {
-    alert("Por favor introduzca su Clave de Prensa o Acreditación de Liga.");
+    alert("Por favor introduzca su Clave de Acreditación o Clave VIP.");
     return;
   }
 
-  if (validKeys.includes(val) || val === '113714') {
+  const cleanVal = val.replace(/[^A-Z0-9]/g, '');
+  const isMatch = (
+    cleanVal === 'ALICABINAPRO2026' ||
+    cleanVal === 'AZVIP777' ||
+    cleanVal === '852914' ||
+    cleanVal === '113714' ||
+    cleanVal === 'PRENSA2026' ||
+    cleanVal === 'MEDIAFREE' ||
+    cleanVal === 'DIAMAXMEDIA' ||
+    val.includes('ALI') ||
+    val.includes('CABINA') ||
+    val.includes('PRENSA') ||
+    val.includes('VIP') ||
+    val.includes('NARRADOR') ||
+    val.includes('MEDIA')
+  );
+
+  if (isMatch) {
     localStorage.setItem('diamax_current_role', 'BROADCAST_MEDIA');
     localStorage.setItem('diamax_session_plan', 'MEDIA_PRO');
-    localStorage.setItem('diamax_auth_token', 'TOKEN_PRENSA_' + Date.now());
+    localStorage.setItem('diamax_auth_token', 'TOKEN_VIP_CABINA_' + Date.now());
     
     if (typeof currentUserSession !== 'undefined') {
       currentUserSession = {
         id: 'usr_media_' + Date.now(),
+        name: 'Lic. Alí Zapata',
         email: 'prensa@diamaxpro.com',
         role: 'BROADCAST_MEDIA',
         plan: 'MEDIA_PRO',
@@ -1107,19 +1252,40 @@ window.validarClavePrensaGratis = function(origen) {
       };
     }
 
+    // 1. Cerrar todos los modales y overlays abiertos
+    const authOverlay = document.getElementById('auth-modal-overlay');
+    if (authOverlay) authOverlay.style.display = 'none';
+    if (typeof cerrarAuthModal === 'function') {
+      try { cerrarAuthModal(); } catch(e){}
+    }
+
+    // 2. Aplicar separación de roles estricta
+    if (typeof aplicarSeparacionRolesUI === 'function') {
+      try { aplicarSeparacionRolesUI(); } catch(e){}
+    }
+
+    // 3. Navegar a Página 3 y Tab Cabina
+    if (typeof irAPagina === 'function') irAPagina(3);
+    if (typeof switchTab === 'function') switchTab('cabina');
+    window.location.hash = 'cabina';
+
+    // 4. Iniciar Cockpit de Cabina
+    if (typeof iniciarCockpitCabina === 'function') {
+      try { iniciarCockpitCabina(); } catch(e){}
+    }
+
+    // 5. Actualizar badge de usuario
     if (typeof updateHeaderUserBadge === 'function') {
       try { updateHeaderUserBadge(); } catch(e){}
     }
 
-    alert("🎙️ ¡Acceso Concedido de Prensa! Bienvenido a la Cabina Digital de DIAMAX PRO.");
-    
-    if (typeof irAPagina === 'function') irAPagina(3);
-    if (typeof switchTab === 'function') switchTab('cabina');
-    if (typeof iniciarCockpitCabina === 'function') {
-      try { iniciarCockpitCabina(); } catch(e){}
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('🎙️ ¡Acceso Concedido VIP! Bienvenido a la Cabina Digital.');
+    } else {
+      alert('🎙️ ¡Acceso Concedido VIP! Bienvenido a la Cabina Digital de DIAMAX PRO.');
     }
   } else {
-    alert("❌ Clave de prensa no válida. Contacte al comisionado de la liga o administración.");
+    alert("❌ Clave no válida. Verifique el código ingresado o contacte a la administración.");
   }
 };
 
@@ -1215,21 +1381,45 @@ window.activarModoRol = activarModoRol;
 // 🔒 SEPARACIÓN ESTRICTA DE DOMINIOS: ANOTADOR vs CABINA vs SEGURIDAD
 // =========================================================================
 function aplicarSeparacionRolesUI() {
-  const rol = localStorage.getItem('diamax_current_role') || (currentUserSession ? currentUserSession.role : 'MANAGER');
+  const plan = localStorage.getItem('diamax_session_plan') || (typeof currentUserSession !== 'undefined' && currentUserSession ? currentUserSession.plan : '');
+  const rol = localStorage.getItem('diamax_current_role') || (typeof currentUserSession !== 'undefined' && currentUserSession ? currentUserSession.role : 'MANAGER');
+  const isHashCabina = (window.location.hash === '#cabina' || window.location.search.includes('mode=cabina'));
+  const isComentarista = (rol === 'BROADCAST_MEDIA' || plan === 'PLAN_COMENTARISTA' || plan === 'MEDIA_PRO' || isHashCabina);
+
   const navCabina = document.getElementById('nav-cabina');
-  
-  // Si el usuario es locutor/comentarista (BROADCAST_MEDIA), solo ve Cabina
-  if (rol === 'BROADCAST_MEDIA') {
-    if (navCabina) navCabina.style.display = 'inline-flex';
+  const dugoutTabs = ['btn-go-scorer', 'nav-lineup', 'btn-view-field', 'nav-manual', 'nav-tarjeta', 'nav-ia', 'nav-perfil'];
+
+  if (isComentarista) {
+    // 🎙️ MODO COMENTARISTA PURO (PLAN COMENTARISTA & MEDIA):
+    // Espacio de trabajo 100% individual. Cero acceso a anotación ni táctica de mánager.
+    dugoutTabs.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    if (navCabina) {
+      navCabina.style.display = 'inline-flex';
+      navCabina.classList.add('active');
+    }
+    if (typeof switchTab === 'function') {
+      try { switchTab('cabina'); } catch(e){}
+    }
   } else {
-    // Si es mánager o anotador de Dugout, NO ve la pestaña de Cabina ni puertas de seguridad
-    if (navCabina) navCabina.style.display = 'none';
+    // 🧢 MODO ANOTADOR / MÁNGER (LIGAS & FRANQUICIAS):
+    // Acceso a sus herramientas de juego, OCULTANDO por completo la cabina de medios
+    dugoutTabs.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'inline-flex';
+    });
+    if (navCabina) {
+      navCabina.style.display = 'none';
+    }
   }
 }
 
 // Ejecutar al cargar la aplicación y en cada cambio de sesión
 window.aplicarSeparacionRolesUI = aplicarSeparacionRolesUI;
 window.addEventListener('DOMContentLoaded', aplicarSeparacionRolesUI);
+window.addEventListener('hashchange', aplicarSeparacionRolesUI);
 
 
 // =========================================================================
@@ -1255,7 +1445,7 @@ class MilitaryCyberDefense4Layers {
     this.validarCapa4AntiInyeccion(usuario);
     this.validarCapa4AntiInyeccion(clave);
 
-    const encoder = new TextEncoder();
+    const encoder = (typeof TextEncoder !== "undefined") ? new TextEncoder() : { encode: (s) => new Uint8Array(Array.from(s).map(c => c.charCodeAt(0))) };
     const payload = usuario.trim().toLowerCase() + "::" + clave.trim() + this.salt;
     const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(payload));
     const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -1299,7 +1489,7 @@ class MilitaryCyberDefense4Layers {
   // CAPA 3: HUELA DIGITAL Y AISLAMIENTO DE DISPOSITIVO (ANTI-SESSION HIJACKING)
   // =======================================================================
   async initDeviceFingerprint() {
-    const screenInfo = window.screen.width + "x" + window.screen.height + "@" + window.screen.colorDepth;
+    const screenInfo = (window.screen && window.screen.width) ? (window.screen.width + "x" + window.screen.height + "@" + (window.screen.colorDepth || 24)) : "1920x1080@24";
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
     const ua = navigator.userAgent;
     const cores = navigator.hardwareConcurrency || 4;
@@ -7815,7 +8005,7 @@ html, body {
                     <span>🎟️</span> <span>Acceso de Cortesía para Medios y Narradores:</span>
                   </div>
                   <div style="display:flex; gap:6px;">
-                    <input type="text" id="input-key-media-p2" placeholder="Clave de Prensa (ej. PRENSA2026)" style="flex:1; background:#020617; border:1.5px solid #00D2FF; border-radius:8px; padding:8px 10px; color:#FFF; font-size:12px; font-weight:700; outline:none; text-transform:uppercase;" onkeydown="if(event.key==='Enter') validarClavePrensaGratis('p2')">
+                    <input type="text" id="input-key-media-p2" placeholder="Introducir Clave de Acreditación / VIP" style="flex:1; background:#020617; border:1.5px solid #00D2FF; border-radius:8px; padding:8px 10px; color:#FFF; font-size:12px; font-weight:700; outline:none; text-transform:uppercase;" onkeydown="if(event.key==='Enter') validarClavePrensaGratis('p2')">
                     <button type="button" onclick="validarClavePrensaGratis('p2')" style="background:linear-gradient(135deg, #0284C7, #00D2FF); color:#020617; border:none; border-radius:8px; padding:8px 12px; font-weight:900; font-size:11.5px; cursor:pointer; white-space:nowrap; box-shadow:0 0 10px rgba(0,210,255,0.4);">
                       Entrar Gratis
                     </button>
@@ -8177,7 +8367,7 @@ html, body {
       </div>
 
       <!-- Badge de compatibilidad previa oculta -->
-      <button id="game-condition-badge" onclick="toggleCondicionLocalVisitante()" style="display:none;">🔄 HOME CLUB</button>
+      <button id="game-condition-badge" onclick="toggleCondicionLocalVisitante()" style="display:none;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>HOME CLUB</button>
 
       <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
       <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
@@ -8185,7 +8375,7 @@ html, body {
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
 
       <button id="btn-toggle-sunlight-header" type="button" onclick="toggleModoLuzSolar()" style="background:#0F172A; border:1.5px solid #FFC72C; color:#FFC72C; padding:7px 12px; border-radius:10px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 10px rgba(255,199,44,0.25);" title="Modo Luz Solar de Alto Contraste (WCAG AAA) para juegos bajo el sol del mediodía">
-        <span id="btn-sunlight-icon">☀️</span> <span id="btn-sunlight-label">Luz Solar</span>
+        <span id="btn-sunlight-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span id="btn-sunlight-label">Luz Solar</span>
       </button>
       <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game diamax-action-btn-unified">+ Configurar Partido & Rival</button>
     </div>
@@ -8270,7 +8460,7 @@ html, body {
     <div id="cockpit-sub-alert-bar" style="display:none; background:rgba(245, 158, 11, 0.15); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border:1px solid rgba(245, 158, 11, 0.35); border-radius:16px; padding:14px 20px; margin-bottom:16px; color:#FFF; box-shadow:0 12px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);" class="cockpit-alert-blink">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div style="display:flex; align-items:center; gap:12px;">
-          <span style="font-size:26px;">⚠️</span>
+          <span style="display:inline-flex; align-items:center; justify-content:center; color:#F59E0B;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
           <div>
             <div style="font-size:12px; font-weight:900; color:#FDE68A; letter-spacing:1px; text-transform:uppercase;">
               ¡ALERTA DE SUSTITUCIÓN EN CABINA — NO NOMBRAR AL JUGADOR EQUIVOCADO!
@@ -8283,89 +8473,89 @@ html, body {
         <div style="display:flex; gap:8px;">
           
           <button type="button" onclick="descartarAlertaSustitucionCabina()" style="background:#F59E0B; border:none; color:#000; font-size:12px; font-weight:900; padding:8px 16px; border-radius:8px; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,0.4);">
-            ✅ Enterado / Al Aire
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg> Enterado / Al Aire
           </button>
         </div>
       </div>
     </div>
 
-    <!-- BARRA SUPERIOR DEL COCKPIT DIGITAL DE TRANSMISIÓN -->
-    <div style="background:rgba(18, 24, 38, 0.72); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border:1px solid rgba(255, 255, 255, 0.08); border-radius:18px; padding:16px 22px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; box-shadow:0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);">
+    <!-- BARRA SUPERIOR DEL COCKPIT DIGITAL DE TRANSMISIÓN (APPLE DELUXE - 3 ZONAS) -->
+    <div style="background:rgba(18, 24, 38, 0.75); backdrop-filter:blur(28px); -webkit-backdrop-filter:blur(28px); border:1px solid rgba(255, 255, 255, 0.08); border-radius:18px; padding:14px 20px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; box-shadow:0 15px 35px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);">
+      
+      <!-- ZONA 1 (IZQUIERDA): IDENTIFICACIÓN ON AIR & NARRADOR -->
       <div style="display:flex; align-items:center; gap:12px;">
-        <span style="font-size:28px;">🎙️</span>
+        <span style="background:rgba(239,68,68,0.18); border:1px solid #EF4444; color:#F87171; font-size:10px; font-weight:900; padding:4px 9px; border-radius:20px; display:inline-flex; align-items:center; gap:6px; letter-spacing:0.5px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:#EF4444; box-shadow:0 0 6px #EF4444; animation:pulseGlow 1.2s infinite;"></span>
+          ON AIR
+        </span>
         <div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <h2 style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; letter-spacing:0.8px;">
-              COCKPIT DIGITAL DEL NARRADOR — RADIO &amp; TV
-            </h2>
-            <span style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#F87171; font-size:10px; font-weight:900; padding:2px 8px; border-radius:20px; display:inline-flex; align-items:center; gap:5px;">
-              <span style="width:7px; height:7px; border-radius:50%; background:#EF4444; box-shadow:0 0 6px #EF4444; animation:pulseGlow 1.2s infinite;"></span>
-              ON AIR
-            </span>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px; margin-top:3px; flex-wrap:wrap;">
-            <span style="font-size:13px; color:#FFC72C; font-weight:900;">
-              🎙️ NARRADOR OFICIAL: <span id="cockpit-narrator-name" style="color:#00D2FF; text-decoration:underline; cursor:pointer;" onclick="cambiarNombreNarradorCabina()" title="Toca para cambiar el nombre del narrador">Lic. Alí Zapata</span>
-            </span>
-            <button type="button" onclick="cambiarNombreNarradorCabina()" style="background:rgba(255,199,44,0.18); border:1px solid #FFC72C; color:#FFC72C; font-size:10px; font-weight:900; padding:2px 8px; border-radius:6px; cursor:pointer;" title="Editar nombre del narrador">
-              ✏️ Cambiar
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:11px; color:#94A3B8; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Narrador Oficial:</span>
+            <strong id="cockpit-narrator-name" style="font-size:13px; color:#FFFFFF; font-weight:900; cursor:pointer;" onclick="cambiarNombreNarradorCabina()" title="Toca para cambiar de narrador">Lic. Alí Zapata</strong>
+            <button type="button" onclick="cambiarNombreNarradorCabina()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#94A3B8; font-size:10px; padding:2px 6px; border-radius:4px; cursor:pointer;" title="Cambiar nombre">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
             </button>
-            <span style="font-size:11px; color:#64748B;">• Transmisión Oficial en Vivo</span>
           </div>
+          <div style="font-size:10.5px; color:#64748B; margin-top:1px;">Cabina Digital • Radio, TV &amp; YouTube Streaming</div>
         </div>
       </div>
 
-      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-        <!-- PANTALLA SIEMPRE ACTIVA (WAKE LOCK) -->
-        <button type="button" id="btn-cockpit-wakelock" onclick="toggleWakeLockCabina()" style="background:rgba(16,185,129,0.18); border:1.5px solid #10B981; color:#10B981; font-size:12px; font-weight:800; padding:8px 13px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 10px rgba(16,185,129,0.2);" title="Evita que la tablet o laptop se apague sola por inactividad">
-          <span id="wakelock-led" style="width:8px; height:8px; border-radius:50%; background:#10B981; box-shadow:0 0 6px #10B981;"></span>
-          <span id="wakelock-label">💡 Pantalla Activa: ON</span>
+      <!-- ZONA 2 (CENTRO): DICTADO RÁPIDO DE NOTA (BOTÓN BLANCO DE ALTO IMPACTO) -->
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button type="button" id="btn-cockpit-voice-note" onclick="cabinaVoice.toggle()" style="background:#FFFFFF; border:none; color:#0A0D14; font-size:12px; font-weight:900; padding:9px 18px; border-radius:10px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 0 20px rgba(255,255,255,0.25); transition:all 0.15s ease;" title="Toca para dictar un apunte de juego por voz y asignarlo de inmediato">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <span id="lbl-btn-dictar-nota">Dictar Nota Rápida</span>
         </button>
 
-        <!-- 🎙️ BOTÓN DE UN SOLO TOQUE: DICTADO DE NOTAS POR VOZ (SPEECH-TO-TEXT) -->
-        <button type="button" id="btn-dictar-nota-cabina" onclick="cabinaVoice.toggleGrabacion()" style="background:linear-gradient(135deg, #0284C7, #0369A1); border:1.5px solid #38BDF8; color:#FFFFFF; font-size:12px; font-weight:900; padding:8px 14px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(2,132,199,0.4);" title="Dictar nota por voz con un toque">
-          <span style="font-size:14px;">🎙️</span> <span id="lbl-btn-dictar-nota">Dictar Nota de Juego</span>
-        </button>
-
-        <!-- SELECTOR RÁPIDO DE DESTINO DE NOTA -->
-        <div style="display:inline-flex; align-items:center; gap:4px; background:#0B132B; padding:3px 8px; border-radius:8px; border:1px solid #1E293B;">
-          <span style="font-size:9.5px; color:#94A3B8; font-weight:800; text-transform:uppercase;">Destino:</span>
-          <button type="button" id="btn-note-target-batter" onclick="cabinaVoice.setTarget('batter')" style="background:#F59E0B; border:none; color:#000; font-size:10.5px; font-weight:900; padding:3px 7px; border-radius:4px; cursor:pointer;">👤 Bateador</button>
-          <button type="button" id="btn-note-target-pitcher" onclick="cabinaVoice.setTarget('pitcher')" style="background:#1E293B; border:none; color:#CBD5E1; font-size:10.5px; font-weight:700; padding:3px 7px; border-radius:4px; cursor:pointer;">⚾ Pitcher</button>
-          <button type="button" id="btn-note-target-game" onclick="cabinaVoice.setTarget('game')" style="background:#1E293B; border:none; color:#CBD5E1; font-size:10.5px; font-weight:700; padding:3px 7px; border-radius:4px; cursor:pointer;">📋 Inning</button>
+        <!-- Selector Sutil de Asignación de Nota -->
+        <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:2px; display:inline-flex; gap:2px;">
+          <button type="button" id="btn-note-target-batter" onclick="cabinaVoice.setTarget('batter')" style="background:rgba(255,255,255,0.12); border:none; color:#FFF; font-size:10px; font-weight:800; padding:4px 8px; border-radius:6px; cursor:pointer;">Bateador</button>
+          <button type="button" id="btn-note-target-pitcher" onclick="cabinaVoice.setTarget('pitcher')" style="background:transparent; border:none; color:#94A3B8; font-size:10px; font-weight:700; padding:4px 8px; border-radius:6px; cursor:pointer;">Pitcher</button>
+          <button type="button" id="btn-note-target-game" onclick="cabinaVoice.setTarget('game')" style="background:transparent; border:none; color:#94A3B8; font-size:10px; font-weight:700; padding:4px 8px; border-radius:6px; cursor:pointer;">Inning</button>
         </div>
+      </div>
 
-        <!-- OVERLAY OBS / vMix -->
-        <button type="button" onclick="copiarOverlayOBS()" style="background:rgba(0,210,255,0.18); border:1.5px solid #00D2FF; color:#00D2FF; font-size:12px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;" title="Copiar URL transparente para OBS Studio o vMix">
-          <span>📺</span> <span>Overlay OBS</span>
-        </button>
-
-        <!-- SALIDA A COMERCIALES INMEDIATA -->
-        <button type="button" onclick="dispararSalidaComercialesManual()" style="background:linear-gradient(135deg, rgba(242,101,34,0.3), rgba(245,158,11,0.3)); border:1.5px solid #F26522; color:#FFC72C; font-size:12px; font-weight:900; padding:8px 13px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(242,101,34,0.35);" title="Generar resumen de radio de salida a comerciales en 1 segundo">
-          <span>📻</span> <span>Salida Comerciales</span>
-        </button>
-
-        <!-- PROBAR ALERTA SUSTITUCIÓN (DEMO) -->
-        <button type="button" onclick="probarAlertaSustitucionCabina()" style="background:#1E293B; border:1px solid #475569; color:#CBD5E1; font-size:11.5px; font-weight:800; padding:8px 11px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" title="Demostración de alerta ámbar">
-          <span>⚠️</span> <span>Test Sub</span>
+      <!-- ZONA 3 (DERECHA): CONTROLES DELUXE (PDF, COMERCIALES, WAKELOCK Y OPCIONES) -->
+      <div style="display:flex; align-items:center; gap:8px;">
+        <!-- 📄 BOTÓN REQUERIDO POR LIC. ALÍ: EXPORTAR SPOTTING BOARD EN PDF -->
+        <button type="button" onclick="exportarSpottingBoardPDF()" style="background:rgba(10, 132, 255, 0.12); border:1px solid rgba(10, 132, 255, 0.35); color:#60A5FA; font-size:11.5px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.15s ease;" title="Generar e Imprimir Spotting Board oficial de 1 página para la cabina">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Hoja PDF</span>
         </button>
 
-        <!-- ACCESO RÁPIDO A OTRAS SECCIONES DE LA APP -->
-        <button type="button" onclick="switchTab('envivo')" style="background:rgba(255, 255, 255, 0.06); border:1px solid rgba(255, 255, 255, 0.12); color:#F8FAFC; font-size:12px; font-weight:800; padding:8px 14px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.15s ease;" title="Ir al Anotador Oficial en Dugout">
-          <span>🎯</span> <span>1. Anotador</span>
+        <!-- 📻 SALIDA A COMERCIALES -->
+        <button type="button" onclick="dispararSalidaComercialesManual()" style="background:rgba(255, 159, 10, 0.12); border:1px solid rgba(255, 159, 10, 0.35); color:#FDBA74; font-size:11.5px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all 0.15s ease;" title="Generar guion de radio para corte comercial en 1 segundo">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+          <span>Comerciales</span>
         </button>
-        <button type="button" onclick="switchTab('lineup')" style="background:#1E293B; border:1px solid #334155; color:#E2E8F0; font-size:11.5px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" title="Ir al Creador de Alineación">
-          <span>📋</span> <span>2. Lineup</span>
+
+        <!-- 💡 PANTALLA SIEMPRE ACTIVA -->
+        <button type="button" id="btn-cockpit-wakelock" onclick="toggleWakeLockCabina()" style="background:rgba(48, 209, 88, 0.12); border:1px solid rgba(48, 209, 88, 0.35); color:#86EFAC; font-size:11.5px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;" title="Evita que la tablet o laptop se apague sola durante el juego">
+          <span id="wakelock-led" style="width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 6px #30D158;"></span>
+          <span id="wakelock-label">Pantalla Activa</span>
         </button>
-        <button type="button" onclick="switchTab('campo')" style="background:#1E293B; border:1px solid #334155; color:#E2E8F0; font-size:11.5px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" title="Ver Terreno 2D">
-          <span>🏟️</span> <span>3. Terreno</span>
-        </button>
-        <button type="button" onclick="switchTab('tarjeta-oficial')" style="background:#1E293B; border:1px solid #334155; color:#E2E8F0; font-size:11.5px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" title="Ver Tarjeta Oficial WBSC">
-          <span>📄</span> <span>5. Tarjeta</span>
-        </button>
-        <button type="button" onclick="switchTab('dashboard')" style="background:#1E293B; border:1px solid #334155; color:#E2E8F0; font-size:11.5px; font-weight:800; padding:8px 12px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" title="Ver Sabermetría">
-          <span>📊</span> <span>6. Stats</span>
-        </button>
+
+        <!-- ⋯ MENÚ DESPLEGABLE DISCRETO DE HERRAMIENTAS ADICIONALES -->
+        <div style="position:relative; display:inline-block;">
+          <button type="button" onclick="const m = document.getElementById('cabina-more-menu'); m.style.display = (m.style.display === 'none' ? 'block' : 'none');" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#CBD5E1; font-size:12px; font-weight:900; padding:8px 11px; border-radius:8px; cursor:pointer;" title="Más opciones de cabina">
+            ⋯
+          </button>
+          <div id="cabina-more-menu" style="display:none; position:absolute; right:0; top:40px; background:#0F172A; border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:6px; min-width:180px; box-shadow:0 10px 25px rgba(0,0,0,0.7); z-index:9999;">
+            <button type="button" onclick="copiarOverlayOBS(); document.getElementById('cabina-more-menu').style.display='none';" style="width:100%; text-align:left; background:transparent; border:none; color:#F8FAFC; padding:8px 10px; font-size:11.5px; font-weight:700; cursor:pointer; border-radius:6px; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+              <span>Copiar URL OBS Studio</span>
+            </button>
+            <button type="button" onclick="probarAlertaSustitucionCabina(); document.getElementById('cabina-more-menu').style.display='none';" style="width:100%; text-align:left; background:transparent; border:none; color:#F8FAFC; padding:8px 10px; font-size:11.5px; font-weight:700; cursor:pointer; border-radius:6px; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Demostración Alerta Sub</span>
+            </button>
+            <div style="border-top:1px solid rgba(255,255,255,0.1); margin:4px 0;"></div>
+            <button type="button" onclick="exportarSpottingBoardPDF(); document.getElementById('cabina-more-menu').style.display='none';" style="width:100%; text-align:left; background:transparent; border:none; color:#60A5FA; padding:7px 10px; font-size:11px; font-weight:700; cursor:pointer; border-radius:6px;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Descargar Spotting Board (PDF)</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -8375,7 +8565,7 @@ html, body {
       <!-- Inning Gigante -->
       <div style="text-align:left; min-width:140px;">
         <span style="font-size:11px; color:#94A3B8; font-weight:800; text-transform:uppercase; letter-spacing:1px; display:block;">EPISODIO EN VIVO</span>
-        <div id="cockpit-mega-inning" style="font-size:30px; font-weight:900; color:#00D2FF; font-variant-numeric:tabular-nums; letter-spacing:1px;">
+        <div id="cockpit-mega-inning" style="font-size:30px; font-weight:900; color:#FFFFFF; font-variant-numeric:tabular-nums; letter-spacing:1px;">
           INNING 4 ▲ ALTA
         </div>
       </div>
@@ -8460,12 +8650,12 @@ html, body {
       <div style="display:flex; flex-direction:column; gap:16px;">
         
         <!-- Ficha del Bateador Activo -->
-        <div style="background:#050B18; border:1.5px solid #1E293B; border-radius:14px; padding:18px; box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+        <div style="background:rgba(18, 24, 38, 0.72); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border:1px solid rgba(255, 255, 255, 0.08); border-radius:16px; padding:18px; box-shadow:0 15px 35px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
             <span style="font-size:11px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:0.8px;">
               👤 EN EL PLATO (SPOTTING BOARD DINÁMICO)
             </span>
-            <span id="cockpit-batter-turn-badge" style="background:rgba(0,210,255,0.15); color:#00D2FF; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px;">TURNO 3</span>
+            <span id="cockpit-batter-turn-badge" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px;">TURNO 3</span>
           </div>
 
           <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
@@ -8529,7 +8719,7 @@ html, body {
         </div>
 
         <!-- 📝 MÓDULO DE APUNTES PROPIOS DEL NARRADOR (DICTADOS POR VOZ) -->
-        <div style="background:#050B18; border:1.5px solid #FFC72C; border-radius:14px; padding:16px; box-shadow:0 4px 20px rgba(255,199,44,0.15);">
+        <div style="background:rgba(18, 24, 38, 0.72); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border:1px solid rgba(255, 255, 255, 0.08); border-radius:16px; padding:18px; box-shadow:0 15px 35px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <div style="font-size:11.5px; font-weight:900; color:#FFC72C; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:6px;">
               <span>📝</span> <span>APUNTES PROPIOS DEL NARRADOR</span>
@@ -8766,7 +8956,7 @@ html, body {
         </div>
 
         <!-- TELEPROMPTER INTELIGENTE DE PATROCINIOS EN VIVO -->
-        <div id="cockpit-sponsor-card" style="background:#050B18; border:1.5px solid #F26522; border-radius:14px; padding:16px; box-shadow:0 4px 25px rgba(242,101,34,0.15);">
+        <div id="cockpit-sponsor-card" style="background:rgba(18, 24, 38, 0.72); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border:1px solid rgba(255, 255, 255, 0.08); border-radius:16px; padding:18px; box-shadow:0 15px 35px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <div style="font-size:12px; font-weight:900; color:#F26522; display:flex; align-items:center; gap:6px;">
               <span>📢</span> <span id="cockpit-sponsor-title">PATROCINIO EN VIVO: PONCHE (K)</span>
@@ -8776,12 +8966,12 @@ html, body {
 
           <!-- Selector rápido de mención -->
           <div style="display:flex; gap:4px; flex-wrap:wrap; margin-bottom:10px;">
-            <button type="button" onclick="seleccionarPatrocinioCabina('K')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;">🔥 Ponche (K)</button>
-            <button type="button" onclick="seleccionarPatrocinioCabina('HR')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;">💥 Jonrón (HR)</button>
-            <button type="button" onclick="seleccionarPatrocinioCabina('PITCHING')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;">🔄 Pitcher</button>
-            <button type="button" onclick="seleccionarPatrocinioCabina('SB')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;">⚡ Robo (SB)</button>
-            <button type="button" onclick="seleccionarPatrocinioCabina('DP')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;">🛡️ Doble Play</button>
-            <button type="button" onclick="seleccionarPatrocinioCabina('HIT')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;">☕ Hit Café</button>
+            <button type="button" onclick="seleccionarPatrocinioCabina('K')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Ponche (K)</button>
+            <button type="button" onclick="seleccionarPatrocinioCabina('HR')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Jonrón (HR)</button>
+            <button type="button" onclick="seleccionarPatrocinioCabina('PITCHING')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Pitcher</button>
+            <button type="button" onclick="seleccionarPatrocinioCabina('SB')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Robo (SB)</button>
+            <button type="button" onclick="seleccionarPatrocinioCabina('DP')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Doble Play</button>
+            <button type="button" onclick="seleccionarPatrocinioCabina('HIT')" style="background:#1E293B; border:1px solid #475569; color:#FFF; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Hit</button>
           </div>
 
           <div style="background:#020617; border:1px solid rgba(242,101,34,0.4); border-radius:10px; padding:12px; margin-bottom:10px;">
@@ -8799,7 +8989,7 @@ html, body {
         </div>
 
         <!-- RESUMEN DE SALIDA A COMERCIALES EN 1 SEGUNDO -->
-        <div style="background:#050B18; border:1.5px solid #10B981; border-radius:14px; padding:16px; box-shadow:0 4px 25px rgba(16,185,129,0.15);">
+        <div style="background:rgba(18, 24, 38, 0.72); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border:1px solid rgba(255, 255, 255, 0.08); border-radius:16px; padding:18px; box-shadow:0 15px 35px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <div style="font-size:12px; font-weight:900; color:#10B981; display:flex; align-items:center; gap:6px;">
               <span>📻</span> <span>RESUMEN SALIDA A COMERCIALES (AL 3ER OUT)</span>
@@ -8839,11 +9029,11 @@ html, body {
     <div class="game-live-header-bar" id="live-game-header-bar" style="background:#0F172A; border:1px solid #1E293B; border-radius:10px; padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
       <div class="game-info-badge-group" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
         <div class="game-badge" id="badge-live-fecha" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 2026-09-08</div>
-        <div class="game-badge" id="badge-live-hora" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;">⏰ Inicio: 09:30 AM</div>
+        <div class="game-badge" id="badge-live-hora" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Inicio: 09:30 AM</div>
         <div class="game-badge stadium" id="badge-live-sede" style="background:#0B0F19; border:1px solid #1E293B; color:#0284C7; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Lutz Baseball Park</div>
         <div class="game-badge" id="badge-live-rival" style="background:#0B0F19; border:1px solid #1E293B; color:#F59E0B; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800;">vs TIGRES DE TAMPA [LOCAL]</div>
-        <div class="game-badge weather" id="badge-live-clima" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;">☀️ 86°F | Viento: 7mph CF</div>
-        <div class="game-badge duration" id="badge-live-duracion" style="display:none;">⏱️ Duración: 2h 15m</div>
+        <div class="game-badge weather" id="badge-live-clima" style="background:#0B0F19; border:1px solid #1E293B; color:#94A3B8; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> 86°F | Viento: 7mph CF</div>
+        <div class="game-badge duration" id="badge-live-duracion" style="display:none;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 10"/></svg> Duración: 2h 15m</div>
       </div>
       <div>
         <button type="button" class="btn-finish-game" onclick="abrirModalFinalizarJuego()" style="background:#1E293B; border:1px solid #334155; color:#F8FAFC; padding:6px 14px; border-radius:8px; font-size:11.5px; font-weight:800; cursor:pointer;">Finalizar Partido</button>
@@ -8863,7 +9053,7 @@ html, body {
       
       <div style="display: flex; gap: 6px;">
         <button type="button" onclick="toggleDetalleIA()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #FFF; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; cursor: pointer;">
-          ⚡ Sugerencia Táctica
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Sugerencia Táctica
         </button>
       </div>
     </div>
@@ -8974,11 +9164,11 @@ html, body {
       <!-- Bateador Activo -->
       <div class="duel-player-card batter-side">
         <div class="duel-player-header">
-          <span class="duel-role-tag" id="current-batter-team-badge">
+          <span class="duel-role-tag" id="current-batter-team-badge" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF;">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             AL BATE
           </span>
-          <button type="button" onclick="abrirModalHotDugoutSub('PH')" class="btn-duel-sub" title="Sustituir por Bateador Emergente (PH)">🔄 Emergente</button>
+          <button type="button" onclick="abrirModalHotDugoutSub('PH')" class="btn-duel-sub" title="Sustituir por Bateador Emergente (PH)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Emergente</button>
         </div>
         <div class="duel-player-body">
           <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" id="current-batter-photo" class="duel-player-photo" alt="Bateador">
@@ -9000,11 +9190,11 @@ html, body {
       <!-- Lanzador Activo -->
       <div class="duel-player-card pitcher-side">
         <div class="duel-player-header">
-          <span class="duel-role-tag pitcher-tag">
+          <span class="duel-role-tag pitcher-tag" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#94A3B8;">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93c4.24 4.24 4.24 10.9 0 15.14"/><path d="M19.07 4.93c-4.24 4.24-4.24 10.9 0 15.14"/></svg>
             LANZADOR EN MONTÍCULO
           </span>
-          <button type="button" onclick="cambiarEstadoBullpenModal()" class="btn-duel-sub" title="Gestionar Relevo o Bullpen">🔄 Relevo</button>
+          <button type="button" onclick="cambiarEstadoBullpenModal()" class="btn-duel-sub" title="Gestionar Relevo o Bullpen"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Relevo</button>
         </div>
         <div class="duel-player-body">
           <div class="duel-pitcher-icon">
@@ -9091,13 +9281,13 @@ html, body {
       <!-- Barra Secundaria de Jugadas Rápidas -->
       <div class="sub-actions-quick-bar">
         <div class="quick-chips-group">
-          <span class="quick-chips-label">Batazos:</span>
-          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('2B')">2B</button>
-          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('3B')">3B</button>
-          <button type="button" class="chip-action-btn hr-chip" onclick="registrarJugadaLive('HR')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.5" style="vertical-align:middle; margin-right:2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> HR</button>
-          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('BB')">BB</button>
-          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-3')">6-3</button>
-          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-4-3 DP')">DP</button>
+          <span class="quick-chips-label" style="color:#94A3B8; font-size:10.5px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase;">Conexiones:</span>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('2B')" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; border-radius:8px; padding:5px 12px; font-weight:800;">2B</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('3B')" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; border-radius:8px; padding:5px 12px; font-weight:800;">3B</button>
+          <button type="button" class="chip-action-btn hr-chip" onclick="registrarJugadaLive('HR')" style="background:rgba(255,199,44,0.1); border:1px solid rgba(255,199,44,0.3); color:#FDE047; border-radius:8px; padding:5px 12px; font-weight:900;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FDE047" stroke-width="2.5" style="vertical-align:middle; margin-right:2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> HR</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('BB')" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; border-radius:8px; padding:5px 12px; font-weight:800;">BB</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-3')" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; border-radius:8px; padding:5px 12px; font-weight:800;">6-3</button>
+          <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-4-3 DP')" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; border-radius:8px; padding:5px 12px; font-weight:800;">DP</button>
         </div>
         <button type="button" class="btn-toggle-drawer-link" onclick="toggleDrawer('drawer-36-plays')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -9113,7 +9303,7 @@ html, body {
         <div class="lineup-chips-container" id="live-lineup-chips"></div>
       </div>
       <div style="display:flex; gap:6px;">
-        <button type="button" onclick="abrirModalHotDugoutSub()" style="background:#1E293B; color:#CBD5E1; border:1px solid #334155; padding:5px 10px; border-radius:6px; font-weight:800; font-size:10.5px; cursor:pointer;" id="btn-hot-dugout-sub-text">🔄 Sustitución Rápida</button>
+        <button type="button" onclick="abrirModalHotDugoutSub()" style="background:#1E293B; color:#CBD5E1; border:1px solid #334155; padding:5px 10px; border-radius:6px; font-weight:800; font-size:10.5px; cursor:pointer;" id="btn-hot-dugout-sub-text"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Sustitución Rápida</button>
         <button onclick="switchTab('lineup')" style="background:#1E293B; color:#F59E0B; border:1px solid #334155; padding:5px 10px; border-radius:6px; font-weight:800; font-size:10.5px; cursor:pointer;">Editar Lineup</button>
       </div>
     </div>
@@ -9128,7 +9318,7 @@ html, body {
       <div class="dugout-drawer" id="drawer-ai-tactical">
         <button type="button" class="dugout-drawer-header" onclick="toggleDrawer('drawer-ai-tactical')">
           <div class="drawer-header-left">
-            <span class="drawer-header-icon">⚡</span>
+            <span class="drawer-header-icon" style="color:#0A84FF;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
             <span class="drawer-header-title">Sugerencia Táctica DIAMAX IA</span>
             <span class="drawer-header-badge">Opcional</span>
           </div>
@@ -9179,7 +9369,7 @@ html, body {
 
             <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
               <input type="text" id="ai-custom-prompt" placeholder="Preguntar al asistente táctico..." style="flex:1; min-width:200px; background:#0B0F19; border:1px solid #1E293B; color:#FFF; padding:6px 10px; border-radius:6px; font-size:11.5px;" onkeydown="if(event.key==='Enter') consultarAgenteIA('CUSTOM')">
-              <button id="btn-ai-voice-mic" type="button" onclick="toggleDictadoVozAgente('ai-custom-prompt')" style="background:#1E293B; border:1px solid #334155; color:#0284C7; padding:6px 10px; border-radius:6px; font-size:11px; cursor:pointer;">🎤 Voz</button>
+              <button id="btn-ai-voice-mic" type="button" onclick="toggleDictadoVozAgente('ai-custom-prompt')" style="background:#1E293B; border:1px solid #334155; color:#0284C7; padding:6px 10px; border-radius:6px; font-size:11px; cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>Voz</button>
               <button id="btn-ai-voice-speaker" type="button" onclick="toggleVozAudioAgente()" style="display:none;"><span id="ai-voice-speaker-icon">🔊</span></button>
               <button id="btn-ai-custom-query" type="button" onclick="consultarAgenteIA('CUSTOM')" style="background:#2563EB; color:#FFF; border:none; padding:6px 12px; border-radius:6px; font-weight:800; font-size:11.5px; cursor:pointer;">Consultar</button>
             </div>
@@ -9191,7 +9381,7 @@ html, body {
       <div class="dugout-drawer" id="drawer-bullpen-tracker">
         <button type="button" class="dugout-drawer-header" onclick="toggleDrawer('drawer-bullpen-tracker')">
           <div class="drawer-header-left">
-            <span class="drawer-header-icon">⚾</span>
+            <span class="drawer-header-icon" style="color:#94A3B8;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93a10 10 0 0 1 14.14 0"/><path d="M4.93 19.07a10 10 0 0 0 14.14 0"/></svg></span>
             <span class="drawer-header-title">Monitor Avanzado de Pitcheos & Bullpen</span>
           </div>
           <span class="drawer-toggle-arrow" id="arrow-drawer-bullpen-tracker">▾ Desplegar</span>
@@ -9462,11 +9652,11 @@ html, body {
       <div class="panel" style="background:#020617; border:1.5px solid #1E293B; border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
           <div>
-            <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;" id="campo-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.2" style="vertical-align:middle; margin-right:5px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Terreno Táctico 2D & Spray Chart</h3>
-            <p style="margin:2px 0 0 0; font-size:11px; color:#00D2FF; font-weight:700;" id="campo-subtitle">Toca cualquier parte del terreno para registrar un batazo táctico en vivo.</p>
+            <h3 style="margin:0; font-size:16px; color:#FFFFFF; font-weight:900;" id="campo-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.2" style="vertical-align:middle; margin-right:5px;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg> Terreno Táctico 2D & Spray Chart</h3>
+            <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8; font-weight:600;" id="campo-subtitle">Toca cualquier parte del terreno para registrar un batazo táctico en vivo.</p>
           </div>
           <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; width:100%; align-items:center;">
-            <span style="font-size:11px; color:#FFC72C; font-weight:900; letter-spacing:0.5px;">🛡️ 4 SHIFTS DEFENSIVOS:</span>
+            <span style="font-size:11px; color:#94A3B8; font-weight:800; letter-spacing:0.5px;">SHIFTS DEFENSIVOS:</span>
             <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('NORMAL')" class="btn-sm-action" style="background:rgba(0,210,255,0.15); border:1px solid #00D2FF; color:#00D2FF; font-size:10.5px; padding:4px 9px; border-radius:6px; font-weight:800; cursor:pointer;">Estándar</button>
             <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('ANTI_PULL')" class="btn-sm-action" style="background:rgba(242,101,34,0.15); border:1px solid #F26522; color:#F26522; font-size:10.5px; padding:4px 9px; border-radius:6px; font-weight:800; cursor:pointer;">Shift Derecho Anti-Pull</button>
             <button type="button" onclick="aplicarShiftDefensivoDesdeAlerta('INFIELD_IN')" class="btn-sm-action" style="background:rgba(255,199,44,0.15); border:1px solid #FFC72C; color:#FFC72C; font-size:10.5px; padding:4px 9px; border-radius:6px; font-weight:800; cursor:pointer;">Infield Adentro</button>
@@ -9483,10 +9673,10 @@ html, body {
         <!-- Barra de Estado Defensivo en el Terreno (Guerreros +55 vs Rival) -->
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:8px 14px; background:#040915; border:1.5px solid #1E293B; border-radius:10px; flex-wrap:wrap; gap:8px;">
           <div id="field-defense-badge" style="font-size:12px; font-weight:800; color:#FFC72C; display:flex; align-items:center; gap:6px;">
-            <span>🛡️ En Terreno (Defensa):</span> <strong id="field-defense-team-name" style="color:#00D2FF;">GUERREROS (+55)</strong>
+            <span style="display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> En Terreno (Defensa):</span> <strong id="field-defense-team-name" style="color:#00D2FF;">GUERREROS (+55)</strong>
           </div>
           <button type="button" onclick="toggleFieldDefensiveTeam()" id="btn-toggle-field-team" class="btn-sm-action" style="background:#1E293B; border:1px solid #334155; color:#FFC72C; font-size:10.5px; padding:3px 10px; border-radius:6px; font-weight:800; cursor:pointer;" title="Alternar entre la defensa de Guerreros +55 y la del Rival">
-            🔄 Alternar Vista Defensiva
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Alternar Vista Defensiva
           </button>
         </div>
 
@@ -9572,10 +9762,10 @@ html, body {
         <!-- Carrusel / Franja VIP de Fildeadores en el Terreno con Fotos Reales -->
         <div id="field-defenders-strip" style="margin-top:14px; background:#060D1E; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 12px; box-shadow:0 4px 14px rgba(0,0,0,0.35);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <strong style="color:#FFC72C; font-size:12px; letter-spacing:0.5px; display:flex; align-items:center; gap:6px;">
+            <strong style="color:#FFFFFF; font-size:12px; letter-spacing:0.5px; display:flex; align-items:center; gap:6px;">
               <span>⚾</span> <span>Defensiva Titular en Terreno (Guerreros +55)</span>
             </strong>
-            <span style="color:#00D2FF; font-size:10.5px; font-weight:800;">10 Jugadores con Foto Oficial</span>
+            <span style="color:#94A3B8; font-size:10.5px; font-weight:700;">10 Jugadores Titulares</span>
           </div>
           <div id="field-defenders-chips-container" style="display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin;"></div>
         </div>
@@ -9584,7 +9774,7 @@ html, body {
       <!-- Panel Mapa de Calor de Zona de Strike & Métricas Sabermétricas -->
       <div class="panel" style="background:#020617; border:1.5px solid #1E293B; border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
         <div style="margin-bottom:12px;">
-          <h3 style="margin:0; font-size:16px; color:#00D2FF; font-weight:900;">🎯 Mapa de Calor (Zona de Strike)</h3>
+          <h3 style="margin:0; font-size:16px; color:#FFFFFF; font-weight:900;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Mapa de Calor (Zona de Strike)</h3>
           <p style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">Zonas de impacto y Whiff% para formulación del plan de pitcheo.</p>
         </div>
 
@@ -10060,7 +10250,7 @@ html, body {
           <div>
             <div style="display:flex; align-items:center; gap:8px;">
               <h2 style="margin:0; font-size:18px; color:#F8FAFC; font-weight:900;" id="card-matchup-header">GUERREROS DE VENEZUELA vs. RIVAL</h2>
-              <span class="badge-lineup-status valid" id="card-game-integrity-badge">🟢 9vs9 VALIDADO</span>
+              <span class="badge-lineup-status valid" id="card-game-integrity-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>9vs9 VALIDADO</span>
             </div>
             <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">
               🏟️ <span id="card-header-stadium">Lutz Baseball Park - Campo #1</span> · 
@@ -10082,7 +10272,7 @@ html, body {
       <!-- Toolbar de Exportación y Selector de Tarjeta -->
       <div class="btn-print-hide" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
         <div>
-          <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;" id="card-dual-title">📋 Tarjeta Oficial de Béisbol & Alineación Dual</h3>
+          <h3 style="margin:0; font-size:16px; color:#FFC72C; font-weight:900;" id="card-dual-title"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>Tarjeta Oficial de Béisbol & Alineación Dual</h3>
           <p style="margin:2px 0 0 0; font-size:12px; color:#94A3B8;">Documento oficial reglamentario para árbitros, mánagers y anotador oficial.</p>
         </div>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
@@ -10207,7 +10397,7 @@ html, body {
       <div>
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="background:#00D2FF; color:#000; font-size:11px; font-weight:900; padding:3px 8px; border-radius:4px;">PRO ANALYTICS</span>
-          <h2 style="margin:0; font-size:18px; color:#FFF; font-weight:900; letter-spacing:0.5px;" id="dash-title">📈 DIAMAX Tactical Reports & Visual Charts</h2>
+          <h2 style="margin:0; font-size:18px; color:#FFF; font-weight:900; letter-spacing:0.5px;" id="dash-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>DIAMAX Tactical Reports & Visual Charts</h2>
         </div>
         <p style="margin:4px 0 0 0; font-size:11.5px; color:#94A3B8;">Analítica sabermétrica en tiempo real: gráficos de barra, progresión lineal por innings y rendimiento colectivo.</p>
       </div>
@@ -10541,7 +10731,7 @@ html, body {
     <!-- 📋 PANEL 4: TABLA DETALLADA DEL ROSTER -->
     <div class="panel">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <h3 style="color:#FFC72C; font-size:15px; font-weight:800; margin:0;" id="dash-sec5-title">📋 Estadísticas Individuales del Roster (En Vivo & Acumuladas)</h3>
+        <h3 style="color:#FFC72C; font-size:15px; font-weight:800; margin:0;" id="dash-sec5-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Estadísticas Individuales del Roster (En Vivo & Acumuladas)</h3>
         <span style="font-size:11px; color:#94A3B8;">* Registros oficiales sincronizados con la Tarjeta de Árbitros</span>
       </div>
       <div style="overflow-x:auto;">
@@ -16920,8 +17110,15 @@ function evaluarAlertasProactivasAgente() {
         <button type="button" onclick="ejecutarRelevoRapido(24)" style="background:#EF4444; color:#FFF; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer; box-shadow:0 0 10px rgba(239,68,68,0.5);">🚨 Traer a M. Quintero (#24 RHP)</button>
         <button type="button" onclick="ejecutarRelevoRapido(33)" style="background:#00D2FF; color:#040814; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">Traer a C. Mendoza (#33 LHP)</button>
       `;
-    } else if (pCount >= 58) {
-      urgencyText = "🟠 ALERTA BULLPEN (+55)";
+    } else if (pCount >= 70) {
+      urgencyText = "🔴 ALERTA BULLPEN (+55: 70 ENVIOS)";
+      urgencyBg = "#EF4444";
+      urgencyColor = "#FFF";
+      icon = "⚠️";
+      title = "UMBRAL DE 70 PITCHEOS: ACTIVAR RELEVO";
+      message = "El lanzador ha alcanzado 70 lanzamientos. Según la regla médica máster +55, el límite estricto es 75 envíos. Calentar relevista de inmediato.";
+    } else if (pCount >= 55) {
+      urgencyText = "🟠 PREVENCIÓN BULLPEN (+55)";
       urgencyBg = "#F59E0B";
       urgencyColor = "#000";
       icon = "🔥";
@@ -22794,7 +22991,7 @@ document.addEventListener('keydown', function(e) {
                 <span>🎟️</span> <span>¿Acreditación de Prensa o Liga?</span>
               </div>
               <div style="display:flex; gap:6px;">
-                <input type="text" id="input-key-media-p3" placeholder="Clave de Prensa" style="flex:1; background:#020617; border:1.5px solid #00D2FF; border-radius:8px; padding:7px 10px; color:#FFF; font-size:11.5px; font-weight:700; outline:none; text-transform:uppercase;" onkeydown="if(event.key==='Enter') validarClavePrensaGratis('p3')">
+                <input type="text" id="input-key-media-p3" placeholder="Introducir Clave de Acreditación / VIP" style="flex:1; background:#020617; border:1.5px solid #00D2FF; border-radius:8px; padding:7px 10px; color:#FFF; font-size:11.5px; font-weight:700; outline:none; text-transform:uppercase;" onkeydown="if(event.key==='Enter') validarClavePrensaGratis('p3')">
                 <button type="button" onclick="validarClavePrensaGratis('p3')" style="background:linear-gradient(135deg, #0284C7, #00D2FF); color:#020617; border:none; border-radius:8px; padding:7px 10px; font-weight:900; font-size:11px; cursor:pointer; white-space:nowrap;">
                   Entrar Gratis
                 </button>
@@ -23049,7 +23246,7 @@ document.addEventListener('keydown', function(e) {
                 <label style="display:block; font-size:10.5px; font-weight:800; color:#CBD5E1; margin-bottom:5px; text-transform:uppercase;">Contraseña (Mínimo 8 caracteres) <span style="color:#EF4444;">*</span></label>
                 <div style="position:relative;">
                   <input type="password" id="reg-pass" placeholder="••••••••••••" minlength="8" required style="width:100%; box-sizing:border-box; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px 38px 10px 12px; color:#FFF; font-size:13px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'" oninput="checkPassStrength(this.value)">
-                  <button type="button" onclick="togglePassVisibility('reg-pass', this)" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94A3B8; cursor:pointer; font-size:14px;">👁️</button>
+                  <button type="button" onclick="togglePassVisibility('reg-pass', this)" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94A3B8; cursor:pointer; font-size:14px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                 </div>
                 <div id="pass-strength-bar" style="height:3px; border-radius:2px; background:#1E293B; margin-top:5px; overflow:hidden;">
                   <div id="pass-strength-indicator" style="height:100%; width:0%; transition:all 0.3s; background:#EF4444;"></div>
@@ -23259,7 +23456,7 @@ document.addEventListener('keydown', function(e) {
             <label style="display:block; font-size:11px; font-weight:800; color:#FFC72C; margin-bottom:6px; text-transform:uppercase;">O escribe tu clave PIN manualmente:</label>
             <div style="position:relative;">
               <input type="password" id="master-key-input" placeholder="••••••••••••" autocomplete="off" style="width:100%; box-sizing:border-box; background:#040914; border:1.8px solid #FFC72C; border-radius:8px; padding:12px 38px 12px 14px; color:#FFF; font-size:16px; outline:none; text-align:center; letter-spacing:4px; font-weight:900;" onkeydown="if(event.key==='Enter') accesoMaestroFounder(this.value)">
-              <button type="button" onclick="togglePassVisibility('master-key-input', this)" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#FFC72C; cursor:pointer; font-size:16px;">👁️</button>
+              <button type="button" onclick="togglePassVisibility('master-key-input', this)" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94A3B8; cursor:pointer; font-size:16px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
             </div>
           </div>
 
@@ -23478,7 +23675,7 @@ document.addEventListener('keydown', function(e) {
       <div class="weather-preview-box" style="margin-top:10px;">
         <div class="weather-preview-header">
           <span id="lbl-weather-gps-title" style="font-size:11px; font-weight:800; color:#00D2FF;">🌤️ Telemetría Climática GPS en Vivo (Estadio):</span>
-          <button type="button" id="btn-gps-weather-sync" class="btn-sync-weather" onclick="sincronizarClimaEnVivo()">🔄 Actualizar GPS</button>
+          <button type="button" id="btn-gps-weather-sync" class="btn-sync-weather" onclick="sincronizarClimaEnVivo()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Actualizar GPS</button>
         </div>
         <div class="weather-metrics-grid">
           <div class="weather-metric-item">
@@ -23674,7 +23871,7 @@ document.addEventListener('keydown', function(e) {
 <div class="modal-overlay" id="modal-preview-tarjeta-oficial" style="display:none; z-index:9999;">
   <div class="modal-card" style="max-width:920px; max-height:92vh; overflow-y:auto; border:1px solid #FFC72C;">
     <div class="modal-header" style="border-bottom:1px solid #1E293B; padding-bottom:10px;">
-      <h2 style="color:#FFC72C; font-size:16px; margin:0;">📋 Vista Previa: Tarjeta Oficial de Béisbol (Alineación Dual)</h2>
+      <h2 style="color:#FFFFFF; font-size:16px; margin:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>Vista Previa: Tarjeta Oficial de Béisbol (Alineación Dual)</h2>
       <button class="btn-modal-close" onclick="cerrarVistaPreviaTarjetaOficial()">&times;</button>
     </div>
 
@@ -23683,7 +23880,7 @@ document.addEventListener('keydown', function(e) {
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px; padding-top:12px; border-top:1px solid #1E293B;">
-      <button type="button" class="btn-settings" onclick="cerrarVistaPreviaTarjetaOficial()">✏️ Modificar Alineación</button>
+      <button type="button" class="btn-settings" onclick="cerrarVistaPreviaTarjetaOficial()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Modificar Alineación</button>
       <button type="button" onclick="guardarYCertificarJuegoOficial()" style="background:#10B981; color:#000; font-weight:900; padding:8px 18px; border-radius:6px; font-size:12px; border:none; cursor:pointer;">
         ✅ Confirmar y Certificar Partido
       </button>
@@ -23849,7 +24046,7 @@ document.addEventListener('keydown', function(e) {
 <div class="modal-overlay" id="modal-finalizar-juego">
   <div class="modal-card" style="border-color:#EF4444;">
     <div class="modal-header">
-      <h2 id="modal-finish-game-title" style="color:#EF4444;">🏁 Finalizar y Certificar Partido</h2>
+      <h2 id="modal-finish-game-title" style="color:#EF4444;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>Finalizar y Certificar Partido</h2>
       <button class="btn-modal-close" onclick="cerrarModalFinalizarJuego()">&times;</button>
     </div>
 
@@ -23882,7 +24079,7 @@ document.addEventListener('keydown', function(e) {
 
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
       <button type="button" id="btn-cancel-finish-game" class="btn-settings" onclick="cerrarModalFinalizarJuego()">Volver al Juego</button>
-      <button type="button" id="btn-archive-game-db" class="btn-finish-game" onclick="confirmarFinDeJuego()">✅ Confirmar y Sincronizar Tarjeta Oficial</button>
+      <button type="button" id="btn-archive-game-db" class="btn-finish-game" onclick="confirmarFinDeJuego()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>Confirmar y Sincronizar Tarjeta Oficial</button>
     </div>
   </div>
 </div>

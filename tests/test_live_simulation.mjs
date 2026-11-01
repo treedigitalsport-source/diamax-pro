@@ -90,7 +90,10 @@ const mockWindow = {
   addEventListener: () => {},
   removeEventListener: () => {},
   alert: () => {},
-  print: () => {}
+  print: () => {},
+  TextEncoder: globalThis.TextEncoder,
+  crypto: globalThis.crypto,
+  screen: { width: 1920, height: 1080, colorDepth: 24 }
 };
 
 mockWindow.NodeFilter = mockWindow.NodeFilter;
