@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '7.0-instant-master-entrance';
+  const DEPLOY_VERSION = '8.0-apple-deluxe-cabina-pro';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -18,6 +18,9 @@
       navigator.serviceWorker.getRegistrations().then(regs => {
         for (let r of regs) r.unregister();
       });
+    }
+    if (typeof window.location.reload === 'function') {
+      window.location.reload(true);
     }
   }
 })();
@@ -1003,6 +1006,14 @@ function toggleModoLuzSolar() {
   }
 }
 window.toggleModoLuzSolar = toggleModoLuzSolar;
+function toggleDetalleIA() {
+  if (typeof toggleDrawer === 'function') {
+    toggleDrawer('drawer-ai-tactical');
+  }
+}
+window.toggleDetalleIA = toggleDetalleIA;
+window.toggleTacticalHUD = toggleDetalleIA;
+
 
 // Inicializar modo luz solar si estaba guardado
 (function initSunlightMode() {
@@ -2111,6 +2122,29 @@ window.mostrarTerminalSeguridad4Capas = mostrarTerminalSeguridad4Capas;
     }
   }
 
+
+
+/* AJUSTE RESPONSIVE ABOVE-THE-FOLD (DUGOUT ZERO-SCROLL) */
+@media (max-width: 768px) {
+  body {
+    padding: 8px !important;
+  }
+  .dugout-main-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 6px !important;
+    margin-bottom: 10px !important;
+  }
+  .score-num {
+    font-size: 32px !important;
+  }
+  .btn-action-primary, .btn-immediate {
+    min-height: 48px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+  }
+}
 
 /* === COMPONENT SPECIFIC STYLES === */
 
@@ -8186,27 +8220,47 @@ html, body {
     </button>
   </div>
 
+  <!-- NAVEGACIÓN PRINCIPAL APPLE DELUXE (CERO EMOJIS, 8 PESTAÑAS OFICIALES) -->
   <div class="nav" id="main-nav">
-    <button class="active" onclick="switchTab('envivo')" id="btn-go-scorer">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> 1. Anotador Dugout
+    <button class="active nav-tab" data-tab="tab-envivo" onclick="switchTab('envivo')" id="btn-go-scorer">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+      <span>1. Anotador Dugout</span>
     </button>
-    <button onclick="switchTab('lineup')" id="nav-lineup">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> 2. Creador de Alineación
+
+    <button class="nav-tab" data-tab="tab-lineup" onclick="switchTab('lineup')" id="nav-lineup">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+      <span>2. Alineación</span>
     </button>
-    <button onclick="switchTab('campo')" id="btn-view-field">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-nav-field"/></svg> 3. Ver Terreno
+
+    <button class="nav-tab" data-tab="tab-campo" onclick="switchTab('campo')" id="btn-view-field">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 12 12 22 2 12"/><circle cx="12" cy="12" r="2.5"/></svg>
+      <span>3. Terreno</span>
     </button>
-    <button onclick="switchTab('manual')" id="nav-manual" class="nav-manual-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg> 4. Manual &amp; Reglas
+
+    <button class="nav-tab nav-manual-btn" data-tab="tab-manual" onclick="switchTab('manual')" id="nav-manual">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg>
+      <span>4. Manual</span>
     </button>
-    <button onclick="switchTab('tarjeta-oficial')" id="nav-card">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> 5. Tarjeta Oficial
+
+    <button class="nav-tab" data-tab="tab-tarjeta-oficial" onclick="switchTab('tarjeta-oficial')" id="nav-card">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
+      <span>5. Tarjeta Oficial</span>
     </button>
-    <button onclick="switchTab('skills')" id="nav-skills">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> 6. IA Táctica DIAMAX
+
+    <button class="nav-tab" data-tab="tab-skills" onclick="switchTab('skills')" id="nav-skills">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 14a4 4 0 1 1 4-4 4 4 0 0 1-4 4Z"/></svg>
+      <span>6. IA Táctica</span>
     </button>
-    <button onclick="switchTab('perfil')" id="nav-profile">
-      <svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> 7. Perfil &amp; Conectividad
+
+    <button class="nav-tab" data-tab="tab-perfil" onclick="switchTab('perfil')" id="nav-profile">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>7. Perfil</span>
+    </button>
+
+    <!-- PESTAÑA 8: CABINA DE MEDIOS (INYECCIÓN OFICIAL) -->
+    <button class="nav-tab" data-tab="tab-cabina" onclick="switchTab('cabina')" id="nav-cabina" style="border-color: rgba(10, 132, 255, 0.4); background: rgba(10, 132, 255, 0.1);">
+      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+      <span style="color:#0A84FF; font-weight:800;">8. Cabina de Medios</span>
     </button>
   </div>
 
@@ -8793,6 +8847,24 @@ html, body {
       </div>
       <div>
         <button type="button" class="btn-finish-game" onclick="abrirModalFinalizarJuego()" style="background:#1E293B; border:1px solid #334155; color:#F8FAFC; padding:6px 14px; border-radius:8px; font-size:11.5px; font-weight:800; cursor:pointer;">Finalizar Partido</button>
+      </div>
+    </div>
+
+    <!-- BANNER DE ACCIÓN DISCRETO DELUXE -->
+    <!-- BARRA TÁCTICA COMPACTA (LIBERA EL 100% DE LA PANTALLA PARA EL MARCADOR) -->
+    <div id="tactical-ai-bar" style="background: rgba(18, 24, 38, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 6px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px #30D158;"></span>
+        <span style="font-size: 11px; font-weight: 700; color: #94A3B8; letter-spacing: 0.5px;">DIAMAX TACTICAL IA</span>
+        <span id="ai-win-prob-badge-mini" style="font-size: 10.5px; font-weight: 800; color: #0A84FF; background: rgba(10, 132, 255, 0.12); padding: 2px 8px; border-radius: 8px;">
+          Win Prob: 56.4%
+        </span>
+      </div>
+      
+      <div style="display: flex; gap: 6px;">
+        <button type="button" onclick="toggleDetalleIA()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #FFF; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; cursor: pointer;">
+          ⚡ Sugerencia Táctica
+        </button>
       </div>
     </div>
 

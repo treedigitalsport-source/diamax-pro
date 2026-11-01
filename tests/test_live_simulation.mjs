@@ -59,7 +59,7 @@ const mockDocument = {
       return [getEl('role-mode-anotador'), getEl('role-mode-manager'), getEl('role-mode-narrador')];
     }
     if (selector.includes('.nav button')) {
-      return [getEl('btn-go-scorer'), getEl('nav-lineup'), getEl('btn-view-field'), getEl('nav-manual'), getEl('nav-card'), getEl('nav-skills'), getEl('nav-profile')];
+      return [getEl('btn-go-scorer'), getEl('nav-lineup'), getEl('btn-view-field'), getEl('nav-manual'), getEl('nav-card'), getEl('nav-skills'), getEl('nav-profile'), getEl('nav-cabina')];
     }
     if (selector.includes('.diamax-bottom-nav-btn')) {
       return [getEl('bnav-envivo'), getEl('bnav-lineup'), getEl('bnav-campo'), getEl('bnav-tarjeta')];
