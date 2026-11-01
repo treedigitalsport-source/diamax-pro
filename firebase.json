@@ -9,7 +9,7 @@
                                    "tests/**",
                                    "scratch/**"
                                ],
-                    "site":  "treedigital-2fe4b",
+                    "site":  "diamax-pro",
                     "public":  ".",
                     "headers":  [
                                     {
