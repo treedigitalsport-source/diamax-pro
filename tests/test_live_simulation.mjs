@@ -56,7 +56,7 @@ const mockDocument = {
   },
   querySelectorAll: (selector) => {
     if (selector.includes('role-mode-btn')) {
-      return [getEl('role-mode-anotador'), getEl('role-mode-manager'), getEl('role-mode-narrador')];
+      return [getEl('role-mode-anotador'), getEl('role-mode-manager')];
     }
     if (selector.includes('.nav button')) {
       return [getEl('btn-go-scorer'), getEl('nav-lineup'), getEl('btn-view-field'), getEl('nav-manual'), getEl('nav-card'), getEl('nav-skills'), getEl('nav-profile'), getEl('nav-cabina')];

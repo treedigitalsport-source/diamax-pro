@@ -40,11 +40,11 @@ console.log(`\n✨ FASE 1 APROBADA: ${scriptIndex} bloques de script analizados 
 console.log('--- FASE 2: VERIFICACIÓN DE ELEMENTOS DEL DOM (REGLA DE 3 BLOQUES Y DRAWERS) ---');
 
 const requiredElements = [
-  // Selector de Rol (Paso 4)
+  // Selector de Rol (Anotador vs Mánager)
   'diamax-role-mode-selector',
   'role-mode-anotador',
   'role-mode-manager',
-  'role-mode-narrador',
+  'nav-cabina',
 
   // Bloque 1: Marcador Limpio
   'dugout-block-scoreboard',
@@ -223,8 +223,7 @@ const domDocument = {
     if (selector.includes('role-mode-btn')) {
       return [
         domDocument.getElementById('role-mode-anotador'),
-        domDocument.getElementById('role-mode-manager'),
-        domDocument.getElementById('role-mode-narrador')
+        domDocument.getElementById('role-mode-manager')
       ];
     }
     if (selector.includes('.nav button')) {

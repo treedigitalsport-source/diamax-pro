@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '8.1-cabina-vip-access';
+  const DEPLOY_VERSION = '8.2-role-isolation-strict';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -1370,8 +1370,6 @@ function activarModoRol(rol) {
     if (typeof switchTab === 'function') switchTab('envivo');
   } else if (rol === 'manager') {
     if (typeof switchTab === 'function') switchTab('campo');
-  } else if (rol === 'narrador') {
-    if (typeof switchTab === 'function') switchTab('cabina');
   }
 }
 window.activarModoRol = activarModoRol;
@@ -1386,12 +1384,14 @@ function aplicarSeparacionRolesUI() {
   const isHashCabina = (window.location.hash === '#cabina' || window.location.search.includes('mode=cabina'));
   const isComentarista = (rol === 'BROADCAST_MEDIA' || plan === 'PLAN_COMENTARISTA' || plan === 'MEDIA_PRO' || isHashCabina);
 
+  const roleSelector = document.getElementById('diamax-role-mode-selector');
   const navCabina = document.getElementById('nav-cabina');
-  const dugoutTabs = ['btn-go-scorer', 'nav-lineup', 'btn-view-field', 'nav-manual', 'nav-tarjeta', 'nav-ia', 'nav-perfil'];
+  const dugoutTabs = ['btn-go-scorer', 'nav-lineup', 'btn-view-field', 'nav-manual', 'nav-tarjeta', 'nav-ia', 'nav-perfil', 'nav-dash', 'nav-skills'];
 
   if (isComentarista) {
     // 🎙️ MODO COMENTARISTA PURO (PLAN COMENTARISTA & MEDIA):
     // Espacio de trabajo 100% individual. Cero acceso a anotación ni táctica de mánager.
+    if (roleSelector) roleSelector.style.display = 'none';
     dugoutTabs.forEach(function(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
@@ -1406,6 +1406,7 @@ function aplicarSeparacionRolesUI() {
   } else {
     // 🧢 MODO ANOTADOR / MÁNGER (LIGAS & FRANQUICIAS):
     // Acceso a sus herramientas de juego, OCULTANDO por completo la cabina de medios
+    if (roleSelector) roleSelector.style.display = 'flex';
     dugoutTabs.forEach(function(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'inline-flex';
@@ -8393,7 +8394,7 @@ html, body {
        PLAN COMENTARISTA & MEDIA — DIAMAX PRO OS
        ========================================================================= -->
   <!-- =========================================================================
-       SELECTOR MAESTRO DE ROL (PASO 4: ANOTADOR vs MÁNAGER vs NARRADOR)
+       SELECTOR MAESTRO DE ROL (ANOTADOR vs MÁNAGER PARA LIGAS)
        ========================================================================= -->
   <div class="diamax-role-mode-selector" id="diamax-role-mode-selector">
     <button type="button" class="role-mode-btn active" id="role-mode-anotador" onclick="activarModoRol('anotador')" title="Modo Anotador: Pantalla limpia con regla de 3 bloques">
@@ -8403,10 +8404,6 @@ html, body {
     <button type="button" class="role-mode-btn" id="role-mode-manager" onclick="activarModoRol('manager')" title="Modo Mánager: Terreno táctico 2D, Bullpen y Shifts">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg>
       <span>2. MODO MÁNAGER (TERRENO & TÁCTICA)</span>
-    </button>
-    <button type="button" class="role-mode-btn" id="role-mode-narrador" onclick="activarModoRol('narrador')" title="Modo Narrador: Cabina de Radio/TV, Spotting Board y Guiones">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-      <span>3. MODO NARRADOR (CABINA MEDIOS)</span>
     </button>
   </div>
 
@@ -19879,14 +19876,12 @@ function switchTab(rawTabId) {
   const bnavBtn = document.getElementById('bnav-' + tabId);
   if (bnavBtn) bnavBtn.classList.add('active');
 
-  // Sincronizar Selector Maestro de Modos por Rol
+  // Sincronizar Selector Maestro de Modos por Rol (Anotador vs Mánager)
   const btnAnotador = document.getElementById('role-mode-anotador');
   const btnManager = document.getElementById('role-mode-manager');
-  const btnNarrador = document.getElementById('role-mode-narrador');
-  if (btnAnotador && btnManager && btnNarrador) {
+  if (btnAnotador && btnManager) {
     btnAnotador.classList.toggle('active', tabId === 'envivo');
     btnManager.classList.toggle('active', tabId === 'campo');
-    btnNarrador.classList.toggle('active', tabId === 'cabina');
   }
 
   if (typeof actualizarNombreNarradorEnUI === 'function') {
