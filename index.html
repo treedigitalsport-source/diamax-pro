@@ -6979,6 +6979,9 @@ html, body {
   /* Fila de módulos estilo macOS Segmented Control */
   #main-nav.nav {
     display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto 16px auto !important;
     background: rgba(18, 22, 34, 0.72) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -6996,9 +6999,13 @@ html, body {
     color: #8E8E93 !important;
     font-size: 11.5px !important;
     font-weight: 700 !important;
-    padding: 7px 14px !important;
+    padding: 7px 16px !important;
     box-shadow: none !important;
     transform: none !important;
+  }
+
+  #main-nav.nav button svg {
+    display: none !important;
   }
 
   #main-nav.nav button:hover:not(.active) {
@@ -7013,12 +7020,6 @@ html, body {
     color: #FFFFFF !important;
     font-weight: 800 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-  }
-
-  #main-nav.nav button.active svg {
-    color: #007AFF !important;
-    stroke: #007AFF !important;
-    filter: drop-shadow(0 0 6px rgba(0, 122, 255, 0.6)) !important;
   }
 
   /* Marcador y datos estilo Apple Watch / Fitness */
@@ -7235,6 +7236,8 @@ html, body {
   /* Selector de Rol: Anotador (Ice Cyan) vs Mánager (Championship Gold) */
   .diamax-role-mode-selector {
     display: inline-flex !important;
+    justify-content: center !important;
+    margin: 0 auto 12px auto !important;
     background: var(--diamax-bg-glass) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -7242,8 +7245,10 @@ html, body {
     border-radius: 14px !important;
     padding: 4px !important;
     gap: 6px !important;
-    margin-bottom: 12px !important;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+  }
+  .diamax-role-mode-selector button svg {
+    display: none !important;
   }
 
   .role-mode-btn {
@@ -9057,55 +9062,48 @@ html, body {
   <!-- =========================================================================
        SELECTOR MAESTRO DE ROL (ANOTADOR vs MÁNAGER PARA LIGAS)
        ========================================================================= -->
-  <div class="diamax-role-mode-selector" id="diamax-role-mode-selector">
-    <button type="button" class="role-mode-btn active" id="role-mode-anotador" onclick="activarModoRol('anotador')" title="Modo Anotador: Pantalla limpia con regla de 3 bloques">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      <span>1. MODO ANOTADOR (DUGOUT)</span>
-    </button>
-    <button type="button" class="role-mode-btn" id="role-mode-manager" onclick="activarModoRol('manager')" title="Modo Mánager: Terreno táctico 2D, Bullpen y Shifts">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M2 20h20M4 20V10l8-6 8 6v10"/></svg>
-      <span>2. MODO MÁNAGER (TERRENO & TÁCTICA)</span>
-    </button>
+  <div style="display:flex; justify-content:center; width:100%; margin-bottom:12px;">
+    <div class="diamax-role-mode-selector" id="diamax-role-mode-selector">
+      <button type="button" class="role-mode-btn active" id="role-mode-anotador" onclick="activarModoRol('anotador')" title="Modo Anotador: Pantalla limpia con regla de 3 bloques">
+        <span>Modo Anotador (Dugout)</span>
+      </button>
+      <button type="button" class="role-mode-btn" id="role-mode-manager" onclick="activarModoRol('manager')" title="Modo Mánager: Terreno táctico 2D, Bullpen y Shifts">
+        <span>Modo Mánager (Terreno & Táctica)</span>
+      </button>
+    </div>
   </div>
 
-  <!-- NAVEGACIÓN PRINCIPAL APPLE DELUXE (CERO EMOJIS, 8 PESTAÑAS OFICIALES) -->
-  <div class="nav" id="main-nav">
-    <button class="active nav-tab" data-tab="tab-envivo" onclick="switchTab('envivo')" id="btn-go-scorer">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
-      <span>1. Anotador Dugout</span>
-    </button>
+  <!-- NAVEGACIÓN PRINCIPAL APPLE DELUXE (TIPOGRAFÍA PURA CENTRADA, CERO EMOJIS, CERO NÚMEROS) -->
+  <div style="display:flex; justify-content:center; width:100%; margin-bottom:18px;">
+    <div class="nav" id="main-nav">
+      <button class="active nav-tab" data-tab="tab-envivo" onclick="switchTab('envivo')" id="btn-go-scorer">
+        <span>Anotador Dugout</span>
+      </button>
 
-    <button class="nav-tab" data-tab="tab-lineup" onclick="switchTab('lineup')" id="nav-lineup">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
-      <span>2. Alineación</span>
-    </button>
+      <button class="nav-tab" data-tab="tab-lineup" onclick="switchTab('lineup')" id="nav-lineup">
+        <span>Alineación</span>
+      </button>
 
-    <button class="nav-tab" data-tab="tab-campo" onclick="switchTab('campo')" id="btn-view-field">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 12 12 22 2 12"/><circle cx="12" cy="12" r="2.5"/></svg>
-      <span>3. Terreno</span>
-    </button>
+      <button class="nav-tab" data-tab="tab-campo" onclick="switchTab('campo')" id="btn-view-field">
+        <span>Terreno</span>
+      </button>
 
-    <button class="nav-tab nav-manual-btn" data-tab="tab-manual" onclick="switchTab('manual')" id="nav-manual">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg>
-      <span>4. Manual</span>
-    </button>
+      <button class="nav-tab nav-manual-btn" data-tab="tab-manual" onclick="switchTab('manual')" id="nav-manual">
+        <span>Manual</span>
+      </button>
 
-    <button class="nav-tab" data-tab="tab-tarjeta-oficial" onclick="switchTab('tarjeta-oficial')" id="nav-card">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
-      <span>5. Tarjeta Oficial</span>
-    </button>
+      <button class="nav-tab" data-tab="tab-tarjeta-oficial" onclick="switchTab('tarjeta-oficial')" id="nav-card">
+        <span>Tarjeta Oficial</span>
+      </button>
 
-    <button class="nav-tab" data-tab="tab-skills" onclick="switchTab('skills')" id="nav-skills">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 14a4 4 0 1 1 4-4 4 4 0 0 1-4 4Z"/></svg>
-      <span>6. IA Táctica</span>
-    </button>
+      <button class="nav-tab" data-tab="tab-skills" onclick="switchTab('skills')" id="nav-skills">
+        <span>IA Táctica</span>
+      </button>
 
-    <button class="nav-tab" data-tab="tab-perfil" onclick="switchTab('perfil')" id="nav-profile">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>7. Perfil</span>
-    </button>
-
-    <!-- Cabina de Medios trasladada fuera de la barra Dugout -->
+      <button class="nav-tab" data-tab="tab-perfil" onclick="switchTab('perfil')" id="nav-profile">
+        <span>Perfil</span>
+      </button>
+    </div>
   </div>
 
   <div id="nav-cabina" style="display:none;" data-tab="tab-cabina"></div>
@@ -15731,28 +15729,25 @@ function applyLanguage(lang) {
 
   // Garantía de Sincronización Canónica de las 8 Pestañas en applyLanguage
   const tabScorer = document.getElementById('btn-go-scorer');
-  if (tabScorer) tabScorer.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> ' + (isEsLocale ? '1. Anotador Dugout' : '1. Dugout Scorer');
+  if (tabScorer) tabScorer.innerHTML = '<span>' + (isEsLocale ? 'Anotador Dugout' : 'Dugout Scorer') + '</span>';
 
   const tabLineup = document.getElementById('nav-lineup');
-  if (tabLineup) tabLineup.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> ' + (isEsLocale ? '2. Creador de Alineación' : '2. Lineup Builder');
+  if (tabLineup) tabLineup.innerHTML = '<span>' + (isEsLocale ? 'Alineación' : 'Lineup') + '</span>';
 
   const tabField = document.getElementById('btn-view-field');
-  if (tabField) tabField.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-nav-field"/></svg> ' + (isEsLocale ? '3. Ver Terreno' : '3. Field View');
+  if (tabField) tabField.innerHTML = '<span>' + (isEsLocale ? 'Terreno' : 'Field View') + '</span>';
 
   const tabManual = document.getElementById('nav-manual');
-  if (tabManual) tabManual.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg> ' + (isEsLocale ? '4. Manual & Reglas' : '4. Rules & Manual');
+  if (tabManual) tabManual.innerHTML = '<span>' + (isEsLocale ? 'Manual' : 'Manual') + '</span>';
 
   const tabCard = document.getElementById('nav-card');
-  if (tabCard) tabCard.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> ' + (isEsLocale ? '5. Tarjeta Oficial' : '5. Official Scorecard');
-
-  const tabDash = document.getElementById('nav-dash');
-  if (tabDash) tabDash.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> ' + (isEsLocale ? '6. Tablero Sabermétrico' : '6. Sabermetric Dashboard');
+  if (tabCard) tabCard.innerHTML = '<span>' + (isEsLocale ? 'Tarjeta Oficial' : 'Official Card') + '</span>';
 
   const tabSkills = document.getElementById('nav-skills');
-  if (tabSkills) tabSkills.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> ' + (isEsLocale ? '7. IA Táctica DIAMAX' : '7. DIAMAX Tactical AI');
+  if (tabSkills) tabSkills.innerHTML = '<span>' + (isEsLocale ? 'IA Táctica' : 'Tactical AI') + '</span>';
 
   const tabProfile = document.getElementById('nav-profile');
-  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEsLocale ? '7. Perfil' : '7. Profile');
+  if (tabProfile) tabProfile.innerHTML = '<span>' + (isEsLocale ? 'Perfil' : 'Profile') + '</span>';
 
   // Botones de Lineup y Voz
   document.querySelectorAll('button').forEach(b => {
@@ -15863,28 +15858,25 @@ function setDiamaxLanguage(lang) {
 
   // 3. Traducir Barra de Pestañas (Page 3)
   const tabScorer = document.getElementById('btn-go-scorer');
-  if (tabScorer) tabScorer.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-tactical-crosshair"/></svg> ' + (isEs ? '1. Anotador Dugout' : '1. Dugout Scorer');
+  if (tabScorer) tabScorer.innerHTML = '<span>' + (isEs ? 'Anotador Dugout' : 'Dugout Scorer') + '</span>';
 
   const tabLineup = document.getElementById('nav-lineup');
-  if (tabLineup) tabLineup.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-lineup-dictate"/></svg> ' + (isEs ? '2. Creador de Alineación' : '2. Lineup Builder');
+  if (tabLineup) tabLineup.innerHTML = '<span>' + (isEs ? 'Alineación' : 'Lineup') + '</span>';
 
   const tabField = document.getElementById('btn-view-field');
-  if (tabField) tabField.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-nav-field"/></svg> ' + (isEs ? '3. Ver Terreno' : '3. Field View');
+  if (tabField) tabField.innerHTML = '<span>' + (isEs ? 'Terreno' : 'Field View') + '</span>';
 
   const tabManual = document.getElementById('nav-manual');
-  if (tabManual) tabManual.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg> ' + (isEs ? '4. Manual & Reglas' : '4. Rules & Manual');
+  if (tabManual) tabManual.innerHTML = '<span>' + (isEs ? 'Manual' : 'Manual') + '</span>';
 
   const tabCard = document.getElementById('nav-card');
-  if (tabCard) tabCard.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-boxscore-matrix"/></svg> ' + (isEs ? '5. Tarjeta Oficial' : '5. Official Scorecard');
-
-  const tabDash = document.getElementById('nav-dash');
-  if (tabDash) tabDash.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-sabermetric-brain"/></svg> ' + (isEs ? '6. Tablero Sabermétrico' : '6. Sabermetric Dashboard');
+  if (tabCard) tabCard.innerHTML = '<span>' + (isEs ? 'Tarjeta Oficial' : 'Official Card') + '</span>';
 
   const tabSkills = document.getElementById('nav-skills');
-  if (tabSkills) tabSkills.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> ' + (isEs ? '7. IA Táctica DIAMAX' : '7. DIAMAX Tactical AI');
+  if (tabSkills) tabSkills.innerHTML = '<span>' + (isEs ? 'IA Táctica' : 'Tactical AI') + '</span>';
 
   const tabProfile = document.getElementById('nav-profile');
-  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEs ? '7. Perfil' : '7. Profile');
+  if (tabProfile) tabProfile.innerHTML = '<span>' + (isEs ? 'Perfil' : 'Profile') + '</span>';
 
   // 4. Traducir Controles de Cabecera y Ribbon
   const btnNewGame = document.querySelector('.btn-new-game');

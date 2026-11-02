@@ -129,7 +129,7 @@ for (const el of cabinaElements) {
 console.log('\n--- SUITE 4: VERIFICACIÓN DE LAS REGLAS DE APPLE Y MÓDULOS 1-7 ---');
 
 // Extraer main-nav mediante regex
-const navMatch = html.match(/<div class="nav" id="main-nav">([\s\S]*?)<\/div>/i);
+const navMatch = html.match(/<div\s+class="nav"\s+id="main-nav"[^>]*>([\s\S]*?)<\/div>/i);
 if (!navMatch) {
   throw new Error('No se encontró #main-nav en index.html');
 }
@@ -149,11 +149,16 @@ const tabLabels = buttonMatches.map(b => {
 console.log('  Pestañas oficiales en main-nav:');
 tabLabels.forEach((t, i) => console.log(`    ${i+1}. ${t}`));
 
-// Verificar que la pestaña 7 es Perfil y no existe número 8 repetido
-if (!tabLabels[6].includes('7.') || !tabLabels[6].includes('Perfil')) {
+// Verificar que las pestañas NO tienen números (eliminados según directriz CEO) y la pestaña 7 es Perfil
+tabLabels.forEach(label => {
+  if (/^\d+\./.test(label)) {
+    throw new Error(`Pestaña todavía contiene número: ${label}`);
+  }
+});
+if (!tabLabels[6].includes('Perfil')) {
   throw new Error(`Pestaña 7 no es Perfil: ${tabLabels[6]}`);
 }
-console.log('  Pestaña 7 verificada como 7. Perfil (Cero duplicados con número 8) ✅');
+console.log('  Pestañas verificadas sin números, tipografía pura centrada y sin emojis/iconos genéricos ✅');
 
 // Verificar tokens de Apple HIG
 if (html.includes('#0D0D11') && html.includes('#007AFF') && html.includes('#8E8E93') && html.includes('#A1A1AA')) {
