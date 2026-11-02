@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const DIAMAX_CORE = require('C:\\Users\\fitne\\Documents\\3Tree_Codebase\\DIAMAX\\diamax-core-bundle.js');
+const DIAMAX_CORE = require(path.join(__dirname, '..', 'diamax-core-bundle.js'));
 
 let passCount = 0;
 let failCount = 0;
@@ -188,7 +188,7 @@ function createBrowserEnvironment() {
 console.log('--- [BLOQUE B2.1] NAVEGACIÓN, SESIÓN & PWA ---');
 const env = createBrowserEnvironment();
 
-const indexHtml = fs.readFileSync('C:\\Users\\fitne\\Documents\\3Tree_Codebase\\DIAMAX\\index.html', 'utf8');
+const indexHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 assert(indexHtml.includes('<link rel="manifest" href="./manifest.json">'), 'B2.1-01', 'Manifest PWA enlazado correctamente en index.html');
 assert(indexHtml.includes('diamax-core-bundle.js'), 'B2.1-02', 'Librería unificada diamax-core-bundle.js enlazada en el <head>');
 assert(env.mockWindow.DIAMAX_DISPATCHER !== null, 'B2.1-03', 'CommandDispatcher inicializado en scope global de la ventana');

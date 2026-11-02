@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const assert = require('assert');
 
 console.log('═══════════════════════════════════════════════════════════════════════════');
@@ -6,8 +7,8 @@ console.log('🧪 PRUEBA EN VIVO: BLINDAJE DE RIVALES Y ATRIBUCION DE CARRERAS (
 console.log('═══════════════════════════════════════════════════════════════════════════\n');
 
 // 1. Cargar modulos core de DIAMAX
-const DIAMAX_CORE = require('../diamax-core-bundle.js');
-const indexHtml = fs.readFileSync('C:\\Users\\fitne\\Documents\\3Tree_Codebase\\DIAMAX\\index.html', 'utf8');
+const DIAMAX_CORE = require(path.join(__dirname, '..', 'diamax-core-bundle.js'));
+const indexHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 
 // Extraer funciones clave del index.html para evaluarlas en un entorno controlado
 const extractFunc = (name, endMarker) => {

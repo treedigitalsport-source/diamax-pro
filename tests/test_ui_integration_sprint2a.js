@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIAMAX_CORE = require('C:\\Users\\fitne\\Documents\\3Tree_Codebase\\DIAMAX\\diamax-core-bundle.js');
+const DIAMAX_CORE = require(path.join(__dirname, '..', 'diamax-core-bundle.js'));
 
 let passCount = 0;
 let failCount = 0;
@@ -57,7 +57,7 @@ global.getLiveCurrentBatter = () => ({
 });
 
 // Importar funciones integradas de index.html
-const indexContent = fs.readFileSync('C:\\Users\\fitne\\Documents\\3Tree_Codebase\\DIAMAX\\index.html', 'utf8');
+const indexContent = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 
 // Extraer registrarJugadaLive y deshacerJugadaLive del index.html
 eval(indexContent.substring(indexContent.indexOf('function registrarJugadaLive'), indexContent.indexOf('function procesarFlyPosicion')));
