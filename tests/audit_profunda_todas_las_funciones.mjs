@@ -137,8 +137,8 @@ if (!navMatch) {
 const navInner = navMatch[1];
 const buttonMatches = navInner.match(/<button[\s\S]*?<\/button>/gi) || [];
 console.log(`  Total de botones en #main-nav: ${buttonMatches.length}`);
-if (buttonMatches.length !== 7) {
-  throw new Error(`Se esperaban 7 pestañas en main-nav, pero hay ${buttonMatches.length}`);
+if (buttonMatches.length !== 8) {
+  throw new Error(`Se esperaban 8 pestañas en main-nav (con Tablero Sabermétrico restaurado), pero hay ${buttonMatches.length}`);
 }
 
 const tabLabels = buttonMatches.map(b => {
@@ -149,16 +149,19 @@ const tabLabels = buttonMatches.map(b => {
 console.log('  Pestañas oficiales en main-nav:');
 tabLabels.forEach((t, i) => console.log(`    ${i+1}. ${t}`));
 
-// Verificar que las pestañas NO tienen números (eliminados según directriz CEO) y la pestaña 7 es Perfil
+// Verificar que las pestañas NO tienen números (eliminados según directriz CEO) y la última pestaña es Perfil
 tabLabels.forEach(label => {
   if (/^\d+\./.test(label)) {
     throw new Error(`Pestaña todavía contiene número: ${label}`);
   }
 });
-if (!tabLabels[6].includes('Perfil')) {
-  throw new Error(`Pestaña 7 no es Perfil: ${tabLabels[6]}`);
+if (!tabLabels[tabLabels.length - 1].includes('Perfil')) {
+  throw new Error(`La última pestaña no es Perfil: ${tabLabels[tabLabels.length - 1]}`);
 }
-console.log('  Pestañas verificadas sin números, tipografía pura centrada y sin emojis/iconos genéricos ✅');
+if (!tabLabels.some(t => t.includes('Tablero') || t.includes('Sabermétrico') || t.includes('Dashboard'))) {
+  throw new Error('No se encontró el Tablero Sabermétrico en las pestañas oficiales');
+}
+console.log('  Pestañas verificadas sin números, tipografía pura centrada y con Tablero Sabermétrico activo ✅');
 
 // Verificar tokens de Apple HIG
 if (html.includes('#0D0D11') && html.includes('#007AFF') && html.includes('#8E8E93') && html.includes('#A1A1AA')) {
