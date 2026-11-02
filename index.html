@@ -1099,27 +1099,13 @@ window.addEventListener('load', function() {
 // ☀️ GESTIÓN DE MODO LUZ SOLAR (SUNLIGHT MODE WCAG AAA)
 // =========================================================================
 function toggleModoLuzSolar() {
-  const isSunlight = document.body.classList.toggle('sunlight-mode');
-  localStorage.setItem('diamax_sunlight_mode', isSunlight ? 'true' : 'false');
-  
-  const iconH = document.getElementById('btn-sunlight-icon');
-  const labelH = document.getElementById('btn-sunlight-label');
-  if (iconH && labelH) {
-    iconH.textContent = isSunlight ? '🌙' : '☀️';
-    labelH.textContent = isSunlight ? 'Modo Noche' : 'Luz Solar';
-  }
-
-  const mobSun = document.getElementById('mob-nav-sunlight');
-  if (mobSun) {
-    const iconM = mobSun.querySelector('.mob-icon');
-    const lblM = mobSun.querySelector('.mob-lbl');
-    if (iconM) iconM.textContent = isSunlight ? '🌙' : '☀️';
-    if (lblM) lblM.textContent = isSunlight ? 'Noche' : 'Sol';
-  }
-
-  const btnDugout = document.getElementById('btn-sunlight-dugout');
-  if (btnDugout) {
-    btnDugout.innerHTML = isSunlight ? '<span>🌙</span> <span>MODO NOCHE</span>' : '<span>☀️</span> <span>MODO SOL</span>';
+  if (typeof toggleDaylightMode === 'function') {
+    toggleDaylightMode();
+  } else {
+    const isSunlight = document.body.classList.toggle('sunlight-mode');
+    document.body.classList.toggle('daylight-mode', isSunlight);
+    localStorage.setItem('diamax_sunlight_mode', isSunlight ? 'true' : 'false');
+    localStorage.setItem('diamax_daylight_mode', isSunlight ? 'true' : 'false');
   }
 }
 window.toggleModoLuzSolar = toggleModoLuzSolar;
@@ -6617,6 +6603,82 @@ html, body {
   /* =========================================================================
      ☀️ ACTUALIZACIÓN 2: MODO LUZ SOLAR (WCAG AAA) & ERGONOMÍA DUGOUT
      ========================================================================= */
+  /* =========================================================================
+     ☀️ WCAG AAA ENHANCED SUNLIGHT VISIBILITY (CERO TEXTOS INVISIBLES)
+     ========================================================================= */
+  body.sunlight-mode,
+  body.daylight-mode {
+    background-color: #F8FAFC !important;
+    color: #0F172A !important;
+  }
+  body.sunlight-mode .header,
+  body.daylight-mode .header,
+  body.sunlight-mode .game-ribbon,
+  body.daylight-mode .game-ribbon,
+  body.sunlight-mode .header-toolstrip-environment,
+  body.daylight-mode .header-toolstrip-environment,
+  body.sunlight-mode .header-toolstrip-system,
+  body.daylight-mode .header-toolstrip-system {
+    background: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06) !important;
+  }
+  body.sunlight-mode #network-status-badge,
+  body.daylight-mode #network-status-badge {
+    background: #F1F5F9 !important;
+    border-color: #CBD5E1 !important;
+  }
+  body.sunlight-mode #network-status-badge span,
+  body.daylight-mode #network-status-badge span,
+  body.sunlight-mode #header-subtitle,
+  body.daylight-mode #header-subtitle,
+  body.sunlight-mode #lbl-game-selected-ribbon,
+  body.daylight-mode #lbl-game-selected-ribbon,
+  body.sunlight-mode .game-ribbon span,
+  body.daylight-mode .game-ribbon span,
+  body.sunlight-mode .game-ribbon strong,
+  body.daylight-mode .game-ribbon strong {
+    color: #0F172A !important;
+  }
+  body.sunlight-mode #ribbon-matchup-badge,
+  body.daylight-mode #ribbon-matchup-badge {
+    background: #F1F5F9 !important;
+    border-color: #CBD5E1 !important;
+  }
+  body.sunlight-mode [style*="color:#FFFFFF"],
+  body.daylight-mode [style*="color:#FFFFFF"],
+  body.sunlight-mode [style*="color: #FFFFFF"],
+  body.daylight-mode [style*="color: #FFFFFF"],
+  body.sunlight-mode [style*="color:#FFF"],
+  body.daylight-mode [style*="color:#FFF"],
+  body.sunlight-mode [style*="color: #FFF"],
+  body.daylight-mode [style*="color: #FFF"],
+  body.sunlight-mode [style*="color:#94A3B8"],
+  body.daylight-mode [style*="color:#94A3B8"],
+  body.sunlight-mode [style*="color: #94A3B8"],
+  body.daylight-mode [style*="color: #94A3B8"],
+  body.sunlight-mode [style*="color:#8E8E93"],
+  body.daylight-mode [style*="color:#8E8E93"],
+  body.sunlight-mode [style*="color: #8E8E93"],
+  body.daylight-mode [style*="color: #8E8E93"] {
+    color: #0F172A !important;
+  }
+  body.sunlight-mode .btn-settings,
+  body.daylight-mode .btn-settings,
+  body.sunlight-mode .btn-lang,
+  body.daylight-mode .btn-lang {
+    background: #F8FAFC !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+  }
+  body.sunlight-mode .btn-settings svg,
+  body.daylight-mode .btn-settings svg,
+  body.sunlight-mode .btn-lang svg,
+  body.daylight-mode .btn-lang svg {
+    stroke: #0F172A !important;
+  }
+
   body.sunlight-mode {
     background-color: #F8FAFC !important;
     background-image: none !important;
@@ -8973,8 +9035,9 @@ html, body {
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
 
-      <button id="btn-toggle-sunlight-header" type="button" onclick="toggleModoLuzSolar()" style="background:#0F172A; border:1.5px solid #FFC72C; color:#FFC72C; padding:7px 12px; border-radius:10px; font-weight:800; font-size:11.5px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 10px rgba(255,199,44,0.25);" title="Modo Luz Solar de Alto Contraste (WCAG AAA) para juegos bajo el sol del mediodía">
-        <span id="btn-sunlight-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span id="btn-sunlight-label">Luz Solar</span>
+      <!-- Control de Luz Solar unificado en barra superior (#btn-daylight); preservado oculto para compatibilidad DOM sin duplicidad visual -->
+      <button id="btn-toggle-sunlight-header" type="button" onclick="toggleModoLuzSolar()" style="display:none !important;" aria-hidden="true">
+        <span id="btn-sunlight-icon"></span><span id="btn-sunlight-label"></span>
       </button>
       <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game diamax-action-btn-unified">+ Configurar Partido & Rival</button>
     </div>
@@ -21706,13 +21769,40 @@ function validarPosicionesDuplicadasLineup() {
 function toggleDaylightMode() {
   const body = document.body;
   const isDaylight = body.classList.toggle('daylight-mode');
+  body.classList.toggle('sunlight-mode', isDaylight);
   localStorage.setItem('diamax_daylight_mode', isDaylight ? 'true' : 'false');
+  localStorage.setItem('diamax_sunlight_mode', isDaylight ? 'true' : 'false');
+
   const btn = document.getElementById('btn-daylight');
   if (btn) {
-    btn.innerHTML = isDaylight ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="#EAB308"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg> ☀️ Modo Sol ACTIVO' : '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> 🌙 Modo Sol (Estadio)';
+    btn.innerHTML = isDaylight 
+      ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="#FFB300"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> <span id="btn-daylight-text" style="color:#FFB300; font-weight:800;">Modo Sol</span>' 
+      : '<svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> <span id="btn-daylight-text">Sol / Noche</span>';
   }
+
+  const iconH = document.getElementById('btn-sunlight-icon');
+  const labelH = document.getElementById('btn-sunlight-label');
+  if (iconH && labelH) {
+    iconH.textContent = isDaylight ? '🌙' : '☀️';
+    labelH.textContent = isDaylight ? 'Modo Noche' : 'Luz Solar';
+  }
+
+  const mobSun = document.getElementById('mob-nav-sunlight');
+  if (mobSun) {
+    const iconM = mobSun.querySelector('.mob-icon');
+    const lblM = mobSun.querySelector('.mob-lbl');
+    if (iconM) iconM.textContent = isDaylight ? '🌙' : '☀️';
+    if (lblM) lblM.textContent = isDaylight ? 'Noche' : 'Sol';
+  }
+
+  const btnDugout = document.getElementById('btn-sunlight-dugout');
+  if (btnDugout) {
+    btnDugout.innerHTML = isDaylight ? '<span>🌙</span> <span>MODO NOCHE</span>' : '<span>☀️</span> <span>MODO SOL</span>';
+  }
+
   if (typeof DIAMAX_AUDIO !== 'undefined') DIAMAX_AUDIO.playClick();
 }
+window.toggleDaylightMode = toggleDaylightMode;
 
 function abrirModalNuevoJuego() {
   const modal = document.getElementById('modal-nuevo-juego');
