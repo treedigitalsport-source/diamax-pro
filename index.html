@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '8.3-dugout-zero-media-clean';
+  const DEPLOY_VERSION = '8.4-canonical-plays-restored';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -1357,9 +1357,50 @@ function toggleDrawer(drawerId) {
     if (arrow) {
       arrow.textContent = isHidden ? '▴ Plegar' : '▾ Desplegar';
     }
+    if (drawerId === 'drawer-36-plays' && isHidden) {
+      const p36 = document.getElementById('panel-36-plays');
+      const p2 = document.getElementById('dugout-2step-keypad');
+      if (p36) p36.style.display = 'block';
+      if (p2) p2.style.display = 'none';
+    }
   }
 }
 window.toggleDrawer = toggleDrawer;
+
+function abrir36JugadasCanonicasDirecto() {
+  const body = document.getElementById('body-drawer-36-plays');
+  const arrow = document.getElementById('arrow-drawer-36-plays');
+  const panel36 = document.getElementById('panel-36-plays');
+  const panel2Step = document.getElementById('dugout-2step-keypad');
+  
+  if (body) {
+    const isHidden = (body.style.display === 'none' || body.style.display === '');
+    if (isHidden) {
+      body.style.display = 'block';
+      if (arrow) arrow.textContent = '▴ Plegar';
+      if (panel36) panel36.style.display = 'block';
+      if (panel2Step) panel2Step.style.display = 'none';
+      setTimeout(function() {
+        if (panel36) panel36.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    } else {
+      body.style.display = 'none';
+      if (arrow) arrow.textContent = '▾ Desplegar';
+    }
+  }
+}
+window.abrir36JugadasCanonicasDirecto = abrir36JugadasCanonicasDirecto;
+
+function toggleDrawerCampo36() {
+  const c = document.getElementById('campo-36-plays-container');
+  const btn = document.getElementById('btn-toggle-campo-36');
+  if (c) {
+    const isHidden = (c.style.display === 'none' || c.style.display === '');
+    c.style.display = isHidden ? 'block' : 'none';
+    if (btn) btn.innerHTML = isHidden ? '▴ Plegar 36 Jugadas' : '▾ Desplegar 36 Jugadas';
+  }
+}
+window.toggleDrawerCampo36 = toggleDrawerCampo36;
 
 function activarModoRol(rol) {
   document.querySelectorAll('.role-mode-btn').forEach(b => b.classList.remove('active'));
@@ -9286,7 +9327,7 @@ html, body {
           <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-3')" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; border-radius:8px; padding:5px 12px; font-weight:800;">6-3</button>
           <button type="button" class="chip-action-btn" onclick="registrarJugadaLive('6-4-3 DP')" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#F8FAFC; border-radius:8px; padding:5px 12px; font-weight:800;">DP</button>
         </div>
-        <button type="button" class="btn-toggle-drawer-link" onclick="toggleDrawer('drawer-36-plays')">
+        <button type="button" class="btn-toggle-drawer-link" onclick="abrir36JugadasCanonicasDirecto()" title="Abrir inmediatamente la Botonera de 36 Jugadas Canónicas">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           36 Jugadas Canónicas ▾
         </button>
@@ -9428,22 +9469,66 @@ html, body {
         </div>
       </div>
 
-      <!-- DRAWER 3: 📋 TECLADO COMPLETO EN 2 PASOS & 36 JUGADAS (Colapsado por defecto) -->
+      <!-- DRAWER 3: 📋 BOTONERA OFICIAL DE 36 JUGADAS CANÓNICAS & TECLADO TÁCTIL (Desplegable) -->
       <div class="dugout-drawer" id="drawer-36-plays">
         <button type="button" class="dugout-drawer-header" onclick="toggleDrawer('drawer-36-plays')">
           <div class="drawer-header-left">
             <span class="drawer-header-icon">📋</span>
-            <span class="drawer-header-title">Teclado Táctil en 2 Pasos & 36 Jugadas Canónicas</span>
+            <span class="drawer-header-title">Botonera Oficial de 36 Jugadas Canónicas & Teclado Táctil</span>
           </div>
           <span class="drawer-toggle-arrow" id="arrow-drawer-36-plays">▾ Desplegar</span>
         </button>
         <div class="dugout-drawer-body" style="display:none;" id="body-drawer-36-plays">
-          <!-- Teclado en 2 pasos -->
-          <div class="panel" id="dugout-2step-keypad" style="margin-bottom:12px; background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:12px;">
+          
+          <!-- Panel 36 Jugadas Canónicas (VISTA PRINCIPAL DIRECTA) -->
+          <div class="panel" id="panel-36-plays" style="display:block; background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:14px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+              <div style="font-size:13px; font-weight:900; color:#F59E0B; display:flex; align-items:center; gap:6px;">
+                <span>📋</span> <span>Botonera Oficial de 36 Jugadas Canónicas (Pulsación Inmediata a 1 Toque)</span>
+              </div>
+              <button type="button" id="btn-toggle-keypad-mode" onclick="toggleVistaTecladoDugout()" style="background:#1E293B; border:1px solid #334155; color:#38BDF8; padding:5px 12px; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;" title="Cambiar entre modo 36 jugadas directas y modo teclado en 2 pasos">
+                Alternar a Teclado en 2 Pasos
+              </button>
+            </div>
+            <div class="action-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(90px, 1fr)); gap:6px;">
+              <button type="button" id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')">1B</button>
+              <button type="button" id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')">2B</button>
+              <button type="button" id="act-3b" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')">3B</button>
+              <button type="button" id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')">HR</button>
+              <button type="button" id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')">K</button>
+              <button type="button" id="act-kl" class="btn-action btn-out" onclick="registrarJugadaLive('K_LOOKING')">ꓘ</button>
+              <button type="button" id="act-bb" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')">BB</button>
+              <button type="button" id="act-ibb" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')">IBB</button>
+              <button type="button" id="act-hbp" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')">HBP</button>
+              <button type="button" id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')">SF</button>
+              <button type="button" id="act-sh" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')">SH</button>
+              <button type="button" id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')">6-3</button>
+              <button type="button" id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')">4-3</button>
+              <button type="button" id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')">5-3</button>
+              <button type="button" id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')">1-3</button>
+              <button type="button" id="act-31" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')">3-1</button>
+              <button type="button" id="act-dp-643" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')">6-4-3 DP</button>
+              <button type="button" id="act-dp-463" class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')">4-6-3 DP</button>
+              <button type="button" id="act-dp-543" class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')">5-4-3 DP</button>
+              <button type="button" id="act-roe" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')">ROE</button>
+              <button type="button" id="act-fc" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')">FC</button>
+              <button type="button" id="act-ifr" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')">IFR</button>
+              <button type="button" id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')">SB</button>
+              <button type="button" id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')">CS</button>
+              <button type="button" id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')">WP</button>
+              <button type="button" id="act-pb" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')">PB</button>
+              <button type="button" id="act-bk" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')">BK</button>
+            </div>
+            <!-- Botón Deshacer duplicado para compatibilidad -->
+            <button type="button" id="btn-undo-keypad" onclick="deshacerJugadaLive()" style="display:none;">Deshacer</button>
+          </div>
+
+          <!-- Teclado en 2 pasos (MODO ALTERNATIVO) -->
+          <div class="panel" id="dugout-2step-keypad" style="display:none; margin-bottom:12px; background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:12px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
               <h4 style="margin:0; font-size:13px; font-weight:900; color:#0284C7;">Teclado Táctil en 2 Pasos</h4>
-              <button type="button" id="btn-toggle-keypad-mode" onclick="toggleVistaTecladoDugout()" style="background:#1E293B; border:1px solid #334155; color:#94A3B8; padding:4px 8px; border-radius:6px; font-size:10.5px; font-weight:800; cursor:pointer;">
-                Alternar 36 Jugadas
+              <button type="button" onclick="toggleVistaTecladoDugout()" style="background:#1E293B; border:1px solid #334155; color:#F59E0B; padding:4px 8px; border-radius:6px; font-size:10.5px; font-weight:800; cursor:pointer;">
+                Volver a 36 Jugadas Canónicas
               </button>
             </div>
             <!-- Paso 1 -->
@@ -9487,42 +9572,6 @@ html, body {
                 <button type="button" onclick="ejecutarJugada2Pasos('E')" class="btn-action btn-out dugout-step2-btn" style="min-height:42px; font-size:12px;">E Error</button>
               </div>
             </div>
-          </div>
-
-          <!-- Panel 36 Jugadas Canónicas -->
-          <div class="panel" id="panel-36-plays" style="display:none; background:#0B0F19; border:1px solid #1E293B; border-radius:10px; padding:12px;">
-            <div style="font-size:12px; font-weight:800; color:#F59E0B; margin-bottom:8px;">Botonera Oficial de 36 Jugadas Canónicas</div>
-            <div class="action-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(90px, 1fr)); gap:6px;">
-              <button type="button" id="act-1b" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')">1B</button>
-              <button type="button" id="act-2b" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')">2B</button>
-              <button type="button" id="act-3b" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')">3B</button>
-              <button type="button" id="act-hr" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')">HR</button>
-              <button type="button" id="act-k" class="btn-action btn-out" onclick="registrarJugadaLive('K')">K</button>
-              <button type="button" id="act-kl" class="btn-action btn-out" onclick="registrarJugadaLive('K_LOOKING')">ꓘ</button>
-              <button type="button" id="act-bb" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')">BB</button>
-              <button type="button" id="act-ibb" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')">IBB</button>
-              <button type="button" id="act-hbp" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')">HBP</button>
-              <button type="button" id="act-sf" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')">SF</button>
-              <button type="button" id="act-sh" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')">SH</button>
-              <button type="button" id="act-63" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')">6-3</button>
-              <button type="button" id="act-43" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')">4-3</button>
-              <button type="button" id="act-53" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')">5-3</button>
-              <button type="button" id="act-13" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')">1-3</button>
-              <button type="button" id="act-31" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')">3-1</button>
-              <button type="button" id="act-dp-643" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')">6-4-3 DP</button>
-              <button type="button" id="act-dp-463" class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')">4-6-3 DP</button>
-              <button type="button" id="act-dp-543" class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')">5-4-3 DP</button>
-              <button type="button" id="act-roe" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')">ROE</button>
-              <button type="button" id="act-fc" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')">FC</button>
-              <button type="button" id="act-ifr" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')">IFR</button>
-              <button type="button" id="act-sb" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')">SB</button>
-              <button type="button" id="act-cs" class="btn-action btn-out" onclick="registrarJugadaLive('CS')">CS</button>
-              <button type="button" id="act-wp" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')">WP</button>
-              <button type="button" id="act-pb" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')">PB</button>
-              <button type="button" id="act-bk" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')">BK</button>
-            </div>
-            <!-- Botón Deshacer duplicado para compatibilidad -->
-            <button type="button" id="btn-undo-keypad" onclick="deshacerJugadaLive()" style="display:none;">Deshacer</button>
           </div>
         </div>
       </div>
@@ -9765,6 +9814,50 @@ html, body {
             <span style="color:#94A3B8; font-size:10.5px; font-weight:700;">10 Jugadores Titulares</span>
           </div>
           <div id="field-defenders-chips-container" style="display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin;"></div>
+        </div>
+
+        <!-- 📋 BOTONERA OFICIAL DE 36 JUGADAS DIRECTA EN EL CAMPO (TERRENO 2D) -->
+        <div style="margin-top:14px; background:#040915; border:1.5px solid #1E293B; border-radius:12px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+            <strong style="color:#FFC72C; font-size:12.5px; display:flex; align-items:center; gap:6px;">
+              <span>📋</span> <span>Botonera de 36 Jugadas Canónicas en Terreno</span>
+            </strong>
+            <button type="button" onclick="toggleDrawerCampo36()" id="btn-toggle-campo-36" style="background:#1E293B; border:1px solid #334155; color:#00D2FF; font-size:11px; font-weight:800; padding:4px 10px; border-radius:6px; cursor:pointer;">
+              ▾ Desplegar 36 Jugadas
+            </button>
+          </div>
+          <div id="campo-36-plays-container" style="display:none; margin-top:10px;">
+            <div style="font-size:11px; color:#94A3B8; margin-bottom:8px;">Pulsa cualquier jugada oficial para registrarla de inmediato en el partido:</div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(85px, 1fr)); gap:6px;">
+              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('1B')" style="font-weight:900;">1B</button>
+              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('2B')" style="font-weight:900;">2B</button>
+              <button type="button" class="btn-action btn-hit" onclick="registrarJugadaLive('3B')" style="font-weight:900;">3B</button>
+              <button type="button" class="btn-action btn-hr" onclick="registrarJugadaLive('HR')" style="font-weight:900;">HR</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('K')" style="font-weight:900;">K</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('K_LOOKING')" style="font-weight:900;">ꓘ</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('BB')" style="font-weight:900;">BB</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('IBB')" style="font-weight:900;">IBB</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('HBP')" style="font-weight:900;">HBP</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('SF')" style="font-weight:900;">SF</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('SAC_BUNT')" style="font-weight:900;">SH</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('6-3')" style="font-weight:900;">6-3</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('4-3')" style="font-weight:900;">4-3</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('5-3')" style="font-weight:900;">5-3</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('1-3')" style="font-weight:900;">1-3</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('3-1')" style="font-weight:900;">3-1</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('6-4-3 DP')" style="font-weight:900;">6-4-3 DP</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('4-6-3 DP')" style="font-weight:900;">4-6-3 DP</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('5-4-3 DP')" style="font-weight:900;">5-4-3 DP</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('ROE')" style="font-weight:900;">ROE</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('FC')" style="font-weight:900;">FC</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('IFR')" style="font-weight:900;">IFR</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('SB')" style="font-weight:900;">SB</button>
+              <button type="button" class="btn-action btn-out" onclick="registrarJugadaLive('CS')" style="font-weight:900;">CS</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('WP')" style="font-weight:900;">WP</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('PB')" style="font-weight:900;">PB</button>
+              <button type="button" class="btn-action btn-tactical" onclick="registrarJugadaLive('BK')" style="font-weight:900;">BK</button>
+            </div>
+          </div>
         </div>
       </div>
 
