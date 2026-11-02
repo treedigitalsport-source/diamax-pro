@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '8.2-role-isolation-strict';
+  const DEPLOY_VERSION = '8.3-dugout-zero-media-clean';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -8444,8 +8444,8 @@ html, body {
       <span>7. Perfil</span>
     </button>
 
-    <!-- PESTAÑA 8: CABINA DE MEDIOS (INYECCIÓN OFICIAL) -->
-    <button class="nav-tab" data-tab="tab-cabina" onclick="switchTab('cabina')" id="nav-cabina" style="border-color: rgba(10, 132, 255, 0.4); background: rgba(10, 132, 255, 0.1);">
+    <!-- PESTAÑA 8: CABINA DE MEDIOS (EXCLUSIVA DE PLAN COMENTARISTA / OCULTA EN DUGOUT) -->
+    <button class="nav-tab" data-tab="tab-cabina" onclick="switchTab('cabina')" id="nav-cabina" style="display: none; border-color: rgba(10, 132, 255, 0.4); background: rgba(10, 132, 255, 0.1);">
       <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
       <span style="color:#0A84FF; font-weight:800;">8. Cabina de Medios</span>
     </button>
