@@ -9,14 +9,17 @@ jobs:
   deploy_to_firebase:
     name: Deploy DIAMAX PRO to Firebase Hosting
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_DIAMAX_PRO_F6F16 }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Deploy to Firebase Hosting
+        if: env.FIREBASE_SA != ''
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          firebaseServiceAccount: '${{ env.FIREBASE_SA }}'
           channelId: live
           projectId: diamax-pro-f6f16
