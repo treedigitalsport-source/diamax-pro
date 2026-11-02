@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIAMAX PRO — Prototipo 2: Apple Pro Studio Precision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pro-bg: #09090C;
+      --pro-panel: #111116;
+      --pro-border: #1E1E26;
+      --pro-border-subtle: #17171E;
+      --pro-titanium: #2A2A36;
+      --pro-text: #F4F4F5;
+      --pro-muted: #8E8E93;
+      --pro-silver: #A1A1AA;
+      --pro-accent: #007AFF;
+      --pro-accent-dim: rgba(0, 122, 255, 0.15);
+      --pro-green: #30D158;
+      --pro-amber: #FF9F0A;
+      --pro-red: #FF453A;
+      --squircle: 12px;
+      --font-pro: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'SF Mono', 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--pro-bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 122, 255, 0.04) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+      color: var(--pro-text);
+      font-family: var(--font-pro);
+      min-height: 100vh;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* BARRA SUPERIOR PRO STUDIO */
+    .pro-header {
+      background: var(--pro-panel);
+      border: 1px solid var(--pro-border);
+      border-radius: var(--squircle);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .pro-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pro-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #181820;
+      border: 1px solid var(--pro-titanium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pro-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+    }
+
+    .pro-title span { color: var(--pro-accent); }
+
+    .pro-live-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--pro-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 12px;
+    }
+
+    .pro-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pro-green);
+      box-shadow: 0 0 6px var(--pro-green);
+    }
+
+    /* CONTROLES SUPERIORES LIMPIOS */
+    .pro-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pro-tool-btn {
+      background: transparent;
+      border: none;
+      color: var(--pro-silver);
+      font-size: 11.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+
+    .pro-tool-btn svg { stroke: var(--pro-muted); }
+
+    .pro-tool-btn:hover {
+      color: #FFF;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .pro-tool-btn:hover svg { stroke: #FFF; }
+
+    .pro-btn-exit {
+      background: transparent;
+      border: none;
+      color: var(--pro-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .pro-btn-exit:hover {
+      color: var(--pro-red);
+      background: rgba(255, 69, 58, 0.1);
+    }
+
+    .pro-btn-exit:hover svg { stroke: var(--pro-red); }
+
+    /* SEGMENTED CONTROL TIPO HARDWARE PRO */
+    .pro-nav-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .pro-segmented-nav {
+      background: #13131A;
+      border: 1px solid var(--pro-border);
+      border-radius: var(--squircle);
+      padding: 3px;
+      display: inline-flex;
+      gap: 2px;
+    }
+
+    .pro-tab {
+      background: transparent;
+      border: none;
+      color: var(--pro-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .pro-tab svg { stroke: var(--pro-muted); }
+
+    .pro-tab:hover:not(.active) {
+      color: #FFF;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .pro-tab.active {
+      background: var(--pro-titanium);
+      color: #FFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .pro-tab.active svg { stroke: var(--pro-accent); }
+
+    /* LAYOUT PROFESIONAL DE DOS COLUMNAS */
+    .pro-main-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .pro-main-grid { grid-template-columns: 1fr; }
+    }
+
+    .pro-panel-card {
+      background: var(--pro-panel);
+      border: 1px solid var(--pro-border);
+      border-radius: var(--squircle);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pro-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--pro-border-subtle);
+      padding-bottom: 10px;
+    }
+
+    .pro-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--pro-silver);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* MARCADOR DE ALTA PRECISIÓN */
+    .pro-scoreboard {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      background: #0D0D12;
+      border: 1px solid var(--pro-border-subtle);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .pro-team {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .pro-score {
+      font-size: 42px;
+      font-weight: 600;
+      color: #FFF;
+      font-family: var(--font-mono);
+      line-height: 1;
+    }
+
+    .pro-count-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 0 14px;
+      border-left: 1px solid var(--pro-border-subtle);
+      border-right: 1px solid var(--pro-border-subtle);
+    }
+
+    .pro-telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .pro-stat-chip {
+      background: #14141C;
+      border: 1px solid var(--pro-border-subtle);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pro-stat-lbl {
+      font-size: 10px;
+      color: var(--pro-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .pro-stat-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFF;
+      font-family: var(--font-mono);
+    }
+
+    /* TECLADO DE ENTRADA RÁPIDA */
+    .pro-keypad {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .pro-btn-action {
+      background: #15151D;
+      border: 1px solid var(--pro-border);
+      border-radius: 8px;
+      padding: 12px 6px;
+      color: #FFF;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+
+    .pro-btn-action:hover {
+      background: #20202C;
+      border-color: var(--pro-titanium);
+    }
+
+    .pro-btn-action:active {
+      transform: scale(0.97);
+      border-color: var(--pro-accent);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="pro-header">
+    <div class="pro-brand">
+      <div class="pro-logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <div>
+        <div class="pro-title">DIAMAX <span>PRO</span> STUDIO</div>
+      </div>
+      <div class="pro-live-tag"><div class="pro-dot"></div> TRANSMISIÓN ACTIVA</div>
+    </div>
+
+    <div class="pro-tools">
+      <button class="pro-tool-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        Audio
+      </button>
+      <button class="pro-tool-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        Español
+      </button>
+      <button class="pro-tool-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/></svg>
+        Luz Solar
+      </button>
+      <button class="pro-btn-exit" title="Cerrar Sesión">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        Salir
+      </button>
+    </div>
+  </header>
+
+  <div class="pro-nav-wrap">
+    <nav class="pro-segmented-nav">
+      <button class="pro-tab active">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/></svg>
+        1. Anotador
+      </button>
+      <button class="pro-tab">2. Alineación</button>
+      <button class="pro-tab">3. Terreno</button>
+      <button class="pro-tab">4. Manual</button>
+      <button class="pro-tab">5. Tarjeta Oficial</button>
+      <button class="pro-tab">6. IA Táctica</button>
+      <button class="pro-tab">7. Perfil</button>
+    </nav>
+  </div>
+
+  <main class="pro-main-grid">
+    <!-- Columna Izquierda: Marcador y Telemetría -->
+    <div class="pro-panel-card">
+      <div class="pro-card-header">
+        <div class="pro-card-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          Mesa de Pizarra & Telemetría
+        </div>
+        <span style="font-size:11px; font-weight:700; color:var(--pro-accent);">MLB STATCAST GRADE</span>
+      </div>
+
+      <div class="pro-scoreboard">
+        <div class="pro-team">
+          <span style="font-size:12px; font-weight:700; color:var(--pro-silver);">DAYTONA BEACH</span>
+          <span class="pro-score">0</span>
+        </div>
+
+        <div class="pro-count-row">
+          <span style="font-size:11px; font-weight:700; color:var(--pro-amber);">INN 1 ▲</span>
+          <span style="font-size:12px; font-family:var(--font-mono); font-weight:700; color:#FFF;">0 B - 0 S - 0 O</span>
+        </div>
+
+        <div class="pro-team" style="text-align:right;">
+          <span style="font-size:12px; font-weight:700; color:var(--pro-silver);">GUERREROS VNZ</span>
+          <span class="pro-score">0</span>
+        </div>
+      </div>
+
+      <div class="pro-telemetry-grid">
+        <div class="pro-stat-chip">
+          <span class="pro-stat-lbl">Lanzamientos</span>
+          <span class="pro-stat-val">14 P (9 S)</span>
+        </div>
+        <div class="pro-stat-chip">
+          <span class="pro-stat-lbl">Velocidad Prom</span>
+          <span class="pro-stat-val">88.4 MPH</span>
+        </div>
+        <div class="pro-stat-chip">
+          <span class="pro-stat-lbl">Strike %</span>
+          <span class="pro-stat-val">64.2%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Entrada Táctica Rápida -->
+    <div class="pro-panel-card">
+      <div class="pro-card-header">
+        <div class="pro-card-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Entrada Inmediata
+        </div>
+        <span style="font-size:11px; color:var(--pro-muted);">1-Touch Pitch</span>
+      </div>
+
+      <div class="pro-keypad">
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-amber);">Strike Cant</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-amber);">Strike Tir</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-green);">Bola Mala</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-silver);">Foul</button>
+        <button class="pro-btn-action">Sencillo 1B</button>
+        <button class="pro-btn-action">Doble 2B</button>
+        <button class="pro-btn-action">Triple 3B</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-accent);">Jonrón HR</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-red);">Rolling Out</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-red);">Fly Out</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-red);">Ponche K</button>
+        <button class="pro-btn-action" style="border-left: 3px solid var(--pro-red);">Doble Play</button>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

@@ -6814,6 +6814,329 @@ html, body {
   }
 
 </style>
+
+<style id="diamax-apple-hig-and-sunlight-master">
+  /* =========================================================================
+     🍎 REGLAS DE APPLE APLICADAS A DIAMAX PRO
+     1. Fondo neutro #0D0D11 con luces de ambiente cobalto y esmeralda
+     2. Squircle continuo (border-radius: 12px a 14px)
+     3. Botones superiores limpios (#A1A1AA) y botón de salida sutil
+     4. macOS Segmented Control en main-nav
+     5. Marcador estilo Apple Watch / Fitness (tipografía limpia y punto 6px)
+     ========================================================================= */
+  body {
+    background-color: #0D0D11 !important;
+    background-image: 
+      radial-gradient(circle at 12% 18%, rgba(0, 122, 255, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 88% 82%, rgba(16, 185, 129, 0.05) 0%, transparent 45%) !important;
+    background-attachment: fixed !important;
+  }
+
+  /* Squircle uniforme a 14px en tarjetas y 12px en botones */
+  .header,
+  #header-container,
+  .dugout-block-scoreboard,
+  .dugout-block-matchup,
+  .dugout-block-controls,
+  .dugout-team-box,
+  .dugout-inn-badge,
+  .stadium-field-card,
+  #panel-36-plays,
+  #campo-36-plays-container,
+  .panel,
+  .card,
+  .modal-card {
+    border-radius: 14px !important;
+  }
+
+  .btn-canon-36,
+  .btn-score-adjust-clean,
+  .btn-keypad,
+  .role-mode-btn,
+  .shift-btn,
+  .pitch-quick-btn {
+    border-radius: 12px !important;
+  }
+
+  /* Limpieza de opciones secundarias de la cabecera: texto #A1A1AA sin bordes pesados */
+  .header-toolstrip-environment {
+    background: transparent !important;
+    border: none !important;
+  }
+  .header-toolstrip-environment button {
+    background: transparent !important;
+    border: none !important;
+    color: #A1A1AA !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+  }
+  .header-toolstrip-environment button svg {
+    color: #A1A1AA !important;
+    stroke: #A1A1AA !important;
+  }
+  .header-toolstrip-environment button:hover {
+    color: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-radius: 8px !important;
+  }
+  .header-toolstrip-environment button:hover svg {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+
+  /* Botón de salida: Minimalista en gris #8E8E93, hover a rojo suave */
+  #btn-header-exit {
+    background: transparent !important;
+    border: none !important;
+    color: #8E8E93 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+  }
+  #btn-header-exit svg {
+    filter: none !important;
+  }
+  #btn-header-exit svg path {
+    stroke: #8E8E93 !important;
+    transition: stroke 0.2s ease !important;
+  }
+  #btn-header-exit #header-exit-text {
+    color: #8E8E93 !important;
+    transition: color 0.2s ease !important;
+  }
+  #btn-header-exit:hover {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border-radius: 8px !important;
+  }
+  #btn-header-exit:hover svg path {
+    stroke: #EF4444 !important;
+  }
+  #btn-header-exit:hover #header-exit-text {
+    color: #EF4444 !important;
+  }
+
+  /* Fila de módulos estilo macOS Segmented Control */
+  #main-nav.nav {
+    display: inline-flex !important;
+    background: rgba(18, 22, 34, 0.72) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 4px !important;
+    gap: 4px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  #main-nav.nav button {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 10px !important;
+    color: #8E8E93 !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    padding: 7px 14px !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  #main-nav.nav button:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #FFFFFF !important;
+    border-color: transparent !important;
+  }
+
+  #main-nav.nav button.active {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  #main-nav.nav button.active svg {
+    color: #007AFF !important;
+    stroke: #007AFF !important;
+    filter: drop-shadow(0 0 6px rgba(0, 122, 255, 0.6)) !important;
+  }
+
+  /* Marcador y datos estilo Apple Watch / Fitness */
+  .dugout-score-val {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 44px !important;
+    font-weight: 600 !important;
+    color: #FFFFFF !important;
+    background: none !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    letter-spacing: -1px !important;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5)) !important;
+  }
+
+  /* Indicadores limpios con punto de 6px (sin rectángulos de color) */
+  .live-pulse-badge {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+  }
+  .live-pulse-badge .pulse-red {
+    width: 6px !important;
+    height: 6px !important;
+    background: #30D158 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 8px #30D158 !important;
+  }
+
+  #game-status-badge {
+    background: transparent !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 0 !important;
+  }
+  #game-status-badge::before {
+    content: '' !important;
+    display: inline-block !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background: #007AFF !important;
+    box-shadow: 0 0 8px #007AFF !important;
+  }
+
+  /* =========================================================================
+     ☀️ MODO LUZ SOLAR SUPREMO (WCAG AAA - SOL DE MEDIODÍA)
+     ========================================================================= */
+  body.sunlight-mode, body.daylight-mode {
+    background: #F1F5F9 !important;
+    background-image: none !important;
+    color: #0F172A !important;
+  }
+  body.sunlight-mode *, body.daylight-mode * {
+    text-shadow: none !important;
+  }
+
+  body.sunlight-mode .header, body.daylight-mode .header,
+  body.sunlight-mode #header-container, body.daylight-mode #header-container,
+  body.sunlight-mode .dugout-block-scoreboard, body.daylight-mode .dugout-block-scoreboard,
+  body.sunlight-mode .dugout-block-matchup, body.daylight-mode .dugout-block-matchup,
+  body.sunlight-mode .dugout-block-controls, body.daylight-mode .dugout-block-controls,
+  body.sunlight-mode .dugout-control-panel, body.daylight-mode .dugout-control-panel,
+  body.sunlight-mode .panel, body.daylight-mode .panel,
+  body.sunlight-mode .scoreboard, body.daylight-mode .scoreboard,
+  body.sunlight-mode .game-ribbon, body.daylight-mode .game-ribbon,
+  body.sunlight-mode .pitch-tracker-card, body.daylight-mode .pitch-tracker-card,
+  body.sunlight-mode .batter-card-active, body.daylight-mode .batter-card-active,
+  body.sunlight-mode .ondeck-card, body.daylight-mode .ondeck-card,
+  body.sunlight-mode #panel-36-plays, body.daylight-mode #panel-36-plays,
+  body.sunlight-mode #campo-36-plays-container, body.daylight-mode #campo-36-plays-container,
+  body.sunlight-mode .stadium-field-card, body.daylight-mode .stadium-field-card,
+  body.sunlight-mode .diamax-role-mode-selector, body.daylight-mode .diamax-role-mode-selector,
+  body.sunlight-mode .card, body.daylight-mode .card,
+  body.sunlight-mode .tab-content, body.daylight-mode .tab-content,
+  body.sunlight-mode .dugout-team-box, body.daylight-mode .dugout-team-box {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border: 1.5px solid #64748B !important;
+    color: #0F172A !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  body.sunlight-mode p, body.daylight-mode p,
+  body.sunlight-mode span:not(.badge-sun-preserve), body.daylight-mode span:not(.badge-sun-preserve),
+  body.sunlight-mode div:not(.badge-sun-preserve), body.daylight-mode div:not(.badge-sun-preserve),
+  body.sunlight-mode td, body.daylight-mode td,
+  body.sunlight-mode th, body.daylight-mode th,
+  body.sunlight-mode label, body.daylight-mode label,
+  body.sunlight-mode strong, body.daylight-mode strong,
+  body.sunlight-mode b, body.daylight-mode b,
+  body.sunlight-mode h1, body.daylight-mode h1,
+  body.sunlight-mode h2, body.daylight-mode h2,
+  body.sunlight-mode h3, body.daylight-mode h3,
+  body.sunlight-mode h4, body.daylight-mode h4,
+  body.sunlight-mode #team-title-span, body.daylight-mode #team-title-span,
+  body.sunlight-mode #header-subtitle, body.daylight-mode #header-subtitle,
+  body.sunlight-mode .dugout-team-name, body.daylight-mode .dugout-team-name,
+  body.sunlight-mode .score-num, body.daylight-mode .score-num,
+  body.sunlight-mode .stat-val, body.daylight-mode .stat-val {
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+  }
+
+  body.sunlight-mode .dugout-score-val, body.daylight-mode .dugout-score-val {
+    background: none !important;
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+    font-weight: 900 !important;
+  }
+
+  body.sunlight-mode .dugout-inn-badge, body.daylight-mode .dugout-inn-badge {
+    background: #E2E8F0 !important;
+    color: #0F172A !important;
+    border: 1.5px solid #475569 !important;
+    font-weight: 900 !important;
+  }
+
+  body.sunlight-mode .btn-canon-36, body.daylight-mode .btn-canon-36,
+  body.sunlight-mode .btn-keypad, body.daylight-mode .btn-keypad,
+  body.sunlight-mode .pitch-quick-btn, body.daylight-mode .pitch-quick-btn {
+    background: #F8FAFC !important;
+    color: #0F172A !important;
+    border: 1.5px solid #475569 !important;
+    font-weight: 800 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+  }
+  body.sunlight-mode .btn-canon-36:hover, body.daylight-mode .btn-canon-36:hover {
+    background: #E2E8F0 !important;
+    border-color: #0F172A !important;
+  }
+
+  body.sunlight-mode #main-nav.nav, body.daylight-mode #main-nav.nav {
+    background: #E2E8F0 !important;
+    border: 1.5px solid #94A3B8 !important;
+  }
+  body.sunlight-mode #main-nav.nav button, body.daylight-mode #main-nav.nav button {
+    background: transparent !important;
+    color: #334155 !important;
+  }
+  body.sunlight-mode #main-nav.nav button svg, body.daylight-mode #main-nav.nav button svg {
+    color: #475569 !important;
+    stroke: #475569 !important;
+  }
+  body.sunlight-mode #main-nav.nav button.active, body.daylight-mode #main-nav.nav button.active {
+    background: #007AFF !important;
+    color: #FFFFFF !important;
+    border: 1px solid #0056B3 !important;
+  }
+  body.sunlight-mode #main-nav.nav button.active svg, body.daylight-mode #main-nav.nav button.active svg {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+
+  body.sunlight-mode .role-mode-btn, body.daylight-mode .role-mode-btn {
+    background: #FFFFFF !important;
+    color: #334155 !important;
+    border: 1.5px solid #94A3B8 !important;
+  }
+  body.sunlight-mode .role-mode-btn.active, body.daylight-mode .role-mode-btn.active {
+    background: #007AFF !important;
+    color: #FFFFFF !important;
+    border-color: #0056B3 !important;
+  }
+  body.sunlight-mode .role-mode-btn.active svg, body.daylight-mode .role-mode-btn.active svg {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+</style>
+
 </head>
 <body>
 
@@ -8528,13 +8851,10 @@ html, body {
       <span>7. Perfil</span>
     </button>
 
-    <!-- PESTAÑA 8: CABINA DE MEDIOS (EXCLUSIVA DE PLAN COMENTARISTA / OCULTA EN DUGOUT) -->
-    <button class="nav-tab" data-tab="tab-cabina" onclick="switchTab('cabina')" id="nav-cabina" style="display: none; border-color: rgba(10, 132, 255, 0.4); background: rgba(10, 132, 255, 0.1);">
-      <svg class="apple-nav-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-      <span style="color:#0A84FF; font-weight:800;">8. Cabina de Medios</span>
-    </button>
+    <!-- Cabina de Medios trasladada fuera de la barra Dugout -->
   </div>
 
+  <div id="nav-cabina" style="display:none;" data-tab="tab-cabina"></div>
   <div id="tab-cabina" class="tab-content" style="display:none; margin-bottom:24px;">
     
     <!-- ⚠️ ALERTA DE SUSTITUCIÓN EN PARPADEO ÁMBAR (OCULTA POR DEFECTO, SALTA CON CAMBIOS) -->
@@ -13612,7 +13932,7 @@ window.BILINGUAL_MAPS = {
     "5. Tarjeta Oficial": "5. Official Scorecard",
     "6. Tablero Sabermétrico": "6. Sabermetric Dashboard",
     "7. IA Táctica DIAMAX": "7. DIAMAX Tactical AI",
-    "8. Perfil & Conectividad": "8. Profile & Connectivity",
+    "7. Perfil": "7. Profile",
     "EN VIVO REACTIVO": "LIVE REACTIVE",
     "ESPAÑOL": "ENGLISH",
     "☀️ Sol / Noche": "☀️ Sun / Night",
@@ -14056,7 +14376,7 @@ window.BILINGUAL_MAPS = {
     "5. Official Scorecard": "5. Tarjeta Oficial",
     "6. Sabermetric Dashboard": "6. Tablero Sabermétrico",
     "7. DIAMAX Tactical AI": "7. IA Táctica DIAMAX",
-    "8. Profile & Connectivity": "8. Perfil & Conectividad",
+    "7. Profile": "7. Perfil",
     "LIVE REACTIVE": "EN VIVO REACTIVO",
     "ENGLISH": "ESPAÑOL",
     "☀️ Sun / Night": "☀️ Sol / Noche",
@@ -14601,7 +14921,7 @@ const TRANSLATIONS = {
     "nav-card": "5. Tarjeta Oficial",
     "nav-dash": "6. Tablero Sabermétrico",
     "nav-skills": "7. IA Táctica DIAMAX",
-    "nav-profile": "8. Perfil & Conectividad",
+    "nav-profile": "7. Perfil",
     "badge-live": "EN VIVO REACTIVO",
     "lang-btn": " ESPAÑOL",
     "btn-daylight": "☀️ Sol / Noche",
@@ -15178,7 +15498,7 @@ function applyLanguage(lang) {
   if (tabSkills) tabSkills.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> ' + (isEsLocale ? '7. IA Táctica DIAMAX' : '7. DIAMAX Tactical AI');
 
   const tabProfile = document.getElementById('nav-profile');
-  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEsLocale ? '8. Perfil & Conectividad' : '8. Profile & Connectivity');
+  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEsLocale ? '7. Perfil' : '7. Profile');
 
   // Botones de Lineup y Voz
   document.querySelectorAll('button').forEach(b => {
@@ -15310,7 +15630,7 @@ function setDiamaxLanguage(lang) {
   if (tabSkills) tabSkills.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;filter:drop-shadow(0 0 4px #00D2FF);"><use href="#diamax-icon-ai-neural"/></svg> ' + (isEs ? '7. IA Táctica DIAMAX' : '7. DIAMAX Tactical AI');
 
   const tabProfile = document.getElementById('nav-profile');
-  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEs ? '8. Perfil & Conectividad' : '8. Profile & Connectivity');
+  if (tabProfile) tabProfile.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:middle;"><use href="#diamax-icon-manager-badge"/></svg> ' + (isEs ? '7. Perfil' : '7. Profile');
 
   // 4. Traducir Controles de Cabecera y Ribbon
   const btnNewGame = document.querySelector('.btn-new-game');

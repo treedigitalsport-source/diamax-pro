@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIAMAX PRO — Prototipo 1: macOS & visionOS Liquid Glass</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0D0D11;
+      --glass-surface: rgba(255, 255, 255, 0.04);
+      --glass-surface-hover: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.09);
+      --glass-highlight: rgba(255, 255, 255, 0.18);
+      --text-primary: #FFFFFF;
+      --text-secondary: #8E8E93;
+      --text-tertiary: #A1A1AA;
+      --accent-cobalt: #007AFF;
+      --accent-green: #30D158;
+      --accent-amber: #FF9F0A;
+      --accent-red: #FF453A;
+      --squircle-card: 14px;
+      --squircle-btn: 12px;
+      --font-stack: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(circle at 14% 18%, rgba(0, 122, 255, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 86% 82%, rgba(16, 185, 129, 0.06) 0%, transparent 45%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      font-family: var(--font-stack);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* REGLA 1: CABECERA CON EFECTO VIDRIO ESMERILADO (AERO/GLASSMORPHISM) */
+    .glass-header {
+      background: rgba(18, 22, 34, 0.65);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--squircle-card);
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 var(--glass-highlight);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo-squircle {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--squircle-btn);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid var(--glass-highlight);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-title {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-title span {
+      color: var(--accent-cobalt);
+    }
+
+    /* REGLA 5: ESTADO EN VIVO CON PUNTO BRILLANTE DE 6PX (SIN CAJA DETRÁS) */
+    .status-live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-left: 10px;
+    }
+
+    .dot-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulseGreen 1.8s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    /* REGLA 3: LIMPIEZA RADICAL DE BOTONES (ICONOS EN #A1A1AA SIN BORDES) */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-clean-action {
+      background: transparent;
+      border: none;
+      color: var(--text-tertiary);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: var(--squircle-btn);
+      transition: all 0.2s ease;
+    }
+
+    .btn-clean-action svg {
+      stroke: var(--text-secondary);
+      transition: stroke 0.2s ease;
+    }
+
+    .btn-clean-action:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-clean-action:hover svg {
+      stroke: var(--text-primary);
+    }
+
+    /* Acción Primaria enmarcada en vidrio sutil */
+    .btn-primary-glass {
+      background: rgba(0, 122, 255, 0.15);
+      border: 1px solid rgba(0, 122, 255, 0.4);
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: var(--squircle-btn);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 122, 255, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary-glass:hover {
+      background: rgba(0, 122, 255, 0.25);
+      border-color: rgba(0, 122, 255, 0.6);
+      transform: translateY(-1px);
+    }
+
+    /* Botón de salida: Minimalista en gris plata, solo pasa a rojo suave en hover */
+    .btn-exit-minimal {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: var(--squircle-btn);
+      transition: all 0.2s ease;
+    }
+
+    .btn-exit-minimal svg {
+      stroke: var(--text-secondary);
+      transition: stroke 0.2s ease;
+    }
+
+    .btn-exit-minimal:hover {
+      background: rgba(255, 69, 58, 0.12);
+      color: var(--accent-red);
+    }
+
+    .btn-exit-minimal:hover svg {
+      stroke: var(--accent-red);
+    }
+
+    /* REGLA 4: FILA DE MÓDULOS ESTILO macOS SEGMENTED CONTROL */
+    .segmented-control-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .macos-segmented-bar {
+      display: inline-flex;
+      background: rgba(18, 22, 34, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--squircle-card);
+      padding: 4px;
+      gap: 4px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .segment-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .segment-tab svg {
+      stroke: var(--text-secondary);
+      transition: stroke 0.2s ease;
+    }
+
+    .segment-tab:hover:not(.active) {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .segment-tab.active {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: var(--text-primary);
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .segment-tab.active svg {
+      stroke: var(--accent-cobalt);
+      filter: drop-shadow(0 0 6px rgba(0, 122, 255, 0.6));
+    }
+
+    /* REGLA 5: MARCADOR ESTILO APPLE WATCH / FITNESS */
+    .scoreboard-fitness-card {
+      background: var(--glass-surface);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--squircle-card);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 var(--glass-highlight);
+    }
+
+    .team-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .team-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .team-badge-squircle {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .team-name {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .team-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Tipografía masiva de carreras (44px Semibold en blanco puro) */
+    .score-massive {
+      font-size: 48px;
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 1;
+      letter-spacing: -1.5px;
+      font-feature-settings: "tnum" 1;
+    }
+
+    .scoreboard-center-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .inning-pill-clean {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .count-leds-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .led-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .led.active-ball {
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+      border-color: var(--accent-green);
+    }
+
+    .led.active-strike {
+      background: var(--accent-amber);
+      box-shadow: 0 0 8px var(--accent-amber);
+      border-color: var(--accent-amber);
+    }
+
+    .led.active-out {
+      background: var(--accent-red);
+      box-shadow: 0 0 8px var(--accent-red);
+      border-color: var(--accent-red);
+    }
+
+    /* GRID TÁCTICO INFERIOR (36 JUGADAS EN BOTONES SQUIRCLE LIMPIOS) */
+    .tactical-grid-card {
+      background: var(--glass-surface);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--squircle-card);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .plays-grid-clean {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 8px;
+    }
+
+    .play-btn-squircle {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--squircle-btn);
+      padding: 10px 12px;
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .play-btn-squircle:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--glass-highlight);
+      transform: translateY(-1px);
+    }
+
+    .play-btn-squircle:active {
+      transform: scale(0.98);
+      border-color: var(--accent-cobalt);
+    }
+
+    .play-btn-squircle span.code {
+      color: var(--accent-cobalt);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .proto-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(0, 122, 255, 0.15);
+      border: 1px solid rgba(0, 122, 255, 0.35);
+      color: var(--accent-cobalt);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. CABECERA VIDRIO ESMERILADO (AERO/GLASSMORPHISM) -->
+  <header class="glass-header">
+    <div class="brand-group">
+      <div class="brand-logo-squircle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><polygon points="12 2 22 12 12 22 2 12"/><circle cx="12" cy="12" r="2.5"/></svg>
+      </div>
+      <div>
+        <div class="brand-title">DIAMAX <span>PRO</span> <div class="status-live-dot"><div class="dot-indicator"></div> EN VIVO</div></div>
+      </div>
+    </div>
+
+    <!-- 3. LIMPIEZA RADICAL DE BOTONES (ICONOS EN #A1A1AA SIN BORDES) -->
+    <div class="header-actions">
+      <button class="btn-clean-action" title="Efectos de Audio">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        Audio ON
+      </button>
+
+      <button class="btn-clean-action" title="Idioma">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Español
+      </button>
+
+      <button class="btn-clean-action" title="Alternar Luz Solar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+        Luz Solar
+      </button>
+
+      <button class="btn-primary-glass">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Cargar Juego
+      </button>
+
+      <button class="btn-exit-minimal" title="Salir Seguro">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        Salir
+      </button>
+    </div>
+  </header>
+
+  <!-- 4. FILA DE MÓDULOS ESTILO macOS SEGMENTED CONTROL -->
+  <div class="segmented-control-container">
+    <nav class="macos-segmented-bar">
+      <button class="segment-tab active">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+        1. Anotador Dugout
+      </button>
+      <button class="segment-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+        2. Alineación
+      </button>
+      <button class="segment-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="12 2 22 12 12 22 2 12"/><circle cx="12" cy="12" r="2.5"/></svg>
+        3. Terreno
+      </button>
+      <button class="segment-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg>
+        4. Manual
+      </button>
+      <button class="segment-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
+        5. Tarjeta Oficial
+      </button>
+      <button class="segment-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 14a4 4 0 1 1 4-4 4 4 0 0 1-4 4Z"/></svg>
+        6. IA Táctica
+      </button>
+      <button class="segment-tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        7. Perfil
+      </button>
+    </nav>
+  </div>
+
+  <!-- 5. MARCADOR Y DATOS ESTILO APPLE WATCH / FITNESS -->
+  <section class="scoreboard-fitness-card">
+    <!-- Visitante -->
+    <div class="team-block" style="text-align:left;">
+      <div class="team-meta">
+        <div class="team-badge-squircle">DB</div>
+        <div>
+          <div class="team-name">DAYTONA BEACH</div>
+          <div class="team-sub">Visitante • Batea 1ro</div>
+        </div>
+      </div>
+      <div class="score-massive" style="margin-top:8px;">0</div>
+    </div>
+
+    <!-- Centro: Inning y Count LEDs -->
+    <div class="scoreboard-center-meta">
+      <div class="inning-pill-clean">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+        INNING 1 • ALTA
+      </div>
+      <div class="count-leds-row">
+        <div class="led-group">B <div class="led active-ball"></div><div class="led"></div><div class="led"></div><div class="led"></div></div>
+        <div class="led-group">S <div class="led active-strike"></div><div class="led active-strike"></div><div class="led"></div></div>
+        <div class="led-group">O <div class="led active-out"></div><div class="led"></div><div class="led"></div></div>
+      </div>
+    </div>
+
+    <!-- Home Club -->
+    <div class="team-block" style="text-align:right; align-items:flex-end;">
+      <div class="team-meta" style="flex-direction:row-reverse;">
+        <div class="team-badge-squircle" style="background:rgba(0,122,255,0.15); border-color:rgba(0,122,255,0.4); color:var(--accent-cobalt);">GV</div>
+        <div>
+          <div class="team-name">GUERREROS DE VNZ</div>
+          <div class="team-sub">Home Club • Defendiendo</div>
+        </div>
+      </div>
+      <div class="score-massive" style="margin-top:8px;">0</div>
+    </div>
+  </section>
+
+  <!-- 2. TARJETA SQUIRCLE CON BOTONERA TÁCTICA -->
+  <section class="tactical-grid-card">
+    <div class="card-title-row">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+        Botonera Táctica de Entrada Directa
+      </div>
+      <span class="proto-badge">macOS Sequoia Edition</span>
+    </div>
+
+    <div class="plays-grid-clean">
+      <button class="play-btn-squircle"><span>Ponche Tirándole</span> <span class="code">K</span></button>
+      <button class="play-btn-squircle"><span>Ponche Cantado</span> <span class="code">ꓘ</span></button>
+      <button class="play-btn-squircle"><span>Base por Bolas</span> <span class="code">BB</span></button>
+      <button class="play-btn-squircle"><span>Sencillo al 7</span> <span class="code">1B-7</span></button>
+      <button class="play-btn-squircle"><span>Sencillo al 8</span> <span class="code">1B-8</span></button>
+      <button class="play-btn-squircle"><span>Sencillo al 9</span> <span class="code">1B-9</span></button>
+      <button class="play-btn-squircle"><span>Doble al Callejon</span> <span class="code">2B-LC</span></button>
+      <button class="play-btn-squircle"><span>Doble por Regla</span> <span class="code">2B-GR</span></button>
+      <button class="play-btn-squircle"><span>Triple al Fondo</span> <span class="code">3B</span></button>
+      <button class="play-btn-squircle"><span>Jonrón Solitario</span> <span class="code">HR</span></button>
+      <button class="play-btn-squircle"><span>Grand Slam</span> <span class="code">HR-GS</span></button>
+      <button class="play-btn-squircle"><span>Fly al Central</span> <span class="code">F8</span></button>
+      <button class="play-btn-squircle"><span>Línea al Shortstop</span> <span class="code">L6</span></button>
+      <button class="play-btn-squircle"><span>Rolling 4-3</span> <span class="code">G43</span></button>
+      <button class="play-btn-squircle"><span>Doble Play 6-4-3</span> <span class="code">DP643</span></button>
+      <button class="play-btn-squircle"><span>Error del Filder</span> <span class="code">E</span></button>
+      <button class="play-btn-squircle"><span>Fielder's Choice</span> <span class="code">FC</span></button>
+      <button class="play-btn-squircle"><span>Pelotazo (HBP)</span> <span class="code">HBP</span></button>
+    </div>
+  </section>
+
+</body>
+</html>
