@@ -7137,6 +7137,197 @@ html, body {
   }
 </style>
 
+<style>
+
+  /* =========================================================================
+     💎 DIAMAX PRO: COLORES OFICIALES DEL LOGO (PÁGINA PRINCIPAL)
+     - Ice Cyan / Electric Blue: #18D8FF / #00D2FF / #0284C7
+     - Championship Gold / Warm Amber: #FFB300 / #FFC72C / #F57C00
+     - Metallic Titanium / Chrome: #FFFFFF -> #B8C2CC -> #737F8C
+     ========================================================================= */
+  :root {
+    --diamax-cyan: #18D8FF;
+    --diamax-gold: #FFB300;
+    --diamax-chrome: #FFFFFF;
+    --diamax-bg-glass: rgba(18, 22, 34, 0.68);
+    --diamax-border-glass: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Logo DIAMAX PRO unificado con gradientes oficiales */
+  .brand-logo-text-diamax {
+    color: #FFFFFF !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  .brand-logo-text-pro {
+    color: #FFB300 !important;
+    background: linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+
+  /* =========================================================================
+     👑 2. EXPERIENCIA DEL MÁNAGER (TERRENO 2D, SHIFTS Y ESTRATEGIA)
+     ========================================================================= */
+  /* Selector de Rol: Anotador (Ice Cyan) vs Mánager (Championship Gold) */
+  .diamax-role-mode-selector {
+    display: inline-flex !important;
+    background: var(--diamax-bg-glass) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--diamax-border-glass) !important;
+    border-radius: 14px !important;
+    padding: 4px !important;
+    gap: 6px !important;
+    margin-bottom: 12px !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .role-mode-btn {
+    border: 1px solid transparent !important;
+    border-radius: 10px !important;
+    padding: 9px 18px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.6px !important;
+    color: #8E8E93 !important;
+    background: transparent !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+  }
+  .role-mode-btn svg {
+    color: #8E8E93 !important;
+    stroke: #8E8E93 !important;
+    transition: all 0.2s ease !important;
+  }
+  .role-mode-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #FFFFFF !important;
+  }
+  .role-mode-btn:hover:not(.active) svg {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+
+  /* Modo Anotador Activo: Ice Cyan del Logo (#18D8FF) */
+  .role-mode-btn#role-mode-anotador.active {
+    background: rgba(24, 216, 255, 0.14) !important;
+    border: 1px solid rgba(24, 216, 255, 0.45) !important;
+    color: #18D8FF !important;
+    box-shadow: 0 4px 16px rgba(24, 216, 255, 0.25) !important;
+  }
+  .role-mode-btn#role-mode-anotador.active svg {
+    color: #18D8FF !important;
+    stroke: #18D8FF !important;
+    filter: drop-shadow(0 0 6px rgba(24, 216, 255, 0.6)) !important;
+  }
+
+  /* Modo Mánager Activo: Championship Gold del Logo (#FFB300) */
+  .role-mode-btn#role-mode-manager.active {
+    background: rgba(255, 179, 0, 0.15) !important;
+    border: 1px solid rgba(255, 179, 0, 0.5) !important;
+    color: #FFB300 !important;
+    box-shadow: 0 4px 18px rgba(255, 179, 0, 0.3) !important;
+  }
+  .role-mode-btn#role-mode-manager.active svg {
+    color: #FFB300 !important;
+    stroke: #FFB300 !important;
+    filter: drop-shadow(0 0 6px rgba(255, 179, 0, 0.65)) !important;
+  }
+
+  /* Terreno 2D del Mánager con efecto Liquid Glass */
+  #tab-campo .panel {
+    background: var(--diamax-bg-glass) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1px solid var(--diamax-border-glass) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45) !important;
+  }
+
+  /* Botones de Shifts Defensivos estilo Apple Squircle */
+  #tab-campo .btn-sm-action,
+  .shift-selector .shift-btn {
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    font-size: 11px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  /* =========================================================================
+     💳 3. PLANES DE SUSCRIPCIÓN (PÁGINA 2) ESTILO PROTOTIPO 1 LIQUID GLASS
+     ========================================================================= */
+  #diamax-page-2 {
+    background-color: #0D0D11 !important;
+    background-image: 
+      radial-gradient(circle at 15% 20%, rgba(24, 216, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 85% 80%, rgba(255, 179, 0, 0.06) 0%, transparent 50%) !important;
+    background-attachment: fixed !important;
+  }
+
+  #diamax-page-2 > div {
+    background: rgba(18, 22, 34, 0.72) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    border: 1px solid var(--diamax-border-glass) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Tarjetas de Planes individuales con efecto Vidrio Líquido Squircle */
+  #p2-plan-card-TRIAL,
+  #p2-plan-card-MEDIA,
+  #p2-plan-card-MANAGER,
+  #p2-plan-card-LIGA {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 14px !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  #p2-plan-card-TRIAL:hover,
+  #p2-plan-card-MEDIA:hover,
+  #p2-plan-card-MANAGER:hover,
+  #p2-plan-card-LIGA:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* Plan Mes Gratis: Resaltado Ice Cyan del Logo (#18D8FF) */
+  #p2-plan-card-TRIAL {
+    border: 1.5px solid rgba(24, 216, 255, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(24, 216, 255, 0.15) !important;
+  }
+
+  /* Plan Mánager Pro: Resaltado Gold del Logo (#FFB300) */
+  #p2-plan-card-MANAGER {
+    border: 1.5px solid rgba(255, 179, 0, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(255, 179, 0, 0.15) !important;
+  }
+
+  /* Plan Comentarista & Media: Resaltado Broadcast Cyan (#00D2FF) */
+  #p2-plan-card-MEDIA {
+    border: 1.5px solid rgba(0, 210, 255, 0.4) !important;
+    box-shadow: 0 4px 20px rgba(0, 210, 255, 0.12) !important;
+  }
+
+  /* Banner de Registro QR con Squircle 14px y Vidrio */
+  #p2-plans-header-banner {
+    background: rgba(18, 22, 34, 0.65) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(48, 209, 88, 0.4) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+  }
+
+</style>
 </head>
 <body>
 
