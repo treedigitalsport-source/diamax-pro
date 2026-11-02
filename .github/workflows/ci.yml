@@ -19,13 +19,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Verify Security & Client Secrets
         run: npm run security:check
 
       - name: Run Master CI/CD Test Runner (15 Suites / 425+ Tests)
         run: npm test
+
+      - name: Run Forensic Audit Suite
+        run: node tests/audit_forense_completo.mjs
+
+      - name: Run Deep Functions & Canonical Plays Audit
+        run: node tests/audit_profunda_todas_las_funciones.mjs
+
+      - name: Run Live Dispatch Simulation
+        run: node tests/test_live_simulation.mjs
 
       - name: Verify Core Bundle Integrity
         run: node scripts/build_core_bundle.js
