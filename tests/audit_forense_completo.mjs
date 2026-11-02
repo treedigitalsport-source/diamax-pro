@@ -2,7 +2,7 @@ import fs from 'fs';
 import vm from 'vm';
 
 console.log('═══════════════════════════════════════════════════════════════════════');
-console.log('🔬 AUDITORÍA FORENSE INTEGRAL DIAMAX PRO OS — SISTEMA COMPLETO');
+console.log('🔬 AUDITORÍA FORENSE INTEGRAL DIAMAX PRO — SISTEMA COMPLETO');
 console.log('═══════════════════════════════════════════════════════════════════════\n');
 
 const html = fs.readFileSync('index.html', 'utf8');

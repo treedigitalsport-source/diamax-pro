@@ -1,7 +1,7 @@
 import fs from 'fs';
 import vm from 'vm';
 
-console.log('🧪 INICIANDO SIMULACIÓN FUNCIONAL EN VIVO DE DIAMAX PRO OS\n');
+console.log('🧪 INICIANDO SIMULACIÓN FUNCIONAL EN VIVO DE DIAMAX PRO\n');
 
 const html = fs.readFileSync('index.html', 'utf8');
 

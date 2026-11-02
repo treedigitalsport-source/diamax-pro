@@ -781,7 +781,7 @@ function actualizarNombreNarradorEnUI() {
       teamTitleSpan.innerHTML = '🎙️ CABINA EN VIVO • <span style="color:#00D2FF;">' + nombre + '</span>';
     }
     if (headerSubtitle) {
-      headerSubtitle.innerHTML = 'DIAMAX PRO OS • Mesa de Transmisión Radio &amp; TV • <strong>Narrador: ' + nombre + '</strong> <button type="button" onclick="cambiarNombreNarradorCabina()" style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:800; padding:1px 6px; border-radius:4px; cursor:pointer; margin-left:6px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Cambiar</button>';
+      headerSubtitle.innerHTML = 'DIAMAX PRO • Mesa de Transmisión Radio &amp; TV • <strong>Narrador: ' + nombre + '</strong> <button type="button" onclick="cambiarNombreNarradorCabina()" style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#00D2FF; font-size:10px; font-weight:800; padding:1px 6px; border-radius:4px; cursor:pointer; margin-left:6px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Cambiar</button>';
     }
   } else {
     // Restaurar datos del equipo en el Dugout
@@ -996,7 +996,7 @@ function exportarSpottingBoardPDF() {
   }
 
   const html = '<!DOCTYPE html>' +
-    '<html><head><meta charset="UTF-8"><title>DIAMAX PRO OS - Spotting Board Oficial</title>' +
+    '<html><head><meta charset="UTF-8"><title>DIAMAX PRO - Spotting Board Oficial</title>' +
     '<style>' +
     '@page { size: landscape; margin: 8mm; }' +
     'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background:#FFF; color:#0F172A; margin:0; padding:12px; font-size:11px; }' +
@@ -1015,7 +1015,7 @@ function exportarSpottingBoardPDF() {
     '</style></head><body>' +
     '<div class="header">' +
       '<div>' +
-        '<div class="header-title">🎙️ DIAMAX PRO OS • SPOTTING BOARD DE CABINA</div>' +
+        '<div class="header-title">🎙️ DIAMAX PRO • SPOTTING BOARD DE CABINA</div>' +
         '<div class="header-sub">Documento Oficial de Transmisión Radio &amp; TV • Narrador: <strong>' + narrador + '</strong> • Fecha: ' + new Date().toLocaleDateString() + '</div>' +
       '</div>' +
       '<div style="text-align:right;">' +
@@ -1730,21 +1730,36 @@ window.mostrarTerminalSeguridad4Capas = mostrarTerminalSeguridad4Capas;
       justify-content: center;
       background: transparent;
       border: none;
-      color: #94A3B8;
+      color: #8E8E93;
       font-size: 10.5px;
-      font-weight: 800;
+      font-weight: 700;
       cursor: pointer;
       padding: 6px 0;
       transition: all 0.2s;
-    }
-    .diamax-bottom-nav-btn.active, .diamax-bottom-nav-btn:hover {
-      color: #00D2FF;
-      transform: translateY(-2px);
     }
     .diamax-bottom-nav-btn svg {
       width: 20px;
       height: 20px;
       margin-bottom: 2px;
+      stroke: #8E8E93;
+      fill: none;
+      transition: all 0.2s;
+    }
+    .diamax-bottom-nav-btn:hover:not(.active) {
+      color: #FFFFFF;
+    }
+    .diamax-bottom-nav-btn:hover:not(.active) svg {
+      stroke: #FFFFFF;
+    }
+    .diamax-bottom-nav-btn.active {
+      color: #007AFF !important;
+      font-weight: 800;
+      transform: translateY(-2px);
+    }
+    .diamax-bottom-nav-btn.active svg {
+      stroke: #007AFF !important;
+      fill: none !important;
+      filter: drop-shadow(0 0 6px rgba(0, 122, 255, 0.6)) !important;
     }
     /* Espacio para que el contenido no quede tapado por la barra inferior */
     body {
@@ -1755,7 +1770,7 @@ window.mostrarTerminalSeguridad4Capas = mostrarTerminalSeguridad4Capas;
 
   /* =========================================================================
      🌟 TIPOGRAFÍA MAESTRA OFICIAL UNIFICADA: PLUS JAKARTA SANS (400-900)
-     DIAMAX PRO OS · 3TREE DIGITAL SPORT IA CORP
+     DIAMAX PRO · 3TREE DIGITAL SPORT IA CORP
      ========================================================================= */
   :root {
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -2431,13 +2446,18 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  color: #94A3B8;
+  color: #8E8E93;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 1.2px;
   text-transform: uppercase;
   border-radius: 10px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+.role-mode-btn svg {
+  color: #8E8E93;
+  stroke: #8E8E93;
   transition: all 0.2s ease;
 }
 .role-mode-btn:hover {
@@ -2445,11 +2465,20 @@ body {
   color: #F8FAFC;
   border-color: rgba(255, 255, 255, 0.12);
 }
-.role-mode-btn.active {
-  background: #2563EB;
+.role-mode-btn:hover svg {
   color: #FFFFFF;
-  border-color: #3B82F6;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+  stroke: #FFFFFF;
+}
+.role-mode-btn.active {
+  background: rgba(0, 122, 255, 0.14);
+  color: #007AFF;
+  border-color: rgba(0, 122, 255, 0.45);
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
+}
+.role-mode-btn.active svg {
+  color: #007AFF;
+  stroke: #007AFF;
+  filter: drop-shadow(0 0 6px rgba(0, 122, 255, 0.6));
 }
 
 /* BLOQUE 1: MARCADOR LIMPIO (VIDRIO LÍQUIDO ESMERILADO DELUXE) */
@@ -5450,10 +5479,10 @@ html, body {
   background: transparent !important;
   border: 1px solid transparent !important;
   border-radius: 10px !important;
-  color: #94A3B8 !important;
+  color: #8E8E93 !important; /* Apple HIG: Texto e icono secundario */
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 11.5px !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.04em !important;
   cursor: pointer !important;
@@ -5464,27 +5493,41 @@ html, body {
   box-shadow: none !important;
 }
 
+/* Apple HIG: Iconos nunca saturados por defecto; adoptan #8E8E93 */
+#main-nav.nav button svg, .nav button svg, .diamax-nav-unified svg, .apple-nav-svg {
+  color: #8E8E93 !important;
+  stroke: #8E8E93 !important;
+  fill: none !important;
+  transition: all 0.2s ease !important;
+}
+
 #main-nav.nav button:hover:not(.active), .nav button:hover:not(.active), .diamax-nav-unified:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   color: #FFFFFF !important;
   transform: translateY(-1px) !important;
   box-shadow: none !important;
 }
+#main-nav.nav button:hover:not(.active) svg, .nav button:hover:not(.active) svg, .diamax-nav-unified:hover:not(.active) svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
 
+/* Apple HIG: Solo se iluminan con azul cobalto #007AFF cuando están activos */
 #main-nav.nav button.active, .nav button.active, .diamax-nav-unified.active {
-  background: linear-gradient(135deg, rgba(255, 199, 44, 0.16) 0%, rgba(242, 101, 34, 0.16) 100%) !important;
-  border: 1px solid rgba(255, 199, 44, 0.5) !important;
-  color: #FFC72C !important;
-  font-weight: 900 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  background: rgba(0, 122, 255, 0.12) !important;
+  border: 1px solid rgba(0, 122, 255, 0.45) !important;
+  color: #007AFF !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 12px rgba(0, 122, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
   transform: translateY(-1px) !important;
 }
 
-#main-nav.nav button.active svg, .nav button.active svg, .diamax-nav-unified.active svg {
-  filter: drop-shadow(0 0 6px rgba(255, 199, 44, 0.6)) !important;
-  fill: #FFC72C !important;
-  stroke: #FFC72C !important;
+#main-nav.nav button.active svg, .nav button.active svg, .diamax-nav-unified.active svg, .apple-nav-svg.active {
+  filter: drop-shadow(0 0 6px rgba(0, 122, 255, 0.6)) !important;
+  fill: none !important;
+  color: #007AFF !important;
+  stroke: #007AFF !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -6786,7 +6829,7 @@ html, body {
         <span style="font-size:26px;">🎙️</span>
         <div>
           <h3 style="margin:0; font-size:17px; font-weight:900; color:#FFF; letter-spacing:0.5px;">PORTAL DE CABINA & TRANSMISIÓN</h3>
-          <span style="font-size:11px; color:#00D2FF; font-weight:700;">Media Pass Oficial · DIAMAX PRO OS</span>
+          <span style="font-size:11px; color:#00D2FF; font-weight:700;">Media Pass Oficial · DIAMAX PRO</span>
         </div>
       </div>
       <button type="button" onclick="cerrarModalAccesoCabina()" style="background:none; border:none; color:#94A3B8; font-size:20px; cursor:pointer; padding:4px 8px;" title="Cerrar">✕</button>
@@ -8194,7 +8237,7 @@ html, body {
               <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,210,255,0.25); padding-bottom:10px; margin-bottom:14px;">
                 <div style="text-align:left;">
                   <div style="font-size:12px; font-weight:900; color:#00D2FF; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:6px;">
-                    <svg viewBox="0 0 24 24" width="16" height="16" style="color:#00D2FF;"><use href="#diamax-icon-biometric-auth"/></svg> DIAMAX PRO OS
+                    <svg viewBox="0 0 24 24" width="16" height="16" style="color:#00D2FF;"><use href="#diamax-icon-biometric-auth"/></svg> DIAMAX PRO
                   </div>
                   <div style="font-size:9.5px; font-weight:800; color:#38BDF8;">CERTIFICACIÓN OFICIAL DE CUENTA</div>
                 </div>
@@ -8427,12 +8470,12 @@ html, body {
   
   <!-- =========================================================================
        🎙️ COCKPIT DE TRANSMISIÓN DE CABINA (PANTALLA ÚNICA TODO-EN-UNO)
-       DIAMAX PRO OS · BROADCAST COMMAND COCKPIT
+       DIAMAX PRO · BROADCAST COMMAND COCKPIT
        ========================================================================= -->
 
   <!-- =========================================================================
        🎙️ COCKPIT DIGITAL PARA EL NARRADOR HUMANO (CABINA DE RADIO Y TV)
-       PLAN COMENTARISTA & MEDIA — DIAMAX PRO OS
+       PLAN COMENTARISTA & MEDIA — DIAMAX PRO
        ========================================================================= -->
   <!-- =========================================================================
        SELECTOR MAESTRO DE ROL (ANOTADOR vs MÁNAGER PARA LIGAS)

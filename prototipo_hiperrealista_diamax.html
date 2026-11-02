@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIAMAX PRO — Prototipo Táctico Hiper-Realista (Grado MLB Statcast & Broadcast)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #030712;
+      --bg-panel: #0B0F19;
+      --titanium-border: rgba(255, 255, 255, 0.12);
+      --titanium-highlight: rgba(255, 255, 255, 0.22);
+      --accent-cyan: #00D2FF;
+      --accent-gold: #FFB800;
+      --accent-emerald: #10B981;
+      --accent-crimson: #EF4444;
+      --led-glow-green: 0 0 14px rgba(16, 185, 129, 0.9), inset 0 1px 2px #FFFFFF;
+      --led-glow-amber: 0 0 14px rgba(255, 184, 0, 0.9), inset 0 1px 2px #FFFFFF;
+      --led-glow-red: 0 0 14px rgba(239, 68, 68, 0.9), inset 0 1px 2px #FFFFFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(10, 25, 47, 0.8) 0%, transparent 70%),
+        radial-gradient(circle at 80% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 50%);
+    }
+
+    /* 🏷️ CABECERA CORPORATIVA Y SELECTOR DE PROTOTIPO */
+    header {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(11, 15, 25, 0.95) 100%);
+      border-bottom: 1px solid var(--titanium-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #FFB800, #F26522);
+      color: #030712;
+      font-weight: 900;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 15px rgba(242, 101, 34, 0.4);
+    }
+
+    .brand-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 900;
+      font-size: 19px;
+      letter-spacing: 0.5px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: #94A3B8;
+      font-weight: 700;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mode-switch-btn {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--titanium-border);
+      color: #CBD5E1;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .mode-switch-btn:hover {
+      border-color: var(--accent-cyan);
+      color: #FFF;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.25);
+    }
+
+    .mode-switch-btn.active {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(2, 132, 199, 0.3));
+      border-color: var(--accent-cyan);
+      color: #00D2FF;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.35);
+    }
+
+    /* 📦 CONTENEDOR PRINCIPAL */
+    main {
+      flex: 1;
+      max-width: 1540px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 430px;
+      gap: 20px;
+    }
+
+    @media (max-width: 1150px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    /* =========================================================================
+       🏟️ 1. PIZARRA JUMBOTRON MICRO-LED (BROADCAST GRADE)
+       ========================================================================= */
+    .jumbotron-scoreboard {
+      background: linear-gradient(180deg, #0F172A 0%, #060911 100%);
+      border: 2px solid #1E293B;
+      border-radius: 16px;
+      padding: 16px 20px;
+      box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.9),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.8);
+      position: relative;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    /* Reflejo de cristal de estadio */
+    .jumbotron-scoreboard::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 50%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* Tornillos de titanio en las 4 esquinas */
+    .screw {
+      position: absolute;
+      width: 8px; height: 8px;
+      background: #334155;
+      border-radius: 50%;
+      border: 1px solid #475569;
+      box-shadow: inset 0 1px 1px #000;
+    }
+    .screw-tl { top: 7px; left: 7px; }
+    .screw-tr { top: 7px; right: 7px; }
+    .screw-bl { bottom: 7px; left: 7px; }
+    .screw-br { bottom: 7px; right: 7px; }
+
+    .jumbotron-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 8px;
+    }
+
+    .stadium-meta {
+      font-size: 11px;
+      font-weight: 800;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stadium-meta span.live-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-crimson);
+      box-shadow: 0 0 8px var(--accent-crimson);
+      animation: pulseLive 1.5s infinite;
+    }
+
+    @keyframes pulseLive {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .scoreboard-body {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    /* Equipos y Carreras */
+    .team-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .team-emblem {
+      width: 50px; height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 900;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .emblem-gve { border-color: #00D2FF; color: #00D2FF; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+    .emblem-riv { border-color: #FFB800; color: #FFB800; box-shadow: 0 0 15px rgba(255, 184, 0, 0.2); }
+
+    .team-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
+    }
+
+    .team-record {
+      font-size: 11px;
+      color: #64748B;
+      font-weight: 700;
+    }
+
+    .score-led {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 44px;
+      font-weight: 900;
+      color: #FFFFFF;
+      text-shadow: 0 0 16px rgba(255, 255, 255, 0.6);
+      background: #020617;
+      padding: 4px 16px;
+      border-radius: 10px;
+      border: 1.5px solid #1E293B;
+      min-width: 65px;
+      text-align: center;
+    }
+
+    /* Centro: Inning y Rombo de Bases */
+    .center-hud {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .inning-pill {
+      background: #020617;
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.25);
+    }
+
+    /* Rombo de Bases 3D */
+    .diamond-bases-3d {
+      width: 70px; height: 50px;
+      position: relative;
+    }
+
+    .base-box {
+      width: 16px; height: 16px;
+      position: absolute;
+      transform: rotate(45deg);
+      background: #1E293B;
+      border: 1.5px solid #475569;
+      border-radius: 2px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s;
+    }
+
+    .base-box.occupied {
+      background: linear-gradient(135deg, #FFB800, #F59E0B);
+      border-color: #FFF;
+      box-shadow: 0 0 14px #FFB800, inset 0 1px 2px #FFF;
+    }
+
+    .base-2b { top: 0; left: 27px; }
+    .base-1b { top: 17px; left: 46px; }
+    .base-3b { top: 17px; left: 8px; }
+
+    /* Diodos LED de Conteo (Balls, Strikes, Outs) */
+    .counts-cluster {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: #020617;
+      border: 1.5px solid #1E293B;
+      padding: 8px 14px;
+      border-radius: 12px;
+    }
+
+    .count-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .count-label {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 900;
+      font-size: 11px;
+      color: #94A3B8;
+      width: 14px;
+    }
+
+    .led-ring {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #0F172A;
+      border: 1px solid #334155;
+      box-shadow: inset 0 1px 2px #000;
+      transition: all 0.15s;
+    }
+
+    .led-ring.active-ball {
+      background: var(--accent-emerald);
+      border-color: #FFFFFF;
+      box-shadow: var(--led-glow-green);
+    }
+
+    .led-ring.active-strike {
+      background: var(--accent-gold);
+      border-color: #FFFFFF;
+      box-shadow: var(--led-glow-amber);
+    }
+
+    .led-ring.active-out {
+      background: var(--accent-crimson);
+      border-color: #FFFFFF;
+      box-shadow: var(--led-glow-red);
+    }
+
+    /* =========================================================================
+       🏟️ 2. TERRENO 2D DE BÉISBOL HIPER-REALISTA (HIGH-DEF STADIUM CANVAS)
+       ========================================================================= */
+    .stadium-field-card {
+      background: linear-gradient(180deg, #0B0F19 0%, #030712 100%);
+      border: 2px solid #1E293B;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+
+    .field-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .field-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 900;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shift-selector {
+      display: inline-flex;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .shift-btn {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .shift-btn.active {
+      background: #1E293B;
+      color: #00D2FF;
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
+    }
+
+    /* El Diamante de Grama Profesional con Rayas de Cortadora */
+    .field-viewport {
+      width: 100%;
+      height: 480px;
+      background: 
+        repeating-linear-gradient(45deg, #115325 0px, #115325 24px, #166534 24px, #166534 48px),
+        repeating-linear-gradient(-45deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 24px, transparent 24px, transparent 48px);
+      border-radius: 12px;
+      border: 2px solid #1E293B;
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.85);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Luminarias de estadio en las 4 esquinas */
+    .stadium-light-glare {
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .light-tl { top: -60px; left: -60px; }
+    .light-tr { top: -60px; right: -60px; }
+    .light-bl { bottom: -60px; left: -60px; }
+    .light-br { bottom: -60px; right: -60px; }
+
+    /* SVG del Diamante Táctico */
+    .field-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+    }
+
+    /* Fichas de Defensores (Titanium Tactical Pucks) */
+    .fielder-puck {
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .fielder-puck circle.ring {
+      fill: #0B132B;
+      stroke: #00D2FF;
+      stroke-width: 2.5;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+    }
+
+    .fielder-puck text {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 900;
+      font-size: 12px;
+      fill: #FFFFFF;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    /* =========================================================================
+       🎛️ 3. CONSOLA DE ACCIONES TÁCTICAS (TACTILE BROADCAST DECK)
+       ========================================================================= */
+    .tactical-console {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .console-card {
+      background: linear-gradient(180deg, #0B0F19 0%, #030712 100%);
+      border: 2px solid #1E293B;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9);
+    }
+
+    .console-header {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94A3B8;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Botonera de Transmisión Broadcast (Pulsadores Físicos Táctiles) */
+    .broadcast-deck-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .deck-btn {
+      height: 56px;
+      background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
+      border-bottom: 3.5px solid #020617;
+      border-radius: 10px;
+      color: #F8FAFC;
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 900;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all 0.08s ease-in-out;
+    }
+
+    .deck-btn:active {
+      transform: translateY(2.5px);
+      border-bottom-width: 1px;
+      box-shadow: 
+        0 1px 4px rgba(0, 0, 0, 0.9),
+        inset 0 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .deck-btn-strike {
+      border-left: 4px solid var(--accent-gold);
+    }
+    .deck-btn-strike:hover {
+      box-shadow: 0 0 15px rgba(255, 184, 0, 0.35);
+    }
+
+    .deck-btn-ball {
+      border-left: 4px solid var(--accent-emerald);
+    }
+    .deck-btn-ball:hover {
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+    }
+
+    .deck-btn-hit {
+      border-left: 4px solid var(--accent-cyan);
+    }
+    .deck-btn-hit:hover {
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.35);
+    }
+
+    .deck-btn-out {
+      border-left: 4px solid var(--accent-crimson);
+    }
+    .deck-btn-out:hover {
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.35);
+    }
+
+    /* =========================================================================
+       👤 4. DUELO ACTIVO Y LOWER-THIRD CINEMATOGRÁFICO
+       ========================================================================= */
+    .batter-lower-third {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(7, 10, 18, 0.98));
+      border: 1.5px solid var(--titanium-border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .batter-lower-third::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; width: 60px;
+      background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.08));
+      pointer-events: none;
+    }
+
+    .player-photo-pro {
+      width: 58px; height: 58px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      border: 2px solid var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+    }
+
+    .player-details h4 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      color: #FFF;
+      letter-spacing: 0.3px;
+    }
+
+    .player-meta {
+      font-size: 11px;
+      color: #94A3B8;
+      font-weight: 700;
+      display: flex;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .player-slashline {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .slash-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slash-val {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      font-weight: 900;
+      color: #00D2FF;
+    }
+
+    .slash-lbl {
+      font-size: 9px;
+      color: #64748B;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    /* Semáforo Médico +55 (Pitch Count Guard) */
+    .pitcher-guard-card {
+      margin-top: 14px;
+      background: #020617;
+      border: 1px solid #1E293B;
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+
+    .guard-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      color: #94A3B8;
+      margin-bottom: 6px;
+    }
+
+    .guard-bar-track {
+      width: 100%;
+      height: 8px;
+      background: #0F172A;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #1E293B;
+    }
+
+    .guard-bar-fill {
+      height: 100%;
+      width: 48%; /* 36 de 75 pitcheos */
+      background: linear-gradient(90deg, #10B981, #FFB800);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+      transition: width 0.3s ease;
+    }
+
+    /* 🎯 MATRIZ STATCAST STRIKE ZONE */
+    .strike-zone-matrix {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      background: #020617;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #1E293B;
+      margin-top: 14px;
+    }
+
+    .sz-cell {
+      height: 38px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      color: #64748B;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .sz-cell:hover {
+      background: rgba(0, 210, 255, 0.15);
+      border-color: #00D2FF;
+      color: #00D2FF;
+    }
+
+    .sz-cell.hot {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #EF4444;
+      color: #EF4444;
+      font-weight: 900;
+    }
+
+    /* 🔊 BANNER INFORMATIVO INFERIOR */
+    footer {
+      background: #060911;
+      border-top: 1px solid var(--titanium-border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #64748B;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid #10B981;
+      color: #10B981;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABECERA CORPORATIVA -->
+  <header>
+    <div class="brand-box">
+      <span class="brand-badge">PROTOTIPO TÁCTICO</span>
+      <div>
+        <div class="brand-title">DIAMAX PRO — CABINA DE MANDO TÁCTICO</div>
+        <div class="brand-sub">Renderizado de Alta Fidelidad · Arquitectura MLB Statcast / Apple TV+ Broadcast</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="mode-switch-btn active" id="btn-theme-stadium" onclick="setTemaEstadio('night')">
+        <span>🏟️</span> <span>Modo Nocturno 4K</span>
+      </button>
+      <button class="mode-switch-btn" id="btn-theme-sun" onclick="setTemaEstadio('sun')">
+        <span>☀️</span> <span>Luz Solar AAA</span>
+      </button>
+      <span class="status-badge">● CERO MUTACIONES EN PRODUCCIÓN</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- COLUMNA IZQUIERDA: PIZARRA JUMBOTRON + TERRENO HIPER-REALISTA -->
+    <section>
+      
+      <!-- 1. JUMBOTRON SCOREBOARD -->
+      <div class="jumbotron-scoreboard">
+        <div class="screw screw-tl"></div>
+        <div class="screw screw-tr"></div>
+        <div class="screw screw-bl"></div>
+        <div class="screw screw-br"></div>
+
+        <div class="jumbotron-header">
+          <div class="stadium-meta">
+            <span class="live-dot"></span>
+            <span>ESTADIO JOSÉ BERNARDO PÉREZ</span>
+            <span>•</span>
+            <span>TORNEO LEYENDAS MASTER +55</span>
+          </div>
+          <div style="font-size:11px; font-weight:800; color:#38BDF8; font-family:'Share Tech Mono', monospace;">
+            RADAR STATCAST: 92.4 MPH · EXIT VELO: 98.6 MPH
+          </div>
+        </div>
+
+        <div class="scoreboard-body">
+          <!-- VISITANTE -->
+          <div class="team-block">
+            <div class="team-emblem emblem-riv">DAY</div>
+            <div>
+              <div class="team-name">DAYTONA BEACH</div>
+              <div class="team-record">VISITANTE · 12-4</div>
+            </div>
+            <div class="score-led" id="live-score-them">2</div>
+          </div>
+
+          <!-- CENTRO: INNING, BASES Y CONTEO -->
+          <div class="center-hud">
+            <div class="inning-pill" id="live-inning-pill">4ª PARTE ALTA ▲</div>
+            
+            <div class="diamond-bases-3d">
+              <div class="base-box base-2b occupied" id="live-base-2"></div>
+              <div class="base-box base-1b" id="live-base-1"></div>
+              <div class="base-box base-3b" id="live-base-3"></div>
+            </div>
+
+            <!-- LEDS DE CONTEO -->
+            <div class="counts-cluster">
+              <div class="count-row">
+                <span class="count-label">B</span>
+                <div class="led-ring active-ball" id="b-1"></div>
+                <div class="led-ring active-ball" id="b-2"></div>
+                <div class="led-ring" id="b-3"></div>
+                <div class="led-ring" id="b-4"></div>
+              </div>
+              <div class="count-row">
+                <span class="count-label">S</span>
+                <div class="led-ring active-strike" id="s-1"></div>
+                <div class="led-ring" id="s-2"></div>
+                <div class="led-ring" id="s-3"></div>
+              </div>
+              <div class="count-row">
+                <span class="count-label">O</span>
+                <div class="led-ring active-out" id="o-1"></div>
+                <div class="led-ring" id="o-2"></div>
+                <div class="led-ring" id="o-3"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LOCAL (GUERREROS) -->
+          <div class="team-block" style="justify-content: flex-end;">
+            <div class="score-led" id="live-score-us">4</div>
+            <div style="text-align:right;">
+              <div class="team-name">GUERREROS DE VENEZUELA</div>
+              <div class="team-record">HOME CLUB · 14-2</div>
+            </div>
+            <div class="team-emblem emblem-gve">GVE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. TERRENO 2D HIPER-REALISTA -->
+      <div class="stadium-field-card">
+        <div class="field-toolbar">
+          <div class="field-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2.2"><polygon points="12 2 22 12 12 22 2 12"/><circle cx="12" cy="12" r="2.5"/></svg>
+            <span>TERRENO TÁCTICO 2D </span>
+          </div>
+
+          <!-- SELECTOR DE SHIFT DEFENSIVO -->
+          <div class="shift-selector">
+            <button class="shift-btn active" onclick="aplicarShift('standard')">Estándar</button>
+            <button class="shift-btn" onclick="aplicarShift('antipull')">Anti-Pull (Alí Zapata)</button>
+            <button class="shift-btn" onclick="aplicarShift('infieldin')">Infield In (Play en Home)</button>
+            <button class="shift-btn" onclick="aplicarShift('deep')">Outfield Profundo</button>
+          </div>
+        </div>
+
+        <div class="field-viewport" id="field-viewport">
+          <div class="stadium-light-glare light-tl"></div>
+          <div class="stadium-light-glare light-tr"></div>
+          <div class="stadium-light-glare light-bl"></div>
+          <div class="stadium-light-glare light-br"></div>
+
+          <!-- DIAMANTE VECTORIAL EN ALTA DEFINICIÓN -->
+          <svg class="field-svg" viewBox="0 0 600 480">
+            <defs>
+              <!-- Arcilla de Grandes Ligas con textura granulada -->
+              <radialGradient id="infieldDirt" cx="50%" cy="75%" r="60%">
+                <stop offset="0%" stop-color="#C27A45"/>
+                <stop offset="70%" stop-color="#9C5927"/>
+                <stop offset="100%" stop-color="#733E18"/>
+              </radialGradient>
+              <linearGradient id="chalkLine" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#E2E8F0" stop-opacity="0.8"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Media luna de arcilla (Infield Dirt) -->
+            <path d="M 120 280 C 120 110, 480 110, 480 280 L 300 450 Z" fill="url(#infieldDirt)" stroke="#5A2E0F" stroke-width="2"/>
+            
+            <!-- Cuadro interior de grama -->
+            <polygon points="300 190, 410 295, 300 405, 190 295" fill="#166534" stroke="url(#chalkLine)" stroke-width="2"/>
+
+            <!-- Montículo del Lanzador con goma blanca -->
+            <circle cx="300" cy="300" r="22" fill="#8C4D22" stroke="#5A2E0F" stroke-width="1.5"/>
+            <rect x="293" y="298" width="14" height="4" fill="#FFFFFF" rx="1"/>
+
+            <!-- Líneas de Cal (Foul Lines) -->
+            <line x1="300" y1="410" x2="10" y2="120" stroke="url(#chalkLine)" stroke-width="2.5" stroke-dasharray="8,2"/>
+            <line x1="300" y1="410" x2="590" y2="120" stroke="url(#chalkLine)" stroke-width="2.5" stroke-dasharray="8,2"/>
+
+            <!-- Almohadillas con sombra 3D -->
+            <polygon points="300 185, 308 193, 300 201, 292 193" fill="#FFFFFF" stroke="#334155" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.8))"/>
+            <polygon points="410 290, 418 298, 410 306, 402 298" fill="#FFFFFF" stroke="#334155" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.8))"/>
+            <polygon points="190 290, 198 298, 190 306, 182 298" fill="#FFFFFF" stroke="#334155" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.8))"/>
+            <!-- Home Plate -->
+            <polygon points="300 412, 307 419, 307 425, 293 425, 293 419" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+
+            <!-- JUGADORES DEFENSIVOS (PUCKS TITANIUM) -->
+            <!-- P: Pitcher -->
+            <g class="fielder-puck" id="pos-P" transform="translate(300, 290)">
+              <circle class="ring" r="14"/>
+              <text y="1">P</text>
+            </g>
+            <!-- C: Catcher -->
+            <g class="fielder-puck" id="pos-C" transform="translate(300, 440)">
+              <circle class="ring" r="14"/>
+              <text y="1">C</text>
+            </g>
+            <!-- 1B -->
+            <g class="fielder-puck" id="pos-1B" transform="translate(415, 275)">
+              <circle class="ring" r="14"/>
+              <text y="1">1B</text>
+            </g>
+            <!-- 2B -->
+            <g class="fielder-puck" id="pos-2B" transform="translate(365, 215)">
+              <circle class="ring" r="14"/>
+              <text y="1">2B</text>
+            </g>
+            <!-- 3B -->
+            <g class="fielder-puck" id="pos-3B" transform="translate(185, 275)">
+              <circle class="ring" r="14"/>
+              <text y="1">3B</text>
+            </g>
+            <!-- SS -->
+            <g class="fielder-puck" id="pos-SS" transform="translate(235, 215)">
+              <circle class="ring" r="14"/>
+              <text y="1">SS</text>
+            </g>
+            <!-- LF -->
+            <g class="fielder-puck" id="pos-LF" transform="translate(140, 110)">
+              <circle class="ring" r="14"/>
+              <text y="1">LF</text>
+            </g>
+            <!-- CF -->
+            <g class="fielder-puck" id="pos-CF" transform="translate(300, 70)">
+              <circle class="ring" r="14"/>
+              <text y="1">CF</text>
+            </g>
+            <!-- RF -->
+            <g class="fielder-puck" id="pos-RF" transform="translate(460, 110)">
+              <circle class="ring" r="14"/>
+              <text y="1">RF</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLUMNA DERECHA: DUELO ACTIVO + CONSOLA TÁCTIL BROADCAST -->
+    <aside class="tactical-console">
+      
+      <!-- 3. DUELO EN VIVO (LOWER THIRD STYLE) -->
+      <div class="console-card">
+        <div class="console-header">
+          <span>DUELO ACTIVO EN LA CAJA</span>
+          <span style="color:#00D2FF;">EN TURNO</span>
+        </div>
+
+        <div class="batter-lower-third">
+          <div class="player-photo-pro">⚾</div>
+          <div class="player-details">
+            <h4>#7 ALÍ ZAPATA</h4>
+            <div class="player-meta">
+              <span>DH / 4TO BATE</span>
+              <span>•</span>
+              <span style="color:#FFB800;">ZURDO</span>
+            </div>
+            <div class="player-slashline">
+              <div class="slash-item">
+                <span class="slash-val">.412</span>
+                <span class="slash-lbl">AVG</span>
+              </div>
+              <div class="slash-item">
+                <span class="slash-val">.485</span>
+                <span class="slash-lbl">OBP</span>
+              </div>
+              <div class="slash-item">
+                <span class="slash-val">.680</span>
+                <span class="slash-lbl">SLG</span>
+              </div>
+              <div class="slash-item">
+                <span class="slash-val">1.165</span>
+                <span class="slash-lbl">OPS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEMÁFORO MÉDICO +55 DEL LANZADOR -->
+        <div class="pitcher-guard-card">
+          <div class="guard-header">
+            <span>LANZADOR: PEDRO CHÁVEZ (GVE)</span>
+            <span id="pitcher-count-text" style="color:#FFB800;">36 / 75 PIT</span>
+          </div>
+          <div class="guard-bar-track">
+            <div class="guard-bar-fill" id="pitcher-bar-fill"></div>
+          </div>
+          <div style="font-size:10px; color:#64748B; margin-top:4px;">
+            Protección Médica +55: Bullpen advertido al llegar a 70 envíos.
+          </div>
+        </div>
+
+        <!-- MATRIZ STATCAST STRIKE ZONE -->
+        <div style="margin-top:14px; font-size:11px; font-weight:800; color:#94A3B8;">
+          ZONA DE STRIKE STATCAST (VISTA CATCHER):
+        </div>
+        <div class="strike-zone-matrix">
+          <div class="sz-cell" onclick="registrarZona('Alta-Afuera')">1</div>
+          <div class="sz-cell" onclick="registrarZona('Alta-Centro')">2</div>
+          <div class="sz-cell" onclick="registrarZona('Alta-Adentro')">3</div>
+          <div class="sz-cell" onclick="registrarZona('Media-Afuera')">4</div>
+          <div class="sz-cell hot" onclick="registrarZona('Zona de Poder')">5 🔥</div>
+          <div class="sz-cell" onclick="registrarZona('Media-Adentro')">6</div>
+          <div class="sz-cell" onclick="registrarZona('Baja-Afuera')">7</div>
+          <div class="sz-cell" onclick="registrarZona('Baja-Centro')">8</div>
+          <div class="sz-cell" onclick="registrarZona('Baja-Adentro')">9</div>
+        </div>
+      </div>
+
+      <!-- 4. CONSOLA DE ACCIONES TÁCTIL (BROADCAST SWITCHER DECK) -->
+      <div class="console-card">
+        <div class="console-header">
+          <span>PANEL DE CONTROL DE TRANSMISIÓN</span>
+          <span style="color:#10B981;">RESPUESTA INMEDIATA</span>
+        </div>
+
+        <div class="broadcast-deck-grid">
+          <button class="deck-btn deck-btn-strike" onclick="simularStrike()">
+            <span>⚡</span> <span>STRIKE</span>
+          </button>
+          <button class="deck-btn deck-btn-ball" onclick="simularBola()">
+            <span>🎯</span> <span>BOLA</span>
+          </button>
+          <button class="deck-btn deck-btn-hit" onclick="simularHit()">
+            <span>💥</span> <span>HIT (1B)</span>
+          </button>
+          <button class="deck-btn deck-btn-out" onclick="simularOut()">
+            <span>🛑</span> <span>OUT</span>
+          </button>
+        </div>
+
+        <button class="deck-btn" style="width:100%; margin-top:10px; background:#0F172A; border-color:#334155; font-size:12px;" onclick="reiniciarCuenta()">
+          🔄 REINICIAR CONTEO DE TURNO
+        </button>
+      </div>
+
+    </aside>
+  </main>
+
+  <footer>
+    <div>
+      <strong>DIAMAX PRO · PROTOTIPO VISUAL AISLADO</strong> — Exclusivo para revisión de Dirección General.
+    </div>
+    <div style="display:flex; gap:16px;">
+      <span>Versión: 9.0-hyperreal-preview</span>
+      <span style="color:#00D2FF;">SSOT: 3Tree Digital Sport IA Corp.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Variables de estado del prototipo interactivo
+    let balls = 2;
+    let strikes = 1;
+    let outs = 1;
+    let pitchCount = 36;
+
+    function actualizarHUD() {
+      // Bolas
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById('b-' + i);
+        if (el) el.className = (i <= balls) ? 'led-ring active-ball' : 'led-ring';
+      }
+      // Strikes
+      for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById('s-' + i);
+        if (el) el.className = (i <= strikes) ? 'led-ring active-strike' : 'led-ring';
+      }
+      // Outs
+      for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById('o-' + i);
+        if (el) el.className = (i <= outs) ? 'led-ring active-out' : 'led-ring';
+      }
+
+      // Pitcheos
+      const pText = document.getElementById('pitcher-count-text');
+      const pBar = document.getElementById('pitcher-bar-fill');
+      if (pText && pBar) {
+        pText.innerText = pitchCount + ' / 75 PIT';
+        const pct = Math.min(100, Math.round((pitchCount / 75) * 100));
+        pBar.style.width = pct + '%';
+        pBar.style.background = pitchCount >= 70 ? '#EF4444' : (pitchCount >= 50 ? '#FFB800' : '#10B981');
+      }
+    }
+
+    function simularStrike() {
+      strikes++;
+      pitchCount++;
+      if (strikes >= 3) {
+        outs = (outs + 1) % 4;
+        strikes = 0;
+        balls = 0;
+      }
+      actualizarHUD();
+    }
+
+    function simularBola() {
+      balls++;
+      pitchCount++;
+      if (balls >= 4) {
+        // Base por bolas
+        balls = 0;
+        strikes = 0;
+      }
+      actualizarHUD();
+    }
+
+    function simularHit() {
+      pitchCount++;
+      balls = 0;
+      strikes = 0;
+      actualizarHUD();
+      alert('💥 ¡Línea sólida al jardín central! Sencillo impulsor.');
+    }
+
+    function simularOut() {
+      pitchCount++;
+      outs = (outs + 1) % 4;
+      balls = 0;
+      strikes = 0;
+      actualizarHUD();
+    }
+
+    function reiniciarCuenta() {
+      balls = 0;
+      strikes = 0;
+      actualizarHUD();
+    }
+
+    function registrarZona(z) {
+      alert('🎯 Pitcheo ubicado por TrackMan en: ' + z);
+    }
+
+    // Shifts Defensivos Dinámicos (Movimiento de Fichas)
+    function aplicarShift(tipo) {
+      document.querySelectorAll('.shift-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const ss = document.getElementById('pos-SS');
+      const b2 = document.getElementById('pos-2B');
+      const b3 = document.getElementById('pos-3B');
+      const lf = document.getElementById('pos-LF');
+      const cf = document.getElementById('pos-CF');
+      const rf = document.getElementById('pos-RF');
+
+      if (tipo === 'antipull') {
+        // Shift anti-zurdo fuerte: SS se mueve detrás de 2B, 2B al jardín derecho corto
+        if (ss) ss.setAttribute('transform', 'translate(285, 230)');
+        if (b2) b2.setAttribute('transform', 'translate(390, 240)');
+        if (b3) b3.setAttribute('transform', 'translate(210, 280)');
+        if (lf) lf.setAttribute('transform', 'translate(190, 100)');
+        if (cf) cf.setAttribute('transform', 'translate(330, 65)');
+        if (rf) rf.setAttribute('transform', 'translate(480, 100)');
+      } else if (tipo === 'infieldin') {
+        // Todos los infielders pegados para jugada cerrada en home
+        if (ss) ss.setAttribute('transform', 'translate(245, 260)');
+        if (b2) b2.setAttribute('transform', 'translate(355, 260)');
+        if (b3) b3.setAttribute('transform', 'translate(200, 310)');
+      } else {
+        // Estándar
+        if (ss) ss.setAttribute('transform', 'translate(235, 215)');
+        if (b2) b2.setAttribute('transform', 'translate(365, 215)');
+        if (b3) b3.setAttribute('transform', 'translate(185, 275)');
+        if (lf) lf.setAttribute('transform', 'translate(140, 110)');
+        if (cf) cf.setAttribute('transform', 'translate(300, 70)');
+        if (rf) rf.setAttribute('transform', 'translate(460, 110)');
+      }
+    }
+
+    function setTemaEstadio(t) {
+      const btnNight = document.getElementById('btn-theme-stadium');
+      const btnSun = document.getElementById('btn-theme-sun');
+      if (t === 'sun') {
+        document.body.style.backgroundColor = '#1E293B';
+        if (btnSun) btnSun.classList.add('active');
+        if (btnNight) btnNight.classList.remove('active');
+      } else {
+        document.body.style.backgroundColor = '#030712';
+        if (btnNight) btnNight.classList.add('active');
+        if (btnSun) btnSun.classList.remove('active');
+      }
+    }
+
+    actualizarHUD();
+  </script>
+</body>
+</html>
