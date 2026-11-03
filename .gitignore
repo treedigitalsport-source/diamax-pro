@@ -30,3 +30,4 @@ index.html.bak*
 *-adminsdk-*.json
 firebase-service-account.json
 
+.firebase/
