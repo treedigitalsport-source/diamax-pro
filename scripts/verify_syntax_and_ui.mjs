@@ -27,25 +27,26 @@ while ((match = scriptRegex.exec(html)) !== null) {
 
 console.log(`Validación completada: ${count} bloques analizados, ${errors} errores.`);
 
-console.log('3. Validando elementos clave de Fase 7...');
+console.log('3. Validando elementos clave...');
 const checks = [
-  'id="nav-cabina"',
-  'id="section-commentators-db"',
-  'id="form-nuevo-narrador"',
-  'id="form-nuevo-patrocinio"',
-  'id="prompter-active-box"',
-  'id="commentators-cards-grid"',
-  'DIAMAX_BROADCAST',
-  'comm_pedro_chavez',
-  'comm_ali_zapata',
-  'comm_beto_mendez',
-  'spons_titan',
-  'spons_diamante',
-  'spons_ferreteria',
-  'spons_medica_55'
+  { id: 'id="nav-cabina"', expected: true },
+  { id: 'id="section-commentators-db"', expected: true },
+  { id: 'id="form-nuevo-narrador"', expected: true },
+  { id: 'id="form-nuevo-patrocinio"', expected: true },
+  { id: 'id="prompter-active-box"', expected: true },
+  { id: 'id="commentators-cards-grid"', expected: true },
+  { id: 'DIAMAX_BROADCAST', expected: true },
+  { id: 'comm_pedro_chavez', expected: true },
+  { id: 'comm_ali_zapata', expected: false }, // CEO Alí Zapata NO debe ser narrador
+  { id: 'comm_beto_mendez', expected: true },
+  { id: 'spons_titan', expected: true },
+  { id: 'spons_diamante', expected: true },
+  { id: 'spons_ferreteria', expected: true },
+  { id: 'spons_medica_55', expected: true }
 ];
 
 checks.forEach(c => {
-  const found = html.includes(c);
-  console.log(`${found ? '✓' : '❌'} Check: ${c}`);
+  const found = html.includes(c.id);
+  const ok = found === c.expected;
+  console.log(`${ok ? '✓' : '❌'} Check: ${c.id} (esperado: ${c.expected}, obtenido: ${found})`);
 });
