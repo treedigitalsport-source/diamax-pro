@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <script>
 (function() {
-  const DEPLOY_VERSION = '9.0-firebase-pro-redesign';
+  const DEPLOY_VERSION = '9.1-firebase-pro-restored';
   if (localStorage.getItem('diamax_current_version') !== DEPLOY_VERSION) {
     localStorage.setItem('diamax_current_version', DEPLOY_VERSION);
     if ('caches' in window) {
@@ -1012,754 +1012,7 @@ function exportarSpottingBoardPDF() {
     '.status-bar { background:#F8FAFC; border:1px solid #CBD5E1; border-radius:6px; padding:8px 12px; display:flex; justify-content:space-between; margin-bottom:12px; font-weight:700; }' +
     '.notes-box { border:1px dashed #94A3B8; border-radius:6px; padding:8px 12px; min-height:60px; font-size:10px; color:#64748B; }' +
     '@media print { .no-print { display:none; } }' +
-    '</style><style id="diamax-shell-v4">
-/* ==========================================================================
-   DIAMAX PRO · MASTER OFFICIAL PALETTE & APPLICATION SHELL v4.0
-   3Tree Digital Sport IA Corp. · Lic. Alí José Zapata Mendoza
-   ========================================================================== */
-:root {
-  --diamax-white: #FFFFFF;
-  --diamax-surface: #F2F4F6;
-  --diamax-nav: #182331;
-  --diamax-accent: #B18A53;
-  --diamax-accent-hover: #96723e;
-  --diamax-tech: #263445;
-  --diamax-border: #E8EDF1;
-  --diamax-text-main: #182331;
-  --diamax-text-sub: #64748B;
-  --diamax-success: #10B981;
-  --diamax-danger: #EF4444;
-}
-
-/* Base Post-Login Workspace */
-#diamax-page-3 {
-  background: #FFFFFF !important;
-  color: #182331 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
-  min-height: 100vh !important;
-  box-sizing: border-box !important;
-  font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-}
-
-.diamax-app-shell {
-  display: flex !important;
-  min-height: 100vh !important;
-  width: 100% !important;
-  background: #FFFFFF !important;
-  position: relative;
-}
-
-/* 1. SIDEBAR LATERAL (#182331) */
-.diamax-sidebar {
-  width: 250px;
-  min-width: 250px;
-  background: #182331;
-  color: #FFFFFF;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #263445;
-  transition: width 0.25s ease, transform 0.25s ease;
-  z-index: 100;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-}
-
-.diamax-sidebar.collapsed {
-  width: 72px;
-  min-width: 72px;
-}
-
-.sidebar-header {
-  padding: 18px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(232, 237, 241, 0.1);
-}
-
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.sidebar-brand-text {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-}
-
-.diamax-sidebar.collapsed .sidebar-brand-text {
-  display: none;
-}
-
-.brand-title {
-  font-size: 18px;
-  font-weight: 900;
-  color: #FFFFFF;
-  letter-spacing: 1px;
-}
-
-.brand-badge {
-  font-size: 13px;
-  font-weight: 900;
-  color: #B18A53;
-}
-
-.sidebar-toggle-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #E8EDF1;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.sidebar-toggle-btn:hover {
-  background: rgba(177, 138, 83, 0.25);
-  color: #FFFFFF;
-}
-
-.sidebar-menu {
-  flex: 1;
-  padding: 12px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  overflow-y: auto;
-}
-
-.sidebar-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  background: transparent;
-  border: none;
-  color: #94A3B8;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.18s ease;
-  width: 100%;
-}
-
-.sidebar-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #FFFFFF;
-}
-
-.sidebar-item.active {
-  background: rgba(177, 138, 83, 0.18) !important;
-  color: #FFFFFF !important;
-  font-weight: 700 !important;
-  border-left: 3px solid #B18A53 !important;
-}
-
-.sidebar-item svg {
-  flex-shrink: 0;
-  stroke: currentColor;
-}
-
-.sidebar-item.active svg {
-  stroke: #B18A53;
-}
-
-.diamax-sidebar.collapsed .sb-label {
-  display: none;
-}
-
-.diamax-sidebar.collapsed .sidebar-item {
-  justify-content: center;
-  padding: 10px 0;
-}
-
-.sidebar-footer {
-  padding: 14px 16px;
-  border-top: 1px solid rgba(232, 237, 241, 0.1);
-  background: #141D29;
-}
-
-.sidebar-user {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sidebar-user-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: #B18A53;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.sidebar-user-info {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.diamax-sidebar.collapsed .sidebar-user-info {
-  display: none;
-}
-
-.user-name {
-  font-size: 12px;
-  font-weight: 800;
-  color: #FFFFFF;
-}
-
-.user-role {
-  font-size: 10.5px;
-  color: #94A3B8;
-}
-
-/* 2. CONTENEDOR PRINCIPAL */
-.diamax-app-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  background: #FFFFFF;
-}
-
-/* Barra Superior (#FFFFFF con borde #E8EDF1) */
-.diamax-app-topbar {
-  height: 64px;
-  background: #FFFFFF;
-  border-bottom: 1px solid #E8EDF1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  position: sticky;
-  top: 0;
-  z-index: 90;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-}
-
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.topbar-title {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 800;
-  color: #182331;
-  letter-spacing: 0.2px;
-}
-
-.topbar-sub {
-  font-size: 11.5px;
-  color: #64748B;
-  display: block;
-}
-
-.topbar-center {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.topbar-game-picker {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  padding: 5px 12px;
-  border-radius: 8px;
-}
-
-.topbar-picker-label {
-  font-size: 11px;
-  font-weight: 800;
-  color: #182331;
-  letter-spacing: 0.5px;
-}
-
-.topbar-select {
-  background: transparent;
-  border: none;
-  font-size: 12px;
-  font-weight: 700;
-  color: #182331;
-  outline: none;
-  cursor: pointer;
-  max-width: 320px;
-}
-
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.topbar-sync-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #182331;
-}
-
-.sync-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10B981;
-}
-
-.topbar-icon-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #182331;
-  transition: all 0.15s;
-}
-
-.topbar-icon-btn:hover {
-  background: #E8EDF1;
-}
-
-.topbar-btn-logout {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #FEE2E2;
-  border: 1px solid #FCA5A5;
-  color: #EF4444;
-  font-size: 12px;
-  font-weight: 800;
-  padding: 7px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.topbar-btn-logout:hover {
-  background: #EF4444;
-  color: #FFFFFF;
-}
-
-.topbar-btn-logout svg {
-  stroke: currentColor;
-}
-
-/* 3. ÁREA CENTRAL DE TRABAJO */
-.diamax-app-content {
-  flex: 1;
-  padding: 24px;
-  background: #FFFFFF;
-  box-sizing: border-box;
-}
-
-
-/* ==========================================================================
-   DIAMAX PRO · FASES 3-7 COMPONENT STYLES (OFFICIAL PALETTE)
-   #FFFFFF, #F2F4F6, #182331, #B18A53, #263445, #E8EDF1
-   ========================================================================== */
-
-/* FASE 3: METRIC CARDS & TABLES */
-.dash-metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.dash-metric-card {
-  background: #FFFFFF;
-  border: 1px solid #E8EDF1;
-  border-radius: 12px;
-  padding: 18px 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.dash-metric-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-  border-color: #B18A53;
-}
-
-.dash-metric-icon-wrap {
-  width: 46px;
-  height: 46px;
-  border-radius: 10px;
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #B18A53;
-  flex-shrink: 0;
-}
-
-.dash-metric-data {
-  display: flex;
-  flex-direction: column;
-}
-
-.dash-metric-val {
-  font-size: 24px;
-  font-weight: 900;
-  color: #182331;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.1;
-}
-
-.dash-metric-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #64748B;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-top: 3px;
-}
-
-.dash-alerts-panel {
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-bottom: 20px;
-}
-
-.dash-alert-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background: #FFFFFF;
-  border: 1px solid #E8EDF1;
-  border-radius: 8px;
-  margin-top: 8px;
-  font-size: 12px;
-}
-
-/* FASE 4: DUGOUT HIGH-CONTRAST SCOREBOARD & TABLET KEYPAD */
-.dugout-pro-container {
-  background: #FFFFFF;
-  border-radius: 14px;
-}
-
-.dugout-pro-scoreboard {
-  background: #182331 !important;
-  color: #FFFFFF !important;
-  border-radius: 12px;
-  padding: 18px 24px;
-  margin-bottom: 16px;
-  border: 1px solid #263445;
-}
-
-.dugout-touch-keypad {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.btn-dugout-touch {
-  min-height: 52px;
-  padding: 12px 14px;
-  background: #F2F4F6;
-  border: 1.5px solid #E8EDF1;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 800;
-  color: #182331;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-}
-
-.btn-dugout-touch:hover {
-  background: #E8EDF1;
-  border-color: #B18A53;
-  transform: translateY(-2px);
-}
-
-.btn-dugout-touch.primary-hit {
-  background: #B18A53;
-  border-color: #B18A53;
-  color: #FFFFFF;
-}
-
-.btn-dugout-touch.primary-hit:hover {
-  background: #96723e;
-}
-
-.btn-dugout-touch.btn-undo {
-  background: #FFF1F2;
-  border-color: #FECDD3;
-  color: #E11D48;
-}
-
-/* FASE 5: ROSTER CARDS & DUAL VIEW */
-.roster-controls-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  padding: 12px 16px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-}
-
-.roster-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-}
-
-.roster-player-card {
-  background: #FFFFFF;
-  border: 1px solid #E8EDF1;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  transition: box-shadow 0.15s;
-}
-
-.roster-player-card:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  border-color: #B18A53;
-}
-
-.roster-player-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  object-fit: cover;
-  border: 1.5px solid #E8EDF1;
-}
-
-.roster-status-badge {
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.roster-status-badge.active {
-  background: #DEF7EC;
-  color: #03543F;
-}
-
-.roster-status-badge.rest {
-  background: #FEF08A;
-  color: #854D0E;
-}
-
-.roster-status-badge.injury {
-  background: #FEE2E2;
-  color: #991B1B;
-}
-
-/* FASE 6: TECHNICAL FLAT DIAMOND & SABERMETRIC TOOLTIPS */
-.flat-vector-diamond {
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.sabermetric-tab-nav {
-  display: flex;
-  gap: 8px;
-  border-bottom: 1px solid #E8EDF1;
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-}
-
-.sabermetric-tab-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: #F2F4F6;
-  border: 1px solid #E8EDF1;
-  color: #64748B;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.sabermetric-tab-btn.active {
-  background: #182331;
-  color: #FFFFFF;
-  border-color: #182331;
-}
-
-/* Tooltip con fórmula sabermétrica */
-.sabermetric-tooltip {
-  position: relative;
-  cursor: help;
-  border-bottom: 1px dotted #B18A53;
-}
-
-.sabermetric-tooltip:hover::after {
-  content: attr(data-formula);
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #182331;
-  color: #FFFFFF;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 999;
-}
-
-/* FASE 7: BULLPEN FATIGUE SEMAPHORE */
-.fatigue-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 800;
-}
-.fatigue-pill.green { background: #DEF7EC; color: #03543F; }
-.fatigue-pill.yellow { background: #FEF08A; color: #854D0E; }
-.fatigue-pill.orange { background: #FFEDD5; color: #9A3412; }
-.fatigue-pill.red { background: #FEE2E2; color: #991B1B; }
-
-/* Lower Thirds Generator */
-.lower-third-preview {
-  background: #182331;
-  border-left: 5px solid #B18A53;
-  padding: 14px 20px;
-  color: #FFFFFF;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* Estilo unificado de Superficies y Tarjetas */
-#diamax-page-3 .panel,
-#diamax-page-3 .card,
-#diamax-page-3 .informe-tecnico-box,
-#diamax-page-3 .dugout-block-scoreboard,
-#diamax-page-3 .dugout-block-duel,
-#diamax-page-3 .dugout-block-actions {
-  background: #F2F4F6 !important;
-  border: 1px solid #E8EDF1 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-  color: #182331 !important;
-}
-
-#diamax-page-3 table {
-  background: #FFFFFF !important;
-  border: 1px solid #E8EDF1 !important;
-  border-radius: 8px !important;
-  color: #182331 !important;
-}
-
-#diamax-page-3 th {
-  background: #182331 !important;
-  color: #FFFFFF !important;
-  font-weight: 800 !important;
-  font-size: 11px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  border-bottom: 1px solid #E8EDF1 !important;
-}
-
-#diamax-page-3 td {
-  border-bottom: 1px solid #E8EDF1 !important;
-  color: #182331 !important;
-  font-variant-numeric: tabular-nums !important;
-}
-
-#diamax-page-3 button.btn-settings,
-#diamax-page-3 .diamax-action-btn-unified {
-  background: #FFFFFF !important;
-  border: 1px solid #E8EDF1 !important;
-  color: #182331 !important;
-  font-weight: 700 !important;
-  border-radius: 8px !important;
-  transition: all 0.15s ease !important;
-}
-
-#diamax-page-3 button.btn-settings:hover,
-#diamax-page-3 .diamax-action-btn-unified:hover {
-  background: #F2F4F6 !important;
-  border-color: #B18A53 !important;
-}
-
-#mobile-sidebar-toggle {
-  display: none;
-}
-
-@media (max-width: 900px) {
-  #mobile-sidebar-toggle {
-    display: flex;
-  }
-  .diamax-sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: -260px;
-    z-index: 1000;
-  }
-  .diamax-sidebar.mobile-open {
-    transform: translateX(260px);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-  }
-}
-</style>
-</head><body>' +
+    '</style></head><body>' +
     '<div class="header">' +
       '<div>' +
         '<div class="header-title">DIAMAX PRO • SPOTTING BOARD DE CABINA</div>' +
@@ -1813,147 +1066,7 @@ function exportarSpottingBoardPDF() {
       '• Patrocinio del Turno: Taller Mecánico El Campeón (afinación y frenos con calidad de Grandes Ligas).<br>' +
       '• Mención Especial: Próximo juego del circuito programado para el sábado a las 09:30 AM en Lutz Park.' +
     '</div>' +
-    '
-<script>
-function toggleSidebarCollapse() {
-  const sb = document.getElementById('diamax-sidebar');
-  if (sb) sb.classList.toggle('collapsed');
-}
-
-function toggleSidebarMobile() {
-  const sb = document.getElementById('diamax-sidebar');
-  if (sb) sb.classList.toggle('mobile-open');
-}
-
-const TOPBAR_TITLES = {
-  'dashboard': { title: 'Dashboard Operativo', sub: 'Métricas Clave, Resultados y Telemetría en Vivo' },
-  'envivo': { title: 'Dugout & Scorekeeper', sub: 'Anotación Táctil en Vivo • B/S/O y Bitácora Oficial' },
-  'lineup': { title: 'Roster & Alineaciones', sub: 'Plantilla de Jugadores, Orden al Bate y Presets +55' },
-  'campo': { title: 'Terreno Táctico & Spray Charts', sub: 'Mapeo 2D de Batazos, Zonas y Posicionamiento Defensivo' },
-  'skills': { title: 'Sabermetría Avanzada & Agente IA', sub: 'OPS, wOBA, FIP, Markov 10k y Prescripción Táctica' },
-  'cabina': { title: 'Broadcast & Cabina Digital', sub: 'Cintillos Gráficos, Telemetría de Narrador y Notas de Audio' },
-  'tarjeta-oficial': { title: 'Tarjeta Oficial & Boxscore', sub: 'Resumen Oficial de Juego WBSC • Certificado para Impresión' },
-  'perfil': { title: 'Configuración & Franquicia', sub: 'Gestión de Roles Firebase, Reglas de Liga y Preferencias' },
-  'manual': { title: 'Manual & Reglamento Oficial', sub: 'Reglamento de Béisbol Master +55 y Guía de Operación' }
-};
-
-// Sincronizar Sidebar y Top Bar en switchTab
-const origSwitchTab = typeof switchTab === 'function' ? switchTab : null;
-</script>
-
-
-<script>
-let _rosterViewMode = 'grid';
-
-function setRosterViewMode(mode) {
-  _rosterViewMode = mode;
-  const gridEl = document.getElementById('roster-cards-container');
-  const tableEl = document.getElementById('roster-table-container');
-  const btnGrid = document.getElementById('btn-roster-grid');
-  const btnTable = document.getElementById('btn-roster-table');
-
-  if (mode === 'grid') {
-    if (gridEl) gridEl.style.display = 'grid';
-    if (tableEl) tableEl.style.display = 'none';
-    if (btnGrid) { btnGrid.style.background = '#182331'; btnGrid.style.color = '#FFFFFF'; }
-    if (btnTable) { btnTable.style.background = '#FFFFFF'; btnTable.style.color = '#182331'; }
-  } else {
-    if (gridEl) gridEl.style.display = 'none';
-    if (tableEl) tableEl.style.display = 'block';
-    if (btnGrid) { btnGrid.style.background = '#FFFFFF'; btnGrid.style.color = '#182331'; }
-    if (btnTable) { btnTable.style.background = '#182331'; btnTable.style.color = '#FFFFFF'; }
-  }
-}
-
-function filtrarRosterEnVivo() {
-  const query = (document.getElementById('roster-search-inp')?.value || '').toLowerCase().trim();
-  const posFilter = document.getElementById('roster-pos-filter')?.value || 'TODAS';
-  renderRosterDualComponents(query, posFilter);
-}
-
-function renderRosterDualComponents(query = '', posFilter = 'TODAS') {
-  const gridEl = document.getElementById('roster-cards-container');
-  const tbodyEl = document.getElementById('roster-table-tbody');
-  if (!gridEl && !tbodyEl) return;
-
-  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
-  const filtered = roster.filter(p => {
-    const matchQuery = !query || p.name.toLowerCase().includes(query) || (p.num + '').includes(query);
-    if (!matchQuery) return false;
-    if (posFilter === 'TODAS') return true;
-    if (posFilter === 'P') return p.defaultPos === 'P';
-    if (posFilter === 'C') return p.defaultPos === 'C';
-    if (posFilter === 'INF') return ['1B','2B','3B','SS'].includes(p.defaultPos);
-    if (posFilter === 'OF') return ['LF','CF','RF'].includes(p.defaultPos);
-    return true;
-  });
-
-  if (gridEl) {
-    gridEl.innerHTML = filtered.map(p => `
-      <div class="roster-player-card">
-        <img src="${p.photo || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop'}" class="roster-player-avatar" alt="${p.name}">
-        <div style="flex:1;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <strong style="font-size:13.5px; color:#182331;">#${p.num} ${p.name}</strong>
-            <span class="roster-status-badge active">Activo</span>
-          </div>
-          <div style="font-size:11.5px; color:#64748B; margin-top:2px;">
-            Posición: <strong style="color:#B18A53;">${p.defaultPos}</strong> · B/L: <strong>D/D</strong>
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  if (tbodyEl) {
-    tbodyEl.innerHTML = filtered.map(p => `
-      <tr>
-        <td style="padding:10px 14px; font-weight:800;">#${p.num}</td>
-        <td style="padding:10px 14px; font-weight:700;">${p.name}</td>
-        <td style="padding:10px 14px; font-weight:800; color:#B18A53;">${p.defaultPos}</td>
-        <td style="padding:10px 14px; color:#64748B;">Derecha / Derecha</td>
-        <td style="padding:10px 14px;"><span class="roster-status-badge active">Activo</span></td>
-        <td style="padding:10px 14px;">
-          <button type="button" onclick="switchTab('envivo')" style="padding:4px 8px; border-radius:4px; background:#F2F4F6; border:1px solid #E8EDF1; font-size:11px; font-weight:700; cursor:pointer;">Anotar</button>
-        </td>
-      </tr>
-    `).join('');
-  }
-}
-
-// FASE 6: EXPORTACIÓN SABERMÉTRICA A CSV
-function exportarSabermetriaCSV() {
-  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
-  let csv = "Dorsal,Jugador,Posicion,VB,H,H2,HR,CI,BB,AVG,OBP,SLG,OPS\n";
-  roster.forEach(p => {
-    const live = (typeof liveState !== 'undefined' && liveState.currentLiveBox && liveState.currentLiveBox[p.id]) || { vb:0, h1:0, h2:0, h3:0, hr:0, ci:0, bb:0 };
-    const h = (live.h1||0) + (live.h2||0) + (live.h3||0) + (live.hr||0);
-    const ave = live.vb > 0 ? (h / live.vb).toFixed(3) : ".000";
-    const obp = (live.vb + (live.bb||0)) > 0 ? ((h + (live.bb||0)) / (live.vb + (live.bb||0))).toFixed(3) : ".000";
-    const slg = live.vb > 0 ? (((live.h1||0) + 2*(live.h2||0) + 3*(live.h3||0) + 4*(live.hr||0)) / live.vb).toFixed(3) : ".000";
-    const ops = (parseFloat(obp) + parseFloat(slg)).toFixed(3);
-    csv += `"${p.num}","${p.name}","${p.defaultPos}",${live.vb},${h},${live.h2||0},${live.hr||0},${live.ci||0},${live.bb||0},${ave},${obp},${slg},${ops}\n`;
-  });
-
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `DIAMAX_Sabermetria_${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-  if (typeof mostrarToast === 'function') mostrarToast('✓ Sabermetría exportada a CSV con éxito');
-}
-
-// Auto-inicializar Roster al cargar
-window.addEventListener('DOMContentLoaded', function() {
-  setTimeout(() => {
-    renderRosterDualComponents();
-  }, 1000);
-});
-</script>
-
-</body></html>';
+    '</body></html>';
 
   printWindow.document.open();
   printWindow.document.write(html);
@@ -6821,7 +5934,7 @@ html, body {
     }
   }
 
-  // Compatibilidad de eventos canónicos hacia Firebase Firestore
+  // Compatibilidad con llamadas de juego
   const DIAMAX_RT = {
     isConnected: () => !!firestoreDb,
     init: () => initDiamaxFirebase(),
@@ -8066,6 +7179,293 @@ html, body {
   }
 
 </style>
+
+<style id="diamax-official-palette-v4">
+/* ==========================================================================
+   DIAMAX PRO · PALETA OFICIAL OBLIGATORIA (POST-LOGIN ENVIRONMENT)
+   Blanco Principal: #FFFFFF · Superficies: #F2F4F6 · Navegación: #182331
+   Acentos Deportivos: #B18A53 · Elementos Técnicos: #263445 · Bordes: #E8EDF1
+   ========================================================================== */
+#diamax-page-3 {
+  background: #FFFFFF !important;
+  color: #182331 !important;
+  font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Encabezados y Barras de Navegación */
+#diamax-page-3 .header {
+  background: #182331 !important;
+  border: 1px solid #263445 !important;
+  border-radius: 12px !important;
+  color: #FFFFFF !important;
+}
+
+#diamax-page-3 .header h1,
+#diamax-page-3 .header h2,
+#diamax-page-3 .header span#team-title-span {
+  color: #FFFFFF !important;
+}
+
+#diamax-page-3 .game-ribbon {
+  background: #182331 !important;
+  border: 1px solid #263445 !important;
+  border-radius: 10px !important;
+  color: #FFFFFF !important;
+}
+
+#diamax-page-3 .nav,
+#diamax-page-3 #main-nav {
+  background: #182331 !important;
+  border: 1px solid #263445 !important;
+  border-radius: 12px !important;
+  padding: 6px 10px !important;
+}
+
+#diamax-page-3 .nav-tab,
+#diamax-page-3 .nav button {
+  color: #94A3B8 !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  transition: all 0.15s ease !important;
+}
+
+#diamax-page-3 .nav-tab:hover,
+#diamax-page-3 .nav button:hover {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+#diamax-page-3 .nav-tab.active,
+#diamax-page-3 .nav button.active {
+  background: #B18A53 !important;
+  color: #FFFFFF !important;
+  border-color: #B18A53 !important;
+  box-shadow: 0 2px 8px rgba(177, 138, 83, 0.4) !important;
+}
+
+#diamax-page-3 .nav-tab.active svg,
+#diamax-page-3 .nav button.active svg {
+  stroke: #FFFFFF !important;
+}
+
+/* Superficies (#F2F4F6) y Bordes (#E8EDF1) */
+#diamax-page-3 .panel,
+#diamax-page-3 .informe-tecnico-box,
+#diamax-page-3 .card {
+  background: #F2F4F6 !important;
+  border: 1px solid #E8EDF1 !important;
+  border-radius: 12px !important;
+  color: #182331 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Botones Primarios y Acentos Bronce */
+#diamax-page-3 button.btn-new-game,
+#diamax-page-3 .btn-primary-action {
+  background: #B18A53 !important;
+  border: 1px solid #B18A53 !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  border-radius: 8px !important;
+}
+
+#diamax-page-3 button.btn-new-game:hover,
+#diamax-page-3 .btn-primary-action:hover {
+  background: #96723e !important;
+  border-color: #96723e !important;
+}
+
+#diamax-page-3 .diamax-action-btn-unified,
+#diamax-page-3 button.btn-settings {
+  background: #FFFFFF !important;
+  border: 1px solid #E8EDF1 !important;
+  color: #182331 !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+}
+
+#diamax-page-3 .diamax-action-btn-unified:hover,
+#diamax-page-3 button.btn-settings:hover {
+  background: #F2F4F6 !important;
+  border-color: #B18A53 !important;
+}
+
+/* Tablas y Cifras con Tipografía Tabular */
+#diamax-page-3 table {
+  background: #FFFFFF !important;
+  border: 1px solid #E8EDF1 !important;
+  border-radius: 8px !important;
+}
+
+#diamax-page-3 th {
+  background: #182331 !important;
+  color: #FFFFFF !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  border-bottom: 1px solid #E8EDF1 !important;
+}
+
+#diamax-page-3 td {
+  border-bottom: 1px solid #E8EDF1 !important;
+  color: #182331 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* Tarjetas de Métricas Clave (Fase 3) */
+.dash-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dash-metric-card {
+  background: #FFFFFF;
+  border: 1px solid #E8EDF1;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.dash-metric-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #F2F4F6;
+  border: 1px solid #E8EDF1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B18A53;
+  flex-shrink: 0;
+}
+
+.dash-metric-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: #182331;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.dash-metric-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.dash-alerts-panel {
+  background: #F2F4F6;
+  border: 1px solid #E8EDF1;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+
+.dash-alert-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #FFFFFF;
+  border: 1px solid #E8EDF1;
+  border-radius: 8px;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+/* Roster Dual View (Fase 5) */
+.roster-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #F2F4F6;
+  border: 1px solid #E8EDF1;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.roster-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.roster-player-card {
+  background: #FFFFFF;
+  border: 1px solid #E8EDF1;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.roster-player-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid #E8EDF1;
+}
+
+.roster-status-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.roster-status-badge.active { background: #DEF7EC; color: #03543F; }
+
+/* Dugout High Contrast (Fase 4) */
+#dugout-block-scoreboard {
+  background: #182331 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #263445 !important;
+  border-radius: 12px !important;
+}
+
+.dugout-inn-badge {
+  background: #263445 !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.dugout-score-val {
+  color: #FFFFFF !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* Asegurar que las 36 jugadas se muestren nítidas */
+#panel-36-plays {
+  background: #FFFFFF !important;
+  border: 1px solid #E8EDF1 !important;
+  border-radius: 12px !important;
+  color: #182331 !important;
+}
+
+#panel-36-plays .btn-section-title {
+  color: #182331 !important;
+}
+
+#panel-36-plays .btn-action {
+  font-variant-numeric: tabular-nums !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -9476,143 +8876,222 @@ html, body {
     </div>
   </div>
 
-
-<div id="diamax-page-3" class="diamax-app-shell" style="display:none;">
-  <!-- 1. SIDEBAR LATERAL (#182331) -->
-  <aside id="diamax-sidebar" class="diamax-sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-brand" onclick="irAPagina(1)" title="DIAMAX PRO — Sports Operating System">
-        <div style="width:32px; height:32px; border-radius:8px; background:#B18A53; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-          <svg width="20" height="20" viewBox="0 0 36 36" fill="none">
-            <polygon points="18,33 5,20 5,5 31,5 31,20" fill="#FFFFFF"/>
-            <polygon points="18,26 8,17 8,8 28,8 28,17" fill="#182331"/>
-            <circle cx="18" cy="17" r="3.5" fill="#B18A53"/>
-          </svg>
+<div id="diamax-page-3" class="container" style="display:none;">
+  <!-- Header Pro Stadium -->
+  <div class="header" style="padding:14px 20px; margin-bottom:16px;">
+    <div class="header-logo-container">
+      <div style="display:flex; align-items:center; gap:18px;">
+        <!-- 💎 LOGO OFICIAL DIAMAX PRO (100% IDÉNTICO Y AUTÓNOMO) -->
+        <div style="padding-right:14px; border-right:1px solid rgba(255,255,255,0.12); display:inline-flex; align-items:center;">
+          <div onclick="irAPagina(1)" style="display:inline-flex; align-items:center; gap:10px; cursor:pointer; text-decoration:none;" title="DIAMAX PRO — Sports Operating System">
+  <div style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(255,255,255,0.18); box-shadow:0 4px 14px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.35); backdrop-filter:blur(10px); flex-shrink:0;">
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 2px 10px rgba(24,216,255,0.7));">
+      <defs>
+        <linearGradient id="hp3d-p3-hdr-base" x1="18" y1="4" x2="18" y2="33" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="35%" stop-color="#E2E8F0"/>
+          <stop offset="70%" stop-color="#64748B"/>
+          <stop offset="100%" stop-color="#0F172A"/>
+        </linearGradient>
+        <linearGradient id="hp3d-p3-hdr-rim" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#18D8FF"/>
+          <stop offset="45%" stop-color="#FFFFFF"/>
+          <stop offset="100%" stop-color="#0284C7"/>
+        </linearGradient>
+        <linearGradient id="hp3d-p3-hdr-inner" x1="18" y1="8" x2="18" y2="28" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#0F243E"/>
+          <stop offset="50%" stop-color="#081426"/>
+          <stop offset="100%" stop-color="#020814"/>
+        </linearGradient>
+      </defs>
+      <polygon points="18,33 5,20 5,5 31,5 31,20" fill="url(#hp3d-p3-hdr-base)" stroke="url(#hp3d-p3-hdr-rim)" stroke-width="1.8" stroke-linejoin="round"/>
+      <polygon points="18,28 8,18 8,8 28,8 28,18" fill="url(#hp3d-p3-hdr-inner)" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-linejoin="round"/>
+      <polygon points="18,23 11,16 11,11 25,11 25,16" fill="url(#hp3d-p3-hdr-base)" opacity="0.95"/>
+      <polygon points="18,19 13,14 13,12 23,12 23,14" fill="url(#hp3d-p3-hdr-rim)"/>
+      <line x1="5" y1="5" x2="18" y2="18" stroke="rgba(255,255,255,0.8)" stroke-width="0.8"/>
+      <line x1="31" y1="5" x2="18" y2="18" stroke="rgba(255,255,255,0.8)" stroke-width="0.8"/>
+      <line x1="18" y1="18" x2="18" y2="33" stroke="rgba(255,255,255,0.9)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div style="display:inline-flex; align-items:baseline; gap:5px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:900; font-size:22px; letter-spacing:1px; line-height:1; text-transform:uppercase;">
+    <span style="color:#FFFFFF; background:linear-gradient(180deg, #FFFFFF 0%, #B8C2CC 35%, #FFFFFF 55%, #737F8C 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px rgba(216,226,234,0.8); filter:drop-shadow(0 2px 0 #475569) drop-shadow(0 4px 10px rgba(0,0,0,0.8));">DIAMAX</span>
+    <span style="color:#FFB300; background:linear-gradient(180deg, #FFF2A6 0%, #FFB300 40%, #F57C00 70%, #FFD75A 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; -webkit-text-stroke:0.5px #FFCC55; filter:drop-shadow(0 2px 0 #92400E) drop-shadow(0 4px 10px rgba(255,179,0,0.5)); font-size:18px;">PRO</span>
+  </div>
+</div>
         </div>
-        <div class="sidebar-brand-text">
-          <span class="brand-title">DIAMAX</span>
-          <span class="brand-badge">PRO</span>
-        </div>
-      </div>
-      <button id="sidebar-toggle-btn" class="sidebar-toggle-btn" onclick="toggleSidebarCollapse()" title="Colapsar Menú">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-    </div>
 
-    <!-- Menú de Enlaces Lineales SVG -->
-    <nav class="sidebar-menu">
-      <button type="button" class="sidebar-item active" id="sb-nav-dashboard" onclick="switchTab('dashboard')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-        <span class="sb-label">Dashboard</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-envivo" onclick="switchTab('envivo')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M12 2a14.5 14.5 0 0 1 0 20"/><path d="M2 12h20"/></svg>
-        <span class="sb-label">Dugout Scorekeeper</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-roster" onclick="switchTab('lineup')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <span class="sb-label">Roster</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-lineup" onclick="switchTab('lineup')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        <span class="sb-label">Alineaciones</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-campo" onclick="switchTab('campo')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,12 12,22 2,12"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="sb-label">Terreno Táctico</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-skills" onclick="switchTab('skills')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17l-5-5-3 3-4-4"/></svg>
-        <span class="sb-label">Sabermetría</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-bullpen" onclick="switchTab('envivo'); if(typeof cambiarEstadoBullpenModal==='function') cambiarEstadoBullpenModal();">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        <span class="sb-label">Bullpen</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-cabina" onclick="switchTab('cabina')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        <span class="sb-label">Broadcast</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-tarjeta" onclick="switchTab('tarjeta-oficial')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        <span class="sb-label">Reportes</span>
-      </button>
-      <button type="button" class="sidebar-item" id="sb-nav-perfil" onclick="switchTab('perfil')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span class="sb-label">Configuración</span>
-      </button>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="sidebar-user">
-        <div class="sidebar-user-avatar">AZ</div>
-        <div class="sidebar-user-info">
-          <span class="user-name">Lic. Alí Zapata</span>
-          <span class="user-role">Head Coach & Scorer</span>
+        <!-- 🏟️ INFORMACIÓN DEL EQUIPO ACTIVO -->
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="https://images.unsplash.com/photo-1593341646782-e0b495cffd6d?w=120&h=120&fit=crop" id="team-logo-display" class="team-logo-img" alt="Insignia Equipo" onclick="toggleSettingsDrawer(true)" title="Haz clic para configurar franquicia / equipo" style="width:38px; height:38px; border-radius:10px; border:1px solid rgba(255,199,44,0.4); box-shadow:0 0 10px rgba(255,199,44,0.25); cursor:pointer;">
+          <div>
+            <div class="header-title-row" style="display:flex; align-items:center; gap:10px;">
+              <h1 id="header-team-title" style="margin:0; font-size:18px; font-weight:900; letter-spacing:0.5px;"><span id="team-title-span">GUERREROS DE VENEZUELA +55</span></h1>
+              <span class="live-pulse-badge"><span class="pulse-red"></span> <span id="badge-live-text">EN VIVO REACTIVO</span></span>
+            </div>
+            <p id="header-subtitle" style="margin:2px 0 0 0; font-size:11px; color:#94A3B8;">DIAMAX PRO · Motor Dugout Pitch-by-Pitch &amp; Reglas 1-9 · Mánager: Leandro Chavez</p>
+          </div>
         </div>
       </div>
     </div>
-  </aside>
-
-  <!-- 2. CONTENEDOR PRINCIPAL DERECHO -->
-  <div class="diamax-app-main">
-    <!-- BARRA SUPERIOR (#FFFFFF / BORDE 1px #E8EDF1) -->
-    <header class="diamax-app-topbar">
-      <div class="topbar-left">
-        <button id="mobile-sidebar-toggle" class="topbar-icon-btn" onclick="toggleSidebarMobile()" title="Menú">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#182331" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        </button>
-        <div>
-          <h1 id="topbar-current-title" class="topbar-title">Dashboard Operativo</h1>
-          <span id="topbar-current-sub" class="topbar-sub">DIAMAX PRO • Franquicia Guerreros +55</span>
-        </div>
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <!-- 1. Telemetría de Red & Conexión -->
+      <div id="network-status-badge" style="background:rgba(11,19,43,0.85); border:1.5px solid rgba(0,210,255,0.35); padding:6px 14px; border-radius:9999px; font-size:10.5px; font-family:'Plus Jakarta Sans', sans-serif; display:inline-flex; align-items:center; backdrop-filter:blur(12px); box-shadow:0 0 12px rgba(0,210,255,0.2); transition:all 0.2s;">
+        <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#30D158; box-shadow:0 0 8px #30D158; margin-right:6px;"></span>
+        <span style="color:#FFFFFF; font-weight:800;">OFFLINE READY · <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; filter:drop-shadow(0 0 4px #30D158);"><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.48"/><circle cx="12" cy="12" r="2"/></svg> ONLINE</span>
       </div>
 
-      <!-- Selector de Equipo / Temporada / Partido -->
-      <div class="topbar-center">
-        <div class="topbar-game-picker">
-          <label for="game-select" class="topbar-picker-label">PARTIDO:</label>
-          <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="topbar-select"></select>
-        </div>
-      </div>
-
-      <div class="topbar-right">
-        <!-- Indicador técnico de Firebase Firestore -->
-        <div id="cloud-sync-indicator" class="topbar-sync-badge" title="Sincronización en tiempo real Firebase Firestore">
-          <span class="sync-dot"></span>
-          <span class="sync-text">Firebase Offline-Ready</span>
-        </div>
-
-        <button onclick="toggleAudioFeedback()" class="topbar-icon-btn" title="Audio Táctil">
-          <span id="sound-icon-indicator"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#182331" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></span>
+      <!-- 2. Herramientas de Entorno (Audio, Idioma, Sol/Noche, Mapa) -->
+      <div class="header-toolstrip-environment" style="display:inline-flex; align-items:center; gap:4px; background:rgba(7,14,30,0.85); border:1px solid rgba(255,255,255,0.08); padding:3px 5px; border-radius:12px; backdrop-filter:blur(12px);">
+        <button id="btn-sound-toggle" onclick="toggleAudioFeedback()" class="btn-settings diamax-action-btn-unified" title="Activar/Silenciar Efectos de Audio Táctil" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px; border-color:rgba(16,185,129,0.4) !important;">
+          <span id="sound-icon-indicator"></span> <span id="sound-text-indicator">Audio ON</span>
         </button>
-        
-        <button onclick="toggleSettingsDrawer(true)" class="topbar-icon-btn" title="Configuración de Franquicia">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#182331" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <button onclick="toggleLanguage()" class="btn-lang diamax-action-btn-unified" id="lang-btn" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span id="lang-btn-text">ESPAÑOL</span>
         </button>
-
-        <button onclick="abrirModalSalida()" class="topbar-btn-logout" title="Cerrar Sesión">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          <span>Salir</span>
+        <button id="btn-daylight" class="btn-settings diamax-action-btn-unified" onclick="toggleDaylightMode()" title="Alternar Modo Sol / Alto Brillo" style="display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px;">
+          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-sun-moon"/></svg> <span id="btn-daylight-text">Sol / Noche</span>
+        </button>
+        <button id="btn-open-map-header" onclick="abrirMapaGlobal()" class="btn-settings diamax-action-btn-unified" title="Abrir DIAMAX Global Intelligence Map en Tiempo Real" style="display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px;">
+          <div class="diamax-global-map-icon-wrap" style="display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:5px; background:radial-gradient(circle, rgba(0,242,254,0.3) 0%, rgba(11,19,41,0.95) 100%); border:1px solid rgba(0,242,254,0.6); position:relative; overflow:hidden; flex-shrink:0;">
+            <div class="diamax-radar-sweep"></div>
+            <svg class="diamax-animated-globe-svg" width="14" height="14" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="13.5" stroke="#00F2FE" stroke-width="2" fill="rgba(2,132,199,0.2)"/>
+              <ellipse class="diamax-globe-meridian" cx="18" cy="18" rx="7.5" ry="13.5" stroke="#38BDF8" stroke-width="1.4" stroke-dasharray="3 2" fill="none"/>
+              <line x1="4.5" y1="18" x2="31.5" y2="18" stroke="#00F2FE" stroke-width="1.4"/>
+              <circle class="diamax-globe-beacon" cx="18" cy="18" r="3.5" fill="#00F2FE"/>
+              <ellipse class="diamax-globe-orbit" cx="18" cy="18" rx="15.5" ry="5.5" stroke="#FFC72C" stroke-width="1.6" fill="none" transform="rotate(-25 18 18)"/>
+              <circle class="diamax-satellite-dot" cx="31" cy="13" r="2.4" fill="#FFC72C" style="filter:drop-shadow(0 0 6px #FFC72C);"/>
+            </svg>
+          </div>
+          <span id="header-map-btn-text">MAPA GLOBAL IA</span>
         </button>
       </div>
-    </header>
 
-    <!-- ÁREA CENTRAL DE TRABAJO -->
-    <main class="diamax-app-content">
-      <!-- Mantenemos elementos requeridos por scripts existentes ocultos o compactos -->
-      <div id="main-nav" style="display:none !important;">
-        <button id="btn-go-scorer" onclick="switchTab('envivo')"></button>
-        <button id="nav-lineup" onclick="switchTab('lineup')"></button>
-        <button id="btn-view-field" onclick="switchTab('campo')"></button>
-        <button id="nav-manual" onclick="switchTab('manual')"></button>
-        <button id="nav-card" onclick="switchTab('tarjeta-oficial')"></button>
-        <button id="nav-dash" onclick="switchTab('dashboard')"></button>
-        <button id="nav-skills" onclick="switchTab('skills')"></button>
-        <button id="nav-profile" onclick="switchTab('perfil')"></button>
-        <button id="nav-cabina" onclick="switchTab('cabina')"></button>
+      <!-- 3. Operaciones de Sistema (Cargar Juego, Refrescar BD, Ajustes, Salir) -->
+      <div class="header-toolstrip-system" style="display:inline-flex; align-items:center; gap:4px; background:rgba(7,14,30,0.85); border:1px solid rgba(255,255,255,0.08); padding:3px 5px; border-radius:12px; backdrop-filter:blur(12px);">
+        <button id="btn-header-new-game" onclick="abrirModalNuevoJuego()" class="btn-settings diamax-action-btn-unified btn-new-game" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;" title="Cargar o crear un nuevo juego">
+          <svg viewBox="0 0 24 24" width="14" height="14"><use href="#diamax-icon-stadium-gate"/></svg> <span id="header-new-game-text">Cargar Nuevo Juego</span>
+        </button>
+        <button id="btn-refresh-db" onclick="resetearBaseDeDatos(false)" class="btn-settings diamax-action-btn-unified" title="Refrescar y limpiar base de datos a cero para el partido" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><polyline points="21 3 21 8 16 8"/></svg> <span id="header-refresh-db-text">Refrescar BD</span>
+        </button>
+        <button id="btn-settings" onclick="toggleSettingsDrawer(true)" class="btn-settings diamax-action-btn-unified" title="Configuración y Conexión IA" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> <span id="header-settings-text">Configuración</span>
+        </button>
+        <button id="btn-header-exit" onclick="abrirModalSalida()" class="btn-settings diamax-action-btn-unified" title="Salir del Sistema Seguro y Cerrar Sesión" style="display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 10px; border-color:rgba(239,68,68,0.4) !important;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 6px #EF4444)"><path d="M12 2v8" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg> <span id="header-exit-text" style="color:#F87171;">Salir</span>
+        </button>
       </div>
-<div id="tab-cabina" class="tab-content" style="display:none; margin-bottom:24px;">
+    </div>
+  </div>
+
+  <!-- Ribbon de Juego (Controles Individuales HOME CLUB / VISITANTE) -->
+  <div class="game-ribbon" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:linear-gradient(135deg, #091224, #0B132B); border:1px solid #1E293B; border-radius:10px; padding:10px 16px; margin-bottom:12px;">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; min-width:300px;">
+      <span id="lbl-game-selected-ribbon" style="font-size:12px; color:#FFFFFF; font-weight:900; letter-spacing:0.5px; display:flex; align-items:center; gap:5px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" stroke-width="2.5" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px; filter:drop-shadow(0 0 5px #00D2FF);"><polygon points="12,2 22,12 12,22 2,12"/></svg> PARTIDO SELECCIONADO:
+      </span>
+      <select id="game-select" onchange="cambiarJuegoActivo(this.value)" class="form-control" style="font-weight:bold; font-size:12px; background:#070D1A; border:1.5px solid #00D2FF; color:#FFF; min-width:280px; max-width:480px;"></select>
+      
+      <!-- Controles Individuales de Condición (Home Club vs Visitante) -->
+      <div style="display:inline-flex; align-items:center; background:#070D1A; border:1.5px solid #334155; border-radius:8px; padding:2px; gap:2px;">
+        <button id="btn-ribbon-home" type="button" onclick="setCondicionJuego(true)" title="Fijar Guerreros como HOME CLUB (Local - Batea 2do ▼)" class="diamax-action-btn-unified">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> HOME CLUB
+        </button>
+        <button id="btn-ribbon-away" type="button" onclick="setCondicionJuego(false)" title="Fijar Guerreros como VISITANTE (Away - Batea 1ro ▲)" class="diamax-action-btn-unified">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> VISITANTE
+        </button>
+      </div>
+
+      <!-- Insignia Visual de Matchup con Equipos Individuales -->
+      <div id="ribbon-matchup-badge" style="display:inline-flex; align-items:center; gap:6px; background:#070D1A; border:1px solid #334155; padding:4px 10px; border-radius:8px; font-size:11px;">
+        <span style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#FFFFFF; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-right:5px;"><path d="M12 2l10 9v11H2V11l10-9z"/></svg> <span id="ribbon-home-role-label">HOME:</span> <strong id="ribbon-home-team-name">GUERREROS</strong>
+        </span>
+        <span style="color:#FFFFFF; font-weight:900;">VS</span>
+        <span style="background:rgba(0,210,255,0.18); border:1px solid #00D2FF; color:#FFFFFF; padding:2px 6px; border-radius:4px; font-weight:900; font-size:10px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> <span id="ribbon-away-role-label">VISIT:</span> <strong id="ribbon-away-team-name">DAYTONA BEACH</strong>
+        </span>
+      </div>
+
+      <!-- Badge de compatibilidad previa oculta -->
+      <button id="game-condition-badge" onclick="toggleCondicionLocalVisitante()" style="display:none;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>HOME CLUB</button>
+
+      <span id="game-status-badge" style="background:#FFC72C; color:#000; font-size:10px; padding:4px 10px; border-radius:6px; font-weight:900;">EN JUEGO</span>
+      <div id="cloud-sync-indicator" style="display:inline-flex; align-items:center; gap:6px; background:#0B132B; border:1px solid #10B981; padding:4px 10px; border-radius:20px; font-size:11px; color:#F8FAFC;" title="Estado de Sincronización Automática Offline/Nube"><span style="color:#10B981;">●</span> <span style="color:#F8FAFC;">Cloud Sync:</span> <strong style="color:#10B981;">Activo</strong></div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+
+      <!-- Control de Luz Solar unificado en barra superior (#btn-daylight); preservado oculto para compatibilidad DOM sin duplicidad visual -->
+      <button id="btn-toggle-sunlight-header" type="button" onclick="toggleModoLuzSolar()" style="display:none !important;" aria-hidden="true">
+        <span id="btn-sunlight-icon"></span><span id="btn-sunlight-label"></span>
+      </button>
+      <button id="btn-config-game-header" onclick="abrirModalNuevoJuego()" class="btn-new-game diamax-action-btn-unified">+ Configurar Partido & Rival</button>
+    </div>
+  </div>
+
+  <!-- Navegación de Pestañas -->
+  
+  <!-- =========================================================================
+       🎙️ COCKPIT DE TRANSMISIÓN DE CABINA (PANTALLA ÚNICA TODO-EN-UNO)
+       DIAMAX PRO · BROADCAST COMMAND COCKPIT
+       ========================================================================= -->
+
+  <!-- =========================================================================
+       🎙️ COCKPIT DIGITAL PARA EL NARRADOR HUMANO (CABINA DE RADIO Y TV)
+       PLAN COMENTARISTA & MEDIA — DIAMAX PRO
+       ========================================================================= -->
+  <!-- =========================================================================
+       SELECTOR MAESTRO DE ROL (ANOTADOR vs MÁNAGER PARA LIGAS)
+       ========================================================================= -->
+  <div style="display:flex; justify-content:center; width:100%; margin-bottom:12px;">
+    <div class="diamax-role-mode-selector" id="diamax-role-mode-selector">
+      <button type="button" class="role-mode-btn active" id="role-mode-anotador" onclick="activarModoRol('anotador')" title="Modo Anotador: Pantalla limpia con regla de 3 bloques">
+        <span>Modo Anotador (Dugout)</span>
+      </button>
+      <button type="button" class="role-mode-btn" id="role-mode-manager" onclick="activarModoRol('manager')" title="Modo Mánager: Terreno táctico 2D, Bullpen y Shifts">
+        <span>Modo Mánager (Terreno & Táctica)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN PRINCIPAL APPLE DELUXE (TIPOGRAFÍA PURA CENTRADA, CERO EMOJIS, CERO NÚMEROS) -->
+  <div style="display:flex; justify-content:center; width:100%; margin-bottom:18px;">
+    <div class="nav" id="main-nav">
+      <button class="active nav-tab" data-tab="tab-envivo" onclick="switchTab('envivo')" id="btn-go-scorer">
+        <svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5C3 4.45 3.45 4 4 4H20C20.55 4 21 4.45 21 5V7"/><path d="M3 7H21"/><path d="M12 10.5L16.5 14V18.5L12 21L7.5 18.5V14L12 10.5Z"/><circle cx="12" cy="15.5" r="1.2" fill="currentColor"/></svg><span>Anotador Dugout</span>
+      </button>
+
+      <button class="nav-tab" data-tab="tab-lineup" onclick="switchTab('lineup')" id="nav-lineup">
+        <svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><line x1="8.5" y1="7.5" x2="16.5" y2="7.5"/><line x1="8.5" y1="12" x2="16.5" y2="12"/><line x1="8.5" y1="16.5" x2="13.5" y2="16.5"/><circle cx="6.5" cy="7.5" r="1" fill="currentColor"/><circle cx="6.5" cy="12" r="1" fill="currentColor"/><circle cx="6.5" cy="16.5" r="1" fill="currentColor"/></svg><span>Alineación</span>
+      </button>
+
+      <button class="nav-tab" data-tab="tab-campo" onclick="switchTab('campo')" id="btn-view-field">
+        <svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21L21 12"/><path d="M12 21L3 12"/><polygon points="12,7 17,12 12,17 7,12"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><rect x="11.2" y="6.2" width="1.6" height="1.6" fill="currentColor"/><rect x="16.2" y="11.2" width="1.6" height="1.6" fill="currentColor"/><rect x="6.2" y="11.2" width="1.6" height="1.6" fill="currentColor"/><polygon points="12,16.5 12.8,17.2 12.5,18 11.5,18 11.2,17.2" fill="currentColor"/></svg><span>Terreno</span>
+      </button>
+
+      <button class="nav-tab nav-manual-btn" data-tab="tab-manual" onclick="switchTab('manual')" id="nav-manual">
+        <svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V4.5C4 3.67 4.67 3 5.5 3H19.5V21H5.5C4.67 21 4 20.33 4 19.5Z"/><line x1="7" y1="3" x2="7" y2="21"/><polygon points="13.5,8 16.5,11 13.5,14 10.5,11"/><line x1="10" y1="17" x2="17" y2="17"/></svg><span>Manual</span>
+      </button>
+
+      <button class="nav-tab" data-tab="tab-tarjeta-oficial" onclick="switchTab('tarjeta-oficial')" id="nav-card">
+        <svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V2.5C9 2.22 9.22 2 9.5 2H14.5C14.78 2 15 2.22 15 2.5V4"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="11.5" x2="13" y2="11.5"/><circle cx="14" cy="15.5" r="2.2"/><path d="M13.1 15.5L13.8 16.2L15.1 14.8"/></svg><span>Tarjeta Oficial</span>
+      </button>
+
+      <button class="nav-tab" data-tab="tab-dashboard" onclick="switchTab('dashboard')" id="nav-dash"><svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5H20.5"/><rect x="5" y="12" width="3.2" height="8.5" rx="1"/><rect x="10.4" y="7.5" width="3.2" height="13" rx="1"/><rect x="15.8" y="3.5" width="3.2" height="17" rx="1"/><circle cx="6.6" cy="8" r="1" fill="currentColor"/></svg><span>Tablero Sabermétrico</span></button>
+
+      <button class="nav-tab" data-tab="tab-skills" onclick="switchTab('skills')" id="nav-skills">
+        <svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,3 20,11 12,19 4,11"/><circle cx="12" cy="11" r="2.5"/><line x1="12" y1="3" x2="12" y2="8.5"/><line x1="12" y1="13.5" x2="12" y2="19"/><line x1="4" y1="11" x2="9.5" y2="11"/><line x1="14.5" y1="11" x2="20" y2="11"/><circle cx="12" cy="3" r="1" fill="currentColor"/><circle cx="20" cy="11" r="1" fill="currentColor"/><circle cx="4" cy="11" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg><span>IA Táctica</span>
+      </button>
+
+      <button class="nav-tab" data-tab="tab-perfil" onclick="switchTab('perfil')" id="nav-profile">
+        <svg class="diamax-nav-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="8" r="4"/><path d="M3.5 19.5C3.5 16.2 6.8 13.5 11 13.5C15.2 13.5 18.5 16.2 18.5 19.5"/><path d="M19 4.5C20.2 5.7 21 7.2 21 9"/><path d="M17 6.5C17.7 7.2 18.2 8.1 18.2 9"/></svg><span>Perfil</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="nav-cabina" style="display:none;" data-tab="tab-cabina"></div>
+  <div id="tab-cabina" class="tab-content" style="display:none; margin-bottom:24px;">
     
     <!-- ⚠️ ALERTA DE SUSTITUCIÓN EN PARPADEO ÁMBAR (OCULTA POR DEFECTO, SALTA CON CAMBIOS) -->
     <div id="cockpit-sub-alert-bar" style="display:none; background:rgba(245, 158, 11, 0.15); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border:1px solid rgba(245, 158, 11, 0.35); border-radius:16px; padding:14px 20px; margin-bottom:16px; color:#FFF; box-shadow:0 12px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);" class="cockpit-alert-blink">
@@ -10817,9 +10296,7 @@ html, body {
           </div>
 
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <!-- Buscador en tiempo real -->
             <input type="text" id="roster-search-inp" oninput="filtrarRosterEnVivo()" placeholder="Buscar jugador por nombre o dorsal..." style="padding:7px 12px; border-radius:6px; border:1px solid #E8EDF1; font-size:12px; width:220px;">
-            <!-- Selector de Posición -->
             <select id="roster-pos-filter" onchange="filtrarRosterEnVivo()" style="padding:7px 10px; border-radius:6px; border:1px solid #E8EDF1; font-size:12px; background:#FFFFFF;">
               <option value="TODAS">Todas las Posiciones</option>
               <option value="P">Lanzadores (P)</option>
@@ -10827,7 +10304,6 @@ html, body {
               <option value="INF">Cuadro (1B, 2B, 3B, SS)</option>
               <option value="OF">Jardineros (LF, CF, RF)</option>
             </select>
-            <!-- Toggle Modo Cuadrícula / Tabla -->
             <div style="display:flex; border:1px solid #E8EDF1; border-radius:6px; overflow:hidden;">
               <button type="button" id="btn-roster-grid" onclick="setRosterViewMode('grid')" style="padding:6px 12px; background:#182331; color:#FFF; border:none; font-size:11px; font-weight:700; cursor:pointer;">Cuadrícula</button>
               <button type="button" id="btn-roster-table" onclick="setRosterViewMode('table')" style="padding:6px 12px; background:#FFFFFF; color:#182331; border:none; font-size:11px; font-weight:700; cursor:pointer;">Tabla</button>
@@ -10835,10 +10311,8 @@ html, body {
           </div>
         </div>
 
-        <!-- Contenedor Cuadrícula de Tarjetas -->
         <div id="roster-cards-container" class="roster-cards-grid"></div>
 
-        <!-- Contenedor Tabla Ordenable -->
         <div id="roster-table-container" style="display:none; overflow-x:auto;">
           <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:left;">
             <thead>
@@ -11670,7 +11144,7 @@ html, body {
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l10 9v11H2V11l10-9z"/></svg>
         </div>
         <div class="dash-metric-data">
-          <span class="dash-metric-val" id="dash-metric-wl">9 - 3 <span style="font-size:14px; font-weight:700; color:#10B981;">(.750)</span></span>
+          <span class="dash-metric-val" id="dash-metric-wl">9 - 3 <span style="font-size:13px; font-weight:700; color:#10B981;">(.750)</span></span>
           <span class="dash-metric-label">Balance W / L</span>
         </div>
       </div>
@@ -12537,7 +12011,7 @@ function toggleSettingsDrawer(open) {
   if (!drawer) return;
   if (open) {
     drawer.classList.add('open');
-        // Estado de Firebase Firestore
+    // Estado de Firebase Firestore
     try {
       const fbStatusEl = document.getElementById('fb-drawer-status');
       if (fbStatusEl) {
@@ -21203,20 +20677,6 @@ function switchDashSubtab(subtabId) {
 window.switchDashSubtab = switchDashSubtab;
 
 function switchTab(rawTabId) {
-  // Sincronizar Top Bar y Sidebar Oficial
-  const meta = TOPBAR_TITLES[rawTabId] || TOPBAR_TITLES['dashboard'];
-  const titleEl = document.getElementById('topbar-current-title');
-  const subEl = document.getElementById('topbar-current-sub');
-  if (titleEl && meta) titleEl.textContent = meta.title;
-  if (subEl && meta) subEl.textContent = meta.sub;
-
-  document.querySelectorAll('.sidebar-item').forEach(btn => btn.classList.remove('active'));
-  const activeSbBtn = document.getElementById('sb-nav-' + rawTabId);
-  if (activeSbBtn) activeSbBtn.classList.add('active');
-
-  const sbMobile = document.getElementById('diamax-sidebar');
-  if (sbMobile) sbMobile.classList.remove('mobile-open');
-
   const mainNavEl = document.getElementById('main-nav');
   if (mainNavEl) mainNavEl.style.display = 'flex';
   // ensurePage3Visible
@@ -25571,17 +25031,89 @@ document.addEventListener('keydown', function(e) {
 
   </div>
 
-</main>
-  </div>
 </div>
 
 
+<!-- ⚡ DIAMAX REALTIME CONFIG MODAL -->
+<div id="diamax-rt-modal" style="display:none;position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(15,23,42,0.98),rgba(4,8,20,0.99));border:1px solid rgba(0,242,254,0.4);border-radius:20px;padding:28px;width:min(90vw,440px);box-shadow:0 30px 80px rgba(0,0,0,0.9),0 0 40px rgba(0,242,254,0.15);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:900;color:#00F2FE;letter-spacing:1px;">DIAMAX LIVE — TIEMPO REAL</div>
+        <div style="font-size:11px;color:#64748B;font-weight:600;letter-spacing:0.5px;">Conectar marcador en vivo a la nube</div>
+      </div>
+      <button onclick="cerrarConfigRealtime()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">✕</button>
+    </div>
+    
+    <div id="diamax-rt-status-bar" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:#22C55E;text-align:center;">
+      Estado: Verificando conexión...
+    </div>
+
+    <label style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">SUPABASE URL</label>
+    <input id="rt-supabase-url" placeholder="https://xyzabc.supabase.co" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
+
+    <label style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ANON / PUBLIC KEY</label>
+    <input id="rt-supabase-key" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
+
+    <label style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:#64748B;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;">ID DE LIGA / TENANT (UUID)</label>
+    <input id="rt-tenant-id" placeholder="Ej: liga-tampa-junior-2026 (opcional)" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:18px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;" />
+
+    <button onclick="activarRealtime()" style="width:100%;background:linear-gradient(135deg,#00F2FE,#0284C7);color:#000;border:none;padding:14px;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;margin-bottom:8px;">ACTIVAR TIEMPO REAL</button>
+    <button onclick="cerrarConfigRealtime()" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#94A3B8;padding:10px;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">Cancelar</button>
+    
+    <p style="text-align:center;font-size:10px;color:#475569;margin:12px 0 0;font-family:'Plus Jakarta Sans',sans-serif;">Obtén las credenciales en supabase.com → Settings → API · <strong style="color:#00F2FE;">$0/mes</strong></p>
+  </div>
+</div>
+
 <script>
 function abrirConfigRealtime() {
-  if (typeof toggleSettingsDrawer === 'function') toggleSettingsDrawer(true);
+  const modal = document.getElementById('diamax-rt-modal');
+  if (!modal) return;
+  modal.style.display = 'block';
+  // Cargar config guardada
+  try {
+    const cfg = JSON.parse(localStorage.getItem('diamax_supabase_config') || '{}');
+    if (cfg.url) document.getElementById('rt-supabase-url').value = cfg.url;
+    if (cfg.anonKey) document.getElementById('rt-supabase-key').value = cfg.anonKey;
+    if (cfg.tenantId) document.getElementById('rt-tenant-id').value = cfg.tenantId;
+  } catch(e) {}
+  // Actualizar status
+  const statusBar = document.getElementById('diamax-rt-status-bar');
+  if (statusBar) {
+    const isConn = typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.isConnected();
+    statusBar.style.color = isConn ? '#22C55E' : '#EF4444';
+    statusBar.style.borderColor = isConn ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
+    statusBar.style.background = isConn ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)';
+    statusBar.textContent = isConn ? 'Estado: CONECTADO EN VIVO' : 'Estado: No conectado — Configura tus credenciales';
+  }
 }
-function cerrarConfigRealtime() {}
-async function activarRealtime() {}
+
+function cerrarConfigRealtime() {
+  const modal = document.getElementById('diamax-rt-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function activarRealtime() {
+  const url = document.getElementById('rt-supabase-url').value.trim();
+  const key = document.getElementById('rt-supabase-key').value.trim();
+  const tenant = document.getElementById('rt-tenant-id').value.trim();
+  if (!url || !key) { mostrarToast('Ingresa URL y Anon Key de Supabase'); return; }
+  const statusBar = document.getElementById('diamax-rt-status-bar');
+  if (statusBar) { statusBar.textContent = 'Conectando...'; statusBar.style.color = '#F59E0B'; }
+  const ok = typeof DIAMAX_RT !== 'undefined' && DIAMAX_RT.configure(url, key, tenant || null);
+  setTimeout(() => {
+    if (statusBar) {
+      statusBar.textContent = ok ? '¡CONECTADO EN VIVO! Marcador sincronizando en tiempo real' : 'Error de conexión. Verifica tus credenciales.';
+      statusBar.style.color = ok ? '#22C55E' : '#EF4444';
+    }
+    if (ok) setTimeout(() => cerrarConfigRealtime(), 2000);
+  }, 1200);
+}
+
+// Cerrar modal al hacer clic afuera
+document.getElementById('diamax-rt-modal')?.addEventListener('click', function(e) {
+  if (e.target === this) cerrarConfigRealtime();
+});
 </script>
 
 
@@ -27906,6 +27438,118 @@ console.log('[DIAMAX PRO] Modulo Hot Dugout Substitutions, Presets +55 & Google 
     </button>
   </nav>
 
+
+
+<script>
+let _rosterViewMode = 'grid';
+
+function setRosterViewMode(mode) {
+  _rosterViewMode = mode;
+  const gridEl = document.getElementById('roster-cards-container');
+  const tableEl = document.getElementById('roster-table-container');
+  const btnGrid = document.getElementById('btn-roster-grid');
+  const btnTable = document.getElementById('btn-roster-table');
+
+  if (mode === 'grid') {
+    if (gridEl) gridEl.style.display = 'grid';
+    if (tableEl) tableEl.style.display = 'none';
+    if (btnGrid) { btnGrid.style.background = '#182331'; btnGrid.style.color = '#FFFFFF'; }
+    if (btnTable) { btnTable.style.background = '#FFFFFF'; btnTable.style.color = '#182331'; }
+  } else {
+    if (gridEl) gridEl.style.display = 'none';
+    if (tableEl) tableEl.style.display = 'block';
+    if (btnGrid) { btnGrid.style.background = '#FFFFFF'; btnGrid.style.color = '#182331'; }
+    if (btnTable) { btnTable.style.background = '#182331'; btnTable.style.color = '#FFFFFF'; }
+  }
+}
+
+function filtrarRosterEnVivo() {
+  const query = (document.getElementById('roster-search-inp')?.value || '').toLowerCase().trim();
+  const posFilter = document.getElementById('roster-pos-filter')?.value || 'TODAS';
+  renderRosterDualComponents(query, posFilter);
+}
+
+function renderRosterDualComponents(query = '', posFilter = 'TODAS') {
+  const gridEl = document.getElementById('roster-cards-container');
+  const tbodyEl = document.getElementById('roster-table-tbody');
+  if (!gridEl && !tbodyEl) return;
+
+  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
+  const filtered = roster.filter(p => {
+    const matchQuery = !query || p.name.toLowerCase().includes(query) || (p.num + '').includes(query);
+    if (!matchQuery) return false;
+    if (posFilter === 'TODAS') return true;
+    if (posFilter === 'P') return p.defaultPos === 'P';
+    if (posFilter === 'C') return p.defaultPos === 'C';
+    if (posFilter === 'INF') return ['1B','2B','3B','SS'].includes(p.defaultPos);
+    if (posFilter === 'OF') return ['LF','CF','RF'].includes(p.defaultPos);
+    return true;
+  });
+
+  if (gridEl) {
+    gridEl.innerHTML = filtered.map(p => `
+      <div class="roster-player-card">
+        <img src="${p.photo || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop'}" class="roster-player-avatar" alt="${p.name}">
+        <div style="flex:1;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="font-size:13.5px; color:#182331;">#${p.num} ${p.name}</strong>
+            <span class="roster-status-badge active">Activo</span>
+          </div>
+          <div style="font-size:11.5px; color:#64748B; margin-top:2px;">
+            Posición: <strong style="color:#B18A53;">${p.defaultPos}</strong> · B/L: <strong>D/D</strong>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if (tbodyEl) {
+    tbodyEl.innerHTML = filtered.map(p => `
+      <tr>
+        <td style="padding:10px 14px; font-weight:800;">#${p.num}</td>
+        <td style="padding:10px 14px; font-weight:700;">${p.name}</td>
+        <td style="padding:10px 14px; font-weight:800; color:#B18A53;">${p.defaultPos}</td>
+        <td style="padding:10px 14px; color:#64748B;">Derecha / Derecha</td>
+        <td style="padding:10px 14px;"><span class="roster-status-badge active">Activo</span></td>
+        <td style="padding:10px 14px;">
+          <button type="button" onclick="switchTab('envivo')" style="padding:4px 8px; border-radius:4px; background:#F2F4F6; border:1px solid #E8EDF1; font-size:11px; font-weight:700; cursor:pointer;">Anotar</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+}
+
+// Exportación Sabermétrica a CSV
+function exportarSabermetriaCSV() {
+  const roster = (typeof MASTER_ROSTER !== 'undefined') ? MASTER_ROSTER : [];
+  let csv = "Dorsal,Jugador,Posicion,VB,H,H2,HR,CI,BB,AVG,OBP,SLG,OPS\n";
+  roster.forEach(p => {
+    const live = (typeof liveState !== 'undefined' && liveState.currentLiveBox && liveState.currentLiveBox[p.id]) || { vb:0, h1:0, h2:0, h3:0, hr:0, ci:0, bb:0 };
+    const h = (live.h1||0) + (live.h2||0) + (live.h3||0) + (live.hr||0);
+    const ave = live.vb > 0 ? (h / live.vb).toFixed(3) : ".000";
+    const obp = (live.vb + (live.bb||0)) > 0 ? ((h + (live.bb||0)) / (live.vb + (live.bb||0))).toFixed(3) : ".000";
+    const slg = live.vb > 0 ? (((live.h1||0) + 2*(live.h2||0) + 3*(live.h3||0) + 4*(live.hr||0)) / live.vb).toFixed(3) : ".000";
+    const ops = (parseFloat(obp) + parseFloat(slg)).toFixed(3);
+    csv += `"${p.num}","${p.name}","${p.defaultPos}",${live.vb},${h},${live.h2||0},${live.hr||0},${live.ci||0},${live.bb||0},${ave},${obp},${slg},${ops}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `DIAMAX_Sabermetria_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  if (typeof mostrarToast === 'function') mostrarToast('✓ Sabermetría exportada a CSV con éxito');
+}
+
+// Inicializar Roster al cargar
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    renderRosterDualComponents();
+  }, 1000);
+});
+</script>
 
 </body>
 </html>
