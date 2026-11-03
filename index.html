@@ -26168,95 +26168,67 @@ document.addEventListener('keydown', function(e) {
         </div>
 
         <!-- =========================================================================
-             Y LUEGO UNA LA AZUL DE EL COMENTARISTA
-             (ANCHO COMPLETO AL FINAL)
+             Y LUEGO UNA LA AZUL DE EL COMENTARISTA (COMPACTA, SIN MÁRGENES LARGOS)
              ========================================================================= -->
-        <div style="background:linear-gradient(145deg, #091a3e, #050d22); border:2px solid #007AFF; border-radius:16px; padding:22px; margin-bottom:24px; box-shadow:0 8px 32px rgba(0,122,255,0.3);">
+        <div style="background:linear-gradient(145deg, #091a3e, #050d22); border:1.8px solid #007AFF; border-radius:14px; padding:14px 18px; margin:0 0 16px 0; box-shadow:0 4px 20px rgba(0,122,255,0.25);">
           
-          <!-- Encabezado de la Tarjeta Azul -->
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid rgba(0,122,255,0.25);">
-            <div>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <h4 style="margin:0; font-size:18px; font-weight:900; color:#FFFFFF; display:inline-flex; align-items:center; gap:6px;">
-                  🎙️ PLAN ESPECIAL: COMENTARISTA &amp; BROADCAST MEDIA
-                </h4>
-                <span style="background:rgba(0,122,255,0.25); border:1px solid #007AFF; color:#7DD3FC; font-size:10px; font-weight:900; padding:2px 8px; border-radius:10px;">ON AIR</span>
-              </div>
-              <div style="font-size:12px; color:#94A3B8; margin-top:4px;">
-                Mesa de transmisión digital para radio, TV, YouTube y Twitch • Puesto oficial de cabina con telemetría en vivo
-              </div>
-            </div>
-
-            <div style="text-align:right;">
-              <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end;">
-                <span style="font-size:32px; font-weight:900; color:#FFFFFF; font-variant-numeric:tabular-nums;">$14.99</span>
-                <span style="font-size:12px; color:#94A3B8; font-weight:600;">/ mes</span>
-              </div>
-              <div style="font-size:11px; color:#38BDF8; font-weight:700;">• Anual (-28%): $129.00 / año ($10.75/mes) • Pase Torneo: $49</div>
-            </div>
-          </div>
-
-          <!-- GRID 2 ARRIBA, 2 ABAJO -->
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-bottom:12px;">
-            <!-- 1. Arriba Izquierda -->
-            <div style="background:rgba(0,122,255,0.08); border:1px solid rgba(0,122,255,0.25); border-radius:10px; padding:12px 14px;">
-              <div style="color:#7DD3FC; font-weight:800; font-size:12.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
-                <span>🎙️ Cockpit Cabina a 60 cm</span>
-              </div>
-              <div style="font-size:11.5px; color:#CBD5E1; line-height:1.4;">
-                Pantalla única de lectura rápida todo-en-uno, sin interferencias ni botones del Dugout.
+          <!-- Encabezado Compacto: Título + Precio en 1 sola fila sin margen largo -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(0,122,255,0.2);">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">🎙️</span>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <h4 style="margin:0; font-size:15px; font-weight:900; color:#FFFFFF; letter-spacing:0.3px;">
+                    PLAN COMENTARISTA &amp; BROADCAST MEDIA
+                  </h4>
+                  <span style="background:rgba(0,122,255,0.25); border:1px solid #007AFF; color:#7DD3FC; font-size:9.5px; font-weight:900; padding:1px 7px; border-radius:8px;">ON AIR</span>
+                </div>
+                <div style="font-size:11px; color:#94A3B8; margin-top:2px;">
+                  Mesa de transmisión digital para radio, TV, YouTube y Twitch • Puesto oficial sin botones de anotador
+                </div>
               </div>
             </div>
 
-            <!-- 2. Arriba Derecha -->
-            <div style="background:rgba(0,122,255,0.08); border:1px solid rgba(0,122,255,0.25); border-radius:10px; padding:12px 14px;">
-              <div style="color:#7DD3FC; font-weight:800; font-size:12.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
-                <span>📊 Telemetría Statcast &amp; BvP</span>
-              </div>
-              <div style="font-size:11.5px; color:#CBD5E1; line-height:1.4;">
-                Spray Chart interactivo de 13 batazos, K-Zone 3x3 y divididos históricos frente a frente.
-              </div>
-            </div>
-
-            <!-- 3. Abajo Izquierda -->
-            <div style="background:rgba(0,122,255,0.08); border:1px solid rgba(0,122,255,0.25); border-radius:10px; padding:12px 14px;">
-              <div style="color:#7DD3FC; font-weight:800; font-size:12.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
-                <span>⚡ Semáforo Médico +55 &amp; Pitcheos</span>
-              </div>
-              <div style="font-size:11.5px; color:#CBD5E1; line-height:1.4;">
-                Control de degradación biomecánica de 1 a 75 lanzamientos con alerta automática de fatiga y bullpen a 70 envíos.
-              </div>
-            </div>
-
-            <!-- 4. Abajo Derecha -->
-            <div style="background:rgba(0,122,255,0.08); border:1px solid rgba(0,122,255,0.25); border-radius:10px; padding:12px 14px;">
-              <div style="color:#7DD3FC; font-weight:800; font-size:12.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
-                <span>📜 Teleprompter Táctico de 3 Píldoras</span>
-              </div>
-              <div style="font-size:11.5px; color:#CBD5E1; line-height:1.4;">
-                Menciones en vivo y detonadores comerciales automáticos por jugadas (Doble Play, Cuadrangular, Visita al Montículo).
-              </div>
+            <div style="display:flex; align-items:baseline; gap:6px;">
+              <span style="font-size:26px; font-weight:900; color:#FFFFFF; font-variant-numeric:tabular-nums;">$14.99</span>
+              <span style="font-size:11.5px; color:#94A3B8; font-weight:600;">/ mes</span>
+              <span style="font-size:10.5px; color:#38BDF8; font-weight:700; margin-left:6px;">(Anual $129 · Torneo $49)</span>
             </div>
           </div>
 
-          <!-- 5. UNA MÁS ABAJO (ANCHO COMPLETO) -->
-          <div style="background:rgba(0,122,255,0.14); border:1px solid rgba(0,122,255,0.4); border-radius:10px; padding:12px 16px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-            <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#E2E8F0;">
-              <span style="font-size:15px;">📡</span>
-              <span><strong>URL de Overlay transparente para OBS Studio &amp; vMix</strong> • Gráfico WPA (Win Probability Added en vivo) y enlace directo a cabina</span>
+          <!-- Píldoras de Características Compactas (Sin cajas infladas ni márgenes largos) -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:6px; margin-bottom:10px;">
+            <div style="background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.2); border-radius:6px; padding:6px 10px; font-size:11px; color:#E2E8F0; display:flex; align-items:center; gap:6px;">
+              <span style="color:#38BDF8; font-weight:900;">✓</span>
+              <span><strong>Cockpit 60 cm:</strong> lectura rápida sin botones dugout</span>
             </div>
-            <span style="background:rgba(56,189,248,0.2); border:1px solid #38BDF8; color:#7DD3FC; font-size:10px; font-weight:800; padding:3px 10px; border-radius:6px;">BROADCAST READY</span>
+            <div style="background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.2); border-radius:6px; padding:6px 10px; font-size:11px; color:#E2E8F0; display:flex; align-items:center; gap:6px;">
+              <span style="color:#38BDF8; font-weight:900;">✓</span>
+              <span><strong>Statcast &amp; BvP:</strong> Spray Chart (13) y K-Zone 3x3</span>
+            </div>
+            <div style="background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.2); border-radius:6px; padding:6px 10px; font-size:11px; color:#E2E8F0; display:flex; align-items:center; gap:6px;">
+              <span style="color:#38BDF8; font-weight:900;">✓</span>
+              <span><strong>Semáforo +55:</strong> alerta médica y fatiga a 70</span>
+            </div>
+            <div style="background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.2); border-radius:6px; padding:6px 10px; font-size:11px; color:#E2E8F0; display:flex; align-items:center; gap:6px;">
+              <span style="color:#38BDF8; font-weight:900;">✓</span>
+              <span><strong>Teleprompter:</strong> cuñas y menciones por jugada</span>
+            </div>
+            <div style="background:rgba(0,122,255,0.15); border:1px solid rgba(0,122,255,0.3); border-radius:6px; padding:6px 10px; font-size:11px; color:#7DD3FC; display:flex; align-items:center; gap:6px;">
+              <span style="color:#38BDF8; font-weight:900;">📡</span>
+              <span><strong>Overlay OBS / vMix:</strong> WPA y gráficos limpios</span>
+            </div>
           </div>
 
-          <!-- Barra de Acción y Acceso con Clave de Prensa / VIP -->
-          <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; background:rgba(2,6,23,0.7); border:1px solid rgba(0,122,255,0.3); border-radius:12px; padding:12px 16px;">
-            <button type="button" onclick="seleccionarPlanSuscripcion('MEDIA_PRO')" style="background:#007AFF; color:#FFFFFF; border:none; padding:11px 24px; border-radius:8px; font-weight:900; font-size:12px; cursor:pointer; text-transform:uppercase; box-shadow:0 0 16px rgba(0,122,255,0.4); transition:all 0.2s;" onmouseover="this.style.background='#0062cc';" onmouseout="this.style.background='#007AFF';">
+          <!-- Barra de Acción y Acceso VIP Ajustada -->
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; background:rgba(2,6,23,0.55); border:1px solid rgba(0,122,255,0.25); border-radius:8px; padding:8px 12px; margin:0;">
+            <button type="button" onclick="seleccionarPlanSuscripcion('MEDIA_PRO')" style="background:#007AFF; color:#FFFFFF; border:none; padding:8px 18px; border-radius:6px; font-weight:900; font-size:11.5px; cursor:pointer; text-transform:uppercase; box-shadow:0 0 12px rgba(0,122,255,0.35); transition:all 0.2s;" onmouseover="this.style.background='#0062cc';" onmouseout="this.style.background='#007AFF';">
               Elegir Plan Comentarista ($14.99)
             </button>
 
-            <div style="display:flex; align-items:center; gap:8px; flex:1; max-width:460px;" onclick="event.stopPropagation();">
-              <input type="text" id="input-key-media-p3" placeholder="Introducir Clave de Prensa / VIP" style="flex:1; background:#020617; border:1.5px solid #007AFF; border-radius:8px; padding:9px 12px; color:#FFF; font-size:11.5px; font-weight:700; outline:none; text-transform:uppercase;" onkeydown="if(event.key==='Enter') validarClavePrensaGratis('p3')">
-              <button type="button" onclick="validarClavePrensaGratis('p3')" style="background:linear-gradient(135deg, #10B981, #059669); color:#FFFFFF; border:none; border-radius:8px; padding:9px 14px; font-weight:900; font-size:11px; cursor:pointer; white-space:nowrap; box-shadow:0 0 10px rgba(16,185,129,0.3);">
+            <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:400px;" onclick="event.stopPropagation();">
+              <input type="text" id="input-key-media-p3" placeholder="Clave de Prensa / VIP" style="flex:1; background:#020617; border:1px solid #007AFF; border-radius:6px; padding:7px 10px; color:#FFF; font-size:11px; font-weight:700; outline:none; text-transform:uppercase;" onkeydown="if(event.key==='Enter') validarClavePrensaGratis('p3')">
+              <button type="button" onclick="validarClavePrensaGratis('p3')" style="background:linear-gradient(135deg, #10B981, #059669); color:#FFFFFF; border:none; border-radius:6px; padding:7px 12px; font-weight:900; font-size:11px; cursor:pointer; white-space:nowrap; box-shadow:0 0 8px rgba(16,185,129,0.3);">
                 Entrar Gratis
               </button>
             </div>
