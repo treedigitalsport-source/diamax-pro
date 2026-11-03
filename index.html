@@ -1232,11 +1232,12 @@ window.validarClavePrensaGratis = function(origen) {
     localStorage.setItem('diamax_current_role', 'BROADCAST_MEDIA');
     localStorage.setItem('diamax_session_plan', 'MEDIA_PRO');
     localStorage.setItem('diamax_auth_token', 'TOKEN_VIP_CABINA_' + Date.now());
+    localStorage.setItem('diamax_media_free_pass', 'CORTESIA_PRESIDENCIAL_VIP');
     
     if (typeof currentUserSession !== 'undefined') {
       currentUserSession = {
         id: 'usr_media_' + Date.now(),
-        name: 'Lic. Alí Zapata',
+        name: 'Comentarista Acreditado',
         email: 'prensa@diamaxpro.com',
         role: 'BROADCAST_MEDIA',
         plan: 'MEDIA_PRO',
@@ -1257,9 +1258,12 @@ window.validarClavePrensaGratis = function(origen) {
       try { aplicarSeparacionRolesUI(); } catch(e){}
     }
 
-    // 3. Navegar a Página 3 y Tab Cabina
-    if (typeof irAPagina === 'function') irAPagina(3);
-    if (typeof switchTab === 'function') switchTab('cabina');
+    // 3. Navegar directamente a la plantilla aislada de Cabina (diamax-page-cabina)
+    if (typeof entrarCabinaEnVivo === 'function') {
+      entrarCabinaEnVivo();
+    } else if (typeof irAPagina === 'function') {
+      irAPagina('cabina');
+    }
     window.location.hash = 'cabina';
 
     // 4. Iniciar Cockpit de Cabina
