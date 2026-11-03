@@ -5899,24 +5899,24 @@ html, body {
     measurementId: "G-00SQ358X5H"
   };
 
-  let diamaxFirebaseApp = null;
-  let firestoreDb = null;
-  let diamaxFirestoreOfflineReady = false;
+  window.diamaxFirebaseApp = window.diamaxFirebaseApp || null;
+  window.firestoreDb = window.firestoreDb || null;
+  window.diamaxFirestoreOfflineReady = window.diamaxFirestoreOfflineReady || false;
 
   function initDiamaxFirebase() {
     try {
       if (typeof firebase !== 'undefined') {
         if (!firebase.apps.length) {
-          diamaxFirebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
+          window.diamaxFirebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
         } else {
-          diamaxFirebaseApp = firebase.app();
+          window.diamaxFirebaseApp = firebase.app();
         }
-        firestoreDb = firebase.firestore();
+        window.firestoreDb = firebase.firestore();
         
         // Habilitar persistencia offline con soporte multitab
-        firestoreDb.enableIndexedDbPersistence({ synchronizeTabs: true })
+        window.firestoreDb.enableIndexedDbPersistence({ synchronizeTabs: true })
           .then(() => {
-            diamaxFirestoreOfflineReady = true;
+            window.diamaxFirestoreOfflineReady = true;
             console.log('[DIAMAX FIREBASE] Persistencia offline habilitada en IndexedDB (multitab sincronizado).');
             if (typeof updateCloudSyncBadge === 'function') updateCloudSyncBadge('connected');
           })
@@ -5936,16 +5936,16 @@ html, body {
 
   // Compatibilidad con llamadas de juego
   const DIAMAX_RT = {
-    isConnected: () => !!firestoreDb,
+    isConnected: () => !!window.firestoreDb,
     init: () => initDiamaxFirebase(),
     configure: () => true,
     getClient: () => null,
     getGameId: () => localStorage.getItem('diamax_active_game_id') || 'game_master',
     saveGame: async (gameData) => {
-      if (!firestoreDb) return false;
+      if (!window.firestoreDb) return false;
       const gid = gameData.id || localStorage.getItem('diamax_active_game_id') || 'game_master';
       try {
-        await firestoreDb.collection('games').doc(gid).set(gameData, { merge: true });
+        await window.firestoreDb.collection('games').doc(gid).set(gameData, { merge: true });
         return true;
       } catch(e) {
         console.warn('[DIAMAX FIREBASE] Guardado offline en caché IndexedDB:', e);
@@ -5955,10 +5955,10 @@ html, body {
     savePitch: async (pitchData) => true,
     saveAtBat: async (abData) => true,
     saveCanonicalEvent: async (ev) => {
-      if (!firestoreDb) return;
+      if (!window.firestoreDb) return;
       try {
         const gid = localStorage.getItem('diamax_active_game_id') || 'game_master';
-        await firestoreDb.collection('games').doc(gid).collection('events').add({
+        await window.firestoreDb.collection('games').doc(gid).collection('events').add({
           ...ev,
           syncedAt: new Date().toISOString()
         });
