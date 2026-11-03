@@ -1210,8 +1210,7 @@ window.validarClavePrensaGratis = function(origen) {
     cleanVal === 'ALICABINAPRO2026' ||
     cleanVal === 'AZVIP777' ||
     cleanVal === '852914' ||
-    cleanVal === '113714' ||
-    cleanVal === 'PRENSA2026' ||
+        cleanVal === 'PRENSA2026' ||
     cleanVal === 'MEDIAFREE' ||
     cleanVal === 'DIAMAXMEDIA' ||
     val.includes('ALI') ||
@@ -7316,6 +7315,27 @@ html, body {
   font-variant-numeric: tabular-nums !important;
 }
 
+/* Refuerzo de Identidad Visual Oficial DIAMAX PRO */
+#diamax-page-3 .pitch-total-num,
+#diamax-page-3 .dugout-score-val,
+#diamax-page-3 .stat-digit,
+#diamax-page-3 .tabular-figure {
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" 1 !important;
+}
+
+#diamax-page-3 .card-header-technical {
+  background: #182331 !important;
+  color: #FFFFFF !important;
+  border-bottom: 1px solid #263445 !important;
+}
+
+#diamax-page-3 .badge-bronze-accent {
+  background: rgba(177, 138, 83, 0.15) !important;
+  color: #B18A53 !important;
+  border: 1px solid #B18A53 !important;
+}
+
 /* Tarjetas de Métricas Clave (Fase 3) */
 .dash-metrics-grid {
   display: grid;
@@ -10805,7 +10825,7 @@ html, body {
       <div style="background:#070D1A; border:1px solid #10B981; border-radius:10px; padding:16px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
           <h3 style="color:#10B981; font-size:14px; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">
-             10. Sincronización en la Nube (PostgreSQL / Supabase) & Modo Offline
+             10. Sincronización en la Nube (Firebase Firestore) & Modo Offline
           </h3>
           <span style="font-size:11px; background:rgba(16,185,129,0.2); color:#10B981; border:1px solid #10B981; font-weight:900; padding:2px 8px; border-radius:4px;">CLOUD SYNC ACTIVO</span>
         </div>
@@ -10815,7 +10835,7 @@ html, body {
             <p style="margin:4px 0 0 0; color:#94A3B8;">Si el estadio carece de señal celular o internet, DIAMAX PRO almacena cada jugada en IndexedDB local sin interrumpir la anotación ni perder datos.</p>
           </div>
           <div style="background:#0F172A; padding:10px; border-radius:6px;">
-            <strong style="color:#00D2FF;">● Streaming Canónico en Supabase:</strong>
+            <strong style="color:#00D2FF;">● Streaming Canónico en Firebase Firestore:</strong>
             <p style="margin:4px 0 0 0; color:#94A3B8;">Al recuperar conexión, el motor encola y sincroniza automáticamente los eventos en la base de datos oficial en la nube (PostgreSQL en <code>us-east-1</code>).</p>
           </div>
         </div>
@@ -10905,7 +10925,7 @@ html, body {
           </div>
           <div style="background:#0F172A; padding:10px; border-radius:6px; border-left:3px solid #FFC72C;">
             <strong style="color:#FFC72C;">13.2 Resolución Automática de Conflictos:</strong>
-            <p style="margin:4px 0 0 0; color:#CBD5E1;">Mediante <em>Event Sourcing</em> con estampas de tiempo atómicas (Vector Clocks en Supabase), cualquier jugada duplicada es serializada por orden cronológico estricto, previniendo sobreescritura de conteos o outs.</p>
+            <p style="margin:4px 0 0 0; color:#CBD5E1;">Mediante <em>Event Sourcing</em> con estampas de tiempo atómicas (Vector Clocks & Firestore Atomicity), cualquier jugada duplicada es serializada por orden cronológico estricto, previniendo sobreescritura de conteos o outs.</p>
           </div>
           <div style="background:#0F172A; padding:10px; border-radius:6px; border-left:3px solid #00D2FF;">
             <strong style="color:#00D2FF;">13.3 Desconexión y Resincronización Local (Offline First):</strong>
@@ -12196,23 +12216,34 @@ function actualizarPitcherUI() {
   const fatiguePct = Math.min(100, Math.round((activePitcherStats.totalPitches / activePitcherStats.maxLimit) * 100));
   if (fatBar) {
     fatBar.style.width = `${fatiguePct}%`;
-    if (fatiguePct < 55) {
+    const isEnFatigue = (typeof currentLang !== "undefined" && currentLang === "en");
+    if (fatiguePct <= 60) {
+      // 0 - 45 Pitches: Zona Verde Óptima
       fatBar.style.background = '#10B981';
       if (fatLabel) {
-      const isEnFatigue = (typeof currentLang !== "undefined" && currentLang === "en");
-        fatLabel.innerText = isEnFatigue ? `Optimal (${fatiguePct}%)` : `Óptimo (${fatiguePct}%)`;
+        fatLabel.style.color = '#10B981';
+        fatLabel.innerText = isEnFatigue ? `Optimal (${activePitcherStats.totalPitches}/75 · ${fatiguePct}%)` : `Óptimo (${activePitcherStats.totalPitches}/75 · ${fatiguePct}%)`;
       }
-    } else if (fatiguePct < 80) {
+    } else if (fatiguePct <= 80) {
+      // 46 - 60 Pitches: Zona Amarilla (Monitorear y activar bullpen)
       fatBar.style.background = '#FFC72C';
       if (fatLabel) {
         fatLabel.style.color = '#FFC72C';
-        fatLabel.innerText = isEnFatigue ? `Caution (${fatiguePct}%)` : `Precaución (${fatiguePct}%)`;
+        fatLabel.innerText = isEnFatigue ? `Caution (${activePitcherStats.totalPitches}/75 · ${fatiguePct}%)` : `Precaución (${activePitcherStats.totalPitches}/75 · ${fatiguePct}%)`;
       }
-    } else {
+    } else if (fatiguePct <= 100) {
+      // 61 - 75 Pitches: Zona Roja (Alerta máxima de fatiga médica)
       fatBar.style.background = '#EF4444';
       if (fatLabel) {
         fatLabel.style.color = '#EF4444';
-        fatLabel.innerText = isEnFatigue ? `Near Limit (${fatiguePct}%)` : `Límite Cercano (${fatiguePct}%)`;
+        fatLabel.innerText = isEnFatigue ? `Alert (+55 Limit: ${activePitcherStats.totalPitches}/75)` : `Alerta (Límite +55: ${activePitcherStats.totalPitches}/75)`;
+      }
+    } else {
+      // > 75 Pitches: Crítico Excedido
+      fatBar.style.background = '#991B1B';
+      if (fatLabel) {
+        fatLabel.style.color = '#EF4444';
+        fatLabel.innerText = isEnFatigue ? `CRITICAL EXCEEDED (${activePitcherStats.totalPitches}/75)` : `LÍMITE EXCEDIDO (${activePitcherStats.totalPitches}/75)`;
       }
     }
   }
@@ -13416,11 +13447,7 @@ function teclearMasterKey(caracter) {
   }
 }
 
-function autoLlenarClaveCEO() {
-  const input = document.getElementById('master-key-input');
-  if (input) input.value = '113714';
-  accesoMaestroFounder('113714');
-}
+// Acceso Maestro protegido con verificación criptográfica SHA-256
 
 function ejecutarLoginDirecto() {
   currentUserSession = {
@@ -13439,7 +13466,14 @@ function ejecutarLoginDirecto() {
   }, 300);
 }
 
-function accesoMaestroFounder(clave) {
+async function hashPinSHA256(text) {
+  const msgBuffer = new TextEncoder().encode(text.trim());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function accesoMaestroFounder(clave) {
   const inputVal = document.getElementById('master-key-input')?.value || '';
   const k = (clave !== undefined && clave !== null && String(clave).trim().length > 0 ? String(clave) : inputVal).trim();
   
@@ -13447,8 +13481,11 @@ function accesoMaestroFounder(clave) {
     return showAuthAlert("Por favor ingresa la clave de acceso de Fundador/CEO.");
   }
   
-  // Credencial Maestra Exclusiva del Fundador & CEO (Lic. Alí Zapata)
-  if (k === '113714') {
+  // Hash SHA-256 oficial de la Credencial Maestra del Fundador & CEO
+  const MASTER_CEO_HASH = '421524f9efea698fda8853d03ea1af54eeef5e3f5c365aef0a15ae9d11255194';
+  const enteredHash = await hashPinSHA256(k);
+  
+  if (enteredHash === MASTER_CEO_HASH) {
     currentUserSession = {
       id: 'usr_ceo_ali',
       name: 'Lic. Alí Zapata',
@@ -16490,6 +16527,13 @@ function crearNuevoJuegoModal() {
 }
 
 function resetearBaseDeDatos(skipConfirm = false) {
+  const currentRole = (typeof currentUserSession !== 'undefined' && currentUserSession) ? currentUserSession.role : localStorage.getItem('diamax_current_role');
+  if (currentRole === 'BROADCAST_MEDIA') {
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('Acceso Denegado: Los usuarios de Medios no pueden restablecer la base de datos.');
+    }
+    return;
+  }
   if (skipConfirm || confirm("¿Confirmas restablecer y refrescar la base de datos de DIAMAX a cero para el partido oficial?")) {
     try {
       localStorage.removeItem('diamax_baseball_games_v1');
@@ -16708,6 +16752,13 @@ function sumarCarreraInning(isGVE, cantidad) {
 }
 
 function registrarJugadaLive(action) {
+  const currentRole = (typeof currentUserSession !== 'undefined' && currentUserSession) ? currentUserSession.role : localStorage.getItem('diamax_current_role');
+  if (currentRole === 'BROADCAST_MEDIA') {
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('Acceso de Medios / Cabina: Modo Solo Lectura. La anotación está reservada para el Dugout Oficial.');
+    }
+    return;
+  }
   if (typeof DIAMAX_AUDIO !== 'undefined') {
     if (action === '1B' || action === '2B' || action === '3B') DIAMAX_AUDIO.playHit();
     else if (action === 'HR') DIAMAX_AUDIO.playHomeRun();
@@ -18567,7 +18618,7 @@ function generarRespuestaTacticoNativo(query, ctx) {
       '  - <strong>wOBA:</strong> $\\frac{0.69\\cdot BB + 0.72\\cdot HBP + 0.89\\cdot 1B + 1.27\\cdot 2B + 1.62\\cdot 3B + 2.10\\cdot HR}{AB + BB - IBB + SF + HBP}$ (Valor GVE: <span style="color:#10B981; font-weight:bold;">.384</span>).<br>' +
       '  - <strong>FIP (+55):</strong> $\\frac{13\\cdot HR + 3\\cdot(BB + HBP) - 2\\cdot K}{IP} + 3.10$ (Pedro Chávez FIP: <span style="color:#00D2FF; font-weight:bold;">2.64</span>).<br>' +
       '  - <strong>BABIP:</strong> $\\frac{H - HR}{AB - K - HR + SF}$ (GVE Colectivo: <span style="color:#FFC72C; font-weight:bold;">.318</span>).<br>' +
-      '• <strong>Registro en Tiempo Real:</strong> Sincronizado transparentemente en <strong>PostgreSQL Supabase (`us-east-1`)</strong> e IndexedDB local.<br>' +
+      '• <strong>Registro en Tiempo Real:</strong> Sincronizado transparentemente en <strong>Google Cloud Firestore (`nam5 / us-central`)</strong> e IndexedDB local.<br>' +
       '<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">' +
       '<button type="button" onclick="switchTab(\'dashboard\')" style="background:#00D2FF; color:#000; border:none; padding:6px 12px; border-radius:6px; font-weight:900; font-size:11px; cursor:pointer;">Abrir Dashboard Sabermétrico</button>' +
       '</div>' +
@@ -24348,10 +24399,10 @@ document.addEventListener('keydown', function(e) {
           <h3 style="margin:0 0 4px 0; font-size:18px; font-weight:900; color:#FFC72C; letter-spacing:0.5px;">Portal Maestro 3Tree Digital Sport</h3>
           <p style="margin:0 0 14px 0; font-size:12px; color:#94A3B8;">Acceso directo exclusivo para Fundador &amp; CEO (Lic. Alí Zapata).</p>
 
-          <!-- Botón de Acceso Inmediato 1-Clic -->
+          <!-- Botón de Validación de Credencial Criptográfica -->
           <div style="margin-bottom:14px;">
-            <button type="button" onclick="autoLlenarClaveCEO()" style="width:100%; padding:13px; background:linear-gradient(135deg, #FFC72C, #F59E0B); color:#040814; border:none; border-radius:10px; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; box-shadow:0 0 20px rgba(255,199,44,0.5); display:flex; align-items:center; justify-content:center; gap:8px;">
-               <span>ENTRAR DIRECTO CON CREDENCIAL CEO</span>
+            <button type="button" onclick="accesoMaestroFounder()" style="width:100%; padding:13px; background:linear-gradient(135deg, #FFC72C, #F59E0B); color:#040814; border:none; border-radius:10px; font-weight:900; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; box-shadow:0 0 20px rgba(255,199,44,0.4); display:flex; align-items:center; justify-content:center; gap:8px;">
+               <span>VERIFICAR CREDENCIAL MAESTRA</span>
             </button>
           </div>
 
