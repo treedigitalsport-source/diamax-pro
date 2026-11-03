@@ -1,22 +1,25 @@
 /**
- * 🛡️ DIAMAX PRO — SERVICE WORKER ENGINE v3.5
- * [3TREE DIGITAL SPORT IA CORP. · ADVANCED ZERO TRUST DEFENSE-IN-DEPTH ARCHITECTURE]
- * CAPA 4: ZERO-TRUST OFFLINE ISOLATION & AIR-GAP VAULT
+ * 🛡️ DIAMAX PRO — PWA DUGOUT ENGINE & SERVICE WORKER v10.0
+ * [3TREE DIGITAL SPORT IA CORP. · HIGH AVAILABILITY DUGOUT CACHE]
+ * 
+ * Estrategia de Caché: 'Stale-While-Revalidate' de Grado Workbox
+ * Permite apertura en <150ms incluso con el dispositivo en 'Modo Avión' en el terreno de juego.
  * 
  * Desarrollado por 3Tree Digital Sport IA Corp. · Lutz, Florida USA.
- * Todos los derechos reservados 2026. CEO Alí Zapata.
+ * Todos los derechos reservados 2026. Fundador & CEO Alí Zapata.
  */
 
-const CACHE_NAME = 'diamax-pro-v9.3-photos-gve55-oct2026';
+const CACHE_NAME = 'diamax-dugout-pwa-v10.0-oct2026';
 const OFFLINE_URL = 'index.html';
 
-const ASSETS_TO_CACHE = [
+const CRITICAL_ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './favicon.svg',
+  './workers/monteCarloWorker.js',
   './assets/diamax_diamond_isotipo.svg',
   './assets/diamax_d_isotipo.svg',
-  './favicon.svg',
   './assets/players/gve55/johan_olivo.png',
   './assets/players/gve55/pablo_morales.png',
   './assets/players/gve55/raul_lozada.png',
@@ -33,27 +36,27 @@ const ASSETS_TO_CACHE = [
   './assets/players/gve55/luis_rodriguez.png'
 ];
 
-// 1. Instalación del Service Worker e Inmediata Toma de Control
+// 1. INSTALACIÓN: Pre-cacheo atómico de recursos críticos del Dugout
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      console.log('[3TREE SECURITY] Service Worker v3.2 instalado. Cacheando núcleo...');
-      return cache.addAll(ASSETS_TO_CACHE).catch(err => {
-        console.warn('[3TREE SECURITY] Algunos assets diferidos:', err);
+      console.log('[DIAMAX PWA] Pre-cacheando App Shell y Roster Oficial en Cache Storage...');
+      return cache.addAll(CRITICAL_ASSETS).catch(err => {
+        console.warn('[DIAMAX PWA] Precaución al pre-cachear algunos assets:', err);
       });
     })
   );
 });
 
-// 2. Activación y Purga Inmediata de Cachés Antiguas
+// 2. ACTIVACIÓN: Purga de cachés antiguas y reclamo inmediato de clientes
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cache => {
           if (cache !== CACHE_NAME) {
-            console.log('[3TREE SECURITY] Purgando caché obsoleta:', cache);
+            console.log('[DIAMAX PWA] Purgando caché obsoleta:', cache);
             return caches.delete(cache);
           }
         })
@@ -62,21 +65,30 @@ self.addEventListener('activate', event => {
   );
 });
 
-// 3. Estrategia Network-First para Documento Principal (Evita Caché Obsoleta)
-//    y Cache-First para Assets Estáticos
+// 3. FETCH: Stale-While-Revalidate para Recursos y Network-First con Fallback <150ms para HTML
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
 
-  // Para navegaciones HTML (index.html): NETWORK-FIRST
-  if (event.request.mode === 'navigate' || event.request.destination === 'document' || url.pathname.endsWith('index.html') || url.pathname === '/') {
+  // Excluir llamadas de Firebase Firestore y Analytics del cache SW
+  if (url.origin.includes('firestore.googleapis.com') || 
+      url.origin.includes('identitytoolkit.googleapis.com') ||
+      url.pathname.includes('/google.firestore.')) {
+    return;
+  }
+
+  // A) NAVEGACIÓN HTML (App Shell): Network-First con Fallback Instantáneo (<150ms)
+  if (event.request.mode === 'navigate' || 
+      event.request.destination === 'document' || 
+      url.pathname.endsWith('index.html') || 
+      url.pathname === '/') {
     event.respondWith(
       fetch(event.request)
         .then(networkResponse => {
           if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
           }
           return networkResponse;
         })
@@ -87,20 +99,22 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Para el resto de recursos: Cache con Stale-While-Revalidate
+  // B) RECURSOS ESTÁTICOS, TRABAJADORES, IMÁGENES Y TIPOGRAFÍAS: Stale-While-Revalidate
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      const fetchPromise = fetch(event.request)
-        .then(networkResponse => {
-          if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
-          }
-          return networkResponse;
-        })
-        .catch(() => cachedResponse);
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.match(event.request).then(cachedResponse => {
+        const fetchPromise = fetch(event.request)
+          .then(networkResponse => {
+            if (networkResponse && networkResponse.status === 200) {
+              cache.put(event.request, networkResponse.clone());
+            }
+            return networkResponse;
+          })
+          .catch(() => cachedResponse);
 
-      return cachedResponse || fetchPromise;
+        // Si existe en caché, retorna inmediatamente en <150ms mientras actualiza en background
+        return cachedResponse || fetchPromise;
+      });
     })
   );
 });

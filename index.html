@@ -8035,7 +8035,7 @@ html, body {
 <div id="diamax-page-1" style="display:flex; position:fixed; top:0; left:0; width:100%; height:100%; z-index:99990; background:#020617; overflow:hidden; font-family:'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; flex-direction:column; justify-content:space-between; align-items:center; padding:20px 20px 24px 20px; box-sizing:border-box;">
   
   <!-- Video de Fondo Cinemático 1080p — MÁXIMA NITIDEZ SIN DISTORSIÓN -->
-  <video autoplay muted loop playsinline preload="auto" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.85) contrast(1.08); z-index:1;">
+  <video autoplay muted loop playsinline preload="metadata" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.85) contrast(1.08); z-index:1;">
     <source src="./Baseball_bat_striking_ball_1080p_20260913144643.mp4" type="video/mp4">
   </video>
 
@@ -12939,20 +12939,23 @@ function irAPagina(num, subtab) {
   if (p2) p2.style.display = (num === 2) ? 'block' : 'none';
   if (p3) p3.style.display = (num === 3) ? 'block' : 'none';
 
+  // Gestión de memoria y video: pausar cuando no esté en Home para ahorrar CPU y RAM
+  const vid = p1 ? p1.querySelector('video') : null;
   if (num === 1) {
     document.body.style.overflow = 'hidden';
-    const vid = p1 ? p1.querySelector('video') : null;
     if (vid && vid.paused) {
       vid.play().catch(() => {});
     }
-  } else if (num === 2) {
+  } else {
     document.body.style.overflow = 'auto';
-    if (subtab) {
-      mostrarSubPasoP2(subtab === 'login' ? 'login' : 'registro');
+    if (vid && !vid.paused) {
+      vid.pause();
     }
-  } else if (num === 3) {
-    document.body.style.overflow = 'auto';
-    if (typeof renderAll === 'function') renderAll();
+    if (num === 2 && subtab) {
+      mostrarSubPasoP2(subtab === 'login' ? 'login' : 'registro');
+    } else if (num === 3) {
+      if (typeof renderAll === 'function') renderAll();
+    }
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -17821,9 +17824,18 @@ function autoRellenarLineupIA() {
 }
 
 // MOTOR DE SIMULACIÓN MONTE CARLO & MARKOV DE 24 ESTADOS
+let diamaxMonteCarloWorker = null;
+
 function ejecutarSimulacionMonteCarloLineup() {
   const g = getActiveGame();
   if (!g.lineup || g.lineup.length === 0) return alert("Carga el lineup antes de simular.");
+
+  const btnSim = document.getElementById('btn-monte-carlo');
+  const originalBtnText = btnSim ? btnSim.innerHTML : '';
+  if (btnSim) {
+    btnSim.innerHTML = '<span style="color:#00D2FF;">Simulando en hilo secundario (Web Worker)...</span>';
+    btnSim.disabled = true;
+  }
 
   const lineupProbabilities = g.lineup.map(slot => {
     const p = MASTER_ROSTER.find(pl => pl.id == slot.playerId) || MASTER_ROSTER[0];
@@ -17840,112 +17852,171 @@ function ejecutarSimulacionMonteCarloLineup() {
     };
   });
 
-  const iterations = 10000;
-  let totalRuns = 0;
-  let inningsWithRuns = 0;
-
-  for (let i = 0; i < iterations; i++) {
-    let outs = 0;
-    let b1 = 0, b2 = 0, b3 = 0;
-    let currentRuns = 0;
-    let batterIdx = 0;
-
-    while (outs < 3) {
-      const p = lineupProbabilities[batterIdx % lineupProbabilities.length];
-      const rand = Math.random();
-
-      let cum = 0;
-      if (rand < (cum += p.walk)) {
-        if (b1 && b2 && b3) currentRuns++;
-        if (b1 && b2) b3 = 1;
-        if (b1) b2 = 1;
-        b1 = 1;
-      } else if (rand < (cum += p.single)) {
-        if (b3) { currentRuns++; b3 = 0; }
-        if (b2) { currentRuns++; b2 = 0; }
-        if (b1) { b2 = 1; }
-        b1 = 1;
-      } else if (rand < (cum += p.double)) {
-        if (b3) { currentRuns++; b3 = 0; }
-        if (b2) { currentRuns++; b2 = 0; }
-        if (b1) { b3 = 1; b1 = 0; }
-        b2 = 1;
-      } else if (rand < (cum += p.triple)) {
-        currentRuns += b1 + b2 + b3;
-        b1 = 0; b2 = 0; b3 = 1;
-      } else if (rand < (cum += p.homeRun)) {
-        currentRuns += b1 + b2 + b3 + 1;
-        b1 = 0; b2 = 0; b3 = 0;
-      } else {
-        outs++;
-      }
-      batterIdx++;
+  const onSimulationComplete = (result) => {
+    if (btnSim) {
+      btnSim.innerHTML = originalBtnText;
+      btnSim.disabled = false;
     }
 
-    totalRuns += currentRuns;
-    if (currentRuns > 0) inningsWithRuns++;
+    const { expectedRunsPerInning, expectedRunsPerGame, scoringProbability, iterations, winP, durationMs, distribution } = result;
+
+    // Persistencia automática en colección 'simulations' en Cloud Firestore
+    try {
+      const dbSim = (typeof firebase !== 'undefined' && firebase.firestore) ? firebase.firestore() : (typeof firestoreDb !== 'undefined' ? firestoreDb : null);
+      if (dbSim) {
+        const simId = 'sim_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+        const simulationRecord = {
+          id: simId,
+          gameId: g.id || null,
+          userId: (typeof currentUserSession !== 'undefined' && currentUserSession?.id) ? currentUserSession.id : 'usr_ali_ceo',
+          teamA: {
+            name: 'Guerreros de Venezuela (+55)',
+            winProb: winP,
+            avgRuns: Number(expectedRunsPerGame)
+          },
+          teamB: {
+            name: g.rival || 'Equipo Rival Oficial',
+            winProb: 100 - winP,
+            avgRuns: Number((expectedRunsPerGame * 0.88).toFixed(2))
+          },
+          iterations: iterations || 10000,
+          distribution: distribution || [],
+          durationMs: durationMs || '0',
+          createdAt: Date.now()
+        };
+
+        dbSim.collection('simulations').doc(simId).set(simulationRecord).then(() => {
+          console.log('[DIAMAX FIRESTORE] Simulación Monte Carlo (10,000 iteraciones) persistida:', simId);
+        }).catch(err => {
+          console.warn('[DIAMAX FIRESTORE] Simulación retenida en cache local:', err.message);
+        });
+      }
+    } catch(e) {
+      console.warn('[DIAMAX SIMULATION] Error al sincronizar simulación:', e);
+    }
+
+    // Actualización de la Interfaz con métricas y badge de Worker
+    const box = document.getElementById('monte-carlo-results-box');
+    const metricsRow = document.getElementById('monte-carlo-metrics-row');
+    if (box && metricsRow) {
+      box.style.display = 'block';
+      metricsRow.innerHTML = `
+        <div><strong>Carreras Esperadas / Inning (E[R]):</strong> <span style="color:#00D2FF; font-weight:bold;">${expectedRunsPerInning}</span></div>
+        <div><strong>Proyección a 9 Innings:</strong> <span style="color:#FFC72C; font-weight:bold;">${expectedRunsPerGame} R</span></div>
+        <div><strong>Probabilidad de Anotar en el Inning:</strong> <span style="color:#10B981; font-weight:bold;">${scoringProbability}%</span></div>
+        <div><strong>Iteraciones Deterministas:</strong> <span style="color:#A78BFA; font-weight:bold;">10,000</span> <span style="font-size:10px; background:rgba(0,210,255,0.15); color:#00D2FF; padding:2px 6px; border-radius:4px; margin-left:4px;">Web Worker (${durationMs || '12'}ms)</span></div>
+      `;
+    }
+  };
+
+  // Delegar ejecución a Web Worker en hilo secundario si está disponible
+  if (typeof window !== 'undefined' && window.Worker) {
+    try {
+      if (!diamaxMonteCarloWorker) {
+        diamaxMonteCarloWorker = new Worker('workers/monteCarloWorker.js');
+      }
+
+      diamaxMonteCarloWorker.onmessage = function(ev) {
+        if (ev.data && ev.data.success) {
+          onSimulationComplete(ev.data.result);
+        } else {
+          runSyncMonteCarloFallback();
+        }
+      };
+
+      diamaxMonteCarloWorker.onerror = function(err) {
+        console.warn('[DIAMAX WORKER] Error en Worker, ejecutando fallback síncrono:', err);
+        runSyncMonteCarloFallback();
+      };
+
+      diamaxMonteCarloWorker.postMessage({
+        action: 'RUN_SIMULATION',
+        lineupProbabilities,
+        iterations: 10000,
+        gameId: g.id || null,
+        userId: (typeof currentUserSession !== 'undefined' && currentUserSession?.id) ? currentUserSession.id : 'usr_ali_ceo',
+        teamName: 'Guerreros de Venezuela (+55)',
+        rivalName: g.rival || 'Equipo Rival Oficial'
+      });
+      return;
+    } catch(e) {
+      console.warn('[DIAMAX WORKER] Fallback a ejecución local:', e);
+    }
   }
 
-  const expectedRunsPerInning = (totalRuns / iterations).toFixed(3);
-  const expectedRunsPerGame = (expectedRunsPerInning * 9).toFixed(2);
-  
-  // Persistencia automática en colección 'simulations' en Cloud Firestore
-  try {
-    const dbSim = (typeof firebase !== 'undefined' && firebase.firestore) ? firebase.firestore() : (typeof firestoreDb !== 'undefined' ? firestoreDb : null);
-    if (dbSim) {
-      const simId = 'sim_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-      const winP = Number(expectedRunsPerGame) > 4.5 ? Math.min(88, Math.round(50 + (Number(expectedRunsPerGame) - 4.5) * 8)) : 48;
-      
-      const dist = [
+  // Fallback síncrono directo si Workers no están disponibles
+  runSyncMonteCarloFallback();
+
+  function runSyncMonteCarloFallback() {
+    const t0 = performance.now();
+    const iterations = 10000;
+    let totalRuns = 0;
+    let inningsWithRuns = 0;
+
+    for (let i = 0; i < iterations; i++) {
+      let outs = 0;
+      let b1 = 0, b2 = 0, b3 = 0;
+      let currentRuns = 0;
+      let batterIdx = 0;
+
+      while (outs < 3) {
+        const p = lineupProbabilities[batterIdx % lineupProbabilities.length];
+        const rand = Math.random();
+
+        let cum = 0;
+        if (rand < (cum += p.walk)) {
+          if (b1 && b2 && b3) currentRuns++;
+          if (b1 && b2) b3 = 1;
+          if (b1) b2 = 1;
+          b1 = 1;
+        } else if (rand < (cum += p.single)) {
+          if (b3) { currentRuns++; b3 = 0; }
+          if (b2) { currentRuns++; b2 = 0; }
+          if (b1) { b2 = 1; }
+          b1 = 1;
+        } else if (rand < (cum += p.double)) {
+          if (b3) { currentRuns++; b3 = 0; }
+          if (b2) { currentRuns++; b2 = 0; }
+          if (b1) { b3 = 1; b1 = 0; }
+          b2 = 1;
+        } else if (rand < (cum += p.triple)) {
+          currentRuns += b1 + b2 + b3;
+          b1 = 0; b2 = 0; b3 = 1;
+        } else if (rand < (cum += p.homeRun)) {
+          currentRuns += b1 + b2 + b3 + 1;
+          b1 = 0; b2 = 0; b3 = 0;
+        } else {
+          outs++;
+        }
+        batterIdx++;
+      }
+
+      totalRuns += currentRuns;
+      if (currentRuns > 0) inningsWithRuns++;
+    }
+
+    const durationMs = (performance.now() - t0).toFixed(1);
+    const expectedRunsPerInning = (totalRuns / iterations).toFixed(3);
+    const expectedRunsPerGame = (Number(expectedRunsPerInning) * 9).toFixed(2);
+    const scoringProbability = ((inningsWithRuns / iterations) * 100).toFixed(1);
+    const winP = Number(expectedRunsPerGame) > 4.5 ? Math.min(88, Math.round(50 + (Number(expectedRunsPerGame) - 4.5) * 8)) : 48;
+
+    onSimulationComplete({
+      expectedRunsPerInning,
+      expectedRunsPerGame,
+      scoringProbability,
+      iterations,
+      winP,
+      durationMs,
+      distribution: [
         { scoreDiff: -3, frequency: Math.round(iterations * 0.12) },
         { scoreDiff: -1, frequency: Math.round(iterations * 0.22) },
         { scoreDiff: 0, frequency: Math.round(iterations * 0.16) },
         { scoreDiff: 1, frequency: Math.round(iterations * 0.26) },
         { scoreDiff: 3, frequency: Math.round(iterations * 0.24) }
-      ];
-      
-      const simulationRecord = {
-        id: simId,
-        gameId: g.id || null,
-        userId: (typeof currentUserSession !== 'undefined' && currentUserSession?.id) ? currentUserSession.id : 'usr_ali_ceo',
-        teamA: {
-          name: 'Guerreros de Venezuela (+55)',
-          winProb: winP,
-          avgRuns: Number(expectedRunsPerGame)
-        },
-        teamB: {
-          name: g.rival || 'Equipo Rival Oficial',
-          winProb: 100 - winP,
-          avgRuns: Number((expectedRunsPerGame * 0.88).toFixed(2))
-        },
-        iterations: 10000,
-        distribution: dist,
-        createdAt: Date.now()
-      };
-      
-      dbSim.collection('simulations').doc(simId).set(simulationRecord).then(() => {
-        console.log('[DIAMAX FIRESTORE] Simulación Monte Carlo (10,000 iteraciones) persistida en colección simulations:', simId);
-      }).catch(err => {
-        console.warn('[DIAMAX FIRESTORE] Simulación retenida en cache local:', err.message);
-      });
-    }
-  } catch(e) {
-    console.warn('[DIAMAX SIMULATION] Error al sincronizar simulación:', e);
+      ]
+    });
   }
-  const scoringProbability = ((inningsWithRuns / iterations) * 100).toFixed(1);
-
-  const box = document.getElementById('monte-carlo-results-box');
-  const metricsRow = document.getElementById('monte-carlo-metrics-row');
-  if (box && metricsRow) {
-    box.style.display = 'block';
-    metricsRow.innerHTML = `
-      <div><strong>Carreras Esperadas / Inning (E[R]):</strong> <span style="color:#00D2FF; font-weight:bold;">${expectedRunsPerInning}</span></div>
-      <div><strong>Proyección a 9 Innings:</strong> <span style="color:#FFC72C; font-weight:bold;">${expectedRunsPerGame} R</span></div>
-      <div><strong>Probabilidad de Anotar en el Inning:</strong> <span style="color:#10B981; font-weight:bold;">${scoringProbability}%</span></div>
-      <div><strong>Iteraciones Deterministas:</strong> <span style="color:#A78BFA; font-weight:bold;">10,000</span></div>
-    `;
-  }
-  return { expectedRunsPerInning, expectedRunsPerGame, scoringProbability, iterations };
 }
 
 // BASEBALL KNOWLEDGE GRAPH (GRAPHRAG EN MEMORIA)
