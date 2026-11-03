@@ -2,20 +2,32 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Juegos y transmisión en vivo
-    match /matches/{matchId} {
-      allow read: if true; // Marcador en vivo visible para todos los fanáticos
-      allow create, update, delete: if true; // Anotadores autorizados (puedes añadir 'if request.auth != null' si usas Firebase Auth)
+    // Función auxiliar para autenticación
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // 1. Colección de Ligas y Torneos (leagues)
+    match /leagues/{leagueId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAuthenticated() && (request.auth.uid == resource.data.adminId || request.auth.token.role == 'admin');
+    }
+
+    // 2. Colección de Juegos Oficiales y Marcador en Vivo (games)
+    match /games/{gameId} {
+      allow read: if true; // Marcador en vivo visible para todos los fanáticos y cabina
+      allow create, update, delete: if true; // Anotadores autorizados en dugout
       
-      // Subcolección de jugada a jugada (Pitch-by-pitch)
+      // Subcolección jugada a jugada (Pitch-by-pitch / WBSC boxScore)
       match /plays/{playId} {
         allow read: if true;
         allow write: if true;
       }
     }
 
-    // Compatibilidad adicional para Event Store de juegos
-    match /games/{gameId} {
+    // Compatibilidad adicional matches
+    match /matches/{matchId} {
       allow read: if true;
       allow create, update, delete: if true;
       
@@ -23,6 +35,20 @@ service cloud.firestore {
         allow read: if true;
         allow write: if true;
       }
+    }
+
+    // 3. Colección de Simulaciones Monte Carlo & Inteligencia Artificial (simulations)
+    match /simulations/{simulationId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAuthenticated();
+    }
+
+    // 4. Colección de Usuarios y Acreditaciones Oficiales (users)
+    match /users/{userId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAuthenticated() && (request.auth.uid == userId || request.auth.token.role == 'admin');
     }
 
     // Equipos y Rosters
@@ -36,7 +62,7 @@ service cloud.firestore {
       }
     }
 
-    // Torneos y Ligas
+    // Torneos
     match /tournaments/{tournamentId} {
       allow read: if true;
       allow write: if true;
