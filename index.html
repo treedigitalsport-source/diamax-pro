@@ -8134,28 +8134,32 @@ html, body {
 
 
 
-    <!-- 3. Botones de Acción Cinemáticos Flotantes (3 BOTONES OFICIALES AUTORIZADOS POR EL CEO) -->
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:24px;">
+    <!-- 3. Botones de Acción Oficiales DIAMAX PRO (Alineación Simétrica 4 Accesos) -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:12px; margin-bottom:24px; max-width:880px; margin-left:auto; margin-right:auto;">
       
       <!-- Botón 1: VER PLANES -->
-      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:14px 28px; min-height:50px; background:linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color:#FFFFFF; border:1px solid rgba(255,255,255,0.25); border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; box-shadow:0 4px 18px rgba(2,132,199,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(2,132,199,0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 18px rgba(2,132,199,0.4)';">
-        
+      <button type="button" id="p1-btn-plans" onclick="showAuthModal('pricing')" style="padding:0 22px; height:48px; background:#B18A53; color:#FFFFFF; border:1px solid #B18A53; border-radius:10px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:12.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.04em; box-shadow:0 4px 16px rgba(177,138,83,0.35); display:inline-flex; align-items:center; gap:8px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='#9a7642'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#B18A53'; this.style.transform='translateY(0)';">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/></svg>
         <span id="p1-btn-plans-text">VER PLANES</span>
       </button>
 
-      <!-- Botón 2: INICIAR SESIÓN -->
-      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:14px 28px; min-height:50px; background:rgba(11,20,40,0.75); color:#F8FAFC; border:1px solid rgba(255,255,255,0.14); border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 16px rgba(0,0,0,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='rgba(15,26,52,0.9)'; this.style.borderColor='rgba(0,210,255,0.45)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(11,20,40,0.75)'; this.style.borderColor='rgba(255,255,255,0.14)'; this.style.transform='translateY(0)';">
-        
+      <!-- Botón 2: REGISTRO OFICIAL -->
+      <button type="button" id="p1-btn-register" onclick="showAuthModal('register')" style="padding:0 22px; height:48px; background:rgba(24,35,49,0.9); color:#FFFFFF; border:1px solid #B18A53; border-radius:10px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:12.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.04em; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 16px rgba(0,0,0,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='#1e2b3d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(24,35,49,0.9)'; this.style.transform='translateY(0)';">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B18A53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        <span id="p1-btn-register-text">REGISTRO</span>
+      </button>
+
+      <!-- Botón 3: INICIAR SESIÓN -->
+      <button type="button" id="p1-btn-login" onclick="showAuthModal('login')" style="padding:0 22px; height:48px; background:rgba(24,35,49,0.9); color:#F8FAFC; border:1px solid rgba(255,255,255,0.18); border-radius:10px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:12.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.04em; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 16px rgba(0,0,0,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='#1e2b3d'; this.style.borderColor='rgba(255,255,255,0.35)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(24,35,49,0.9)'; this.style.borderColor='rgba(255,255,255,0.18)'; this.style.transform='translateY(0)';">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <span id="p1-btn-login-text">INICIAR SESIÓN</span>
       </button>
 
-      <!-- Botón 3: ACCESO MASTER -->
-      <button type="button" id="p1-btn-ceo-key" data-test-id="p1-btn-master" onclick="abrirAccesoClaveCEO()" style="padding:14px 28px; min-height:50px; background:rgba(25,20,10,0.75); color:#FFC72C; border:1px solid rgba(255,199,44,0.4); border-radius:12px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:13px; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 16px rgba(0,0,0,0.4); display:inline-flex; align-items:center; gap:10px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='rgba(35,28,14,0.9)'; this.style.borderColor='#FFC72C'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(25,20,10,0.75)'; this.style.borderColor='rgba(255,199,44,0.4)'; this.style.transform='translateY(0)';">
-        
-        <span id="p1-btn-master-text">ACCESO MASTER</span>
+      <!-- Botón 4: ACCESO MAESTRO 3TREE -->
+      <button type="button" id="p1-btn-ceo-key" data-test-id="p1-btn-master" onclick="abrirAccesoClaveCEO()" style="padding:0 22px; height:48px; background:rgba(20,28,40,0.95); color:#FFC72C; border:1px solid rgba(255,199,44,0.5); border-radius:10px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:12.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.04em; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 16px rgba(0,0,0,0.4); display:inline-flex; align-items:center; gap:8px; transition:all 0.2s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='#1c2738'; this.style.borderColor='#FFC72C'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(20,28,40,0.95)'; this.style.borderColor='rgba(255,199,44,0.5)'; this.style.transform='translateY(0)';">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span id="p1-btn-master-text">ACCESO MAESTRO 3TREE</span>
       </button>
-
-
 
     </div>
 
@@ -13559,19 +13563,24 @@ function initSecurityPortal() {
 }
 
 function switchAuthTab(tab) {
+  const activeColor = tab === 'master' ? '#FFC72C' : '#B18A53';
   ['pricing', 'register', 'login', 'master'].forEach(t => {
     const btn = document.getElementById(`auth-tab-${t}-btn`);
     const panel = document.getElementById(`auth-panel-${t}`);
     if (btn && panel) {
       if (t === tab) {
-        btn.style.background = '#0e1c3a';
-        btn.style.color = (t === 'master') ? '#FFC72C' : '#00D2FF';
-        btn.style.borderBottom = `3px solid ${t === 'master' ? '#FFC72C' : '#00D2FF'}`;
+        btn.style.background = '#182331';
+        btn.style.color = (t === 'master') ? '#FFC72C' : '#FFFFFF';
+        btn.style.borderBottom = `3px solid ${activeColor}`;
+        const svg = btn.querySelector('svg');
+        if (svg) svg.setAttribute('stroke', activeColor);
         panel.style.display = 'block';
       } else {
-        btn.style.background = '#040915';
-        btn.style.color = '#94A3B8';
+        btn.style.background = '#0F172A';
+        btn.style.color = (t === 'master') ? '#FFC72C' : '#94A3B8';
         btn.style.borderBottom = '3px solid transparent';
+        const svg = btn.querySelector('svg');
+        if (svg) svg.setAttribute('stroke', (t === 'master') ? '#FFC72C' : '#94A3B8');
         panel.style.display = 'none';
       }
     }
@@ -24152,20 +24161,23 @@ document.addEventListener('keydown', function(e) {
     </div>
 
     <!-- Navigation Submenu Tabs -->
-    <div style="display:flex; border-bottom:1px solid rgba(255,255,255,0.08); background:#040915; overflow-x:auto;">
-      <button id="auth-tab-pricing-btn" onclick="switchAuthTab('pricing')" style="flex:1; min-width:145px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#0e1c3a; color:#00D2FF; cursor:pointer; border-bottom:3px solid #00D2FF; display:flex; align-items:center; justify-content:center; gap:6px;">
+    <div style="display:flex; border-bottom:1px solid #263445; background:#182331; overflow-x:auto;">
+      <button id="auth-tab-pricing-btn" onclick="switchAuthTab('pricing')" style="flex:1; min-width:140px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#182331; color:#FFFFFF; cursor:pointer; border-bottom:3px solid #B18A53; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.15s ease;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B18A53" stroke-width="2.2"><path d="M6 3h12l4 6-10 13L2 9z"/></svg>
         <span id="auth-tab-pricing-text">Ver Planes</span>
       </button>
-      <button id="auth-tab-register-btn" onclick="switchAuthTab('register')" style="flex:1; min-width:145px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+      <button id="auth-tab-register-btn" onclick="switchAuthTab('register')" style="flex:1; min-width:140px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#0F172A; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.15s ease;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
         <span id="auth-tab-reg-text">Registro</span>
       </button>
-      <button id="auth-tab-login-btn" onclick="switchAuthTab('login')" style="flex:1; min-width:125px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#040915; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+      <button id="auth-tab-login-btn" onclick="switchAuthTab('login')" style="flex:1; min-width:130px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#0F172A; color:#94A3B8; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.15s ease;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <span>Iniciar Sesión</span>
       </button>
-      <button id="auth-tab-master-btn" onclick="switchAuthTab('master')" style="flex:1; min-width:155px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#040915; color:#FFC72C; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:6px;">
+      <button id="auth-tab-master-btn" onclick="switchAuthTab('master')" style="flex:1; min-width:160px; padding:13px 8px; font-weight:800; font-size:12px; border:none; background:#0F172A; color:#FFC72C; cursor:pointer; border-bottom:3px solid transparent; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.15s ease;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFC72C" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <span>Acceso Maestro 3Tree</span>
       </button>
-      
     </div>
 
     <div style="padding:22px; max-height:calc(88vh - 120px); overflow-y:auto;">
@@ -24639,7 +24651,7 @@ document.addEventListener('keydown', function(e) {
 
           <!-- Botón de Envío -->
           <div style="margin-top:18px; display:flex; flex-direction:column; gap:10px;">
-            <button type="submit" style="width:100%; padding:14px; background:linear-gradient(135deg, #10B981, #059669); color:#020617; border:none; border-radius:10px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 0 20px rgba(16,185,129,0.4); display:flex; align-items:center; justify-content:center; gap:8px; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.01)'" onmouseout="this.style.transform='scale(1)'">
+            <button type="submit" style="width:100%; padding:14px; background:#B18A53; color:#FFFFFF; border:1px solid #B18A53; border-radius:10px; font-weight:800; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.8px; box-shadow:0 4px 16px rgba(177,138,83,0.35); display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s ease;" onmouseover="this.style.background='#9a7642'; this.style.transform='translateY(-1px)';" onmouseout="this.style.background='#B18A53'; this.style.transform='translateY(0)';">
               <span id="reg-submit-btn-text">Completar Registro Oficial</span>
             </button>
             <p style="margin:0; font-size:11px; text-align:center; color:#94A3B8;">
@@ -24661,7 +24673,7 @@ document.addEventListener('keydown', function(e) {
           <label style="display:block; font-size:11px; font-weight:700; color:#94A3B8; margin-bottom:6px; text-transform:uppercase;">Clave de Acceso</label>
           <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') ejecutarLogin()" style="width:100%; box-sizing:border-box; background:#040914; border:1px solid #334155; border-radius:8px; padding:12px; color:#FFF; font-size:14px; outline:none;" onfocus="this.style.borderColor='#00D2FF'" onblur="this.style.borderColor='#334155'">
         </div>
-        <button onclick="ejecutarLogin()" style="width:100%; padding:14px; background:#00D2FF; color:#040914; border:none; border-radius:8px; font-weight:900; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 0 15px rgba(0,210,255,0.4); display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+        <button onclick="ejecutarLogin()" style="width:100%; padding:14px; background:#B18A53; color:#FFFFFF; border:1px solid #B18A53; border-radius:8px; font-weight:800; font-size:13.5px; cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; box-shadow:0 4px 16px rgba(177,138,83,0.35); transition:all 0.2s ease;" onmouseover="this.style.background='#9a7642';" onmouseout="this.style.background='#B18A53';">
           Entrar al Sistema
         </button>
         
