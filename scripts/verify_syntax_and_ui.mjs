@@ -29,7 +29,10 @@ console.log(`Validación completada: ${count} bloques analizados, ${errors} erro
 
 console.log('3. Validando elementos clave...');
 const checks = [
-  { id: 'id="nav-cabina"', expected: true },
+  { id: 'id="main-nav"', expected: true },
+  { id: 'id="diamax-page-3"', expected: true },
+  { id: 'id="diamax-page-cabina"', expected: true }, // Plantilla independiente de cabina
+  { id: 'id="nav-cabina"', expected: false }, // NO debe existir en el navbar del dugout
   { id: 'id="section-commentators-db"', expected: true },
   { id: 'id="form-nuevo-narrador"', expected: true },
   { id: 'id="form-nuevo-patrocinio"', expected: true },
@@ -45,8 +48,14 @@ const checks = [
   { id: 'spons_medica_55', expected: true }
 ];
 
+let allOk = true;
 checks.forEach(c => {
   const found = html.includes(c.id);
   const ok = found === c.expected;
+  if (!ok) allOk = false;
   console.log(`${ok ? '✓' : '❌'} Check: ${c.id} (esperado: ${c.expected}, obtenido: ${found})`);
 });
+
+if (allOk) {
+  console.log('✓ Todos los checks pasaron al 100%.');
+}
