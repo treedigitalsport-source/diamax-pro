@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Juegos y transmisión en vivo
+    match /matches/{matchId} {
+      allow read: if true; // Marcador en vivo visible para todos los fanáticos
+      allow create, update, delete: if true; // Anotadores autorizados (puedes añadir 'if request.auth != null' si usas Firebase Auth)
+      
+      // Subcolección de jugada a jugada (Pitch-by-pitch)
+      match /plays/{playId} {
+        allow read: if true;
+        allow write: if true;
+      }
+    }
+
+    // Compatibilidad adicional para Event Store de juegos
+    match /games/{gameId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+      
+      match /plays/{playId} {
+        allow read: if true;
+        allow write: if true;
+      }
+    }
+
+    // Equipos y Rosters
+    match /teams/{teamId} {
+      allow read: if true;
+      allow write: if true;
+      
+      match /players/{playerId} {
+        allow read: if true;
+        allow write: if true;
+      }
+    }
+
+    // Torneos y Ligas
+    match /tournaments/{tournamentId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
